@@ -568,7 +568,8 @@ public:
 			{touchCtrlExtraBtnSizeMenuName[3], attach, {.id = touchCtrlExtraBtnSizeMenuVal[3]}},
 			{
 				UI_TEXT("Custom Value"),
-				attach, [this](const Input::Event &e)
+				attach,
+				[this](const Input::Event &e)
 				{
 					pushAndShowNewCollectValueRangeInputView<int, 0, 30>(
 						attachParams(), e,
@@ -615,7 +616,8 @@ public:
 			{touchCtrlExtraBtnSizeMenuName[3], attach, {.id = touchCtrlExtraBtnSizeMenuVal[3]}},
 			{
 				UI_TEXT("Custom Value"),
-				attach, [this](const Input::Event &e)
+				attach,
+				[this](const Input::Event &e)
 				{
 					pushAndShowNewCollectValueRangeInputView<int, 0, 30>(
 						attachParams(), e,
