@@ -224,23 +224,27 @@ public:
 			attach,
 			[this](const Input::Event &e)
 			{
-				pushAndShowModal(makeView<YesNoAlertView>(
-					UI_TEXT("Really remove this d-pad?"),
-					YesNoAlertView::Delegates
-					{
-						.onYes = [this]
+				pushAndShowModal(
+					makeView<YesNoAlertView>(
+						UI_TEXT("Really remove this d-pad?"),
+						YesNoAlertView::Delegates
 						{
-							vCtrl.remove(elem);
-							vCtrl.place();
-							confView.reloadItems();
-							dismiss();
-						}
-					}), e);
+							.onYes = [this]
+							{
+								vCtrl.remove(elem);
+								vCtrl.place();
+								confView.reloadItems();
+								dismiss();
+							}
+						}),
+					e);
 			}
 		},
-		actionsHeading{
+		actionsHeading
+		{
 			UI_TEXT("D-Pad Actions"),
-			attach},
+			attach
+		},
 		actions
 		{
 			{
@@ -439,7 +443,9 @@ class ButtonGroupElementConfigView : public TableView, public EmuAppHelper
 {
 public:
 	ButtonGroupElementConfigView(ViewAttachParams attach, TouchConfigView &confView_, VController &vCtrl_, VControllerElement &elem_):
-		TableView{"Edit Buttons", attach, item},
+		TableView{
+			UI_TEXT("Edit Buttons"),
+			attach, item},
 		vCtrl{vCtrl_},
 		elem{elem_},
 		confView{confView_},
@@ -451,7 +457,8 @@ public:
 		},
 		state
 		{
-			UI_TEXT("State"), attach,
+			UI_TEXT("State"),
+			attach,
 			MenuId{elem.state},
 			stateItems,
 			{
@@ -561,8 +568,7 @@ public:
 			{touchCtrlExtraBtnSizeMenuName[3], attach, {.id = touchCtrlExtraBtnSizeMenuVal[3]}},
 			{
 				UI_TEXT("Custom Value"),
-				attach,
-				[this](const Input::Event &e)
+				attach, [this](const Input::Event &e)
 				{
 					pushAndShowNewCollectValueRangeInputView<int, 0, 30>(
 						attachParams(), e,
@@ -609,8 +615,7 @@ public:
 			{touchCtrlExtraBtnSizeMenuName[3], attach, {.id = touchCtrlExtraBtnSizeMenuVal[3]}},
 			{
 				UI_TEXT("Custom Value"),
-				attach,
-				[this](const Input::Event &e)
+				attach, [this](const Input::Event &e)
 				{
 					pushAndShowNewCollectValueRangeInputView<int, 0, 30>(
 						attachParams(), e,
