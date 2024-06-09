@@ -136,7 +136,7 @@ MainMenuView::MainMenuView(ViewAttachParams attach, bool customMenu):
 	benchmark
 	{
 		// UI_TEXT("Benchmark Content"), attach,
-		UI_TEXT("测试游戏文件"), attach,
+		UI_TEXT("检查游戏文件"), attach,
 		[this](const Input::Event &e)
 		{
 			pushAndShow(FilePicker::forBenchmarking(attachParams(), e), e, false);
