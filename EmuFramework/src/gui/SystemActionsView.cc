@@ -193,7 +193,7 @@ SystemActionsView::SystemActionsView(ViewAttachParams attach, bool customMenu):
 	},
 	close
 	{
-		"Close Content", attach,
+		UI_TEXT("Close Content"), attach,
 		[this](const Input::Event &e)
 		{
 			pushAndShowModal(app().makeCloseContentView(), e);
