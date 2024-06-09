@@ -51,7 +51,8 @@ static void onScanStatus(EmuApp &app, BluetoothScanState status, int arg);
 template <class ViewT>
 static void handledFailedBTAdapterInit(ViewT &view, ViewAttachParams attach, const Input::Event &e)
 {
-	view.app().postErrorMessage("Unable to initialize Bluetooth adapter");
+	// view.app().postErrorMessage(UI_TEXT("Unable to initialize Bluetooth adapter"));
+	view.app().postErrorMessage(UI_TEXT("无法初始化蓝牙适配器"));
 	#ifdef CONFIG_BLUETOOTH_BTSTACK
 	if(!FS::exists("/var/lib/dpkg/info/ch.ringwald.btstack.list"))
 	{
@@ -68,8 +69,9 @@ MainMenuView::MainMenuView(ViewAttachParams attach, bool customMenu):
 	TableView{EmuApp::mainViewName(), attach, item},
 	loadGame
 	{
-		// UI_TEXT("Open Content"), attach,
-		UI_TEXT("打开游戏"), attach,
+		// UI_TEXT("Open Content"),
+		UI_TEXT("打开游戏"),
+		attach,
 		[this](const Input::Event &e)
 		{
 			pushAndShow(FilePicker::forLoading(attachParams(), e), e, false);
@@ -77,8 +79,9 @@ MainMenuView::MainMenuView(ViewAttachParams attach, bool customMenu):
 	},
 	systemActions
 	{
-		// UI_TEXT("System Actions"), attach,
-		UI_TEXT("游戏菜单"), attach,
+		// UI_TEXT("System Actions"),
+		UI_TEXT("游戏菜单"),
+		attach,
 		[this](const Input::Event &e)
 		{
 			if(!system().hasContent())
@@ -88,8 +91,9 @@ MainMenuView::MainMenuView(ViewAttachParams attach, bool customMenu):
 	},
 	recentGames
 	{
-		// UI_TEXT("Recent Content"), attach,
-		UI_TEXT("最近游戏"), attach,
+		// UI_TEXT("Recent Content"),
+		UI_TEXT("最近游戏"),
+		attach,
 		[this](const Input::Event &e)
 		{
 			if(app().recentContent.size())
@@ -100,7 +104,8 @@ MainMenuView::MainMenuView(ViewAttachParams attach, bool customMenu):
 	},
 	bundledGames
 	{
-		UI_TEXT("Bundled Content"), attach,
+		UI_TEXT("Bundled Content"),
+		attach,
 		[this](const Input::Event &e)
 		{
 			pushAndShow(makeView<BundledGamesView>(), e);
@@ -108,8 +113,9 @@ MainMenuView::MainMenuView(ViewAttachParams attach, bool customMenu):
 	},
 	options
 	{
-		// UI_TEXT("Options"), attach,
-		UI_TEXT("选项"), attach,
+		// UI_TEXT("Options"),
+		UI_TEXT("选项"),
+		attach,
 		[this](const Input::Event &e)
 		{
 			pushAndShow(makeView<OptionCategoryView>(), e);
@@ -117,8 +123,9 @@ MainMenuView::MainMenuView(ViewAttachParams attach, bool customMenu):
 	},
 	onScreenInputManager
 	{
-		// UI_TEXT("On-screen Input Setup"), attach,
-		UI_TEXT("屏幕输入设备设置"), attach,
+		// UI_TEXT("On-screen Input Setup"),
+		UI_TEXT("屏幕触摸设置"),
+		attach,
 		[this](const Input::Event &e)
 		{
 			pushAndShow(makeView<TouchConfigView>(app().defaultVController()), e);
@@ -126,8 +133,9 @@ MainMenuView::MainMenuView(ViewAttachParams attach, bool customMenu):
 	},
 	inputManager
 	{
-		// UI_TEXT("Key/Gamepad Input Setup"), attach,
-		UI_TEXT("实体输入设备设置"), attach,
+		// UI_TEXT("Key/Gamepad Input Setup"),
+		UI_TEXT("实体手柄设置"),
+		attach,
 		[this](const Input::Event &e)
 		{
 			pushAndShow(makeView<InputManagerView>(app().inputManager), e);
@@ -135,8 +143,9 @@ MainMenuView::MainMenuView(ViewAttachParams attach, bool customMenu):
 	},
 	benchmark
 	{
-		// UI_TEXT("Benchmark Content"), attach,
-		UI_TEXT("检查游戏文件"), attach,
+		// UI_TEXT("Benchmark Content"),
+		UI_TEXT("检查游戏文件"),
+		attach,
 		[this](const Input::Event &e)
 		{
 			pushAndShow(FilePicker::forBenchmarking(attachParams(), e), e, false);
@@ -144,8 +153,9 @@ MainMenuView::MainMenuView(ViewAttachParams attach, bool customMenu):
 	},
 	scanWiimotes
 	{
-		// UI_TEXT("Scan for Wiimotes/iCP/JS1"), attach,
-		UI_TEXT("扫描 Wiimotes/iCP/JS1"), attach,
+		// UI_TEXT("Scan for Wiimotes/iCP/JS1"),
+		UI_TEXT("扫描 Wiimotes/iCP/JS1"),
+		attach,
 		[this](const Input::Event &e)
 		{
 			app().bluetoothAdapter.openDefault();
@@ -173,22 +183,29 @@ MainMenuView::MainMenuView(ViewAttachParams attach, bool customMenu):
 	},
 	bluetoothDisconnect
 	{
-		// UI_TEXT("Disconnect Bluetooth"), attach,
-		UI_TEXT("断开蓝牙连接"), attach,
+		// UI_TEXT("Disconnect Bluetooth"),
+		UI_TEXT("断开蓝牙连接"),
+		attach,
 		[this](const Input::Event &e)
 		{
 			auto devConnected = Bluetooth::devsConnected(appContext());
 			if(devConnected)
 			{
-				pushAndShowModal(makeView<YesNoAlertView>(std::format(UI_TEXT("Really disconnect {} Bluetooth device(s)?"), devConnected),
-					YesNoAlertView::Delegates{.onYes = [this]{ app().closeBluetoothConnections(); }}), e);
+				pushAndShowModal(
+					makeView<YesNoAlertView>(
+						std::format(
+							UI_TEXT("Really disconnect {} Bluetooth device(s)?"),
+							devConnected),
+						YesNoAlertView::Delegates{.onYes = [this]{ app().closeBluetoothConnections(); }}),
+					e);
 			}
 		}
 	},
 	acceptPS3ControllerConnection
 	{
-		// UI_TEXT("Scan for PS3 Controller"), attach,
-		UI_TEXT("扫描 PS3 手柄"), attach,
+		// UI_TEXT("Scan for PS3 Controller"),
+		UI_TEXT("扫描 PS3 手柄"),
+		attach,
 		[this](const Input::Event &e)
 		{
 			app().bluetoothAdapter.openDefault();
@@ -231,8 +248,9 @@ MainMenuView::MainMenuView(ViewAttachParams attach, bool customMenu):
 	},
 	about
 	{
-		// UI_TEXT("About"), attach,
-		UI_TEXT("关于"), attach,
+		// UI_TEXT("About"),
+		UI_TEXT("关于"),
+		attach,
 		[this](const Input::Event &e)
 		{
 			pushAndShow(makeView<CreditsView>(EmuSystem::creditsViewStr), e);
@@ -240,8 +258,9 @@ MainMenuView::MainMenuView(ViewAttachParams attach, bool customMenu):
 	},
 	exitApp
 	{
-		// UI_TEXT("Exit"), attach,
-		UI_TEXT("退出"), attach,
+		// UI_TEXT("Exit"),
+		UI_TEXT("退出"),
+		attach,
 		[this]()
 		{
 			appContext().exit();
@@ -370,56 +389,63 @@ OptionCategoryView::OptionCategoryView(ViewAttachParams attach):
 	subConfig
 	{
 		{
-			// UI_TEXT("Frame Timing"), attach,
-			UI_TEXT("渲染耗时"), attach,
+			// UI_TEXT("Frame Timing"),
+			UI_TEXT("渲染耗时"),
+			attach,
 			[this](const Input::Event &e)
 			{
 				pushAndShow(makeView<FrameTimingView>(), e);
 			}
 		},
 		{
-			// UI_TEXT("Video"), attach,
-			UI_TEXT("视频"), attach,
+			// UI_TEXT("Video"),
+			UI_TEXT("视频"),
+			attach,
 			[this](const Input::Event &e)
 			{
 				pushAndShow(app().makeView(attachParams(), EmuApp::ViewID::VIDEO_OPTIONS), e);
 			}
 		},
 		{
-			// UI_TEXT("Audio"), attach,
-			UI_TEXT("音频"), attach,
+			// UI_TEXT("Audio"),
+			UI_TEXT("音频"),
+			attach,
 			[this](const Input::Event &e)
 			{
 				pushAndShow(app().makeView(attachParams(), EmuApp::ViewID::AUDIO_OPTIONS), e);
 			}
 		},
 		{
-			// UI_TEXT("System"), attach,
-			UI_TEXT("系统"), attach,
+			// UI_TEXT("System"),
+			UI_TEXT("系统"),
+			attach,
 			[this](const Input::Event &e)
 			{
 				pushAndShow(app().makeView(attachParams(), EmuApp::ViewID::SYSTEM_OPTIONS), e);
 			}
 		},
 		{
-			// UI_TEXT("File Paths"), attach,
-			UI_TEXT("文件路径"), attach,
+			// UI_TEXT("File Paths"),
+			UI_TEXT("文件路径"),
+			attach,
 			[this](const Input::Event &e)
 			{
 				pushAndShow(app().makeView(attachParams(), EmuApp::ViewID::FILE_PATH_OPTIONS), e);
 			}
 		},
 		{
-			// UI_TEXT("GUI"), attach,
-			UI_TEXT("界面"), attach,
+			// UI_TEXT("GUI"),
+			UI_TEXT("界面"),
+			attach,
 			[this](const Input::Event &e)
 			{
 				pushAndShow(app().makeView(attachParams(), EmuApp::ViewID::GUI_OPTIONS), e);
 			}
 		},
 		{
-			// UI_TEXT("Online Documentation"), attach,
-			UI_TEXT("在线文档"), attach,
+			// UI_TEXT("Online Documentation"),
+			UI_TEXT("在线文档"),
+			attach,
 			[this]
 			{
 				appContext().openURL("https://www.explusalpha.com/contents/emuex/documentation");
@@ -431,7 +457,8 @@ OptionCategoryView::OptionCategoryView(ViewAttachParams attach):
 	{
 		subConfig[lastIndex(subConfig)] =
 		{
-			UI_TEXT("Beta Testing Opt-in/out"), attach,
+			UI_TEXT("Beta Testing Opt-in/out"),
+			attach,
 			[this]()
 			{
 				appContext().openURL(std::format("https://play.google.com/apps/testing/{}", appContext().applicationId));
