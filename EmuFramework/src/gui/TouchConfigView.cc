@@ -74,7 +74,7 @@ public:
 	DPadElementConfigView(ViewAttachParams attach, TouchConfigView &confView_, VController &vCtrl_, VControllerElement &elem_):
 		TableView{
 			// UI_TEXT("Edit D-Pad"),
-			UI_TEXT("编辑十字键"),
+			UI_TEXT("编辑方向键"),
 			attach, item},
 		vCtrl{vCtrl_},
 		elem{elem_},
@@ -93,7 +93,7 @@ public:
 					pushAndShowNewCollectValueRangeInputView<float, 1, 3>(
 						attachParams(), e, 
 						// UI_TEXT("Input 1.0 to 3.0"),
-						UI_TEXT("输入 1.0 到 3.0 之间的值"),
+						UI_TEXT("请输入 1.0 到 3.0 之间的值"),
 						"",
 						[this](CollectTextInputView &, auto val)
 						{
@@ -141,21 +141,25 @@ public:
 				attach, {.id = 570}
 			},
 			{
-				UI_TEXT("50% (Medium)"),
+				// UI_TEXT("50% (Medium)"),
+				UI_TEXT("50% (中)"),
 				attach, {.id = 500}
 			},
 			{
-				UI_TEXT("60% (High)"),
+				// UI_TEXT("60% (High)"),
+				UI_TEXT("60% (高)"),
 				attach, {.id = 400}
 			},
 			{
-				UI_TEXT("Custom Value"),
+				// UI_TEXT("Custom Value"),
+				UI_TEXT("自定义"),
 				attach,
 				[this](const Input::Event &e)
 				{
 					pushAndShowNewCollectValueRangeInputView<float, 0, 99>(
 						attachParams(), e,
-						UI_TEXT("Input 0 to 99.0"),
+						// UI_TEXT("Input 0 to 99.0"),
+						UI_TEXT("请输入 0 到 99.0 之间的值"),
 						"",
 						[this](CollectTextInputView &, auto val)
 						{
@@ -173,7 +177,8 @@ public:
 		},
 		diagonalSensitivity
 		{
-			UI_TEXT("Diagonal Sensitivity"),
+			// UI_TEXT("Diagonal Sensitivity"),
+			UI_TEXT("对角线灵敏度"),
 			attach,
 			MenuId{elem.dPad()->diagonalSensitivity() * 1000.f},
 			diagonalSensitivityItems,
@@ -194,7 +199,8 @@ public:
 		},
 		state
 		{
-			UI_TEXT("State"),
+			// UI_TEXT("State"),
+			UI_TEXT("状态"),
 			attach,
 			MenuId{elem.state},
 			stateItems,
@@ -208,7 +214,8 @@ public:
 		},
 		showBoundingArea
 		{
-			UI_TEXT("Show Bounding Area"),
+			// UI_TEXT("Show Bounding Area"),
+			UI_TEXT("显示边界区域"),
 			attach,
 			elem.dPad()->showBounds(),
 			[this](BoolMenuItem &item)
@@ -220,13 +227,15 @@ public:
 		},
 		remove
 		{
-			UI_TEXT("Remove This D-Pad"),
+			// UI_TEXT("Remove This D-Pad"),
+			UI_TEXT("移除当前的方向键"),
 			attach,
 			[this](const Input::Event &e)
 			{
 				pushAndShowModal(
 					makeView<YesNoAlertView>(
-						UI_TEXT("Really remove this d-pad?"),
+						// UI_TEXT("Really remove this d-pad?"),
+						UI_TEXT("确定要移除当前的方向键吗？"),
 						YesNoAlertView::Delegates
 						{
 							.onYes = [this]
@@ -242,28 +251,33 @@ public:
 		},
 		actionsHeading
 		{
-			UI_TEXT("D-Pad Actions"),
+			// UI_TEXT("D-Pad Actions"),
+			UI_TEXT("指定方向键动作"),
 			attach
 		},
 		actions
 		{
 			{
-				UI_TEXT("Up"),
+				// UI_TEXT("Up"),
+				UI_TEXT("上"),
 				app().inputManager.toString(elem.dPad()->config.keys[0]), attach,
 				[this](const Input::Event &e) { assignAction(0, e); }
 			},
 			{
-				UI_TEXT("Right"),
+				// UI_TEXT("Right"),
+				UI_TEXT("右"),
 				app().inputManager.toString(elem.dPad()->config.keys[1]), attach,
 				[this](const Input::Event &e) { assignAction(1, e); }
 			},
 			{
-				UI_TEXT("Down"),
+				// UI_TEXT("Down"),
+				UI_TEXT("下"),
 				app().inputManager.toString(elem.dPad()->config.keys[2]), attach,
 				[this](const Input::Event &e) { assignAction(2, e); }
 			},
 			{
-				UI_TEXT("Left"),
+				// UI_TEXT("Left"),
+				UI_TEXT("左"),
 				app().inputManager.toString(elem.dPad()->config.keys[3]), attach,
 				[this](const Input::Event &e) { assignAction(3, e); }
 			}
@@ -300,7 +314,8 @@ private:
 	void assignAction(int idx, const Input::Event &e)
 	{
 		auto multiChoiceView = makeViewWithName<TextTableView>(
-			UI_TEXT("Assign Action"),
+			// UI_TEXT("Assign Action"),
+			UI_TEXT("指定动作"),
 			16);
 		auto &app = this->app();
 		addCategories(app, elem, [&](const KeyCategory &cat)
@@ -327,7 +342,8 @@ public:
 
 	ButtonElementConfigView(ViewAttachParams attach, OnChange onChange_, VController &vCtrl_, VControllerElement &elem_, VControllerButton &btn_):
 		TableView{
-			UI_TEXT("Edit Button"),
+			// UI_TEXT("Edit Button"),
+			UI_TEXT("编辑按键"),
 			attach, item},
 		vCtrl{vCtrl_},
 		elem{elem_},
@@ -335,12 +351,14 @@ public:
 		onChange{onChange_},
 		key
 		{
-			UI_TEXT("Action"),
+			// UI_TEXT("Action"),
+			UI_TEXT("动作"),
 			app().inputManager.toString(btn_.key), attach,
 			[this](const Input::Event &e)
 			{
 				auto multiChoiceView = makeViewWithName<TextTableView>(
-					UI_TEXT("Assign Action"),
+					// UI_TEXT("Assign Action"),
+					UI_TEXT("指定动作"),
 					16);
 				auto &app = this->app();
 				addCategories(app, elem, [&](const KeyCategory &cat)
@@ -367,7 +385,8 @@ public:
 		},
 		turbo
 		{
-			UI_TEXT("Turbo"),
+			// UI_TEXT("Turbo"),
+			UI_TEXT("连发"),
 			attach,
 			bool(btn_.key.flags.turbo),
 			[this](BoolMenuItem &item)
@@ -380,7 +399,8 @@ public:
 		},
 		toggle
 		{
-			UI_TEXT("Toggle"),
+			// UI_TEXT("Toggle"),
+			UI_TEXT("切换"),
 			attach,
 			bool(btn_.key.flags.toggle),
 			[this](BoolMenuItem &item)
@@ -393,12 +413,14 @@ public:
 		},
 		remove
 		{
-			UI_TEXT("Remove This Button"),
+			// UI_TEXT("Remove This Button"),
+			UI_TEXT("移除当前的按键"),
 			attach,
 			[this](const Input::Event &e)
 			{
 				pushAndShowModal(makeView<YesNoAlertView>(
-					UI_TEXT("Really remove this button?"),
+					// UI_TEXT("Really remove this button?"),
+					UI_TEXT("确定要移除当前的按键吗？"),
 					YesNoAlertView::Delegates
 					{
 						.onYes = [this]
@@ -444,7 +466,8 @@ class ButtonGroupElementConfigView : public TableView, public EmuAppHelper
 public:
 	ButtonGroupElementConfigView(ViewAttachParams attach, TouchConfigView &confView_, VController &vCtrl_, VControllerElement &elem_):
 		TableView{
-			UI_TEXT("Edit Buttons"),
+			// UI_TEXT("Edit Buttons"),
+			UI_TEXT("编辑按键"),
 			attach, item},
 		vCtrl{vCtrl_},
 		elem{elem_},
@@ -457,7 +480,8 @@ public:
 		},
 		state
 		{
-			UI_TEXT("State"),
+			// UI_TEXT("State"),
+			UI_TEXT("状态"),
 			attach,
 			MenuId{elem.state},
 			stateItems,
@@ -479,7 +503,8 @@ public:
 		},
 		rowSize
 		{
-			UI_TEXT("Buttons Per Row"),
+			// UI_TEXT("Buttons Per Row"),
+			UI_TEXT("每行的按键数量"),
 			attach,
 			MenuId{elem.rowSize()},
 			rowSizeItems,
@@ -498,13 +523,15 @@ public:
 			{"3mm", attach, {.id = 3}},
 			{"4mm", attach, {.id = 4}},
 			{
-				UI_TEXT("Custom Value"),
+				// UI_TEXT("Custom Value"),
+				UI_TEXT("自定义"),
 				attach,
 				[this](const Input::Event &e)
 				{
 					pushAndShowNewCollectValueRangeInputView<int, 0, 8>(
 						attachParams(), e,
-						UI_TEXT("Input 0 to 8"),
+						// UI_TEXT("Input 0 to 8"),
+						UI_TEXT("请输入 0 到 8 之间的值"),
 						"",
 						[this](CollectTextInputView &, auto val)
 						{
@@ -520,7 +547,8 @@ public:
 		},
 		space
 		{
-			UI_TEXT("Spacing"),
+			// UI_TEXT("Spacing"),
+			UI_TEXT("间距"),
 			attach,
 			MenuId{elem.buttonGroup() ? elem.buttonGroup()->spacing() : 0},
 			spaceItems,
@@ -548,7 +576,8 @@ public:
 		},
 		stagger
 		{
-			UI_TEXT("Stagger"),
+			// UI_TEXT("Stagger"),
+			UI_TEXT("对齐"),
 			attach,
 			MenuId{elem.buttonGroup() ? elem.buttonGroup()->stagger() : 0},
 			staggerItems,
@@ -567,13 +596,15 @@ public:
 			{touchCtrlExtraBtnSizeMenuName[2], attach, {.id = touchCtrlExtraBtnSizeMenuVal[2]}},
 			{touchCtrlExtraBtnSizeMenuName[3], attach, {.id = touchCtrlExtraBtnSizeMenuVal[3]}},
 			{
-				UI_TEXT("Custom Value"),
+				// UI_TEXT("Custom Value"),
+				UI_TEXT("自定义"),
 				attach,
 				[this](const Input::Event &e)
 				{
 					pushAndShowNewCollectValueRangeInputView<int, 0, 30>(
 						attachParams(), e,
-						UI_TEXT("Input 0 to 30"),
+						// UI_TEXT("Input 0 to 30"),
+						UI_TEXT("请输入 0 到 30 之间的值"),
 						"",
 						[this](CollectTextInputView &, auto val)
 						{
@@ -589,7 +620,8 @@ public:
 		},
 		extraXSize
 		{
-			UI_TEXT("Extended H Bounds"),
+			// UI_TEXT("Extended H Bounds"),
+			UI_TEXT("扩展水平边界"),
 			attach,
 			MenuId{elem.buttonGroup() ? elem.buttonGroup()->layout.xPadding : 0},
 			extraXSizeItems,
@@ -615,13 +647,15 @@ public:
 			{touchCtrlExtraBtnSizeMenuName[2], attach, {.id = touchCtrlExtraBtnSizeMenuVal[2]}},
 			{touchCtrlExtraBtnSizeMenuName[3], attach, {.id = touchCtrlExtraBtnSizeMenuVal[3]}},
 			{
-				UI_TEXT("Custom Value"),
+				// UI_TEXT("Custom Value"),
+				UI_TEXT("自定义"),
 				attach,
 				[this](const Input::Event &e)
 				{
 					pushAndShowNewCollectValueRangeInputView<int, 0, 30>(
 						attachParams(), e,
-						UI_TEXT("Input 0 to 30"),
+						// UI_TEXT("Input 0 to 30"),
+						UI_TEXT("请输入 0 到 30 之间的值"),
 						"",
 						[this](CollectTextInputView &, auto val)
 						{
@@ -637,7 +671,8 @@ public:
 		},
 		extraYSize
 		{
-			UI_TEXT("Extended V Bounds"),
+			// UI_TEXT("Extended V Bounds"),
+			UI_TEXT("扩展垂直边界"),
 			attach,
 			MenuId{elem.buttonGroup() ? elem.buttonGroup()->layout.yPadding : 0},
 			extraYSizeItems,
@@ -658,7 +693,8 @@ public:
 		},
 		showBoundingArea
 		{
-			UI_TEXT("Show Bounding Area"),
+			// UI_TEXT("Show Bounding Area"),
+			UI_TEXT("显示边界区域"),
 			attach,
 			elem.buttonGroup() ? elem.buttonGroup()->showsBounds() : false,
 			[this](BoolMenuItem &item)
