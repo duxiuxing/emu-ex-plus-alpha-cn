@@ -543,11 +543,15 @@ std::string_view toString(AppKeyCode code)
 {
 	switch(code)
 	{
-		case AppKeyCode::openContent: return UI_TEXT("Open Content");
-		case AppKeyCode::closeContent: return UI_TEXT("Close Content");
+		// case AppKeyCode::openContent: return UI_TEXT("Open Content");
+		case AppKeyCode::openContent: return UI_TEXT("打开游戏");
+		// case AppKeyCode::closeContent: return UI_TEXT("Close Content");
+		case AppKeyCode::closeContent: return UI_TEXT("关闭游戏");
 		case AppKeyCode::openSystemActions: return UI_TEXT("Open System Actions");
-		case AppKeyCode::saveState: return UI_TEXT("Save State");
-		case AppKeyCode::loadState: return UI_TEXT("Load State");
+		// case AppKeyCode::saveState: return UI_TEXT("Save State");
+		case AppKeyCode::saveState: return UI_TEXT("保存进度");
+		// case AppKeyCode::loadState: return UI_TEXT("Load State");
+		case AppKeyCode::loadState: return UI_TEXT("读取进度");
 		case AppKeyCode::decStateSlot: return UI_TEXT("Decrement State Slot");
 		case AppKeyCode::incStateSlot: return UI_TEXT("Increment State Slot");
 		case AppKeyCode::fastForward: return UI_TEXT("Fast-forward");
