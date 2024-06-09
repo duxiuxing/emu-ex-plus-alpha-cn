@@ -68,7 +68,8 @@ MainMenuView::MainMenuView(ViewAttachParams attach, bool customMenu):
 	TableView{EmuApp::mainViewName(), attach, item},
 	loadGame
 	{
-		UI_TEXT("Open Content"), attach,
+		UI_TEXT("Open Content"),
+		attach,
 		[this](const Input::Event &e)
 		{
 			pushAndShow(FilePicker::forLoading(attachParams(), e), e, false);
@@ -76,7 +77,8 @@ MainMenuView::MainMenuView(ViewAttachParams attach, bool customMenu):
 	},
 	systemActions
 	{
-		UI_TEXT("System Actions"), attach,
+		UI_TEXT("System Actions"),
+		attach,
 		[this](const Input::Event &e)
 		{
 			if(!system().hasContent())
@@ -86,7 +88,8 @@ MainMenuView::MainMenuView(ViewAttachParams attach, bool customMenu):
 	},
 	recentGames
 	{
-		UI_TEXT("Recent Content"), attach,
+		UI_TEXT("Recent Content"),
+		attach,
 		[this](const Input::Event &e)
 		{
 			if(app().recentContent.size())
@@ -97,7 +100,8 @@ MainMenuView::MainMenuView(ViewAttachParams attach, bool customMenu):
 	},
 	bundledGames
 	{
-		UI_TEXT("Bundled Content"), attach,
+		UI_TEXT("Bundled Content"),
+		attach,
 		[this](const Input::Event &e)
 		{
 			pushAndShow(makeView<BundledGamesView>(), e);
@@ -105,7 +109,8 @@ MainMenuView::MainMenuView(ViewAttachParams attach, bool customMenu):
 	},
 	options
 	{
-		UI_TEXT("Options"), attach,
+		UI_TEXT("Options"),
+		attach,
 		[this](const Input::Event &e)
 		{
 			pushAndShow(makeView<OptionCategoryView>(), e);
@@ -113,7 +118,8 @@ MainMenuView::MainMenuView(ViewAttachParams attach, bool customMenu):
 	},
 	onScreenInputManager
 	{
-		UI_TEXT("On-screen Input Setup"), attach,
+		UI_TEXT("On-screen Input Setup"),
+		attach,
 		[this](const Input::Event &e)
 		{
 			pushAndShow(makeView<TouchConfigView>(app().defaultVController()), e);
@@ -121,7 +127,8 @@ MainMenuView::MainMenuView(ViewAttachParams attach, bool customMenu):
 	},
 	inputManager
 	{
-		UI_TEXT("Key/Gamepad Input Setup"), attach,
+		UI_TEXT("Key/Gamepad Input Setup"),
+		attach,
 		[this](const Input::Event &e)
 		{
 			pushAndShow(makeView<InputManagerView>(app().inputManager), e);
@@ -129,7 +136,8 @@ MainMenuView::MainMenuView(ViewAttachParams attach, bool customMenu):
 	},
 	benchmark
 	{
-		UI_TEXT("Benchmark Content"), attach,
+		UI_TEXT("Benchmark Content"),
+		attach,
 		[this](const Input::Event &e)
 		{
 			pushAndShow(FilePicker::forBenchmarking(attachParams(), e), e, false);
@@ -137,7 +145,8 @@ MainMenuView::MainMenuView(ViewAttachParams attach, bool customMenu):
 	},
 	scanWiimotes
 	{
-		UI_TEXT("Scan for Wiimotes/iCP/JS1"), attach,
+		UI_TEXT("Scan for Wiimotes/iCP/JS1"),
+		attach,
 		[this](const Input::Event &e)
 		{
 			app().bluetoothAdapter.openDefault();
@@ -165,20 +174,27 @@ MainMenuView::MainMenuView(ViewAttachParams attach, bool customMenu):
 	},
 	bluetoothDisconnect
 	{
-		UI_TEXT("Disconnect Bluetooth"), attach,
+		UI_TEXT("Disconnect Bluetooth"),
+		attach,
 		[this](const Input::Event &e)
 		{
 			auto devConnected = Bluetooth::devsConnected(appContext());
 			if(devConnected)
 			{
-				pushAndShowModal(makeView<YesNoAlertView>(std::format(UI_TEXT("Really disconnect {} Bluetooth device(s)?"), devConnected),
-					YesNoAlertView::Delegates{.onYes = [this]{ app().closeBluetoothConnections(); }}), e);
+				pushAndShowModal(
+					makeView<YesNoAlertView>(
+						std::format(
+							UI_TEXT("Really disconnect {} Bluetooth device(s)?"),
+							devConnected),
+						YesNoAlertView::Delegates{.onYes = [this]{ app().closeBluetoothConnections(); }}),
+					e);
 			}
 		}
 	},
 	acceptPS3ControllerConnection
 	{
-		UI_TEXT("Scan for PS3 Controller"), attach,
+		UI_TEXT("Scan for PS3 Controller"),
+		attach,
 		[this](const Input::Event &e)
 		{
 			app().bluetoothAdapter.openDefault();
@@ -220,7 +236,8 @@ MainMenuView::MainMenuView(ViewAttachParams attach, bool customMenu):
 	},
 	about
 	{
-		UI_TEXT("About"), attach,
+		UI_TEXT("About"),
+		attach,
 		[this](const Input::Event &e)
 		{
 			pushAndShow(makeView<CreditsView>(EmuSystem::creditsViewStr), e);
@@ -228,7 +245,8 @@ MainMenuView::MainMenuView(ViewAttachParams attach, bool customMenu):
 	},
 	exitApp
 	{
-		UI_TEXT("Exit"), attach,
+		UI_TEXT("Exit"),
+		attach,
 		[this]()
 		{
 			appContext().exit();
@@ -356,49 +374,56 @@ OptionCategoryView::OptionCategoryView(ViewAttachParams attach):
 	subConfig
 	{
 		{
-			UI_TEXT("Frame Timing"), attach,
+			UI_TEXT("Frame Timing"),
+			attach,
 			[this](const Input::Event &e)
 			{
 				pushAndShow(makeView<FrameTimingView>(), e);
 			}
 		},
 		{
-			UI_TEXT("Video"), attach,
+			UI_TEXT("Video"),
+			attach,
 			[this](const Input::Event &e)
 			{
 				pushAndShow(app().makeView(attachParams(), EmuApp::ViewID::VIDEO_OPTIONS), e);
 			}
 		},
 		{
-			UI_TEXT("Audio"), attach,
+			UI_TEXT("Audio"),
+			attach,
 			[this](const Input::Event &e)
 			{
 				pushAndShow(app().makeView(attachParams(), EmuApp::ViewID::AUDIO_OPTIONS), e);
 			}
 		},
 		{
-			UI_TEXT("System"), attach,
+			UI_TEXT("System"),
+			attach,
 			[this](const Input::Event &e)
 			{
 				pushAndShow(app().makeView(attachParams(), EmuApp::ViewID::SYSTEM_OPTIONS), e);
 			}
 		},
 		{
-			UI_TEXT("File Paths"), attach,
+			UI_TEXT("File Paths"),
+			attach,
 			[this](const Input::Event &e)
 			{
 				pushAndShow(app().makeView(attachParams(), EmuApp::ViewID::FILE_PATH_OPTIONS), e);
 			}
 		},
 		{
-			UI_TEXT("GUI"), attach,
+			UI_TEXT("GUI"),
+			attach,
 			[this](const Input::Event &e)
 			{
 				pushAndShow(app().makeView(attachParams(), EmuApp::ViewID::GUI_OPTIONS), e);
 			}
 		},
 		{
-			UI_TEXT("Online Documentation"), attach,
+			UI_TEXT("Online Documentation"),
+			attach,
 			[this]
 			{
 				appContext().openURL("https://www.explusalpha.com/contents/emuex/documentation");
@@ -410,7 +435,8 @@ OptionCategoryView::OptionCategoryView(ViewAttachParams attach):
 	{
 		subConfig[lastIndex(subConfig)] =
 		{
-			UI_TEXT("Beta Testing Opt-in/out"), attach,
+			UI_TEXT("Beta Testing Opt-in/out"),
+			attach,
 			[this]()
 			{
 				appContext().openURL(std::format("https://play.google.com/apps/testing/{}", appContext().applicationId));

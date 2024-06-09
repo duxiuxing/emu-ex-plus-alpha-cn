@@ -42,7 +42,8 @@ constexpr const char *ctrlStateStr[]
 
 constexpr const char *touchCtrlExtraBtnSizeMenuName[4]
 {
-	UI_TEXT("None"), "10%", "20%", "30%"
+	UI_TEXT("None"),
+	"10%", "20%", "30%"
 };
 
 constexpr int touchCtrlExtraBtnSizeMenuVal[4]
@@ -69,7 +70,9 @@ class DPadElementConfigView : public TableView, public EmuAppHelper
 {
 public:
 	DPadElementConfigView(ViewAttachParams attach, TouchConfigView &confView_, VController &vCtrl_, VControllerElement &elem_):
-		TableView{UI_TEXT("Edit D-Pad"), attach, item},
+		TableView{
+			UI_TEXT("Edit D-Pad"),
+			attach, item},
 		vCtrl{vCtrl_},
 		elem{elem_},
 		confView{confView_},
@@ -78,10 +81,15 @@ public:
 			{"1mm",    attach, {.id = 100}},
 			{"1.35mm", attach, {.id = 135}},
 			{"1.6mm",  attach, {.id = 160}},
-			{UI_TEXT("Custom Value"), attach,
+			{
+				UI_TEXT("Custom Value"),
+				attach,
 				[this](const Input::Event &e)
 				{
-					pushAndShowNewCollectValueRangeInputView<float, 1, 3>(attachParams(), e, UI_TEXT("Input 1.0 to 3.0"), "",
+					pushAndShowNewCollectValueRangeInputView<float, 1, 3>(
+						attachParams(), e,
+						UI_TEXT("Input 1.0 to 3.0"),
+						"",
 						[this](CollectTextInputView &, auto val)
 						{
 							int scaledIntVal = val * 100.0;
@@ -96,7 +104,8 @@ public:
 		},
 		deadzone
 		{
-			UI_TEXT("Deadzone"), attach,
+			UI_TEXT("Deadzone"),
+			attach,
 			MenuId{elem.dPad()->deadzone()},
 			deadzoneItems,
 			{
@@ -110,15 +119,35 @@ public:
 		},
 		diagonalSensitivityItems
 		{
-			{UI_TEXT("None"),             attach, {.id = 1000}},
-			{UI_TEXT("33% (Low)"),        attach, {.id = 667}},
-			{UI_TEXT("43% (Medium-Low)"), attach, {.id = 570}},
-			{UI_TEXT("50% (Medium)"),     attach, {.id = 500}},
-			{UI_TEXT("60% (High)"),       attach, {.id = 400}},
-			{UI_TEXT("Custom Value"), attach,
+			{
+				UI_TEXT("None"),
+				attach,	{.id = 1000}
+			},
+			{
+				UI_TEXT("33% (Low)"),
+				attach, {.id = 667}
+			},
+			{
+				UI_TEXT("43% (Medium-Low)"),
+				attach, {.id = 570}
+			},
+			{
+				UI_TEXT("50% (Medium)"),
+				attach, {.id = 500}
+			},
+			{
+				UI_TEXT("60% (High)"),
+				attach, {.id = 400}
+			},
+			{
+				UI_TEXT("Custom Value"),
+				attach,
 				[this](const Input::Event &e)
 				{
-					pushAndShowNewCollectValueRangeInputView<float, 0, 99>(attachParams(), e, UI_TEXT("Input 0 to 99.0"), "",
+					pushAndShowNewCollectValueRangeInputView<float, 0, 99>(
+						attachParams(), e,
+						UI_TEXT("Input 0 to 99.0"),
+						"",
 						[this](CollectTextInputView &, auto val)
 						{
 							val = 100. - val;
@@ -135,7 +164,8 @@ public:
 		},
 		diagonalSensitivity
 		{
-			UI_TEXT("Diagonal Sensitivity"), attach,
+			UI_TEXT("Diagonal Sensitivity"),
+			attach,
 			MenuId{elem.dPad()->diagonalSensitivity() * 1000.f},
 			diagonalSensitivityItems,
 			{
@@ -155,7 +185,8 @@ public:
 		},
 		state
 		{
-			UI_TEXT("State"), attach,
+			UI_TEXT("State"),
+			attach,
 			MenuId{elem.state},
 			stateItems,
 			{
@@ -168,7 +199,8 @@ public:
 		},
 		showBoundingArea
 		{
-			UI_TEXT("Show Bounding Area"), attach,
+			UI_TEXT("Show Bounding Area"),
+			attach,
 			elem.dPad()->showBounds(),
 			[this](BoolMenuItem &item)
 			{
@@ -179,39 +211,51 @@ public:
 		},
 		remove
 		{
-			UI_TEXT("Remove This D-Pad"), attach,
+			UI_TEXT("Remove This D-Pad"),
+			attach,
 			[this](const Input::Event &e)
 			{
-				pushAndShowModal(makeView<YesNoAlertView>(UI_TEXT("Really remove this d-pad?"),
-					YesNoAlertView::Delegates
-					{
-						.onYes = [this]
+				pushAndShowModal(
+					makeView<YesNoAlertView>(
+						UI_TEXT("Really remove this d-pad?"),
+						YesNoAlertView::Delegates
 						{
-							vCtrl.remove(elem);
-							vCtrl.place();
-							confView.reloadItems();
-							dismiss();
-						}
-					}), e);
+							.onYes = [this]
+							{
+								vCtrl.remove(elem);
+								vCtrl.place();
+								confView.reloadItems();
+								dismiss();
+							}
+						}),
+					e);
 			}
 		},
-		actionsHeading{UI_TEXT("D-Pad Actions"), attach},
+		actionsHeading
+		{
+			UI_TEXT("D-Pad Actions"),
+			attach
+		},
 		actions
 		{
 			{
-				UI_TEXT("Up"), app().inputManager.toString(elem.dPad()->config.keys[0]), attach,
+				UI_TEXT("Up"),
+				app().inputManager.toString(elem.dPad()->config.keys[0]), attach,
 				[this](const Input::Event &e) { assignAction(0, e); }
 			},
 			{
-				UI_TEXT("Right"), app().inputManager.toString(elem.dPad()->config.keys[1]), attach,
+				UI_TEXT("Right"),
+				app().inputManager.toString(elem.dPad()->config.keys[1]), attach,
 				[this](const Input::Event &e) { assignAction(1, e); }
 			},
 			{
-				UI_TEXT("Down"), app().inputManager.toString(elem.dPad()->config.keys[2]), attach,
+				UI_TEXT("Down"),
+				app().inputManager.toString(elem.dPad()->config.keys[2]), attach,
 				[this](const Input::Event &e) { assignAction(2, e); }
 			},
 			{
-				UI_TEXT("Left"), app().inputManager.toString(elem.dPad()->config.keys[3]), attach,
+				UI_TEXT("Left"),
+				app().inputManager.toString(elem.dPad()->config.keys[3]), attach,
 				[this](const Input::Event &e) { assignAction(3, e); }
 			}
 		} {}
@@ -246,7 +290,9 @@ private:
 
 	void assignAction(int idx, const Input::Event &e)
 	{
-		auto multiChoiceView = makeViewWithName<TextTableView>(UI_TEXT("Assign Action"), 16);
+		auto multiChoiceView = makeViewWithName<TextTableView>(
+			UI_TEXT("Assign Action"),
+			16);
 		auto &app = this->app();
 		addCategories(app, elem, [&](const KeyCategory &cat)
 		{
@@ -271,17 +317,22 @@ public:
 	using OnChange = DelegateFunc<void()>;
 
 	ButtonElementConfigView(ViewAttachParams attach, OnChange onChange_, VController &vCtrl_, VControllerElement &elem_, VControllerButton &btn_):
-		TableView{"Edit Button", attach, item},
+		TableView{
+			UI_TEXT("Edit Button"),
+			attach, item},
 		vCtrl{vCtrl_},
 		elem{elem_},
 		btn{btn_},
 		onChange{onChange_},
 		key
 		{
-			UI_TEXT("Action"), app().inputManager.toString(btn_.key), attach,
+			UI_TEXT("Action"),
+			app().inputManager.toString(btn_.key), attach,
 			[this](const Input::Event &e)
 			{
-				auto multiChoiceView = makeViewWithName<TextTableView>(UI_TEXT("Assign Action"), 16);
+				auto multiChoiceView = makeViewWithName<TextTableView>(
+					UI_TEXT("Assign Action"),
+					16);
 				auto &app = this->app();
 				addCategories(app, elem, [&](const KeyCategory &cat)
 				{
@@ -307,7 +358,8 @@ public:
 		},
 		turbo
 		{
-			UI_TEXT("Turbo"), attach,
+			UI_TEXT("Turbo"),
+			attach,
 			bool(btn_.key.flags.turbo),
 			[this](BoolMenuItem &item)
 			{
@@ -319,7 +371,8 @@ public:
 		},
 		toggle
 		{
-			UI_TEXT("Toggle"), attach,
+			UI_TEXT("Toggle"),
+			attach,
 			bool(btn_.key.flags.toggle),
 			[this](BoolMenuItem &item)
 			{
@@ -331,10 +384,12 @@ public:
 		},
 		remove
 		{
-			UI_TEXT("Remove This Button"), attach,
+			UI_TEXT("Remove This Button"),
+			attach,
 			[this](const Input::Event &e)
 			{
-				pushAndShowModal(makeView<YesNoAlertView>(UI_TEXT("Really remove this button?"),
+				pushAndShowModal(makeView<YesNoAlertView>(
+					UI_TEXT("Really remove this button?"),
 					YesNoAlertView::Delegates
 					{
 						.onYes = [this]
@@ -379,7 +434,9 @@ class ButtonGroupElementConfigView : public TableView, public EmuAppHelper
 {
 public:
 	ButtonGroupElementConfigView(ViewAttachParams attach, TouchConfigView &confView_, VController &vCtrl_, VControllerElement &elem_):
-		TableView{"Edit Buttons", attach, item},
+		TableView{
+			UI_TEXT("Edit Buttons"),
+			attach, item},
 		vCtrl{vCtrl_},
 		elem{elem_},
 		confView{confView_},
@@ -391,7 +448,8 @@ public:
 		},
 		state
 		{
-			UI_TEXT("State"), attach,
+			UI_TEXT("State"),
+			attach,
 			MenuId{elem.state},
 			stateItems,
 			{
@@ -412,7 +470,8 @@ public:
 		},
 		rowSize
 		{
-			UI_TEXT("Buttons Per Row"), attach,
+			UI_TEXT("Buttons Per Row"),
+			attach,
 			MenuId{elem.rowSize()},
 			rowSizeItems,
 			{
@@ -429,10 +488,15 @@ public:
 			{"2mm", attach, {.id = 2}},
 			{"3mm", attach, {.id = 3}},
 			{"4mm", attach, {.id = 4}},
-			{UI_TEXT("Custom Value"), attach,
+			{
+				UI_TEXT("Custom Value"),
+				attach,
 				[this](const Input::Event &e)
 				{
-					pushAndShowNewCollectValueRangeInputView<int, 0, 8>(attachParams(), e, UI_TEXT("Input 0 to 8"), "",
+					pushAndShowNewCollectValueRangeInputView<int, 0, 8>(
+						attachParams(), e,
+						UI_TEXT("Input 0 to 8"),
+						"",
 						[this](CollectTextInputView &, auto val)
 						{
 							elem.buttonGroup()->setSpacing(val, window());
@@ -447,7 +511,8 @@ public:
 		},
 		space
 		{
-			UI_TEXT("Spacing"), attach,
+			UI_TEXT("Spacing"),
+			attach,
 			MenuId{elem.buttonGroup() ? elem.buttonGroup()->spacing() : 0},
 			spaceItems,
 			{
@@ -474,7 +539,8 @@ public:
 		},
 		stagger
 		{
-			UI_TEXT("Stagger"), attach,
+			UI_TEXT("Stagger"),
+			attach,
 			MenuId{elem.buttonGroup() ? elem.buttonGroup()->stagger() : 0},
 			staggerItems,
 			{
@@ -491,9 +557,15 @@ public:
 			{touchCtrlExtraBtnSizeMenuName[1], attach, {.id = touchCtrlExtraBtnSizeMenuVal[1]}},
 			{touchCtrlExtraBtnSizeMenuName[2], attach, {.id = touchCtrlExtraBtnSizeMenuVal[2]}},
 			{touchCtrlExtraBtnSizeMenuName[3], attach, {.id = touchCtrlExtraBtnSizeMenuVal[3]}},
-			{UI_TEXT("Custom Value"), attach, [this](const Input::Event &e)
+			{
+				UI_TEXT("Custom Value"),
+				attach,
+				[this](const Input::Event &e)
 				{
-					pushAndShowNewCollectValueRangeInputView<int, 0, 30>(attachParams(), e, UI_TEXT("Input 0 to 30"), "",
+					pushAndShowNewCollectValueRangeInputView<int, 0, 30>(
+						attachParams(), e,
+						UI_TEXT("Input 0 to 30"),
+						"",
 						[this](CollectTextInputView &, auto val)
 						{
 							elem.buttonGroup()->layout.xPadding = val;
@@ -508,7 +580,8 @@ public:
 		},
 		extraXSize
 		{
-			UI_TEXT("Extended H Bounds"), attach,
+			UI_TEXT("Extended H Bounds"),
+			attach,
 			MenuId{elem.buttonGroup() ? elem.buttonGroup()->layout.xPadding : 0},
 			extraXSizeItems,
 			{
@@ -532,9 +605,15 @@ public:
 			{touchCtrlExtraBtnSizeMenuName[1], attach, {.id = touchCtrlExtraBtnSizeMenuVal[1]}},
 			{touchCtrlExtraBtnSizeMenuName[2], attach, {.id = touchCtrlExtraBtnSizeMenuVal[2]}},
 			{touchCtrlExtraBtnSizeMenuName[3], attach, {.id = touchCtrlExtraBtnSizeMenuVal[3]}},
-			{UI_TEXT("Custom Value"), attach, [this](const Input::Event &e)
+			{
+				UI_TEXT("Custom Value"),
+				attach,
+				[this](const Input::Event &e)
 				{
-					pushAndShowNewCollectValueRangeInputView<int, 0, 30>(attachParams(), e, UI_TEXT("Input 0 to 30"), "",
+					pushAndShowNewCollectValueRangeInputView<int, 0, 30>(
+						attachParams(), e,
+						UI_TEXT("Input 0 to 30"),
+						"",
 						[this](CollectTextInputView &, auto val)
 						{
 							elem.buttonGroup()->layout.yPadding = val;
@@ -549,7 +628,8 @@ public:
 		},
 		extraYSize
 		{
-			UI_TEXT("Extended V Bounds"), attach,
+			UI_TEXT("Extended V Bounds"),
+			attach,
 			MenuId{elem.buttonGroup() ? elem.buttonGroup()->layout.yPadding : 0},
 			extraYSizeItems,
 			{
@@ -569,7 +649,8 @@ public:
 		},
 		showBoundingArea
 		{
-			UI_TEXT("Show Bounding Area"), attach,
+			UI_TEXT("Show Bounding Area"),
+			attach,
 			elem.buttonGroup() ? elem.buttonGroup()->showsBounds() : false,
 			[this](BoolMenuItem &item)
 			{
@@ -580,10 +661,13 @@ public:
 		},
 		add
 		{
-			UI_TEXT("Add Button To This Group"), attach,
+			UI_TEXT("Add Button To This Group"),
+			attach,
 			[this](const Input::Event &e)
 			{
-				auto multiChoiceView = makeViewWithName<TextTableView>(UI_TEXT("Add Button"), 16);
+				auto multiChoiceView = makeViewWithName<TextTableView>(
+					UI_TEXT("Add Button"),
+					16);
 				auto &app = this->app();
 				addCategories(app, elem, [&](const KeyCategory &cat)
 				{
@@ -606,10 +690,12 @@ public:
 		},
 		remove
 		{
-			UI_TEXT("Remove This Button Group"), attach,
+			UI_TEXT("Remove This Button Group"),
+			attach,
 			[this](const Input::Event &e)
 			{
-				pushAndShowModal(makeView<YesNoAlertView>(UI_TEXT("Really remove this button group?"),
+				pushAndShowModal(makeView<YesNoAlertView>(
+					UI_TEXT("Really remove this button group?"),
 					YesNoAlertView::Delegates
 					{
 						.onYes = [this]
@@ -622,7 +708,9 @@ public:
 					}), e);
 			}
 		},
-		buttonsHeading{ UI_TEXT("Buttons In Group"), attach}
+		buttonsHeading{
+			UI_TEXT("Buttons In Group"),
+			attach}
 	{
 		reloadItems();
 	}
@@ -701,7 +789,9 @@ class AddNewButtonView : public TableView, public EmuAppHelper
 {
 public:
 	AddNewButtonView(ViewAttachParams attach, TouchConfigView &confView_, VController &vCtrl_):
-		TableView{UI_TEXT("Add New Button Group"), attach, buttons},
+		TableView{
+			UI_TEXT("Add New Button Group"),
+			attach, buttons},
 		vCtrl{vCtrl_},
 		confView{confView_}
 	{
@@ -763,17 +853,29 @@ void TouchConfigView::refreshTouchConfigMenu()
 }
 
 TouchConfigView::TouchConfigView(ViewAttachParams attach, VController &vCtrl):
-	TableView{UI_TEXT("On-screen Input Setup"), attach, item},
+	TableView{
+		UI_TEXT("On-screen Input Setup"),
+		attach, item},
 	vController{vCtrl},
 	touchCtrlItem
 	{
-		{UI_TEXT("Off"),  attach, {.id = VControllerVisibility::OFF}},
-		{UI_TEXT("On"),   attach, {.id = VControllerVisibility::ON}},
-		{UI_TEXT("Auto"), attach, {.id = VControllerVisibility::AUTO}}
+		{
+			UI_TEXT("Off"),
+			attach, {.id = VControllerVisibility::OFF}
+		},
+		{
+			UI_TEXT("On"),
+			attach, {.id = VControllerVisibility::ON}
+		},
+		{
+			UI_TEXT("Auto"),
+			attach, {.id = VControllerVisibility::AUTO}
+		}
 	},
 	touchCtrl
 	{
-		UI_TEXT("Use Virtual Gamepad"), attach,
+		UI_TEXT("Use Virtual Gamepad"),
+		attach,
 		int(vCtrl.gamepadControlsVisibility()),
 		touchCtrlItem,
 		{
@@ -796,7 +898,8 @@ TouchConfigView::TouchConfigView(ViewAttachParams attach, VController &vCtrl):
 	},
 	player
 	{
-		UI_TEXT("Virtual Gamepad Player"), attach,
+		UI_TEXT("Virtual Gamepad Player"),
+		attach,
 		int(vCtrl.inputPlayer()),
 		playerItems,
 		{
@@ -815,10 +918,15 @@ TouchConfigView::TouchConfigView(ViewAttachParams attach, VController &vCtrl):
 		{"12mm",  attach, {.id = 1200}},
 		{"14mm",  attach, {.id = 1400}},
 		{"15mm",  attach, {.id = 1500}},
-		{UI_TEXT("Custom Value"), attach,
+		{
+			UI_TEXT("Custom Value"),
+			attach,
 			[this](const Input::Event &e)
 			{
-				pushAndShowNewCollectValueRangeInputView<float, 3, 30>(attachParams(), e, UI_TEXT("Input 3.0 to 30.0"), "",
+				pushAndShowNewCollectValueRangeInputView<float, 3, 30>(
+					attachParams(), e,
+					UI_TEXT("Input 3.0 to 30.0"),
+					"",
 					[this](CollectTextInputView &, auto val)
 					{
 						int scaledIntVal = val * 100.0;
@@ -833,7 +941,8 @@ TouchConfigView::TouchConfigView(ViewAttachParams attach, VController &vCtrl):
 	},
 	size
 	{
-		UI_TEXT("Button Size"), attach,
+		UI_TEXT("Button Size"),
+		attach,
 		MenuId{vController.buttonSize()},
 		sizeItem,
 		{
@@ -847,7 +956,8 @@ TouchConfigView::TouchConfigView(ViewAttachParams attach, VController &vCtrl):
 	},
 	vibrate
 	{
-		UI_TEXT("Vibration"), attach,
+		UI_TEXT("Vibration"),
+		attach,
 		vController.vibrateOnTouchInput(),
 		[this](BoolMenuItem &item)
 		{
@@ -856,7 +966,8 @@ TouchConfigView::TouchConfigView(ViewAttachParams attach, VController &vCtrl):
 	},
 	showOnTouch
 	{
-		UI_TEXT("Show Gamepad If Screen Touched"), attach,
+		UI_TEXT("Show Gamepad If Screen Touched"),
+		attach,
 		vController.showOnTouchInput(),
 		[this](BoolMenuItem &item)
 		{
@@ -865,7 +976,8 @@ TouchConfigView::TouchConfigView(ViewAttachParams attach, VController &vCtrl):
 	},
 	highlightPushedButtons
 	{
-		UI_TEXT("Highlight Pushed Buttons"), attach,
+		UI_TEXT("Highlight Pushed Buttons"),
+		attach,
 		vController.highlightPushedButtons,
 		[this](BoolMenuItem &item)
 		{
@@ -883,7 +995,8 @@ TouchConfigView::TouchConfigView(ViewAttachParams attach, VController &vCtrl):
 	},
 	alpha
 	{
-		UI_TEXT("Blend Amount"), attach,
+		UI_TEXT("Blend Amount"),
+		attach,
 		MenuId{vController.buttonAlpha()},
 		alphaItem,
 		{
@@ -892,7 +1005,8 @@ TouchConfigView::TouchConfigView(ViewAttachParams attach, VController &vCtrl):
 	},
 	btnPlace
 	{
-		UI_TEXT("Set Button Positions"), attach,
+		UI_TEXT("Set Button Positions"),
+		attach,
 		[this](const Input::Event &e)
 		{
 			pushAndShowModal(makeView<PlaceVControlsView>(vController), e);
@@ -900,7 +1014,8 @@ TouchConfigView::TouchConfigView(ViewAttachParams attach, VController &vCtrl):
 	},
 	placeVideo
 	{
-		UI_TEXT("Set Video Position"), attach,
+		UI_TEXT("Set Video Position"),
+		attach,
 		[this](const Input::Event &e)
 		{
 			if(!system().hasContent())
@@ -910,7 +1025,8 @@ TouchConfigView::TouchConfigView(ViewAttachParams attach, VController &vCtrl):
 	},
 	addButton
 	{
-		UI_TEXT("Add New Button Group"), attach,
+		UI_TEXT("Add New Button Group"),
+		attach,
 		[this](const Input::Event &e)
 		{
 			pushAndShow(makeView<AddNewButtonView>(*this, vController), e);
@@ -918,7 +1034,8 @@ TouchConfigView::TouchConfigView(ViewAttachParams attach, VController &vCtrl):
 	},
 	allowButtonsPastContentBounds
 	{
-		UI_TEXT("Allow Buttons In Display Cutout Area"), attach,
+		UI_TEXT("Allow Buttons In Display Cutout Area"),
+		attach,
 		vController.allowButtonsPastContentBounds(),
 		[this](BoolMenuItem &item)
 		{
@@ -928,10 +1045,12 @@ TouchConfigView::TouchConfigView(ViewAttachParams attach, VController &vCtrl):
 	},
 	resetEmuPositions
 	{
-		UI_TEXT("Reset Emulated Device Positions"), attach,
+		UI_TEXT("Reset Emulated Device Positions"),
+		attach,
 		[this](const Input::Event &e)
 		{
-			pushAndShowModal(makeView<YesNoAlertView>(UI_TEXT("Reset buttons to default positions?"),
+			pushAndShowModal(makeView<YesNoAlertView>(
+				UI_TEXT("Reset buttons to default positions?"),
 				YesNoAlertView::Delegates
 				{
 					.onYes = [this]
@@ -944,10 +1063,12 @@ TouchConfigView::TouchConfigView(ViewAttachParams attach, VController &vCtrl):
 	},
 	resetEmuGroups
 	{
-		UI_TEXT("Reset Emulated Device Groups"), attach,
+		UI_TEXT("Reset Emulated Device Groups"),
+		attach,
 		[this](const Input::Event &e)
 		{
-			pushAndShowModal(makeView<YesNoAlertView>(UI_TEXT("Reset buttons groups to default?"),
+			pushAndShowModal(makeView<YesNoAlertView>(
+				UI_TEXT("Reset buttons groups to default?"),
 				YesNoAlertView::Delegates
 				{
 					.onYes = [this]
@@ -961,10 +1082,12 @@ TouchConfigView::TouchConfigView(ViewAttachParams attach, VController &vCtrl):
 	},
 	resetUIPositions
 	{
-		UI_TEXT("Reset UI Positions"), attach,
+		UI_TEXT("Reset UI Positions"),
+		attach,
 		[this](const Input::Event &e)
 		{
-			pushAndShowModal(makeView<YesNoAlertView>(UI_TEXT("Reset buttons to default positions?"),
+			pushAndShowModal(makeView<YesNoAlertView>(
+				UI_TEXT("Reset buttons to default positions?"),
 				YesNoAlertView::Delegates
 				{
 					.onYes = [this]
@@ -977,10 +1100,12 @@ TouchConfigView::TouchConfigView(ViewAttachParams attach, VController &vCtrl):
 	},
 	resetUIGroups
 	{
-		UI_TEXT("Reset UI Groups"), attach,
+		UI_TEXT("Reset UI Groups"),
+		attach,
 		[this](const Input::Event &e)
 		{
-			pushAndShowModal(makeView<YesNoAlertView>(UI_TEXT("Reset buttons groups to default?"),
+			pushAndShowModal(makeView<YesNoAlertView>(
+				UI_TEXT("Reset buttons groups to default?"),
 				YesNoAlertView::Delegates
 				{
 					.onYes = [this]
@@ -994,15 +1119,18 @@ TouchConfigView::TouchConfigView(ViewAttachParams attach, VController &vCtrl):
 	},
 	devButtonsHeading
 	{
-		UI_TEXT("Emulated Device Button Groups"), attach
+		UI_TEXT("Emulated Device Button Groups"),
+		attach
 	},
 	uiButtonsHeading
 	{
-		UI_TEXT("UI Button Groups"), attach
+		UI_TEXT("UI Button Groups"),
+		attach
 	},
 	otherHeading
 	{
-		UI_TEXT("Other Options"), attach
+		UI_TEXT("Other Options"),
+		attach
 	}
 {
 	reloadItems();
