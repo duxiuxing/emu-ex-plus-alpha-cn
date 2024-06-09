@@ -467,11 +467,11 @@ std::string InputManager::toString(KeyInfo k) const
 		s += toString(c, k.flags);
 	}
 	if(k.flags.turbo && k.flags.toggle)
-		s += " (Turbo Toggle)";
+		s += UI_TEXT(" (Turbo Toggle)");
 	else if(k.flags.turbo)
-		s += " (Turbo)";
+		s += UI_TEXT(" (Turbo)");
 	else if(k.flags.toggle)
-		s += " (Toggle)";
+		s += UI_TEXT(" (Toggle)");
 	return s;
 }
 
@@ -543,25 +543,25 @@ std::string_view toString(AppKeyCode code)
 {
 	switch(code)
 	{
-		case AppKeyCode::openContent: return "Open Content";
-		case AppKeyCode::closeContent: return "Close Content";
-		case AppKeyCode::openSystemActions: return "Open System Actions";
-		case AppKeyCode::saveState: return "Save State";
-		case AppKeyCode::loadState: return "Load State";
-		case AppKeyCode::decStateSlot: return "Decrement State Slot";
-		case AppKeyCode::incStateSlot: return "Increment State Slot";
-		case AppKeyCode::fastForward: return "Fast-forward";
-		case AppKeyCode::takeScreenshot: return "Take Screenshot";
-		case AppKeyCode::openMenu: return "Open Menu";
-		case AppKeyCode::toggleFastForward: return "Toggle Fast-forward";
-		case AppKeyCode::turboModifier: return "Turbo Modifier";
-		case AppKeyCode::exitApp: return "Exit App";
-		case AppKeyCode::slowMotion: return "Slow-motion";
-		case AppKeyCode::toggleSlowMotion: return "Toggle Slow-motion";
-		case AppKeyCode::rewind: return "Rewind One State";
-		case AppKeyCode::softReset: return "Soft Reset";
-		case AppKeyCode::hardReset: return "Hard Reset";
-		case AppKeyCode::resetMenu: return "Open Reset Menu";
+		case AppKeyCode::openContent: return UI_TEXT("Open Content");
+		case AppKeyCode::closeContent: return UI_TEXT("Close Content");
+		case AppKeyCode::openSystemActions: return UI_TEXT("Open System Actions");
+		case AppKeyCode::saveState: return UI_TEXT("Save State");
+		case AppKeyCode::loadState: return UI_TEXT("Load State");
+		case AppKeyCode::decStateSlot: return UI_TEXT("Decrement State Slot");
+		case AppKeyCode::incStateSlot: return UI_TEXT("Increment State Slot");
+		case AppKeyCode::fastForward: return UI_TEXT("Fast-forward");
+		case AppKeyCode::takeScreenshot: return UI_TEXT("Take Screenshot");
+		case AppKeyCode::openMenu: return UI_TEXT("Open Menu");
+		case AppKeyCode::toggleFastForward: return UI_TEXT("Toggle Fast-forward");
+		case AppKeyCode::turboModifier: return UI_TEXT("Turbo Modifier");
+		case AppKeyCode::exitApp: return UI_TEXT("Exit App");
+		case AppKeyCode::slowMotion: return UI_TEXT("Slow-motion");
+		case AppKeyCode::toggleSlowMotion: return UI_TEXT("Toggle Slow-motion");
+		case AppKeyCode::rewind: return UI_TEXT("Rewind One State");
+		case AppKeyCode::softReset: return UI_TEXT("Soft Reset");
+		case AppKeyCode::hardReset: return UI_TEXT("Hard Reset");
+		case AppKeyCode::resetMenu: return UI_TEXT("Open Reset Menu");
 	};
 	return "";
 }

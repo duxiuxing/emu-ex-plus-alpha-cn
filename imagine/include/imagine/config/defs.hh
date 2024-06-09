@@ -42,6 +42,8 @@
 #endif
 #include <cstdint>
 
+#define UI_TEXT(x)	x
+
 namespace Config
 {
 
