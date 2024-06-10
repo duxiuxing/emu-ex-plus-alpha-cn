@@ -468,7 +468,9 @@ InputManagerDeviceView::InputManagerDeviceView(UTF16String name, ViewAttachParam
 	},
 	player
 	{
-		"Player", attach,
+		// UI_TEXT("Player"),
+		UI_TEXT("玩家索引"),
+		attach,
 		MenuId{inputDevData(dev).devConf.player()},
 		playerItems,
 		{

@@ -467,11 +467,14 @@ std::string InputManager::toString(KeyInfo k) const
 		s += toString(c, k.flags);
 	}
 	if(k.flags.turbo && k.flags.toggle)
-		s += UI_TEXT(" (Turbo Toggle)");
+		// s += UI_TEXT(" (Turbo Toggle)");
+		s += UI_TEXT(" (连发 切换)");
 	else if(k.flags.turbo)
-		s += UI_TEXT(" (Turbo)");
+		// s += UI_TEXT(" (Turbo)");
+		s += UI_TEXT(" (连发)");
 	else if(k.flags.toggle)
-		s += UI_TEXT(" (Toggle)");
+		// s += UI_TEXT(" (Toggle)");
+		s += UI_TEXT(" (切换)");
 	return s;
 }
 

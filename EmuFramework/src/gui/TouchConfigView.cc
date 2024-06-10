@@ -228,14 +228,14 @@ public:
 		remove
 		{
 			// UI_TEXT("Remove This D-Pad"),
-			UI_TEXT("移除当前的方向键"),
+			UI_TEXT("移除此方向键"),
 			attach,
 			[this](const Input::Event &e)
 			{
 				pushAndShowModal(
 					makeView<YesNoAlertView>(
 						// UI_TEXT("Really remove this d-pad?"),
-						UI_TEXT("确定要移除当前的方向键吗？"),
+						UI_TEXT("是否要移除此方向键？"),
 						YesNoAlertView::Delegates
 						{
 							.onYes = [this]
@@ -252,7 +252,7 @@ public:
 		actionsHeading
 		{
 			// UI_TEXT("D-Pad Actions"),
-			UI_TEXT("指定方向键动作"),
+			UI_TEXT("当前方向键的按键动作："),
 			attach
 		},
 		actions
@@ -315,7 +315,7 @@ private:
 	{
 		auto multiChoiceView = makeViewWithName<TextTableView>(
 			// UI_TEXT("Assign Action"),
-			UI_TEXT("指定动作"),
+			UI_TEXT("指定按键动作"),
 			16);
 		auto &app = this->app();
 		addCategories(app, elem, [&](const KeyCategory &cat)
@@ -414,13 +414,13 @@ public:
 		remove
 		{
 			// UI_TEXT("Remove This Button"),
-			UI_TEXT("移除当前的按键"),
+			UI_TEXT("移除此按键"),
 			attach,
 			[this](const Input::Event &e)
 			{
 				pushAndShowModal(makeView<YesNoAlertView>(
 					// UI_TEXT("Really remove this button?"),
-					UI_TEXT("确定要移除当前的按键吗？"),
+					UI_TEXT("是否要移除此按键？"),
 					YesNoAlertView::Delegates
 					{
 						.onYes = [this]
@@ -706,12 +706,14 @@ public:
 		},
 		add
 		{
-			UI_TEXT("Add Button To This Group"),
+			// UI_TEXT("Add Button To This Group"),
+			UI_TEXT("添加按键到此组"),
 			attach,
 			[this](const Input::Event &e)
 			{
 				auto multiChoiceView = makeViewWithName<TextTableView>(
-					UI_TEXT("Add Button"),
+					// UI_TEXT("Add Button"),
+					UI_TEXT("添加按键"),
 					16);
 				auto &app = this->app();
 				addCategories(app, elem, [&](const KeyCategory &cat)
@@ -735,12 +737,14 @@ public:
 		},
 		remove
 		{
-			UI_TEXT("Remove This Button Group"),
+			// UI_TEXT("Remove This Button Group"),
+			UI_TEXT("移除此按键组"),
 			attach,
 			[this](const Input::Event &e)
 			{
 				pushAndShowModal(makeView<YesNoAlertView>(
-					UI_TEXT("Really remove this button group?"),
+					// UI_TEXT("Really remove this button group?"),
+					UI_TEXT("是否要移除此按键组？"),
 					YesNoAlertView::Delegates
 					{
 						.onYes = [this]
@@ -754,7 +758,8 @@ public:
 			}
 		},
 		buttonsHeading{
-			UI_TEXT("Buttons In Group"),
+			// UI_TEXT("Buttons In Group"),
+			UI_TEXT("当前按键组包含："),
 			attach}
 	{
 		reloadItems();
@@ -835,7 +840,8 @@ class AddNewButtonView : public TableView, public EmuAppHelper
 public:
 	AddNewButtonView(ViewAttachParams attach, TouchConfigView &confView_, VController &vCtrl_):
 		TableView{
-			UI_TEXT("Add New Button Group"),
+			// UI_TEXT("Add New Button Group"),
+			UI_TEXT("新建按键组"),
 			attach, buttons},
 		vCtrl{vCtrl_},
 		confView{confView_}
@@ -899,27 +905,32 @@ void TouchConfigView::refreshTouchConfigMenu()
 
 TouchConfigView::TouchConfigView(ViewAttachParams attach, VController &vCtrl):
 	TableView{
-		UI_TEXT("On-screen Input Setup"),
+		// UI_TEXT("On-screen Input Setup"),
+		UI_TEXT("屏幕按键设置"),
 		attach, item},
 	vController{vCtrl},
 	touchCtrlItem
 	{
 		{
-			UI_TEXT("Off"),
+			// UI_TEXT("Off"),
+			UI_TEXT("关"),
 			attach, {.id = VControllerVisibility::OFF}
 		},
 		{
-			UI_TEXT("On"),
+			// UI_TEXT("On"),
+			UI_TEXT("开"),
 			attach, {.id = VControllerVisibility::ON}
 		},
 		{
-			UI_TEXT("Auto"),
+			// UI_TEXT("Auto"),
+			UI_TEXT("自动"),
 			attach, {.id = VControllerVisibility::AUTO}
 		}
 	},
 	touchCtrl
 	{
-		UI_TEXT("Use Virtual Gamepad"),
+		// UI_TEXT("Use Virtual Gamepad"),
+		UI_TEXT("使用屏幕按键"),
 		attach,
 		int(vCtrl.gamepadControlsVisibility()),
 		touchCtrlItem,
@@ -943,7 +954,8 @@ TouchConfigView::TouchConfigView(ViewAttachParams attach, VController &vCtrl):
 	},
 	player
 	{
-		UI_TEXT("Virtual Gamepad Player"),
+		// UI_TEXT("Virtual Gamepad Player"),
+		UI_TEXT("屏幕按键玩家索引"),
 		attach,
 		int(vCtrl.inputPlayer()),
 		playerItems,
@@ -964,13 +976,15 @@ TouchConfigView::TouchConfigView(ViewAttachParams attach, VController &vCtrl):
 		{"14mm",  attach, {.id = 1400}},
 		{"15mm",  attach, {.id = 1500}},
 		{
-			UI_TEXT("Custom Value"),
+			// UI_TEXT("Custom Value"),
+			UI_TEXT("自定义"),
 			attach,
 			[this](const Input::Event &e)
 			{
 				pushAndShowNewCollectValueRangeInputView<float, 3, 30>(
 					attachParams(), e,
-					UI_TEXT("Input 3.0 to 30.0"),
+					// UI_TEXT("Input 3.0 to 30.0"),
+					UI_TEXT("请输入 3.0 到 30.0 之间的值"),
 					"",
 					[this](CollectTextInputView &, auto val)
 					{
@@ -986,7 +1000,8 @@ TouchConfigView::TouchConfigView(ViewAttachParams attach, VController &vCtrl):
 	},
 	size
 	{
-		UI_TEXT("Button Size"),
+		// UI_TEXT("Button Size"),
+		UI_TEXT("按键大小"),
 		attach,
 		MenuId{vController.buttonSize()},
 		sizeItem,
@@ -1001,7 +1016,8 @@ TouchConfigView::TouchConfigView(ViewAttachParams attach, VController &vCtrl):
 	},
 	vibrate
 	{
-		UI_TEXT("Vibration"),
+		// UI_TEXT("Vibration"),
+		UI_TEXT("振动"),
 		attach,
 		vController.vibrateOnTouchInput(),
 		[this](BoolMenuItem &item)
@@ -1011,7 +1027,8 @@ TouchConfigView::TouchConfigView(ViewAttachParams attach, VController &vCtrl):
 	},
 	showOnTouch
 	{
-		UI_TEXT("Show Gamepad If Screen Touched"),
+		// UI_TEXT("Show Gamepad If Screen Touched"),
+		UI_TEXT("触摸屏幕时显示屏幕按键"),
 		attach,
 		vController.showOnTouchInput(),
 		[this](BoolMenuItem &item)
@@ -1021,7 +1038,8 @@ TouchConfigView::TouchConfigView(ViewAttachParams attach, VController &vCtrl):
 	},
 	highlightPushedButtons
 	{
-		UI_TEXT("Highlight Pushed Buttons"),
+		// UI_TEXT("Highlight Pushed Buttons"),
+		UI_TEXT("高亮显示按下的按键"),
 		attach,
 		vController.highlightPushedButtons,
 		[this](BoolMenuItem &item)
@@ -1040,7 +1058,8 @@ TouchConfigView::TouchConfigView(ViewAttachParams attach, VController &vCtrl):
 	},
 	alpha
 	{
-		UI_TEXT("Blend Amount"),
+		// UI_TEXT("Blend Amount"),
+		UI_TEXT("透明度"),
 		attach,
 		MenuId{vController.buttonAlpha()},
 		alphaItem,
@@ -1050,7 +1069,8 @@ TouchConfigView::TouchConfigView(ViewAttachParams attach, VController &vCtrl):
 	},
 	btnPlace
 	{
-		UI_TEXT("Set Button Positions"),
+		// UI_TEXT("Set Button Positions"),
+		UI_TEXT("设置按键位置"),
 		attach,
 		[this](const Input::Event &e)
 		{
@@ -1059,7 +1079,8 @@ TouchConfigView::TouchConfigView(ViewAttachParams attach, VController &vCtrl):
 	},
 	placeVideo
 	{
-		UI_TEXT("Set Video Position"),
+		// UI_TEXT("Set Video Position"),
+		UI_TEXT("设置游戏画面位置"),
 		attach,
 		[this](const Input::Event &e)
 		{
@@ -1070,7 +1091,8 @@ TouchConfigView::TouchConfigView(ViewAttachParams attach, VController &vCtrl):
 	},
 	addButton
 	{
-		UI_TEXT("Add New Button Group"),
+		// UI_TEXT("Add New Button Group"),
+		UI_TEXT("新建按键组"),
 		attach,
 		[this](const Input::Event &e)
 		{
@@ -1079,7 +1101,8 @@ TouchConfigView::TouchConfigView(ViewAttachParams attach, VController &vCtrl):
 	},
 	allowButtonsPastContentBounds
 	{
-		UI_TEXT("Allow Buttons In Display Cutout Area"),
+		// UI_TEXT("Allow Buttons In Display Cutout Area"),
+		UI_TEXT("允许按键位置在屏幕切口区域"),
 		attach,
 		vController.allowButtonsPastContentBounds(),
 		[this](BoolMenuItem &item)
@@ -1090,12 +1113,14 @@ TouchConfigView::TouchConfigView(ViewAttachParams attach, VController &vCtrl):
 	},
 	resetEmuPositions
 	{
-		UI_TEXT("Reset Emulated Device Positions"),
+		// UI_TEXT("Reset Emulated Device Positions"),
+		UI_TEXT("重置游戏按键位置"),
 		attach,
 		[this](const Input::Event &e)
 		{
 			pushAndShowModal(makeView<YesNoAlertView>(
-				UI_TEXT("Reset buttons to default positions?"),
+				// UI_TEXT("Reset buttons to default positions?"),
+				UI_TEXT("是否要将所有按键恢复至默认位置？"),
 				YesNoAlertView::Delegates
 				{
 					.onYes = [this]
@@ -1108,12 +1133,14 @@ TouchConfigView::TouchConfigView(ViewAttachParams attach, VController &vCtrl):
 	},
 	resetEmuGroups
 	{
-		UI_TEXT("Reset Emulated Device Groups"),
+		// UI_TEXT("Reset Emulated Device Groups"),
+		UI_TEXT("重置游戏按键组"),
 		attach,
 		[this](const Input::Event &e)
 		{
 			pushAndShowModal(makeView<YesNoAlertView>(
-				UI_TEXT("Reset buttons groups to default?"),
+				// UI_TEXT("Reset buttons groups to default?"),
+				UI_TEXT("是否要恢复默认的按键组？"),
 				YesNoAlertView::Delegates
 				{
 					.onYes = [this]
@@ -1127,12 +1154,14 @@ TouchConfigView::TouchConfigView(ViewAttachParams attach, VController &vCtrl):
 	},
 	resetUIPositions
 	{
-		UI_TEXT("Reset UI Positions"),
+		// UI_TEXT("Reset UI Positions"),
+		UI_TEXT("重置功能按键位置"),
 		attach,
 		[this](const Input::Event &e)
 		{
 			pushAndShowModal(makeView<YesNoAlertView>(
-				UI_TEXT("Reset buttons to default positions?"),
+				// UI_TEXT("Reset buttons to default positions?"),
+				UI_TEXT("是否要将所有按键恢复至默认位置？"),
 				YesNoAlertView::Delegates
 				{
 					.onYes = [this]
@@ -1145,12 +1174,14 @@ TouchConfigView::TouchConfigView(ViewAttachParams attach, VController &vCtrl):
 	},
 	resetUIGroups
 	{
-		UI_TEXT("Reset UI Groups"),
+		// UI_TEXT("Reset UI Groups"),
+		UI_TEXT("重置功能按键组"),
 		attach,
 		[this](const Input::Event &e)
 		{
 			pushAndShowModal(makeView<YesNoAlertView>(
-				UI_TEXT("Reset buttons groups to default?"),
+				// UI_TEXT("Reset buttons groups to default?"),
+				UI_TEXT("是否要恢复默认的按键组？"),
 				YesNoAlertView::Delegates
 				{
 					.onYes = [this]
@@ -1164,17 +1195,20 @@ TouchConfigView::TouchConfigView(ViewAttachParams attach, VController &vCtrl):
 	},
 	devButtonsHeading
 	{
-		UI_TEXT("Emulated Device Button Groups"),
+		// UI_TEXT("Emulated Device Button Groups"),
+		UI_TEXT("游戏按键组："),
 		attach
 	},
 	uiButtonsHeading
 	{
-		UI_TEXT("UI Button Groups"),
+		// UI_TEXT("UI Button Groups"),
+		UI_TEXT("功能按键组："),
 		attach
 	},
 	otherHeading
 	{
-		UI_TEXT("Other Options"),
+		// UI_TEXT("Other Options"),
+		UI_TEXT("其他选项："),
 		attach
 	}
 {

@@ -124,7 +124,7 @@ MainMenuView::MainMenuView(ViewAttachParams attach, bool customMenu):
 	onScreenInputManager
 	{
 		// UI_TEXT("On-screen Input Setup"),
-		UI_TEXT("屏幕触摸设置"),
+		UI_TEXT("屏幕按键设置"),
 		attach,
 		[this](const Input::Event &e)
 		{
