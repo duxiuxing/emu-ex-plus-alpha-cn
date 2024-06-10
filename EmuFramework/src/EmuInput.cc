@@ -561,25 +561,34 @@ std::string_view toString(AppKeyCode code)
 			// return UI_TEXT("Load State");
 			return UI_TEXT("读取进度");
 		case AppKeyCode::decStateSlot:
-			return UI_TEXT("Decrement State Slot");
+			// return UI_TEXT("Decrement State Slot");
+			return UI_TEXT("上一个存档点");
 		case AppKeyCode::incStateSlot:
-			return UI_TEXT("Increment State Slot");
+			// return UI_TEXT("Increment State Slot");
+			return UI_TEXT("下一个存档点");
 		case AppKeyCode::fastForward:
-			return UI_TEXT("Fast-forward");
+			// return UI_TEXT("Fast-forward");
+			return UI_TEXT("快进");
 		case AppKeyCode::takeScreenshot:
-			return UI_TEXT("Take Screenshot");
+			// return UI_TEXT("Take Screenshot");
+			return UI_TEXT("截图");
 		case AppKeyCode::openMenu:
-			return UI_TEXT("Open Menu");
+			// return UI_TEXT("Open Menu");
+			return UI_TEXT("打开菜单");
 		case AppKeyCode::toggleFastForward:
-			return UI_TEXT("Toggle Fast-forward");
+			// return UI_TEXT("Toggle Fast-forward");
+			return UI_TEXT("快进切换");
 		case AppKeyCode::turboModifier:
 			return UI_TEXT("Turbo Modifier");
 		case AppKeyCode::exitApp:
-			return UI_TEXT("Exit App");
+			// return UI_TEXT("Exit App");
+			return UI_TEXT("退出应用");
 		case AppKeyCode::slowMotion:
-			return UI_TEXT("Slow-motion");
+			// return UI_TEXT("Slow-motion");
+			return UI_TEXT("慢动作");
 		case AppKeyCode::toggleSlowMotion:
-			return UI_TEXT("Toggle Slow-motion");
+			// return UI_TEXT("Toggle Slow-motion");
+			return UI_TEXT("慢动作切换");
 		case AppKeyCode::rewind:
 			return UI_TEXT("Rewind One State");
 		case AppKeyCode::softReset:
