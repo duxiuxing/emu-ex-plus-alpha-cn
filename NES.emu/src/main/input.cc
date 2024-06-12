@@ -99,15 +99,24 @@ std::string_view NesApp::systemKeyCodeToString(KeyCode c)
 {
 	switch(NesKey(c))
 	{
-		case NesKey::Up: return "Up";
-		case NesKey::Right: return "Right";
-		case NesKey::Down: return "Down";
-		case NesKey::Left: return "Left";
-		case NesKey::Select: return "Select";
-		case NesKey::Start: return "Start";
-		case NesKey::A: return "A";
-		case NesKey::B: return "B";
-		case NesKey::toggleDiskSide: return "Eject Disk/Switch Side";
+		case NesKey::Up:
+			return UI_TEXT("Up");
+		case NesKey::Right:
+			return UI_TEXT("Right");
+		case NesKey::Down:
+		return UI_TEXT("Down");
+		case NesKey::Left:
+			return UI_TEXT("Left");
+		case NesKey::Select:
+			return UI_TEXT("Select");
+		case NesKey::Start:
+			return UI_TEXT("Start");
+		case NesKey::A:
+			return UI_TEXT("A");
+		case NesKey::B:
+			return UI_TEXT("B");
+		case NesKey::toggleDiskSide:
+			return UI_TEXT("Eject Disk/Switch Side");
 		default: return "";
 	}
 }
@@ -243,7 +252,7 @@ void NesSystem::handleInputAction(EmuApp *app, InputAction a)
 		{
 			FCEU_FDSInsert();
 			if(app)
-				app->postMessage("Disk ejected, push again to switch side");
+				app->postMessage(UI_TEXT("Disk ejected, push again to switch side"));
 		}
 		else
 		{
@@ -261,7 +270,7 @@ void NesSystem::handleInputAction(EmuApp *app, InputAction a)
 				std::unreachable();
 			};
 			if(app)
-				app->postMessage(std::format("Set {}", fdsSideToString(FCEU_FDSCurrentSide())));
+				app->postMessage(std::format(UI_TEXT("Set {}"), fdsSideToString(FCEU_FDSCurrentSide())));
 		}
 	}
 	else // gamepad bits
