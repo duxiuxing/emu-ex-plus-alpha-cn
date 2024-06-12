@@ -55,7 +55,7 @@ public:
 		selectFolder
 		{
 			UI_TEXT("Select Folder"),
-			ttach,
+			attach,
 			[=](View &view, const Input::Event &e)
 			{
 				auto fPicker = view.makeView<FilePicker>(FSPicker::Mode::DIR, EmuSystem::NameFilterFunc{}, e);
