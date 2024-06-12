@@ -275,7 +275,8 @@ public:
 		BaseDualTextMenuItem
 		{
 			IG_forward(name),
-			val ? UI_TEXT("On") : UI_TEXT("Off"),
+			// val ? UI_TEXT(u"On") : UI_TEXT(u"Off"),
+			val ? UI_TEXT(u"开") : UI_TEXT(u"关"),
 			attach, conf
 		},
 		onSelect{onSelect}
@@ -306,7 +307,8 @@ public:
 	bool select(View &, const Input::Event &) override;
 
 protected:
-	UTF16String offStr{UI_TEXT("Off")}, onStr{UI_TEXT("On")};
+	// UTF16String offStr{UI_TEXT(u"Off")}, onStr{UI_TEXT(u"On")};
+	UTF16String offStr{UI_TEXT(u"关")}, onStr{UI_TEXT(u"开")};
 };
 
 class MultiChoiceMenuItem : public BaseDualTextMenuItem
