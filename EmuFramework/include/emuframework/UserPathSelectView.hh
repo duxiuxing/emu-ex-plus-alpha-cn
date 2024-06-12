@@ -32,7 +32,8 @@ public:
 		TableView{IG_forward(name), attach, item},
 		selectFolder
 		{
-			UI_TEXT("Select Folder"),
+			// UI_TEXT("Select Folder"),
+			UI_TEXT("选择文件夹"),
 			attach,
 			[=](View &view, const Input::Event &e)
 			{
@@ -52,7 +53,8 @@ public:
 		},
 		sameAsContent
 		{
-			UI_TEXT("Same As Content"),
+			// UI_TEXT("Same As Content"),
+			UI_TEXT("和游戏文件夹一样"),
 			attach,
 			[=](View &view)
 			{
@@ -62,7 +64,8 @@ public:
 		},
 		sameAsSaves
 		{
-			UI_TEXT("Same As Saves"),
+			// UI_TEXT("Same As Saves"),
+			UI_TEXT("和存档文件夹一样"),
 			attach,
 			[=](View &view)
 			{
@@ -94,34 +97,39 @@ inline FS::FileString userPathToDisplayName(IG::ApplicationContext ctx, std::str
 	if(userPathStr.size())
 	{
 		if(userPathStr == optionUserPathContentToken)
-			return UI_TEXT("Content Folder");
+			// return UI_TEXT("Content Folder");
+			return UI_TEXT("游戏文件夹");
 		else
 			return ctx.fileUriDisplayName(userPathStr);
 	}
 	else
 	{
-		return UI_TEXT("Saves Folder");
+		// return UI_TEXT("Saves Folder");
+		return UI_TEXT("存档文件夹");
 	}
 }
 
 inline auto cheatsMenuName(IG::ApplicationContext ctx, std::string_view userPath)
 {
 	return std::format(
-		UI_TEXT("Cheats: {}"),
+		// UI_TEXT("Cheats: {}"),
+		UI_TEXT("金手指：{}"),
 		std::string_view{userPathToDisplayName(ctx, userPath)});
 }
 
 inline auto patchesMenuName(IG::ApplicationContext ctx, std::string_view userPath)
 {
 	return std::format(
-		UI_TEXT("Patches: {}"),
+		// UI_TEXT("Patches: {}"),
+		UI_TEXT("补丁：{}"),
 		std::string_view{userPathToDisplayName(ctx, userPath)});
 }
 
 inline auto palettesMenuName(IG::ApplicationContext ctx, std::string_view userPath)
 {
 	return std::format(
-		UI_TEXT("Palettes: {}"),
+		// UI_TEXT("Palettes: {}"),
+		UI_TEXT("调色板：{}"),
 		std::string_view{userPathToDisplayName(ctx, userPath)});
 }
 
