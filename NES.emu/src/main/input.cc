@@ -104,7 +104,7 @@ std::string_view NesApp::systemKeyCodeToString(KeyCode c)
 		case NesKey::Right:
 			return UI_TEXT("Right");
 		case NesKey::Down:
-		return UI_TEXT("Down");
+			return UI_TEXT("Down");
 		case NesKey::Left:
 			return UI_TEXT("Left");
 		case NesKey::Select:
@@ -260,12 +260,16 @@ void NesSystem::handleInputAction(EmuApp *app, InputAction a)
 			FCEU_FDSInsert();
 			auto fdsSideToString = [](uint8_t side)
 			{
-				switch(side)
+				switch (side)
 				{
-					case 0: return "Disk 1 Side A";
-					case 1: return "Disk 1 Side B";
-					case 2: return "Disk 2 Side A";
-					case 3: return "Disk 2 Side B";
+				case 0:
+					return UI_TEXT("Disk 1 Side A");
+				case 1:
+					return UI_TEXT("Disk 1 Side B");
+				case 2:
+					return UI_TEXT("Disk 2 Side A");
+				case 3:
+					return UI_TEXT("Disk 2 Side B");
 				}
 				std::unreachable();
 			};
