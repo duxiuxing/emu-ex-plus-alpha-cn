@@ -268,16 +268,20 @@ void NesSystem::handleInputAction(EmuApp *app, InputAction a)
 			FCEU_FDSInsert();
 			auto fdsSideToString = [](uint8_t side)
 			{
-				switch(side)
+				switch (side)
 				{
 					case 0:
-						return UI_TEXT("Disk 1 Side A");
+						// return UI_TEXT("Disk 1 Side A");
+						return UI_TEXT("1号盘 A面");
 					case 1:
-						return UI_TEXT("Disk 1 Side B");
+						// return UI_TEXT("Disk 1 Side B");
+						return UI_TEXT("1号盘 B面");
 					case 2:
-						return UI_TEXT("Disk 2 Side A");
+						// return UI_TEXT("Disk 2 Side A");
+						return UI_TEXT("2号盘 A面");
 					case 3:
-						return UI_TEXT("Disk 2 Side B");
+						// return UI_TEXT("Disk 2 Side B");
+						return UI_TEXT("2号盘 B面");
 				}
 				std::unreachable();
 			};
