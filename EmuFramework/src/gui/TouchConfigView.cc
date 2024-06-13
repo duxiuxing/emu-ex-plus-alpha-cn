@@ -789,9 +789,11 @@ class AddNewButtonView : public TableView, public EmuAppHelper
 {
 public:
 	AddNewButtonView(ViewAttachParams attach, TouchConfigView &confView_, VController &vCtrl_):
-		TableView{
+		TableView
+		{
 			UI_TEXT("Add New Button Group"),
-			attach, buttons},
+			attach, buttons
+		},
 		vCtrl{vCtrl_},
 		confView{confView_}
 	{

@@ -42,7 +42,12 @@ static const char *confirmDeleteProfileStr = "Delete profile from the configurat
 
 IdentInputDeviceView::IdentInputDeviceView(ViewAttachParams attach):
 	View(attach),
-	text{attach.rendererTask, "Push a key on any input device enter its configuration menu", &defaultFace()},
+	text
+	{
+		attach.rendererTask,
+		UI_TEXT("Push a key on any input device enter its configuration menu"),
+		&defaultFace()
+	},
 	quads{attach.rendererTask, {.size = 1}} {}
 
 void IdentInputDeviceView::place()
@@ -190,7 +195,7 @@ InputManagerView::InputManagerView(ViewAttachParams attach,
 				if(e->map() == Input::Map::SYSTEM)
 					devices++;
 			}
-			app().postMessage(2, false, std::format("{} OS devices present", devices));
+			app().postMessage(2, false, std::format(UI_TEXT("{} OS devices present"), devices));
 		}
 	},
 	identDevice
@@ -308,8 +313,10 @@ InputManagerOptionsView::InputManagerOptionsView(ViewAttachParams attach, EmuInp
 		{
 			if(!app().mogaManagerIsActive() && !appContext().packageIsInstalled("com.bda.pivot.mogapgp"))
 			{
-				app().postMessage(8, "Install the MOGA Pivot app from Google Play to use your MOGA Pocket. "
-					"For MOGA Pro or newer, set switch to mode B and pair in the Android Bluetooth settings app instead.");
+				app().postMessage(
+					8,
+					UI_TEXT("Install the MOGA Pivot app from Google Play to use your MOGA Pocket. ")
+					UI_TEXT("For MOGA Pro or newer, set switch to mode B and pair in the Android Bluetooth settings app instead."));
 				return;
 			}
 			app().setMogaManagerActive(item.flipBoolValue(*this), true);
