@@ -134,7 +134,7 @@ MainMenuView::MainMenuView(ViewAttachParams attach, bool customMenu):
 	inputManager
 	{
 		// UI_TEXT("Key/Gamepad Input Setup"),
-		UI_TEXT("实体手柄设置"),
+		UI_TEXT("实体控制器设置"),
 		attach,
 		[this](const Input::Event &e)
 		{
@@ -154,7 +154,7 @@ MainMenuView::MainMenuView(ViewAttachParams attach, bool customMenu):
 	scanWiimotes
 	{
 		// UI_TEXT("Scan for Wiimotes/iCP/JS1"),
-		UI_TEXT("扫描 Wiimotes/iCP/JS1"),
+		UI_TEXT("检测 Wiimotes/iCP/JS1"),
 		attach,
 		[this](const Input::Event &e)
 		{
@@ -204,7 +204,7 @@ MainMenuView::MainMenuView(ViewAttachParams attach, bool customMenu):
 	acceptPS3ControllerConnection
 	{
 		// UI_TEXT("Scan for PS3 Controller"),
-		UI_TEXT("扫描 PS3 手柄"),
+		UI_TEXT("检测 PS3 手柄"),
 		attach,
 		[this](const Input::Event &e)
 		{

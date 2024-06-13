@@ -358,7 +358,7 @@ public:
 			{
 				auto multiChoiceView = makeViewWithName<TextTableView>(
 					// UI_TEXT("Assign Action"),
-					UI_TEXT("指定动作"),
+					UI_TEXT("指定按键动作"),
 					16);
 				auto &app = this->app();
 				addCategories(app, elem, [&](const KeyCategory &cat)
@@ -1155,7 +1155,7 @@ TouchConfigView::TouchConfigView(ViewAttachParams attach, VController &vCtrl):
 	resetUIPositions
 	{
 		// UI_TEXT("Reset UI Positions"),
-		UI_TEXT("重置功能按键位置"),
+		UI_TEXT("重置快捷按键位置"),
 		attach,
 		[this](const Input::Event &e)
 		{
@@ -1175,7 +1175,7 @@ TouchConfigView::TouchConfigView(ViewAttachParams attach, VController &vCtrl):
 	resetUIGroups
 	{
 		// UI_TEXT("Reset UI Groups"),
-		UI_TEXT("重置功能按键组"),
+		UI_TEXT("重置快捷按键组"),
 		attach,
 		[this](const Input::Event &e)
 		{
@@ -1202,7 +1202,7 @@ TouchConfigView::TouchConfigView(ViewAttachParams attach, VController &vCtrl):
 	uiButtonsHeading
 	{
 		// UI_TEXT("UI Button Groups"),
-		UI_TEXT("功能按键组："),
+		UI_TEXT("快捷按键组："),
 		attach
 	},
 	otherHeading
