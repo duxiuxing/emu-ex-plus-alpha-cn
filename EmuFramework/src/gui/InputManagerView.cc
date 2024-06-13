@@ -42,7 +42,12 @@ static const char *confirmDeleteProfileStr = "Delete profile from the configurat
 
 IdentInputDeviceView::IdentInputDeviceView(ViewAttachParams attach):
 	View(attach),
-	text{attach.rendererTask, "Push a key on any input device enter its configuration menu", &defaultFace()},
+	text
+	{
+		attach.rendererTask,
+		UI_TEXT("Push a key on any input device enter its configuration menu"),
+		&defaultFace()
+	},
 	quads{attach.rendererTask, {.size = 1}} {}
 
 void IdentInputDeviceView::place()
