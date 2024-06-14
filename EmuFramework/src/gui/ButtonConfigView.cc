@@ -68,42 +68,50 @@ ButtonConfigView::ButtonConfigView(ViewAttachParams attach, InputManagerView &ro
 	rootIMView{rootIMView_},
 	reset
 	{
-		"Unbind All", attach,
+		UI_TEXT("Unbind All"),
+		attach,
 		[this](const Input::Event &e)
 		{
-			pushAndShowModal(makeView<YesNoAlertView>("Really unbind all keys in this category?",
-				YesNoAlertView::Delegates
-				{
-					.onYes = [this]
+			pushAndShowModal(
+				makeView<YesNoAlertView>(
+					UI_TEXT("Really unbind all keys in this category?"),
+					YesNoAlertView::Delegates
 					{
-						auto conf = devConf.makeMutableKeyConf(app());
-						if(!conf)
-							return;
-						conf->unbindCategory(cat);
-						updateKeyNames(*conf);
-						devConf.buildKeyMap(app().inputManager);
-					}
-				}), e);
+						.onYes = [this]
+						{
+							auto conf = devConf.makeMutableKeyConf(app());
+							if(!conf)
+								return;
+							conf->unbindCategory(cat);
+							updateKeyNames(*conf);
+							devConf.buildKeyMap(app().inputManager);
+						}
+					}),
+				e);
 		}
 	},
 	resetDefaults
 	{
-		"Reset Defaults", attach,
+		UI_TEXT("Reset Defaults"),
+		attach,
 		[this](const Input::Event &e)
 		{
-			pushAndShowModal(makeView<YesNoAlertView>("Really reset all keys in this category to defaults?",
-				YesNoAlertView::Delegates
-				{
-					.onYes = [this]
+			pushAndShowModal(
+				makeView<YesNoAlertView>(
+					UI_TEXT("Really reset all keys in this category to defaults?"),
+					YesNoAlertView::Delegates
 					{
-						auto conf = devConf.mutableKeyConf(app().inputManager);
-						if(!conf)
-							return;
-						conf->resetCategory(cat, app().inputManager.defaultConfig(devConf.device()));
-						updateKeyNames(*conf);
-						devConf.buildKeyMap(app().inputManager);
-					}
-				}), e);
+						.onYes = [this]
+						{
+							auto conf = devConf.mutableKeyConf(app().inputManager);
+							if(!conf)
+								return;
+							conf->resetCategory(cat, app().inputManager.defaultConfig(devConf.device()));
+							updateKeyNames(*conf);
+							devConf.buildKeyMap(app().inputManager);
+						}
+					}),
+				e);
 		}
 	},
 	cat{cat_},

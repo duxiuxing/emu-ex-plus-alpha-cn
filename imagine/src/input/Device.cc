@@ -25,102 +25,198 @@ static const char *keyButtonName(Key b)
 {
 	switch(b)
 	{
-		case 0: return "None";
-		case Keycode::SPACE: return "Space";
-		case Keycode::A: return "a";
-		case Keycode::B: return "b";
-		case Keycode::C: return "c";
-		case Keycode::D: return "d";
-		case Keycode::E: return "e";
-		case Keycode::F: return "f";
-		case Keycode::G: return "g";
-		case Keycode::H: return "h";
-		case Keycode::I: return "i";
-		case Keycode::J: return "j";
-		case Keycode::K: return "k";
-		case Keycode::L: return "l";
-		case Keycode::M: return "m";
-		case Keycode::N: return "n";
-		case Keycode::O: return "o";
-		case Keycode::P: return "p";
-		case Keycode::Q: return "q";
-		case Keycode::R: return "r";
-		case Keycode::S: return "s";
-		case Keycode::T: return "t";
-		case Keycode::U: return "u";
-		case Keycode::V: return "v";
-		case Keycode::W: return "w";
-		case Keycode::X: return "x";
-		case Keycode::Y: return "y";
-		case Keycode::Z: return "z";
-		case Keycode::APOSTROPHE: return "'";
-		case Keycode::COMMA: return ",";
-		case Keycode::MINUS: return "-";
-		case Keycode::PERIOD: return ".";
-		case Keycode::SLASH: return "/";
-		case Keycode::_0: return "0";
-		case Keycode::_1: return "1";
-		case Keycode::_2: return "2";
-		case Keycode::_3: return "3";
-		case Keycode::_4: return "4";
-		case Keycode::_5: return "5";
-		case Keycode::_6: return "6";
-		case Keycode::_7: return "7";
-		case Keycode::_8: return "8";
-		case Keycode::_9: return "9";
-		case Keycode::SEMICOLON: return ";";
-		case Keycode::EQUALS: return "=";
-		case Keycode::LEFT_BRACKET: return "[";
-		case Keycode::BACKSLASH: return "\\";
-		case Keycode::RIGHT_BRACKET: return "]";
-		case Keycode::GRAVE: return "`";
-		case Keycode::BACK: return "Back";
-		case Keycode::ESCAPE: return "Escape";
-		case Keycode::ENTER: return "Enter";
-		case Keycode::LALT: return "Left Alt";
-		case Keycode::RALT: return "Right Alt";
-		case Keycode::LSHIFT: return "Left Shift";
-		case Keycode::RSHIFT: return "Right Shift";
-		case Keycode::LCTRL: return "Left Ctrl";
-		case Keycode::RCTRL: return "Right Ctrl";
-		case Keycode::UP: return "Up";
-		case Keycode::RIGHT: return "Right";
-		case Keycode::DOWN: return "Down";
-		case Keycode::LEFT: return "Left";
-		case Keycode::BACK_SPACE: return "Back Space";
-		case Keycode::MENU: return "Menu";
-		case Keycode::HOME: return "Home";
-		case Keycode::END: return "End";
-		case Keycode::INSERT: return "Insert";
-		case Keycode::DELETE: return "Delete";
-		case Keycode::TAB: return "Tab";
-		case Keycode::SCROLL_LOCK: return "Scroll Lock";
-		case Keycode::CAPS: return "Caps Lock";
-		case Keycode::PAUSE: return "Pause";
-		case Keycode::LSUPER: return "Left Start/Option";
-		case Keycode::RSUPER: return "Right Start/Option";
-		case Keycode::PGUP: return "Page Up";
-		case Keycode::PGDOWN: return "Page Down";
-		case Keycode::PRINT_SCREEN: return "Print Screen";
-		case Keycode::NUM_LOCK: return "Num Lock";
-		case Keycode::NUMPAD_0: return "Numpad 0";
-		case Keycode::NUMPAD_1: return "Numpad 1";
-		case Keycode::NUMPAD_2: return "Numpad 2";
-		case Keycode::NUMPAD_3: return "Numpad 3";
-		case Keycode::NUMPAD_4: return "Numpad 4";
-		case Keycode::NUMPAD_5: return "Numpad 5";
-		case Keycode::NUMPAD_6: return "Numpad 6";
-		case Keycode::NUMPAD_7: return "Numpad 7";
-		case Keycode::NUMPAD_8: return "Numpad 8";
-		case Keycode::NUMPAD_9: return "Numpad 9";
-		case Keycode::NUMPAD_DIV: return "Numpad /";
-		case Keycode::NUMPAD_MULT: return "Numpad *";
-		case Keycode::NUMPAD_SUB: return "Numpad -";
-		case Keycode::NUMPAD_ADD: return "Numpad +";
-		case Keycode::NUMPAD_DOT: return "Numpad .";
-		case Keycode::NUMPAD_COMMA: return "Numpad ,";
-		case Keycode::NUMPAD_ENTER: return "Numpad Enter";
-		case Keycode::NUMPAD_EQUALS: return "Numpad =";
+		case 0:
+			return UI_TEXT("None");
+		case Keycode::SPACE:
+			return UI_TEXT("Space");
+		case Keycode::A:
+			return UI_TEXT("a");
+		case Keycode::B:
+			return UI_TEXT("b");
+		case Keycode::C:
+			return UI_TEXT("c");
+		case Keycode::D:
+			return UI_TEXT("d");
+		case Keycode::E:
+			return UI_TEXT("e");
+		case Keycode::F:
+			return UI_TEXT("f");
+		case Keycode::G:
+			return UI_TEXT("g");
+		case Keycode::H:
+			return UI_TEXT("h");
+		case Keycode::I:
+			return UI_TEXT("i");
+		case Keycode::J:
+			return UI_TEXT("j");
+		case Keycode::K:
+			return UI_TEXT("k");
+		case Keycode::L:
+			return UI_TEXT("l");
+		case Keycode::M:
+			return UI_TEXT("m");
+		case Keycode::N:
+			return UI_TEXT("n");
+		case Keycode::O:
+			return UI_TEXT("o");
+		case Keycode::P:
+			return UI_TEXT("p");
+		case Keycode::Q:
+			return UI_TEXT("q");
+		case Keycode::R:
+			return UI_TEXT("r");
+		case Keycode::S:
+			return UI_TEXT("s");
+		case Keycode::T:
+			return UI_TEXT("t");
+		case Keycode::U:
+			return UI_TEXT("u");
+		case Keycode::V:
+			return UI_TEXT("v");
+		case Keycode::W:
+			return UI_TEXT("w");
+		case Keycode::X:
+			return UI_TEXT("x");
+		case Keycode::Y:
+			return UI_TEXT("y");
+		case Keycode::Z:
+			return UI_TEXT("z");
+		case Keycode::APOSTROPHE:
+			return UI_TEXT("'");
+		case Keycode::COMMA:
+			return UI_TEXT(",");
+		case Keycode::MINUS:
+			return UI_TEXT("-");
+		case Keycode::PERIOD:
+			return UI_TEXT(".");
+		case Keycode::SLASH:
+			return UI_TEXT("/");
+		case Keycode::_0:
+			return UI_TEXT("0");
+		case Keycode::_1:
+			return UI_TEXT("1");
+		case Keycode::_2:
+			return UI_TEXT("2");
+		case Keycode::_3:
+			return UI_TEXT("3");
+		case Keycode::_4:
+			return UI_TEXT("4");
+		case Keycode::_5:
+			return UI_TEXT("5");
+		case Keycode::_6:
+			return UI_TEXT("6");
+		case Keycode::_7:
+			return UI_TEXT("7");
+		case Keycode::_8:
+			return UI_TEXT("8");
+		case Keycode::_9:
+			return UI_TEXT("9");
+		case Keycode::SEMICOLON:
+			return UI_TEXT(";");
+		case Keycode::EQUALS:
+			return UI_TEXT("=");
+		case Keycode::LEFT_BRACKET:
+			return UI_TEXT("[");
+		case Keycode::BACKSLASH:
+			return UI_TEXT("\\");
+		case Keycode::RIGHT_BRACKET:
+			return UI_TEXT("]");
+		case Keycode::GRAVE:
+			return UI_TEXT("`");
+		case Keycode::BACK:
+			return UI_TEXT("Back");
+		case Keycode::ESCAPE:
+			return UI_TEXT("Escape");
+		case Keycode::ENTER:
+			return UI_TEXT("Enter");
+		case Keycode::LALT:
+			return UI_TEXT("Left Alt");
+		case Keycode::RALT:
+			return UI_TEXT("Right Alt");
+		case Keycode::LSHIFT:
+			return UI_TEXT("Left Shift");
+		case Keycode::RSHIFT:
+			return UI_TEXT("Right Shift");
+		case Keycode::LCTRL:
+			return UI_TEXT("Left Ctrl");
+		case Keycode::RCTRL:
+			return UI_TEXT("Right Ctrl");
+		case Keycode::UP:
+			return UI_TEXT("Up");
+		case Keycode::RIGHT:
+			return UI_TEXT("Right");
+		case Keycode::DOWN:
+			return UI_TEXT("Down");
+		case Keycode::LEFT:
+			return UI_TEXT("Left");
+		case Keycode::BACK_SPACE:
+			return UI_TEXT("Back Space");
+		case Keycode::MENU:
+			return UI_TEXT("Menu");
+		case Keycode::HOME:
+			return UI_TEXT("Home");
+		case Keycode::END:
+			return UI_TEXT("End");
+		case Keycode::INSERT:
+			return UI_TEXT("Insert");
+		case Keycode::DELETE:
+			return UI_TEXT("Delete");
+		case Keycode::TAB:
+			return UI_TEXT("Tab");
+		case Keycode::SCROLL_LOCK:
+			return UI_TEXT("Scroll Lock");
+		case Keycode::CAPS:
+			return UI_TEXT("Caps Lock");
+		case Keycode::PAUSE:
+			return UI_TEXT("Pause");
+		case Keycode::LSUPER:
+			return UI_TEXT("Left Start/Option");
+		case Keycode::RSUPER:
+			return UI_TEXT("Right Start/Option");
+		case Keycode::PGUP:
+			return UI_TEXT("Page Up");
+		case Keycode::PGDOWN:
+			return UI_TEXT("Page Down");
+		case Keycode::PRINT_SCREEN:
+			return UI_TEXT("Print Screen");
+		case Keycode::NUM_LOCK:
+			return UI_TEXT("Num Lock");
+		case Keycode::NUMPAD_0:
+			return UI_TEXT("Numpad 0");
+		case Keycode::NUMPAD_1:
+			return UI_TEXT("Numpad 1");
+		case Keycode::NUMPAD_2:
+			return UI_TEXT("Numpad 2");
+		case Keycode::NUMPAD_3:
+			return UI_TEXT("Numpad 3");
+		case Keycode::NUMPAD_4:
+			return UI_TEXT("Numpad 4");
+		case Keycode::NUMPAD_5:
+			return UI_TEXT("Numpad 5");
+		case Keycode::NUMPAD_6:
+			return UI_TEXT("Numpad 6");
+		case Keycode::NUMPAD_7:
+			return UI_TEXT("Numpad 7");
+		case Keycode::NUMPAD_8:
+			return UI_TEXT("Numpad 8");
+		case Keycode::NUMPAD_9:
+			return UI_TEXT("Numpad 9");
+		case Keycode::NUMPAD_DIV:
+			return UI_TEXT("Numpad /");
+		case Keycode::NUMPAD_MULT:
+			return UI_TEXT("Numpad *");
+		case Keycode::NUMPAD_SUB:
+			return UI_TEXT("Numpad -");
+		case Keycode::NUMPAD_ADD:
+			return UI_TEXT("Numpad +");
+		case Keycode::NUMPAD_DOT:
+			return UI_TEXT("Numpad .");
+		case Keycode::NUMPAD_COMMA:
+			return UI_TEXT("Numpad ,");
+		case Keycode::NUMPAD_ENTER:
+			return UI_TEXT("Numpad Enter");
+		case Keycode::NUMPAD_EQUALS:
+			return UI_TEXT("Numpad =");
 		#if CONFIG_PACKAGE_X11 || defined __ANDROID__
 		case Keycode::AT: return "@";
 		case Keycode::STAR: return "*";
@@ -150,33 +246,60 @@ static const char *keyButtonName(Key b)
 		case Keycode::LMETA: return "Left Meta";
 		case Keycode::RMETA: return "Right Meta";
 		#endif
-		case Keycode::F1: return "F1";
-		case Keycode::F2: return "F2";
-		case Keycode::F3: return "F3";
-		case Keycode::F4: return "F4";
-		case Keycode::F5: return "F5";
-		case Keycode::F6: return "F6";
-		case Keycode::F7: return "F7";
-		case Keycode::F8: return "F8";
-		case Keycode::F9: return "F9";
-		case Keycode::F10: return "F10";
-		case Keycode::F11: return "F11";
-		case Keycode::F12: return "F12";
-		case Keycode::GAME_A: return "A";
-		case Keycode::GAME_B: return "B";
-		case Keycode::GAME_C: return "C";
-		case Keycode::GAME_X: return "X";
-		case Keycode::GAME_Y: return "Y";
-		case Keycode::GAME_Z: return "Z";
-		case Keycode::GAME_L1: return "L1";
-		case Keycode::GAME_R1: return "R1";
-		case Keycode::GAME_L2: return "L2";
-		case Keycode::GAME_R2: return "R2";
-		case Keycode::GAME_LEFT_THUMB: return "L-Thumb";
-		case Keycode::GAME_RIGHT_THUMB: return "R-Thumb";
-		case Keycode::GAME_START: return "Start";
-		case Keycode::GAME_SELECT: return "Select";
-		case Keycode::GAME_MODE: return "Mode";
+		case Keycode::F1:
+			return UI_TEXT("F1");
+		case Keycode::F2:
+			return UI_TEXT("F2");
+		case Keycode::F3:
+			return UI_TEXT("F3");
+		case Keycode::F4:
+			return UI_TEXT("F4");
+		case Keycode::F5:
+			return UI_TEXT("F5");
+		case Keycode::F6:
+			return UI_TEXT("F6");
+		case Keycode::F7:
+			return UI_TEXT("F7");
+		case Keycode::F8:
+			return UI_TEXT("F8");
+		case Keycode::F9:
+			return UI_TEXT("F9");
+		case Keycode::F10:
+			return UI_TEXT("F10");
+		case Keycode::F11:
+			return UI_TEXT("F11");
+		case Keycode::F12:
+			return UI_TEXT("F12");
+		case Keycode::GAME_A:
+			return UI_TEXT("A");
+		case Keycode::GAME_B:
+			return UI_TEXT("B");
+		case Keycode::GAME_C:
+			return UI_TEXT("C");
+		case Keycode::GAME_X:
+			return UI_TEXT("X");
+		case Keycode::GAME_Y:
+			return UI_TEXT("Y");
+		case Keycode::GAME_Z:
+			return UI_TEXT("Z");
+		case Keycode::GAME_L1:
+			return UI_TEXT("L1");
+		case Keycode::GAME_R1:
+			return UI_TEXT("R1");
+		case Keycode::GAME_L2:
+			return UI_TEXT("L2");
+		case Keycode::GAME_R2:
+			return UI_TEXT("R2");
+		case Keycode::GAME_LEFT_THUMB:
+			return UI_TEXT("L-Thumb");
+		case Keycode::GAME_RIGHT_THUMB:
+			return UI_TEXT("R-Thumb");
+		case Keycode::GAME_START:
+			return UI_TEXT("Start");
+		case Keycode::GAME_SELECT:
+			return UI_TEXT("Select");
+		case Keycode::GAME_MODE:
+			return UI_TEXT("Mode");
 		case Keycode::GAME_1: return "G1";
 		case Keycode::GAME_2: return "G2";
 		case Keycode::GAME_3: return "G3";
@@ -213,10 +336,14 @@ static const char *keyButtonName(Key b)
 		case Keycode::JS_RUDDER_AXIS_NEG: return "Rudder Left";
 		case Keycode::JS_WHEEL_AXIS_POS: return "Wheel Right";
 		case Keycode::JS_WHEEL_AXIS_NEG: return "Wheel Left";
-		case Keycode::JS_LTRIGGER_AXIS: return "L Trigger";
-		case Keycode::JS_RTRIGGER_AXIS: return "R Trigger";
-		case Keycode::JS_GAS_AXIS: return "Gas";
-		case Keycode::JS_BRAKE_AXIS: return "Brake";
+		case Keycode::JS_LTRIGGER_AXIS:
+			return UI_TEXT("L Trigger");
+		case Keycode::JS_RTRIGGER_AXIS:
+			return UI_TEXT("R Trigger");
+		case Keycode::JS_GAS_AXIS:
+			return UI_TEXT("Gas");
+		case Keycode::JS_BRAKE_AXIS:
+			return UI_TEXT("Brake");
 		// Android-specific
 		#ifdef __ANDROID__
 		case Keycode::SYMBOL: return "Sym";
@@ -403,18 +530,21 @@ std::string Device::keyString(Key k, KeyNameFlags flags) const
 			switch(k)
 			{
 				case LALT:
-				case RALT: return "Alt";
+				case RALT:
+					return UI_TEXT("Alt");
 				case LSHIFT:
-				case RSHIFT: return "Shift";
+				case RSHIFT:
+					return UI_TEXT("Shift");
 				case LCTRL:
-				case RCTRL: return "Ctrl";
+				case RCTRL:
+					return UI_TEXT("Ctrl");
 			}
 		}
 		return std::string{name};
 	}
 	else
 	{
-		return std::format("Key Code {:#X}", k);
+		return std::format(UI_TEXT("Key Code {:#X}"), k);
 	}
 }
 
