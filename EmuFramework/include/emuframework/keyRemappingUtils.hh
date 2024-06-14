@@ -155,11 +155,31 @@ constexpr std::span<const KeyConfigDesc> genericKeyConfigs()
 
 	static constexpr std::array configs
 	{
-		KeyConfigDesc{Map::SYSTEM, "PC Keyboard", pcKeyboardMap},
+		KeyConfigDesc
+		{
+			Map::SYSTEM,
+			UI_TEXT("PC Keyboard"),
+			cKeyboardMap
+		},
 		#ifdef CONFIG_INPUT_GAMEPAD_DEVICES
-		KeyConfigDesc{Map::SYSTEM, DeviceSubtype::GENERIC_GAMEPAD, "Generic Gamepad", genericGamepadMap},
-		KeyConfigDesc{Map::SYSTEM, DeviceSubtype::PS3_CONTROLLER, "PS3 Controller", ps3GamepadMap},
-		KeyConfigDesc{Map::SYSTEM, DeviceSubtype::OUYA_CONTROLLER, "OUYA Controller", ouyaGamepadMap},
+		KeyConfigDesc
+		{
+			Map::SYSTEM, DeviceSubtype::GENERIC_GAMEPAD,
+			UI_TEXT("Generic Gamepad"),
+			genericGamepadMap
+		},
+		KeyConfigDesc
+		{
+			Map::SYSTEM, DeviceSubtype::PS3_CONTROLLER,
+			UI_TEXT("PS3 Controller"),
+			ps3GamepadMap
+		},
+		KeyConfigDesc
+		{
+			Map::SYSTEM, DeviceSubtype::OUYA_CONTROLLER,
+			UI_TEXT("OUYA Controller"),
+			ouyaGamepadMap
+		},
 		#endif
 		#if defined(__ANDROID__) && __ARM_ARCH == 7
 		KeyConfigDesc{Map::SYSTEM, DeviceSubtype::XPERIA_PLAY, "Xperia Play", xperiaPlayGamepadMap},

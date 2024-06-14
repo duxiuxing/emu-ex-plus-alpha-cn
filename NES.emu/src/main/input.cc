@@ -86,11 +86,31 @@ std::span<const KeyCategory> NesApp::keyCategories()
 {
 	static constexpr std::array categories
 	{
-		KeyCategory{"Gamepad", gpKeyInfo},
-		KeyCategory{"Gamepad 2", gp2KeyInfo, 1},
-		KeyCategory{"Gamepad 3", gp2KeyInfo, 2},
-		KeyCategory{"Gamepad 4", gp2KeyInfo, 3},
-		KeyCategory{"Extra Functions", exKeyInfo},
+		KeyCategory
+		{
+			UI_TEXT("Gamepad"),
+			gpKeyInfo
+		},
+		KeyCategory
+		{
+			UI_TEXT("Gamepad 2"),
+			gp2KeyInfo, 1
+		},
+		KeyCategory
+		{
+			UI_TEXT("Gamepad 3"),
+			gp2KeyInfo, 2
+		},
+		KeyCategory
+		{
+			UI_TEXT("Gamepad 4"),
+			gp2KeyInfo, 3
+		},
+		KeyCategory
+		{
+			UI_TEXT("Extra Functions"),
+			exKeyInfo
+		},
 	};
 	return categories;
 }
