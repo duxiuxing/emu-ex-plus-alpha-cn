@@ -159,7 +159,7 @@ constexpr std::span<const KeyConfigDesc> genericKeyConfigs()
 		{
 			Map::SYSTEM,
 			UI_TEXT("PC Keyboard"),
-			cKeyboardMap
+			pcKeyboardMap
 		},
 		#ifdef CONFIG_INPUT_GAMEPAD_DEVICES
 		KeyConfigDesc
