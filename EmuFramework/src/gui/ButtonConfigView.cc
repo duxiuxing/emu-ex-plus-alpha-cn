@@ -204,8 +204,16 @@ void ButtonConfigSetView::initPointerUI()
 	if(pointerUIIsInit())
 		return;
 	log.info("init pointer UI elements");
-	unbind = {renderer().mainTask, "Unbind", &defaultFace()};
-	cancel = {renderer().mainTask, "Cancel", &defaultFace()};
+	unbind = {
+		renderer().mainTask,
+		UI_TEXT("Unbind"),
+		&defaultFace()
+	};
+	cancel = {
+		renderer().mainTask,
+		UI_TEXT("Cancel"),
+		&defaultFace()
+	};
 	unbindB.x2 = 1;
 }
 
@@ -282,9 +290,11 @@ bool ButtonConfigSetView::inputEvent(const Input::Event &e)
 					else
 					{
 						savedDev = d;
-						app().postMessage(7, false,
-							std::format("You pushed a key from device:\n{}\nPush another from it to open its config menu",
-							inputDevData(*d).displayName));
+						app().postMessage(
+							7, false,
+							std::format(
+								UI_TEXT("You pushed a key from device:\n{}\nPush another from it to open its config menu"),
+								inputDevData(*d).displayName));
 						postDraw();
 					}
 					return true;
@@ -345,9 +355,15 @@ void ButtonConfigSetView::draw(Gfx::RendererCommands &__restrict__ cmds)
 void ButtonConfigSetView::onAddedToController(ViewController *, const Input::Event &e)
 {
 	if(e.motionEvent())
-		text.resetString(std::format("Push up to 3 keys, release any to set:\n{}", actionStr));
+		text.resetString(
+			std::format(
+				UI_TEXT("Push up to 3 keys, release any to set:\n{}"),
+				actionStr));
 	else
-		text.resetString(std::format("Push up to 3 keys, release any to set:\n{}\n\nTo unbind:\nQuickly push [Left] key twice in previous menu", actionStr));
+		text.resetString(
+			std::format(
+				UI_TEXT("Push up to 3 keys, release any to set:\n{}\n\nTo unbind:\nQuickly push [Left] key twice in previous menu"),
+				actionStr));
 	if(e.motionEvent())
 	{
 		initPointerUI();
