@@ -68,13 +68,15 @@ ButtonConfigView::ButtonConfigView(ViewAttachParams attach, InputManagerView &ro
 	rootIMView{rootIMView_},
 	reset
 	{
-		UI_TEXT("Unbind All"),
+		// UI_TEXT("Unbind All"),
+		UI_TEXT("全部解绑"),
 		attach,
 		[this](const Input::Event &e)
 		{
 			pushAndShowModal(
 				makeView<YesNoAlertView>(
-					UI_TEXT("Really unbind all keys in this category?"),
+					// UI_TEXT("Really unbind all keys in this category?"),
+					UI_TEXT("是否解绑此类别中的全部按键？"),
 					YesNoAlertView::Delegates
 					{
 						.onYes = [this]
@@ -92,13 +94,15 @@ ButtonConfigView::ButtonConfigView(ViewAttachParams attach, InputManagerView &ro
 	},
 	resetDefaults
 	{
-		UI_TEXT("Reset Defaults"),
+		// UI_TEXT("Reset Defaults"),
+		UI_TEXT("恢复默认值"),
 		attach,
 		[this](const Input::Event &e)
 		{
 			pushAndShowModal(
 				makeView<YesNoAlertView>(
-					UI_TEXT("Really reset all keys in this category to defaults?"),
+					// UI_TEXT("Really reset all keys in this category to defaults?"),
+					UI_TEXT("是否恢复此类别中的全部按键到默认值？"),
 					YesNoAlertView::Delegates
 					{
 						.onYes = [this]
@@ -204,8 +208,18 @@ void ButtonConfigSetView::initPointerUI()
 	if(pointerUIIsInit())
 		return;
 	log.info("init pointer UI elements");
-	unbind = {renderer().mainTask, "Unbind", &defaultFace()};
-	cancel = {renderer().mainTask, "Cancel", &defaultFace()};
+	unbind = {
+		renderer().mainTask,
+		// UI_TEXT("Unbind"),
+		UI_TEXT("解绑"),
+		&defaultFace()
+	};
+	cancel = {
+		renderer().mainTask,
+		// UI_TEXT("Cancel"),
+		UI_TEXT("取消"),
+		&defaultFace()
+	};
 	unbindB.x2 = 1;
 }
 
@@ -282,9 +296,11 @@ bool ButtonConfigSetView::inputEvent(const Input::Event &e)
 					else
 					{
 						savedDev = d;
-						app().postMessage(7, false,
-							std::format("You pushed a key from device:\n{}\nPush another from it to open its config menu",
-							inputDevData(*d).displayName));
+						app().postMessage(
+							7, false,
+							std::format(
+								UI_TEXT("You pushed a key from device:\n{}\nPush another from it to open its config menu"),
+								inputDevData(*d).displayName));
 						postDraw();
 					}
 					return true;
@@ -345,9 +361,15 @@ void ButtonConfigSetView::draw(Gfx::RendererCommands &__restrict__ cmds)
 void ButtonConfigSetView::onAddedToController(ViewController *, const Input::Event &e)
 {
 	if(e.motionEvent())
-		text.resetString(std::format("Push up to 3 keys, release any to set:\n{}", actionStr));
+		text.resetString(
+			std::format(
+				UI_TEXT("Push up to 3 keys, release any to set:\n{}"),
+				actionStr));
 	else
-		text.resetString(std::format("Push up to 3 keys, release any to set:\n{}\n\nTo unbind:\nQuickly push [Left] key twice in previous menu", actionStr));
+		text.resetString(
+			std::format(
+				UI_TEXT("Push up to 3 keys, release any to set:\n{}\n\nTo unbind:\nQuickly push [Left] key twice in previous menu"),
+				actionStr));
 	if(e.motionEvent())
 	{
 		initPointerUI();

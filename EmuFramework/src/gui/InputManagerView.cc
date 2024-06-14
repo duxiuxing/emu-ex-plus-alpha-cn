@@ -783,7 +783,7 @@ InputManagerDeviceView::InputManagerDeviceView(UTF16String name, ViewAttachParam
 	loadProfile.setName(
 		std::format(
 			// UI_TEXT("Profile: {}"),
-			UI_TEXT("配置：{}"),
+			UI_TEXT("按键配置：{}"),
 			devConf.keyConf(inputManager).name));
 	renameProfile.setActive(devConf.mutableKeyConf(inputManager));
 	deleteProfile.setActive(devConf.mutableKeyConf(inputManager));
@@ -857,7 +857,7 @@ void InputManagerDeviceView::onShow()
 	loadProfile.compile(
 		std::format(
 			// UI_TEXT("Profile: {}"),
-			UI_TEXT("配置：{}"),
+			UI_TEXT("按键配置：{}"),
 			devConf.keyConf(inputManager).name));
 	bool keyConfIsMutable = devConf.mutableKeyConf(inputManager);
 	renameProfile.setActive(keyConfIsMutable);
