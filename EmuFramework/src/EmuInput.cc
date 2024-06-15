@@ -553,7 +553,8 @@ std::string_view toString(AppKeyCode code)
 			// return UI_TEXT("Close Content");
 			return UI_TEXT("关闭游戏");
 		case AppKeyCode::openSystemActions:
-			return UI_TEXT("Open System Actions");
+			// return UI_TEXT("Open System Actions");
+			return UI_TEXT("打开模拟器菜单");
 		case AppKeyCode::saveState:
 			// return UI_TEXT("Save State");
 			return UI_TEXT("保存进度");
@@ -579,7 +580,8 @@ std::string_view toString(AppKeyCode code)
 			// return UI_TEXT("Toggle Fast-forward");
 			return UI_TEXT("快进切换");
 		case AppKeyCode::turboModifier:
-			return UI_TEXT("Turbo Modifier");
+			// return UI_TEXT("Turbo Modifier");
+			return UI_TEXT("连发调节");
 		case AppKeyCode::exitApp:
 			// return UI_TEXT("Exit App");
 			return UI_TEXT("退出应用");
@@ -590,13 +592,17 @@ std::string_view toString(AppKeyCode code)
 			// return UI_TEXT("Toggle Slow-motion");
 			return UI_TEXT("慢动作切换");
 		case AppKeyCode::rewind:
-			return UI_TEXT("Rewind One State");
+			// return UI_TEXT("Rewind One State");
+			return UI_TEXT("回退一个进度");
 		case AppKeyCode::softReset:
-			return UI_TEXT("Soft Reset");
+			// return UI_TEXT("Soft Reset");
+			return UI_TEXT("软重启");
 		case AppKeyCode::hardReset:
-			return UI_TEXT("Hard Reset");
+			// return UI_TEXT("Hard Reset");
+			return UI_TEXT("硬重启");
 		case AppKeyCode::resetMenu:
-			return UI_TEXT("Open Reset Menu");
+			// return UI_TEXT("Open Reset Menu");
+			return UI_TEXT("打开重启菜单");
 	};
 	return "";
 }
