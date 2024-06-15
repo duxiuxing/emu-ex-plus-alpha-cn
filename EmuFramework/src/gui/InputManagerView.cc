@@ -45,7 +45,8 @@ IdentInputDeviceView::IdentInputDeviceView(ViewAttachParams attach):
 	text
 	{
 		attach.rendererTask,
-		UI_TEXT("Push a key on any input device enter its configuration menu"),
+		// UI_TEXT("Push a key on any input device enter its configuration menu"),
+		UI_TEXT("在输入设备上按任意键即可进入其设置菜单"),
 		&defaultFace()
 	},
 	quads{attach.rendererTask, {.size = 1}} {}

@@ -299,7 +299,8 @@ bool ButtonConfigSetView::inputEvent(const Input::Event &e)
 						app().postMessage(
 							7, false,
 							std::format(
-								UI_TEXT("You pushed a key from device:\n{}\nPush another from it to open its config menu"),
+								// UI_TEXT("You pushed a key from device:\n{}\nPush another from it to open its config menu"),
+								UI_TEXT("你在设备：\n{}\n按下了一个键，再按下另一个键可以打开其设置菜单"),
 								inputDevData(*d).displayName));
 						postDraw();
 					}
@@ -363,12 +364,14 @@ void ButtonConfigSetView::onAddedToController(ViewController *, const Input::Eve
 	if(e.motionEvent())
 		text.resetString(
 			std::format(
-				UI_TEXT("Push up to 3 keys, release any to set:\n{}"),
+				// UI_TEXT("Push up to 3 keys, release any to set:\n{}"),
+				UI_TEXT("正在设置：{}\n请按下并松开按键完成设置，最多支持3个按键组合"),
 				actionStr));
 	else
 		text.resetString(
 			std::format(
-				UI_TEXT("Push up to 3 keys, release any to set:\n{}\n\nTo unbind:\nQuickly push [Left] key twice in previous menu"),
+				// UI_TEXT("Push up to 3 keys, release any to set:\n{}\n\nTo unbind:\nQuickly push [Left] key twice in previous menu"),
+				UI_TEXT("正在设置：{}\n请按下并松开按键完成设置，最多支持3个按键组合\n\n若想解除绑定：\n可在上一界面快速按[左]键两次"),
 				actionStr));
 	if(e.motionEvent())
 	{
