@@ -181,18 +181,44 @@ static std::string makeFrameRateStr(VideoSystem vidSys, const OutputTimingManage
 }
 
 FrameTimingView::FrameTimingView(ViewAttachParams attach):
-	TableView{"Frame Timing Options", attach, item},
+	TableView
+	{
+		UI_TEXT("Frame Timing Options"),
+		attach,
+		item
+	},
 	frameIntervalItem
 	{
-		{"Full (No Skip)", attach, {.id = 0}},
-		{"Full",           attach, {.id = 1}},
-		{"1/2",            attach, {.id = 2}},
-		{"1/3",            attach, {.id = 3}},
-		{"1/4",            attach, {.id = 4}},
+		{
+			UI_TEXT("Full (No Skip)"),
+			attach,
+			{.id = 0}
+		},
+		{
+			UI_TEXT("Full"),
+			attach,
+			{.id = 1}
+		},
+		{
+			UI_TEXT("1/2"),
+			attach,
+			{.id = 2}
+		},
+		{
+			UI_TEXT("1/3"),
+			attach,
+			{.id = 3}
+		},
+		{
+			UI_TEXT("1/4"),
+			attach,
+			{.id = 4}
+		},
 	},
 	frameInterval
 	{
-		"Frame Rate Target", attach,
+		UI_TEXT("Frame Rate Target"),
+		attach,
 		MenuId{app().frameInterval},
 		frameIntervalItem,
 		MultiChoiceMenuItem::Config
@@ -202,24 +228,31 @@ FrameTimingView::FrameTimingView(ViewAttachParams attach):
 	},
 	frameRateItems
 	{
-		{"Auto (Match screen when rates are similar)", attach,
+		{
+			UI_TEXT("Auto (Match screen when rates are similar)"),
+			attach,
 			[this]
 			{
 				if(!app().viewController().emuWindowScreen()->frameRateIsReliable())
 				{
-					app().postErrorMessage("Reported rate potentially unreliable, "
-						"using the detected rate may give better results");
+					app().postErrorMessage(
+						UI_TEXT("Reported rate potentially unreliable, ")
+						UI_TEXT("using the detected rate may give better results"));
 				}
 				onFrameTimeChange(activeVideoSystem, OutputTimingManager::autoOption);
 			}, {.id = OutputTimingManager::autoOption.count()}
 		},
-		{"Original (Use emulated system's rate)", attach,
+		{
+			UI_TEXT("Original (Use emulated system's rate)"),
+			attach,
 			[this]
 			{
 				onFrameTimeChange(activeVideoSystem, OutputTimingManager::originalOption);
 			}, {.id = OutputTimingManager::originalOption.count()}
 		},
-		{"Detect Custom Rate", attach,
+		{
+			UI_TEXT("Detect Custom Rate"),
+			attach,
 			[this](const Input::Event &e)
 			{
 				window().setIntendedFrameRate(system().frameRate());
@@ -234,18 +267,22 @@ FrameTimingView::FrameTimingView(ViewAttachParams attach):
 						}
 						else
 						{
-							app().postErrorMessage("Detected rate too unstable to use");
+							app().postErrorMessage(UI_TEXT("Detected rate too unstable to use"));
 						}
 					};
 				pushAndShowModal(std::move(frView), e);
 				return false;
 			}
 		},
-		{"Custom Rate", attach,
+		{
+			UI_TEXT("Custom Rate"),
+			attach,
 			[this](const Input::Event &e)
 			{
-				pushAndShowNewCollectValueInputView<std::pair<double, double>>(attachParams(), e,
-					"Input decimal or fraction", "",
+				pushAndShowNewCollectValueInputView<std::pair<double, double>>(
+					attachParams(), e,
+					UI_TEXT("Input decimal or fraction"),
+					"",
 					[this](CollectTextInputView&, auto val)
 					{
 						if(onFrameTimeChange(activeVideoSystem, fromSeconds<SteadyClockTime>(val.second / val.first)))
@@ -266,7 +303,7 @@ FrameTimingView::FrameTimingView(ViewAttachParams attach):
 	},
 	frameRate
 	{
-		"Frame Rate", attach,
+		UI_TEXT("Frame Rate"), attach,
 		app().outputTimingManager.frameTimeOptionAsMenuId(VideoSystem::NATIVE_NTSC),
 		frameRateItems,
 		{
@@ -284,7 +321,7 @@ FrameTimingView::FrameTimingView(ViewAttachParams attach):
 	},
 	frameRatePAL
 	{
-		"Frame Rate (PAL)", attach,
+		UI_TEXT("Frame Rate (PAL)"), attach,
 		app().outputTimingManager.frameTimeOptionAsMenuId(VideoSystem::PAL),
 		frameRateItems,
 		{
@@ -302,20 +339,37 @@ FrameTimingView::FrameTimingView(ViewAttachParams attach):
 	},
 	frameTimeStats
 	{
-		"Show Frame Time Stats", attach,
+		UI_TEXT("Show Frame Time Stats"), attach,
 		app().showFrameTimeStats,
 		[this](BoolMenuItem &item) { app().showFrameTimeStats = item.flipBoolValue(*this); }
 	},
 	frameClockItems
 	{
-		{"Auto",                                  attach, MenuItem::Config{.id = FrameTimeSource::Unset}},
-		{"Screen (Less latency & power use)",     attach, MenuItem::Config{.id = FrameTimeSource::Screen}},
-		{"Timer (Best for VRR displays)",         attach, MenuItem::Config{.id = FrameTimeSource::Timer}},
-		{"Renderer (May buffer multiple frames)", attach, MenuItem::Config{.id = FrameTimeSource::Renderer}},
+		{
+			UI_TEXT("Auto"),
+			attach,
+			MenuItem::Config{.id = FrameTimeSource::Unset}
+		},
+		{
+			UI_TEXT("Screen (Less latency & power use)"),
+			attach,
+			MenuItem::Config{.id = FrameTimeSource::Screen}
+		},
+		{
+			UI_TEXT("Timer (Best for VRR displays)"),
+			attach,
+			MenuItem::Config{.id = FrameTimeSource::Timer}
+		},
+		{
+			UI_TEXT("Renderer (May buffer multiple frames)"),
+			attach,
+			MenuItem::Config{.id = FrameTimeSource::Renderer}
+		},
 	},
 	frameClock
 	{
-		"Frame Clock", attach,
+		UI_TEXT("Frame Clock"),
+		attach,
 		MenuId{FrameTimeSource(app().frameTimeSource)},
 		frameClockItems,
 		MultiChoiceMenuItem::Config
@@ -334,20 +388,33 @@ FrameTimingView::FrameTimingView(ViewAttachParams attach):
 	},
 	presentModeItems
 	{
-		{"Auto",                                                 attach, MenuItem::Config{.id = Gfx::PresentMode::Auto}},
-		{"Immediate (Less compositor latency, may drop frames)", attach, MenuItem::Config{.id = Gfx::PresentMode::Immediate}},
-		{"Queued (Better frame rate stability)",                 attach, MenuItem::Config{.id = Gfx::PresentMode::FIFO}},
+		{
+			UI_TEXT("Auto"),
+			attach,
+			MenuItem::Config{.id = Gfx::PresentMode::Auto}
+		},
+		{
+			UI_TEXT("Immediate (Less compositor latency, may drop frames)"),
+			attach,
+			MenuItem::Config{.id = Gfx::PresentMode::Immediate}
+		},
+		{
+			UI_TEXT("Queued (Better frame rate stability)"),
+			attach,
+			MenuItem::Config{.id = Gfx::PresentMode::FIFO}
+		},
 	},
 	presentMode
 	{
-		"Present Mode", attach,
+		UI_TEXT("Present Mode"),
+		attach,
 		MenuId{Gfx::PresentMode(app().presentMode)},
 		presentModeItems,
 		MultiChoiceMenuItem::Config
 		{
 			.onSetDisplayString = [this](auto idx, Gfx::Text &t)
 			{
-				t.resetString(renderer().evalPresentMode(app().emuWindow(), app().presentMode) == Gfx::PresentMode::FIFO ? "Queued" : "Immediate");
+				t.resetString(renderer().evalPresentMode(app().emuWindow(), app().presentMode) == Gfx::PresentMode::FIFO ? UI_TEXT("Queued") : UI_TEXT("Immediate"));
 				return true;
 			},
 			.defaultItemOnSelect = [this](TextMenuItem &item)
@@ -362,7 +429,7 @@ FrameTimingView::FrameTimingView(ViewAttachParams attach):
 		{
 			std::vector<TextMenuItem> items;
 			auto setRateDel = [this](TextMenuItem &item) { app().overrideScreenFrameRate = std::bit_cast<FrameRate>(item.id); };
-			items.emplace_back("Off", attach, setRateDel, MenuItem::Config{.id = 0});
+			items.emplace_back(UI_TEXT("Off"), attach, setRateDel, MenuItem::Config{.id = 0});
 			for(auto rate : app().emuScreen().supportedFrameRates())
 				items.emplace_back(std::format("{:g}Hz", rate), attach, setRateDel, MenuItem::Config{.id = std::bit_cast<MenuId>(rate)});
 			return items;
@@ -370,19 +437,33 @@ FrameTimingView::FrameTimingView(ViewAttachParams attach):
 	},
 	screenFrameRate
 	{
-		"Override Screen Frame Rate", attach,
+		UI_TEXT("Override Screen Frame Rate"),
+		attach,
 		std::bit_cast<MenuId>(FrameRate(app().overrideScreenFrameRate)),
 		screenFrameRateItems
 	},
 	presentationTimeItems
 	{
-		{"Full (Apply to all frame rate targets)",         attach, MenuItem::Config{.id = PresentationTimeMode::full}},
-		{"Basic (Only apply to lower frame rate targets)", attach, MenuItem::Config{.id = PresentationTimeMode::basic}},
-		{"Off",                                            attach, MenuItem::Config{.id = PresentationTimeMode::off}},
+		{
+			UI_TEXT("Full (Apply to all frame rate targets)"),
+			attach,
+			MenuItem::Config{.id = PresentationTimeMode::full}
+		},
+		{
+			UI_TEXT("Basic (Only apply to lower frame rate targets)"),
+			attach,
+			MenuItem::Config{.id = PresentationTimeMode::basic}
+		},
+		{
+			UI_TEXT("Off"),
+			attach,
+			MenuItem::Config{.id = PresentationTimeMode::off}
+		},
 	},
 	presentationTime
 	{
-		"Precise Frame Pacing", attach,
+		UI_TEXT("Precise Frame Pacing"),
+		attach,
 		MenuId{PresentationTimeMode(app().presentationTimeMode)},
 		presentationTimeItems,
 		MultiChoiceMenuItem::Config
@@ -391,7 +472,7 @@ FrameTimingView::FrameTimingView(ViewAttachParams attach):
 			{
 				if(app().presentationTimeMode == PresentationTimeMode::off)
 					return false;
-				t.resetString(app().presentationTimeMode == PresentationTimeMode::full ? "Full" : "Basic");
+				t.resetString(app().presentationTimeMode == PresentationTimeMode::full ? UI_TEXT("Full") : UI_TEXT("Basic"));
 				return true;
 			},
 			.defaultItemOnSelect = [this](TextMenuItem &item)
@@ -402,11 +483,15 @@ FrameTimingView::FrameTimingView(ViewAttachParams attach):
 	},
 	blankFrameInsertion
 	{
-		"Allow Blank Frame Insertion", attach,
+		UI_TEXT("Allow Blank Frame Insertion"), attach,
 		app().allowBlankFrameInsertion,
 		[this](BoolMenuItem &item) { app().allowBlankFrameInsertion = item.flipBoolValue(*this); }
 	},
-	advancedHeading{"Advanced", attach}
+	advancedHeading
+	{
+		UI_TEXT("Advanced"),
+		attach
+	}
 {
 	loadStockItems();
 }
@@ -436,7 +521,10 @@ bool FrameTimingView::onFrameTimeChange(VideoSystem vidSys, SteadyClockTime time
 {
 	if(!app().outputTimingManager.setFrameTimeOption(vidSys, time))
 	{
-		app().postMessage(4, true, std::format("{:g}Hz not in valid range", toHz(time)));
+		app().postMessage(
+			4,
+			true,
+			std::format(UI_TEXT("{:g}Hz not in valid range"), toHz(time)));
 		return false;
 	}
 	return true;

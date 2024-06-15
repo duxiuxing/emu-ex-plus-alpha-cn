@@ -56,11 +56,16 @@ inline std::unique_ptr<View> resetAlertView(ViewAttachParams attachParams, EmuAp
 {
 	if(EmuSystem::hasResetModes)
 	{
-		return std::make_unique<ResetAlertView>(attachParams, "Really reset?", app);
+		return std::make_unique<ResetAlertView>(
+			attachParams,
+			UI_TEXT("Really reset?"),
+			app);
 	}
 	else
 	{
-		return std::make_unique<YesNoAlertView>(attachParams, "Really reset?",
+		return std::make_unique<YesNoAlertView>(
+			attachParams,
+			UI_TEXT("Really reset?"),
 			YesNoAlertView::Delegates
 			{
 				.onYes = [&app]
