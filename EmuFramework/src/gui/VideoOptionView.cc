@@ -46,14 +46,19 @@ constexpr Gfx::DrawableConfig unpackDrawableConfig(uint16_t c)
 }
 
 VideoOptionView::VideoOptionView(ViewAttachParams attach, EmuVideoLayer &videoLayer_, bool customMenu):
-	TableView{"Video Options", attach, item},
+	TableView
+	{
+		UI_TEXT("Video Options"),
+		attach,
+		item
+	},
 	videoLayer{videoLayer_},
 	textureBufferModeItem
 	{
 		[&]
 		{
 			decltype(textureBufferModeItem) items;
-			items.emplace_back("Auto (Set optimal mode)", attach, [this](View &view)
+			items.emplace_back(UI_TEXT("Auto (Set optimal mode)"), attach, [this](View &view)
 			{
 				app().textureBufferMode = Gfx::TextureBufferMode::DEFAULT;
 				auto defaultMode = renderer().evalTextureBufferMode();
@@ -75,7 +80,7 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, EmuVideoLayer &videoLa
 	},
 	textureBufferMode
 	{
-		"GPU Copy Mode", attach,
+		UI_TEXT("GPU Copy Mode"), attach,
 		MenuId{renderer().evalTextureBufferMode(app().textureBufferMode)},
 		textureBufferModeItem
 	},
@@ -93,19 +98,20 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, EmuVideoLayer &videoLa
 			}
 			if(EmuSystem::hasRectangularPixels)
 			{
-				aspectRatioItem.emplace_back("Square Pixels", attach, [this]()
+				aspectRatioItem.emplace_back(UI_TEXT("Square Pixels"), attach, [this]()
 				{
 					app().setVideoAspectRatio(-1);
 				}, MenuItem::Config{.id = std::bit_cast<MenuId>(-1.f)});
 			}
-			aspectRatioItem.emplace_back("Fill Display", attach, [this]()
+			aspectRatioItem.emplace_back(UI_TEXT("Fill Display"), attach, [this]()
 			{
 				app().setVideoAspectRatio(0);
 			}, MenuItem::Config{.id = 0});
-			aspectRatioItem.emplace_back("Custom Value", attach, [this](const Input::Event &e)
+			aspectRatioItem.emplace_back(UI_TEXT("Custom Value"), attach, [this](const Input::Event &e)
 			{
 				pushAndShowNewCollectValueInputView<std::pair<float, float>>(attachParams(), e,
-					"Input decimal or fraction", "",
+					UI_TEXT("Input decimal or fraction"),
+					"",
 					[this](CollectTextInputView &, auto val)
 					{
 						float ratio = val.first / val.second;
@@ -117,7 +123,7 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, EmuVideoLayer &videoLa
 						}
 						else
 						{
-							app().postErrorMessage("Value not in range");
+							app().postErrorMessage(UI_TEXT("Value not in range"));
 							return false;
 						}
 					});
@@ -128,7 +134,8 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, EmuVideoLayer &videoLa
 	},
 	aspectRatio
 	{
-		"Aspect Ratio", attach,
+		UI_TEXT("Aspect Ratio"),
+		attach,
 		std::bit_cast<MenuId>(app().videoAspectRatio()),
 		aspectRatioItem,
 		{
@@ -145,15 +152,40 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, EmuVideoLayer &videoLa
 	},
 	contentScaleItems
 	{
-		{"100%",                  attach, {.id = 100}},
-		{"90%",                   attach, {.id = 90}},
-		{"80%",                   attach, {.id = 80}},
-		{"Integer-only",          attach, {.id = optionContentScaleIntegerOnly}},
-		{"Integer-only (Height)", attach, {.id = optionContentScaleIntegerOnlyY}},
-		{"Custom Value", attach,
+		{
+			"100%",
+			attach,
+			{.id = 100}
+		},
+		{
+			"90%",
+			attach,
+			{.id = 90}
+		},
+		{
+			"80%",
+			attach,
+			{.id = 80}
+		},
+		{
+			UI_TEXT("Integer-only"),
+			attach,
+			{.id = optionContentScaleIntegerOnly}
+		},
+		{
+			UI_TEXT("Integer-only (Height)"),
+			attach,
+			{.id = optionContentScaleIntegerOnlyY}
+		},
+		{
+			UI_TEXT("Custom Value"),
+			attach,
 			[this](const Input::Event &e)
 			{
-				pushAndShowNewCollectValueRangeInputView<int, 10, 200>(attachParams(), e, "Input 10 to 200", "",
+				pushAndShowNewCollectValueRangeInputView<int, 10, 200>(
+					attachParams(), e,
+					UI_TEXT("Input 10 to 200"),
+					"",
 					[this](CollectTextInputView &, auto val)
 					{
 						app().setContentScale(val);
@@ -167,7 +199,8 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, EmuVideoLayer &videoLa
 	},
 	contentScale
 	{
-		"Content Scale", attach,
+		UI_TEXT("Content Scale"),
+		attach,
 		MenuId{videoLayer_.scale},
 		contentScaleItems,
 		{
@@ -185,13 +218,30 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, EmuVideoLayer &videoLa
 	},
 	menuScaleItems
 	{
-		{"100%", attach, {.id = 100}},
-		{"95%", attach,  {.id = 95}},
-		{"90%", attach,  {.id = 90}},
-		{"Custom Value", attach,
+		{
+			"100%",
+			attach,
+			{.id = 100}
+		},
+		{
+			"95%",
+			attach,
+			{.id = 95}
+		},
+		{
+			"90%",
+			attach,
+			{.id = 90}
+		},
+		{
+			UI_TEXT("Custom Value"),
+			attach,
 			[this](const Input::Event &e)
 			{
-				pushAndShowNewCollectValueRangeInputView<int, 50, 100>(attachParams(), e, "Input 50 to 100", "",
+				pushAndShowNewCollectValueRangeInputView<int, 50, 100>(
+					attachParams(), e,
+					UI_TEXT("Input 50 to 100"),
+					"",
 					[this](CollectTextInputView &, auto val)
 					{
 						app().setMenuScale(val);
@@ -205,7 +255,8 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, EmuVideoLayer &videoLa
 	},
 	menuScale
 	{
-		"Menu Scale", attach,
+		UI_TEXT("Menu Scale"),
+		attach,
 		MenuId{app().menuScale},
 		menuScaleItems,
 		{
@@ -219,15 +270,36 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, EmuVideoLayer &videoLa
 	},
 	contentRotationItem
 	{
-		{"Auto",        attach, {.id = Rotation::ANY}},
-		{"Standard",    attach, {.id = Rotation::UP}},
-		{"90° Right",   attach, {.id = Rotation::RIGHT}},
-		{"Upside Down", attach, {.id = Rotation::DOWN}},
-		{"90° Left",    attach, {.id = Rotation::LEFT}},
+		{
+			UI_TEXT("Auto"),
+			attach,
+			{.id = Rotation::ANY}
+		},
+		{
+			UI_TEXT("Standard"),
+			attach,
+			{.id = Rotation::UP}
+		},
+		{
+			UI_TEXT("90° Right"),
+			attach,
+			{.id = Rotation::RIGHT}
+		},
+		{
+			UI_TEXT("Upside Down"),
+			attach,
+			{.id = Rotation::DOWN}
+		},
+		{
+			UI_TEXT("90° Left"),
+			attach,
+			{.id = Rotation::LEFT}
+		},
 	},
 	contentRotation
 	{
-		"Content Rotation", attach,
+		UI_TEXT("Content Rotation"),
+		attach,
 		MenuId{app().contentRotation.value()},
 		contentRotationItem,
 		{
@@ -236,7 +308,8 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, EmuVideoLayer &videoLa
 	},
 	placeVideo
 	{
-		"Set Video Position", attach,
+		UI_TEXT("Set Video Position"),
+		attach,
 		[this](const Input::Event &e)
 		{
 			if(!system().hasContent())
@@ -246,9 +319,11 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, EmuVideoLayer &videoLa
 	},
 	imgFilter
 	{
-		"Image Interpolation", attach,
+		UI_TEXT("Image Interpolation"),
+		attach,
 		videoLayer_.usingLinearFilter(),
-		"None", "Linear",
+		UI_TEXT("None"),
+		UI_TEXT("Linear"),
 		[this](BoolMenuItem &item)
 		{
 			videoLayer.setLinearFilter(item.flipBoolValue(*this));
@@ -257,16 +332,41 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, EmuVideoLayer &videoLa
 	},
 	imgEffectItem
 	{
-		{"Off",         attach, {.id = ImageEffectId::DIRECT}},
-		{"hq2x",        attach, {.id = ImageEffectId::HQ2X}},
-		{"Scale2x",     attach, {.id = ImageEffectId::SCALE2X}},
-		{"Prescale 2x", attach, {.id = ImageEffectId::PRESCALE2X}},
-		{"Prescale 3x", attach, {.id = ImageEffectId::PRESCALE3X}},
-		{"Prescale 4x", attach, {.id = ImageEffectId::PRESCALE4X}},
+		{
+			UI_TEXT("Off"),
+			attach,
+			{.id = ImageEffectId::DIRECT}
+		},
+		{
+			UI_TEXT("hq2x"),
+			attach,
+			{.id = ImageEffectId::HQ2X}
+		},
+		{
+			UI_TEXT("Scale2x"),
+			attach,
+			{.id = ImageEffectId::SCALE2X}
+		},
+		{
+			UI_TEXT("Prescale 2x"),
+			attach,
+			{.id = ImageEffectId::PRESCALE2X}
+		},
+		{
+			UI_TEXT("Prescale 3x"),
+			attach,
+			{.id = ImageEffectId::PRESCALE3X}
+		},
+		{
+			UI_TEXT("Prescale 4x"),
+			attach,
+			{.id = ImageEffectId::PRESCALE4X}
+		},
 	},
 	imgEffect
 	{
-		"Image Effect", attach,
+		UI_TEXT("Image Effect"),
+		attach,
 		MenuId{videoLayer_.effectId()},
 		imgEffectItem,
 		{
@@ -279,18 +379,51 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, EmuVideoLayer &videoLa
 	},
 	overlayEffectItem
 	{
-		{"Off",            attach, {.id = 0}},
-		{"Scanlines",      attach, {.id = ImageOverlayId::SCANLINES}},
-		{"Scanlines 2x",   attach, {.id = ImageOverlayId::SCANLINES_2}},
-		{"LCD Grid",       attach, {.id = ImageOverlayId::LCD}},
-		{"CRT Mask",       attach, {.id = ImageOverlayId::CRT_MASK}},
-		{"CRT Mask .5x",   attach, {.id = ImageOverlayId::CRT_MASK_2}},
-		{"CRT Grille",     attach, {.id = ImageOverlayId::CRT_GRILLE}},
-		{"CRT Grille .5x", attach, {.id = ImageOverlayId::CRT_GRILLE_2}}
+		{
+			UI_TEXT("Off"),
+			attach,
+			{.id = 0}
+		},
+		{
+			UI_TEXT("Scanlines"),
+			attach,
+			{.id = ImageOverlayId::SCANLINES}
+		},
+		{
+			UI_TEXT("Scanlines 2x"),
+			attach,
+			{.id = ImageOverlayId::SCANLINES_2}
+		},
+		{
+			UI_TEXT("LCD Grid"),
+			attach,
+			{.id = ImageOverlayId::LCD}
+		},
+		{
+			UI_TEXT("CRT Mask"),
+			attach,
+			{.id = ImageOverlayId::CRT_MASK}
+		},
+		{
+			UI_TEXT("CRT Mask .5x"),
+			attach,
+			{.id = ImageOverlayId::CRT_MASK_2}
+		},
+		{
+			UI_TEXT("CRT Grille"),
+			attach,
+			{.id = ImageOverlayId::CRT_GRILLE}
+		},
+		{
+			UI_TEXT("CRT Grille .5x"),
+			attach,
+			{.id = ImageOverlayId::CRT_GRILLE_2}
+		}
 	},
 	overlayEffect
 	{
-		"Overlay Effect", attach,
+		UI_TEXT("Overlay Effect"),
+		attach,
 		MenuId{videoLayer_.overlayEffectId()},
 		overlayEffectItem,
 		{
@@ -307,10 +440,15 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, EmuVideoLayer &videoLa
 		{"75%",  attach, {.id = 75}},
 		{"50%",  attach, {.id = 50}},
 		{"25%",  attach, {.id = 25}},
-		{"Custom Value", attach,
+		{
+			UI_TEXT("Custom Value"),
+			attach,
 			[this](const Input::Event &e)
 			{
-				pushAndShowNewCollectValueRangeInputView<int, 0, 100>(attachParams(), e, "Input 0 to 100", "",
+				pushAndShowNewCollectValueRangeInputView<int, 0, 100>(
+					attachParams(), e,
+					UI_TEXT("Input 0 to 100"),
+					"",
 					[this](CollectTextInputView &, auto val)
 					{
 						videoLayer.setOverlayIntensity(val / 100.f);
@@ -325,7 +463,8 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, EmuVideoLayer &videoLa
 	},
 	overlayEffectLevel
 	{
-		"Overlay Effect Level", attach,
+		UI_TEXT("Overlay Effect Level"),
+		attach,
 		MenuId{videoLayer_.overlayIntensity() * 100.f},
 		overlayEffectLevelItem,
 		{
@@ -343,13 +482,26 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, EmuVideoLayer &videoLa
 	},
 	imgEffectPixelFormatItem
 	{
-		{"Auto (Match display format)", attach, {.id = PixelFormatId::Unset}},
-		{"RGBA8888",                    attach, {.id = PixelFormatId::RGBA8888}},
-		{"RGB565",                      attach, {.id = PixelFormatId::RGB565}},
+		{
+			UI_TEXT("Auto (Match display format)"),
+			attach,
+			{.id = PixelFormatId::Unset}
+		},
+		{
+			UI_TEXT("RGBA8888"),
+			attach,
+			{.id = PixelFormatId::RGBA8888}
+		},
+		{
+			UI_TEXT("RGB565"),
+			attach,
+			{.id = PixelFormatId::RGB565}
+		},
 	},
 	imgEffectPixelFormat
 	{
-		"Effect Color Format", attach,
+		UI_TEXT("Effect Color Format"),
+		attach,
 		MenuId{app().imageEffectPixelFormat.value()},
 		imgEffectPixelFormatItem,
 		{
@@ -381,13 +533,17 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, EmuVideoLayer &videoLa
 				auto conf = unpackDrawableConfig(item.id);
 				if(!app().setWindowDrawableConfig(conf))
 				{
-					app().postMessage("Restart app for option to take effect");
+					app().postMessage(UI_TEXT("Restart app for option to take effect"));
 					return;
 				}
 				renderPixelFormat.updateDisplayString();
 				imgEffectPixelFormat.updateDisplayString();
 			};
-			items.emplace_back("Auto", attach, setWindowDrawableConfigDel, MenuItem::Config{.id = 0});
+			items.emplace_back(
+				UI_TEXT("Auto"),
+				attach,
+				setWindowDrawableConfigDel,
+				MenuItem::Config{.id = 0});
 			for(auto desc: renderer().supportedDrawableConfigs())
 			{
 				items.emplace_back(desc.name, attach, setWindowDrawableConfigDel, MenuItem::Config{.id = pack(desc.config)});
@@ -397,7 +553,8 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, EmuVideoLayer &videoLa
 	},
 	windowPixelFormat
 	{
-		"Display Color Format", attach,
+		UI_TEXT("Display Color Format"),
+		attach,
 		MenuId{pack(app().windowDrawableConfig())},
 		windowPixelFormatItem,
 		{
@@ -415,7 +572,8 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, EmuVideoLayer &videoLa
 	},
 	secondDisplay
 	{
-		"2nd Window (for testing only)", attach,
+		UI_TEXT("2nd Window (for testing only)"),
+		attach,
 		false,
 		[this](BoolMenuItem &item)
 		{
@@ -424,9 +582,11 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, EmuVideoLayer &videoLa
 	},
 	showOnSecondScreen
 	{
-		"External Screen", attach,
+		UI_TEXT("External Screen"),
+		attach,
 		app().showOnSecondScreen,
-		"OS Managed", "Emu Content",
+		UI_TEXT("OS Managed"),
+		UI_TEXT("Emu Content"),
 		[this](BoolMenuItem &item)
 		{
 			app().showOnSecondScreen = item.flipBoolValue(*this);
@@ -436,13 +596,18 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, EmuVideoLayer &videoLa
 	},
 	renderPixelFormatItem
 	{
-		{"Auto (Match display format)", attach, {.id = PixelFormatId::Unset}},
-		{"RGBA8888",                    attach, {.id = PixelFormatId::RGBA8888}},
-		{"RGB565",                      attach, {.id = PixelFormatId::RGB565}},
+		{
+			UI_TEXT("Auto (Match display format)"),
+			attach,
+			{.id = PixelFormatId::Unset}
+		},
+		{"RGBA8888",	attach, {.id = PixelFormatId::RGBA8888}},
+		{"RGB565",		attach, {.id = PixelFormatId::RGB565}},
 	},
 	renderPixelFormat
 	{
-		"Render Color Format", attach,
+		UI_TEXT("Render Color Format"),
+		attach,
 		MenuId{app().renderPixelFormat.value().id},
 		renderPixelFormatItem,
 		{
@@ -461,41 +626,83 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, EmuVideoLayer &videoLa
 	brightnessItem
 	{
 		{
-			"Default", attach, [this](View &v)
+			UI_TEXT("Default"),
+			attach,
+			[this](View &v)
 			{
 				videoLayer.setBrightness(1.f, ImageChannel::All);
 				setAllColorLevelsSelected(MenuId{100});
 				v.dismiss();
 			}
 		},
-		{"Custom Value", attach, setVideoBrightnessCustomDel(ImageChannel::All)},
+		{
+			UI_TEXT("Custom Value"),
+			attach,
+			setVideoBrightnessCustomDel(ImageChannel::All)
+		},
 	},
 	redItem
 	{
-		{"Default", attach, [this](){ videoLayer.setBrightness(1.f, ImageChannel::Red); }, {.id = 100}},
-		{"Custom Value", attach, setVideoBrightnessCustomDel(ImageChannel::Red), {.id = defaultMenuId}},
+		{
+			UI_TEXT("Default"),
+			attach,
+			[this](){ videoLayer.setBrightness(1.f, ImageChannel::Red); },
+			{.id = 100}
+		},
+		{
+			UI_TEXT("Custom Value"),
+			attach,
+			setVideoBrightnessCustomDel(ImageChannel::Red),
+			{.id = defaultMenuId}
+		},
 	},
 	greenItem
 	{
-		{"Default", attach, [this](){ videoLayer.setBrightness(1.f, ImageChannel::Green); }, {.id = 100}},
-		{"Custom Value", attach, setVideoBrightnessCustomDel(ImageChannel::Green), {.id = defaultMenuId}},
+		{
+			UI_TEXT("Default"),
+			attach,
+			[this](){ videoLayer.setBrightness(1.f, ImageChannel::Green); },
+			{.id = 100}
+		},
+		{
+			UI_TEXT("Custom Value"),
+			attach,
+			setVideoBrightnessCustomDel(ImageChannel::Green),
+			{.id = defaultMenuId}
+		},
 	},
 	blueItem
 	{
-		{"Default", attach, [this](){ videoLayer.setBrightness(1.f, ImageChannel::Blue); }, {.id = 100}},
-		{"Custom Value", attach, setVideoBrightnessCustomDel(ImageChannel::Blue), {.id = defaultMenuId}},
+		{
+			UI_TEXT("Default"),
+			attach,
+			[this](){ videoLayer.setBrightness(1.f, ImageChannel::Blue); },
+			{.id = 100}
+		},
+		{
+			UI_TEXT("Custom Value"),
+			attach,
+			setVideoBrightnessCustomDel(ImageChannel::Blue),
+			{.id = defaultMenuId}
+		},
 	},
 	brightness
 	{
-		"Set All Levels", attach,
+		UI_TEXT("Set All Levels"),
+		attach,
 		[this](const Input::Event &e)
 		{
-			pushAndShow(makeViewWithName<TableView>("All Levels", brightnessItem), e);
+			pushAndShow(
+				makeViewWithName<TableView>(
+					UI_TEXT("All Levels"),
+					brightnessItem),
+				e);
 		}
 	},
 	red
 	{
-		"Red", attach,
+		UI_TEXT("Red"),
+		attach,
 		MenuId{videoLayer_.channelBrightnessAsInt(ImageChannel::Red)},
 		redItem,
 		{
@@ -508,7 +715,8 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, EmuVideoLayer &videoLa
 	},
 	green
 	{
-		"Green", attach,
+		UI_TEXT("Green"),
+		attach,
 		MenuId{videoLayer_.channelBrightnessAsInt(ImageChannel::Green)},
 		greenItem,
 		{
@@ -521,7 +729,8 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, EmuVideoLayer &videoLa
 	},
 	blue
 	{
-		"Blue", attach,
+		UI_TEXT("Blue"),
+		attach,
 		MenuId{videoLayer_.channelBrightnessAsInt(ImageChannel::Blue)},
 		blueItem,
 		{
@@ -532,9 +741,21 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, EmuVideoLayer &videoLa
 			}
 		},
 	},
-	colorLevelsHeading{"Color Levels", attach},
-	advancedHeading{"Advanced", attach},
-	systemSpecificHeading{"System-specific", attach}
+	colorLevelsHeading
+	{
+		UI_TEXT("Color Levels"),
+		attach
+	},
+	advancedHeading
+	{
+		UI_TEXT("Advanced"),
+		attach
+	},
+	systemSpecificHeading
+	{
+		UI_TEXT("System-specific"),
+		attach
+	}
 {
 	if(!customMenu)
 	{
@@ -584,7 +805,10 @@ TextMenuItem::SelectDelegate VideoOptionView::setVideoBrightnessCustomDel(ImageC
 {
 	return [=, this](const Input::Event &e)
 	{
-		pushAndShowNewCollectValueRangeInputView<int, 0, 200>(attachParams(), e, "Input 0 to 200", "",
+		pushAndShowNewCollectValueRangeInputView<int, 0, 200>(
+			attachParams(), e,
+			UI_TEXT("Input 0 to 200"),
+			"",
 			[=, this](CollectTextInputView &, auto val)
 			{
 				videoLayer.setBrightness(val / 100.f, ch);

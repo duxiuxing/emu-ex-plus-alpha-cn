@@ -23,11 +23,17 @@ namespace EmuEx
 {
 
 AudioOptionView::AudioOptionView(ViewAttachParams attach, EmuAudio& audio_, bool customMenu):
-	TableView{"Audio Options", attach, item},
+	TableView
+	{
+		UI_TEXT("Audio Options"),
+		attach,
+		item
+	},
 	audio{audio_},
 	snd
 	{
-		"Sound", attach,
+		UI_TEXT("Sound"),
+		attach,
 		audio_.isEnabled(),
 		[this](BoolMenuItem &item)
 		{
@@ -36,7 +42,8 @@ AudioOptionView::AudioOptionView(ViewAttachParams attach, EmuAudio& audio_, bool
 	},
 	soundDuringFastSlowMode
 	{
-		"Sound During Fast/Slow Mode", attach,
+		UI_TEXT("Sound During Fast/Slow Mode"),
+		attach,
 		audio_.isEnabledDuringAltSpeed(),
 		[this](BoolMenuItem &item)
 		{
@@ -48,9 +55,15 @@ AudioOptionView::AudioOptionView(ViewAttachParams attach, EmuAudio& audio_, bool
 		{"100%", attach, {.id = 100}},
 		{"50%",  attach, {.id = 50}},
 		{"25%",  attach, {.id = 25}},
-		{"Custom Value", attach, [this](const Input::Event &e)
+		{
+			UI_TEXT("Custom Value"),
+			attach,
+			[this](const Input::Event &e)
 			{
-				pushAndShowNewCollectValueRangeInputView<int, 0, 125>(attachParams(), e, "Input 0 to 125", "",
+				pushAndShowNewCollectValueRangeInputView<int, 0, 125>(
+					attachParams(), e,
+					UI_TEXT("Input 0 to 125"),
+					"",
 					[this](CollectTextInputView &, auto val)
 					{
 						audio.setMaxVolume(val);
@@ -64,7 +77,8 @@ AudioOptionView::AudioOptionView(ViewAttachParams attach, EmuAudio& audio_, bool
 	},
 	soundVolume
 	{
-		"Volume", attach,
+		UI_TEXT("Volume"),
+		attach,
 		MenuId{audio_.maxVolume()},
 		soundVolumeItem,
 		{
@@ -88,7 +102,8 @@ AudioOptionView::AudioOptionView(ViewAttachParams attach, EmuAudio& audio_, bool
 	},
 	soundBuffers
 	{
-		"Buffer Size In Frames", attach,
+		UI_TEXT("Buffer Size In Frames"),
+		attach,
 		MenuId{audio_.soundBuffers},
 		soundBuffersItem,
 		{
@@ -97,7 +112,8 @@ AudioOptionView::AudioOptionView(ViewAttachParams attach, EmuAudio& audio_, bool
 	},
 	addSoundBuffersOnUnderrun
 	{
-		"Auto-increase Buffer Size", attach,
+		UI_TEXT("Auto-increase Buffer Size"),
+		attach,
 		audio_.addSoundBuffersOnUnderrunSetting,
 		[this](BoolMenuItem &item)
 		{
@@ -109,13 +125,16 @@ AudioOptionView::AudioOptionView(ViewAttachParams attach, EmuAudio& audio_, bool
 		[&]
 		{
 			decltype(audioRateItem) items;
-			items.emplace_back("Device Native", attach, [this](View &view)
-			{
-				audio.setRate(0);
-				audioRate.setSelected(MenuId{audio.rate()}, view);
-				view.dismiss();
-				return false;
-			});
+			items.emplace_back(
+				UI_TEXT("Device Native"),
+				attach,
+				[this](View &view)
+				{
+					audio.setRate(0);
+					audioRate.setSelected(MenuId{audio.rate()}, view);
+					view.dismiss();
+					return false;
+				});
 			auto setRateDel = [this](TextMenuItem &item) { audio.setRate(item.id); };
 			items.emplace_back("22KHz", attach, setRateDel, MenuItem::Config{.id = 22050});
 			items.emplace_back("32KHz", attach, setRateDel, MenuItem::Config{.id = 32000});
@@ -127,13 +146,15 @@ AudioOptionView::AudioOptionView(ViewAttachParams attach, EmuAudio& audio_, bool
 	},
 	audioRate
 	{
-		"Sound Rate", attach,
+		UI_TEXT("Sound Rate"),
+		attach,
 		MenuId{audio_.rate()},
 		audioRateItem
 	},
 	audioSoloMix
 	{
-		"Mix With Other Apps", attach,
+		UI_TEXT("Mix With Other Apps"),
+		attach,
 		!audio_.manager.soloMix(),
 		[this](BoolMenuItem &item)
 		{
@@ -145,13 +166,16 @@ AudioOptionView::AudioOptionView(ViewAttachParams attach, EmuAudio& audio_, bool
 		[this]()
 		{
 			ApiItemContainer items{};
-			items.emplace_back("Auto", attachParams(), [this](View &view)
-			{
-				audio.setOutputAPI(Audio::Api::DEFAULT);
-				doIfUsed(api, [&](auto &api){ api.setSelected(MenuId{audio.manager.makeValidAPI()}); });
-				view.dismiss();
-				return false;
-			});
+			items.emplace_back(
+				UI_TEXT("Auto"),
+				attachParams(),
+				[this](View &view)
+				{
+					audio.setOutputAPI(Audio::Api::DEFAULT);
+					doIfUsed(api, [&](auto &api){ api.setSelected(MenuId{audio.manager.makeValidAPI()}); });
+					view.dismiss();
+					return false;
+				});
 			for(auto desc: audio.manager.audioAPIs())
 			{
 				items.emplace_back(desc.name, attachParams(), [this](TextMenuItem &item)
@@ -164,7 +188,8 @@ AudioOptionView::AudioOptionView(ViewAttachParams attach, EmuAudio& audio_, bool
 	},
 	api
 	{
-		"Audio Driver", attach,
+		UI_TEXT("Audio Driver"),
+		attach,
 		MenuId{audio_.manager.makeValidAPI(audio_.outputAPI())},
 		apiItem
 	}
