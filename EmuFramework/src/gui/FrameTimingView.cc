@@ -49,7 +49,8 @@ public:
 	{
 		defaultFace().precacheAlphaNum(attach.renderer());
 		defaultFace().precache(attach.renderer(), ".");
-		fpsText.resetString(UI_TEXT("Preparing to detect frame rate..."));
+		// fpsText.resetString(UI_TEXT("Preparing to detect frame rate..."));
+		fpsText.resetString(UI_TEXT("正在准备帧率检测..."));
 		useRenderTaskTime = !screen()->supportsTimestamps();
 		frameTimeSample.reserve(std::round(screen()->frameRate() * 2.));
 	}

@@ -29,7 +29,8 @@ public:
 		{
 			TextMenuItem
 			{
-				UI_TEXT("Soft Reset"),
+				// UI_TEXT("Soft Reset"),
+				UI_TEXT("软重启"),
 				attach,
 				[this, &app]()
 				{
@@ -39,7 +40,8 @@ public:
 			},
 			TextMenuItem
 			{
-				UI_TEXT("Hard Reset"),
+				// UI_TEXT("Hard Reset"),
+				UI_TEXT("硬重启"),
 				attach,
 				[this, &app]()
 				{
@@ -49,7 +51,8 @@ public:
 			},
 			TextMenuItem
 			{
-				UI_TEXT("Cancel"),
+				// UI_TEXT("Cancel"),
+				UI_TEXT("取消"),
 				attach,
 				[](){}
 			}
@@ -65,14 +68,16 @@ inline std::unique_ptr<View> resetAlertView(ViewAttachParams attachParams, EmuAp
 	{
 		return std::make_unique<ResetAlertView>(
 			attachParams,
-			UI_TEXT("Really reset?"),
+			// UI_TEXT("Really reset?"),
+			UI_TEXT("是否要重启？"),
 			app);
 	}
 	else
 	{
 		return std::make_unique<YesNoAlertView>(
 			attachParams,
-			UI_TEXT("Really reset?"),
+			// UI_TEXT("Really reset?"),
+			UI_TEXT("是否要重启？"),
 			YesNoAlertView::Delegates
 			{
 				.onYes = [&app]
