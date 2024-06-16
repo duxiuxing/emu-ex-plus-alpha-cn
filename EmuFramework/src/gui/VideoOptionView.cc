@@ -48,7 +48,8 @@ constexpr Gfx::DrawableConfig unpackDrawableConfig(uint16_t c)
 VideoOptionView::VideoOptionView(ViewAttachParams attach, EmuVideoLayer &videoLayer_, bool customMenu):
 	TableView
 	{
-		UI_TEXT("Video Options"),
+		// UI_TEXT("Video Options"),
+		UI_TEXT("视频选项"),
 		attach,
 		item
 	},
