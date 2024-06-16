@@ -224,7 +224,7 @@ FrameTimingView::FrameTimingView(ViewAttachParams attach):
 	frameInterval
 	{
 		// UI_TEXT("Frame Rate Target"),
-		UI_TEXT("最高渲染速度"),
+		UI_TEXT("目标渲染速度"),
 		attach,
 		MenuId{app().frameInterval},
 		frameIntervalItem,
@@ -386,7 +386,7 @@ FrameTimingView::FrameTimingView(ViewAttachParams attach):
 		},
 		{
 			// UI_TEXT("Renderer (May buffer multiple frames)"),
-			UI_TEXT("Renderer (可能会缓冲多帧视频)"),
+			UI_TEXT("Renderer (需要更多的内存空间)"),
 			attach,
 			MenuItem::Config{.id = FrameTimeSource::Renderer}
 		},
@@ -489,7 +489,7 @@ FrameTimingView::FrameTimingView(ViewAttachParams attach):
 		},
 		{
 			// UI_TEXT("Basic (Only apply to lower frame rate targets)"),
-			UI_TEXT("平滑优先 (采用尽可能稳定的渲染速度)"),
+			UI_TEXT("平滑优先 (保持尽可能稳定的渲染速度)"),
 			attach,
 			MenuItem::Config{.id = PresentationTimeMode::basic}
 		},
