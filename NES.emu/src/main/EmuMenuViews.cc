@@ -352,7 +352,8 @@ class CustomVideoOptionView : public VideoOptionView, public MainAppHelper
 
 	BoolMenuItem spriteLimit
 	{
-		UI_TEXT("Sprite Limit"),
+		// UI_TEXT("Sprite Limit"),
+		UI_TEXT("精灵限制"),
 		attachParams(),
 		(bool)system().optionSpriteLimit,
 		[this](BoolMenuItem &item, View &, Input::Event e)
@@ -365,7 +366,8 @@ class CustomVideoOptionView : public VideoOptionView, public MainAppHelper
 	TextMenuItem videoSystemItem[4]
 	{
 		{
-			UI_TEXT("Auto"),
+			// UI_TEXT("Auto"),
+			UI_TEXT("自动"),
 			attachParams(),
 			[this](){ system().optionDefaultVideoSystem = 0; }
 		},
@@ -376,7 +378,8 @@ class CustomVideoOptionView : public VideoOptionView, public MainAppHelper
 
 	MultiChoiceMenuItem videoSystem
 	{
-		UI_TEXT("Default Video System"),
+		// UI_TEXT("Default Video System"),
+		UI_TEXT("默认视频制式"),
 		attachParams(),
 		system().optionDefaultVideoSystem.value(),
 		videoSystemItem
@@ -417,7 +420,8 @@ class CustomVideoOptionView : public VideoOptionView, public MainAppHelper
 		{"Lightful",            attachParams(), [this]() { setPalette(appContext(), lightfulPalPath); }},
 		{"Palightful",          attachParams(), [this]() { setPalette(appContext(), palightfulPalPath); }},
 		{
-			UI_TEXT("Custom File"),
+			// UI_TEXT("Custom File"),
+			UI_TEXT("自定义文件"),
 			attachParams(),
 			[this](Input::Event e)
 			{
@@ -439,7 +443,8 @@ class CustomVideoOptionView : public VideoOptionView, public MainAppHelper
 
 	MultiChoiceMenuItem defaultPal
 	{
-		UI_TEXT("Default Palette"),
+		// UI_TEXT("Default Palette"),
+		UI_TEXT("默认调色板"),
 		attachParams(),
 		[this]()
 		{
@@ -477,7 +482,8 @@ class CustomVideoOptionView : public VideoOptionView, public MainAppHelper
 
 	MultiChoiceMenuItem visibleVideoLines
 	{
-		UI_TEXT("Default Visible Lines"),
+		// UI_TEXT("Default Visible Lines"),
+		UI_TEXT("默认可见行数"),
 		attachParams(),
 		[this]()
 		{
@@ -502,7 +508,8 @@ class CustomVideoOptionView : public VideoOptionView, public MainAppHelper
 
 	BoolMenuItem correctLineAspect
 	{
-		UI_TEXT("Correct Line Aspect Ratio"),
+		// UI_TEXT("Correct Line Aspect Ratio"),
+		UI_TEXT("修正行的宽高比例"),
 		attachParams(),
 		(bool)system().optionCorrectLineAspect,
 		[this](BoolMenuItem &item)
