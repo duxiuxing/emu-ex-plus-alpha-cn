@@ -237,7 +237,7 @@ FrameTimingView::FrameTimingView(ViewAttachParams attach):
 	{
 		{
 			// UI_TEXT("Auto (Match screen when rates are similar)"),
-			UI_TEXT("Auto (匹配屏幕刷新率)"),
+			UI_TEXT("自动 (匹配屏幕刷新率)"),
 			attach,
 			[this]
 			{
@@ -254,7 +254,7 @@ FrameTimingView::FrameTimingView(ViewAttachParams attach):
 		},
 		{
 			// UI_TEXT("Original (Use emulated system's rate)"),
-			UI_TEXT("Original (使用模拟系统的帧率)"),
+			UI_TEXT("原始 (使用模拟系统的帧率)"),
 			attach,
 			[this]
 			{
@@ -427,6 +427,7 @@ FrameTimingView::FrameTimingView(ViewAttachParams attach):
 			MenuItem::Config{.id = Gfx::PresentMode::Immediate}
 		},
 		{
+			// UI_TEXT("Queued (Better frame rate stability)"),
 			UI_TEXT("队列 (更稳定的帧率)"),
 			attach,
 			MenuItem::Config{.id = Gfx::PresentMode::FIFO}
