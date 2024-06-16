@@ -554,7 +554,7 @@ std::string_view toString(AppKeyCode code)
 			return UI_TEXT("关闭游戏");
 		case AppKeyCode::openSystemActions:
 			// return UI_TEXT("Open System Actions");
-			return UI_TEXT("打开模拟器菜单");
+			return UI_TEXT("打开模拟系统菜单");
 		case AppKeyCode::saveState:
 			// return UI_TEXT("Save State");
 			return UI_TEXT("保存进度");

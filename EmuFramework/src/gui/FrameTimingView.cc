@@ -183,19 +183,22 @@ static std::string makeFrameRateStr(VideoSystem vidSys, const OutputTimingManage
 FrameTimingView::FrameTimingView(ViewAttachParams attach):
 	TableView
 	{
-		UI_TEXT("Frame Timing Options"),
+		// UI_TEXT("Frame Timing Options"),
+		UI_TEXT("渲染耗时选项"),
 		attach,
 		item
 	},
 	frameIntervalItem
 	{
 		{
-			UI_TEXT("Full (No Skip)"),
+			// UI_TEXT("Full (No Skip)"),
+			UI_TEXT("全速 (不跳帧)"),
 			attach,
 			{.id = 0}
 		},
 		{
-			UI_TEXT("Full"),
+			// UI_TEXT("Full"),
+			UI_TEXT("全速"),
 			attach,
 			{.id = 1}
 		},
@@ -217,7 +220,8 @@ FrameTimingView::FrameTimingView(ViewAttachParams attach):
 	},
 	frameInterval
 	{
-		UI_TEXT("Frame Rate Target"),
+		// UI_TEXT("Frame Rate Target"),
+		UI_TEXT("最高渲染速度"),
 		attach,
 		MenuId{app().frameInterval},
 		frameIntervalItem,
@@ -229,21 +233,25 @@ FrameTimingView::FrameTimingView(ViewAttachParams attach):
 	frameRateItems
 	{
 		{
-			UI_TEXT("Auto (Match screen when rates are similar)"),
+			// UI_TEXT("Auto (Match screen when rates are similar)"),
+			UI_TEXT("自动 (匹配屏幕刷新率)"),
 			attach,
 			[this]
 			{
 				if(!app().viewController().emuWindowScreen()->frameRateIsReliable())
 				{
 					app().postErrorMessage(
-						UI_TEXT("Reported rate potentially unreliable, ")
-						UI_TEXT("using the detected rate may give better results"));
+						// UI_TEXT("Reported rate potentially unreliable, ")
+						UI_TEXT("根据屏幕刷新率推算出的帧率不一定准确，")
+						// UI_TEXT("using the detected rate may give better results"));
+						UI_TEXT("使用帧率检测可以获得更准确的结果"));
 				}
 				onFrameTimeChange(activeVideoSystem, OutputTimingManager::autoOption);
 			}, {.id = OutputTimingManager::autoOption.count()}
 		},
 		{
-			UI_TEXT("Original (Use emulated system's rate)"),
+			// UI_TEXT("Original (Use emulated system's rate)"),
+			UI_TEXT("原生 (使用模拟系统的帧率)"),
 			attach,
 			[this]
 			{
@@ -251,7 +259,8 @@ FrameTimingView::FrameTimingView(ViewAttachParams attach):
 			}, {.id = OutputTimingManager::originalOption.count()}
 		},
 		{
-			UI_TEXT("Detect Custom Rate"),
+			// UI_TEXT("Detect Custom Rate"),
+			UI_TEXT("帧率检测"),
 			attach,
 			[this](const Input::Event &e)
 			{
@@ -267,7 +276,8 @@ FrameTimingView::FrameTimingView(ViewAttachParams attach):
 						}
 						else
 						{
-							app().postErrorMessage(UI_TEXT("Detected rate too unstable to use"));
+							// app().postErrorMessage(UI_TEXT("Detected rate too unstable to use"));
+							app().postErrorMessage(UI_TEXT("帧率检测结果异常"));
 						}
 					};
 				pushAndShowModal(std::move(frView), e);
@@ -281,7 +291,8 @@ FrameTimingView::FrameTimingView(ViewAttachParams attach):
 			{
 				pushAndShowNewCollectValueInputView<std::pair<double, double>>(
 					attachParams(), e,
-					UI_TEXT("Input decimal or fraction"),
+					// UI_TEXT("Input decimal or fraction"),
+					UI_TEXT("请输入小数或分数"),
 					"",
 					[this](CollectTextInputView&, auto val)
 					{
@@ -303,7 +314,9 @@ FrameTimingView::FrameTimingView(ViewAttachParams attach):
 	},
 	frameRate
 	{
-		UI_TEXT("Frame Rate"), attach,
+		// UI_TEXT("Frame Rate"),
+		UI_TEXT("帧率"),
+		attach,
 		app().outputTimingManager.frameTimeOptionAsMenuId(VideoSystem::NATIVE_NTSC),
 		frameRateItems,
 		{
@@ -321,7 +334,9 @@ FrameTimingView::FrameTimingView(ViewAttachParams attach):
 	},
 	frameRatePAL
 	{
-		UI_TEXT("Frame Rate (PAL)"), attach,
+		// UI_TEXT("Frame Rate (PAL)"),
+		UI_TEXT("帧率 (PAL)"),
+		attach,
 		app().outputTimingManager.frameTimeOptionAsMenuId(VideoSystem::PAL),
 		frameRateItems,
 		{
@@ -339,36 +354,43 @@ FrameTimingView::FrameTimingView(ViewAttachParams attach):
 	},
 	frameTimeStats
 	{
-		UI_TEXT("Show Frame Time Stats"), attach,
+		// UI_TEXT("Show Frame Time Stats"),
+		UI_TEXT("显示渲染耗时信息"),
+		attach,
 		app().showFrameTimeStats,
 		[this](BoolMenuItem &item) { app().showFrameTimeStats = item.flipBoolValue(*this); }
 	},
 	frameClockItems
 	{
 		{
-			UI_TEXT("Auto"),
+			// UI_TEXT("Auto"),
+			UI_TEXT("自动"),
 			attach,
 			MenuItem::Config{.id = FrameTimeSource::Unset}
 		},
 		{
-			UI_TEXT("Screen (Less latency & power use)"),
+			// UI_TEXT("Screen (Less latency & power use)"),
+			UI_TEXT("屏幕 (减少延迟和耗电量)"),
 			attach,
 			MenuItem::Config{.id = FrameTimeSource::Screen}
 		},
 		{
-			UI_TEXT("Timer (Best for VRR displays)"),
+			// UI_TEXT("Timer (Best for VRR displays)"),
+			UI_TEXT("计时器 (最适用于支持 VRR 的显示器)"),
 			attach,
 			MenuItem::Config{.id = FrameTimeSource::Timer}
 		},
 		{
-			UI_TEXT("Renderer (May buffer multiple frames)"),
+			// UI_TEXT("Renderer (May buffer multiple frames)"),
+			UI_TEXT("渲染器 (可能会缓冲多帧视频)"),
 			attach,
 			MenuItem::Config{.id = FrameTimeSource::Renderer}
 		},
 	},
 	frameClock
 	{
-		UI_TEXT("Frame Clock"),
+		// UI_TEXT("Frame Clock"),
+		UI_TEXT("帧时钟"),
 		attach,
 		MenuId{FrameTimeSource(app().frameTimeSource)},
 		frameClockItems,
@@ -389,24 +411,27 @@ FrameTimingView::FrameTimingView(ViewAttachParams attach):
 	presentModeItems
 	{
 		{
-			UI_TEXT("Auto"),
+			// UI_TEXT("Auto"),
+			UI_TEXT("自动"),
 			attach,
 			MenuItem::Config{.id = Gfx::PresentMode::Auto}
 		},
 		{
-			UI_TEXT("Immediate (Less compositor latency, may drop frames)"),
+			// UI_TEXT("Immediate (Less compositor latency, may drop frames)"),
+			UI_TEXT("即时 (较少的延迟，但可能会掉帧)"),
 			attach,
 			MenuItem::Config{.id = Gfx::PresentMode::Immediate}
 		},
 		{
-			UI_TEXT("Queued (Better frame rate stability)"),
+			UI_TEXT("队列 (更稳定的帧率)"),
 			attach,
 			MenuItem::Config{.id = Gfx::PresentMode::FIFO}
 		},
 	},
 	presentMode
 	{
-		UI_TEXT("Present Mode"),
+		// UI_TEXT("Present Mode"),
+		UI_TEXT("渲染模式"),
 		attach,
 		MenuId{Gfx::PresentMode(app().presentMode)},
 		presentModeItems,
@@ -414,7 +439,8 @@ FrameTimingView::FrameTimingView(ViewAttachParams attach):
 		{
 			.onSetDisplayString = [this](auto idx, Gfx::Text &t)
 			{
-				t.resetString(renderer().evalPresentMode(app().emuWindow(), app().presentMode) == Gfx::PresentMode::FIFO ? UI_TEXT("Queued") : UI_TEXT("Immediate"));
+				// t.resetString(renderer().evalPresentMode(app().emuWindow(), app().presentMode) == Gfx::PresentMode::FIFO ? UI_TEXT("Queued") : UI_TEXT("Immediate"));
+				t.resetString(renderer().evalPresentMode(app().emuWindow(), app().presentMode) == Gfx::PresentMode::FIFO ? UI_TEXT("队列") : UI_TEXT("即时"));
 				return true;
 			},
 			.defaultItemOnSelect = [this](TextMenuItem &item)
@@ -429,7 +455,12 @@ FrameTimingView::FrameTimingView(ViewAttachParams attach):
 		{
 			std::vector<TextMenuItem> items;
 			auto setRateDel = [this](TextMenuItem &item) { app().overrideScreenFrameRate = std::bit_cast<FrameRate>(item.id); };
-			items.emplace_back(UI_TEXT("Off"), attach, setRateDel, MenuItem::Config{.id = 0});
+			items.emplace_back(
+				// UI_TEXT("Off"),
+				UI_TEXT("关"),
+				attach,
+				setRateDel,
+				MenuItem::Config{.id = 0});
 			for(auto rate : app().emuScreen().supportedFrameRates())
 				items.emplace_back(std::format("{:g}Hz", rate), attach, setRateDel, MenuItem::Config{.id = std::bit_cast<MenuId>(rate)});
 			return items;
@@ -437,7 +468,8 @@ FrameTimingView::FrameTimingView(ViewAttachParams attach):
 	},
 	screenFrameRate
 	{
-		UI_TEXT("Override Screen Frame Rate"),
+		// UI_TEXT("Override Screen Frame Rate"),
+		UI_TEXT("优先于屏幕帧率"),
 		attach,
 		std::bit_cast<MenuId>(FrameRate(app().overrideScreenFrameRate)),
 		screenFrameRateItems
@@ -445,24 +477,28 @@ FrameTimingView::FrameTimingView(ViewAttachParams attach):
 	presentationTimeItems
 	{
 		{
-			UI_TEXT("Full (Apply to all frame rate targets)"),
+			// UI_TEXT("Full (Apply to all frame rate targets)"),
+			UI_TEXT("速度优先 (采用尽可能高的渲染速度)"),
 			attach,
 			MenuItem::Config{.id = PresentationTimeMode::full}
 		},
 		{
-			UI_TEXT("Basic (Only apply to lower frame rate targets)"),
+			// UI_TEXT("Basic (Only apply to lower frame rate targets)"),
+			UI_TEXT("平滑优先 (采用尽可能稳定的渲染速度)"),
 			attach,
 			MenuItem::Config{.id = PresentationTimeMode::basic}
 		},
 		{
-			UI_TEXT("Off"),
+			// UI_TEXT("Off"),
+			UI_TEXT("关"),
 			attach,
 			MenuItem::Config{.id = PresentationTimeMode::off}
 		},
 	},
 	presentationTime
 	{
-		UI_TEXT("Precise Frame Pacing"),
+		// UI_TEXT("Precise Frame Pacing"),
+		UI_TEXT("帧率调节"),
 		attach,
 		MenuId{PresentationTimeMode(app().presentationTimeMode)},
 		presentationTimeItems,
@@ -472,7 +508,8 @@ FrameTimingView::FrameTimingView(ViewAttachParams attach):
 			{
 				if(app().presentationTimeMode == PresentationTimeMode::off)
 					return false;
-				t.resetString(app().presentationTimeMode == PresentationTimeMode::full ? UI_TEXT("Full") : UI_TEXT("Basic"));
+				// t.resetString(app().presentationTimeMode == PresentationTimeMode::full ? UI_TEXT("Full") : UI_TEXT("Basic"));
+				t.resetString(app().presentationTimeMode == PresentationTimeMode::full ? UI_TEXT("速度优先") : UI_TEXT("平滑优先"));
 				return true;
 			},
 			.defaultItemOnSelect = [this](TextMenuItem &item)
@@ -483,13 +520,16 @@ FrameTimingView::FrameTimingView(ViewAttachParams attach):
 	},
 	blankFrameInsertion
 	{
-		UI_TEXT("Allow Blank Frame Insertion"), attach,
+		// UI_TEXT("Allow Blank Frame Insertion"),
+		UI_TEXT("允许插入空白帧"),
+		attach,
 		app().allowBlankFrameInsertion,
 		[this](BoolMenuItem &item) { app().allowBlankFrameInsertion = item.flipBoolValue(*this); }
 	},
 	advancedHeading
 	{
-		UI_TEXT("Advanced"),
+		// UI_TEXT("Advanced"),
+		UI_TEXT("高级选项："),
 		attach
 	}
 {
@@ -524,7 +564,8 @@ bool FrameTimingView::onFrameTimeChange(VideoSystem vidSys, SteadyClockTime time
 		app().postMessage(
 			4,
 			true,
-			std::format(UI_TEXT("{:g}Hz not in valid range"), toHz(time)));
+			// std::format(UI_TEXT("{:g}Hz not in valid range"), toHz(time)));
+			std::format(UI_TEXT("{:g}Hz 不在有效的取值范围"), toHz(time)));
 		return false;
 	}
 	return true;

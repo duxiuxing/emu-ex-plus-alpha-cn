@@ -144,7 +144,7 @@ MainMenuView::MainMenuView(ViewAttachParams attach, bool customMenu):
 	benchmark
 	{
 		// UI_TEXT("Benchmark Content"),
-		UI_TEXT("检查游戏文件"),
+		UI_TEXT("检查游戏"),
 		attach,
 		[this](const Input::Event &e)
 		{
