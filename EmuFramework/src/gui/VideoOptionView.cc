@@ -32,7 +32,7 @@ constexpr SystemLogger log{"VideoOptionView"};
 
 static const char *autoWindowPixelFormatStr(IG::ApplicationContext ctx)
 {
-	return ctx.defaultWindowPixelFormat() == PixelFmtRGB565 ? "RGB565" : "RGBA8888";
+	return ctx.defaultWindowPixelFormat() == PixelFmtRGB565 ? UI_TEXT("RGB565") : UI_TEXT("RGBA8888");
 }
 
 constexpr uint16_t pack(Gfx::DrawableConfig c)
@@ -59,15 +59,19 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, EmuVideoLayer &videoLa
 		[&]
 		{
 			decltype(textureBufferModeItem) items;
-			items.emplace_back(UI_TEXT("Auto (Set optimal mode)"), attach, [this](View &view)
-			{
-				app().textureBufferMode = Gfx::TextureBufferMode::DEFAULT;
-				auto defaultMode = renderer().evalTextureBufferMode();
-				emuVideo().setTextureBufferMode(system(), defaultMode);
-				textureBufferMode.setSelected(MenuId{defaultMode});
-				view.dismiss();
-				return false;
-			}, MenuItem::Config{.id = 0});
+			items.emplace_back(
+				UI_TEXT("Auto (Set optimal mode)"),
+				attach,
+				[this](View &view)
+				{
+					app().textureBufferMode = Gfx::TextureBufferMode::DEFAULT;
+					auto defaultMode = renderer().evalTextureBufferMode();
+					emuVideo().setTextureBufferMode(system(), defaultMode);
+					textureBufferMode.setSelected(MenuId{defaultMode});
+					view.dismiss();
+					return false;
+				},
+				MenuItem::Config{.id = 0});
 			for(auto desc: renderer().textureBufferModes())
 			{
 				items.emplace_back(desc.name, attach, [this](MenuItem &item)
@@ -81,7 +85,8 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, EmuVideoLayer &videoLa
 	},
 	textureBufferMode
 	{
-		UI_TEXT("GPU Copy Mode"), attach,
+		UI_TEXT("GPU Copy Mode"),
+		attach,
 		MenuId{renderer().evalTextureBufferMode(app().textureBufferMode)},
 		textureBufferModeItem
 	},
@@ -99,37 +104,50 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, EmuVideoLayer &videoLa
 			}
 			if(EmuSystem::hasRectangularPixels)
 			{
-				aspectRatioItem.emplace_back(UI_TEXT("Square Pixels"), attach, [this]()
-				{
-					app().setVideoAspectRatio(-1);
-				}, MenuItem::Config{.id = std::bit_cast<MenuId>(-1.f)});
-			}
-			aspectRatioItem.emplace_back(UI_TEXT("Fill Display"), attach, [this]()
-			{
-				app().setVideoAspectRatio(0);
-			}, MenuItem::Config{.id = 0});
-			aspectRatioItem.emplace_back(UI_TEXT("Custom Value"), attach, [this](const Input::Event &e)
-			{
-				pushAndShowNewCollectValueInputView<std::pair<float, float>>(attachParams(), e,
-					UI_TEXT("Input decimal or fraction"),
-					"",
-					[this](CollectTextInputView &, auto val)
+				aspectRatioItem.emplace_back(
+					UI_TEXT("Square Pixels"),
+					attach,
+					[this]()
 					{
-						float ratio = val.first / val.second;
-						if(app().setVideoAspectRatio(ratio))
+						app().setVideoAspectRatio(-1);
+					},
+					MenuItem::Config{.id = std::bit_cast<MenuId>(-1.f)});
+			}
+			aspectRatioItem.emplace_back(
+				UI_TEXT("Fill Display"),
+				attach,
+				[this]()
+				{
+					app().setVideoAspectRatio(0);
+				},
+				MenuItem::Config{.id = 0});
+			aspectRatioItem.emplace_back(
+				UI_TEXT("Custom Value"),
+				attach,
+				[this](const Input::Event &e)
+				{
+					pushAndShowNewCollectValueInputView<std::pair<float, float>>(
+						attachParams(), e,
+						UI_TEXT("Input decimal or fraction"),
+						"",
+						[this](CollectTextInputView &, auto val)
 						{
-							aspectRatio.setSelected(std::bit_cast<MenuId>(ratio), *this);
-							dismissPrevious();
-							return true;
-						}
-						else
-						{
-							app().postErrorMessage(UI_TEXT("Value not in range"));
-							return false;
-						}
-					});
-				return false;
-			}, MenuItem::Config{.id = defaultMenuId});
+							float ratio = val.first / val.second;
+							if(app().setVideoAspectRatio(ratio))
+							{
+								aspectRatio.setSelected(std::bit_cast<MenuId>(ratio), *this);
+								dismissPrevious();
+								return true;
+							}
+							else
+							{
+								app().postErrorMessage(UI_TEXT("Value not in range"));
+								return false;
+							}
+						});
+					return false;
+				},
+				MenuItem::Config{.id = defaultMenuId});
 			return aspectRatioItem;
 		}()
 	},
@@ -195,7 +213,8 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, EmuVideoLayer &videoLa
 						return true;
 					});
 				return false;
-			}, {.id = defaultMenuId}
+			},
+			{.id = defaultMenuId}
 		},
 	},
 	contentScale
@@ -251,7 +270,8 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, EmuVideoLayer &videoLa
 						return true;
 					});
 				return false;
-			}, {.id = defaultMenuId}
+			},
+			{.id = defaultMenuId}
 		},
 	},
 	menuScale
