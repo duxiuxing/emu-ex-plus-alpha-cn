@@ -29,7 +29,8 @@ public:
 		{
 			TextMenuItem
 			{
-				"Soft Reset", attach,
+				UI_TEXT("Soft Reset"),
+				attach,
 				[this, &app]()
 				{
 					app.system().reset(app, EmuSystem::ResetMode::SOFT);
@@ -38,14 +39,20 @@ public:
 			},
 			TextMenuItem
 			{
-				"Hard Reset", attach,
+				UI_TEXT("Hard Reset"),
+				attach,
 				[this, &app]()
 				{
 					app.system().reset(app, EmuSystem::ResetMode::HARD);
 					app.showEmulation();
 				}
 			},
-			TextMenuItem{"Cancel", attach, [](){}}
+			TextMenuItem
+			{
+				UI_TEXT("Cancel"),
+				attach,
+				[](){}
+			}
 		} {}
 
 protected:
