@@ -1082,7 +1082,7 @@ TouchConfigView::TouchConfigView(ViewAttachParams attach, VController &vCtrl):
 	placeVideo
 	{
 		// UI_TEXT("Set Video Position"),
-		UI_TEXT("设置游戏画面位置"),
+		UI_TEXT("设置画面位置"),
 		attach,
 		[this](const Input::Event &e)
 		{

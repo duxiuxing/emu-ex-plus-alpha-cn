@@ -60,7 +60,8 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, EmuVideoLayer &videoLa
 		{
 			decltype(textureBufferModeItem) items;
 			items.emplace_back(
-				UI_TEXT("Auto (Set optimal mode)"),
+				// UI_TEXT("Auto (Set optimal mode)"),
+				UI_TEXT("自动 (设置最佳模式)"),
 				attach,
 				[this](View &view)
 				{
@@ -85,7 +86,8 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, EmuVideoLayer &videoLa
 	},
 	textureBufferMode
 	{
-		UI_TEXT("GPU Copy Mode"),
+		// UI_TEXT("GPU Copy Mode"),
+		UI_TEXT("GPU 复制模式"),
 		attach,
 		MenuId{renderer().evalTextureBufferMode(app().textureBufferMode)},
 		textureBufferModeItem
@@ -105,7 +107,8 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, EmuVideoLayer &videoLa
 			if(EmuSystem::hasRectangularPixels)
 			{
 				aspectRatioItem.emplace_back(
-					UI_TEXT("Square Pixels"),
+					// UI_TEXT("Square Pixels"),
+					UI_TEXT("正方形像素"),
 					attach,
 					[this]()
 					{
@@ -114,7 +117,8 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, EmuVideoLayer &videoLa
 					MenuItem::Config{.id = std::bit_cast<MenuId>(-1.f)});
 			}
 			aspectRatioItem.emplace_back(
-				UI_TEXT("Fill Display"),
+				// UI_TEXT("Fill Display"),
+				UI_TEXT("充满屏幕"),
 				attach,
 				[this]()
 				{
@@ -122,13 +126,15 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, EmuVideoLayer &videoLa
 				},
 				MenuItem::Config{.id = 0});
 			aspectRatioItem.emplace_back(
-				UI_TEXT("Custom Value"),
+				// UI_TEXT("Custom Value"),
+				UI_TEXT("自定义"),
 				attach,
 				[this](const Input::Event &e)
 				{
 					pushAndShowNewCollectValueInputView<std::pair<float, float>>(
 						attachParams(), e,
-						UI_TEXT("Input decimal or fraction"),
+						// UI_TEXT("Input decimal or fraction"),
+						UI_TEXT("请输入小数或分数"),
 						"",
 						[this](CollectTextInputView &, auto val)
 						{
@@ -141,7 +147,8 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, EmuVideoLayer &videoLa
 							}
 							else
 							{
-								app().postErrorMessage(UI_TEXT("Value not in range"));
+								// app().postErrorMessage(UI_TEXT("Value not in range"));
+								app().postErrorMessage(UI_TEXT("输入值不在有效的取值范围"));
 								return false;
 							}
 						});
@@ -153,7 +160,8 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, EmuVideoLayer &videoLa
 	},
 	aspectRatio
 	{
-		UI_TEXT("Aspect Ratio"),
+		// UI_TEXT("Aspect Ratio"),
+		UI_TEXT("宽高比例"),
 		attach,
 		std::bit_cast<MenuId>(app().videoAspectRatio()),
 		aspectRatioItem,
@@ -187,23 +195,27 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, EmuVideoLayer &videoLa
 			{.id = 80}
 		},
 		{
-			UI_TEXT("Integer-only"),
+			// UI_TEXT("Integer-only"),
+			UI_TEXT("自动"),
 			attach,
 			{.id = optionContentScaleIntegerOnly}
 		},
 		{
-			UI_TEXT("Integer-only (Height)"),
+			// UI_TEXT("Integer-only (Height)"),
+			UI_TEXT("自动 (高度优先)"),
 			attach,
 			{.id = optionContentScaleIntegerOnlyY}
 		},
 		{
-			UI_TEXT("Custom Value"),
+			// UI_TEXT("Custom Value"),
+			UI_TEXT("自定义"),
 			attach,
 			[this](const Input::Event &e)
 			{
 				pushAndShowNewCollectValueRangeInputView<int, 10, 200>(
 					attachParams(), e,
-					UI_TEXT("Input 10 to 200"),
+					// UI_TEXT("Input 10 to 200"),
+					UI_TEXT("请输入 10 到 200 之间的值"),
 					"",
 					[this](CollectTextInputView &, auto val)
 					{
@@ -219,7 +231,8 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, EmuVideoLayer &videoLa
 	},
 	contentScale
 	{
-		UI_TEXT("Content Scale"),
+		// UI_TEXT("Content Scale"),
+		UI_TEXT("画面缩放"),
 		attach,
 		MenuId{videoLayer_.scale},
 		contentScaleItems,
@@ -254,13 +267,15 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, EmuVideoLayer &videoLa
 			{.id = 90}
 		},
 		{
-			UI_TEXT("Custom Value"),
+			// UI_TEXT("Custom Value"),
+			UI_TEXT("自定义),
 			attach,
 			[this](const Input::Event &e)
 			{
 				pushAndShowNewCollectValueRangeInputView<int, 50, 100>(
 					attachParams(), e,
-					UI_TEXT("Input 50 to 100"),
+					// UI_TEXT("Input 50 to 100"),
+					UI_TEXT("请输入 50 到 100 之间的值"),
 					"",
 					[this](CollectTextInputView &, auto val)
 					{
@@ -276,7 +291,8 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, EmuVideoLayer &videoLa
 	},
 	menuScale
 	{
-		UI_TEXT("Menu Scale"),
+		// UI_TEXT("Menu Scale"),
+		UI_TEXT("应用缩放"),
 		attach,
 		MenuId{app().menuScale},
 		menuScaleItems,
@@ -292,34 +308,40 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, EmuVideoLayer &videoLa
 	contentRotationItem
 	{
 		{
-			UI_TEXT("Auto"),
+			// UI_TEXT("Auto"),
+			UI_TEXT("自动"),
 			attach,
 			{.id = Rotation::ANY}
 		},
 		{
-			UI_TEXT("Standard"),
+			// UI_TEXT("Standard"),
+			UI_TEXT("标准"),
 			attach,
 			{.id = Rotation::UP}
 		},
 		{
-			UI_TEXT("90° Right"),
+			// UI_TEXT("90° Right"),
+			UI_TEXT("右转 90 度"),
 			attach,
 			{.id = Rotation::RIGHT}
 		},
 		{
-			UI_TEXT("Upside Down"),
+			// UI_TEXT("Upside Down"),
+			UI_TEXT("旋转 180 度"),
 			attach,
 			{.id = Rotation::DOWN}
 		},
 		{
-			UI_TEXT("90° Left"),
+			// UI_TEXT("90° Left"),
+			UI_TEXT("左转 90 度"),
 			attach,
 			{.id = Rotation::LEFT}
 		},
 	},
 	contentRotation
 	{
-		UI_TEXT("Content Rotation"),
+		// UI_TEXT("Content Rotation"),
+		UI_TEXT("画面旋转"),
 		attach,
 		MenuId{app().contentRotation.value()},
 		contentRotationItem,
@@ -329,7 +351,8 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, EmuVideoLayer &videoLa
 	},
 	placeVideo
 	{
-		UI_TEXT("Set Video Position"),
+		// UI_TEXT("Set Video Position"),
+		UI_TEXT("设置画面位置"),
 		attach,
 		[this](const Input::Event &e)
 		{
@@ -340,11 +363,14 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, EmuVideoLayer &videoLa
 	},
 	imgFilter
 	{
-		UI_TEXT("Image Interpolation"),
+		// UI_TEXT("Image Interpolation"),
+		UI_TEXT("图像插值"),
 		attach,
 		videoLayer_.usingLinearFilter(),
-		UI_TEXT("None"),
-		UI_TEXT("Linear"),
+		// UI_TEXT("None"),
+		UI_TEXT("无"),
+		// UI_TEXT("Linear"),
+		UI_TEXT("线性"),
 		[this](BoolMenuItem &item)
 		{
 			videoLayer.setLinearFilter(item.flipBoolValue(*this));
@@ -354,7 +380,8 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, EmuVideoLayer &videoLa
 	imgEffectItem
 	{
 		{
-			UI_TEXT("Off"),
+			// UI_TEXT("Off"),
+			UI_TEXT("关"),
 			attach,
 			{.id = ImageEffectId::DIRECT}
 		},
@@ -386,7 +413,8 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, EmuVideoLayer &videoLa
 	},
 	imgEffect
 	{
-		UI_TEXT("Image Effect"),
+		// UI_TEXT("Image Effect"),
+		UI_TEXT("图像特效"),
 		attach,
 		MenuId{videoLayer_.effectId()},
 		imgEffectItem,
@@ -401,49 +429,58 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, EmuVideoLayer &videoLa
 	overlayEffectItem
 	{
 		{
-			UI_TEXT("Off"),
+			// UI_TEXT("Off"),
+			UI_TEXT("关"),
 			attach,
 			{.id = 0}
 		},
 		{
-			UI_TEXT("Scanlines"),
+			// UI_TEXT("Scanlines"),
+			UI_TEXT("扫描线特效"),
 			attach,
 			{.id = ImageOverlayId::SCANLINES}
 		},
 		{
-			UI_TEXT("Scanlines 2x"),
+			// UI_TEXT("Scanlines 2x"),
+			UI_TEXT("扫描线特效 2x"),
 			attach,
 			{.id = ImageOverlayId::SCANLINES_2}
 		},
 		{
-			UI_TEXT("LCD Grid"),
+			// UI_TEXT("LCD Grid"),
+			UI_TEXT("LCD 屏幕特效"),
 			attach,
 			{.id = ImageOverlayId::LCD}
 		},
 		{
-			UI_TEXT("CRT Mask"),
+			// UI_TEXT("CRT Mask"),
+			UI_TEXT("CRT 屏幕遮罩"),
 			attach,
 			{.id = ImageOverlayId::CRT_MASK}
 		},
 		{
-			UI_TEXT("CRT Mask .5x"),
+			// UI_TEXT("CRT Mask .5x"),
+			UI_TEXT("CRT 屏幕遮罩 .5x"),
 			attach,
 			{.id = ImageOverlayId::CRT_MASK_2}
 		},
 		{
-			UI_TEXT("CRT Grille"),
+			// UI_TEXT("CRT Grille"),
+			UI_TEXT("CRT 屏幕格栅"),
 			attach,
 			{.id = ImageOverlayId::CRT_GRILLE}
 		},
 		{
-			UI_TEXT("CRT Grille .5x"),
+			// UI_TEXT("CRT Grille .5x"),
+			UI_TEXT("CRT 屏幕格栅 .5x"),
 			attach,
 			{.id = ImageOverlayId::CRT_GRILLE_2}
 		}
 	},
 	overlayEffect
 	{
-		UI_TEXT("Overlay Effect"),
+		// UI_TEXT("Overlay Effect"),
+		UI_TEXT("屏幕特效"),
 		attach,
 		MenuId{videoLayer_.overlayEffectId()},
 		overlayEffectItem,
@@ -462,13 +499,15 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, EmuVideoLayer &videoLa
 		{"50%",  attach, {.id = 50}},
 		{"25%",  attach, {.id = 25}},
 		{
-			UI_TEXT("Custom Value"),
+			// UI_TEXT("Custom Value"),
+			UI_TEXT("自定义"),
 			attach,
 			[this](const Input::Event &e)
 			{
 				pushAndShowNewCollectValueRangeInputView<int, 0, 100>(
 					attachParams(), e,
-					UI_TEXT("Input 0 to 100"),
+					// UI_TEXT("Input 0 to 100"),
+					UI_TEXT("请输入 0 到 100 之间的值"),
 					"",
 					[this](CollectTextInputView &, auto val)
 					{
@@ -484,7 +523,8 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, EmuVideoLayer &videoLa
 	},
 	overlayEffectLevel
 	{
-		UI_TEXT("Overlay Effect Level"),
+		// UI_TEXT("Overlay Effect Level"),
+		UI_TEXT("屏幕特效等级"),
 		attach,
 		MenuId{videoLayer_.overlayIntensity() * 100.f},
 		overlayEffectLevelItem,
@@ -504,7 +544,8 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, EmuVideoLayer &videoLa
 	imgEffectPixelFormatItem
 	{
 		{
-			UI_TEXT("Auto (Match display format)"),
+			// UI_TEXT("Auto (Match display format)"),
+			UI_TEXT("自动 (匹配显示格式)"),
 			attach,
 			{.id = PixelFormatId::Unset}
 		},
@@ -521,7 +562,8 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, EmuVideoLayer &videoLa
 	},
 	imgEffectPixelFormat
 	{
-		UI_TEXT("Effect Color Format"),
+		// UI_TEXT("Effect Color Format"),
+		UI_TEXT("效果颜色格式t"),
 		attach,
 		MenuId{app().imageEffectPixelFormat.value()},
 		imgEffectPixelFormatItem,
@@ -554,14 +596,16 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, EmuVideoLayer &videoLa
 				auto conf = unpackDrawableConfig(item.id);
 				if(!app().setWindowDrawableConfig(conf))
 				{
-					app().postMessage(UI_TEXT("Restart app for option to take effect"));
+					// app().postMessage(UI_TEXT("Restart app for option to take effect"));
+					app().postMessage(UI_TEXT("请重启应用使选项生效"));
 					return;
 				}
 				renderPixelFormat.updateDisplayString();
 				imgEffectPixelFormat.updateDisplayString();
 			};
 			items.emplace_back(
-				UI_TEXT("Auto"),
+				// UI_TEXT("Auto"),
+				UI_TEXT("自动"),
 				attach,
 				setWindowDrawableConfigDel,
 				MenuItem::Config{.id = 0});
@@ -574,7 +618,8 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, EmuVideoLayer &videoLa
 	},
 	windowPixelFormat
 	{
-		UI_TEXT("Display Color Format"),
+		// UI_TEXT("Display Color Format"),
+		UI_TEXT("显示颜色格式"),
 		attach,
 		MenuId{pack(app().windowDrawableConfig())},
 		windowPixelFormatItem,
@@ -593,7 +638,8 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, EmuVideoLayer &videoLa
 	},
 	secondDisplay
 	{
-		UI_TEXT("2nd Window (for testing only)"),
+		// UI_TEXT("2nd Window (for testing only)"),
+		UI_TEXT("第二屏幕 (仅供测试)"),
 		attach,
 		false,
 		[this](BoolMenuItem &item)
@@ -603,11 +649,14 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, EmuVideoLayer &videoLa
 	},
 	showOnSecondScreen
 	{
-		UI_TEXT("External Screen"),
+		// UI_TEXT("External Screen"),
+		UI_TEXT("扩展屏幕"),
 		attach,
 		app().showOnSecondScreen,
-		UI_TEXT("OS Managed"),
-		UI_TEXT("Emu Content"),
+		// UI_TEXT("OS Managed"),
+		UI_TEXT("系统管理"),
+		// UI_TEXT("Emu Content"),
+		UI_TEXT("游戏画面"),
 		[this](BoolMenuItem &item)
 		{
 			app().showOnSecondScreen = item.flipBoolValue(*this);
@@ -618,7 +667,8 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, EmuVideoLayer &videoLa
 	renderPixelFormatItem
 	{
 		{
-			UI_TEXT("Auto (Match display format)"),
+			// UI_TEXT("Auto (Match display format)"),
+			UI_TEXT("自动 (匹配显示格式)"),
 			attach,
 			{.id = PixelFormatId::Unset}
 		},
@@ -627,7 +677,8 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, EmuVideoLayer &videoLa
 	},
 	renderPixelFormat
 	{
-		UI_TEXT("Render Color Format"),
+		// UI_TEXT("Render Color Format"),
+		UI_TEXT("渲染颜色格式"),
 		attach,
 		MenuId{app().renderPixelFormat.value().id},
 		renderPixelFormatItem,
@@ -647,7 +698,8 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, EmuVideoLayer &videoLa
 	brightnessItem
 	{
 		{
-			UI_TEXT("Default"),
+			// UI_TEXT("Default"),
+			UI_TEXT("默认值"),
 			attach,
 			[this](View &v)
 			{
@@ -657,7 +709,8 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, EmuVideoLayer &videoLa
 			}
 		},
 		{
-			UI_TEXT("Custom Value"),
+			// UI_TEXT("Custom Value"),
+			UI_TEXT("自定义"),
 			attach,
 			setVideoBrightnessCustomDel(ImageChannel::All)
 		},
@@ -665,13 +718,15 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, EmuVideoLayer &videoLa
 	redItem
 	{
 		{
-			UI_TEXT("Default"),
+			// UI_TEXT("Default"),
+			UI_TEXT("默认值"),
 			attach,
 			[this](){ videoLayer.setBrightness(1.f, ImageChannel::Red); },
 			{.id = 100}
 		},
 		{
-			UI_TEXT("Custom Value"),
+			// UI_TEXT("Custom Value"),
+			UI_TEXT("自定义"),
 			attach,
 			setVideoBrightnessCustomDel(ImageChannel::Red),
 			{.id = defaultMenuId}
@@ -680,13 +735,15 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, EmuVideoLayer &videoLa
 	greenItem
 	{
 		{
-			UI_TEXT("Default"),
+			// UI_TEXT("Default"),
+			UI_TEXT("默认值"),
 			attach,
 			[this](){ videoLayer.setBrightness(1.f, ImageChannel::Green); },
 			{.id = 100}
 		},
 		{
-			UI_TEXT("Custom Value"),
+			// UI_TEXT("Custom Value"),
+			UI_TEXT("自定义"),
 			attach,
 			setVideoBrightnessCustomDel(ImageChannel::Green),
 			{.id = defaultMenuId}
@@ -695,13 +752,15 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, EmuVideoLayer &videoLa
 	blueItem
 	{
 		{
-			UI_TEXT("Default"),
+			// UI_TEXT("Default"),
+			UI_TEXT("默认值"),
 			attach,
 			[this](){ videoLayer.setBrightness(1.f, ImageChannel::Blue); },
 			{.id = 100}
 		},
 		{
-			UI_TEXT("Custom Value"),
+			// UI_TEXT("Custom Value"),
+			UI_TEXT("自定义"),
 			attach,
 			setVideoBrightnessCustomDel(ImageChannel::Blue),
 			{.id = defaultMenuId}
@@ -709,20 +768,23 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, EmuVideoLayer &videoLa
 	},
 	brightness
 	{
-		UI_TEXT("Set All Levels"),
+		// UI_TEXT("Set All Levels"),
+		UI_TEXT("设置所有色阶"),
 		attach,
 		[this](const Input::Event &e)
 		{
 			pushAndShow(
 				makeViewWithName<TableView>(
-					UI_TEXT("All Levels"),
+					// UI_TEXT("All Levels"),
+					UI_TEXT("所有色阶"),
 					brightnessItem),
 				e);
 		}
 	},
 	red
 	{
-		UI_TEXT("Red"),
+		// UI_TEXT("Red"),
+		UI_TEXT("红色"),
 		attach,
 		MenuId{videoLayer_.channelBrightnessAsInt(ImageChannel::Red)},
 		redItem,
@@ -736,7 +798,8 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, EmuVideoLayer &videoLa
 	},
 	green
 	{
-		UI_TEXT("Green"),
+		// UI_TEXT("Green"),
+		UI_TEXT("绿色"),
 		attach,
 		MenuId{videoLayer_.channelBrightnessAsInt(ImageChannel::Green)},
 		greenItem,
@@ -750,7 +813,8 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, EmuVideoLayer &videoLa
 	},
 	blue
 	{
-		UI_TEXT("Blue"),
+		// UI_TEXT("Blue"),
+		UI_TEXT("蓝色"),
 		attach,
 		MenuId{videoLayer_.channelBrightnessAsInt(ImageChannel::Blue)},
 		blueItem,
@@ -764,17 +828,20 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, EmuVideoLayer &videoLa
 	},
 	colorLevelsHeading
 	{
-		UI_TEXT("Color Levels"),
+		// UI_TEXT("Color Levels"),
+		UI_TEXT("色阶："),
 		attach
 	},
 	advancedHeading
 	{
-		UI_TEXT("Advanced"),
+		// UI_TEXT("Advanced"),
+		UI_TEXT("高级选项："),
 		attach
 	},
 	systemSpecificHeading
 	{
-		UI_TEXT("System-specific"),
+		// UI_TEXT("System-specific"),
+		UI_TEXT("专业选项："),
 		attach
 	}
 {
@@ -828,7 +895,8 @@ TextMenuItem::SelectDelegate VideoOptionView::setVideoBrightnessCustomDel(ImageC
 	{
 		pushAndShowNewCollectValueRangeInputView<int, 0, 200>(
 			attachParams(), e,
-			UI_TEXT("Input 0 to 200"),
+			// UI_TEXT("Input 0 to 200"),
+			UI_TEXT("请输入 0 到 200 之间的值"),
 			"",
 			[=, this](CollectTextInputView &, auto val)
 			{
