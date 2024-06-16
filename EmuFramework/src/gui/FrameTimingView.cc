@@ -173,9 +173,11 @@ static std::string makeFrameRateStr(VideoSystem vidSys, const OutputTimingManage
 {
 	auto frameTimeOpt = mgr.frameTimeOption(vidSys);
 	if(frameTimeOpt == OutputTimingManager::autoOption)
-		return "Auto";
+		// return UI_TEXT("Auto");
+		return UI_TEXT("自动");
 	else if(frameTimeOpt == OutputTimingManager::originalOption)
-		return "Original";
+		// return UI_TEXT("Original");
+		return UI_TEXT("原始");
 	else
 		return std::format("{:g}Hz", toHz(frameTimeOpt));
 }
@@ -234,7 +236,7 @@ FrameTimingView::FrameTimingView(ViewAttachParams attach):
 	{
 		{
 			// UI_TEXT("Auto (Match screen when rates are similar)"),
-			UI_TEXT("自动 (匹配屏幕刷新率)"),
+			UI_TEXT("Auto (匹配屏幕刷新率)"),
 			attach,
 			[this]
 			{
@@ -251,7 +253,7 @@ FrameTimingView::FrameTimingView(ViewAttachParams attach):
 		},
 		{
 			// UI_TEXT("Original (Use emulated system's rate)"),
-			UI_TEXT("原生 (使用模拟系统的帧率)"),
+			UI_TEXT("Original (使用模拟系统的帧率)"),
 			attach,
 			[this]
 			{
@@ -285,7 +287,8 @@ FrameTimingView::FrameTimingView(ViewAttachParams attach):
 			}
 		},
 		{
-			UI_TEXT("Custom Rate"),
+			// UI_TEXT("Custom Rate"),
+			UI_TEXT("自定义"),
 			attach,
 			[this](const Input::Event &e)
 			{
@@ -370,19 +373,19 @@ FrameTimingView::FrameTimingView(ViewAttachParams attach):
 		},
 		{
 			// UI_TEXT("Screen (Less latency & power use)"),
-			UI_TEXT("屏幕 (减少延迟和耗电量)"),
+			UI_TEXT("Screen (减少延迟和耗电量)"),
 			attach,
 			MenuItem::Config{.id = FrameTimeSource::Screen}
 		},
 		{
 			// UI_TEXT("Timer (Best for VRR displays)"),
-			UI_TEXT("计时器 (最适用于支持 VRR 的显示器)"),
+			UI_TEXT("Timer (最适用于支持 VRR 的显示器)"),
 			attach,
 			MenuItem::Config{.id = FrameTimeSource::Timer}
 		},
 		{
 			// UI_TEXT("Renderer (May buffer multiple frames)"),
-			UI_TEXT("渲染器 (可能会缓冲多帧视频)"),
+			UI_TEXT("Renderer (可能会缓冲多帧视频)"),
 			attach,
 			MenuItem::Config{.id = FrameTimeSource::Renderer}
 		},
