@@ -48,7 +48,8 @@ class ConsoleOptionView : public TableView, public MainAppHelper
 {
 	BoolMenuItem fourScore
 	{
-		"4-Player Adapter", attachParams(),
+		UI_TEXT("4-Player Adapter"),
+		attachParams(),
 		(bool)system().optionFourScore,
 		[this](BoolMenuItem &item, View &, Input::Event e)
 		{
@@ -70,15 +71,32 @@ class ConsoleOptionView : public TableView, public MainAppHelper
 
 	TextMenuItem inputPortsItem[4]
 	{
-		{"Auto",          attachParams(), {.id = packInputEnums(SI_UNSET, SI_UNSET)}},
-		{"Gamepads",      attachParams(), {.id = packInputEnums(SI_GAMEPAD, SI_GAMEPAD)}},
-		{"Gun (2P, NES)", attachParams(), {.id = packInputEnums(SI_GAMEPAD, SI_ZAPPER)}},
-		{"Gun (1P, VS)",  attachParams(), {.id = packInputEnums(SI_ZAPPER, SI_GAMEPAD)}},
+		{
+			UI_TEXT("Auto"),
+			attachParams(),
+			{.id = packInputEnums(SI_UNSET, SI_UNSET)}
+		},
+		{
+			UI_TEXT("Gamepads"),
+			attachParams(),
+			{.id = packInputEnums(SI_GAMEPAD, SI_GAMEPAD)}
+		},
+		{
+			UI_TEXT("Gun (2P, NES)"),
+			attachParams(),
+			{.id = packInputEnums(SI_GAMEPAD, SI_ZAPPER)}
+		},
+		{
+			UI_TEXT("Gun (1P, VS)"),
+			attachParams(),
+			{.id = packInputEnums(SI_ZAPPER, SI_GAMEPAD)}
+		},
 	};
 
 	MultiChoiceMenuItem inputPorts
 	{
-		"Input Ports", attachParams(),
+		UI_TEXT("Input Ports"),
+		attachParams(),
 		MenuId{packInputEnums(system().inputPort1.value(), system().inputPort2.value())},
 		inputPortsItem,
 		{
@@ -95,7 +113,8 @@ class ConsoleOptionView : public TableView, public MainAppHelper
 
 	BoolMenuItem fcMic
 	{
-		"P2 Start As Microphone", attachParams(),
+		UI_TEXT("P2 Start As Microphone"),
+		attachParams(),
 		replaceP2StartWithMicrophone,
 		[this](BoolMenuItem &item, View &, Input::Event e)
 		{
@@ -106,15 +125,32 @@ class ConsoleOptionView : public TableView, public MainAppHelper
 
 	TextMenuItem videoSystemItem[4]
 	{
-		{"Auto",  attachParams(), {.id = 0}},
-		{"NTSC",  attachParams(), {.id = 1}},
-		{"PAL",   attachParams(), {.id = 2}},
-		{"Dendy", attachParams(), {.id = 3}},
+		{
+			UI_TEXT("Auto"),
+			attachParams(),
+			{.id = 0}
+		},
+		{
+			UI_TEXT("NTSC"),
+			attachParams(),
+			{.id = 1}
+		},
+		{
+			UI_TEXT("PAL"),
+			attachParams(),
+			{.id = 2}
+		},
+		{
+			UI_TEXT("Dendy"),
+			attachParams(),
+			{.id = 3}
+		},
 	};
 
 	MultiChoiceMenuItem videoSystem
 	{
-		"System", attachParams(),
+		UI_TEXT("System"),
+		attachParams(),
 		MenuId{system().optionVideoSystem},
 		videoSystemItem,
 		{
@@ -122,7 +158,7 @@ class ConsoleOptionView : public TableView, public MainAppHelper
 			{
 				if(idx == 0)
 				{
-					t.resetString(dendy ? "Dendy" : pal_emulation ? "PAL" : "NTSC");
+					t.resetString(dendy ? UI_TEXT("Dendy") : pal_emulation ? UI_TEXT("PAL") : UI_TEXT("NTSC"));
 					return true;
 				}
 				return false;
@@ -139,16 +175,18 @@ class ConsoleOptionView : public TableView, public MainAppHelper
 
 	BoolMenuItem compatibleFrameskip
 	{
-		"Frameskip Mode", attachParams(),
+		UI_TEXT("Frameskip Mode"),
+		attachParams(),
 		(bool)system().optionCompatibleFrameskip,
-		"Fast", "Compatible",
+		UI_TEXT("Fast"),
+		UI_TEXT("Compatible"),
 		[this](BoolMenuItem &item, View &, Input::Event e)
 		{
 			if(!item.boolValue())
 			{
 				app().pushAndShowModalView(makeView<YesNoAlertView>(
-					"Use compatible mode if the current game has glitches when "
-					"fast-forwarding/frame-skipping, at the cost of increased CPU usage.",
+					UI_TEXT("Use compatible mode if the current game has glitches when ")
+					UI_TEXT("fast-forwarding/frame-skipping, at the cost of increased CPU usage."),
 					YesNoAlertView::Delegates
 					{
 						.onYes = [this, &item]
@@ -166,7 +204,11 @@ class ConsoleOptionView : public TableView, public MainAppHelper
 		}
 	};
 
-	TextHeadingMenuItem videoHeading{"Video", attachParams()};
+	TextHeadingMenuItem videoHeading
+	{
+		UI_TEXT("Video"),
+		attachParams()
+	};
 
 	static uint16_t packVideoLines(uint8_t start, uint8_t total)
 	{
@@ -188,7 +230,8 @@ class ConsoleOptionView : public TableView, public MainAppHelper
 
 	MultiChoiceMenuItem visibleVideoLines
 	{
-		"Visible Lines", attachParams(),
+		UI_TEXT("Visible Lines"),
+		attachParams(),
 		MenuId{packVideoLines(system().optionStartVideoLine, system().optionVisibleVideoLines)},
 		visibleVideoLinesItem,
 		{
@@ -207,7 +250,8 @@ class ConsoleOptionView : public TableView, public MainAppHelper
 
 	BoolMenuItem horizontalVideoCrop
 	{
-		"Crop 8 Pixels On Sides", attachParams(),
+		UI_TEXT("Crop 8 Pixels On Sides"),
+		attachParams(),
 		(bool)system().optionHorizontalVideoCrop,
 		[this](BoolMenuItem &item)
 		{
@@ -219,11 +263,16 @@ class ConsoleOptionView : public TableView, public MainAppHelper
 		}
 	};
 
-	TextHeadingMenuItem overclocking{"Overclocking", attachParams()};
+	TextHeadingMenuItem overclocking
+	{
+		UI_TEXT("Overclocking"),
+		attachParams()
+	};
 
 	BoolMenuItem overclockingEnabled
 	{
-		"Enabled", attachParams(),
+		UI_TEXT("Enabled"),
+		attachParams(),
 		overclock_enabled,
 		[this](BoolMenuItem &item)
 		{
@@ -234,11 +283,13 @@ class ConsoleOptionView : public TableView, public MainAppHelper
 
 	DualTextMenuItem extraLines
 	{
-		"Extra Lines Per Frame", std::to_string(postrenderscanlines), attachParams(),
+		UI_TEXT("Extra Lines Per Frame"),
+		std::to_string(postrenderscanlines), attachParams(),
 		[this](const Input::Event &e)
 		{
 			pushAndShowNewCollectValueRangeInputView<int, 0, maxExtraLinesPerFrame>(attachParams(), e,
-				"Input 0 to 30000", std::to_string(postrenderscanlines),
+				UI_TEXT("Input 0 to 30000"),
+				std::to_string(postrenderscanlines),
 				[this](CollectTextInputView&, auto val)
 				{
 					system().sessionOptionSet();
@@ -251,11 +302,13 @@ class ConsoleOptionView : public TableView, public MainAppHelper
 
 	DualTextMenuItem vblankMultipler
 	{
-		"Vertical Blank Line Multiplier", std::to_string(vblankscanlines), attachParams(),
+		UI_TEXT("Vertical Blank Line Multiplier"),
+		std::to_string(vblankscanlines), attachParams(),
 		[this](const Input::Event &e)
 		{
 			pushAndShowNewCollectValueRangeInputView<int, 0, maxVBlankMultiplier>(attachParams(), e,
-				"Input 0 to 16", std::to_string(vblankscanlines),
+				UI_TEXT("Input 0 to 16"),
+				std::to_string(vblankscanlines),
 				[this](CollectTextInputView&, auto val)
 				{
 					system().sessionOptionSet();
@@ -286,7 +339,7 @@ public:
 	ConsoleOptionView(ViewAttachParams attach):
 		TableView
 		{
-			"Console Options",
+			UI_TEXT("Console Options"),
 			attach,
 			menuItem
 		} {}
@@ -299,7 +352,8 @@ class CustomVideoOptionView : public VideoOptionView, public MainAppHelper
 
 	BoolMenuItem spriteLimit
 	{
-		"Sprite Limit", attachParams(),
+		UI_TEXT("Sprite Limit"),
+		attachParams(),
 		(bool)system().optionSpriteLimit,
 		[this](BoolMenuItem &item, View &, Input::Event e)
 		{
@@ -310,7 +364,11 @@ class CustomVideoOptionView : public VideoOptionView, public MainAppHelper
 
 	TextMenuItem videoSystemItem[4]
 	{
-		{"Auto", attachParams(), [this](){ system().optionDefaultVideoSystem = 0; }},
+		{
+			UI_TEXT("Auto"),
+			attachParams(),
+			[this](){ system().optionDefaultVideoSystem = 0; }
+		},
 		{"NTSC", attachParams(), [this](){ system().optionDefaultVideoSystem = 1; }},
 		{"PAL", attachParams(), [this](){ system().optionDefaultVideoSystem = 2; }},
 		{"Dendy", attachParams(), [this](){ system().optionDefaultVideoSystem = 3; }},
@@ -318,7 +376,8 @@ class CustomVideoOptionView : public VideoOptionView, public MainAppHelper
 
 	MultiChoiceMenuItem videoSystem
 	{
-		"Default Video System", attachParams(),
+		UI_TEXT("Default Video System"),
+		attachParams(),
 		system().optionDefaultVideoSystem.value(),
 		videoSystemItem
 	};
@@ -357,7 +416,10 @@ class CustomVideoOptionView : public VideoOptionView, public MainAppHelper
 		{"Wavebeam",            attachParams(), [this]() { setPalette(appContext(), wavebeamPalPath); }},
 		{"Lightful",            attachParams(), [this]() { setPalette(appContext(), lightfulPalPath); }},
 		{"Palightful",          attachParams(), [this]() { setPalette(appContext(), palightfulPalPath); }},
-		{"Custom File", attachParams(), [this](Input::Event e)
+		{
+			UI_TEXT("Custom File"),
+			attachParams(),
+			[this](Input::Event e)
 			{
 				auto fsFilter = [](std::string_view name) { return endsWithAnyCaseless(name, ".pal"); };
 				auto fPicker = makeView<FilePicker>(FSPicker::Mode::FILE, fsFilter, e, false);
@@ -377,7 +439,8 @@ class CustomVideoOptionView : public VideoOptionView, public MainAppHelper
 
 	MultiChoiceMenuItem defaultPal
 	{
-		"Default Palette", attachParams(),
+		UI_TEXT("Default Palette"),
+		attachParams(),
 		[this]()
 		{
 			if(system().defaultPalettePath.empty()) return 0;
@@ -414,7 +477,8 @@ class CustomVideoOptionView : public VideoOptionView, public MainAppHelper
 
 	MultiChoiceMenuItem visibleVideoLines
 	{
-		"Default Visible Lines", attachParams(),
+		UI_TEXT("Default Visible Lines"),
+		attachParams(),
 		[this]()
 		{
 			switch(system().optionDefaultVisibleVideoLines)
@@ -438,7 +502,8 @@ class CustomVideoOptionView : public VideoOptionView, public MainAppHelper
 
 	BoolMenuItem correctLineAspect
 	{
-		"Correct Line Aspect Ratio", attachParams(),
+		UI_TEXT("Correct Line Aspect Ratio"),
+		attachParams(),
 		(bool)system().optionCorrectLineAspect,
 		[this](BoolMenuItem &item)
 		{
@@ -472,21 +537,35 @@ class CustomAudioOptionView : public AudioOptionView, public MainAppHelper
 
 	TextMenuItem qualityItem[3]
 	{
-		{"Normal", attachParams(), [this](){ setQuality(0); }},
-		{"High", attachParams(), [this]() { setQuality(1); }},
-		{"Highest", attachParams(), [this]() { setQuality(2); }}
+		{
+			UI_TEXT("Normal"),
+			attachParams(),
+			[this](){ setQuality(0); }
+		},
+		{
+			UI_TEXT("High"),
+			attachParams(),
+			[this]() { setQuality(1); }
+		},
+		{
+			UI_TEXT("Highest"),
+			attachParams(),
+			[this]() { setQuality(2); }
+		}
 	};
 
 	MultiChoiceMenuItem quality
 	{
-		"Emulation Quality", attachParams(),
+		UI_TEXT("Emulation Quality"),
+		attachParams(),
 		system().optionSoundQuality.value(),
 		qualityItem
 	};
 
 	BoolMenuItem lowPassFilter
 	{
-		"Low Pass Filter", attachParams(),
+		UI_TEXT("Low Pass Filter"),
+		attachParams(),
 		(bool)FSettings.lowpass,
 		[this](BoolMenuItem &item)
 		{
@@ -496,7 +575,8 @@ class CustomAudioOptionView : public AudioOptionView, public MainAppHelper
 
 	BoolMenuItem swapDutyCycles
 	{
-		"Swap Duty Cycles", attachParams(),
+		UI_TEXT("Swap Duty Cycles"),
+		attachParams(),
 		swapDuty,
 		[this](BoolMenuItem &item)
 		{
@@ -504,11 +584,16 @@ class CustomAudioOptionView : public AudioOptionView, public MainAppHelper
 		}
 	};
 
-	TextHeadingMenuItem mixer{"Mixer", attachParams()};
+	TextHeadingMenuItem mixer
+	{
+		UI_TEXT("Mixer"),
+		attachParams()
+	};
 
 	BoolMenuItem squareWave1
 	{
-		"Square Wave #1", attachParams(),
+		UI_TEXT("Square Wave #1"),
+		attachParams(),
 		(bool)FSettings.Square1Volume,
 		[this](BoolMenuItem &item)
 		{
@@ -518,7 +603,8 @@ class CustomAudioOptionView : public AudioOptionView, public MainAppHelper
 
 	BoolMenuItem squareWave2
 	{
-		"Square Wave #2", attachParams(),
+		UI_TEXT("Square Wave #2"),
+		attachParams(),
 		(bool)FSettings.Square2Volume,
 		[this](BoolMenuItem &item)
 		{
@@ -528,7 +614,8 @@ class CustomAudioOptionView : public AudioOptionView, public MainAppHelper
 
 	BoolMenuItem triangleWave1
 	{
-		"Triangle Wave", attachParams(),
+		UI_TEXT("Triangle Wave"),
+		attachParams(),
 		(bool)FSettings.TriangleVolume,
 		[this](BoolMenuItem &item)
 		{
@@ -538,7 +625,8 @@ class CustomAudioOptionView : public AudioOptionView, public MainAppHelper
 
 	BoolMenuItem noise
 	{
-		"Noise", attachParams(),
+		UI_TEXT("Noise"),
+		attachParams(),
 		(bool)FSettings.NoiseVolume,
 		[this](BoolMenuItem &item)
 		{
@@ -548,7 +636,8 @@ class CustomAudioOptionView : public AudioOptionView, public MainAppHelper
 
 	BoolMenuItem dpcm
 	{
-		"DPCM", attachParams(),
+		UI_TEXT("DPCM"),
+		attachParams(),
 		(bool)FSettings.PCMVolume,
 		[this](BoolMenuItem &item)
 		{
@@ -582,7 +671,9 @@ class CustomFilePathOptionView : public FilePathOptionView, public MainAppHelper
 		cheatsMenuName(appContext(), system().cheatsDir), attachParams(),
 		[this](const Input::Event &e)
 		{
-			pushAndShow(makeViewWithName<UserPathSelectView>("Cheats", system().userPath(system().cheatsDir),
+			pushAndShow(makeViewWithName<UserPathSelectView>(
+				UI_TEXT("Cheats"),
+				system().userPath(system().cheatsDir),
 				[this](CStringView path)
 				{
 					log.info("set cheats path:{}", path);
@@ -597,7 +688,9 @@ class CustomFilePathOptionView : public FilePathOptionView, public MainAppHelper
 		patchesMenuName(appContext(), system().patchesDir), attachParams(),
 		[this](const Input::Event &e)
 		{
-			pushAndShow(makeViewWithName<UserPathSelectView>("Patches", system().userPath(system().patchesDir),
+			pushAndShow(makeViewWithName<UserPathSelectView>(
+				UI_TEXT("Patches"),
+				system().userPath(system().patchesDir),
 				[this](CStringView path)
 				{
 					log.info("set patches path:{}", path);
@@ -612,7 +705,9 @@ class CustomFilePathOptionView : public FilePathOptionView, public MainAppHelper
 		palettesMenuName(appContext(), system().palettesDir), attachParams(),
 		[this](const Input::Event &e)
 		{
-			pushAndShow(makeViewWithName<UserPathSelectView>("Palettes", system().userPath(system().palettesDir),
+			pushAndShow(makeViewWithName<UserPathSelectView>(
+				UI_TEXT("Palettes"),
+				system().userPath(system().palettesDir),
 				[this](CStringView path)
 				{
 					log.info("set palettes path:{}", path);
@@ -627,7 +722,8 @@ class CustomFilePathOptionView : public FilePathOptionView, public MainAppHelper
 		biosMenuEntryStr(system().fdsBiosPath), attachParams(),
 		[this](TextMenuItem &, View &, Input::Event e)
 		{
-			pushAndShow(makeViewWithName<DataFileSelectView<>>("Disk System BIOS",
+			pushAndShow(makeViewWithName<DataFileSelectView<>>(
+				UI_TEXT("Disk System BIOS"),
 				app().validSearchPath(FS::dirnameUri(system().fdsBiosPath)),
 				[this](CStringView path, FS::file_type type)
 				{
@@ -641,7 +737,9 @@ class CustomFilePathOptionView : public FilePathOptionView, public MainAppHelper
 
 	std::string biosMenuEntryStr(CStringView path) const
 	{
-		return std::format("Disk System BIOS: {}", appContext().fileUriDisplayName(path));
+		return std::format(
+			UI_TEXT("Disk System BIOS: {}"),
+			appContext().fileUriDisplayName(path));
 	}
 
 public:
@@ -662,7 +760,8 @@ private:
 	TextMenuItem setSide[DISK_SIDES]
 	{
 		{
-			"Set Disk 1 Side A", attachParams(),
+			UI_TEXT("Set Disk 1 Side A"),
+			attachParams(),
 			[this](View &view, Input::Event e)
 			{
 				FCEU_FDSSetDisk(0, system());
@@ -670,7 +769,8 @@ private:
 			}
 		},
 		{
-			"Set Disk 1 Side B", attachParams(),
+			UI_TEXT("Set Disk 1 Side B"),
+			attachParams(),
 			[this](View &view, Input::Event e)
 			{
 				FCEU_FDSSetDisk(1, system());
@@ -678,7 +778,8 @@ private:
 			}
 		},
 		{
-			"Set Disk 2 Side A", attachParams(),
+			UI_TEXT("Set Disk 2 Side A"),
+			attachParams(),
 			[this](View &view, Input::Event e)
 			{
 				FCEU_FDSSetDisk(2, system());
@@ -686,7 +787,8 @@ private:
 			}
 		},
 		{
-			"Set Disk 2 Side B", attachParams(),
+			UI_TEXT("Set Disk 2 Side B"),
+			attachParams(),
 			[this](View &view, Input::Event e)
 			{
 				FCEU_FDSSetDisk(3, system());
@@ -697,7 +799,8 @@ private:
 
 	TextMenuItem insertEject
 	{
-		"Eject", attachParams(),
+		UI_TEXT("Eject"),
+		attachParams(),
 		[this](View &view, Input::Event e)
 		{
 			if(FCEU_FDSInserted())
@@ -714,7 +817,7 @@ public:
 	FDSControlView(ViewAttachParams attach):
 		TableView
 		{
-			"FDS Control",
+			UI_TEXT("FDS Control"),
 			attach,
 			items
 		}
@@ -741,14 +844,17 @@ private:
 		if(!isFDS)
 			return;
 		if(!FCEU_FDSInserted())
-			fdsControl.compile("FDS Control (No Disk)");
+			fdsControl.compile(UI_TEXT("FDS Control (No Disk)"));
 		else
-			fdsControl.compile(std::format("FDS Control (Disk {}:{})", (FCEU_FDSCurrentSide() >> 1) + 1, (FCEU_FDSCurrentSide() & 1) ? 'B' : 'A'));
+			fdsControl.compile(std::format(
+				UI_TEXT("FDS Control (Disk {}:{})"),
+				(FCEU_FDSCurrentSide() >> 1) + 1, (FCEU_FDSCurrentSide() & 1) ? 'B' : 'A'));
 	}
 
 	TextMenuItem options
 	{
-		"Console Options", attachParams(),
+		UI_TEXT("Console Options"),
+		attachParams(),
 		[this](Input::Event e) { pushAndShow(makeView<ConsoleOptionView>(), e); }
 	};
 
@@ -774,7 +880,8 @@ class CustomSystemOptionView : public SystemOptionView, public MainAppHelper
 
 	BoolMenuItem skipFdcAccess
 	{
-		"Fast-forward Disk IO", attachParams(),
+		UI_TEXT("Fast-forward Disk IO"),
+		attachParams(),
 		system().fastForwardDuringFdsAccess,
 		[this](BoolMenuItem &item)
 		{
