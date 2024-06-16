@@ -303,7 +303,8 @@ FrameTimingView::FrameTimingView(ViewAttachParams attach):
 	},
 	frameRate
 	{
-		UI_TEXT("Frame Rate"), attach,
+		UI_TEXT("Frame Rate"),
+		attach,
 		app().outputTimingManager.frameTimeOptionAsMenuId(VideoSystem::NATIVE_NTSC),
 		frameRateItems,
 		{
@@ -321,7 +322,8 @@ FrameTimingView::FrameTimingView(ViewAttachParams attach):
 	},
 	frameRatePAL
 	{
-		UI_TEXT("Frame Rate (PAL)"), attach,
+		UI_TEXT("Frame Rate (PAL)"),
+		attach,
 		app().outputTimingManager.frameTimeOptionAsMenuId(VideoSystem::PAL),
 		frameRateItems,
 		{
@@ -339,7 +341,8 @@ FrameTimingView::FrameTimingView(ViewAttachParams attach):
 	},
 	frameTimeStats
 	{
-		UI_TEXT("Show Frame Time Stats"), attach,
+		UI_TEXT("Show Frame Time Stats"),
+		attach,
 		app().showFrameTimeStats,
 		[this](BoolMenuItem &item) { app().showFrameTimeStats = item.flipBoolValue(*this); }
 	},
@@ -429,7 +432,11 @@ FrameTimingView::FrameTimingView(ViewAttachParams attach):
 		{
 			std::vector<TextMenuItem> items;
 			auto setRateDel = [this](TextMenuItem &item) { app().overrideScreenFrameRate = std::bit_cast<FrameRate>(item.id); };
-			items.emplace_back(UI_TEXT("Off"), attach, setRateDel, MenuItem::Config{.id = 0});
+			items.emplace_back(
+				UI_TEXT("Off"),
+				attach,
+				setRateDel,
+				MenuItem::Config{.id = 0});
 			for(auto rate : app().emuScreen().supportedFrameRates())
 				items.emplace_back(std::format("{:g}Hz", rate), attach, setRateDel, MenuItem::Config{.id = std::bit_cast<MenuId>(rate)});
 			return items;
@@ -483,7 +490,8 @@ FrameTimingView::FrameTimingView(ViewAttachParams attach):
 	},
 	blankFrameInsertion
 	{
-		UI_TEXT("Allow Blank Frame Insertion"), attach,
+		UI_TEXT("Allow Blank Frame Insertion"),
+		attach,
 		app().allowBlankFrameInsertion,
 		[this](BoolMenuItem &item) { app().allowBlankFrameInsertion = item.flipBoolValue(*this); }
 	},
