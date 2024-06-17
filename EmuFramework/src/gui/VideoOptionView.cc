@@ -268,7 +268,7 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, EmuVideoLayer &videoLa
 		},
 		{
 			// UI_TEXT("Custom Value"),
-			UI_TEXT("自定义),
+			UI_TEXT("自定义"),
 			attach,
 			[this](const Input::Event &e)
 			{
