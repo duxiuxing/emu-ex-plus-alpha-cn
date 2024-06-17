@@ -563,7 +563,7 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, EmuVideoLayer &videoLa
 	imgEffectPixelFormat
 	{
 		// UI_TEXT("Effect Color Format"),
-		UI_TEXT("效果颜色格式t"),
+		UI_TEXT("效果颜色格式"),
 		attach,
 		MenuId{app().imageEffectPixelFormat.value()},
 		imgEffectPixelFormatItem,
