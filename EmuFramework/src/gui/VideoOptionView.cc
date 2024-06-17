@@ -108,7 +108,7 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, EmuVideoLayer &videoLa
 			{
 				aspectRatioItem.emplace_back(
 					// UI_TEXT("Square Pixels"),
-					UI_TEXT("正方形像素"),
+					UI_TEXT("方形像素"),
 					attach,
 					[this]()
 					{

@@ -545,17 +545,20 @@ class CustomAudioOptionView : public AudioOptionView, public MainAppHelper
 	TextMenuItem qualityItem[3]
 	{
 		{
-			UI_TEXT("Normal"),
+			// UI_TEXT("Normal"),
+			UI_TEXT("正常"),
 			attachParams(),
 			[this](){ setQuality(0); }
 		},
 		{
-			UI_TEXT("High"),
+			// UI_TEXT("High"),
+			UI_TEXT("高"),
 			attachParams(),
 			[this]() { setQuality(1); }
 		},
 		{
-			UI_TEXT("Highest"),
+			// UI_TEXT("Highest"),
+			UI_TEXT("最高"),
 			attachParams(),
 			[this]() { setQuality(2); }
 		}
@@ -563,7 +566,8 @@ class CustomAudioOptionView : public AudioOptionView, public MainAppHelper
 
 	MultiChoiceMenuItem quality
 	{
-		UI_TEXT("Emulation Quality"),
+		// UI_TEXT("Emulation Quality"),
+		UI_TEXT("模拟质量"),
 		attachParams(),
 		system().optionSoundQuality.value(),
 		qualityItem
@@ -571,7 +575,8 @@ class CustomAudioOptionView : public AudioOptionView, public MainAppHelper
 
 	BoolMenuItem lowPassFilter
 	{
-		UI_TEXT("Low Pass Filter"),
+		// UI_TEXT("Low Pass Filter"),
+		UI_TEXT("低通滤波器"),
 		attachParams(),
 		(bool)FSettings.lowpass,
 		[this](BoolMenuItem &item)
@@ -582,7 +587,8 @@ class CustomAudioOptionView : public AudioOptionView, public MainAppHelper
 
 	BoolMenuItem swapDutyCycles
 	{
-		UI_TEXT("Swap Duty Cycles"),
+		// UI_TEXT("Swap Duty Cycles"),
+		UI_TEXT("交换占空比"),
 		attachParams(),
 		swapDuty,
 		[this](BoolMenuItem &item)
@@ -593,13 +599,15 @@ class CustomAudioOptionView : public AudioOptionView, public MainAppHelper
 
 	TextHeadingMenuItem mixer
 	{
-		UI_TEXT("Mixer"),
+		// UI_TEXT("Mixer"),
+		UI_TEXT("音频混合器："),
 		attachParams()
 	};
 
 	BoolMenuItem squareWave1
 	{
-		UI_TEXT("Square Wave #1"),
+		// UI_TEXT("Square Wave #1"),
+		UI_TEXT("方波 #1"),
 		attachParams(),
 		(bool)FSettings.Square1Volume,
 		[this](BoolMenuItem &item)
@@ -610,7 +618,8 @@ class CustomAudioOptionView : public AudioOptionView, public MainAppHelper
 
 	BoolMenuItem squareWave2
 	{
-		UI_TEXT("Square Wave #2"),
+		// UI_TEXT("Square Wave #2"),
+		UI_TEXT("方波 #2"),
 		attachParams(),
 		(bool)FSettings.Square2Volume,
 		[this](BoolMenuItem &item)
@@ -621,7 +630,8 @@ class CustomAudioOptionView : public AudioOptionView, public MainAppHelper
 
 	BoolMenuItem triangleWave1
 	{
-		UI_TEXT("Triangle Wave"),
+		// UI_TEXT("Triangle Wave"),
+		UI_TEXT("三角波"),
 		attachParams(),
 		(bool)FSettings.TriangleVolume,
 		[this](BoolMenuItem &item)
@@ -632,7 +642,8 @@ class CustomAudioOptionView : public AudioOptionView, public MainAppHelper
 
 	BoolMenuItem noise
 	{
-		UI_TEXT("Noise"),
+		// UI_TEXT("Noise"),
+		UI_TEXT("噪音"),
 		attachParams(),
 		(bool)FSettings.NoiseVolume,
 		[this](BoolMenuItem &item)
