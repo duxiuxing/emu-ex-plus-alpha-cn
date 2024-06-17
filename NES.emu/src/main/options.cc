@@ -28,7 +28,10 @@ std::span<const AspectRatioInfo> NesSystem::aspectRatioInfos()
 {
 	static constexpr AspectRatioInfo aspectRatioInfo[]
 	{
-		{"4:3 (Original)", {4, 3}},
+		{
+			UI_TEXT("4:3 (Original)"),
+			{4, 3}
+		},
 		EMU_SYSTEM_DEFAULT_ASPECT_RATIO_INFO_INIT
 	};
 	return aspectRatioInfo;
