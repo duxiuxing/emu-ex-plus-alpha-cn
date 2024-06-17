@@ -109,7 +109,7 @@ AudioOptionView::AudioOptionView(ViewAttachParams attach, EmuAudio& audio_, bool
 	soundBuffers
 	{
 		// UI_TEXT("Buffer Size In Frames"),
-		UI_TEXT("缓存大小 (单位：帧)"),
+		UI_TEXT("缓冲区大小 (单位：帧)"),
 		attach,
 		MenuId{audio_.soundBuffers},
 		soundBuffersItem,
@@ -120,7 +120,7 @@ AudioOptionView::AudioOptionView(ViewAttachParams attach, EmuAudio& audio_, bool
 	addSoundBuffersOnUnderrun
 	{
 		// UI_TEXT("Auto-increase Buffer Size"),
-		UI_TEXT("自动调整缓存大小"),
+		UI_TEXT("自动调整缓冲区大小"),
 		attach,
 		audio_.addSoundBuffersOnUnderrunSetting,
 		[this](BoolMenuItem &item)

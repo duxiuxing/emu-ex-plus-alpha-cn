@@ -412,12 +412,14 @@ std::vector<TextureBufferModeDesc> Renderer::textureBufferModes()
 	std::vector<TextureBufferModeDesc> methodDesc;
 	methodDesc.reserve(Config::envIsAndroid ? 4 : 2);
 	methodDesc.emplace_back(
-		UI_TEXT("System Memory"),
+		// UI_TEXT("System Memory"),
+		UI_TEXT("系统内存"),
 		TextureBufferMode::SYSTEM_MEMORY);
 	if(hasPersistentBufferMapping(*this))
 	{
 		methodDesc.emplace_back(
-			UI_TEXT("OpenGL PBO"),
+			// UI_TEXT("OpenGL PBO"),
+			UI_TEXT("OpenGL 像素缓冲区对象"),
 			TextureBufferMode::PBO);
 	}
 	#ifdef __ANDROID__
