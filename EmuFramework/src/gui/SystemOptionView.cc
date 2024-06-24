@@ -29,38 +29,48 @@ namespace EmuEx
 SystemOptionView::SystemOptionView(ViewAttachParams attach, bool customMenu):
 	TableView
 	{
-		UI_TEXT("System Options"),
+		// UI_TEXT("System Options"),
+		UI_TEXT("系统选项"),
 		attach,
 		item
 	},
 	autosaveTimerItem
 	{
 		{
-			UI_TEXT("Off"),
+			// UI_TEXT("Off"),
+			UI_TEXT("关"),
 			attach,
 			{.id = 0}
 		},
 		{
-			UI_TEXT("5min"),
+			// UI_TEXT("5min"),
+			UI_TEXT("5 分钟"),
 			attach,
 			{.id = 5}
 		},
 		{
-			UI_TEXT("10min"),
+			// UI_TEXT("10min"),
+			UI_TEXT("10 分钟"),
 			attach,
 			{.id = 10}
 		},
 		{
-			UI_TEXT("15min"),
+			// UI_TEXT("15min"),
+			UI_TEXT("15 分钟"),
 			attach,
 			{.id = 15}
 		},
 		{
-			UI_TEXT("Custom Value"),
+			// UI_TEXT("Custom Value"),
+			UI_TEXT("自定义"),
 			attach,
 			[this](const Input::Event &e)
 			{
-				pushAndShowNewCollectValueRangeInputView<int, 0, maxAutosaveSaveFreq.count()>(attachParams(), e, "Input 0 to 720", "",
+				pushAndShowNewCollectValueRangeInputView<int, 0, maxAutosaveSaveFreq.count()>(
+					attachParams(), e,
+					// UI_TEXT("Input 0 to 720"),
+					UI_TEXT("请输入 0 到 720 之间的值"),
+					"",
 					[this](CollectTextInputView &, auto val)
 					{
 						app().autosaveManager.saveTimer.frequency = Minutes{val};
@@ -74,7 +84,8 @@ SystemOptionView::SystemOptionView(ViewAttachParams attach, bool customMenu):
 	},
 	autosaveTimer
 	{
-		UI_TEXT("Autosave Timer"),
+		// UI_TEXT("Autosave Timer"),
+		UI_TEXT("自动存档计时"),
 		attach,
 		MenuId{app().autosaveManager.saveTimer.frequency.count()},
 		autosaveTimerItem,
