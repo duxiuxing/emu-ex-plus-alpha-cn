@@ -283,7 +283,7 @@ public:
 			}
 		} {}
 
-	void draw(Gfx::RendererCommands &__restrict__ cmds) final
+	void draw(Gfx::RendererCommands &__restrict__ cmds, ViewDrawParams) const final
 	{
 		vCtrl.draw(cmds, elem, true);
 		TableView::draw(cmds);
@@ -393,7 +393,7 @@ public:
 			{
 				btn.key.flags.turbo = item.flipBoolValue(*this);
 				key.set2ndName(app().inputManager.toString(btn.key));
-				key.compile2nd();
+				key.place2nd();
 				onChange.callSafe();
 			}
 		},
@@ -407,7 +407,7 @@ public:
 			{
 				btn.key.flags.toggle = item.flipBoolValue(*this);
 				key.set2ndName(app().inputManager.toString(btn.key));
-				key.compile2nd();
+				key.place2nd();
 				onChange.callSafe();
 			}
 		},
@@ -765,7 +765,7 @@ public:
 		reloadItems();
 	}
 
-	void draw(Gfx::RendererCommands &__restrict__ cmds) final
+	void draw(Gfx::RendererCommands &__restrict__ cmds, ViewDrawParams) const final
 	{
 		vCtrl.draw(cmds, elem, true);
 		TableView::draw(cmds);
@@ -879,7 +879,7 @@ private:
 	}
 };
 
-void TouchConfigView::draw(Gfx::RendererCommands &__restrict__ cmds)
+void TouchConfigView::draw(Gfx::RendererCommands &__restrict__ cmds, ViewDrawParams) const
 {
 	vController.draw(cmds, true);
 	TableView::draw(cmds);

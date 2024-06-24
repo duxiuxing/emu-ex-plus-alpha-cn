@@ -57,7 +57,7 @@ void IdentInputDeviceView::place()
 	text.compile({.maxLineSize = int(viewRect().xSize() * 0.95f)});
 }
 
-bool IdentInputDeviceView::inputEvent(const Input::Event &e)
+bool IdentInputDeviceView::inputEvent(const Input::Event& e, ViewInputEventParams)
 {
 	return e.visit(overloaded
 	{
@@ -84,7 +84,7 @@ bool IdentInputDeviceView::inputEvent(const Input::Event &e)
 	});
 }
 
-void IdentInputDeviceView::draw(Gfx::RendererCommands &__restrict__ cmds)
+void IdentInputDeviceView::draw(Gfx::RendererCommands&__restrict__ cmds, ViewDrawParams) const
 {
 	using namespace IG::Gfx;
 	auto &basicEffect = cmds.basicEffect();
