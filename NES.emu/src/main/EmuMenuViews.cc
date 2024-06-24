@@ -431,7 +431,7 @@ class CustomVideoOptionView : public VideoOptionView, public MainAppHelper
 						dismissPrevious();
 						picker.dismiss();
 					});
-				fPicker->setPath(app().contentSearchPath(), e);
+				fPicker->setPath(app().contentSearchPath, e);
 				app().pushAndShowModalView(std::move(fPicker), e);
 				return false;
 			}},
