@@ -22,16 +22,34 @@ namespace EmuEx
 {
 
 CPUAffinityView::CPUAffinityView(ViewAttachParams attach, int cpuCount):
-	TableView{"Configure CPU Affinity", attach, menuItems},
+	TableView
+	{
+		UI_TEXT("Configure CPU Affinity"),
+		attach,
+		menuItems
+	},
 	affinityModeItems
 	{
-		{"Auto (Use only performance cores or hints for low latency)", attach, {.id = CPUAffinityMode::Auto}},
-		{"Any (Use any core even if it increases latency)",            attach, {.id = CPUAffinityMode::Any}},
-		{"Manual (Use cores set in previous menu)",                    attach, {.id = CPUAffinityMode::Manual}},
+		{
+			UI_TEXT("Auto (Use only performance cores or hints for low latency)"),
+			attach,
+			{.id = CPUAffinityMode::Auto}
+		},
+		{
+			UI_TEXT("Any (Use any core even if it increases latency)"),
+			attach,
+			{.id = CPUAffinityMode::Any}
+		},
+		{
+			UI_TEXT("Manual (Use cores set in previous menu)"),
+			attach,
+			{.id = CPUAffinityMode::Manual}
+		},
 	},
 	affinityMode
 	{
-		"CPU Affinity Mode", attach,
+		UI_TEXT("CPU Affinity Mode"),
+		attach,
 		MenuId{app().cpuAffinityMode.value()},
 		affinityModeItems,
 		{
@@ -43,7 +61,11 @@ CPUAffinityView::CPUAffinityView(ViewAttachParams attach, int cpuCount):
 			.defaultItemOnSelect = [this](TextMenuItem &item) { app().cpuAffinityMode = CPUAffinityMode(item.id.val); }
 		},
 	},
-	cpusHeading{"Manual CPU Affinity", attach}
+	cpusHeading
+	{
+		UI_TEXT("Manual CPU Affinity"),
+		attach
+	}
 {
 	menuItems.emplace_back(&affinityMode);
 	menuItems.emplace_back(&cpusHeading);
@@ -54,7 +76,7 @@ CPUAffinityView::CPUAffinityView(ViewAttachParams attach, int cpuCount):
 			{
 				auto freq = appContext().maxCPUFrequencyKHz(i);
 				if(!freq)
-					return std::format("{} (Offline)", i);
+					return std::format(UI_TEXT("{} (Offline)"), i);
 				return std::format("{} ({}MHz)", i, freq / 1000);
 			}(),
 			attach, app().cpuAffinity(i),
