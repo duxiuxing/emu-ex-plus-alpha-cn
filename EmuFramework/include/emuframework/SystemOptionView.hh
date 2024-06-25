@@ -37,14 +37,14 @@ protected:
 	TextMenuItem autosaveLaunchItem[4];
 	MultiChoiceMenuItem autosaveLaunch;
 	BoolMenuItem autosaveContent;
-	TextMenuItem rewindStatesItem[4];
-	MultiChoiceMenuItem rewindStates;
-	DualTextMenuItem rewindTimeInterval;
 	BoolMenuItem confirmOverwriteState;
 	TextMenuItem fastModeSpeedItem[6];
 	MultiChoiceMenuItem fastModeSpeed;
 	TextMenuItem slowModeSpeedItem[3];
 	MultiChoiceMenuItem slowModeSpeed;
+	TextMenuItem rewindStatesItem[4];
+	MultiChoiceMenuItem rewindStates;
+	DualTextMenuItem rewindTimeInterval;
 	ConditionalMember<Config::envIsAndroid, BoolMenuItem> performanceMode;
 	ConditionalMember<Config::envIsAndroid && Config::DEBUG_BUILD, BoolMenuItem> noopThread;
 	ConditionalMember<Config::cpuAffinity, TextMenuItem> cpuAffinity;

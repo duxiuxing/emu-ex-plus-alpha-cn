@@ -32,10 +32,16 @@ static const char *portraitName = USE_MOBILE_ORIENTATION_NAMES ? "Portrait" : "S
 static const char *portrait2Name = USE_MOBILE_ORIENTATION_NAMES ? "Portrait 2" : "Upside Down";
 
 GUIOptionView::GUIOptionView(ViewAttachParams attach, bool customMenu):
-	TableView{"GUI Options", attach, item},
+	TableView
+	{
+		UI_TEXT("GUI Options"),
+		attach,
+		item
+	},
 	pauseUnfocused
 	{
-		"Pause if unfocused", attach,
+		UI_TEXT("Pause if unfocused"),
+		attach,
 		app().pauseUnfocused,
 		[this](BoolMenuItem &item)
 		{
@@ -53,10 +59,15 @@ GUIOptionView::GUIOptionView(ViewAttachParams attach, bool customMenu):
 		{"8",  attach, {.id = 8000}},
 		{"9",  attach, {.id = 9000}},
 		{"10", attach, {.id = 10000}},
-		{"Custom Value", attach,
+		{
+			UI_TEXT("Custom Value"),
+			attach,
 			[this](const Input::Event &e)
 			{
-				pushAndShowNewCollectValueRangeInputView<float, 2, 10>(attachParams(), e, "Input 2.0 to 10.0", "",
+				pushAndShowNewCollectValueRangeInputView<float, 2, 10>(
+					attachParams(), e,
+					UI_TEXT("Input 2.0 to 10.0"),
+					"",
 					[this](CollectTextInputView &, auto val)
 					{
 						int scaledIntVal = val * 1000.0;
@@ -71,7 +82,8 @@ GUIOptionView::GUIOptionView(ViewAttachParams attach, bool customMenu):
 	},
 	fontSize
 	{
-		"Font Size", attach,
+		UI_TEXT("Font Size"),
+		attach,
 		MenuId{app().fontSize},
 		fontSizeItem,
 		{
@@ -85,7 +97,8 @@ GUIOptionView::GUIOptionView(ViewAttachParams attach, bool customMenu):
 	},
 	notificationIcon
 	{
-		"Suspended App Icon", attach,
+		UI_TEXT("Suspended App Icon"),
+		attach,
 		app().showsNotificationIcon,
 		[this](BoolMenuItem &item)
 		{
@@ -94,13 +107,26 @@ GUIOptionView::GUIOptionView(ViewAttachParams attach, bool customMenu):
 	},
 	statusBarItem
 	{
-		{"Off",    attach, MenuItem::Config{.id = InEmuTristate::Off}},
-		{"In Emu", attach, MenuItem::Config{.id = InEmuTristate::InEmu}},
-		{"On",     attach, MenuItem::Config{.id = InEmuTristate::On}}
+		{
+			UI_TEXT("Off"),
+			attach,
+			MenuItem::Config{.id = InEmuTristate::Off}
+		},
+		{
+			UI_TEXT("In Emu"),
+			attach,
+			MenuItem::Config{.id = InEmuTristate::InEmu}
+		},
+		{
+			UI_TEXT("On"),
+			attach,
+			MenuItem::Config{.id = InEmuTristate::On}
+		}
 	},
 	statusBar
 	{
-		"Hide Status Bar", attach,
+		UI_TEXT("Hide Status Bar"),
+		attach,
 		MenuId(InEmuTristate(app().hidesStatusBar.value())),
 		statusBarItem,
 		MultiChoiceMenuItem::Config
@@ -110,13 +136,26 @@ GUIOptionView::GUIOptionView(ViewAttachParams attach, bool customMenu):
 	},
 	lowProfileOSNavItem
 	{
-		{"Off",    attach, MenuItem::Config{.id = InEmuTristate::Off}},
-		{"In Emu", attach, MenuItem::Config{.id = InEmuTristate::InEmu}},
-		{"On",     attach, MenuItem::Config{.id = InEmuTristate::On}}
+		{
+			UI_TEXT("Off"),
+			attach,
+			MenuItem::Config{.id = InEmuTristate::Off}
+		},
+		{
+			UI_TEXT("In Emu"),
+			attach,
+			MenuItem::Config{.id = InEmuTristate::InEmu}
+		},
+		{
+			UI_TEXT("On"),
+			attach,
+			MenuItem::Config{.id = InEmuTristate::On}
+		}
 	},
 	lowProfileOSNav
 	{
-		"Dim OS UI", attach,
+		UI_TEXT("Dim OS UI"),
+		attach,
 		MenuId(InEmuTristate(app().lowProfileOSNav.value())),
 		lowProfileOSNavItem,
 		MultiChoiceMenuItem::Config
@@ -126,13 +165,26 @@ GUIOptionView::GUIOptionView(ViewAttachParams attach, bool customMenu):
 	},
 	hideOSNavItem
 	{
-		{"Off",    attach, MenuItem::Config{.id = InEmuTristate::Off}},
-		{"In Emu", attach, MenuItem::Config{.id = InEmuTristate::InEmu}},
-		{"On",     attach, MenuItem::Config{.id = InEmuTristate::On}}
+		{
+			UI_TEXT("Off"),
+			attach,
+			MenuItem::Config{.id = InEmuTristate::Off}
+		},
+		{
+			UI_TEXT("In Emu"),
+			attach,
+			MenuItem::Config{.id = InEmuTristate::InEmu}
+		},
+		{
+			UI_TEXT("On"),
+			attach,
+			MenuItem::Config{.id = InEmuTristate::On}
+		}
 	},
 	hideOSNav
 	{
-		"Hide OS Navigation", attach,
+		UI_TEXT("Hide OS Navigation"),
+		attach,
 		MenuId(InEmuTristate(app().hidesOSNav.value())),
 		hideOSNavItem,
 		MultiChoiceMenuItem::Config
@@ -142,7 +194,8 @@ GUIOptionView::GUIOptionView(ViewAttachParams attach, bool customMenu):
 	},
 	idleDisplayPowerSave
 	{
-		"Allow Screen Timeout In Emulation", attach,
+		UI_TEXT("Allow Screen Timeout In Emulation"),
+		attach,
 		app().idleDisplayPowerSave,
 		[this](BoolMenuItem &item)
 		{
@@ -151,7 +204,8 @@ GUIOptionView::GUIOptionView(ViewAttachParams attach, bool customMenu):
 	},
 	navView
 	{
-		"Title Bar", attach,
+		UI_TEXT("Title Bar"),
+		attach,
 		app().showsTitleBar,
 		[this](BoolMenuItem &item)
 		{
@@ -160,7 +214,8 @@ GUIOptionView::GUIOptionView(ViewAttachParams attach, bool customMenu):
 	},
 	backNav
 	{
-		"Title Back Navigation", attach,
+		UI_TEXT("Title Back Navigation"),
+		attach,
 		attach.viewManager.needsBackControl,
 		[this](BoolMenuItem &item)
 		{
@@ -171,9 +226,11 @@ GUIOptionView::GUIOptionView(ViewAttachParams attach, bool customMenu):
 	},
 	systemActionsIsDefaultMenu
 	{
-		"Default Menu", attach,
+		UI_TEXT("Default Menu"),
+		attach,
 		app().systemActionsIsDefaultMenu,
-		"Last Used", "System Actions",
+		UI_TEXT("Last Used"),
+		UI_TEXT("System Actions"),
 		[this](BoolMenuItem &item)
 		{
 			app().systemActionsIsDefaultMenu = item.flipBoolValue(*this);
@@ -181,7 +238,8 @@ GUIOptionView::GUIOptionView(ViewAttachParams attach, bool customMenu):
 	},
 	showBundledGames
 	{
-		"Show Bundled Content", attach,
+		UI_TEXT("Show Bundled Content"),
+		attach,
 		app().showsBundledGames,
 		[this](BoolMenuItem &item)
 		{
@@ -190,7 +248,8 @@ GUIOptionView::GUIOptionView(ViewAttachParams attach, bool customMenu):
 	},
 	showBluetoothScan
 	{
-		"Show Bluetooth Menu Items", attach,
+		UI_TEXT("Show Bluetooth Menu Items"),
+		attach,
 		app().showsBluetoothScan,
 		[this](BoolMenuItem &item)
 		{
@@ -199,7 +258,8 @@ GUIOptionView::GUIOptionView(ViewAttachParams attach, bool customMenu):
 	},
 	showHiddenFiles
 	{
-		"Show Hidden Files", attach,
+		UI_TEXT("Show Hidden Files"),
+		attach,
 		app().showHiddenFilesInPicker,
 		[this](BoolMenuItem &item)
 		{
@@ -208,11 +268,13 @@ GUIOptionView::GUIOptionView(ViewAttachParams attach, bool customMenu):
 	},
 	maxRecentContent
 	{
-		"Max Recent Content Items", std::to_string(app().recentContent.maxRecentContent), attach,
+		UI_TEXT("Max Recent Content Items"),
+		std::to_string(app().recentContent.maxRecentContent), attach,
 		[this](const Input::Event &e)
 		{
 			pushAndShowNewCollectValueRangeInputView<int, 1, 100>(attachParams(), e,
-				"Input 1 to 100", std::to_string(app().recentContent.maxRecentContent),
+				UI_TEXT("Input 1 to 100"),
+				std::to_string(app().recentContent.maxRecentContent),
 				[this](CollectTextInputView &, auto val)
 				{
 					app().recentContent.maxRecentContent = val;
@@ -223,11 +285,16 @@ GUIOptionView::GUIOptionView(ViewAttachParams attach, bool customMenu):
 	},
 	orientationHeading
 	{
-		"Orientation", attach
+		UI_TEXT("Orientation"),
+		attach
 	},
 	menuOrientationItem
 	{
-		{"Auto",         attach, {.id = Orientations{}}},
+		{
+			UI_TEXT("Auto"),
+			attach,
+			{.id = Orientations{}}
+		},
 		{landscapeName,  attach, {.id = Orientations{.landscapeRight = 1}}},
 		{landscape2Name, attach, {.id = Orientations{.landscapeLeft = 1}}},
 		{portraitName,   attach, {.id = Orientations{.portrait = 1}}},
@@ -235,7 +302,8 @@ GUIOptionView::GUIOptionView(ViewAttachParams attach, bool customMenu):
 	},
 	menuOrientation
 	{
-		"In Menu", attach,
+		UI_TEXT("In Menu"),
+		attach,
 		MenuId{uint8_t(app().menuOrientation.value())},
 		menuOrientationItem,
 		{
@@ -244,7 +312,11 @@ GUIOptionView::GUIOptionView(ViewAttachParams attach, bool customMenu):
 	},
 	emuOrientationItem
 	{
-		{"Auto",         attach, {.id = Orientations{}}},
+		{
+			UI_TEXT("Auto"),
+			attach,
+			{.id = Orientations{}}
+		},
 		{landscapeName,  attach, {.id = Orientations{.landscapeRight = 1}}},
 		{landscape2Name, attach, {.id = Orientations{.landscapeLeft = 1}}},
 		{portraitName,   attach, {.id = Orientations{.portrait = 1}}},
@@ -252,7 +324,8 @@ GUIOptionView::GUIOptionView(ViewAttachParams attach, bool customMenu):
 	},
 	emuOrientation
 	{
-		"In Emu", attach,
+		UI_TEXT("In Emu"),
+		attach,
 		MenuId{uint8_t(app().emuOrientation.value())},
 		emuOrientationItem,
 		{
@@ -261,7 +334,8 @@ GUIOptionView::GUIOptionView(ViewAttachParams attach, bool customMenu):
 	},
 	layoutBehindSystemUI
 	{
-		"Display Behind OS UI", attach,
+		UI_TEXT("Display Behind OS UI"),
+		attach,
 		app().doesLayoutBehindSystemUI(),
 		[this](BoolMenuItem &item)
 		{
@@ -270,11 +344,14 @@ GUIOptionView::GUIOptionView(ViewAttachParams attach, bool customMenu):
 	},
 	setWindowSize
 	{
-		"Set Window Size", attach,
+		UI_TEXT("Set Window Size"),
+		attach,
 		[this](const Input::Event &e)
 		{
-			pushAndShowNewCollectValuePairRangeInputView<int, 320, 8192, 240, 8192>(attachParams(), e,
-				"Input Width & Height", "",
+			pushAndShowNewCollectValuePairRangeInputView<int, 320, 8192, 240, 8192>(
+				attachParams(), e,
+				UI_TEXT("Input Width & Height"),
+				"",
 				[this](CollectTextInputView &, auto val)
 				{
 					app().emuWindow().setSize({val.first, val.second});
@@ -284,7 +361,8 @@ GUIOptionView::GUIOptionView(ViewAttachParams attach, bool customMenu):
 	},
 	toggleFullScreen
 	{
-		"Toggle Full Screen", attach,
+		UI_TEXT("Toggle Full Screen"),
+		attach,
 		[this]{ app().emuWindow().toggleFullScreen(); }
 	}
 {
