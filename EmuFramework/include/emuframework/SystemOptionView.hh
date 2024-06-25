@@ -45,13 +45,13 @@ protected:
 	MultiChoiceMenuItem fastModeSpeed;
 	TextMenuItem slowModeSpeedItem[3];
 	MultiChoiceMenuItem slowModeSpeed;
-	TextHeadingMenuItem autosaveOptions;
-	TextHeadingMenuItem rewindOptions;
-	TextHeadingMenuItem otherOptions;
 	ConditionalMember<Config::envIsAndroid, BoolMenuItem> performanceMode;
 	ConditionalMember<Config::envIsAndroid && Config::DEBUG_BUILD, BoolMenuItem> noopThread;
 	ConditionalMember<Config::cpuAffinity, TextMenuItem> cpuAffinity;
 	StaticArrayList<MenuItem*, 30> item;
+	TextHeadingMenuItem autosaveOptions;
+	TextHeadingMenuItem rewindOptions;
+	TextHeadingMenuItem otherOptions;
 };
 
 }

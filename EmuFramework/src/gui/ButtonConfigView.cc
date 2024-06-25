@@ -371,7 +371,7 @@ void ButtonConfigSetView::onAddedToController(ViewController *, const Input::Eve
 		text.resetString(
 			std::format(
 				// UI_TEXT("Push up to 3 keys, release any to set:\n{}\n\nTo unbind:\nQuickly push [Left] key twice in previous menu"),
-				UI_TEXT("正在设置：{}\n请按下并松开按键完成设置，最多支持3个按键组合\n\n若想解除绑定：\n可在上一界面快速按[左]键两次"),
+				UI_TEXT("正在设置：{}\n请按下并松开按键完成设置，最多支持 3 个按键组合\n\n若想解除绑定：\n可在上一界面快速按 [方向键左] 两次"),
 				actionStr));
 	if(e.motionEvent())
 	{
