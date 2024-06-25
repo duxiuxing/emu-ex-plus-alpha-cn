@@ -132,15 +132,24 @@ public:
 		AlertView
 		{
 			attach,
-			"Really Exit? (Push Back/Escape again to confirm)",
+			UI_TEXT("Really Exit? (Push Back/Escape again to confirm)"),
 			hasEmuContent ? 3u : 2u
 		}
 	{
-		item.emplace_back("Yes", attach, [this](){ appContext().exit(); });
-		item.emplace_back("No", attach, [](){});
+		item.emplace_back(
+			UI_TEXT("Yes"),
+			attach,
+			[this](){ appContext().exit(); });
+		item.emplace_back(
+			UI_TEXT("No"),
+			attach,
+			[](){});
 		if(hasEmuContent)
 		{
-			item.emplace_back("Close Menu", attach, [this](){ app().showEmulation(); });
+			item.emplace_back(
+				UI_TEXT("Close Menu"),
+				attach,
+				[this](){ app().showEmulation(); });
 		}
 	}
 
@@ -753,7 +762,7 @@ void EmuApp::launchSystem(const Input::Event &e)
 			!autosaveManager.saveOnlyBackupMemory && stateIsOlderThanBackupMemory())
 		{
 			viewController().pushAndShowModal(std::make_unique<YesNoAlertView>(attachParams(),
-				"Autosave state timestamp is older than the contents of backup memory, really load it even though progress may be lost?",
+				UI_TEXT("Autosave state timestamp is older than the contents of backup memory, really load it even though progress may be lost?"),
 				YesNoAlertView::Delegates
 				{
 					.onYes = [this]{ finishLaunch(*this, LoadAutosaveMode::Normal); },
@@ -923,7 +932,9 @@ void EmuApp::onSystemCreated()
 	updateVideoContentRotation();
 	if(!rewindManager.reset(system().stateSize()))
 	{
-		postErrorMessage(4, "Not enough memory for rewind states");
+		postErrorMessage(
+			4,
+			UI_TEXT("Not enough memory for rewind states"));
 	}
 	viewController().onSystemCreated();
 }
@@ -933,7 +944,7 @@ void EmuApp::promptSystemReloadDueToSetOption(ViewAttachParams attach, const Inp
 	if(!system().hasContent())
 		return;
 	viewController().pushAndShowModal(std::make_unique<YesNoAlertView>(attach,
-		"This option takes effect next time the system starts. Restart it now?",
+		UI_TEXT("This option takes effect next time the system starts. Restart it now?"),
 		YesNoAlertView::Delegates
 		{ .onYes = [this, params]
 			{
@@ -952,7 +963,7 @@ void EmuApp::unpostMessage()
 void EmuApp::printScreenshotResult(bool success)
 {
 	postMessage(3, !success, std::format("{}{}",
-		success ? "Wrote screenshot at " : "Error writing screenshot at ",
+		success ? UI_TEXT("Wrote screenshot at ") : UI_TEXT("Error writing screenshot at "),
 		appContext().formatDateAndTime(WallClock::now())));
 }
 
@@ -1060,7 +1071,7 @@ bool EmuApp::saveState(CStringView path)
 {
 	if(!system().hasContent())
 	{
-		postErrorMessage("System not running");
+		postErrorMessage(UI_TEXT("System not running"));
 		return false;
 	}
 	syncEmulationThread();
@@ -1072,7 +1083,11 @@ bool EmuApp::saveState(CStringView path)
 	}
 	catch(std::exception &err)
 	{
-		postErrorMessage(4, std::format("Can't save state:\n{}", err.what()));
+		postErrorMessage(
+			4,
+			std::format(
+				UI_TEXT("Can't save state:\n{}"),
+				err.what()));
 		return false;
 	}
 }
@@ -1086,7 +1101,7 @@ bool EmuApp::loadState(CStringView path)
 {
 	if(!system().hasContent()) [[unlikely]]
 	{
-		postErrorMessage("System not running");
+		postErrorMessage(UI_TEXT("System not running"));
 		return false;
 	}
 	log.info("loading state {}", path);
@@ -1100,9 +1115,15 @@ bool EmuApp::loadState(CStringView path)
 	catch(std::exception &err)
 	{
 		if(system().hasContent() && !hasWriteAccessToDir(system().contentSaveDirectory()))
-			postErrorMessage(8, "Save folder inaccessible, please set it in Options➔File Paths➔Saves");
+			postErrorMessage(
+				8,
+				UI_TEXT("Save folder inaccessible, please set it in Options➔File Paths➔Saves"));
 		else
-			postErrorMessage(4, std::format("Can't load state:\n{}", err.what()));
+			postErrorMessage(
+				4,
+				std::format(
+					UI_TEXT("Can't load state:\n{}"),
+					err.what()));
 		return false;
 	}
 }
@@ -1137,7 +1158,9 @@ FS::PathString EmuApp::validSearchPath(const FS::PathString &path) const
 
 std::unique_ptr<YesNoAlertView> EmuApp::makeCloseContentView()
 {
-	return std::make_unique<YesNoAlertView>(attachParams(), "Really close current content?",
+	return std::make_unique<YesNoAlertView>(
+		attachParams(),
+		UI_TEXT("Really close current content?"),
 		YesNoAlertView::Delegates
 		{
 			.onYes = [this]
