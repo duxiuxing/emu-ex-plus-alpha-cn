@@ -60,7 +60,10 @@ SystemOptionView::SystemOptionView(ViewAttachParams attach, bool customMenu):
 			attach,
 			[this](const Input::Event &e)
 			{
-				pushAndShowNewCollectValueRangeInputView<int, 0, maxAutosaveSaveFreq.count()>(attachParams(), e, "Input 0 to 720", "",
+				pushAndShowNewCollectValueRangeInputView<int, 0, maxAutosaveSaveFreq.count()>(
+					attachParams(), e,
+					UI_TEXT("Input 0 to 720"),
+					"",
 					[this](CollectTextInputView &, auto val)
 					{
 						app().autosaveManager.saveTimer.frequency = Minutes{val};
