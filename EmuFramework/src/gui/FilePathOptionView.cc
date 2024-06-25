@@ -36,34 +36,39 @@ static FS::FileString savePathStrToDisplayName(IG::ApplicationContext ctx, std::
 	if(savePathStr.size())
 	{
 		if(savePathStr == optionSavePathDefaultToken)
-			return UI_TEXT("App Folder");
+			// return UI_TEXT("App Folder");
+			return UI_TEXT("应用文件夹");
 		else
 			return ctx.fileUriDisplayName(savePathStr);
 	}
 	else
 	{
-		return UI_TEXT("Content Folder");
+		// return UI_TEXT("Content Folder");
+		return UI_TEXT("游戏文件夹");
 	}
 }
 
 static auto savesMenuName(IG::ApplicationContext ctx, std::string_view savePath)
 {
 	return std::format(
-		UI_TEXT("Saves: {}"),
+		// UI_TEXT("Saves: {}"),
+		UI_TEXT("存档：{}"),
 		savePathStrToDisplayName(ctx, savePath));
 }
 
 static auto screenshotsMenuName(IG::ApplicationContext ctx, std::string_view userPath)
 {
 	return std::format(
-		UI_TEXT("Screenshots: {}"),
+		// UI_TEXT("Screenshots: {}"),
+		UI_TEXT("截图：{}"),
 		userPathToDisplayName(ctx, userPath));
 }
 
 FilePathOptionView::FilePathOptionView(ViewAttachParams attach, bool customMenu):
 	TableView
 	{
-		UI_TEXT("File Path Options"),
+		// UI_TEXT("File Path Options"),
+		UI_TEXT("文件路径选项"),
 		attach,
 		item
 	},
@@ -73,10 +78,12 @@ FilePathOptionView::FilePathOptionView(ViewAttachParams attach, bool customMenu)
 		[this](const Input::Event &e)
 		{
 			auto multiChoiceView = makeViewWithName<TextTableView>(
-				UI_TEXT("Saves"),
+				// UI_TEXT("Saves"),
+				UI_TEXT("存档"),
 				4);
 			multiChoiceView->appendItem(
-				UI_TEXT("Select Folder"),
+				// UI_TEXT("Select Folder"),
+				UI_TEXT("选择文件夹"),
 				[this](const Input::Event &e)
 				{
 					auto fPicker = makeView<FilePicker>(FSPicker::Mode::DIR, EmuSystem::NameFilterFunc{}, e);
@@ -88,7 +95,8 @@ FilePathOptionView::FilePathOptionView(ViewAttachParams attach, bool customMenu)
 						{
 							if(!hasWriteAccessToDir(path))
 							{
-								app().postErrorMessage(UI_TEXT("This folder lacks write access"));
+								// app().postErrorMessage(UI_TEXT("This folder lacks write access"));
+								app().postErrorMessage(UI_TEXT("此文件夹缺少写入权限"));
 								return;
 							}
 							system().setUserSaveDirectory(path);
@@ -100,7 +108,8 @@ FilePathOptionView::FilePathOptionView(ViewAttachParams attach, bool customMenu)
 					pushAndShowModal(std::move(fPicker), e);
 				});
 			multiChoiceView->appendItem(
-				UI_TEXT("Same As Content"),
+				// UI_TEXT("Same As Content"),
+				UI_TEXT("和游戏文件夹一样"),
 				[this](View &view)
 				{
 					system().setUserSaveDirectory("");
@@ -108,7 +117,8 @@ FilePathOptionView::FilePathOptionView(ViewAttachParams attach, bool customMenu)
 					view.dismiss();
 				});
 			multiChoiceView->appendItem(
-				UI_TEXT("App Folder"),
+				// UI_TEXT("App Folder"),
+				UI_TEXT("应用文件夹"),
 				[this](View &view)
 				{
 					system().setUserSaveDirectory(optionSavePathDefaultToken);
@@ -116,13 +126,16 @@ FilePathOptionView::FilePathOptionView(ViewAttachParams attach, bool customMenu)
 					view.dismiss();
 				});
 			multiChoiceView->appendItem(
-				UI_TEXT("Legacy Game Data Folder"),
+				// UI_TEXT("Legacy Game Data Folder"),
+				UI_TEXT("老版本的游戏数据文件夹"),
 				[this](View &view, const Input::Event &e)
 				{
 					pushAndShowModal(makeView<YesNoAlertView>(
 						std::format(
-							UI_TEXT("Please select the \"Game Data/{}\" folder from an old version of the app to use its existing saves ")
-							UI_TEXT("and convert it to a regular save path (this is only needed once)"),
+							// UI_TEXT("Please select the \"Game Data/{}\" folder from an old version of the app to use its existing saves ")
+							UI_TEXT("请选择 \"Game Data/{}\" 文件夹，此文件夹为老版本应用的游戏数据文件夹，")
+							// UI_TEXT("and convert it to a regular save path (this is only needed once)"),
+							UI_TEXT("新版本应用将对其进行数据迁移 (本操作只需要执行一次)"),
 							system().shortSystemName()),
 						YesNoAlertView::Delegates
 						{
@@ -136,13 +149,15 @@ FilePathOptionView::FilePathOptionView(ViewAttachParams attach, bool customMenu)
 										auto ctx = appContext();
 										if(!hasWriteAccessToDir(path))
 										{
-											app().postErrorMessage(UI_TEXT("This folder lacks write access"));
+											// app().postErrorMessage(UI_TEXT("This folder lacks write access"));
+											app().postErrorMessage(UI_TEXT("此文件夹缺少写入权限"));
 											return;
 										}
 										if(ctx.fileUriDisplayName(path) != system().shortSystemName())
 										{
 											app().postErrorMessage(std::format(
-												UI_TEXT("Please select the {} folder"),
+												// UI_TEXT("Please select the {} folder"),
+												UI_TEXT("请选择 {} 文件夹"),
 												system().shortSystemName()));
 											return;
 										}
@@ -167,7 +182,8 @@ FilePathOptionView::FilePathOptionView(ViewAttachParams attach, bool customMenu)
 		[this](const Input::Event &e)
 		{
 			pushAndShow(makeViewWithName<UserPathSelectView>(
-				UI_TEXT("Screenshots"),
+				// UI_TEXT("Screenshots"),
+				UI_TEXT("截图"),
 				app().screenshotDirectory(),
 				[this](CStringView path)
 				{
@@ -197,7 +213,8 @@ void FilePathOptionView::onSavePathChange(std::string_view path)
 		app().postMessage(
 			4, false,
 			std::format(
-				UI_TEXT("App Folder:\n{}"),
+				// UI_TEXT("App Folder:\n{}"),
+				UI_TEXT("应用文件夹：\n{}"),
 				system().fallbackSaveDirectory()));
 	}
 	savePath.compile(savesMenuName(appContext(), path));

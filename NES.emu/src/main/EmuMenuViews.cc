@@ -48,7 +48,8 @@ class ConsoleOptionView : public TableView, public MainAppHelper
 {
 	BoolMenuItem fourScore
 	{
-		UI_TEXT("4-Player Adapter"),
+		// UI_TEXT("4-Player Adapter"),
+		UI_TEXT("4人玩家适配器"),
 		attachParams(),
 		(bool)system().optionFourScore,
 		[this](BoolMenuItem &item, View &, Input::Event e)
@@ -72,21 +73,25 @@ class ConsoleOptionView : public TableView, public MainAppHelper
 	TextMenuItem inputPortsItem[4]
 	{
 		{
-			UI_TEXT("Auto"),
+			// UI_TEXT("Auto"),
+			UI_TEXT("自动"),
 			attachParams(),
 			{.id = packInputEnums(SI_UNSET, SI_UNSET)}
 		},
 		{
-			UI_TEXT("Gamepads"),
+			// UI_TEXT("Gamepads"),
+			UI_TEXT("手柄"),
 			attachParams(),
 			{.id = packInputEnums(SI_GAMEPAD, SI_GAMEPAD)}
 		},
 		{
-			UI_TEXT("Gun (2P, NES)"),
+			// UI_TEXT("Gun (2P, NES)"),
+			UI_TEXT("光枪 (2号玩家)"),
 			attachParams(),
 			{.id = packInputEnums(SI_GAMEPAD, SI_ZAPPER)}
 		},
 		{
+			// UI_TEXT("Gun (1P, VS)"),
 			UI_TEXT("Gun (1P, VS)"),
 			attachParams(),
 			{.id = packInputEnums(SI_ZAPPER, SI_GAMEPAD)}
@@ -95,7 +100,8 @@ class ConsoleOptionView : public TableView, public MainAppHelper
 
 	MultiChoiceMenuItem inputPorts
 	{
-		UI_TEXT("Input Ports"),
+		// UI_TEXT("Input Ports"),
+		UI_TEXT("输入端口"),
 		attachParams(),
 		MenuId{packInputEnums(system().inputPort1.value(), system().inputPort2.value())},
 		inputPortsItem,
@@ -113,7 +119,8 @@ class ConsoleOptionView : public TableView, public MainAppHelper
 
 	BoolMenuItem fcMic
 	{
-		UI_TEXT("P2 Start As Microphone"),
+		// UI_TEXT("P2 Start As Microphone"),
+		UI_TEXT("2号玩家为麦克风"),
 		attachParams(),
 		replaceP2StartWithMicrophone,
 		[this](BoolMenuItem &item, View &, Input::Event e)
@@ -126,7 +133,8 @@ class ConsoleOptionView : public TableView, public MainAppHelper
 	TextMenuItem videoSystemItem[4]
 	{
 		{
-			UI_TEXT("Auto"),
+			// UI_TEXT("Auto"),
+			UI_TEXT("自动"),
 			attachParams(),
 			{.id = 0}
 		},
@@ -149,7 +157,8 @@ class ConsoleOptionView : public TableView, public MainAppHelper
 
 	MultiChoiceMenuItem videoSystem
 	{
-		UI_TEXT("System"),
+		// UI_TEXT("System"),
+		UI_TEXT("制式"),
 		attachParams(),
 		MenuId{system().optionVideoSystem},
 		videoSystemItem,
@@ -175,18 +184,23 @@ class ConsoleOptionView : public TableView, public MainAppHelper
 
 	BoolMenuItem compatibleFrameskip
 	{
-		UI_TEXT("Frameskip Mode"),
+		// UI_TEXT("Frameskip Mode"),
+		UI_TEXT("跳帧模式"),
 		attachParams(),
 		(bool)system().optionCompatibleFrameskip,
-		UI_TEXT("Fast"),
-		UI_TEXT("Compatible"),
+		// UI_TEXT("Fast"),
+		UI_TEXT("快速"),
+		// UI_TEXT("Compatible"),
+		UI_TEXT("兼容"),
 		[this](BoolMenuItem &item, View &, Input::Event e)
 		{
 			if(!item.boolValue())
 			{
 				app().pushAndShowModalView(makeView<YesNoAlertView>(
-					UI_TEXT("Use compatible mode if the current game has glitches when ")
-					UI_TEXT("fast-forwarding/frame-skipping, at the cost of increased CPU usage."),
+					// UI_TEXT("Use compatible mode if the current game has glitches when ")
+					UI_TEXT("如果当前游戏在快进/跳帧时出现故障，")
+					// UI_TEXT("fast-forwarding/frame-skipping, at the cost of increased CPU usage."),
+					UI_TEXT("请使用兼容模式。"),
 					YesNoAlertView::Delegates
 					{
 						.onYes = [this, &item]
@@ -206,7 +220,8 @@ class ConsoleOptionView : public TableView, public MainAppHelper
 
 	TextHeadingMenuItem videoHeading
 	{
-		UI_TEXT("Video"),
+		// UI_TEXT("Video"),
+		UI_TEXT("视频："),
 		attachParams()
 	};
 
@@ -230,7 +245,8 @@ class ConsoleOptionView : public TableView, public MainAppHelper
 
 	MultiChoiceMenuItem visibleVideoLines
 	{
-		UI_TEXT("Visible Lines"),
+		// UI_TEXT("Visible Lines"),
+		UI_TEXT("可见行数"),
 		attachParams(),
 		MenuId{packVideoLines(system().optionStartVideoLine, system().optionVisibleVideoLines)},
 		visibleVideoLinesItem,
@@ -250,7 +266,8 @@ class ConsoleOptionView : public TableView, public MainAppHelper
 
 	BoolMenuItem horizontalVideoCrop
 	{
-		UI_TEXT("Crop 8 Pixels On Sides"),
+		// UI_TEXT("Crop 8 Pixels On Sides"),
+		UI_TEXT("左右两边各裁剪8个像素"),
 		attachParams(),
 		(bool)system().optionHorizontalVideoCrop,
 		[this](BoolMenuItem &item)
@@ -265,13 +282,15 @@ class ConsoleOptionView : public TableView, public MainAppHelper
 
 	TextHeadingMenuItem overclocking
 	{
-		UI_TEXT("Overclocking"),
+		// UI_TEXT("Overclocking"),
+		UI_TEXT("超频："),
 		attachParams()
 	};
 
 	BoolMenuItem overclockingEnabled
 	{
-		UI_TEXT("Enabled"),
+		// UI_TEXT("Enabled"),
+		UI_TEXT("启用"),
 		attachParams(),
 		overclock_enabled,
 		[this](BoolMenuItem &item)
@@ -283,12 +302,14 @@ class ConsoleOptionView : public TableView, public MainAppHelper
 
 	DualTextMenuItem extraLines
 	{
-		UI_TEXT("Extra Lines Per Frame"),
+		// UI_TEXT("Extra Lines Per Frame"),
+		UI_TEXT("每帧额外行数"),
 		std::to_string(postrenderscanlines), attachParams(),
 		[this](const Input::Event &e)
 		{
 			pushAndShowNewCollectValueRangeInputView<int, 0, maxExtraLinesPerFrame>(attachParams(), e,
-				UI_TEXT("Input 0 to 30000"),
+				// UI_TEXT("Input 0 to 30000"),
+				UI_TEXT("请输入 0 到 30000 之间的值"),
 				std::to_string(postrenderscanlines),
 				[this](CollectTextInputView&, auto val)
 				{
@@ -302,12 +323,14 @@ class ConsoleOptionView : public TableView, public MainAppHelper
 
 	DualTextMenuItem vblankMultipler
 	{
-		UI_TEXT("Vertical Blank Line Multiplier"),
+		// UI_TEXT("Vertical Blank Line Multiplier"),
+		UI_TEXT("垂直消隐行倍数"),
 		std::to_string(vblankscanlines), attachParams(),
 		[this](const Input::Event &e)
 		{
 			pushAndShowNewCollectValueRangeInputView<int, 0, maxVBlankMultiplier>(attachParams(), e,
-				UI_TEXT("Input 0 to 16"),
+				// UI_TEXT("Input 0 to 16"),
+				UI_TEXT("请输入 0 到 16 之间的值"),
 				std::to_string(vblankscanlines),
 				[this](CollectTextInputView&, auto val)
 				{
@@ -339,7 +362,8 @@ public:
 	ConsoleOptionView(ViewAttachParams attach):
 		TableView
 		{
-			UI_TEXT("Console Options"),
+			// UI_TEXT("Console Options"),
+			UI_TEXT("主机选项"),
 			attach,
 			menuItem
 		} {}
@@ -690,7 +714,8 @@ class CustomFilePathOptionView : public FilePathOptionView, public MainAppHelper
 		[this](const Input::Event &e)
 		{
 			pushAndShow(makeViewWithName<UserPathSelectView>(
-				UI_TEXT("Cheats"),
+				// UI_TEXT("Cheats"),
+				UI_TEXT("金手指"),
 				system().userPath(system().cheatsDir),
 				[this](CStringView path)
 				{
@@ -707,7 +732,8 @@ class CustomFilePathOptionView : public FilePathOptionView, public MainAppHelper
 		[this](const Input::Event &e)
 		{
 			pushAndShow(makeViewWithName<UserPathSelectView>(
-				UI_TEXT("Patches"),
+				// UI_TEXT("Patches"),
+				UI_TEXT("补丁"),
 				system().userPath(system().patchesDir),
 				[this](CStringView path)
 				{
@@ -724,7 +750,8 @@ class CustomFilePathOptionView : public FilePathOptionView, public MainAppHelper
 		[this](const Input::Event &e)
 		{
 			pushAndShow(makeViewWithName<UserPathSelectView>(
-				UI_TEXT("Palettes"),
+				// UI_TEXT("Palettes"),
+				UI_TEXT("调色板"),
 				system().userPath(system().palettesDir),
 				[this](CStringView path)
 				{
@@ -741,7 +768,8 @@ class CustomFilePathOptionView : public FilePathOptionView, public MainAppHelper
 		[this](TextMenuItem &, View &, Input::Event e)
 		{
 			pushAndShow(makeViewWithName<DataFileSelectView<>>(
-				UI_TEXT("Disk System BIOS"),
+				// UI_TEXT("Disk System BIOS"),
+				UI_TEXT("磁碟机 BIOS"),
 				app().validSearchPath(FS::dirnameUri(system().fdsBiosPath)),
 				[this](CStringView path, FS::file_type type)
 				{
@@ -756,7 +784,8 @@ class CustomFilePathOptionView : public FilePathOptionView, public MainAppHelper
 	std::string biosMenuEntryStr(CStringView path) const
 	{
 		return std::format(
-			UI_TEXT("Disk System BIOS: {}"),
+			// UI_TEXT("Disk System BIOS: {}"),
+			UI_TEXT("磁碟机 BIOS：{}"),
 			appContext().fileUriDisplayName(path));
 	}
 
@@ -778,7 +807,8 @@ private:
 	TextMenuItem setSide[DISK_SIDES]
 	{
 		{
-			UI_TEXT("Set Disk 1 Side A"),
+			// UI_TEXT("Set Disk 1 Side A"),
+			UI_TEXT("设置1号碟 A面"),
 			attachParams(),
 			[this](View &view, Input::Event e)
 			{
@@ -787,7 +817,8 @@ private:
 			}
 		},
 		{
-			UI_TEXT("Set Disk 1 Side B"),
+			// UI_TEXT("Set Disk 1 Side B"),
+			UI_TEXT("设置1号碟 B面"),
 			attachParams(),
 			[this](View &view, Input::Event e)
 			{
@@ -796,7 +827,8 @@ private:
 			}
 		},
 		{
-			UI_TEXT("Set Disk 2 Side A"),
+			// UI_TEXT("Set Disk 2 Side A"),
+			UI_TEXT("设置2号碟 A面"),
 			attachParams(),
 			[this](View &view, Input::Event e)
 			{
@@ -805,7 +837,8 @@ private:
 			}
 		},
 		{
-			UI_TEXT("Set Disk 2 Side B"),
+			// UI_TEXT("Set Disk 2 Side B"),
+			UI_TEXT("设置2号碟 B面"),
 			attachParams(),
 			[this](View &view, Input::Event e)
 			{
@@ -817,7 +850,8 @@ private:
 
 	TextMenuItem insertEject
 	{
-		UI_TEXT("Eject"),
+		// UI_TEXT("Eject"),
+		UI_TEXT("弹出"),
 		attachParams(),
 		[this](View &view, Input::Event e)
 		{
@@ -862,16 +896,19 @@ private:
 		if(!isFDS)
 			return;
 		if(!FCEU_FDSInserted())
-			fdsControl.compile(UI_TEXT("FDS Control (No Disk)"));
+			// fdsControl.compile(UI_TEXT("FDS Control (No Disk)"));
+			fdsControl.compile(UI_TEXT("磁碟机控制 (没有磁碟)"));
 		else
 			fdsControl.compile(std::format(
-				UI_TEXT("FDS Control (Disk {}:{})"),
+				// UI_TEXT("FDS Control (Disk {}:{})"),
+				UI_TEXT("磁碟机控制 ({}号碟 {}面)"),
 				(FCEU_FDSCurrentSide() >> 1) + 1, (FCEU_FDSCurrentSide() & 1) ? 'B' : 'A'));
 	}
 
 	TextMenuItem options
 	{
-		UI_TEXT("Console Options"),
+		// UI_TEXT("Console Options"),
+		UI_TEXT("主机选项"),
 		attachParams(),
 		[this](Input::Event e) { pushAndShow(makeView<ConsoleOptionView>(), e); }
 	};
@@ -899,7 +936,7 @@ class CustomSystemOptionView : public SystemOptionView, public MainAppHelper
 	BoolMenuItem skipFdcAccess
 	{
 		// UI_TEXT("Fast-forward Disk IO"),
-		UI_TEXT("优化磁盘读写性能"),
+		UI_TEXT("优化磁碟读写性能"),
 		attachParams(),
 		system().fastForwardDuringFdsAccess,
 		[this](BoolMenuItem &item)

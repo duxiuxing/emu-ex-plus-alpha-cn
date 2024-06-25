@@ -297,16 +297,16 @@ void NesSystem::handleInputAction(EmuApp *app, InputAction a)
 				{
 					case 0:
 						// return UI_TEXT("Disk 1 Side A");
-						return UI_TEXT("1号盘 A面");
+						return UI_TEXT("1号碟 A面");
 					case 1:
 						// return UI_TEXT("Disk 1 Side B");
-						return UI_TEXT("1号盘 B面");
+						return UI_TEXT("1号碟 B面");
 					case 2:
 						// return UI_TEXT("Disk 2 Side A");
-						return UI_TEXT("2号盘 A面");
+						return UI_TEXT("2号碟 A面");
 					case 3:
 						// return UI_TEXT("Disk 2 Side B");
-						return UI_TEXT("2号盘 B面");
+						return UI_TEXT("2号碟 B面");
 				}
 				std::unreachable();
 			};

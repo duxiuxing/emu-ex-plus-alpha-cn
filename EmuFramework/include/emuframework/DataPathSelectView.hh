@@ -105,7 +105,8 @@ public:
 		},
 		unset
 		{
-			UI_TEXT("Unset"),
+			// UI_TEXT("Unset"),
+			UI_TEXT("未设置"),
 			attach,
 			[=](View &view)
 			{
