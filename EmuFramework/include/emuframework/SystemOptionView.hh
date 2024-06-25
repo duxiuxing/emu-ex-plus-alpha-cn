@@ -42,6 +42,7 @@ protected:
 	MultiChoiceMenuItem fastModeSpeed;
 	TextMenuItem slowModeSpeedItem[3];
 	MultiChoiceMenuItem slowModeSpeed;
+	TextHeadingMenuItem rewind;
 	TextMenuItem rewindStatesItem[4];
 	MultiChoiceMenuItem rewindStates;
 	DualTextMenuItem rewindTimeInterval;
