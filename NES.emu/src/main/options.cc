@@ -29,6 +29,7 @@ std::span<const AspectRatioInfo> NesSystem::aspectRatioInfos()
 	static constexpr AspectRatioInfo aspectRatioInfo[]
 	{
 		{
+			// UI_TEXT("4:3 (Original)"),
 			UI_TEXT("4:3 (原画)"),
 			{4, 3}
 		},
