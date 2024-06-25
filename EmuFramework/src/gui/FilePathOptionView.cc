@@ -57,14 +57,22 @@ static auto screenshotsMenuName(IG::ApplicationContext ctx, std::string_view use
 }
 
 FilePathOptionView::FilePathOptionView(ViewAttachParams attach, bool customMenu):
-	TableView{"File Path Options", attach, item},
+	TableView
+	{
+		UI_TEXT("File Path Options"),
+		attach,
+		item
+	},
 	savePath
 	{
 		savesMenuName(appContext(), system().userSaveDirectory()), attach,
 		[this](const Input::Event &e)
 		{
-			auto multiChoiceView = makeViewWithName<TextTableView>("Saves", 4);
-			multiChoiceView->appendItem("Select Folder",
+			auto multiChoiceView = makeViewWithName<TextTableView>(
+				UI_TEXT("Saves"),
+				4);
+			multiChoiceView->appendItem(
+				UI_TEXT("Select Folder"),
 				[this](const Input::Event &e)
 				{
 					auto fPicker = makeView<FilePicker>(FSPicker::Mode::DIR, EmuSystem::NameFilterFunc{}, e);
@@ -76,7 +84,7 @@ FilePathOptionView::FilePathOptionView(ViewAttachParams attach, bool customMenu)
 						{
 							if(!hasWriteAccessToDir(path))
 							{
-								app().postErrorMessage("This folder lacks write access");
+								app().postErrorMessage(UI_TEXT("This folder lacks write access"));
 								return;
 							}
 							system().setUserSaveDirectory(path);
@@ -87,26 +95,30 @@ FilePathOptionView::FilePathOptionView(ViewAttachParams attach, bool customMenu)
 						});
 					pushAndShowModal(std::move(fPicker), e);
 				});
-			multiChoiceView->appendItem("Same As Content",
+			multiChoiceView->appendItem(
+				UI_TEXT("Same As Content"),
 				[this](View &view)
 				{
 					system().setUserSaveDirectory("");
 					onSavePathChange("");
 					view.dismiss();
 				});
-			multiChoiceView->appendItem("App Folder",
+			multiChoiceView->appendItem(
+				UI_TEXT("App Folder"),
 				[this](View &view)
 				{
 					system().setUserSaveDirectory(optionSavePathDefaultToken);
 					onSavePathChange(optionSavePathDefaultToken);
 					view.dismiss();
 				});
-			multiChoiceView->appendItem("Legacy Game Data Folder",
+			multiChoiceView->appendItem(
+				UI_TEXT("Legacy Game Data Folder"),
 				[this](View &view, const Input::Event &e)
 				{
 					pushAndShowModal(makeView<YesNoAlertView>(
-						std::format("Please select the \"Game Data/{}\" folder from an old version of the app to use its existing saves "
-							"and convert it to a regular save path (this is only needed once)", system().shortSystemName()),
+						std::format(
+							UI_TEXT("Please select the \"Game Data/{}\" folder from an old version of the app to use its existing saves ")
+							UI_TEXT("and convert it to a regular save path (this is only needed once))", system().shortSystemName()),
 						YesNoAlertView::Delegates
 						{
 							.onYes = [this](const Input::Event &e)
@@ -119,12 +131,14 @@ FilePathOptionView::FilePathOptionView(ViewAttachParams attach, bool customMenu)
 										auto ctx = appContext();
 										if(!hasWriteAccessToDir(path))
 										{
-											app().postErrorMessage("This folder lacks write access");
+											app().postErrorMessage(UI_TEXT("This folder lacks write access"));
 											return;
 										}
 										if(ctx.fileUriDisplayName(path) != system().shortSystemName())
 										{
-											app().postErrorMessage(std::format("Please select the {} folder", system().shortSystemName()));
+											app().postErrorMessage(std::format(
+												UI_TEXT("Please select the {} folder"),
+												system().shortSystemName()));
 											return;
 										}
 										EmuApp::updateLegacySavePath(ctx, path);
@@ -147,7 +161,9 @@ FilePathOptionView::FilePathOptionView(ViewAttachParams attach, bool customMenu)
 		screenshotsMenuName(appContext(), app().userScreenshotPath), attach,
 		[this](const Input::Event &e)
 		{
-			pushAndShow(makeViewWithName<UserPathSelectView>("Screenshots", app().screenshotDirectory(),
+			pushAndShow(makeViewWithName<UserPathSelectView>(
+				UI_TEXT("Screenshots"),
+				app().screenshotDirectory(),
 				[this](CStringView path)
 				{
 					log.info("set screenshots path:{}", path);
@@ -173,7 +189,11 @@ void FilePathOptionView::onSavePathChange(std::string_view path)
 {
 	if(path == optionSavePathDefaultToken)
 	{
-		app().postMessage(4, false, std::format("App Folder:\n{}", system().fallbackSaveDirectory()));
+		app().postMessage(
+			4, false,
+			std::format(
+				UI_TEXT("App Folder:\n{}"),
+				system().fallbackSaveDirectory()));
 	}
 	savePath.compile(savesMenuName(appContext(), path));
 }
