@@ -36,24 +36,28 @@ static FS::FileString savePathStrToDisplayName(IG::ApplicationContext ctx, std::
 	if(savePathStr.size())
 	{
 		if(savePathStr == optionSavePathDefaultToken)
-			return "App Folder";
+			return UI_TEXT("App Folder");
 		else
 			return ctx.fileUriDisplayName(savePathStr);
 	}
 	else
 	{
-		return "Content Folder";
+		return UI_TEXT("Content Folder");
 	}
 }
 
 static auto savesMenuName(IG::ApplicationContext ctx, std::string_view savePath)
 {
-	return std::format("Saves: {}", savePathStrToDisplayName(ctx, savePath));
+	return std::format(
+		UI_TEXT("Saves: {}"),
+		savePathStrToDisplayName(ctx, savePath));
 }
 
 static auto screenshotsMenuName(IG::ApplicationContext ctx, std::string_view userPath)
 {
-	return std::format("Screenshots: {}", userPathToDisplayName(ctx, userPath));
+	return std::format(
+		UI_TEXT("Screenshots: {}"),
+		userPathToDisplayName(ctx, userPath));
 }
 
 FilePathOptionView::FilePathOptionView(ViewAttachParams attach, bool customMenu):
@@ -118,7 +122,8 @@ FilePathOptionView::FilePathOptionView(ViewAttachParams attach, bool customMenu)
 					pushAndShowModal(makeView<YesNoAlertView>(
 						std::format(
 							UI_TEXT("Please select the \"Game Data/{}\" folder from an old version of the app to use its existing saves ")
-							UI_TEXT("and convert it to a regular save path (this is only needed once))", system().shortSystemName()),
+							UI_TEXT("and convert it to a regular save path (this is only needed once)"),
+							system().shortSystemName()),
 						YesNoAlertView::Delegates
 						{
 							.onYes = [this](const Input::Event &e)
