@@ -898,7 +898,8 @@ class CustomSystemOptionView : public SystemOptionView, public MainAppHelper
 
 	BoolMenuItem skipFdcAccess
 	{
-		UI_TEXT("Fast-forward Disk IO"),
+		// UI_TEXT("Fast-forward Disk IO"),
+		UI_TEXT("优化磁盘读写性能"),
 		attachParams(),
 		system().fastForwardDuringFdsAccess,
 		[this](BoolMenuItem &item)

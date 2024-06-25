@@ -104,25 +104,25 @@ SystemOptionView::SystemOptionView(ViewAttachParams attach, bool customMenu):
 	{
 		{
 			// UI_TEXT("Main Slot"),
-			UI_TEXT("默认存档点 (自动读取进度)"),
+			UI_TEXT("开启自动存档，并自动读取进度"),
 			attach,
 			{.id = AutosaveLaunchMode::Load}
 		},
 		{
 			// UI_TEXT("Main Slot (No State)"),
-			UI_TEXT("默认存档点 (不读取进度)"),
+			UI_TEXT("开启自动存档，但不读取进度"),
 			attach,
 			{.id = AutosaveLaunchMode::LoadNoState}
 		},
 		{
 			// UI_TEXT("No Save Slot"),
-			UI_TEXT("不自动存档"),
+			UI_TEXT("关闭自动存档"),
 			attach,
 			{.id = AutosaveLaunchMode::NoSave}
 		},
 		{
 			// UI_TEXT("Select Slot"),
-			UI_TEXT("选择存档点"),
+			UI_TEXT("选择自动存档点"),
 			attach,
 			{.id = AutosaveLaunchMode::Ask}
 		},
@@ -261,11 +261,6 @@ SystemOptionView::SystemOptionView(ViewAttachParams attach, bool customMenu):
 			.defaultItemOnSelect = [this](TextMenuItem &item) { app().setAltSpeed(AltSpeedMode::slow, item.id); }
 		},
 	},
-	rewind
-	{
-		UI_TEXT("进度回放："),
-		attach
-	},
 	rewindStatesItem
 	{
 		{"0",  attach, {.id = 0}},
@@ -296,7 +291,7 @@ SystemOptionView::SystemOptionView(ViewAttachParams attach, bool customMenu):
 	rewindStates
 	{
 		// UI_TEXT("Rewind States"),
-		UI_TEXT("存档点最大数量"),
+		UI_TEXT("进度点的个数上限"),
 		attach,
 		MenuId{app().rewindManager.maxStates},
 		rewindStatesItem,
@@ -312,7 +307,7 @@ SystemOptionView::SystemOptionView(ViewAttachParams attach, bool customMenu):
 	rewindTimeInterval
 	{
 		// UI_TEXT("Rewind State Interval (Seconds)"),
-		UI_TEXT("存档点时间间隔 (秒)"),
+		UI_TEXT("进度点的时间间隔 (秒)"),
 		std::to_string(app().rewindManager.saveTimer.frequency.count()),
 		attach,
 		[this](const Input::Event &e)
@@ -365,6 +360,21 @@ SystemOptionView::SystemOptionView(ViewAttachParams attach, bool customMenu):
 		{
 			pushAndShow(makeView<CPUAffinityView>(appContext().cpuCount()), e);
 		}
+	},
+	autosaveOptions
+	{
+		UI_TEXT("自动存档："),
+		attach
+	},
+	rewindOptions
+	{
+		UI_TEXT("倒带选项："),
+		attach
+	},
+	otherOptions
+	{
+		UI_TEXT("其他选项："),
+		attach
 	}
 {
 	if(!customMenu)
@@ -375,9 +385,14 @@ SystemOptionView::SystemOptionView(ViewAttachParams attach, bool customMenu):
 
 void SystemOptionView::loadStockItems()
 {
+	item.emplace_back(&autosaveOptions);
 	item.emplace_back(&autosaveLaunch);
 	item.emplace_back(&autosaveTimer);
 	item.emplace_back(&autosaveContent);
+	item.emplace_back(&rewindOptions);
+	item.emplace_back(&rewindStates);
+	item.emplace_back(&rewindTimeInterval);
+	item.emplace_back(&otherOptions);
 	item.emplace_back(&confirmOverwriteState);
 	item.emplace_back(&fastModeSpeed);
 	item.emplace_back(&slowModeSpeed);
@@ -387,9 +402,6 @@ void SystemOptionView::loadStockItems()
 		item.emplace_back(&noopThread);
 	if(used(cpuAffinity) && appContext().cpuCount() > 1)
 		item.emplace_back(&cpuAffinity);
-	item.emplace_back(&rewind);
-	item.emplace_back(&rewindStates);
-	item.emplace_back(&rewindTimeInterval);
 }
 
 }

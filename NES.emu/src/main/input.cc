@@ -402,7 +402,7 @@ SystemInputDeviceDesc NesSystem::inputDeviceDesc(int idx) const
 		InputComponentDesc
 		{
 			// UI_TEXT("Face Buttons"),
-			UI_TEXT("正面的按键"),
+			UI_TEXT("动作键"),
 			faceKeyInfo, InputComponent::button, RB2DO
 		},
 		InputComponentDesc
@@ -426,7 +426,7 @@ SystemInputDeviceDesc NesSystem::inputDeviceDesc(int idx) const
 		InputComponentDesc
 		{
 			// UI_TEXT("P2 Start (Famicom Microphone)"),
-			UI_TEXT("2号玩家的开始键"),
+			UI_TEXT("开始键 (2号玩家)"),
 			p2StartKeyInfo, InputComponent::button, RB2DO, {.altConfig = true}
 		},
 	};
