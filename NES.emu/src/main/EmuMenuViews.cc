@@ -158,7 +158,7 @@ class ConsoleOptionView : public TableView, public MainAppHelper
 	MultiChoiceMenuItem videoSystem
 	{
 		// UI_TEXT("System"),
-		UI_TEXT("制式"),
+		UI_TEXT("视频制式"),
 		attachParams(),
 		MenuId{system().optionVideoSystem},
 		videoSystemItem,
@@ -303,7 +303,7 @@ class ConsoleOptionView : public TableView, public MainAppHelper
 	DualTextMenuItem extraLines
 	{
 		// UI_TEXT("Extra Lines Per Frame"),
-		UI_TEXT("每帧额外行数"),
+		UI_TEXT("每帧的额外行数"),
 		std::to_string(postrenderscanlines), attachParams(),
 		[this](const Input::Event &e)
 		{

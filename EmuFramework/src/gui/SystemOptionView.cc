@@ -104,13 +104,13 @@ SystemOptionView::SystemOptionView(ViewAttachParams attach, bool customMenu):
 	{
 		{
 			// UI_TEXT("Main Slot"),
-			UI_TEXT("开启自动存档，并自动读取进度"),
+			UI_TEXT("开启并自动读取进度"),
 			attach,
 			{.id = AutosaveLaunchMode::Load}
 		},
 		{
 			// UI_TEXT("Main Slot (No State)"),
-			UI_TEXT("开启自动存档，但不读取进度"),
+			UI_TEXT("开启但不读取进度"),
 			attach,
 			{.id = AutosaveLaunchMode::LoadNoState}
 		},

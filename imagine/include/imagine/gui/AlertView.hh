@@ -92,8 +92,10 @@ public:
 		YesNoAlertView
 		{
 			attach, IG_forward(label),
-			UI_TEXT(u"Yes"),
-			UI_TEXT(u"No"),
+			// UI_TEXT(u"Yes"),
+			UI_TEXT(u"是"),
+			// UI_TEXT(u"No"),
+			UI_TEXT(u"否"),
 			delegates
 		} {}
 
