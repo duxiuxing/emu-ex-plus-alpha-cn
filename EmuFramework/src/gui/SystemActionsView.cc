@@ -39,7 +39,8 @@ static auto autoSaveName(EmuApp &app)
 {
 	return std::format(
 		UI_TEXT("Autosave Slot ({})"),
-		app.autosaveManager.slotFullName());
+		app.autosaveManager.slotFullName()
+	);
 }
 
 static std::string saveAutosaveName(EmuApp &app)
@@ -49,7 +50,8 @@ static std::string saveAutosaveName(EmuApp &app)
 		return UI_TEXT("Save Autosave State");
 	return std::format(
 		UI_TEXT("Save Autosave State (Timer In {:%M:%S})"),
-		duration_cast<Seconds>(autosaveManager.saveTimer.nextFireTime()));
+		duration_cast<Seconds>(autosaveManager.saveTimer.nextFireTime())
+	);
 }
 
 SystemActionsView::SystemActionsView(ViewAttachParams attach, bool customMenu):
@@ -94,16 +96,19 @@ SystemActionsView::SystemActionsView(ViewAttachParams attach, bool customMenu):
 		{
 			if(!item.active())
 				return;
-			pushAndShowModal(makeView<YesNoAlertView>(
-				UI_TEXT("Really save state?"),
-				YesNoAlertView::Delegates
-				{
-					.onYes = [this]
+			pushAndShowModal(
+				makeView<YesNoAlertView>(
+					UI_TEXT("Really save state?"),
+					YesNoAlertView::Delegates
 					{
-						if(app().autosaveManager.save(AutosaveActionSource::Manual))
-							app().showEmulation();
+						.onYes = [this]
+						{
+							if(app().autosaveManager.save(AutosaveActionSource::Manual))
+								app().showEmulation();
+						}
 					}
-				}), e);
+				), e
+			);
 		}
 	},
 	revertAutosave
@@ -120,18 +125,22 @@ SystemActionsView::SystemActionsView(ViewAttachParams attach, bool customMenu):
 				app().postMessage(UI_TEXT("No saved state"));
 				return;
 			}
-			pushAndShowModal(makeView<YesNoAlertView>(
-				std::format(
-					UI_TEXT("Really load state from: {}?"),
-					saveTime),
-				YesNoAlertView::Delegates
-				{
-					.onYes = [this]
+			pushAndShowModal(
+				makeView<YesNoAlertView>(
+					std::format(
+						UI_TEXT("Really load state from: {}?"),
+						saveTime
+					),
+					YesNoAlertView::Delegates
 					{
-						if(app().autosaveManager.load(AutosaveActionSource::Manual))
-							app().showEmulation();
+						.onYes = [this]
+						{
+							if(app().autosaveManager.load(AutosaveActionSource::Manual))
+								app().showEmulation();
+						}
 					}
-				}), e);
+				), e
+			);
 		}
 	},
 	stateSlot
@@ -169,7 +178,8 @@ SystemActionsView::SystemActionsView(ViewAttachParams attach, bool customMenu):
 							UI_TEXT("Added shortcut:\n{}"),
 							str));
 					return true;
-				});
+				}
+			);
 		}
 	},
 	screenshot
@@ -186,18 +196,22 @@ SystemActionsView::SystemActionsView(ViewAttachParams attach, bool customMenu):
 				app().postMessage(UI_TEXT("Save path isn't valid"));
 				return;
 			}
-			pushAndShowModal(makeView<YesNoAlertView>(
-				std::format(
-					UI_TEXT("Save screenshot to folder {}?"),
-					pathName),
-				YesNoAlertView::Delegates
-				{
-					.onYes = [this]
+			pushAndShowModal(
+				makeView<YesNoAlertView>(
+					std::format(
+						UI_TEXT("Save screenshot to folder {}?"),
+						pathName
+					),
+					YesNoAlertView::Delegates
 					{
-						app().video.takeGameScreenshot();
-						system().runFrame({}, &app().video, nullptr);
+						.onYes = [this]
+						{
+							app().video.takeGameScreenshot();
+							system().runFrame({}, &app().video, nullptr);
+						}
 					}
-				}), e);
+				), e
+			);
 		}
 	},
 	resetSessionOptions
@@ -208,16 +222,19 @@ SystemActionsView::SystemActionsView(ViewAttachParams attach, bool customMenu):
 		{
 			if(!app().hasSavedSessionOptions())
 				return;
-			pushAndShowModal(makeView<YesNoAlertView>(
-				UI_TEXT("Reset saved options for the currently running system to defaults? Some options only take effect next time the system loads."),
-				YesNoAlertView::Delegates
-				{
-					.onYes = [this]
+			pushAndShowModal(
+				makeView<YesNoAlertView>(
+					UI_TEXT("Reset saved options for the currently running system to defaults? Some options only take effect next time the system loads."),
+					YesNoAlertView::Delegates
 					{
-						resetSessionOptions.setActive(false);
-						app().deleteSessionOptions();
+						.onYes = [this]
+						{
+							resetSessionOptions.setActive(false);
+							app().deleteSessionOptions();
+						}
 					}
-				}), e);
+				), e
+			);
 		}
 	},
 	close
