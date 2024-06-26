@@ -26,10 +26,10 @@ namespace EmuEx
 {
 
 static constexpr bool USE_MOBILE_ORIENTATION_NAMES = Config::envIsAndroid || Config::envIsIOS;
-static const char *landscapeName = USE_MOBILE_ORIENTATION_NAMES ? "Landscape" : "90° Left";
-static const char *landscape2Name = USE_MOBILE_ORIENTATION_NAMES ? "Landscape 2" : "90° Right";
-static const char *portraitName = USE_MOBILE_ORIENTATION_NAMES ? "Portrait" : "Standard";
-static const char *portrait2Name = USE_MOBILE_ORIENTATION_NAMES ? "Portrait 2" : "Upside Down";
+static const char *landscapeName = USE_MOBILE_ORIENTATION_NAMES ? UI_TEXT("Landscape") : UI_TEXT("90° Left");
+static const char *landscape2Name = USE_MOBILE_ORIENTATION_NAMES ? UI_TEXT("Landscape 2") : UI_TEXT("90° Right");
+static const char *portraitName = USE_MOBILE_ORIENTATION_NAMES ? UI_TEXT("Portrait") : UI_TEXT("Standard");
+static const char *portrait2Name = USE_MOBILE_ORIENTATION_NAMES ? UI_TEXT("Portrait 2") : UI_TEXT("Upside Down");
 
 GUIOptionView::GUIOptionView(ViewAttachParams attach, bool customMenu):
 	TableView
