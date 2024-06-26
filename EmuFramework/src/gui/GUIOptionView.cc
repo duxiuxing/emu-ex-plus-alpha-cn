@@ -26,10 +26,14 @@ namespace EmuEx
 {
 
 static constexpr bool USE_MOBILE_ORIENTATION_NAMES = Config::envIsAndroid || Config::envIsIOS;
-static const char *landscapeName = USE_MOBILE_ORIENTATION_NAMES ? "Landscape" : "90° Left";
-static const char *landscape2Name = USE_MOBILE_ORIENTATION_NAMES ? "Landscape 2" : "90° Right";
-static const char *portraitName = USE_MOBILE_ORIENTATION_NAMES ? "Portrait" : "Standard";
-static const char *portrait2Name = USE_MOBILE_ORIENTATION_NAMES ? "Portrait 2" : "Upside Down";
+// static const char *landscapeName = USE_MOBILE_ORIENTATION_NAMES ? UI_TEXT("Landscape") : UI_TEXT("90° Left");
+static const char *landscapeName = USE_MOBILE_ORIENTATION_NAMES ? UI_TEXT("左横屏") : UI_TEXT("向左旋转 90°");
+// static const char *landscape2Name = USE_MOBILE_ORIENTATION_NAMES ? UI_TEXT("Landscape 2") : UI_TEXT("90° Right");
+static const char *landscape2Name = USE_MOBILE_ORIENTATION_NAMES ? UI_TEXT("右横屏") : UI_TEXT("向右旋转 90°");
+// static const char *portraitName = USE_MOBILE_ORIENTATION_NAMES ? UI_TEXT("Portrait") : UI_TEXT("Standard");
+static const char *portraitName = USE_MOBILE_ORIENTATION_NAMES ? UI_TEXT("竖屏") : UI_TEXT("原始方向");
+// static const char *portrait2Name = USE_MOBILE_ORIENTATION_NAMES ? UI_TEXT("Portrait 2") : UI_TEXT("Upside Down");
+static const char *portrait2Name = USE_MOBILE_ORIENTATION_NAMES ? UI_TEXT("反向竖屏") : UI_TEXT("旋转 180°");
 
 GUIOptionView::GUIOptionView(ViewAttachParams attach, bool customMenu):
 	TableView
