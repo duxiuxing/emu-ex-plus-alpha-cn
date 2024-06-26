@@ -23,26 +23,29 @@ namespace EmuEx
 BaseCheatsView::BaseCheatsView(ViewAttachParams attach):
 	TableView
 	{
-		"Cheats",
+		UI_TEXT("Cheats"),
 		attach,
 		[this](ItemMessage msg) -> ItemReply
 		{
-			return msg.visit(overloaded
-			{
-				[&](const ItemsMessage &m) -> ItemReply { return 1 + cheat.size(); },
-				[&](const GetItemMessage &m) -> ItemReply
+			return msg.visit(
+				overloaded
 				{
-					if(m.idx == 0)
-						return &edit;
-					else
-						return &cheat[m.idx - 1];
-				},
-			});
+					[&](const ItemsMessage &m) -> ItemReply { return 1 + cheat.size(); },
+					[&](const GetItemMessage &m) -> ItemReply
+					{
+						if(m.idx == 0)
+							return &edit;
+						else
+							return &cheat[m.idx - 1];
+					},
+				}
+			);
 		}
 	},
 	edit
 	{
-		"Add/Edit", attach,
+		UI_TEXT("Add/Edit"),
+		attach,
 		[this](const Input::Event &e)
 		{
 			auto editCheatsView = app().makeView(attachParams(), EmuApp::ViewID::EDIT_CHEATS);
@@ -53,7 +56,8 @@ BaseCheatsView::BaseCheatsView(ViewAttachParams attach):
 					loadCheatItems();
 					highlightCell(selectedCell);
 					place();
-				});
+				}
+			);
 			pushAndShow(std::move(editCheatsView), e);
 		}
 	} {}
@@ -61,7 +65,7 @@ BaseCheatsView::BaseCheatsView(ViewAttachParams attach):
 BaseEditCheatListView::BaseEditCheatListView(ViewAttachParams attach, TableView::ItemSourceDelegate itemSrc):
 	TableView
 	{
-		"Edit Cheats",
+		UI_TEXT("Edit Cheats"),
 		attach,
 		itemSrc
 	} {}
