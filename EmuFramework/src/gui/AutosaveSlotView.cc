@@ -151,7 +151,12 @@ void ManageAutosavesView::updateItem(std::string_view name, std::string_view new
 	}
 	else
 	{
-		it->setName(std::format("{}: {}", newName, slotDescription(app(), newName)));
+		it->setName(
+			std::format(
+				UI_TEXT("{}: {}"),
+				newName, slotDescription(app(), newName)
+			)
+		);
 		it->slotName = newName;
 	}
 	place();
@@ -246,7 +251,11 @@ void AutosaveSlotView::refreshSlots()
 		{
 			if(e.type() != FS::file_type::directory)
 				return true;
-			auto &item = extraSlotItems.emplace_back(e.name(), std::format("{}: {}", e.name(), slotDescription(app(), e.name())),
+			auto &item = extraSlotItems.emplace_back(e.name(),
+				std::format(
+					UI_TEXT("{}: {}"),
+					e.name(), slotDescription(app(), e.name())
+				),
 				attachParams(),
 				[this](TextMenuItem &item)
 				{
@@ -314,7 +323,12 @@ void AutosaveSlotView::updateItem(std::string_view name, std::string_view newNam
 	}
 	else
 	{
-		it->setName(std::format("{}: {}", newName, slotDescription(app(), newName)));
+		it->setName(
+			std::format(
+				UI_TEXT("{}: {}"),
+				newName, slotDescription(app(), newName)
+			)
+		);
 		it->slotName = newName;
 	}
 	place();
