@@ -69,7 +69,7 @@ inline std::unique_ptr<View> resetAlertView(ViewAttachParams attachParams, EmuAp
 		return std::make_unique<ResetAlertView>(
 			attachParams,
 			// UI_TEXT("Really reset?"),
-			UI_TEXT("是否要重启？"),
+			UI_TEXT("是否要重启游戏？"),
 			app);
 	}
 	else
@@ -77,7 +77,7 @@ inline std::unique_ptr<View> resetAlertView(ViewAttachParams attachParams, EmuAp
 		return std::make_unique<YesNoAlertView>(
 			attachParams,
 			// UI_TEXT("Really reset?"),
-			UI_TEXT("是否要重启？"),
+			UI_TEXT("是否要重启游戏？"),
 			YesNoAlertView::Delegates
 			{
 				.onYes = [&app]

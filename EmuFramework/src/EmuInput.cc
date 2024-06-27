@@ -221,7 +221,7 @@ bool InputManager::handleAppActionKeyInput(EmuApp& app, InputAction action, cons
 			else
 				app.postMessage(3, false,
 					// UI_TEXT("Please set rewind states in Options➔System")
-					UI_TEXT("请在系统选项中开启倒带功能")
+					UI_TEXT("请到“选项➔系统”中开启倒带操作")
 				);
 			break;
 		}

@@ -113,7 +113,10 @@ inline void pushAndShowNewCollectValueInputView(ViewAttachParams attach, const I
 			auto [val, items] = scanValue<T>(str, mode);
 			if(items <= 0)
 			{
-				postErrorMessage(view.appContext(), "Enter a value");
+				postErrorMessage(view.appContext(),
+					// UI_TEXT("Enter a value")
+					UI_TEXT("请输入一个值")
+				);
 				return true;
 			}
 			else if(!collectedValueFunc(view, val))
@@ -141,7 +144,10 @@ inline void pushAndShowNewCollectValueRangeInputView(ViewAttachParams attach, co
 			}
 			else
 			{
-				postErrorMessage(view.appContext(), "Value not in range");
+				postErrorMessage(view.appContext(),
+					// UI_TEXT("Value not in range")
+					UI_TEXT("输入值不在有效的取值范围")
+				);
 				return false;
 			}
 		});
@@ -160,7 +166,10 @@ inline void pushAndShowNewCollectValuePairRangeInputView(ViewAttachParams attach
 			}
 			else
 			{
-				postErrorMessage(view.appContext(), "Values not in range");
+				postErrorMessage(view.appContext(),
+					// UI_TEXT("Values not in range")
+					UI_TEXT("输入值不在有效的取值范围")
+				);
 				return false;
 			}
 		});

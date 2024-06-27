@@ -368,7 +368,7 @@ SystemOptionView::SystemOptionView(ViewAttachParams attach, bool customMenu):
 	},
 	rewindOptions
 	{
-		UI_TEXT("倒带功能："),
+		UI_TEXT("倒带操作："),
 		attach
 	},
 	otherOptions

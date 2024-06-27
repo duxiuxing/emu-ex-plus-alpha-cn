@@ -116,17 +116,20 @@ constexpr std::array rewindUIKeys{appKeys.rewind};
 
 constexpr InputComponentDesc rightUIComponents
 {
-	UI_TEXT("Open Menu"),
+	// UI_TEXT("Open Menu"),
+	UI_TEXT("菜单键"),
 	rightUIKeys, InputComponent::ui, RT2DO
 };
 constexpr InputComponentDesc leftUIComponents
 {
-	UI_TEXT("Toggle Fast-forward"),
+	// UI_TEXT("Toggle Fast-forward"),
+	UI_TEXT("快进键")
 	leftUIKeys, InputComponent::ui, LT2DO
 };
 constexpr InputComponentDesc rewindUIComponents
 {
-	UI_TEXT("Rewind One State"),
+	// UI_TEXT("Rewind One State"),
+	UI_TEXT("倒带键"),
 	rewindUIKeys, InputComponent::ui, LT2DO
 };
 

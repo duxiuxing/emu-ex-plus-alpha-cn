@@ -83,7 +83,10 @@ bool AutosaveManager::load(AutosaveActionSource src, LoadAutosaveMode mode)
 	catch(std::exception &err)
 	{
 		if(!hasWriteAccessToDir(system().contentSaveDirectory()))
-			app.postErrorMessage(8, "Save folder inaccessible, please set it in Options➔File Paths➔Saves");
+			app.postErrorMessage(8,
+				// UI_TEXT("Save folder inaccessible, please set it in Options➔File Paths➔Saves")
+				UI_TEXT("无法访问存档文件夹，请到“选项➔文件路径➔存档文件夹”中重新设置")
+			);
 		else
 			app.postErrorMessage(4, err.what());
 		return false;
@@ -97,7 +100,10 @@ bool AutosaveManager::saveState()
 	auto state = app.saveState();
 	if(stateIO.write(state.span(), 0).bytes != ssize_t(state.size()))
 	{
-		app.postErrorMessage(4, "Error writing autosave state");
+		app.postErrorMessage(4,
+			// UI_TEXT("Error writing autosave state")
+			UI_TEXT("保存自动存档的进度时出错")
+		);
 		return false;
 	}
 	return true;
@@ -113,7 +119,13 @@ bool AutosaveManager::loadState()
 	}
 	catch(std::exception &err)
 	{
-		app.postErrorMessage(4, std::format("Error loading autosave state:\n{}", err.what()));
+		app.postErrorMessage(4,
+			std::format(
+				// UI_TEXT("Error loading autosave state:\n{}"),
+				UI_TEXT("读取自动存档的进度时出错：\n{}"),
+				err.what()
+			)
+		);
 		return false;
 	}
 }

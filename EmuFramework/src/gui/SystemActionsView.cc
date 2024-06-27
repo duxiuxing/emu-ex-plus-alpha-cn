@@ -245,7 +245,7 @@ SystemActionsView::SystemActionsView(ViewAttachParams attach, bool customMenu):
 			pushAndShowModal(
 				makeView<YesNoAlertView>(
 					// UI_TEXT("Reset saved options for the currently running system to defaults? Some options only take effect next time the system loads."),
-					UI_TEXT("是否要将已经保存的选项恢复至默认值？某些选项需要重启模拟器才能使之生效。"),
+					UI_TEXT("是否要将已经保存的选项恢复至默认值？某些选项需要重启模拟器才能生效。"),
 					YesNoAlertView::Delegates
 					{
 						.onYes = [this]
