@@ -238,7 +238,7 @@ GUIOptionView::GUIOptionView(ViewAttachParams attach, bool customMenu):
 	backNav
 	{
 		// UI_TEXT("Title Back Navigation"),
-		UI_TEXT("标题栏返回按钮"),
+		UI_TEXT("在标题栏显示返回按钮"),
 		attach,
 		attach.viewManager.needsBackControl,
 		[this](BoolMenuItem &item)
@@ -298,7 +298,7 @@ GUIOptionView::GUIOptionView(ViewAttachParams attach, bool customMenu):
 	maxRecentContent
 	{
 		// UI_TEXT("Max Recent Content Items"),
-		UI_TEXT("最近游戏的个数上限"),
+		UI_TEXT("最近打开过的游戏个数"),
 		std::to_string(app().recentContent.maxRecentContent), attach,
 		[this](const Input::Event &e)
 		{

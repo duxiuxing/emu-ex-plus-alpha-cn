@@ -25,7 +25,9 @@ namespace EmuEx
 RecentContentView::RecentContentView(ViewAttachParams attach, RecentContent &recentContent_):
 	TableView
 	{
-		"Recent Content", attach,
+		// UI_TEXT("Recent Content"),
+		UI_TEXT("最近打开过的游戏"),
+		attach,
 		[this](TableView::ItemMessage msg)
 		{
 			return msg.visit(overloaded
@@ -37,18 +39,25 @@ RecentContentView::RecentContentView(ViewAttachParams attach, RecentContent &rec
 	},
 	clear
 	{
-		"Clear List", attach,
+		// UI_TEXT("Clear List"),
+		UI_TEXT("清空以上列表"),
+		attach,
 		[this](const Input::Event &e)
 		{
-			pushAndShowModal(makeView<YesNoAlertView>("Really clear the list?",
-				YesNoAlertView::Delegates
-				{
-					.onYes = [this]
+			pushAndShowModal(
+				makeView<YesNoAlertView>(
+					// UI_TEXT("Really clear the list?"),
+					UI_TEXT("是否要清空最近打开过的游戏列表？"),
+					YesNoAlertView::Delegates
 					{
-						recentContent.clear();
-						dismiss();
+						.onYes = [this]
+						{
+							recentContent.clear();
+							dismiss();
+						}
 					}
-				}), e);
+				), e
+			);
 		}
 	},
 	recentContent{recentContent_}

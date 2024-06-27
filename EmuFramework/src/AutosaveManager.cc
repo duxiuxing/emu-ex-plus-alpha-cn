@@ -169,9 +169,11 @@ bool AutosaveManager::deleteSlot(std::string_view name)
 std::string AutosaveManager::slotFullName() const
 {
 	if(autoSaveSlot == noAutosaveName)
-		return "No Save";
+		// return UI_TEXT("No Save");
+		return UI_TEXT("不保存");
 	else if(autoSaveSlot.empty())
-		return "Main";
+		// return UI_TEXT("Main");
+		return UI_TEXT("默认存档点");
 	else
 		return autoSaveSlot;
 }

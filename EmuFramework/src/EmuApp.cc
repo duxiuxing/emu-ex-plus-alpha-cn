@@ -132,24 +132,31 @@ public:
 		AlertView
 		{
 			attach,
-			UI_TEXT("Really Exit? (Push Back/Escape again to confirm)"),
+			// UI_TEXT("Really Exit? (Push Back/Escape again to confirm)"),
+			UI_TEXT("是否要退出？(确认请再按一下返回键/Esc 键)"),
 			hasEmuContent ? 3u : 2u
 		}
 	{
 		item.emplace_back(
-			UI_TEXT("Yes"),
+			// UI_TEXT("Yes"),
+			UI_TEXT("是"),
 			attach,
-			[this](){ appContext().exit(); });
+			[this](){ appContext().exit(); }
+		);
 		item.emplace_back(
-			UI_TEXT("No"),
+			// UI_TEXT("No"),
+			UI_TEXT("否"),
 			attach,
-			[](){});
+			[](){}
+		);
 		if(hasEmuContent)
 		{
 			item.emplace_back(
-				UI_TEXT("Close Menu"),
+				// UI_TEXT("Close Menu"),
+				UI_TEXT("关闭菜单"),
 				attach,
-				[this](){ app().showEmulation(); });
+				[this](){ app().showEmulation(); }
+			);
 		}
 	}
 

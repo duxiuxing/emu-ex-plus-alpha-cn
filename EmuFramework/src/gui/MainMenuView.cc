@@ -92,7 +92,7 @@ MainMenuView::MainMenuView(ViewAttachParams attach, bool customMenu):
 	recentGames
 	{
 		// UI_TEXT("Recent Content"),
-		UI_TEXT("最近游戏"),
+		UI_TEXT("最近打开过的游戏"),
 		attach,
 		[this](const Input::Event &e)
 		{
