@@ -149,7 +149,8 @@ public:
 			item.emplace_back(
 				UI_TEXT("Close Menu"),
 				attach,
-				[this](){ app().showEmulation(); });
+				[this](){ app().showEmulation(); }
+			);
 		}
 	}
 
