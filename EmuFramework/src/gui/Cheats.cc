@@ -23,7 +23,8 @@ namespace EmuEx
 BaseCheatsView::BaseCheatsView(ViewAttachParams attach):
 	TableView
 	{
-		UI_TEXT("Cheats"),
+		// UI_TEXT("Cheats"),
+		UI_TEXT("金手指"),
 		attach,
 		[this](ItemMessage msg) -> ItemReply
 		{
@@ -44,7 +45,8 @@ BaseCheatsView::BaseCheatsView(ViewAttachParams attach):
 	},
 	edit
 	{
-		UI_TEXT("Add/Edit"),
+		// UI_TEXT("Add/Edit"),
+		UI_TEXT("添加/编辑"),
 		attach,
 		[this](const Input::Event &e)
 		{
@@ -65,7 +67,8 @@ BaseCheatsView::BaseCheatsView(ViewAttachParams attach):
 BaseEditCheatListView::BaseEditCheatListView(ViewAttachParams attach, TableView::ItemSourceDelegate itemSrc):
 	TableView
 	{
-		UI_TEXT("Edit Cheats"),
+		// UI_TEXT("Edit Cheats"),
+		UI_TEXT("编辑金手指"),
 		attach,
 		itemSrc
 	} {}
