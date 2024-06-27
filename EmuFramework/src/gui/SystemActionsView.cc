@@ -156,7 +156,7 @@ SystemActionsView::SystemActionsView(ViewAttachParams attach, bool customMenu):
 	stateSlot
 	{
 		// UI_TEXT("Manual Save States"),
-		UI_TEXT("手动保存进度"),
+		UI_TEXT("手动存档点"),
 		attach,
 		[this](const Input::Event &e)
 		{
