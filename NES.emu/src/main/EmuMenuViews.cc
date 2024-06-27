@@ -290,7 +290,7 @@ class ConsoleOptionView : public TableView, public MainAppHelper
 	BoolMenuItem overclockingEnabled
 	{
 		// UI_TEXT("Enabled"),
-		UI_TEXT("启用"),
+		UI_TEXT("超频开关"),
 		attachParams(),
 		overclock_enabled,
 		[this](BoolMenuItem &item)
