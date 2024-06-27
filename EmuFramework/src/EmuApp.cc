@@ -139,11 +139,13 @@ public:
 		item.emplace_back(
 			UI_TEXT("Yes"),
 			attach,
-			[this](){ appContext().exit(); });
+			[this](){ appContext().exit(); }
+		);
 		item.emplace_back(
 			UI_TEXT("No"),
 			attach,
-			[](){});
+			[](){}
+		);
 		if(hasEmuContent)
 		{
 			item.emplace_back(

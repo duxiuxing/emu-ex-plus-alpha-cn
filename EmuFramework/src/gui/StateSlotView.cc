@@ -31,28 +31,39 @@ static auto slotHeadingName(EmuSystem &sys)
 }
 
 StateSlotView::StateSlotView(ViewAttachParams attach):
-	TableView{"Save States", attach, menuItems},
+	TableView
+	{
+		UI_TEXT("Save States"),
+		attach,
+		menuItems
+	},
 	load
 	{
-		"Load State", attach,
+		UI_TEXT("Load State"),
+		attach,
 		[this](TextMenuItem &item, View &, const Input::Event &e)
 		{
 			if(!item.active())
 				return;
-			pushAndShowModal(makeView<YesNoAlertView>("Really load state?",
-				YesNoAlertView::Delegates
-				{
-					.onYes = [this]
+			pushAndShowModal(
+				makeView<YesNoAlertView>(
+					UI_TEXT("Really load state?"),
+					YesNoAlertView::Delegates
 					{
-						if(app().loadStateWithSlot(system().stateSlot()))
-							app().showEmulation();
+						.onYes = [this]
+						{
+							if(app().loadStateWithSlot(system().stateSlot()))
+								app().showEmulation();
+						}
 					}
-				}), e);
+				), e
+			);
 		}
 	},
 	save
 	{
-		"Save State", attach,
+		UI_TEXT("Save State"),
+		attach,
 		[this](const Input::Event &e)
 		{
 			if(app().shouldOverwriteExistingState())
@@ -61,8 +72,12 @@ StateSlotView::StateSlotView(ViewAttachParams attach):
 			}
 			else
 			{
-				pushAndShowModal(makeView<YesNoAlertView>("Really overwrite state?",
-					YesNoAlertView::Delegates{.onYes = [this]{ doSaveState(); }}), e);
+				pushAndShowModal(
+					makeView<YesNoAlertView>(
+						UI_TEXT("Really overwrite state?"),
+						YesNoAlertView::Delegates{.onYes = [this]{ doSaveState(); }}
+					), e
+				);
 			}
 		}
 	},
