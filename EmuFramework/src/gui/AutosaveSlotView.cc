@@ -46,23 +46,27 @@ public:
 		slotName{slotName_},
 		rename
 		{
-			UI_TEXT("Rename"),
+			// UI_TEXT("Rename"),
+			UI_TEXT("重命名"),
 			attach,
 			[this](const Input::Event &e)
 			{
 				pushAndShowNewCollectValueInputView<const char*>(attachParams(), e,
-					UI_TEXT("Input name"),
+					// UI_TEXT("Input name"),
+					UI_TEXT("请输入存档点名称"),
 					slotName,
 					[this](CollectTextInputView &, auto str)
 					{
 						if(appContext().fileUriExists(system().contentLocalSaveDirectory(str)))
 						{
-							app().postErrorMessage(UI_TEXT("A save slot with that name already exists"));
+							// app().postErrorMessage(UI_TEXT("A save slot with that name already exists"));
+							app().postErrorMessage(UI_TEXT("已经存在同名的存档点"));
 							return false;
 						}
 						if(!app().autosaveManager.renameSlot(slotName, str))
 						{
-							app().postErrorMessage(UI_TEXT("Error renaming save slot"));
+							// app().postErrorMessage(UI_TEXT("Error renaming save slot"));
+							app().postErrorMessage(UI_TEXT("重命名存档点时出错"));
 							return false;
 						}
 						srcView.updateItem(slotName, str);
@@ -74,18 +78,21 @@ public:
 		},
 		remove
 		{
-			UI_TEXT("Delete"),
+			// UI_TEXT("Delete"),
+			UI_TEXT("删除"),
 			attach,
 			[this](const Input::Event &e)
 			{
 				if(slotName == app().autosaveManager.slotName())
 				{
-					app().postErrorMessage(UI_TEXT("Can't delete the currently active save slot"));
+					// app().postErrorMessage(UI_TEXT("Can't delete the currently active save slot"));
+					app().postErrorMessage(UI_TEXT("无法删除当前正在使用的存档点"));
 					return;
 				}
 				pushAndShowModal(
 					makeView<YesNoAlertView>(
-						UI_TEXT("Really delete this save slot?"),
+						// UI_TEXT("Really delete this save slot?"),
+						UI_TEXT("是否要删除这个存档点？"),
 						YesNoAlertView::Delegates
 						{
 							.onYes = [this]
@@ -114,7 +121,8 @@ ManageAutosavesView::ManageAutosavesView(ViewAttachParams attach, AutosaveSlotVi
 	const std::vector<SlotTextMenuItem> &items):
 	TableView
 	{
-		UI_TEXT("Manage Save Slots"),
+		// UI_TEXT("Manage Save Slots"),
+		UI_TEXT("管理存档点"),
 		attach,
 		extraSlotItems
 	},
@@ -136,7 +144,8 @@ static std::string slotDescription(EmuApp &app, std::string_view saveName)
 {
 	auto desc = app.appContext().fileUriFormatLastWriteTimeLocal(app.autosaveManager.statePath(saveName));
 	if(desc.empty())
-		desc = UI_TEXT("No saved state");
+		// desc = UI_TEXT("No saved state");
+		desc = UI_TEXT("无效的存档进度");
 	return desc;
 }
 
@@ -151,7 +160,13 @@ void ManageAutosavesView::updateItem(std::string_view name, std::string_view new
 	}
 	else
 	{
-		it->setName(std::format("{}: {}", newName, slotDescription(app(), newName)));
+		it->setName(
+			std::format(
+				// UI_TEXT("{}: {}"),
+				UI_TEXT("{}：{}"),
+				newName, slotDescription(app(), newName)
+			)
+		);
 		it->slotName = newName;
 	}
 	place();
@@ -161,30 +176,35 @@ void ManageAutosavesView::updateItem(std::string_view name, std::string_view new
 AutosaveSlotView::AutosaveSlotView(ViewAttachParams attach):
 	TableView
 	{
-		UI_TEXT("Autosave Slot"),
+		// UI_TEXT("Autosave Slot"),
+		UI_TEXT("自动存档点"),
 		attach,
 		menuItems
 	},
 	newSlot
 	{
-		UI_TEXT("Create New Save Slot"),
+		// UI_TEXT("Create New Save Slot"),
+		UI_TEXT("新建存档点"),
 		attach,
 		[this](const Input::Event &e)
 		{
 			pushAndShowNewCollectValueInputView<const char*>(attachParams(), e,
-				UI_TEXT("Save Slot Name"),
+				// UI_TEXT("Save Slot Name"),
+				UI_TEXT("存档点的名称"),
 				"",
 				[this](CollectTextInputView &, auto str_)
 				{
 					std::string_view name{str_};
 					if(appContext().fileUriExists(app().system().contentLocalSaveDirectory(name)))
 					{
-						app().postErrorMessage(UI_TEXT("A save slot with that name already exists"));
+						// app().postErrorMessage(UI_TEXT("A save slot with that name already exists"));
+						app().postErrorMessage(UI_TEXT("已经存在同名的存档点"));
 						return false;
 					}
 					if(!app().autosaveManager.setSlot(name))
 					{
-						app().postErrorMessage(UI_TEXT("Error creating save slot"));
+						// app().postErrorMessage(UI_TEXT("Error creating save slot"));
+						app().postErrorMessage(UI_TEXT("新建存档点时出错"));
 						return false;
 					}
 					app().showEmulation();
@@ -196,13 +216,15 @@ AutosaveSlotView::AutosaveSlotView(ViewAttachParams attach):
 	},
 	manageSlots
 	{
-		UI_TEXT("Manage Save Slots"),
+		// UI_TEXT("Manage Save Slots"),
+		UI_TEXT("管理存档点"),
 		attach,
 		[this](const Input::Event &e)
 		{
 			if(extraSlotItems.empty())
 			{
-				app().postMessage(UI_TEXT("No extra save slots exist"));
+				// app().postMessage(UI_TEXT("No extra save slots exist"));
+				app().postMessage(UI_TEXT("没有额外的存档点"));
 				return;
 			}
 			pushAndShow(makeView<ManageAutosavesView>(*this, extraSlotItems), e);
@@ -210,7 +232,8 @@ AutosaveSlotView::AutosaveSlotView(ViewAttachParams attach):
 	},
 	actions
 	{
-		UI_TEXT("Actions"),
+		// UI_TEXT("Actions"),
+		UI_TEXT("操作："),
 		attach
 	}
 {
@@ -223,7 +246,8 @@ void AutosaveSlotView::refreshSlots()
 	mainSlot =
 	{
 		std::format(
-			UI_TEXT("Main: {}"),
+			// UI_TEXT("Main: {}"),
+			UI_TEXT("默认存档点：{}"),
 			slotDescription(app(), "")
 		),
 		attachParams(),
@@ -246,7 +270,12 @@ void AutosaveSlotView::refreshSlots()
 		{
 			if(e.type() != FS::file_type::directory)
 				return true;
-			auto &item = extraSlotItems.emplace_back(e.name(), std::format("{}: {}", e.name(), slotDescription(app(), e.name())),
+			auto &item = extraSlotItems.emplace_back(e.name(),
+				std::format(
+					// UI_TEXT("{}: {}"),
+					UI_TEXT("{}：{}"),
+					e.name(), slotDescription(app(), e.name())
+				),
 				attachParams(),
 				[this](TextMenuItem &item)
 				{
@@ -265,7 +294,8 @@ void AutosaveSlotView::refreshSlots()
 	);
 	noSaveSlot =
 	{
-		UI_TEXT("No Save"),
+		// UI_TEXT("No Save"),
+		UI_TEXT("不保存"),
 		attachParams(),
 		[this]()
 		{
@@ -314,7 +344,13 @@ void AutosaveSlotView::updateItem(std::string_view name, std::string_view newNam
 	}
 	else
 	{
-		it->setName(std::format("{}: {}", newName, slotDescription(app(), newName)));
+		it->setName(
+			std::format(
+				// UI_TEXT("{}: {}"),
+				UI_TEXT("{}：{}"),
+				newName, slotDescription(app(), newName)
+			)
+		);
 		it->slotName = newName;
 	}
 	place();
