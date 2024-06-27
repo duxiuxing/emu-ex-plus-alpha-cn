@@ -138,7 +138,7 @@ SystemActionsView::SystemActionsView(ViewAttachParams attach, bool customMenu):
 				makeView<YesNoAlertView>(
 					std::format(
 						// UI_TEXT("Really load state from: {}?"),
-						UI_TEXT("是否从 {} 读取进度？"),
+						UI_TEXT("是否要从 {} 读取进度？"),
 						saveTime
 					),
 					YesNoAlertView::Delegates
@@ -236,7 +236,7 @@ SystemActionsView::SystemActionsView(ViewAttachParams attach, bool customMenu):
 	resetSessionOptions
 	{
 		// UI_TEXT("Reset Saved Options"),
-		UI_TEXT("Reset Saved Options"),
+		UI_TEXT("重置已经保存的选项"),
 		attach,
 		[this](const Input::Event &e)
 		{
@@ -244,7 +244,8 @@ SystemActionsView::SystemActionsView(ViewAttachParams attach, bool customMenu):
 				return;
 			pushAndShowModal(
 				makeView<YesNoAlertView>(
-					UI_TEXT("Reset saved options for the currently running system to defaults? Some options only take effect next time the system loads."),
+					// UI_TEXT("Reset saved options for the currently running system to defaults? Some options only take effect next time the system loads."),
+					UI_TEXT("是否要将已经保存的选项恢复至默认值？某些选项需要重启模拟器才能使之生效。"),
 					YesNoAlertView::Delegates
 					{
 						.onYes = [this]

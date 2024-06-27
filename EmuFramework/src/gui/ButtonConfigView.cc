@@ -76,7 +76,7 @@ ButtonConfigView::ButtonConfigView(ViewAttachParams attach, InputManagerView &ro
 			pushAndShowModal(
 				makeView<YesNoAlertView>(
 					// UI_TEXT("Really unbind all keys in this category?"),
-					UI_TEXT("是否解绑此类别中的全部按键？"),
+					UI_TEXT("是否要解绑此类别中的全部按键？"),
 					YesNoAlertView::Delegates
 					{
 						.onYes = [this]
@@ -102,7 +102,7 @@ ButtonConfigView::ButtonConfigView(ViewAttachParams attach, InputManagerView &ro
 			pushAndShowModal(
 				makeView<YesNoAlertView>(
 					// UI_TEXT("Really reset all keys in this category to defaults?"),
-					UI_TEXT("是否恢复此类别中的全部按键到默认值？"),
+					UI_TEXT("是否要恢复此类别中的全部按键到默认值？"),
 					YesNoAlertView::Delegates
 					{
 						.onYes = [this]
