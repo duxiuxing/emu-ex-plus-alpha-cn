@@ -91,7 +91,7 @@ bool InputManager::handleAppActionKeyInput(EmuApp& app, InputAction action, cons
 			{
 				if(app.saveStateWithSlot(app.system().stateSlot()) && notify)
 				{
-					app.postMessage("State Saved");
+					app.postMessage(UI_TEXT("State Saved"));
 				}
 			};
 			if(app.shouldOverwriteExistingState())
@@ -101,16 +101,21 @@ bool InputManager::handleAppActionKeyInput(EmuApp& app, InputAction action, cons
 			}
 			else
 			{
-				viewController.pushAndShowModal(std::make_unique<YesNoAlertView>(app.attachParams(), "Really Overwrite State?",
-					YesNoAlertView::Delegates
-					{
-						.onYes = [&app]
+				viewController.pushAndShowModal(
+					std::make_unique<YesNoAlertView>(app.attachParams(),
+						UI_TEXT("Really Overwrite State?"),
+						YesNoAlertView::Delegates
 						{
-							doSaveState(app, false);
-							app.showEmulation();
-						},
-						.onNo = [&app]{ app.showEmulation(); }
-					}), srcEvent, false);
+							.onYes = [&app]
+							{
+								doSaveState(app, false);
+								app.showEmulation();
+							},
+							.onNo = [&app]{ app.showEmulation(); }
+						}
+					),
+					srcEvent, false
+				);
 			}
 			return true;
 		}
@@ -127,7 +132,12 @@ bool InputManager::handleAppActionKeyInput(EmuApp& app, InputAction action, cons
 			if(!isPushed)
 				break;
 			system.decStateSlot();
-			app.postMessage(1, false, std::format("State Slot: {}", system.stateSlotName()));
+			app.postMessage(1, false,
+				std::format(
+					UI_TEXT("State Slot: {}"),
+					system.stateSlotName()
+				)
+			);
 			return true;
 		}
 		case incStateSlot:
@@ -135,7 +145,12 @@ bool InputManager::handleAppActionKeyInput(EmuApp& app, InputAction action, cons
 			if(!isPushed)
 				break;
 			system.incStateSlot();
-			app.postMessage(1, false, std::format("State Slot: {}", system.stateSlotName()));
+			app.postMessage(1, false,
+				std::format(
+					UI_TEXT("State Slot: {}"),
+					system.stateSlotName()
+				)
+			);
 			return true;
 		}
 		case takeScreenshot:
@@ -171,8 +186,13 @@ bool InputManager::handleAppActionKeyInput(EmuApp& app, InputAction action, cons
 		{
 			if(!isPushed)
 				break;
-			viewController.pushAndShowModal(std::make_unique<YesNoAlertView>(app.attachParams(), "Really Exit?",
-				YesNoAlertView::Delegates{.onYes = [&app]{ app.appContext().exit(); }}), srcEvent, false);
+			viewController.pushAndShowModal(
+				std::make_unique<YesNoAlertView>(app.attachParams(),
+					UI_TEXT("Really Exit?"),
+					YesNoAlertView::Delegates{.onYes = [&app]{ app.appContext().exit(); }}
+				),
+				srcEvent, false
+			);
 			break;
 		}
 		case slowMotion:
@@ -194,7 +214,9 @@ bool InputManager::handleAppActionKeyInput(EmuApp& app, InputAction action, cons
 			if(app.rewindManager.maxStates)
 				app.rewindManager.rewindState(app);
 			else
-				app.postMessage(3, false, "Please set rewind states in Options➔System");
+				app.postMessage(3, false,
+					UI_TEXT("Please set rewind states in Options➔System")
+				);
 			break;
 		}
 		case softReset:
