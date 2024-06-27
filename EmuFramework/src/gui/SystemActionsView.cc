@@ -39,7 +39,7 @@ static auto autoSaveName(EmuApp &app)
 {
 	return std::format(
 		// UI_TEXT("Autosave Slot ({})"),
-		UI_TEXT("自动存档点 ({})"),
+		UI_TEXT("当前的自动存档点：{}"),
 		app.autosaveManager.slotFullName()
 	);
 }

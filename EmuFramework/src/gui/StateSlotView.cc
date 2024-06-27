@@ -29,7 +29,7 @@ static auto slotHeadingName(EmuSystem &sys)
 {
 	return std::format(
 		// UI_TEXT("Set State Slot ({})"),
-		UI_TEXT("当前存档点 ({})"),
+		UI_TEXT("当前的存档点序号：{}"),
 		sys.stateSlot()
 	);
 }

@@ -173,7 +173,7 @@ std::string AutosaveManager::slotFullName() const
 		return UI_TEXT("不保存");
 	else if(autoSaveSlot.empty())
 		// return UI_TEXT("Main");
-		return UI_TEXT("默认存档点");
+		return UI_TEXT("默认");
 	else
 		return autoSaveSlot;
 }

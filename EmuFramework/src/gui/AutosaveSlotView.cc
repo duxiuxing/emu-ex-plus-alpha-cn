@@ -247,7 +247,7 @@ void AutosaveSlotView::refreshSlots()
 	{
 		std::format(
 			// UI_TEXT("Main: {}"),
-			UI_TEXT("默认存档点：{}"),
+			UI_TEXT("默认：{}"),
 			slotDescription(app(), "")
 		),
 		attachParams(),
