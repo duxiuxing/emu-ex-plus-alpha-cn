@@ -91,7 +91,8 @@ bool InputManager::handleAppActionKeyInput(EmuApp& app, InputAction action, cons
 			{
 				if(app.saveStateWithSlot(app.system().stateSlot()) && notify)
 				{
-					app.postMessage(UI_TEXT("State Saved"));
+					// app.postMessage(UI_TEXT("State Saved"));
+					app.postMessage(UI_TEXT("进度已保存"));
 				}
 			};
 			if(app.shouldOverwriteExistingState())
@@ -103,7 +104,8 @@ bool InputManager::handleAppActionKeyInput(EmuApp& app, InputAction action, cons
 			{
 				viewController.pushAndShowModal(
 					std::make_unique<YesNoAlertView>(app.attachParams(),
-						UI_TEXT("Really Overwrite State?"),
+						// UI_TEXT("Really Overwrite State?"),
+						UI_TEXT("是否要覆盖已有进度？"),
 						YesNoAlertView::Delegates
 						{
 							.onYes = [&app]
@@ -134,7 +136,8 @@ bool InputManager::handleAppActionKeyInput(EmuApp& app, InputAction action, cons
 			system.decStateSlot();
 			app.postMessage(1, false,
 				std::format(
-					UI_TEXT("State Slot: {}"),
+					// UI_TEXT("State Slot: {}"),
+					UI_TEXT("当前的存档点序号：{}"),
 					system.stateSlotName()
 				)
 			);
@@ -147,7 +150,8 @@ bool InputManager::handleAppActionKeyInput(EmuApp& app, InputAction action, cons
 			system.incStateSlot();
 			app.postMessage(1, false,
 				std::format(
-					UI_TEXT("State Slot: {}"),
+					// UI_TEXT("State Slot: {}"),
+					UI_TEXT("当前的存档点序号：{}"),
 					system.stateSlotName()
 				)
 			);
@@ -188,7 +192,8 @@ bool InputManager::handleAppActionKeyInput(EmuApp& app, InputAction action, cons
 				break;
 			viewController.pushAndShowModal(
 				std::make_unique<YesNoAlertView>(app.attachParams(),
-					UI_TEXT("Really Exit?"),
+					// UI_TEXT("Really Exit?"),
+					UI_TEXT("是否要退出应用？"),
 					YesNoAlertView::Delegates{.onYes = [&app]{ app.appContext().exit(); }}
 				),
 				srcEvent, false
@@ -215,7 +220,8 @@ bool InputManager::handleAppActionKeyInput(EmuApp& app, InputAction action, cons
 				app.rewindManager.rewindState(app);
 			else
 				app.postMessage(3, false,
-					UI_TEXT("Please set rewind states in Options➔System")
+					// UI_TEXT("Please set rewind states in Options➔System")
+					UI_TEXT("请在系统选项中开启倒带功能")
 				);
 			break;
 		}
@@ -576,7 +582,7 @@ std::string_view toString(AppKeyCode code)
 			return UI_TEXT("关闭游戏");
 		case AppKeyCode::openSystemActions:
 			// return UI_TEXT("Open System Actions");
-			return UI_TEXT("打开模拟系统菜单");
+			return UI_TEXT("打开模拟器菜单");
 		case AppKeyCode::saveState:
 			// return UI_TEXT("Save State");
 			return UI_TEXT("保存进度");

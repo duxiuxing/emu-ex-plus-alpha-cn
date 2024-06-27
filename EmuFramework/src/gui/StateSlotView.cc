@@ -83,7 +83,7 @@ StateSlotView::StateSlotView(ViewAttachParams attach):
 				pushAndShowModal(
 					makeView<YesNoAlertView>(
 						// UI_TEXT("Really overwrite state?"),
-						UI_TEXT("是否要覆盖进度？"),
+						UI_TEXT("是否要覆盖已有进度？"),
 						YesNoAlertView::Delegates{.onYes = [this]{ doSaveState(); }}
 					), e
 				);

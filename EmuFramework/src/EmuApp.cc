@@ -133,7 +133,7 @@ public:
 		{
 			attach,
 			// UI_TEXT("Really Exit? (Push Back/Escape again to confirm)"),
-			UI_TEXT("是否要退出？(确认请再按一下返回键/Esc 键)"),
+			UI_TEXT("是否要退出？(确认请再按一下返回键或Esc 键)"),
 			hasEmuContent ? 3u : 2u
 		}
 	{
@@ -1167,7 +1167,8 @@ std::unique_ptr<YesNoAlertView> EmuApp::makeCloseContentView()
 {
 	return std::make_unique<YesNoAlertView>(
 		attachParams(),
-		UI_TEXT("Really close current content?"),
+		// UI_TEXT("Really close current content?"),
+		UI_TEXT("是否要关闭当前游戏？"),
 		YesNoAlertView::Delegates
 		{
 			.onYes = [this]
@@ -1176,7 +1177,8 @@ std::unique_ptr<YesNoAlertView> EmuApp::makeCloseContentView()
 				viewController().popModalViews();
 				return false;
 			}
-		});
+		}
+	);
 }
 
 void EmuApp::resetInput()

@@ -156,7 +156,7 @@ SystemOptionView::SystemOptionView(ViewAttachParams attach, bool customMenu):
 	confirmOverwriteState
 	{
 		// UI_TEXT("Confirm Overwrite State"),
-		UI_TEXT("确认后再覆盖存档"),
+		UI_TEXT("确认后再覆盖已有进度"),
 		attach,
 		app().confirmOverwriteState,
 		[this](BoolMenuItem &item)
@@ -368,7 +368,7 @@ SystemOptionView::SystemOptionView(ViewAttachParams attach, bool customMenu):
 	},
 	rewindOptions
 	{
-		UI_TEXT("倒带选项："),
+		UI_TEXT("倒带功能："),
 		attach
 	},
 	otherOptions

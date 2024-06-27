@@ -254,7 +254,7 @@ FrameTimingView::FrameTimingView(ViewAttachParams attach):
 		},
 		{
 			// UI_TEXT("Original (Use emulated system's rate)"),
-			UI_TEXT("原始 (使用模拟系统的帧率)"),
+			UI_TEXT("原始 (使用模拟器的帧率)"),
 			attach,
 			[this]
 			{
