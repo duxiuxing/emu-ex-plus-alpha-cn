@@ -249,7 +249,7 @@ EmuEditCheatView::EmuEditCheatView(ViewAttachParams attach, unsigned cheatIdx, R
 	if(type)
 	{
 		// resetName(UI_TEXT("Edit Code"));
-		resetName(UI_TEXT("编辑代码"));
+		resetName(UI_TEXT("编辑金手指代码"));
 		if(a == 0 && v == 0 && compare == -1)
 			ggCodeStr.clear();
 		else
