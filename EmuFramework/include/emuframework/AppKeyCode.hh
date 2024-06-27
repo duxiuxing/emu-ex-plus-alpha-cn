@@ -123,7 +123,7 @@ constexpr InputComponentDesc rightUIComponents
 constexpr InputComponentDesc leftUIComponents
 {
 	// UI_TEXT("Toggle Fast-forward"),
-	UI_TEXT("快进键")
+	UI_TEXT("快进键"),
 	leftUIKeys, InputComponent::ui, LT2DO
 };
 constexpr InputComponentDesc rewindUIComponents
