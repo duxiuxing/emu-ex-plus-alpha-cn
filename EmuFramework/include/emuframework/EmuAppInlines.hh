@@ -31,7 +31,7 @@ class EmuSystem;
 
 std::u16string_view EmuApp::mainViewName()
 {
-	return u"" CONFIG_APP_NAME " " IMAGINE_VERSION;
+	return u"红白机游戏吧 " CONFIG_APP_NAME " " IMAGINE_VERSION;
 }
 
 bool EmuApp::hasGooglePlayStoreFeatures()
