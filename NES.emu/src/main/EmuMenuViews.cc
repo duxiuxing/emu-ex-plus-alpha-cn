@@ -713,16 +713,19 @@ class CustomFilePathOptionView : public FilePathOptionView, public MainAppHelper
 		cheatsMenuName(appContext(), system().cheatsDir), attachParams(),
 		[this](const Input::Event &e)
 		{
-			pushAndShow(makeViewWithName<UserPathSelectView>(
-				// UI_TEXT("Cheats"),
-				UI_TEXT("金手指"),
-				system().userPath(system().cheatsDir),
-				[this](CStringView path)
-				{
-					log.info("set cheats path:{}", path);
-					system().cheatsDir = path;
-					cheatsPath.compile(cheatsMenuName(appContext(), path));
-				}), e);
+			pushAndShow(
+				makeViewWithName<UserPathSelectView>(
+					// UI_TEXT("Cheats"),
+					UI_TEXT("金手指文件夹选项"),
+					system().userPath(system().cheatsDir),
+					[this](CStringView path)
+					{
+						log.info("set cheats path:{}", path);
+						system().cheatsDir = path;
+						cheatsPath.compile(cheatsMenuName(appContext(), path));
+					}
+				), e
+			);
 		}
 	};
 
@@ -731,16 +734,19 @@ class CustomFilePathOptionView : public FilePathOptionView, public MainAppHelper
 		patchesMenuName(appContext(), system().patchesDir), attachParams(),
 		[this](const Input::Event &e)
 		{
-			pushAndShow(makeViewWithName<UserPathSelectView>(
-				// UI_TEXT("Patches"),
-				UI_TEXT("补丁"),
-				system().userPath(system().patchesDir),
-				[this](CStringView path)
-				{
-					log.info("set patches path:{}", path);
-					system().patchesDir = path;
-					patchesPath.compile(patchesMenuName(appContext(), path));
-				}), e);
+			pushAndShow(
+				makeViewWithName<UserPathSelectView>(
+					// UI_TEXT("Patches"),
+					UI_TEXT("补丁文件夹选项"),
+					system().userPath(system().patchesDir),
+					[this](CStringView path)
+					{
+						log.info("set patches path:{}", path);
+						system().patchesDir = path;
+						patchesPath.compile(patchesMenuName(appContext(), path));
+					}
+				), e
+			);
 		}
 	};
 
@@ -749,16 +755,19 @@ class CustomFilePathOptionView : public FilePathOptionView, public MainAppHelper
 		palettesMenuName(appContext(), system().palettesDir), attachParams(),
 		[this](const Input::Event &e)
 		{
-			pushAndShow(makeViewWithName<UserPathSelectView>(
-				// UI_TEXT("Palettes"),
-				UI_TEXT("调色板"),
-				system().userPath(system().palettesDir),
-				[this](CStringView path)
-				{
-					log.info("set palettes path:{}", path);
-					system().palettesDir = path;
-					palettesPath.compile(palettesMenuName(appContext(), path));
-				}), e);
+			pushAndShow(
+				makeViewWithName<UserPathSelectView>(
+					// UI_TEXT("Palettes"),
+					UI_TEXT("调色板文件夹选项"),
+					system().userPath(system().palettesDir),
+					[this](CStringView path)
+					{
+						log.info("set palettes path:{}", path);
+						system().palettesDir = path;
+						palettesPath.compile(palettesMenuName(appContext(), path));
+					}
+				), e
+			);
 		}
 	};
 
@@ -767,17 +776,20 @@ class CustomFilePathOptionView : public FilePathOptionView, public MainAppHelper
 		biosMenuEntryStr(system().fdsBiosPath), attachParams(),
 		[this](TextMenuItem &, View &, Input::Event e)
 		{
-			pushAndShow(makeViewWithName<DataFileSelectView<>>(
-				// UI_TEXT("Disk System BIOS"),
-				UI_TEXT("磁碟机 BIOS"),
-				app().validSearchPath(FS::dirnameUri(system().fdsBiosPath)),
-				[this](CStringView path, FS::file_type type)
-				{
-					system().fdsBiosPath = path;
-					log.info("set fds bios:{}", path);
-					fdsBios.compile(biosMenuEntryStr(path));
-					return true;
-				}, hasFDSBIOSExtension), e);
+			pushAndShow(
+				makeViewWithName<DataFileSelectView<>>(
+					// UI_TEXT("Disk System BIOS"),
+					UI_TEXT("磁碟机 BIOS"),
+					app().validSearchPath(FS::dirnameUri(system().fdsBiosPath)),
+					[this](CStringView path, FS::file_type type)
+					{
+						system().fdsBiosPath = path;
+						log.info("set fds bios:{}", path);
+						fdsBios.compile(biosMenuEntryStr(path));
+						return true;
+					}, hasFDSBIOSExtension
+				), e
+			);
 		}
 	};
 
@@ -786,7 +798,8 @@ class CustomFilePathOptionView : public FilePathOptionView, public MainAppHelper
 		return std::format(
 			// UI_TEXT("Disk System BIOS: {}"),
 			UI_TEXT("磁碟机 BIOS：{}"),
-			appContext().fileUriDisplayName(path));
+			appContext().fileUriDisplayName(path)
+		);
 	}
 
 public:

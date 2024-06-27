@@ -298,7 +298,7 @@ GUIOptionView::GUIOptionView(ViewAttachParams attach, bool customMenu):
 	maxRecentContent
 	{
 		// UI_TEXT("Max Recent Content Items"),
-		UI_TEXT("最近打开过的游戏个数"),
+		UI_TEXT("最近打开过的游戏个数上限"),
 		std::to_string(app().recentContent.maxRecentContent), attach,
 		[this](const Input::Event &e)
 		{
