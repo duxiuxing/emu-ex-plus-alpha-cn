@@ -445,7 +445,7 @@ class CustomVideoOptionView : public VideoOptionView, public MainAppHelper
 		{"Palightful",          attachParams(), [this]() { setPalette(appContext(), palightfulPalPath); }},
 		{
 			// UI_TEXT("Custom File"),
-			UI_TEXT("自定义文件"),
+			UI_TEXT("自定义"),
 			attachParams(),
 			[this](Input::Event e)
 			{

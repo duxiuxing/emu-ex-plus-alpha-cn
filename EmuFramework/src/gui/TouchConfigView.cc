@@ -1122,7 +1122,7 @@ TouchConfigView::TouchConfigView(ViewAttachParams attach, VController &vCtrl):
 		{
 			pushAndShowModal(makeView<YesNoAlertView>(
 				// UI_TEXT("Reset buttons to default positions?"),
-				UI_TEXT("是否要将所有按键恢复至默认位置？"),
+				UI_TEXT("是否要将所有按键恢复到默认位置？"),
 				YesNoAlertView::Delegates
 				{
 					.onYes = [this]
@@ -1163,7 +1163,7 @@ TouchConfigView::TouchConfigView(ViewAttachParams attach, VController &vCtrl):
 		{
 			pushAndShowModal(makeView<YesNoAlertView>(
 				// UI_TEXT("Reset buttons to default positions?"),
-				UI_TEXT("是否要将所有按键恢复至默认位置？"),
+				UI_TEXT("是否要将所有按键恢复到默认位置？"),
 				YesNoAlertView::Delegates
 				{
 					.onYes = [this]

@@ -28,7 +28,8 @@ static StaticString<16> uniqueCustomConfigName(auto &customKeyConfigs)
 {
 	for(auto i : iotaCount(100)) // Try up to "Custom 99"
 	{
-		auto name = format<StaticString<16>>("Custom {}", i+1);
+		// auto name = format<StaticString<16>>(UI_TEXT("Custom {}"), i+1);
+		auto name = format<StaticString<16>>(UI_TEXT("自定义 {}"), i+1);
 		// Check if this name is free
 		log.info("checking:{}", name);
 		bool exists{};
@@ -126,7 +127,12 @@ KeyConfig *InputDeviceConfig::makeMutableKeyConf(EmuApp &app)
 		log.info("current config not mutable, creating one");
 		auto name = uniqueCustomConfigName(mgr.customKeyConfigs);
 		conf = setKeyConfCopiedFromExisting(mgr, name);
-		app.postMessage(3, false, std::format("Automatically created profile: {}", conf->name));
+		app.postMessage(3, false,
+			std::format(
+				// UI_TEXT("Automatically created profile: {}"),
+				UI_TEXT("已自动创建按键配置：{}"),
+				conf->name)
+		);
 	}
 	return conf;
 }

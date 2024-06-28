@@ -37,8 +37,10 @@ namespace EmuEx
 {
 
 constexpr SystemLogger log{"InputManagerView"};
-static const char *confirmDeleteDeviceSettingsStr = "Delete device settings from the configuration file? Any key profiles in use are kept";
-static const char *confirmDeleteProfileStr = "Delete profile from the configuration file? Devices using it will revert to their default profile";
+// static const char *confirmDeleteDeviceSettingsStr = UI_TEXT("Delete device settings from the configuration file? Any key profiles in use are kept");
+static const char *confirmDeleteDeviceSettingsStr = UI_TEXT("是否要删除当前的设备设置？使用中的按键配置会被保留");
+// static const char *confirmDeleteProfileStr = UI_TEXT("Delete profile from the configuration file? Devices using it will revert to their default profile");
+static const char* confirmDeleteProfileStr = UI_TEXT("是否要删除当前的按键配置？使用它的设备将恢复默认的按键配置");
 
 IdentInputDeviceView::IdentInputDeviceView(ViewAttachParams attach):
 	View(attach),
@@ -108,7 +110,7 @@ InputManagerView::InputManagerView(ViewAttachParams attach,
 	deleteDeviceConfig
 	{
 		// UI_TEXT("Delete Saved Device Settings"),
-		UI_TEXT("删除已经保存的设备设置"),
+		UI_TEXT("删除设备设置"),
 		attach,
 		[this](TextMenuItem &item, View &, const Input::Event &e)
 		{
@@ -116,7 +118,7 @@ InputManagerView::InputManagerView(ViewAttachParams attach,
 			if(!savedInputDevs.size())
 			{
 				// app().postMessage(UI_TEXT("No saved device settings"));
-				app().postMessage(UI_TEXT("无已经保存的设备设置"));
+				app().postMessage(UI_TEXT("无效的设备设置"));
 				return;
 			}
 			auto multiChoiceView = makeViewWithName<TextTableView>(item, savedInputDevs.size());
@@ -155,7 +157,7 @@ InputManagerView::InputManagerView(ViewAttachParams attach,
 	deleteProfile
 	{
 		// UI_TEXT("Delete Saved Key Profile"),
-		UI_TEXT("删除已经保存的按键配置"),
+		UI_TEXT("删除按键配置"),
 		attach,
 		[this](TextMenuItem &item, View &, const Input::Event &e)
 		{
@@ -163,7 +165,7 @@ InputManagerView::InputManagerView(ViewAttachParams attach,
 			if(!customKeyConfigs.size())
 			{
 				// app().postMessage(UI_TEXT("No saved key profiles"));
-				app().postMessage(UI_TEXT("无已经保存的按键配置"));
+				app().postMessage(UI_TEXT("无效的按键配置"));
 				return;
 			}
 			auto multiChoiceView = makeViewWithName<TextTableView>(item, customKeyConfigs.size());
@@ -202,8 +204,13 @@ InputManagerView::InputManagerView(ViewAttachParams attach,
 				if(e->map() == Input::Map::SYSTEM)
 					devices++;
 			}
-			// app().postMessage(2, false, std::format(UI_TEXT("{} OS devices present"), devices));
-			app().postMessage(2, false, std::format(UI_TEXT("检测到 {} 个系统设备"), devices));
+			app().postMessage(2, false,
+				std::format(
+					// UI_TEXT("{} OS devices present"),
+					UI_TEXT("检测到 {} 个系统设备"),
+					devices
+				)
+			);
 		}
 	},
 	identDevice
@@ -239,7 +246,7 @@ InputManagerView::InputManagerView(ViewAttachParams attach,
 	deviceListHeading
 	{
 		// UI_TEXT("Individual Device Settings"),
-		UI_TEXT("设备设置："),
+		UI_TEXT("设备设置列表："),
 		attach,
 	}
 {
@@ -326,12 +333,12 @@ InputManagerOptionsView::InputManagerOptionsView(ViewAttachParams attach, EmuInp
 		{
 			if(!app().mogaManagerIsActive() && !appContext().packageIsInstalled("com.bda.pivot.mogapgp"))
 			{
-				app().postMessage(
-					8,
+				app().postMessage(8,
 					// UI_TEXT("Install the MOGA Pivot app from Google Play to use your MOGA Pocket. ")
 					UI_TEXT("在使用 MOGA Pocket 之前，请先从谷歌 Play 商店下载并安装 MOGA Pivot 应用。 ")
 					// UI_TEXT("For MOGA Pro or newer, set switch to mode B and pair in the Android Bluetooth settings app instead."));
-					UI_TEXT("MOGA Pro 或更新型号的手柄, 需要先切换到模式 B，然后在安卓设备的设置中进行蓝牙配对连接。"));
+					UI_TEXT("MOGA Pro 或更新型号的手柄, 需要先切换到模式 B，然后在安卓设备的设置中进行蓝牙配对连接。")
+				);
 				return;
 			}
 			app().setMogaManagerActive(item.flipBoolValue(*this), true);
@@ -572,11 +579,16 @@ InputManagerDeviceView::InputManagerDeviceView(UTF16String name, ViewAttachParam
 		{
 			if(!devConf.mutableKeyConf(inputManager))
 			{
-				// app().postMessage(2, UI_TEXT("Can't rename a built-in profile"));
-				app().postMessage(2, UI_TEXT("无法重命名应用自带的配置"));
+				app().postMessage(2,
+					// UI_TEXT("Can't rename a built-in profile")
+					UI_TEXT("无法重命名应用自带的配置")
+				);
 				return;
 			}
-			pushAndShowNewCollectValueInputView<const char*>(attachParams(), e, "Input name", devConf.keyConf(inputManager).name,
+			pushAndShowNewCollectValueInputView<const char*>(attachParams(), e,
+				// UI_TEXT("Input name"),
+				UI_TEXT("请输入按键配置的名称"),
+				devConf.keyConf(inputManager).name,
 				[this](CollectTextInputView &, auto str)
 				{
 					if(customKeyConfigsContainName(inputManager.customKeyConfigs, str))
@@ -590,7 +602,8 @@ InputManagerDeviceView::InputManagerDeviceView(UTF16String name, ViewAttachParam
 					onShow();
 					postDraw();
 					return true;
-				});
+				}
+			);
 		}
 	},
 	newProfile
@@ -600,34 +613,37 @@ InputManagerDeviceView::InputManagerDeviceView(UTF16String name, ViewAttachParam
 		attach,
 		[this](const Input::Event &e)
 		{
-			pushAndShowModal(makeView<YesNoAlertView>(
-				// UI_TEXT("Create a new profile? All keys from the current profile will be copied over."),
-				UI_TEXT("是否要创建一个新的配置？新的配置内容会以当前配置为初始值。"),
-				YesNoAlertView::Delegates
-				{
-					.onYes = [this](const Input::Event &e)
+			pushAndShowModal(
+				makeView<YesNoAlertView>(
+					// UI_TEXT("Create a new profile? All keys from the current profile will be copied over."),
+					UI_TEXT("是否要新建一个按键配置？新的配置内容会以当前配置为初始值。"),
+					YesNoAlertView::Delegates
 					{
-						pushAndShowNewCollectValueInputView<const char*>(
-							attachParams(), e,
-							// UI_TEXT("Input name"),
-							UI_TEXT("请输入新的配置名称"),
-							"",
-							[this](CollectTextInputView &, auto str)
-							{
-								if(customKeyConfigsContainName(inputManager.customKeyConfigs, str))
+						.onYes = [this](const Input::Event &e)
+						{
+							pushAndShowNewCollectValueInputView<const char*>(attachParams(), e,
+								// UI_TEXT("Input name"),
+								UI_TEXT("请输入按键配置的名称"),
+								"",
+								[this](CollectTextInputView &, auto str)
 								{
-									// app().postErrorMessage(UI_TEXT("Another profile is already using this name"));
-									app().postErrorMessage(UI_TEXT("与已有的配置命名冲突"));
-									return false;
+									if(customKeyConfigsContainName(inputManager.customKeyConfigs, str))
+									{
+										// app().postErrorMessage(UI_TEXT("Another profile is already using this name"));
+										app().postErrorMessage(UI_TEXT("与已有的配置命名冲突"));
+										return false;
+									}
+									devConf.setKeyConfCopiedFromExisting(inputManager, str);
+									log.info("created new profile:{}", devConf.keyConf(inputManager).name);
+									onShow();
+									postDraw();
+									return true;
 								}
-								devConf.setKeyConfCopiedFromExisting(inputManager, str);
-								log.info("created new profile:{}", devConf.keyConf(inputManager).name);
-								onShow();
-								postDraw();
-								return true;
-							});
+							);
+						}
 					}
-				}), e);
+				), e
+			);
 		}
 	},
 	deleteProfile
@@ -639,8 +655,10 @@ InputManagerDeviceView::InputManagerDeviceView(UTF16String name, ViewAttachParam
 		{
 			if(!devConf.mutableKeyConf(inputManager))
 			{
-				// app().postMessage(2, UI_TEXT("Can't delete a built-in profile"));
-				app().postMessage(2, UI_TEXT("无法删除应用自带的配置"));
+				app().postMessage(2,
+					// UI_TEXT("Can't delete a built-in profile")
+					UI_TEXT("无法删除应用自带的配置")
+				);
 				return;
 			}
 			pushAndShowModal(makeView<YesNoAlertView>(confirmDeleteProfileStr,
@@ -681,8 +699,9 @@ InputManagerDeviceView::InputManagerDeviceView(UTF16String name, ViewAttachParam
 							UI_TEXT("开启此模式后可以用兼容 iCade 的蓝牙设备进行输入，非 iCade 设备请不要开启"),
 							// UI_TEXT("Enable"), UI_TEXT("Cancel"),
 							UI_TEXT("开启"), UI_TEXT("取消"),
-							YesNoAlertView::Delegates{.onYes = [this]{ confirmICadeMode(); }}),
-						e);
+							YesNoAlertView::Delegates{.onYes = [this]{ confirmICadeMode(); }}
+						), e
+					);
 				}
 				else
 					confirmICadeMode();
@@ -785,7 +804,9 @@ InputManagerDeviceView::InputManagerDeviceView(UTF16String name, ViewAttachParam
 		std::format(
 			// UI_TEXT("Profile: {}"),
 			UI_TEXT("按键配置：{}"),
-			devConf.keyConf(inputManager).name));
+			devConf.keyConf(inputManager).name
+		)
+	);
 	renameProfile.setActive(devConf.mutableKeyConf(inputManager));
 	deleteProfile.setActive(devConf.mutableKeyConf(inputManager));
 	loadItems();
@@ -859,7 +880,9 @@ void InputManagerDeviceView::onShow()
 		std::format(
 			// UI_TEXT("Profile: {}"),
 			UI_TEXT("按键配置：{}"),
-			devConf.keyConf(inputManager).name));
+			devConf.keyConf(inputManager).name
+		)
+	);
 	bool keyConfIsMutable = devConf.mutableKeyConf(inputManager);
 	renameProfile.setActive(keyConfIsMutable);
 	deleteProfile.setActive(keyConfIsMutable);
