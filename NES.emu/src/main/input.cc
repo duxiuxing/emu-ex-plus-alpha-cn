@@ -89,25 +89,25 @@ std::span<const KeyCategory> NesApp::keyCategories()
 		KeyCategory
 		{
 			// UI_TEXT("Gamepad"),
-			UI_TEXT("游戏手柄"),
+			UI_TEXT("手柄的游戏按键"),
 			gpKeyInfo
 		},
 		KeyCategory
 		{
 			// UI_TEXT("Gamepad 2"),
-			UI_TEXT("2号游戏手柄"),
+			UI_TEXT("2号手柄的游戏按键"),
 			gp2KeyInfo, 1
 		},
 		KeyCategory
 		{
 			// UI_TEXT("Gamepad 3"),
-			UI_TEXT("3号游戏手柄"),
+			UI_TEXT("3号手柄的游戏按键"),
 			gp2KeyInfo, 2
 		},
 		KeyCategory
 		{
 			// UI_TEXT("Gamepad 4"),
-			UI_TEXT("4号游戏手柄"),
+			UI_TEXT("4号手柄的游戏按键"),
 			gp2KeyInfo, 3
 		},
 		KeyCategory
