@@ -133,7 +133,7 @@ public:
 		{
 			attach,
 			// UI_TEXT("Really Exit? (Push Back/Escape again to confirm)"),
-			UI_TEXT("是否要退出？(确认请再按一下返回键或Esc 键)"),
+			UI_TEXT("是否要退出？(确认请再按一下返回键或 Esc 键)"),
 			hasEmuContent ? 3u : 2u
 		}
 	{

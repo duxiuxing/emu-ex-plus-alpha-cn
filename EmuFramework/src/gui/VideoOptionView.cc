@@ -835,13 +835,13 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, EmuVideoLayer &videoLa
 	advancedHeading
 	{
 		// UI_TEXT("Advanced"),
-		UI_TEXT("高级选项："),
+		UI_TEXT("高级："),
 		attach
 	},
 	systemSpecificHeading
 	{
 		// UI_TEXT("System-specific"),
-		UI_TEXT("专业选项："),
+		UI_TEXT("专业："),
 		attach
 	}
 {

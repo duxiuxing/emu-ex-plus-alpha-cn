@@ -534,7 +534,7 @@ FrameTimingView::FrameTimingView(ViewAttachParams attach):
 	advancedHeading
 	{
 		// UI_TEXT("Advanced"),
-		UI_TEXT("高级选项："),
+		UI_TEXT("高级："),
 		attach
 	}
 {

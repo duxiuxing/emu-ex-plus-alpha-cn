@@ -716,7 +716,7 @@ class CustomFilePathOptionView : public FilePathOptionView, public MainAppHelper
 			pushAndShow(
 				makeViewWithName<UserPathSelectView>(
 					// UI_TEXT("Cheats"),
-					UI_TEXT("金手指文件夹选项"),
+					UI_TEXT("金手指文件夹"),
 					system().userPath(system().cheatsDir),
 					[this](CStringView path)
 					{
@@ -737,7 +737,7 @@ class CustomFilePathOptionView : public FilePathOptionView, public MainAppHelper
 			pushAndShow(
 				makeViewWithName<UserPathSelectView>(
 					// UI_TEXT("Patches"),
-					UI_TEXT("补丁文件夹选项"),
+					UI_TEXT("补丁文件夹"),
 					system().userPath(system().patchesDir),
 					[this](CStringView path)
 					{
@@ -758,7 +758,7 @@ class CustomFilePathOptionView : public FilePathOptionView, public MainAppHelper
 			pushAndShow(
 				makeViewWithName<UserPathSelectView>(
 					// UI_TEXT("Palettes"),
-					UI_TEXT("调色板文件夹选项"),
+					UI_TEXT("调色板文件夹"),
 					system().userPath(system().palettesDir),
 					[this](CStringView path)
 					{

@@ -81,7 +81,7 @@ FilePathOptionView::FilePathOptionView(ViewAttachParams attach, bool customMenu)
 		{
 			auto multiChoiceView = makeViewWithName<TextTableView>(
 				// UI_TEXT("Saves"),
-				UI_TEXT("存档文件夹选项"),
+				UI_TEXT("存档文件夹"),
 				4
 			);
 			multiChoiceView->appendItem(
@@ -196,7 +196,7 @@ FilePathOptionView::FilePathOptionView(ViewAttachParams attach, bool customMenu)
 			pushAndShow(
 				makeViewWithName<UserPathSelectView>(
 					// UI_TEXT("Screenshots"),
-					UI_TEXT("截图文件夹选项"),
+					UI_TEXT("截图文件夹"),
 					app().screenshotDirectory(),
 					[this](CStringView path)
 					{

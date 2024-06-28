@@ -313,7 +313,7 @@ InputManagerOptionsView::InputManagerOptionsView(ViewAttachParams attach, EmuInp
 	TableView
 	{
 		// UI_TEXT("General Input Options"),
-		UI_TEXT("常规输入选项"),
+		UI_TEXT("常规选项"),
 		attach, item
 	},
 	mogaInputSystem
