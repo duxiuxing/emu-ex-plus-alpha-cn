@@ -69,14 +69,14 @@ ButtonConfigView::ButtonConfigView(ViewAttachParams attach, InputManagerView &ro
 	reset
 	{
 		// UI_TEXT("Unbind All"),
-		UI_TEXT("全部解绑"),
+		UI_TEXT("解除全部按键映射"),
 		attach,
 		[this](const Input::Event &e)
 		{
 			pushAndShowModal(
 				makeView<YesNoAlertView>(
 					// UI_TEXT("Really unbind all keys in this category?"),
-					UI_TEXT("是否要解绑此类别中的全部按键？"),
+					UI_TEXT("是否要解除此类别中的全部按键映射？"),
 					YesNoAlertView::Delegates
 					{
 						.onYes = [this]
@@ -95,14 +95,14 @@ ButtonConfigView::ButtonConfigView(ViewAttachParams attach, InputManagerView &ro
 	resetDefaults
 	{
 		// UI_TEXT("Reset Defaults"),
-		UI_TEXT("恢复默认值"),
+		UI_TEXT("恢复默认按键映射"),
 		attach,
 		[this](const Input::Event &e)
 		{
 			pushAndShowModal(
 				makeView<YesNoAlertView>(
 					// UI_TEXT("Really reset all keys in this category to defaults?"),
-					UI_TEXT("是否要恢复此类别中的全部按键到默认值？"),
+					UI_TEXT("是否要恢复此类别中全部按键映射的默认值？"),
 					YesNoAlertView::Delegates
 					{
 						.onYes = [this]
@@ -211,7 +211,7 @@ void ButtonConfigSetView::initPointerUI()
 	unbind = {
 		renderer().mainTask,
 		// UI_TEXT("Unbind"),
-		UI_TEXT("解绑"),
+		UI_TEXT("解除映射"),
 		&defaultFace()
 	};
 	cancel = {
