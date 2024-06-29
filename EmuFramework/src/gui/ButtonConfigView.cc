@@ -69,14 +69,14 @@ ButtonConfigView::ButtonConfigView(ViewAttachParams attach, InputManagerView &ro
 	reset
 	{
 		// UI_TEXT("Unbind All"),
-		UI_TEXT("解除全部按键映射"),
+		UI_TEXT("解除全部映射"),
 		attach,
 		[this](const Input::Event &e)
 		{
 			pushAndShowModal(
 				makeView<YesNoAlertView>(
 					// UI_TEXT("Really unbind all keys in this category?"),
-					UI_TEXT("是否要解除此类别中的全部按键映射？"),
+					UI_TEXT("是否要解除此类别中全部按键的映射？"),
 					YesNoAlertView::Delegates
 					{
 						.onYes = [this]
@@ -95,14 +95,14 @@ ButtonConfigView::ButtonConfigView(ViewAttachParams attach, InputManagerView &ro
 	resetDefaults
 	{
 		// UI_TEXT("Reset Defaults"),
-		UI_TEXT("恢复默认按键映射"),
+		UI_TEXT("恢复默认映射"),
 		attach,
 		[this](const Input::Event &e)
 		{
 			pushAndShowModal(
 				makeView<YesNoAlertView>(
 					// UI_TEXT("Really reset all keys in this category to defaults?"),
-					UI_TEXT("是否要恢复此类别中全部按键映射的默认值？"),
+					UI_TEXT("是否要恢复此类别中全部按键的默认映射？"),
 					YesNoAlertView::Delegates
 					{
 						.onYes = [this]
@@ -365,14 +365,18 @@ void ButtonConfigSetView::onAddedToController(ViewController *, const Input::Eve
 		text.resetString(
 			std::format(
 				// UI_TEXT("Push up to 3 keys, release any to set:\n{}"),
-				UI_TEXT("正在设置：{}\n请按下并松开按键完成设置，最多支持3个按键组合"),
-				actionStr));
+				UI_TEXT("正在设置：{}\n请按下并松开按键完成设置，支持最多 3 个按键的组合"),
+				actionStr
+			)
+		);
 	else
 		text.resetString(
 			std::format(
 				// UI_TEXT("Push up to 3 keys, release any to set:\n{}\n\nTo unbind:\nQuickly push [Left] key twice in previous menu"),
-				UI_TEXT("正在设置：{}\n请按下并松开按键完成设置，最多支持 3 个按键组合\n\n若想解除绑定：\n可在上一界面快速按 [方向键左] 两次"),
-				actionStr));
+				UI_TEXT("正在设置：{}\n请按下并松开按键完成设置，支持最多 3 个按键的组合\n\n若想解除映射：\n可在上一界面快速按 [方向键左] 两次"),
+				actionStr
+			)
+		);
 	if(e.motionEvent())
 	{
 		initPointerUI();

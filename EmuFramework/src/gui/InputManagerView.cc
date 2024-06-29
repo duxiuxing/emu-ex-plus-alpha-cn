@@ -711,7 +711,7 @@ InputManagerDeviceView::InputManagerDeviceView(UTF16String name, ViewAttachParam
 	consumeUnboundKeys
 	{
 		// UI_TEXT("Handle Unbound Keys"),
-		UI_TEXT("响应未绑定的按键"),
+		UI_TEXT("响应未映射的按键"),
 		attach,
 		inputDevData(dev).devConf.shouldHandleUnboundKeys,
 		[this](BoolMenuItem &item, const Input::Event &e)
@@ -783,7 +783,7 @@ InputManagerDeviceView::InputManagerDeviceView(UTF16String name, ViewAttachParam
 	categories
 	{
 		// UI_TEXT("Action Categories"),
-		UI_TEXT("按键动作："),
+		UI_TEXT("按键映射："),
 		attach
 	},
 	options

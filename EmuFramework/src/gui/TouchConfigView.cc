@@ -252,7 +252,7 @@ public:
 		actionsHeading
 		{
 			// UI_TEXT("D-Pad Actions"),
-			UI_TEXT("当前方向键的按键动作："),
+			UI_TEXT("当前方向键的按键映射："),
 			attach
 		},
 		actions
@@ -315,7 +315,7 @@ private:
 	{
 		auto multiChoiceView = makeViewWithName<TextTableView>(
 			// UI_TEXT("Assign Action"),
-			UI_TEXT("指定按键动作"),
+			UI_TEXT("指定按键映射"),
 			16);
 		auto &app = this->app();
 		addCategories(app, elem, [&](const KeyCategory &cat)
@@ -358,7 +358,7 @@ public:
 			{
 				auto multiChoiceView = makeViewWithName<TextTableView>(
 					// UI_TEXT("Assign Action"),
-					UI_TEXT("指定按键动作"),
+					UI_TEXT("指定按键映射"),
 					16);
 				auto &app = this->app();
 				addCategories(app, elem, [&](const KeyCategory &cat)
