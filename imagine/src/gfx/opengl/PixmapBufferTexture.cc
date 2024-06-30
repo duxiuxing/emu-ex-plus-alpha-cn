@@ -423,11 +423,15 @@ std::vector<TextureBufferModeDesc> Renderer::textureBufferModes()
 	#ifdef __ANDROID__
 	if(hasHardwareBuffer(*this))
 	{
-		methodDesc.emplace_back("Hardware Buffer", TextureBufferMode::ANDROID_HARDWARE_BUFFER);
+		methodDesc.emplace_back(
+			UI_TEXT("Hardware Buffer"),
+			TextureBufferMode::ANDROID_HARDWARE_BUFFER);
 	}
 	if(hasSurfaceTexture(*this))
 	{
-		methodDesc.emplace_back("Surface Texture", TextureBufferMode::ANDROID_SURFACE_TEXTURE);
+		methodDesc.emplace_back(
+			UI_TEXT("Surface Texture"),
+			TextureBufferMode::ANDROID_SURFACE_TEXTURE);
 	}
 	#endif
 	return methodDesc;
