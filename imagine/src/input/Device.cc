@@ -218,33 +218,58 @@ static const char *keyButtonName(Key b)
 		case Keycode::NUMPAD_EQUALS:
 			return UI_TEXT("Numpad =");
 		#if CONFIG_PACKAGE_X11 || defined __ANDROID__
-		case Keycode::AT: return "@";
-		case Keycode::STAR: return "*";
-		case Keycode::PLUS: return "+";
-		case Keycode::POUND: return "#";
-		case Keycode::LEFT_PAREN: return "(";
-		case Keycode::RIGHT_PAREN: return ")";
-		case Keycode::SEARCH: return "Search";
-		case Keycode::CLEAR: return "Clear";
-		case Keycode::EXPLORER: return "Explorer";
-		case Keycode::MAIL: return "Mail";
-		case Keycode::VOL_UP: return "Vol Up";
-		case Keycode::VOL_DOWN: return "Vol Down";
+		case Keycode::AT:
+			return UI_TEXT("@");
+		case Keycode::STAR:
+			return UI_TEXT("*");
+		case Keycode::PLUS:
+			return UI_TEXT("+");
+		case Keycode::POUND:
+			return UI_TEXT("#");
+		case Keycode::LEFT_PAREN:
+			return UI_TEXT("(");
+		case Keycode::RIGHT_PAREN:
+			return UI_TEXT(")");
+		case Keycode::SEARCH:
+			return UI_TEXT("Search");
+		case Keycode::CLEAR:
+			return UI_TEXT("Clear");
+		case Keycode::EXPLORER:
+			return UI_TEXT("Explorer");
+		case Keycode::MAIL:
+			return UI_TEXT("Mail");
+		case Keycode::VOL_UP:
+			return UI_TEXT("Vol Up");
+		case Keycode::VOL_DOWN:
+			return UI_TEXT("Vol Down");
 		#endif
 		#if CONFIG_PACKAGE_X11
-		case Keycode::NUMPAD_INSERT: return "Numpad Insert";
-		case Keycode::NUMPAD_DELETE: return "Numpad Delete";
-		case Keycode::NUMPAD_BEGIN: return "Numpad Begin";
-		case Keycode::NUMPAD_HOME: return "Numpad Home";
-		case Keycode::NUMPAD_END: return "Numpad End";
-		case Keycode::NUMPAD_PGUP: return "Numpad Page Up";
-		case Keycode::NUMPAD_PGDOWN: return "Numpad Page Down";
-		case Keycode::NUMPAD_UP: return "Numpad Up";
-		case Keycode::NUMPAD_RIGHT: return "Numpad Right";
-		case Keycode::NUMPAD_DOWN: return "Numpad Down";
-		case Keycode::NUMPAD_LEFT: return "Numpad Left";
-		case Keycode::LMETA: return "Left Meta";
-		case Keycode::RMETA: return "Right Meta";
+		case Keycode::NUMPAD_INSERT:
+			return UI_TEXT("Numpad Insert");
+		case Keycode::NUMPAD_DELETE:
+			return UI_TEXT("Numpad Delete");
+		case Keycode::NUMPAD_BEGIN:
+			return UI_TEXT("Numpad Begin");
+		case Keycode::NUMPAD_HOME:
+			return UI_TEXT("Numpad Home");
+		case Keycode::NUMPAD_END:
+			return UI_TEXT("Numpad End");
+		case Keycode::NUMPAD_PGUP:
+			return UI_TEXT("Numpad Page Up");
+		case Keycode::NUMPAD_PGDOWN:
+			return UI_TEXT("Numpad Page Down");
+		case Keycode::NUMPAD_UP:
+			return UI_TEXT("Numpad Up");
+		case Keycode::NUMPAD_RIGHT:
+			return UI_TEXT("Numpad Right");
+		case Keycode::NUMPAD_DOWN:
+			return UI_TEXT("Numpad Down");
+		case Keycode::NUMPAD_LEFT:
+			return UI_TEXT("Numpad Left");
+		case Keycode::LMETA:
+			return UI_TEXT("Left Meta");
+		case Keycode::RMETA:
+			return UI_TEXT("Right Meta");
 		#endif
 		case Keycode::F1:
 			return UI_TEXT("F1");
@@ -300,42 +325,78 @@ static const char *keyButtonName(Key b)
 			return UI_TEXT("Select");
 		case Keycode::GAME_MODE:
 			return UI_TEXT("Mode");
-		case Keycode::GAME_1: return "G1";
-		case Keycode::GAME_2: return "G2";
-		case Keycode::GAME_3: return "G3";
-		case Keycode::GAME_4: return "G4";
-		case Keycode::GAME_5: return "G5";
-		case Keycode::GAME_6: return "G6";
-		case Keycode::GAME_7: return "G7";
-		case Keycode::GAME_8: return "G8";
-		case Keycode::GAME_9: return "G9";
-		case Keycode::GAME_10: return "G10";
-		case Keycode::GAME_11: return "G11";
-		case Keycode::GAME_12: return "G12";
-		case Keycode::GAME_13: return "G13";
-		case Keycode::GAME_14: return "G14";
-		case Keycode::GAME_15: return "G15";
-		case Keycode::GAME_16: return "G16";
-		case Keycode::JS1_XAXIS_POS: return "X Axis+";
-		case Keycode::JS1_XAXIS_NEG: return "X Axis-";
-		case Keycode::JS1_YAXIS_POS: return "Y Axis+";
-		case Keycode::JS1_YAXIS_NEG: return "Y Axis-";
-		case Keycode::JS2_XAXIS_POS: return "X Axis+ 2";
-		case Keycode::JS2_XAXIS_NEG: return "X Axis- 2";
-		case Keycode::JS2_YAXIS_POS: return "Y Axis+ 2";
-		case Keycode::JS2_YAXIS_NEG: return "Y Axis- 2";
-		case Keycode::JS3_XAXIS_POS: return "X Axis+ 3";
-		case Keycode::JS3_XAXIS_NEG: return "X Axis- 3";
-		case Keycode::JS3_YAXIS_POS: return "Y Axis+ 3";
-		case Keycode::JS3_YAXIS_NEG: return "Y Axis- 3";
-		case Keycode::JS_POV_XAXIS_POS: return "POV Right";
-		case Keycode::JS_POV_XAXIS_NEG: return "POV Left";
-		case Keycode::JS_POV_YAXIS_POS: return "POV Down";
-		case Keycode::JS_POV_YAXIS_NEG: return "POV Up";
-		case Keycode::JS_RUDDER_AXIS_POS: return "Rudder Right";
-		case Keycode::JS_RUDDER_AXIS_NEG: return "Rudder Left";
-		case Keycode::JS_WHEEL_AXIS_POS: return "Wheel Right";
-		case Keycode::JS_WHEEL_AXIS_NEG: return "Wheel Left";
+		case Keycode::GAME_1:
+			return UI_TEXT("G1");
+		case Keycode::GAME_2:
+			return UI_TEXT("G2");
+		case Keycode::GAME_3:
+			return UI_TEXT("G3");
+		case Keycode::GAME_4:
+			return UI_TEXT("G4");
+		case Keycode::GAME_5:
+			return UI_TEXT("G5");
+		case Keycode::GAME_6:
+			return UI_TEXT("G6");
+		case Keycode::GAME_7:
+			return UI_TEXT("G7");
+		case Keycode::GAME_8:
+			return UI_TEXT("G8");
+		case Keycode::GAME_9:
+			return UI_TEXT("G9");
+		case Keycode::GAME_10:
+			return UI_TEXT("G10");
+		case Keycode::GAME_11:
+			return UI_TEXT("G11");
+		case Keycode::GAME_12:
+			return UI_TEXT("G12");
+		case Keycode::GAME_13:
+			return UI_TEXT("G13");
+		case Keycode::GAME_14:
+			return UI_TEXT("G14");
+		case Keycode::GAME_15:
+			return UI_TEXT("G15");
+		case Keycode::GAME_16:
+			return UI_TEXT("G16");
+		case Keycode::JS1_XAXIS_POS:
+			return UI_TEXT("X Axis+");
+		case Keycode::JS1_XAXIS_NEG:
+			return UI_TEXT("X Axis-");
+		case Keycode::JS1_YAXIS_POS:
+			return UI_TEXT("Y Axis+");
+		case Keycode::JS1_YAXIS_NEG:
+			return UI_TEXT("Y Axis-");
+		case Keycode::JS2_XAXIS_POS:
+			return UI_TEXT("X Axis+ 2");
+		case Keycode::JS2_XAXIS_NEG:
+			return UI_TEXT("X Axis- 2");
+		case Keycode::JS2_YAXIS_POS:
+			return UI_TEXT("Y Axis+ 2");
+		case Keycode::JS2_YAXIS_NEG:
+			return UI_TEXT("Y Axis- 2");
+		case Keycode::JS3_XAXIS_POS:
+			return UI_TEXT("X Axis+ 3");
+		case Keycode::JS3_XAXIS_NEG:
+			return UI_TEXT("X Axis- 3");
+		case Keycode::JS3_YAXIS_POS:
+			return UI_TEXT("Y Axis+ 3");
+		case Keycode::JS3_YAXIS_NEG:
+			return UI_TEXT("Y Axis- 3");
+		case Keycode::JS_POV_XAXIS_POS:
+			return UI_TEXT("POV Right");
+		case Keycode::JS_POV_XAXIS_NEG:
+			return UI_TEXT("POV Left");
+		case Keycode::JS_POV_YAXIS_POS:
+			return UI_TEXT("POV Down");
+		case Keycode::JS_POV_YAXIS_NEG:
+			return UI_TEXT("POV Up");
+		case Keycode::JS_RUDDER_AXIS_POS:
+			return UI_TEXT("Rudder Right");
+		case Keycode::JS_RUDDER_AXIS_NEG:
+			return UI_TEXT("Rudder Left");
+		case Keycode::JS_WHEEL_AXIS_POS:
+			return UI_TEXT("Wheel Right");
+		case Keycode::JS_WHEEL_AXIS_NEG:
+			return UI_TEXT("Wheel Left");
 		case Keycode::JS_LTRIGGER_AXIS:
 			return UI_TEXT("L Trigger");
 		case Keycode::JS_RTRIGGER_AXIS:
@@ -346,21 +407,36 @@ static const char *keyButtonName(Key b)
 			return UI_TEXT("Brake");
 		// Android-specific
 		#ifdef __ANDROID__
-		case Keycode::SYMBOL: return "Sym";
-		case Keycode::NUM: return "Num";
-		case Keycode::FUNCTION: return "Function";
-		case Keycode::CENTER: return "Center";
-		case Keycode::CAMERA: return "Camera";
-		case Keycode::CALL: return "Call";
-		case Keycode::END_CALL: return "End Call";
-		case Keycode::FOCUS: return "Focus";
-		case Keycode::HEADSET_HOOK: return "Headset Hook";
-		case Keycode::MEDIA_PLAY_PAUSE: return "Play";
-		case Keycode::MEDIA_STOP: return "Stop";
-		case Keycode::MEDIA_NEXT: return "Next";
-		case Keycode::MEDIA_PREVIOUS: return "Previous";
-		case Keycode::MEDIA_REWIND: return "Rewind";
-		case Keycode::MEDIA_FAST_FORWARD: return "Fast Forward";
+		case Keycode::SYMBOL:
+			return UI_TEXT("Sym");
+		case Keycode::NUM:
+			return UI_TEXT("Num");
+		case Keycode::FUNCTION:
+			return UI_TEXT("Function");
+		case Keycode::CENTER:
+			return UI_TEXT("Center");
+		case Keycode::CAMERA:
+			return UI_TEXT("Camera");
+		case Keycode::CALL:
+			return UI_TEXT("Call");
+		case Keycode::END_CALL:
+			return UI_TEXT("End Call");
+		case Keycode::FOCUS:
+			return UI_TEXT("Focus");
+		case Keycode::HEADSET_HOOK:
+			return UI_TEXT("Headset Hook");
+		case Keycode::MEDIA_PLAY_PAUSE:
+			return UI_TEXT("Play");
+		case Keycode::MEDIA_STOP:
+			return UI_TEXT("Stop");
+		case Keycode::MEDIA_NEXT:
+			return UI_TEXT("Next");
+		case Keycode::MEDIA_PREVIOUS:
+			return UI_TEXT("Previous");
+		case Keycode::MEDIA_REWIND:
+			return UI_TEXT("Rewind");
+		case Keycode::MEDIA_FAST_FORWARD:
+			return UI_TEXT("Fast Forward");
 		#endif
 	}
 	return "";
@@ -371,13 +447,20 @@ static const char *ps3SysButtonName(Key b)
 	#if defined __ANDROID__
 	switch(b)
 	{
-		case Keycode::PS3::CROSS: return "Cross";
-		case Keycode::PS3::CIRCLE: return "Circle";
-		case Keycode::PS3::SQUARE: return "Square";
-		case Keycode::PS3::TRIANGLE: return "Triangle";
-		case Keycode::PS3::PS: return "PS";
-		case Keycode::GAME_LEFT_THUMB: return "L3";
-		case Keycode::GAME_RIGHT_THUMB: return "R3";
+		case Keycode::PS3::CROSS:
+			return UI_TEXT("Cross");
+		case Keycode::PS3::CIRCLE:
+			return UI_TEXT("Circle");
+		case Keycode::PS3::SQUARE:
+			return UI_TEXT("Square");
+		case Keycode::PS3::TRIANGLE:
+			 return UI_TEXT("Triangle");
+		case Keycode::PS3::PS:
+			return UI_TEXT("PS");
+		case Keycode::GAME_LEFT_THUMB:
+			return UI_TEXT("L3");
+		case Keycode::GAME_RIGHT_THUMB:
+			return UI_TEXT("R3");
 	}
 	return nullptr;
 	#else
@@ -390,10 +473,14 @@ static const char *xperiaPlayButtonName(Key b)
 {
 	switch(b)
 	{
-		case Keycode::XperiaPlay::CROSS: return "Cross";
-		case Keycode::XperiaPlay::CIRCLE: return "Circle";
-		case Keycode::XperiaPlay::SQUARE: return "Square";
-		case Keycode::XperiaPlay::TRIANGLE: return "Triangle";
+		case Keycode::XperiaPlay::CROSS:
+			return UI_TEXT("Cross");
+		case Keycode::XperiaPlay::CIRCLE:
+			return UI_TEXT("Circle");
+		case Keycode::XperiaPlay::SQUARE:
+			return UI_TEXT("Square");
+		case Keycode::XperiaPlay::TRIANGLE:
+			return UI_TEXT("Triangle");
 	}
 	return nullptr;
 }
@@ -402,13 +489,20 @@ static const char *ouyaButtonName(Key b)
 {
 	switch(b)
 	{
-		case Keycode::Ouya::O: return "O";
-		case Keycode::Ouya::U: return "U";
-		case Keycode::Ouya::Y: return "Y";
-		case Keycode::Ouya::A: return "A";
-		case Keycode::Ouya::L3: return "L3";
-		case Keycode::Ouya::R3: return "R3";
-		case Keycode::MENU: return "System";
+		case Keycode::Ouya::O:
+			return UI_TEXT("O");
+		case Keycode::Ouya::U:
+			return UI_TEXT("U");
+		case Keycode::Ouya::Y:
+			return UI_TEXT("Y");
+		case Keycode::Ouya::A:
+			return UI_TEXT("A");
+		case Keycode::Ouya::L3:
+			return UI_TEXT("L3");
+		case Keycode::Ouya::R3:
+			return UI_TEXT("R3");
+		case Keycode::MENU:
+			return UI_TEXT("System");
 	}
 	return nullptr;
 }
@@ -419,15 +513,24 @@ static const char *openPandoraButtonName(Key b)
 {
 	switch(b)
 	{
-		case Keycode::Pandora::L: return "L";
-		case Keycode::Pandora::R: return "R";
-		case Keycode::Pandora::A: return "A";
-		case Keycode::Pandora::B: return "B";
-		case Keycode::Pandora::Y: return "Y";
-		case Keycode::Pandora::X: return "X";
-		case Keycode::Pandora::SELECT: return "Select";
-		case Keycode::Pandora::START: return "Start";
-		case Keycode::Pandora::LOGO: return "Logo";
+		case Keycode::Pandora::L:
+			return UI_TEXT("L");
+		case Keycode::Pandora::R:
+			return UI_TEXT("R");
+		case Keycode::Pandora::A:
+			return UI_TEXT("A");
+		case Keycode::Pandora::B:
+			return UI_TEXT("B");
+		case Keycode::Pandora::Y:
+			return UI_TEXT("Y");
+		case Keycode::Pandora::X:
+			return UI_TEXT("X");
+		case Keycode::Pandora::SELECT:
+			return UI_TEXT("Select");
+		case Keycode::Pandora::START:
+			return UI_TEXT("Start");
+		case Keycode::Pandora::LOGO:
+			return UI_TEXT("Logo");
 	}
 	return nullptr;
 }
@@ -544,7 +647,9 @@ std::string Device::keyString(Key k, KeyNameFlags flags) const
 	}
 	else
 	{
-		return std::format(UI_TEXT("Key Code {:#X}"), k);
+		return std::format(
+			UI_TEXT("Key Code {:#X}"),
+			k);
 	}
 }
 
