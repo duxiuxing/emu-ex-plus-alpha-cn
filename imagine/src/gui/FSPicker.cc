@@ -576,6 +576,7 @@ void FSPicker::listDirectory(CStringView path, ThreadStop &stop)
 		{
 			msgText.resetString(
 				UI_TEXT("空目录")
+			);
 			msgText.compile();
 		}
 	}
