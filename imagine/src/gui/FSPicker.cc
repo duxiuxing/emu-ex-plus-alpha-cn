@@ -216,8 +216,9 @@ void FSPicker::setEmptyPath(std::string_view message)
 	}
 	else
 	{
-		// fileTableView().resetName(UI_TEXT("Select File Location"));
-		fileTableView().resetName(UI_TEXT("点击选择游戏文件位置"));
+		fileTableView().resetName(
+			UI_TEXT("点击选择游戏文件位置")
+		);
 	}
 	if(viewRect().x)
 		place();
@@ -225,8 +226,9 @@ void FSPicker::setEmptyPath(std::string_view message)
 
 void FSPicker::setEmptyPath()
 {
-	// setEmptyPath(UI_TEXT("No folder is set"));
-	setEmptyPath(UI_TEXT("未设置文件夹"));
+	setEmptyPath(
+		UI_TEXT("未设置文件夹")
+	);
 }
 
 void FSPicker::setPath(CStringView path, FS::RootPathInfo rootInfo, const Input::Event &e)
@@ -339,8 +341,11 @@ void FSPicker::pushFileLocationsView(const Input::Event &e)
 	public:
 		FileLocationsTextTableView(ViewAttachParams attach,
 			std::vector<FS::PathLocation> locations, size_t customItems):
-				// TextTableView{UI_TEXT("File Locations"), attach, locations.size() + customItems},
-				TextTableView{UI_TEXT("游戏文件位置"), attach, locations.size() + customItems},
+				TextTableView
+				{
+					UI_TEXT("游戏文件位置"),
+					attach, locations.size() + customItems
+				},
 				locations_{std::move(locations)} {}
 		const std::vector<FS::PathLocation> &locations() const { return locations_; }
 
@@ -350,12 +355,12 @@ void FSPicker::pushFileLocationsView(const Input::Event &e)
 
 	int customItems = 1 + Config::envIsLinux + appContext().hasSystemPathPicker() + appContext().hasSystemDocumentPicker();
 	auto view = makeView<FileLocationsTextTableView>(appContext().rootFileLocations(), customItems);
-	// static constexpr std::string_view failedSystemPickerMsg = UI_TEXT("This device doesn't have a document browser, please select a media folder instead");
-	static constexpr std::string_view failedSystemPickerMsg = UI_TEXT("此设备没有文件管理器，请从存储空间选择一个媒体文件夹来代替");
+	static constexpr std::string_view failedSystemPickerMsg =
+		UI_TEXT("此设备没有文件管理器，请从存储空间选择一个媒体文件夹来代替");
 	if(appContext().hasSystemPathPicker())
 	{
-		// view->appendItem(UI_TEXT("Browse For Folder"),
-		view->appendItem(UI_TEXT("浏览文件夹"),
+		view->appendItem(
+			UI_TEXT("浏览文件夹"),
 			[this](View &view, const Input::Event &e)
 			{
 				if(!appContext().showSystemPathPicker())
@@ -367,8 +372,8 @@ void FSPicker::pushFileLocationsView(const Input::Event &e)
 	}
 	if(mode_ != Mode::DIR && appContext().hasSystemDocumentPicker())
 	{
-		// view->appendItem(UI_TEXT("Browse For File"),
-		view->appendItem(UI_TEXT("浏览文件"),
+		view->appendItem(
+			UI_TEXT("浏览文件"),
 			[this](View &view, const Input::Event &e)
 			{
 				if(!appContext().showSystemDocumentPicker())
@@ -395,21 +400,21 @@ void FSPicker::pushFileLocationsView(const Input::Event &e)
 	}
 	if(Config::envIsLinux)
 	{
-		// view->appendItem(UI_TEXT("Root Filesystem"),
-		view->appendItem(UI_TEXT("根目录"),
+		view->appendItem(
+			UI_TEXT("根目录"),
 			[this](View &view, const Input::Event &e)
 			{
 				changeDirByInput("/", {}, e, DepthMode::reset);
 				view.dismiss();
 			});
 	}
-	// view->appendItem(UI_TEXT("Custom Path"),
-	view->appendItem(UI_TEXT("自定义路径"),
+	view->appendItem(
+		UI_TEXT("自定义路径"),
 		[this](const Input::Event &e)
 		{
 			auto textInputView = makeView<CollectTextInputView>(
-				// UI_TEXT("Input a directory path"), root.path, Gfx::TextureSpan{},
-				UI_TEXT("请输入一个有效的目录路径"), root.path, Gfx::TextureSpan{},
+				UI_TEXT("请输入一个有效的目录路径"),
+				root.path, Gfx::TextureSpan{},
 				[this](CollectTextInputView &view, const char *str)
 				{
 					if(!str || !strlen(str))
@@ -569,8 +574,8 @@ void FSPicker::listDirectory(CStringView path, ThreadStop &stop)
 		}
 		else // no entries, show a message instead
 		{
-			// msgText.resetString(UI_TEXT("Empty Directory"));
-			msgText.resetString(UI_TEXT("空目录"));
+			msgText.resetString(
+				UI_TEXT("空目录")
 			msgText.compile();
 		}
 	}
@@ -578,10 +583,12 @@ void FSPicker::listDirectory(CStringView path, ThreadStop &stop)
 	{
 		log.error("can't open:{}", path);
 		auto ec = err.code();
-		// std::string_view extraMsg = mode_ == Mode::FILE_IN_DIR ? "" : UI_TEXT("\nPick a path from the top bar");
-		std::string_view extraMsg = mode_ == Mode::FILE_IN_DIR ? "" : UI_TEXT("\n点击顶部标题栏重新选择路径");
-		// msgText.resetString(std::format(UI_TEXT("Can't open directory:\n{}{}"), ec.message(), extraMsg));
-		msgText.resetString(std::format(UI_TEXT("无法打开目录：\n{}{}"), ec.message(), extraMsg));
+		std::string_view extraMsg = (mode_ == Mode::FILE_IN_DIR)
+			? ""
+			: UI_TEXT("\n点击顶部标题栏重新选择路径");
+		msgText.resetString(std::format(
+			UI_TEXT("无法打开目录：\n{}{}"),
+			ec.message(), extraMsg));
 		msgText.compile();
 	}
 }
