@@ -132,31 +132,21 @@ public:
 		AlertView
 		{
 			attach,
-			// UI_TEXT("Really Exit? (Push Back/Escape again to confirm)"),
 			UI_TEXT("是否要退出？(确认请再按一下返回键或 Esc 键)"),
 			hasEmuContent ? 3u : 2u
 		}
 	{
 		item.emplace_back(
-			// UI_TEXT("Yes"),
 			UI_TEXT("是"),
-			attach,
-			[this](){ appContext().exit(); }
-		);
+			attach, [this](){ appContext().exit(); });
 		item.emplace_back(
-			// UI_TEXT("No"),
 			UI_TEXT("否"),
-			attach,
-			[](){}
-		);
+			attach,	[](){});
 		if(hasEmuContent)
 		{
 			item.emplace_back(
-				// UI_TEXT("Close Menu"),
 				UI_TEXT("关闭菜单"),
-				attach,
-				[this](){ app().showEmulation(); }
-			);
+				attach, [this](){ app().showEmulation(); });
 		}
 	}
 
@@ -437,10 +427,8 @@ void EmuApp::mainInitCommon(IG::ApplicationInitParams initParams, IG::Applicatio
 				if(showsNotificationIcon)
 				{
 					auto title = std::format(
-						// UI_TEXT("{} was suspended"),
 						UI_TEXT("{} 已暂停"),
-						ctx.applicationName
-					);
+						ctx.applicationName);
 					ctx.addNotification(title, title, system().contentDisplayName());
 				}
 			}
@@ -585,21 +573,19 @@ void EmuApp::mainInitCommon(IG::ApplicationInitParams initParams, IG::Applicatio
 						if(notifyOnInputDeviceChange && (e.change == Input::DeviceChange::added || e.change == Input::DeviceChange::removed))
 						{
 							postMessage(2, 0,
-								std::format(UI_TEXT("{} {}"), inputDevData(e.device).displayName,
-									// e.change == Input::DeviceChange::added ? UI_TEXT("connected") : UI_TEXT("disconnected")
-									e.change == Input::DeviceChange::added ? UI_TEXT("已连接") : UI_TEXT("已断开")
-								)
-							);
+								std::format(
+									UI_TEXT("{} {}"),
+									inputDevData(e.device).displayName,
+									e.change == Input::DeviceChange::added
+										? UI_TEXT("已连接")
+										: UI_TEXT("已断开")
+								));
 						}
 						else if(e.change == Input::DeviceChange::connectError)
 						{
-							postMessage(2, 1,
-								std::format(
-									// UI_TEXT("{} had a connection error"),
-									UI_TEXT("{} 发生连接错误"),
-									e.device.name()
-								)
-							);
+							postMessage(2, 1, std::format(
+								UI_TEXT("{} 发生连接错误"),
+								e.device.name()));
 						}
 						viewController().onInputDevicesChanged();
 					},
@@ -783,17 +769,13 @@ void EmuApp::launchSystem(const Input::Event &e)
 		if(system().usesBackupMemory() && loadMode == LoadAutosaveMode::Normal &&
 			!autosaveManager.saveOnlyBackupMemory && stateIsOlderThanBackupMemory())
 		{
-			viewController().pushAndShowModal(
-				std::make_unique<YesNoAlertView>(attachParams(),
-					// UI_TEXT("Autosave state timestamp is older than the contents of backup memory, really load it even though progress may be lost?"),
-					UI_TEXT("自动存档的进度和内存快照的时间戳不一致，读取进度可能导致当前进度丢失，是否要继续？"),
-					YesNoAlertView::Delegates
-					{
-						.onYes = [this]{ finishLaunch(*this, LoadAutosaveMode::Normal); },
-						.onNo = [this]{ finishLaunch(*this, LoadAutosaveMode::NoState); }
-					}
-				), e, false
-			);
+			viewController().pushAndShowModal(std::make_unique<YesNoAlertView>(attachParams(),
+				UI_TEXT("自动存档的进度和内存快照的时间戳不一致，读取进度可能导致当前进度丢失，是否要继续？"),
+				YesNoAlertView::Delegates
+				{
+					.onYes = [this]{ finishLaunch(*this, LoadAutosaveMode::Normal); },
+					.onNo = [this]{ finishLaunch(*this, LoadAutosaveMode::NoState); }
+				}), e, false);
 		}
 		else
 		{
@@ -818,13 +800,9 @@ void EmuApp::handleOpenFileCommand(CStringView path)
 	auto name = appContext().fileUriDisplayName(path);
 	if(name.empty())
 	{
-		postErrorMessage(
-			std::format(
-				// UI_TEXT("Can't access path name for:\n{}"),
-				UI_TEXT("无法访问路径名称：\n{}"),
-				path
-			)
-		);
+		postErrorMessage(std::format(
+			UI_TEXT("无法访问路径名称：\n{}"),
+			path));
 		return;
 	}
 	if(appContext().fileUriType(path) == FS::file_type::directory)
@@ -965,7 +943,6 @@ void EmuApp::onSystemCreated()
 	if(!rewindManager.reset(system().stateSize()))
 	{
 		postErrorMessage(4,
-			// UI_TEXT("Not enough memory for rewind states")
 			UI_TEXT("没有足够的内存来执行倒带操作")
 		);
 	}
@@ -976,20 +953,16 @@ void EmuApp::promptSystemReloadDueToSetOption(ViewAttachParams attach, const Inp
 {
 	if(!system().hasContent())
 		return;
-	viewController().pushAndShowModal(
-		std::make_unique<YesNoAlertView>(attach,
-			// UI_TEXT("This option takes effect next time the system starts. Restart it now?"),
-			UI_TEXT("此选项需要重启模拟器才能生效。是否要马上重启？"),
-			YesNoAlertView::Delegates
-			{ .onYes = [this, params]
-				{
-					reloadSystem(params);
-					showEmulation();
-					return false;
-				}
+	viewController().pushAndShowModal(std::make_unique<YesNoAlertView>(attach,
+		UI_TEXT("此选项需要重启模拟器才能生效。是否要马上重启？"),
+		YesNoAlertView::Delegates
+		{ .onYes = [this, params]
+			{
+				reloadSystem(params);
+				showEmulation();
+				return false;
 			}
-		), e, false
-	);
+		}), e, false);
 }
 
 void EmuApp::unpostMessage()
@@ -999,13 +972,12 @@ void EmuApp::unpostMessage()
 
 void EmuApp::printScreenshotResult(bool success)
 {
-	postMessage(3, !success,
-		std::format("{}{}",
-			// success ? UI_TEXT("Wrote screenshot at ") : UI_TEXT("Error writing screenshot at "),
-			success ? UI_TEXT("保存截图成功：") : UI_TEXT("保存截图时出错："),
-			appContext().formatDateAndTime(WallClock::now())
-		)
-	);
+	postMessage(3, !success, std::format(
+		UI_TEX("{}{}"),
+		success
+			? UI_TEXT("保存截图成功：")
+			: UI_TEXT("保存截图时出错："),
+		appContext().formatDateAndTime(WallClock::now())));
 }
 
 void EmuApp::createSystemWithMedia(IO io, CStringView path, std::string_view displayName,
@@ -1015,8 +987,9 @@ void EmuApp::createSystemWithMedia(IO io, CStringView path, std::string_view dis
 	assert(strlen(path));
 	if(!EmuApp::hasArchiveExtension(displayName) && !EmuSystem::defaultFsFilter(displayName))
 	{
-		// postErrorMessage(UI_TEXT("File doesn't have a valid extension"));
-		postErrorMessage(UI_TEXT("无效的文件扩展名"));
+		postErrorMessage(
+			UI_TEXT("无效的文件扩展名")
+		);
 		return;
 	}
 	if(!EmuApp::willCreateSystem(attachParams, e))
@@ -1086,13 +1059,9 @@ void EmuApp::setupStaticBackupMemoryFile(FileIO &io, std::string_view ext, size_
 		return;
 	io = system().openStaticBackupMemoryFile(system().contentSaveFilePath(ext), size, initValue);
 	if(!io) [[unlikely]]
-		throw std::runtime_error(
-			std::format(
-				// UI_TEXT("Error opening {}, please verify save path has write access"),
-				UI_TEXT("打开 {} 时出错，请检查保存路径的写入权限设置"),
-				system().contentNameExt(ext)
-			)
-		);
+		throw std::runtime_error(std::format(
+			UI_TEXT("打开 {} 时出错，请检查保存路径的写入权限设置"),
+			system().contentNameExt(ext)));
 }
 
 void EmuApp::readState(std::span<uint8_t> buff)
@@ -1119,8 +1088,9 @@ bool EmuApp::saveState(CStringView path)
 {
 	if(!system().hasContent())
 	{
-		// postErrorMessage(UI_TEXT("System not running"));
-		postErrorMessage(UI_TEXT("模拟器未运行"));
+		postErrorMessage(
+			UI_TEXT("模拟器未运行")
+		);
 		return false;
 	}
 	syncEmulationThread();
@@ -1132,13 +1102,9 @@ bool EmuApp::saveState(CStringView path)
 	}
 	catch(std::exception &err)
 	{
-		postErrorMessage(4,
-			std::format(
-				// UI_TEXT("Can't save state:\n{}"),
-				UI_TEXT("无法保存进度：\n{}"),
-				err.what()
-			)
-		);
+		postErrorMessage(4,	std::format(
+			UI_TEXT("无法保存进度：\n{}"),
+			err.what()));
 		return false;
 	}
 }
@@ -1152,8 +1118,9 @@ bool EmuApp::loadState(CStringView path)
 {
 	if(!system().hasContent()) [[unlikely]]
 	{
-		// postErrorMessage(UI_TEXT("System not running"));
-		postErrorMessage(UI_TEXT("模拟器未运行"));
+		postErrorMessage(
+			UI_TEXT("模拟器未运行")
+		);
 		return false;
 	}
 	log.info("loading state {}", path);
@@ -1168,17 +1135,12 @@ bool EmuApp::loadState(CStringView path)
 	{
 		if(system().hasContent() && !hasWriteAccessToDir(system().contentSaveDirectory()))
 			postErrorMessage(8,
-				// UI_TEXT("Save folder inaccessible, please set it in Options➔File Paths➔Saves")
-				UI_TEXT("无法访问存档文件夹，请到“选项➔文件路径➔存档文件夹”中重新设置")
+				UI_TEXT("无法访问存档文件夹，请在“选项➔文件路径➔存档文件夹”中重新设置")
 			);
 		else
-			postErrorMessage(4,
-				std::format(
-					// UI_TEXT("Can't load state:\n{}"),
-					UI_TEXT("无法读取进度：\n{}"),
-					err.what()
-				)
-			);
+			postErrorMessage(4,	std::format(
+				UI_TEXT("无法读取进度：\n{}"),
+				err.what()));
 		return false;
 	}
 }
@@ -1213,9 +1175,7 @@ FS::PathString EmuApp::validSearchPath(const FS::PathString &path) const
 
 std::unique_ptr<YesNoAlertView> EmuApp::makeCloseContentView()
 {
-	return std::make_unique<YesNoAlertView>(
-		attachParams(),
-		// UI_TEXT("Really close current content?"),
+	return std::make_unique<YesNoAlertView>(attachParams(),
 		UI_TEXT("是否要关闭当前游戏？"),
 		YesNoAlertView::Delegates
 		{
@@ -1225,8 +1185,7 @@ std::unique_ptr<YesNoAlertView> EmuApp::makeCloseContentView()
 				viewController().popModalViews();
 				return false;
 			}
-		}
-	);
+		});
 }
 
 void EmuApp::resetInput()
