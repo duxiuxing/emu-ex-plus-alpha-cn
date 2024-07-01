@@ -30,13 +30,13 @@ PlaceVControlsView::PlaceVControlsView(ViewAttachParams attach, VController &vCo
 	exitText
 	{
 		attach.rendererTask,
-		UI_TEXT("Exit"),
+		UI_TEXT("退出"),
 		&defaultFace()
 	},
 	snapText
 	{
 		attach.rendererTask,
-		UI_TEXT("Snap: 0px"),
+		UI_TEXT("网格：0 像素"),
 		&defaultFace()
 	},
 	vController{vController_},
@@ -174,7 +174,7 @@ bool PlaceVControlsView::inputEvent(const Input::Event& e, ViewInputEventParams)
 					{
 						snapPxIdx = (snapPxIdx + 1) % snapPxSizes.size();
 						snapText.resetString(std::format(
-							UI_TEXT("Snap: {}px"),
+							UI_TEXT("网格：{} 像素"),
 							snapPxSizes[snapPxIdx]));
 						place();
 						postDraw();
