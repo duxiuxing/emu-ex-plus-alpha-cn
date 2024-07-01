@@ -27,15 +27,16 @@ constexpr SystemLogger log{"StateSlotView"};
 
 static auto slotHeadingName(EmuSystem &sys)
 {
-	return std::format("Set State Slot ({})", sys.stateSlot());
+	return std::format(
+		UI_TEXT("Set State Slot ({})"),
+		sys.stateSlot());
 }
 
 StateSlotView::StateSlotView(ViewAttachParams attach):
 	TableView
 	{
 		UI_TEXT("Save States"),
-		attach,
-		menuItems
+		attach, menuItems
 	},
 	load
 	{
@@ -45,19 +46,16 @@ StateSlotView::StateSlotView(ViewAttachParams attach):
 		{
 			if(!item.active())
 				return;
-			pushAndShowModal(
-				makeView<YesNoAlertView>(
-					UI_TEXT("Really load state?"),
-					YesNoAlertView::Delegates
+			pushAndShowModal(makeView<YesNoAlertView>(
+				UI_TEXT("Really load state?"),
+				YesNoAlertView::Delegates
+				{
+					.onYes = [this]
 					{
-						.onYes = [this]
-						{
-							if(app().loadStateWithSlot(system().stateSlot()))
-								app().showEmulation();
-						}
+						if(app().loadStateWithSlot(system().stateSlot()))
+							app().showEmulation();
 					}
-				), e
-			);
+				}), e);
 		}
 	},
 	save
@@ -72,12 +70,9 @@ StateSlotView::StateSlotView(ViewAttachParams attach):
 			}
 			else
 			{
-				pushAndShowModal(
-					makeView<YesNoAlertView>(
-						UI_TEXT("Really overwrite state?"),
-						YesNoAlertView::Delegates{.onYes = [this]{ doSaveState(); }}
-					), e
-				);
+				pushAndShowModal(makeView<YesNoAlertView>(
+					UI_TEXT("Really overwrite state?"),
+					YesNoAlertView::Delegates{.onYes = [this]{ doSaveState(); }}), e);
 			}
 		}
 	},

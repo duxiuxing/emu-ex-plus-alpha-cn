@@ -39,8 +39,7 @@ static auto autoSaveName(EmuApp &app)
 {
 	return std::format(
 		UI_TEXT("Autosave Slot ({})"),
-		app.autosaveManager.slotFullName()
-	);
+		app.autosaveManager.slotFullName());
 }
 
 static std::string saveAutosaveName(EmuApp &app)
@@ -50,16 +49,14 @@ static std::string saveAutosaveName(EmuApp &app)
 		return UI_TEXT("Save Autosave State");
 	return std::format(
 		UI_TEXT("Save Autosave State (Timer In {:%M:%S})"),
-		duration_cast<Seconds>(autosaveManager.saveTimer.nextFireTime())
-	);
+		duration_cast<Seconds>(autosaveManager.saveTimer.nextFireTime()));
 }
 
 SystemActionsView::SystemActionsView(ViewAttachParams attach, bool customMenu):
 	TableView
 	{
 		UI_TEXT("System Actions"),
-		attach,
-		item
+		attach, item
 	},
 	cheats
 	{
@@ -96,19 +93,16 @@ SystemActionsView::SystemActionsView(ViewAttachParams attach, bool customMenu):
 		{
 			if(!item.active())
 				return;
-			pushAndShowModal(
-				makeView<YesNoAlertView>(
-					UI_TEXT("Really save state?"),
-					YesNoAlertView::Delegates
+			pushAndShowModal(makeView<YesNoAlertView>(
+				UI_TEXT("Really save state?"),
+				YesNoAlertView::Delegates
+				{
+					.onYes = [this]
 					{
-						.onYes = [this]
-						{
-							if(app().autosaveManager.save(AutosaveActionSource::Manual))
-								app().showEmulation();
-						}
+						if(app().autosaveManager.save(AutosaveActionSource::Manual))
+							app().showEmulation();
 					}
-				), e
-			);
+				}), e);
 		}
 	},
 	revertAutosave
@@ -122,25 +116,22 @@ SystemActionsView::SystemActionsView(ViewAttachParams attach, bool customMenu):
 			auto saveTime = app().autosaveManager.stateTimeAsString();
 			if(saveTime.empty())
 			{
-				app().postMessage(UI_TEXT("No saved state"));
+				app().postMessage(
+					UI_TEXT("No saved state")
+				);
 				return;
 			}
-			pushAndShowModal(
-				makeView<YesNoAlertView>(
-					std::format(
-						UI_TEXT("Really load state from: {}?"),
-						saveTime
-					),
-					YesNoAlertView::Delegates
+			pushAndShowModal(makeView<YesNoAlertView>(std::format(
+				UI_TEXT("Really load state from: {}?"),
+				saveTime),
+				YesNoAlertView::Delegates
+				{
+					.onYes = [this]
 					{
-						.onYes = [this]
-						{
-							if(app().autosaveManager.load(AutosaveActionSource::Manual))
-								app().showEmulation();
-						}
+						if(app().autosaveManager.load(AutosaveActionSource::Manual))
+							app().showEmulation();
 					}
-				), e
-			);
+				}), e);
 		}
 	},
 	stateSlot
@@ -165,21 +156,17 @@ SystemActionsView::SystemActionsView(ViewAttachParams attach, bool customMenu):
 				// shortcuts to bundled games not yet supported
 				return;
 			}
-			pushAndShowNewCollectValueInputView<const char*>(
-				attachParams(), e,
+			pushAndShowNewCollectValueInputView<const char*>(attachParams(), e,
 				UI_TEXT("Shortcut Name"),
 				system().contentDisplayName(),
 				[this](CollectTextInputView &, auto str)
 				{
 					appContext().addLauncherIcon(str, system().contentLocation());
-					app().postMessage(
-						2, false,
-						std::format(
-							UI_TEXT("Added shortcut:\n{}"),
-							str));
+					app().postMessage(2, false, std::format(
+						UI_TEXT("Added shortcut:\n{}"),
+						str));
 					return true;
-				}
-			);
+				});
 		}
 	},
 	screenshot
@@ -193,25 +180,22 @@ SystemActionsView::SystemActionsView(ViewAttachParams attach, bool customMenu):
 			auto pathName = appContext().fileUriDisplayName(app().screenshotDirectory());
 			if(pathName.empty())
 			{
-				app().postMessage(UI_TEXT("Save path isn't valid"));
+				app().postMessage(
+					UI_TEXT("Save path isn't valid")
+				);
 				return;
 			}
-			pushAndShowModal(
-				makeView<YesNoAlertView>(
-					std::format(
-						UI_TEXT("Save screenshot to folder {}?"),
-						pathName
-					),
-					YesNoAlertView::Delegates
+			pushAndShowModal(makeView<YesNoAlertView>(std::format(
+				UI_TEXT("Save screenshot to folder {}?"),
+				pathName),
+				YesNoAlertView::Delegates
+				{
+					.onYes = [this]
 					{
-						.onYes = [this]
-						{
-							app().video.takeGameScreenshot();
-							system().runFrame({}, &app().video, nullptr);
-						}
+						app().video.takeGameScreenshot();
+						system().runFrame({}, &app().video, nullptr);
 					}
-				), e
-			);
+				}), e);
 		}
 	},
 	resetSessionOptions
@@ -222,19 +206,16 @@ SystemActionsView::SystemActionsView(ViewAttachParams attach, bool customMenu):
 		{
 			if(!app().hasSavedSessionOptions())
 				return;
-			pushAndShowModal(
-				makeView<YesNoAlertView>(
-					UI_TEXT("Reset saved options for the currently running system to defaults? Some options only take effect next time the system loads."),
-					YesNoAlertView::Delegates
+			pushAndShowModal(makeView<YesNoAlertView>(
+				UI_TEXT("Reset saved options for the currently running system to defaults? Some options only take effect next time the system loads."),
+				YesNoAlertView::Delegates
+				{
+					.onYes = [this]
 					{
-						.onYes = [this]
-						{
-							resetSessionOptions.setActive(false);
-							app().deleteSessionOptions();
-						}
+						resetSessionOptions.setActive(false);
+						app().deleteSessionOptions();
 					}
-				), e
-			);
+				}), e);
 		}
 	},
 	close
