@@ -158,7 +158,6 @@ constexpr std::span<const KeyConfigDesc> genericKeyConfigs()
 		KeyConfigDesc
 		{
 			Map::SYSTEM,
-			// UI_TEXT("PC Keyboard"),
 			UI_TEXT("电脑键盘"),
 			pcKeyboardMap
 		},
@@ -166,21 +165,18 @@ constexpr std::span<const KeyConfigDesc> genericKeyConfigs()
 		KeyConfigDesc
 		{
 			Map::SYSTEM, DeviceSubtype::GENERIC_GAMEPAD,
-			// UI_TEXT("Generic Gamepad"),
-			UI_TEXT("常规手柄"),
+			UI_TEXT("常规游戏手柄"),
 			genericGamepadMap
 		},
 		KeyConfigDesc
 		{
 			Map::SYSTEM, DeviceSubtype::PS3_CONTROLLER,
-			// UI_TEXT("PS3 Controller"),
 			UI_TEXT("PS3 手柄"),
 			ps3GamepadMap
 		},
 		KeyConfigDesc
 		{
 			Map::SYSTEM, DeviceSubtype::OUYA_CONTROLLER,
-			// UI_TEXT("OUYA Controller"),
 			UI_TEXT("OUYA 手柄"),
 			ouyaGamepadMap
 		},

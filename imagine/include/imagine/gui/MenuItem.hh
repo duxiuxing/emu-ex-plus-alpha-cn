@@ -317,13 +317,13 @@ public:
 
 protected:
 	UTF16String offStr
-		{
-			UI_TEXT(u"关")
-		};
+	{
+		UI_TEXT(u"关")
+	};
 	UTF16String onStr
-		{
-			UI_TEXT(u"开")
-		};
+	{
+		UI_TEXT(u"开")
+	};
 };
 
 class MultiChoiceMenuItem : public BaseDualTextMenuItem

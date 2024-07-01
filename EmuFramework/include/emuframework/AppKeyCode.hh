@@ -75,8 +75,11 @@ constexpr struct AppKeys
 	static constexpr size_t size() { return sizeof(AppKeys) / sizeof(KeyInfo); }
 } appKeys;
 
-// constexpr KeyCategory appKeyCategory{UI_TEXT("In-Emulation Actions"), appKeys};
-constexpr KeyCategory appKeyCategory{UI_TEXT("快捷按键"), appKeys};
+constexpr KeyCategory appKeyCategory
+{
+	UI_TEXT("快捷按键"),
+	appKeys
+};
 
 constexpr std::array genericGamepadAppKeyCodeMap
 {
@@ -116,20 +119,17 @@ constexpr std::array rewindUIKeys{appKeys.rewind};
 
 constexpr InputComponentDesc rightUIComponents
 {
-	// UI_TEXT("Open Menu"),
-	UI_TEXT("菜单键"),
+	UI_TEXT("打开菜单"),
 	rightUIKeys, InputComponent::ui, RT2DO
 };
 constexpr InputComponentDesc leftUIComponents
 {
-	// UI_TEXT("Toggle Fast-forward"),
-	UI_TEXT("快进键"),
+	UI_TEXT("快进切换"),
 	leftUIKeys, InputComponent::ui, LT2DO
 };
 constexpr InputComponentDesc rewindUIComponents
 {
-	// UI_TEXT("Rewind One State"),
-	UI_TEXT("倒带键"),
+	UI_TEXT("倒退一个进度"),
 	rewindUIKeys, InputComponent::ui, LT2DO
 };
 

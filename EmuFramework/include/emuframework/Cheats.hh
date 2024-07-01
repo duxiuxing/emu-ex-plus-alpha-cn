@@ -72,7 +72,6 @@ public:
 			[this](const Input::Event &e)
 			{
 				pushAndShowNewCollectValueInputView<const char*>(attachParams(), e,
-					// UI_TEXT("Input description"),
 					UI_TEXT("请输入描述说明"),
 					static_cast<CheatViewImpl*>(this)->cheatNameString(),
 					[this](CollectTextInputView&, auto str)
@@ -88,7 +87,6 @@ public:
 		},
 		remove
 		{
-			// UI_TEXT("Delete Cheat"),
 			UI_TEXT("删除当前的金手指"),
 			attach,
 			removed
