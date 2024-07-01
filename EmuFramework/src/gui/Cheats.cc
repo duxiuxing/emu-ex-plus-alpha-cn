@@ -27,19 +27,17 @@ BaseCheatsView::BaseCheatsView(ViewAttachParams attach):
 		attach,
 		[this](ItemMessage msg) -> ItemReply
 		{
-			return msg.visit(
-				overloaded
+			return msg.visit(overloaded
+			{
+				[&](const ItemsMessage &m) -> ItemReply { return 1 + cheat.size(); },
+				[&](const GetItemMessage &m) -> ItemReply
 				{
-					[&](const ItemsMessage &m) -> ItemReply { return 1 + cheat.size(); },
-					[&](const GetItemMessage &m) -> ItemReply
-					{
-						if(m.idx == 0)
-							return &edit;
-						else
-							return &cheat[m.idx - 1];
-					},
-				}
-			);
+					if(m.idx == 0)
+						return &edit;
+					else
+						return &cheat[m.idx - 1];
+				},
+			});
 		}
 	},
 	edit
@@ -56,8 +54,7 @@ BaseCheatsView::BaseCheatsView(ViewAttachParams attach):
 					loadCheatItems();
 					highlightCell(selectedCell);
 					place();
-				}
-			);
+				});
 			pushAndShow(std::move(editCheatsView), e);
 		}
 	} {}

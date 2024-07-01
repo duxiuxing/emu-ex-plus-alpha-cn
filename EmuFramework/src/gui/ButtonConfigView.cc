@@ -72,22 +72,20 @@ ButtonConfigView::ButtonConfigView(ViewAttachParams attach, InputManagerView &ro
 		attach,
 		[this](const Input::Event &e)
 		{
-			pushAndShowModal(
-				makeView<YesNoAlertView>(
-					UI_TEXT("Really unbind all keys in this category?"),
-					YesNoAlertView::Delegates
+			pushAndShowModal(makeView<YesNoAlertView>(
+				UI_TEXT("Really unbind all keys in this category?"),
+				YesNoAlertView::Delegates
+				{
+					.onYes = [this]
 					{
-						.onYes = [this]
-						{
-							auto conf = devConf.makeMutableKeyConf(app());
-							if(!conf)
-								return;
-							conf->unbindCategory(cat);
-							updateKeyNames(*conf);
-							devConf.buildKeyMap(app().inputManager);
-						}
-					}),
-				e);
+						auto conf = devConf.makeMutableKeyConf(app());
+						if(!conf)
+							return;
+						conf->unbindCategory(cat);
+						updateKeyNames(*conf);
+						devConf.buildKeyMap(app().inputManager);
+					}
+				}), e);
 		}
 	},
 	resetDefaults
@@ -96,22 +94,20 @@ ButtonConfigView::ButtonConfigView(ViewAttachParams attach, InputManagerView &ro
 		attach,
 		[this](const Input::Event &e)
 		{
-			pushAndShowModal(
-				makeView<YesNoAlertView>(
-					UI_TEXT("Really reset all keys in this category to defaults?"),
-					YesNoAlertView::Delegates
+			pushAndShowModal(makeView<YesNoAlertView>(
+				UI_TEXT("Really reset all keys in this category to defaults?"),
+				YesNoAlertView::Delegates
+				{
+					.onYes = [this]
 					{
-						.onYes = [this]
-						{
-							auto conf = devConf.mutableKeyConf(app().inputManager);
-							if(!conf)
-								return;
-							conf->resetCategory(cat, app().inputManager.defaultConfig(devConf.device()));
-							updateKeyNames(*conf);
-							devConf.buildKeyMap(app().inputManager);
-						}
-					}),
-				e);
+						auto conf = devConf.mutableKeyConf(app().inputManager);
+						if(!conf)
+							return;
+						conf->resetCategory(cat, app().inputManager.defaultConfig(devConf.device()));
+						updateKeyNames(*conf);
+						devConf.buildKeyMap(app().inputManager);
+					}
+				}), e);
 		}
 	},
 	cat{cat_},
@@ -204,16 +200,18 @@ void ButtonConfigSetView::initPointerUI()
 	if(pointerUIIsInit())
 		return;
 	log.info("init pointer UI elements");
-	unbind = {
-		renderer().mainTask,
-		UI_TEXT("Unbind"),
-		&defaultFace()
-	};
-	cancel = {
-		renderer().mainTask,
-		UI_TEXT("Cancel"),
-		&defaultFace()
-	};
+	unbind =
+		{
+			renderer().mainTask,
+			UI_TEXT("Unbind"),
+			&defaultFace()
+		};
+	cancel =
+		{
+			renderer().mainTask,
+			UI_TEXT("Cancel"),
+			&defaultFace()
+		};
 	unbindB.x2 = 1;
 }
 
@@ -290,11 +288,9 @@ bool ButtonConfigSetView::inputEvent(const Input::Event& e, ViewInputEventParams
 					else
 					{
 						savedDev = d;
-						app().postMessage(
-							7, false,
-							std::format(
-								UI_TEXT("You pushed a key from device:\n{}\nPush another from it to open its config menu"),
-								inputDevData(*d).displayName));
+						app().postMessage(7, false, std::format(
+							UI_TEXT("You pushed a key from device:\n{}\nPush another from it to open its config menu"),
+							inputDevData(*d).displayName));
 						postDraw();
 					}
 					return true;
@@ -355,15 +351,13 @@ void ButtonConfigSetView::draw(Gfx::RendererCommands&__restrict__ cmds, ViewDraw
 void ButtonConfigSetView::onAddedToController(ViewController *, const Input::Event &e)
 {
 	if(e.motionEvent())
-		text.resetString(
-			std::format(
-				UI_TEXT("Push up to 3 keys, release any to set:\n{}"),
-				actionStr));
+		text.resetString(std::format(
+			UI_TEXT("Push up to 3 keys, release any to set:\n{}"),
+			actionStr));
 	else
-		text.resetString(
-			std::format(
-				UI_TEXT("Push up to 3 keys, release any to set:\n{}\n\nTo unbind:\nQuickly push [Left] key twice in previous menu"),
-				actionStr));
+		text.resetString(std::format(
+			UI_TEXT("Push up to 3 keys, release any to set:\n{}\n\nTo unbind:\nQuickly push [Left] key twice in previous menu"),
+			actionStr));
 	if(e.motionEvent())
 	{
 		initPointerUI();

@@ -91,7 +91,9 @@ bool InputManager::handleAppActionKeyInput(EmuApp& app, InputAction action, cons
 			{
 				if(app.saveStateWithSlot(app.system().stateSlot()) && notify)
 				{
-					app.postMessage(UI_TEXT("State Saved"));
+					app.postMessage(
+						UI_TEXT("State Saved")
+					);
 				}
 			};
 			if(app.shouldOverwriteExistingState())
@@ -101,21 +103,17 @@ bool InputManager::handleAppActionKeyInput(EmuApp& app, InputAction action, cons
 			}
 			else
 			{
-				viewController.pushAndShowModal(
-					std::make_unique<YesNoAlertView>(app.attachParams(),
-						UI_TEXT("Really Overwrite State?"),
-						YesNoAlertView::Delegates
+				viewController.pushAndShowModal(std::make_unique<YesNoAlertView>(app.attachParams(),
+					UI_TEXT("Really Overwrite State?"),
+					YesNoAlertView::Delegates
+					{
+						.onYes = [&app]
 						{
-							.onYes = [&app]
-							{
-								doSaveState(app, false);
-								app.showEmulation();
-							},
-							.onNo = [&app]{ app.showEmulation(); }
-						}
-					),
-					srcEvent, false
-				);
+							doSaveState(app, false);
+							app.showEmulation();
+						},
+						.onNo = [&app]{ app.showEmulation(); }
+					}), srcEvent, false);
 			}
 			return true;
 		}
@@ -132,12 +130,9 @@ bool InputManager::handleAppActionKeyInput(EmuApp& app, InputAction action, cons
 			if(!isPushed)
 				break;
 			system.decStateSlot();
-			app.postMessage(1, false,
-				std::format(
-					UI_TEXT("State Slot: {}"),
-					system.stateSlotName()
-				)
-			);
+			app.postMessage(1, false, std::format(
+				UI_TEXT("State Slot: {}"),
+				system.stateSlotName()));
 			return true;
 		}
 		case incStateSlot:
@@ -145,12 +140,9 @@ bool InputManager::handleAppActionKeyInput(EmuApp& app, InputAction action, cons
 			if(!isPushed)
 				break;
 			system.incStateSlot();
-			app.postMessage(1, false,
-				std::format(
-					UI_TEXT("State Slot: {}"),
-					system.stateSlotName()
-				)
-			);
+			app.postMessage(1, false, std::format(
+				UI_TEXT("State Slot: {}"),
+				system.stateSlotName()));
 			return true;
 		}
 		case takeScreenshot:
@@ -186,13 +178,9 @@ bool InputManager::handleAppActionKeyInput(EmuApp& app, InputAction action, cons
 		{
 			if(!isPushed)
 				break;
-			viewController.pushAndShowModal(
-				std::make_unique<YesNoAlertView>(app.attachParams(),
-					UI_TEXT("Really Exit?"),
-					YesNoAlertView::Delegates{.onYes = [&app]{ app.appContext().exit(); }}
-				),
-				srcEvent, false
-			);
+			viewController.pushAndShowModal(std::make_unique<YesNoAlertView>(app.attachParams(),
+				UI_TEXT("Really Exit?"),
+				YesNoAlertView::Delegates{.onYes = [&app]{ app.appContext().exit(); }}), srcEvent, false);
 			break;
 		}
 		case slowMotion:
@@ -485,7 +473,7 @@ std::string InputManager::toString(KeyInfo k) const
 	std::string s{toString(k.codes[0], k.flags)};
 	for(const auto &c : k.codes | std::ranges::views::drop(1))
 	{
-		s += " + ";
+		s += UI_TEXT(" + ");
 		s += toString(c, k.flags);
 	}
 	if(k.flags.turbo && k.flags.toggle)

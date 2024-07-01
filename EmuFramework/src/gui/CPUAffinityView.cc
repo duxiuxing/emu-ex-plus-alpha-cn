@@ -25,25 +25,21 @@ CPUAffinityView::CPUAffinityView(ViewAttachParams attach, int cpuCount):
 	TableView
 	{
 		UI_TEXT("Configure CPU Affinity"),
-		attach,
-		menuItems
+		attach, menuItems
 	},
 	affinityModeItems
 	{
 		{
 			UI_TEXT("Auto (Use only performance cores or hints for low latency)"),
-			attach,
-			{.id = CPUAffinityMode::Auto}
+			attach, {.id = CPUAffinityMode::Auto}
 		},
 		{
 			UI_TEXT("Any (Use any core even if it increases latency)"),
-			attach,
-			{.id = CPUAffinityMode::Any}
+			attach, {.id = CPUAffinityMode::Any}
 		},
 		{
 			UI_TEXT("Manual (Use cores set in previous menu)"),
-			attach,
-			{.id = CPUAffinityMode::Manual}
+			attach, {.id = CPUAffinityMode::Manual}
 		},
 	},
 	affinityMode
@@ -76,8 +72,10 @@ CPUAffinityView::CPUAffinityView(ViewAttachParams attach, int cpuCount):
 			{
 				auto freq = appContext().maxCPUFrequencyKHz(i);
 				if(!freq)
-					return std::format(UI_TEXT("{} (Offline)"), i);
-				return std::format("{} ({}MHz)", i, freq / 1000);
+					return std::format(
+						UI_TEXT("{} (Offline)"),
+						i);
+				return std::format(UI_TEXT("{} ({}MHz)"）, i, freq / 1000);
 			}(),
 			attach, app().cpuAffinity(i),
 			[this, i](BoolMenuItem &item) { app().setCPUAffinity(i, item.flipBoolValue(*this)); });

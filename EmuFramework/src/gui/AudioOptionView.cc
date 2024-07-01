@@ -26,8 +26,7 @@ AudioOptionView::AudioOptionView(ViewAttachParams attach, EmuAudio& audio_, bool
 	TableView
 	{
 		UI_TEXT("Audio Options"),
-		attach,
-		item
+		attach, item
 	},
 	audio{audio_},
 	snd
@@ -52,16 +51,15 @@ AudioOptionView::AudioOptionView(ViewAttachParams attach, EmuAudio& audio_, bool
 	},
 	soundVolumeItem
 	{
-		{"100%", attach, {.id = 100}},
-		{"50%",  attach, {.id = 50}},
-		{"25%",  attach, {.id = 25}},
+		{UI_TEXT("100%"), attach, {.id = 100}},
+		{UI_TEXT("50%"),  attach, {.id = 50}},
+		{UI_TEXT("25%"),  attach, {.id = 25}},
 		{
 			UI_TEXT("Custom Value"),
 			attach,
 			[this](const Input::Event &e)
 			{
-				pushAndShowNewCollectValueRangeInputView<int, 0, 125>(
-					attachParams(), e,
+				pushAndShowNewCollectValueRangeInputView<int, 0, 125>(attachParams(), e,
 					UI_TEXT("Input 0 to 125"),
 					"",
 					[this](CollectTextInputView &, auto val)
@@ -92,13 +90,13 @@ AudioOptionView::AudioOptionView(ViewAttachParams attach, EmuAudio& audio_, bool
 	},
 	soundBuffersItem
 	{
-		{"1", attach, {.id = 1}},
-		{"2", attach, {.id = 2}},
-		{"3", attach, {.id = 3}},
-		{"4", attach, {.id = 4}},
-		{"5", attach, {.id = 5}},
-		{"6", attach, {.id = 6}},
-		{"7", attach, {.id = 7}},
+		{UI_TEXT("1"), attach, {.id = 1}},
+		{UI_TEXT("2"), attach, {.id = 2}},
+		{UI_TEXT("3"), attach, {.id = 3}},
+		{UI_TEXT("4"), attach, {.id = 4}},
+		{UI_TEXT("5"), attach, {.id = 5}},
+		{UI_TEXT("6"), attach, {.id = 6}},
+		{UI_TEXT("7"), attach, {.id = 7}},
 	},
 	soundBuffers
 	{
@@ -136,11 +134,11 @@ AudioOptionView::AudioOptionView(ViewAttachParams attach, EmuAudio& audio_, bool
 					return false;
 				});
 			auto setRateDel = [this](TextMenuItem &item) { audio.setRate(item.id); };
-			items.emplace_back("22KHz", attach, setRateDel, MenuItem::Config{.id = 22050});
-			items.emplace_back("32KHz", attach, setRateDel, MenuItem::Config{.id = 32000});
-			items.emplace_back("44KHz", attach, setRateDel, MenuItem::Config{.id = 44100});
+			items.emplace_back(UI_TEXT("22KHz"), attach, setRateDel, MenuItem::Config{.id = 22050});
+			items.emplace_back(UI_TEXT("32KHz"), attach, setRateDel, MenuItem::Config{.id = 32000});
+			items.emplace_back(UI_TEXT("44KHz"), attach, setRateDel, MenuItem::Config{.id = 44100});
 			if(audio.maxRate() >= 48000)
-				items.emplace_back("48KHz", attach, setRateDel, MenuItem::Config{.id = 48000});
+				items.emplace_back(UI_TEXT("48KHz"), attach, setRateDel, MenuItem::Config{.id = 48000});
 			return items;
 		}()
 	},
