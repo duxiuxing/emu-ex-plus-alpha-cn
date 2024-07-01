@@ -108,24 +108,21 @@ inline auto cheatsMenuName(IG::ApplicationContext ctx, std::string_view userPath
 {
 	return std::format(
 		UI_TEXT("金手指文件夹：{}"),
-		std::string_view{userPathToDisplayName(ctx, userPath)}
-	);
+		std::string_view{userPathToDisplayName(ctx, userPath)});
 }
 
 inline auto patchesMenuName(IG::ApplicationContext ctx, std::string_view userPath)
 {
 	return std::format(
 		UI_TEXT("补丁文件夹：{}"),
-		std::string_view{userPathToDisplayName(ctx, userPath)}
-	);
+		std::string_view{userPathToDisplayName(ctx, userPath)});
 }
 
 inline auto palettesMenuName(IG::ApplicationContext ctx, std::string_view userPath)
 {
 	return std::format(
 		UI_TEXT("调色板文件夹：{}"),
-		std::string_view{userPathToDisplayName(ctx, userPath)}
-	);
+		std::string_view{userPathToDisplayName(ctx, userPath)});
 }
 
 }
