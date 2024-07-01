@@ -27,8 +27,18 @@ constexpr std::array snapPxSizes{0, 2, 4, 8, 16, 32, 64};
 
 PlaceVControlsView::PlaceVControlsView(ViewAttachParams attach, VController &vController_):
 	View{attach},
-	exitText{attach.rendererTask, "Exit", &defaultFace()},
-	snapText{attach.rendererTask, "Snap: 0px", &defaultFace()},
+	exitText
+	{
+		attach.rendererTask,
+		UI_TEXT("Exit"),
+		&defaultFace()
+	},
+	snapText
+	{
+		attach.rendererTask,
+		UI_TEXT("Snap: 0px"),
+		&defaultFace()
+	},
 	vController{vController_},
 	gridIdxs{attach.rendererTask, 2, 2},
 	quads{attach.rendererTask, {.size = 4}, gridIdxs}
@@ -163,7 +173,9 @@ bool PlaceVControlsView::inputEvent(const Input::Event& e, ViewInputEventParams)
 					else if(snapBtnRect.overlaps(state.pos()) && snapBtnRect.overlaps(state.downPos()))
 					{
 						snapPxIdx = (snapPxIdx + 1) % snapPxSizes.size();
-						snapText.resetString(std::format("Snap: {}px", snapPxSizes[snapPxIdx]));
+						snapText.resetString(std::format(
+							UI_TEXT("Snap: {}px"),
+							snapPxSizes[snapPxIdx]));
 						place();
 						postDraw();
 					}
