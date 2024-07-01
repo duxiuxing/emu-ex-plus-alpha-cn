@@ -973,7 +973,7 @@ void EmuApp::unpostMessage()
 void EmuApp::printScreenshotResult(bool success)
 {
 	postMessage(3, !success, std::format(
-		UI_TEX("{}{}"),
+		UI_TEXT("{}{}"),
 		success
 			? UI_TEXT("保存截图成功：")
 			: UI_TEXT("保存截图时出错："),
