@@ -39,7 +39,7 @@ namespace EmuEx
 constexpr SystemLogger log{"InputManagerView"};
 static const char *confirmDeleteDeviceSettingsStr =
 	UI_TEXT("是否要删除当前的设备设置？使用中的按键配置会被保留");
-static const char* confirmDeleteProfileStr =
+static const char *confirmDeleteProfileStr =
 	UI_TEXT("是否要删除当前的按键配置？使用它的设备将恢复默认的按键配置");
 
 IdentInputDeviceView::IdentInputDeviceView(ViewAttachParams attach):
