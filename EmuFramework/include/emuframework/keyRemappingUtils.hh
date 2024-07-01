@@ -182,22 +182,62 @@ constexpr std::span<const KeyConfigDesc> genericKeyConfigs()
 		},
 		#endif
 		#if defined(__ANDROID__) && __ARM_ARCH == 7
-		KeyConfigDesc{Map::SYSTEM, DeviceSubtype::XPERIA_PLAY, "Xperia Play", xperiaPlayGamepadMap},
+		KeyConfigDesc
+		{
+			Map::SYSTEM, DeviceSubtype::XPERIA_PLAY,
+			UI_TEXT("Xperia Play"),
+			xperiaPlayGamepadMap
+		},
 		#endif
 		#ifdef CONFIG_MACHINE_PANDORA
-		KeyConfigDesc{Map::SYSTEM, DeviceSubtype::PANDORA_HANDHELD, "Pandora Keys", pandoraKeysMap},
+		KeyConfigDesc
+		{
+			Map::SYSTEM, DeviceSubtype::PANDORA_HANDHELD,
+			UI_TEXT("Pandora Keys"),
+			pandoraKeysMap
+		},
 		#endif
 		#ifdef CONFIG_INPUT_APPLE_GAME_CONTROLLER
-		KeyConfigDesc{Map::APPLE_GAME_CONTROLLER, "Default", appleGamepadMap},
+		KeyConfigDesc
+		{
+			Map::APPLE_GAME_CONTROLLER,
+			UI_TEXT("Default"),
+			appleGamepadMap
+		},
 		#endif
 		#ifdef CONFIG_INPUT_BLUETOOTH
-		KeyConfigDesc{Map::WIIMOTE, "Default", wiimoteMap},
-		KeyConfigDesc{Map::WII_CC, "Default", genericGamepadMap},
-		KeyConfigDesc{Map::ICONTROLPAD, "Default", genericGamepadMap},
-		KeyConfigDesc{Map::ZEEMOTE, "Default", wiimoteMap},
+		KeyConfigDesc
+		{
+			Map::WIIMOTE,
+			UI_TEXT("Default"),
+			wiimoteMap
+		},
+		KeyConfigDesc
+		{
+			Map::WII_CC,
+			UI_TEXT("Default"),
+			genericGamepadMap
+		},
+		KeyConfigDesc
+		{
+			Map::ICONTROLPAD,
+			UI_TEXT("Default"),
+			genericGamepadMap
+		},
+		KeyConfigDesc
+		{
+			Map::ZEEMOTE,
+			UI_TEXT("Default"),
+			wiimoteMap
+		},
 		#endif
 		#ifdef CONFIG_BLUETOOTH_SERVER
-		KeyConfigDesc{Map::PS3PAD, "Default", genericGamepadMap},
+		KeyConfigDesc
+		{
+			Map::PS3PAD,
+			UI_TEXT("Default"),
+			genericGamepadMap
+		},
 		#endif
 	};
 	return configs;

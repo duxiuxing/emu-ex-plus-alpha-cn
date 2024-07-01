@@ -72,7 +72,8 @@ public:
 			[this](const Input::Event &e)
 			{
 				pushAndShowNewCollectValueInputView<const char*>(attachParams(), e,
-					"Input description", static_cast<CheatViewImpl*>(this)->cheatNameString(),
+					UI_TEXT("Input description"),
+					static_cast<CheatViewImpl*>(this)->cheatNameString(),
 					[this](CollectTextInputView&, auto str)
 					{
 						name.compile(str);
@@ -85,7 +86,8 @@ public:
 		},
 		remove
 		{
-			"Delete Cheat", attach,
+			UI_TEXT("Delete Cheat"),
+			attach,
 			removed
 		},
 		onCheatListChanged_{onCheatListChanged_} {}

@@ -75,7 +75,9 @@ public:
 		},
 		selectFile
 		{
-			mode == DataPathSelectMode::File ? UI_TEXT("Select File") : UI_TEXT("Select Archive File"),
+			mode == DataPathSelectMode::File
+				? UI_TEXT("Select File")
+				: UI_TEXT("Select Archive File"),
 			attach,
 			[=](View &view, const Input::Event &e)
 			{
@@ -88,7 +90,9 @@ public:
 					{
 						if(mode == DataPathSelectMode::Folder && !EmuApp::hasArchiveExtension(displayName))
 						{
-							picker.applicationAs<EmuApp>().postErrorMessage(UI_TEXT("File doesn't have a valid extension"));
+							picker.applicationAs<EmuApp>().postErrorMessage(
+								UI_TEXT("File doesn't have a valid extension")
+							);
 							return;
 						}
 						if(!onFileChange(path, FS::file_type::regular))
