@@ -191,7 +191,6 @@ GUIOptionView::GUIOptionView(ViewAttachParams attach, bool customMenu):
 	},
 	idleDisplayPowerSave
 	{
-		// UI_TEXT("Allow Screen Timeout In Emulation"),
 		UI_TEXT("允许屏幕超时休眠"),
 		attach,
 		app().idleDisplayPowerSave,
