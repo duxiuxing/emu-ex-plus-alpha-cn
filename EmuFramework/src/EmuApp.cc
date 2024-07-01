@@ -138,21 +138,15 @@ public:
 	{
 		item.emplace_back(
 			UI_TEXT("Yes"),
-			attach,
-			[this](){ appContext().exit(); }
-		);
+			attach,	[this](){ appContext().exit(); });
 		item.emplace_back(
 			UI_TEXT("No"),
-			attach,
-			[](){}
-		);
+			attach,	[](){});
 		if(hasEmuContent)
 		{
 			item.emplace_back(
 				UI_TEXT("Close Menu"),
-				attach,
-				[this](){ app().showEmulation(); }
-			);
+				attach,	[this](){ app().showEmulation(); });
 		}
 	}
 
@@ -432,7 +426,9 @@ void EmuApp::mainInitCommon(IG::ApplicationInitParams initParams, IG::Applicatio
 				suspendEmulation(*this);
 				if(showsNotificationIcon)
 				{
-					auto title = std::format("{} was suspended", ctx.applicationName);
+					auto title = std::format(
+						UI_TEXT("{} was suspended"),
+						ctx.applicationName);
 					ctx.addNotification(title, title, system().contentDisplayName());
 				}
 			}
@@ -576,11 +572,20 @@ void EmuApp::mainInitCommon(IG::ApplicationInitParams initParams, IG::Applicatio
 						inputManager.updateInputDevices(ctx);
 						if(notifyOnInputDeviceChange && (e.change == Input::DeviceChange::added || e.change == Input::DeviceChange::removed))
 						{
-							postMessage(2, 0, std::format("{} {}", inputDevData(e.device).displayName, e.change == Input::DeviceChange::added ? "connected" : "disconnected"));
+							postMessage(2, 0,
+								std::format(
+									UI_TEXT("{} {}"),
+									inputDevData(e.device).displayName,
+									e.change == Input::DeviceChange::added
+										? UI_TEXT("connected")
+										: UI_TEXT("disconnected")
+								));
 						}
 						else if(e.change == Input::DeviceChange::connectError)
 						{
-							postMessage(2, 1, std::format("{} had a connection error", e.device.name()));
+							postMessage(2, 1, std::format(
+								UI_TEXT("{} had a connection error"),
+								e.device.name()));
 						}
 						viewController().onInputDevicesChanged();
 					},
@@ -795,7 +800,9 @@ void EmuApp::handleOpenFileCommand(CStringView path)
 	auto name = appContext().fileUriDisplayName(path);
 	if(name.empty())
 	{
-		postErrorMessage(std::format("Can't access path name for:\n{}", path));
+		postErrorMessage(std::format(
+			UI_TEXT("Can't access path name for:\n{}"),
+			path));
 		return;
 	}
 	if(appContext().fileUriType(path) == FS::file_type::directory)
@@ -935,9 +942,9 @@ void EmuApp::onSystemCreated()
 	updateVideoContentRotation();
 	if(!rewindManager.reset(system().stateSize()))
 	{
-		postErrorMessage(
-			4,
-			UI_TEXT("Not enough memory for rewind states"));
+		postErrorMessage(4,
+			UI_TEXT("Not enough memory for rewind states")
+		);
 	}
 	viewController().onSystemCreated();
 }
@@ -965,8 +972,11 @@ void EmuApp::unpostMessage()
 
 void EmuApp::printScreenshotResult(bool success)
 {
-	postMessage(3, !success, std::format("{}{}",
-		success ? UI_TEXT("Wrote screenshot at ") : UI_TEXT("Error writing screenshot at "),
+	postMessage(3, !success, std::format(
+		UI_TEXT("{}{}"),
+		success
+			? UI_TEXT("Wrote screenshot at ")
+			: UI_TEXT("Error writing screenshot at "),
 		appContext().formatDateAndTime(WallClock::now())));
 }
 
@@ -977,7 +987,9 @@ void EmuApp::createSystemWithMedia(IO io, CStringView path, std::string_view dis
 	assert(strlen(path));
 	if(!EmuApp::hasArchiveExtension(displayName) && !EmuSystem::defaultFsFilter(displayName))
 	{
-		postErrorMessage("File doesn't have a valid extension");
+		postErrorMessage(
+			UI_TEXT("File doesn't have a valid extension")
+		);
 		return;
 	}
 	if(!EmuApp::willCreateSystem(attachParams, e))
@@ -1047,7 +1059,9 @@ void EmuApp::setupStaticBackupMemoryFile(FileIO &io, std::string_view ext, size_
 		return;
 	io = system().openStaticBackupMemoryFile(system().contentSaveFilePath(ext), size, initValue);
 	if(!io) [[unlikely]]
-		throw std::runtime_error(std::format("Error opening {}, please verify save path has write access", system().contentNameExt(ext)));
+		throw std::runtime_error(std::format(
+			UI_TEXT("Error opening {}, please verify save path has write access"),
+			system().contentNameExt(ext)));
 }
 
 void EmuApp::readState(std::span<uint8_t> buff)
@@ -1074,7 +1088,9 @@ bool EmuApp::saveState(CStringView path)
 {
 	if(!system().hasContent())
 	{
-		postErrorMessage(UI_TEXT("System not running"));
+		postErrorMessage(
+			UI_TEXT("System not running")
+		);
 		return false;
 	}
 	syncEmulationThread();
@@ -1086,11 +1102,9 @@ bool EmuApp::saveState(CStringView path)
 	}
 	catch(std::exception &err)
 	{
-		postErrorMessage(
-			4,
-			std::format(
-				UI_TEXT("Can't save state:\n{}"),
-				err.what()));
+		postErrorMessage(4,	std::format(
+			UI_TEXT("Can't save state:\n{}"),
+			err.what()));
 		return false;
 	}
 }
@@ -1104,7 +1118,9 @@ bool EmuApp::loadState(CStringView path)
 {
 	if(!system().hasContent()) [[unlikely]]
 	{
-		postErrorMessage(UI_TEXT("System not running"));
+		postErrorMessage(
+			UI_TEXT("System not running")
+		);
 		return false;
 	}
 	log.info("loading state {}", path);
@@ -1118,15 +1134,13 @@ bool EmuApp::loadState(CStringView path)
 	catch(std::exception &err)
 	{
 		if(system().hasContent() && !hasWriteAccessToDir(system().contentSaveDirectory()))
-			postErrorMessage(
-				8,
-				UI_TEXT("Save folder inaccessible, please set it in Options➔File Paths➔Saves"));
+			postErrorMessage(8,
+				UI_TEXT("Save folder inaccessible, please set it in Options➔File Paths➔Saves")
+			);
 		else
-			postErrorMessage(
-				4,
-				std::format(
-					UI_TEXT("Can't load state:\n{}"),
-					err.what()));
+			postErrorMessage(4,	std::format(
+				UI_TEXT("Can't load state:\n{}"),
+				err.what()));
 		return false;
 	}
 }
@@ -1161,8 +1175,7 @@ FS::PathString EmuApp::validSearchPath(const FS::PathString &path) const
 
 std::unique_ptr<YesNoAlertView> EmuApp::makeCloseContentView()
 {
-	return std::make_unique<YesNoAlertView>(
-		attachParams(),
+	return std::make_unique<YesNoAlertView>(attachParams(),
 		UI_TEXT("Really close current content?"),
 		YesNoAlertView::Delegates
 		{
