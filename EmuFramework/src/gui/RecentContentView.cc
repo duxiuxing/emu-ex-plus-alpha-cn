@@ -42,19 +42,16 @@ RecentContentView::RecentContentView(ViewAttachParams attach, RecentContent &rec
 		attach,
 		[this](const Input::Event &e)
 		{
-			pushAndShowModal(
-				makeView<YesNoAlertView>(
-					UI_TEXT("Really clear the list?"),
-					YesNoAlertView::Delegates
+			pushAndShowModal(makeView<YesNoAlertView>(
+				UI_TEXT("Really clear the list?"),
+				YesNoAlertView::Delegates
+				{
+					.onYes = [this]
 					{
-						.onYes = [this]
-						{
-							recentContent.clear();
-							dismiss();
-						}
+						recentContent.clear();
+						dismiss();
 					}
-				), e
-			);
+				}), e);
 		}
 	},
 	recentContent{recentContent_}

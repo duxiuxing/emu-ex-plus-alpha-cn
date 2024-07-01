@@ -51,11 +51,14 @@ static void onScanStatus(EmuApp &app, BluetoothScanState status, int arg);
 template <class ViewT>
 static void handledFailedBTAdapterInit(ViewT &view, ViewAttachParams attach, const Input::Event &e)
 {
-	view.app().postErrorMessage("Unable to initialize Bluetooth adapter");
+	view.app().postErrorMessage(
+		UI_TEXT("Unable to initialize Bluetooth adapter")
+	);
 	#ifdef CONFIG_BLUETOOTH_BTSTACK
 	if(!FS::exists("/var/lib/dpkg/info/ch.ringwald.btstack.list"))
 	{
-		view.pushAndShowModal(std::make_unique<YesNoAlertView>(attach, "BTstack not found, open Cydia and install?",
+		view.pushAndShowModal(std::make_unique<YesNoAlertView>(attach,
+			UI_TEXT("BTstack not found, open Cydia and install?"),
 			YesNoAlertView::Delegates
 			{
 				.onYes = [](View &v){ v.appContext().openURL("cydia://package/ch.ringwald.btstack"); }
@@ -158,11 +161,15 @@ MainMenuView::MainMenuView(ViewAttachParams attach, bool customMenu):
 						onScanStatus(app(), status, arg);
 					}))
 				{
-					app().postMessage(4, false, UI_TEXT("Starting Scan...\n(see website for device-specific help)"));
+					app().postMessage(4, false,
+						UI_TEXT("Starting Scan...\n(see website for device-specific help)")
+					);
 				}
 				else
 				{
-					app().postMessage(1, false, UI_TEXT("Still scanning"));
+					app().postMessage(1, false,
+						UI_TEXT("Still scanning")
+					);
 				}
 			}
 			else
@@ -181,13 +188,10 @@ MainMenuView::MainMenuView(ViewAttachParams attach, bool customMenu):
 			auto devConnected = Bluetooth::devsConnected(appContext());
 			if(devConnected)
 			{
-				pushAndShowModal(
-					makeView<YesNoAlertView>(
-						std::format(
-							UI_TEXT("Really disconnect {} Bluetooth device(s)?"),
-							devConnected),
-						YesNoAlertView::Delegates{.onYes = [this]{ app().closeBluetoothConnections(); }}),
-					e);
+				pushAndShowModal(makeView<YesNoAlertView>(std::format(
+					UI_TEXT("Really disconnect {} Bluetooth device(s)?"),
+					devConnected),
+					YesNoAlertView::Delegates{.onYes = [this]{ app().closeBluetoothConnections(); }}), e);
 			}
 		}
 	},
@@ -200,7 +204,9 @@ MainMenuView::MainMenuView(ViewAttachParams attach, bool customMenu):
 			app().bluetoothAdapter.openDefault();
 			if(app().bluetoothAdapter.isOpen())
 			{
-				app().postMessage(4, UI_TEXT("Prepare to push the PS button"));
+				app().postMessage(4,
+					UI_TEXT("Prepare to push the PS button")
+				);
 				auto startedScan = Bluetooth::listenForDevices(appContext(), app().bluetoothAdapter,
 					[this](BluetoothAdapter &bta, BluetoothScanState status, int arg)
 					{
@@ -216,7 +222,9 @@ MainMenuView::MainMenuView(ViewAttachParams attach, bool customMenu):
 							}
 							case BluetoothScanState::Complete:
 							{
-								app().postMessage(4, UI_TEXT("Push the PS button on your controller\n(see website for pairing help)"));
+								app().postMessage(4,
+									UI_TEXT("Push the PS button on your controller\n(see website for pairing help)")
+								);
 								break;
 							}
 							default: onScanStatus(app(), status, arg);
@@ -224,7 +232,9 @@ MainMenuView::MainMenuView(ViewAttachParams attach, bool customMenu):
 					});
 				if(!startedScan)
 				{
-					app().postMessage(1, UI_TEXT("Still scanning"));
+					app().postMessage(1,
+						UI_TEXT("Still scanning")
+					);
 				}
 			}
 			else
@@ -267,28 +277,38 @@ static void onScanStatus(EmuApp &app, BluetoothScanState status, int arg)
 		{
 			if(Config::envIsIOS)
 			{
-				app.postErrorMessage(UI_TEXT("BTstack power on failed, make sure the iOS Bluetooth stack is not active"));
+				app.postErrorMessage(
+					UI_TEXT("BTstack power on failed, make sure the iOS Bluetooth stack is not active")
+				);
 			}
 			break;
 		}
 		case BluetoothScanState::Failed:
 		{
-			app.postErrorMessage(UI_TEXT("Scan failed"));
+			app.postErrorMessage(
+				UI_TEXT("Scan failed")
+			);
 			break;
 		}
 		case BluetoothScanState::NoDevs:
 		{
-			app.postMessage(UI_TEXT("No devices found"));
+			app.postMessage(
+				UI_TEXT("No devices found")
+			);
 			break;
 		}
 		case BluetoothScanState::Processing:
 		{
-			app.postMessage(2, 0, std::format(UI_TEXT("Checking {} device(s)..."), arg));
+			app.postMessage(2, 0, std::format(
+				UI_TEXT("Checking {} device(s)..."),
+				arg));
 			break;
 		}
 		case BluetoothScanState::NameFailed:
 		{
-			app.postErrorMessage(UI_TEXT("Failed reading a device name"));
+			app.postErrorMessage(
+				UI_TEXT("Failed reading a device name")
+			);
 			break;
 		}
 		case BluetoothScanState::Complete:
@@ -296,12 +316,16 @@ static void onScanStatus(EmuApp &app, BluetoothScanState status, int arg)
 			int devs = Bluetooth::pendingDevs();
 			if(devs)
 			{
-				app.postMessage(2, 0, std::format(UI_TEXT("Connecting to {} device(s)..."), devs));
+				app.postMessage(2, 0, std::format(
+					UI_TEXT("Connecting to {} device(s)..."),
+					devs));
 				Bluetooth::connectPendingDevs(app.bluetoothAdapter);
 			}
 			else
 			{
-				app.postMessage(UI_TEXT("Scan complete, no recognized devices"));
+				app.postMessage(
+					UI_TEXT("Scan complete, no recognized devices")
+				);
 			}
 			break;
 		}

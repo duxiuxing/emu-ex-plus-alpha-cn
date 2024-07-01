@@ -50,8 +50,7 @@ public:
 			TextMenuItem
 			{
 				UI_TEXT("Cancel"),
-				attach,
-				[](){}
+				attach, [](){}
 			}
 		} {}
 
@@ -63,15 +62,13 @@ inline std::unique_ptr<View> resetAlertView(ViewAttachParams attachParams, EmuAp
 {
 	if(EmuSystem::hasResetModes)
 	{
-		return std::make_unique<ResetAlertView>(
-			attachParams,
+		return std::make_unique<ResetAlertView>(attachParams,
 			UI_TEXT("Really reset?"),
 			app);
 	}
 	else
 	{
-		return std::make_unique<YesNoAlertView>(
-			attachParams,
+		return std::make_unique<YesNoAlertView>(attachParams,
 			UI_TEXT("Really reset?"),
 			YesNoAlertView::Delegates
 			{

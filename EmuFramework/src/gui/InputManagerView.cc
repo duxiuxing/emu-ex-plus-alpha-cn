@@ -37,8 +37,10 @@ namespace EmuEx
 {
 
 constexpr SystemLogger log{"InputManagerView"};
-static const char *confirmDeleteDeviceSettingsStr = "Delete device settings from the configuration file? Any key profiles in use are kept";
-static const char *confirmDeleteProfileStr = "Delete profile from the configuration file? Devices using it will revert to their default profile";
+static const char *confirmDeleteDeviceSettingsStr =
+	UI_TEXT("Delete device settings from the configuration file? Any key profiles in use are kept");
+static const char *confirmDeleteProfileStr =
+	UI_TEXT("Delete profile from the configuration file? Devices using it will revert to their default profile");
 
 IdentInputDeviceView::IdentInputDeviceView(ViewAttachParams attach):
 	View(attach),
@@ -112,7 +114,9 @@ InputManagerView::InputManagerView(ViewAttachParams attach,
 			auto &savedInputDevs = inputManager.savedInputDevs;
 			if(!savedInputDevs.size())
 			{
-				app().postMessage(UI_TEXT("No saved device settings"));
+				app().postMessage(
+					UI_TEXT("No saved device settings")
+				);
 				return;
 			}
 			auto multiChoiceView = makeViewWithName<TextTableView>(item, savedInputDevs.size());
@@ -157,7 +161,9 @@ InputManagerView::InputManagerView(ViewAttachParams attach,
 			auto &customKeyConfigs = inputManager.customKeyConfigs;
 			if(!customKeyConfigs.size())
 			{
-				app().postMessage(UI_TEXT("No saved profiles"));
+				app().postMessage(
+					UI_TEXT("No saved profiles")
+				);
 				return;
 			}
 			auto multiChoiceView = makeViewWithName<TextTableView>(item, customKeyConfigs.size());
@@ -195,7 +201,9 @@ InputManagerView::InputManagerView(ViewAttachParams attach,
 				if(e->map() == Input::Map::SYSTEM)
 					devices++;
 			}
-			app().postMessage(2, false, std::format(UI_TEXT("{} OS devices present"), devices));
+			app().postMessage(2, false, std::format(
+				UI_TEXT("{} OS devices present"),
+				devices));
 		}
 	},
 	identDevice
@@ -313,10 +321,10 @@ InputManagerOptionsView::InputManagerOptionsView(ViewAttachParams attach, EmuInp
 		{
 			if(!app().mogaManagerIsActive() && !appContext().packageIsInstalled("com.bda.pivot.mogapgp"))
 			{
-				app().postMessage(
-					8,
+				app().postMessage(8,
 					UI_TEXT("Install the MOGA Pivot app from Google Play to use your MOGA Pocket. ")
-					UI_TEXT("For MOGA Pro or newer, set switch to mode B and pair in the Android Bluetooth settings app instead."));
+					UI_TEXT("For MOGA Pro or newer, set switch to mode B and pair in the Android Bluetooth settings app instead.")
+				);
 				return;
 			}
 			app().setMogaManagerActive(item.flipBoolValue(*this), true);
@@ -486,10 +494,11 @@ InputManagerDeviceView::InputManagerDeviceView(UTF16String name, ViewAttachParam
 		[&]
 		{
 			DynArray<TextMenuItem> items{EmuSystem::maxPlayers + 1uz};
-			items[0] = {
-				UI_TEXT("Multiple"),
-				attach, {.id = InputDeviceConfig::PLAYER_MULTI}
-			};
+			items[0] =
+				{
+					UI_TEXT("Multiple"),
+					attach, {.id = InputDeviceConfig::PLAYER_MULTI}
+				};
 			for(auto i : iotaCount(EmuSystem::maxPlayers))
 			{
 				items[i + 1] = {playerNumStrings[i], attach, {.id = i}};
@@ -547,15 +556,21 @@ InputManagerDeviceView::InputManagerDeviceView(UTF16String name, ViewAttachParam
 		{
 			if(!devConf.mutableKeyConf(inputManager))
 			{
-				app().postMessage(2, UI_TEXT("Can't rename a built-in profile"));
+				app().postMessage(2,
+					UI_TEXT("Can't rename a built-in profile")
+				);
 				return;
 			}
-			pushAndShowNewCollectValueInputView<const char*>(attachParams(), e, "Input name", devConf.keyConf(inputManager).name,
+			pushAndShowNewCollectValueInputView<const char*>(attachParams(), e,
+				UI_TEXT("Input name"),
+				devConf.keyConf(inputManager).name,
 				[this](CollectTextInputView &, auto str)
 				{
 					if(customKeyConfigsContainName(inputManager.customKeyConfigs, str))
 					{
-						app().postErrorMessage(UI_TEXT("Another profile is already using this name"));
+						app().postErrorMessage(
+							UI_TEXT("Another profile is already using this name")
+						);
 						postDraw();
 						return false;
 					}
@@ -578,15 +593,16 @@ InputManagerDeviceView::InputManagerDeviceView(UTF16String name, ViewAttachParam
 				{
 					.onYes = [this](const Input::Event &e)
 					{
-						pushAndShowNewCollectValueInputView<const char*>(
-							attachParams(), e,
+						pushAndShowNewCollectValueInputView<const char*>(attachParams(), e,
 							UI_TEXT("Input name"),
 							"",
 							[this](CollectTextInputView &, auto str)
 							{
 								if(customKeyConfigsContainName(inputManager.customKeyConfigs, str))
 								{
-									app().postErrorMessage(UI_TEXT("Another profile is already using this name"));
+									app().postErrorMessage(
+										UI_TEXT("Another profile is already using this name")
+									);
 									return false;
 								}
 								devConf.setKeyConfCopiedFromExisting(inputManager, str);
@@ -607,7 +623,9 @@ InputManagerDeviceView::InputManagerDeviceView(UTF16String name, ViewAttachParam
 		{
 			if(!devConf.mutableKeyConf(inputManager))
 			{
-				app().postMessage(2, UI_TEXT("Can't delete a built-in profile"));
+				app().postMessage(2,
+					UI_TEXT("Can't delete a built-in profile")
+				);
 				return;
 			}
 			pushAndShowModal(makeView<YesNoAlertView>(confirmDeleteProfileStr,
@@ -641,13 +659,11 @@ InputManagerDeviceView::InputManagerDeviceView(UTF16String name, ViewAttachParam
 			{
 				if(!item.boolValue())
 				{
-					pushAndShowModal(
-						makeView<YesNoAlertView>(
-							UI_TEXT("This mode allows input from an iCade-compatible Bluetooth device, don't enable if this isn't an iCade"),
-							UI_TEXT("Enable"),
-							UI_TEXT("Cancel"),
-							YesNoAlertView::Delegates{.onYes = [this]{ confirmICadeMode(); }}),
-						e);
+					pushAndShowModal(makeView<YesNoAlertView>(
+						UI_TEXT("This mode allows input from an iCade-compatible Bluetooth device, don't enable if this isn't an iCade"),
+						UI_TEXT("Enable"),
+						UI_TEXT("Cancel"),
+						YesNoAlertView::Delegates{.onYes = [this]{ confirmICadeMode(); }}), e);
 				}
 				else
 					confirmICadeMode();
@@ -737,10 +753,9 @@ InputManagerDeviceView::InputManagerDeviceView(UTF16String name, ViewAttachParam
 	},
 	devConf{inputDevData(dev).devConf}
 {
-	loadProfile.setName(
-		std::format(
-			UI_TEXT("Profile: {}"),
-			devConf.keyConf(inputManager).name));
+	loadProfile.setName(std::format(
+		UI_TEXT("Profile: {}"),
+		devConf.keyConf(inputManager).name));
 	renameProfile.setActive(devConf.mutableKeyConf(inputManager));
 	deleteProfile.setActive(devConf.mutableKeyConf(inputManager));
 	loadItems();
@@ -810,10 +825,9 @@ void InputManagerDeviceView::loadItems()
 void InputManagerDeviceView::onShow()
 {
 	TableView::onShow();
-	loadProfile.compile(
-		std::format(
-			UI_TEXT("Profile: {}"),
-			devConf.keyConf(inputManager).name));
+	loadProfile.compile(std::format(
+		UI_TEXT("Profile: {}"),
+		devConf.keyConf(inputManager).name));
 	bool keyConfIsMutable = devConf.mutableKeyConf(inputManager);
 	renameProfile.setActive(keyConfIsMutable);
 	deleteProfile.setActive(keyConfIsMutable);

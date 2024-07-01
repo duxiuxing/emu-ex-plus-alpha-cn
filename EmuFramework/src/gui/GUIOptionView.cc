@@ -26,17 +26,24 @@ namespace EmuEx
 {
 
 static constexpr bool USE_MOBILE_ORIENTATION_NAMES = Config::envIsAndroid || Config::envIsIOS;
-static const char *landscapeName = USE_MOBILE_ORIENTATION_NAMES ? UI_TEXT("Landscape") : UI_TEXT("90° Left");
-static const char *landscape2Name = USE_MOBILE_ORIENTATION_NAMES ? UI_TEXT("Landscape 2") : UI_TEXT("90° Right");
-static const char *portraitName = USE_MOBILE_ORIENTATION_NAMES ? UI_TEXT("Portrait") : UI_TEXT("Standard");
-static const char *portrait2Name = USE_MOBILE_ORIENTATION_NAMES ? UI_TEXT("Portrait 2") : UI_TEXT("Upside Down");
+static const char *landscapeName = USE_MOBILE_ORIENTATION_NAMES
+	? UI_TEXT("Landscape")
+	: UI_TEXT("90° Left");
+static const char *landscape2Name = USE_MOBILE_ORIENTATION_NAMES
+	? UI_TEXT("Landscape 2")
+	: UI_TEXT("90° Right");
+static const char *portraitName = USE_MOBILE_ORIENTATION_NAMES
+	? UI_TEXT("Portrait")
+	: UI_TEXT("Standard");
+static const char *portrait2Name = USE_MOBILE_ORIENTATION_NAMES
+	? UI_TEXT("Portrait 2")
+	: UI_TEXT("Upside Down");
 
 GUIOptionView::GUIOptionView(ViewAttachParams attach, bool customMenu):
 	TableView
 	{
 		UI_TEXT("GUI Options"),
-		attach,
-		item
+		attach, item
 	},
 	pauseUnfocused
 	{
@@ -64,8 +71,7 @@ GUIOptionView::GUIOptionView(ViewAttachParams attach, bool customMenu):
 			attach,
 			[this](const Input::Event &e)
 			{
-				pushAndShowNewCollectValueRangeInputView<float, 2, 10>(
-					attachParams(), e,
+				pushAndShowNewCollectValueRangeInputView<float, 2, 10>(attachParams(), e,
 					UI_TEXT("Input 2.0 to 10.0"),
 					"",
 					[this](CollectTextInputView &, auto val)
@@ -109,18 +115,15 @@ GUIOptionView::GUIOptionView(ViewAttachParams attach, bool customMenu):
 	{
 		{
 			UI_TEXT("Off"),
-			attach,
-			MenuItem::Config{.id = InEmuTristate::Off}
+			attach, MenuItem::Config{.id = InEmuTristate::Off}
 		},
 		{
 			UI_TEXT("In Emu"),
-			attach,
-			MenuItem::Config{.id = InEmuTristate::InEmu}
+			attach, MenuItem::Config{.id = InEmuTristate::InEmu}
 		},
 		{
 			UI_TEXT("On"),
-			attach,
-			MenuItem::Config{.id = InEmuTristate::On}
+			attach, MenuItem::Config{.id = InEmuTristate::On}
 		}
 	},
 	statusBar
@@ -138,18 +141,15 @@ GUIOptionView::GUIOptionView(ViewAttachParams attach, bool customMenu):
 	{
 		{
 			UI_TEXT("Off"),
-			attach,
-			MenuItem::Config{.id = InEmuTristate::Off}
+			attach, MenuItem::Config{.id = InEmuTristate::Off}
 		},
 		{
 			UI_TEXT("In Emu"),
-			attach,
-			MenuItem::Config{.id = InEmuTristate::InEmu}
+			attach, MenuItem::Config{.id = InEmuTristate::InEmu}
 		},
 		{
 			UI_TEXT("On"),
-			attach,
-			MenuItem::Config{.id = InEmuTristate::On}
+			attach, MenuItem::Config{.id = InEmuTristate::On}
 		}
 	},
 	lowProfileOSNav
@@ -167,18 +167,15 @@ GUIOptionView::GUIOptionView(ViewAttachParams attach, bool customMenu):
 	{
 		{
 			UI_TEXT("Off"),
-			attach,
-			MenuItem::Config{.id = InEmuTristate::Off}
+			attach, MenuItem::Config{.id = InEmuTristate::Off}
 		},
 		{
 			UI_TEXT("In Emu"),
-			attach,
-			MenuItem::Config{.id = InEmuTristate::InEmu}
+			attach, MenuItem::Config{.id = InEmuTristate::InEmu}
 		},
 		{
 			UI_TEXT("On"),
-			attach,
-			MenuItem::Config{.id = InEmuTristate::On}
+			attach, MenuItem::Config{.id = InEmuTristate::On}
 		}
 	},
 	hideOSNav
@@ -292,8 +289,7 @@ GUIOptionView::GUIOptionView(ViewAttachParams attach, bool customMenu):
 	{
 		{
 			UI_TEXT("Auto"),
-			attach,
-			{.id = Orientations{}}
+			attach, {.id = Orientations{}}
 		},
 		{landscapeName,  attach, {.id = Orientations{.landscapeRight = 1}}},
 		{landscape2Name, attach, {.id = Orientations{.landscapeLeft = 1}}},
@@ -314,8 +310,7 @@ GUIOptionView::GUIOptionView(ViewAttachParams attach, bool customMenu):
 	{
 		{
 			UI_TEXT("Auto"),
-			attach,
-			{.id = Orientations{}}
+			attach, {.id = Orientations{}}
 		},
 		{landscapeName,  attach, {.id = Orientations{.landscapeRight = 1}}},
 		{landscape2Name, attach, {.id = Orientations{.landscapeLeft = 1}}},
