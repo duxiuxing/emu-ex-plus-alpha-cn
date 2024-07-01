@@ -37,17 +37,16 @@ namespace EmuEx
 {
 
 constexpr SystemLogger log{"InputManagerView"};
-// static const char *confirmDeleteDeviceSettingsStr = UI_TEXT("Delete device settings from the configuration file? Any key profiles in use are kept");
-static const char *confirmDeleteDeviceSettingsStr = UI_TEXT("是否要删除当前的设备设置？使用中的按键配置会被保留");
-// static const char *confirmDeleteProfileStr = UI_TEXT("Delete profile from the configuration file? Devices using it will revert to their default profile");
-static const char* confirmDeleteProfileStr = UI_TEXT("是否要删除当前的按键配置？使用它的设备将恢复默认的按键配置");
+static const char *confirmDeleteDeviceSettingsStr =
+	UI_TEXT("是否要删除当前的设备设置？使用中的按键配置会被保留");
+static const char* confirmDeleteProfileStr =
+	UI_TEXT("是否要删除当前的按键配置？使用它的设备将恢复默认的按键配置");
 
 IdentInputDeviceView::IdentInputDeviceView(ViewAttachParams attach):
 	View(attach),
 	text
 	{
 		attach.rendererTask,
-		// UI_TEXT("Push a key on any input device enter its configuration menu"),
 		UI_TEXT("在输入设备上按任意键即可进入其设置菜单"),
 		&defaultFace()
 	},
@@ -102,14 +101,12 @@ InputManagerView::InputManagerView(ViewAttachParams attach,
 	InputManager &inputManager_):
 	TableView
 	{
-		// UI_TEXT("Key/Gamepad Input Setup"),
 		UI_TEXT("实体控制器设置"),
 		attach, item
 	},
 	inputManager{inputManager_},
 	deleteDeviceConfig
 	{
-		// UI_TEXT("Delete Saved Device Settings"),
 		UI_TEXT("删除设备设置"),
 		attach,
 		[this](TextMenuItem &item, View &, const Input::Event &e)
@@ -117,8 +114,9 @@ InputManagerView::InputManagerView(ViewAttachParams attach,
 			auto &savedInputDevs = inputManager.savedInputDevs;
 			if(!savedInputDevs.size())
 			{
-				// app().postMessage(UI_TEXT("No saved device settings"));
-				app().postMessage(UI_TEXT("无效的设备设置"));
+				app().postMessage(
+					UI_TEXT("无效的设备设置")
+				);
 				return;
 			}
 			auto multiChoiceView = makeViewWithName<TextTableView>(item, savedInputDevs.size());
@@ -156,7 +154,6 @@ InputManagerView::InputManagerView(ViewAttachParams attach,
 	},
 	deleteProfile
 	{
-		// UI_TEXT("Delete Saved Key Profile"),
 		UI_TEXT("删除按键配置"),
 		attach,
 		[this](TextMenuItem &item, View &, const Input::Event &e)
@@ -164,8 +161,9 @@ InputManagerView::InputManagerView(ViewAttachParams attach,
 			auto &customKeyConfigs = inputManager.customKeyConfigs;
 			if(!customKeyConfigs.size())
 			{
-				// app().postMessage(UI_TEXT("No saved key profiles"));
-				app().postMessage(UI_TEXT("无效的按键配置"));
+				app().postMessage(
+					UI_TEXT("无效的按键配置")
+				);
 				return;
 			}
 			auto multiChoiceView = makeViewWithName<TextTableView>(item, customKeyConfigs.size());
@@ -191,7 +189,6 @@ InputManagerView::InputManagerView(ViewAttachParams attach,
 	},
 	rescanOSDevices
 	{
-		// UI_TEXT("Re-scan OS Input Devices"),
 		UI_TEXT("重新检测系统输入设备"),
 		attach,
 		[this](const Input::Event &e)
@@ -204,18 +201,13 @@ InputManagerView::InputManagerView(ViewAttachParams attach,
 				if(e->map() == Input::Map::SYSTEM)
 					devices++;
 			}
-			app().postMessage(2, false,
-				std::format(
-					// UI_TEXT("{} OS devices present"),
-					UI_TEXT("检测到 {} 个系统设备"),
-					devices
-				)
-			);
+			app().postMessage(2, false, std::format(
+				UI_TEXT("检测到 {} 个系统设备"),
+				devices));
 		}
 	},
 	identDevice
 	{
-		// UI_TEXT("Auto-detect Device To Setup"),
 		UI_TEXT("自动检测设备并设置"),
 		attach,
 		[this](const Input::Event &e)
@@ -235,7 +227,6 @@ InputManagerView::InputManagerView(ViewAttachParams attach,
 	},
 	generalOptions
 	{
-		// UI_TEXT("General Options"),
 		UI_TEXT("常规选项"),
 		attach,
 		[this](const Input::Event &e)
@@ -245,7 +236,6 @@ InputManagerView::InputManagerView(ViewAttachParams attach,
 	},
 	deviceListHeading
 	{
-		// UI_TEXT("Individual Device Settings"),
 		UI_TEXT("设备设置列表："),
 		attach,
 	}
@@ -319,13 +309,11 @@ void InputManagerView::pushAndShowDeviceView(const Input::Device &dev, const Inp
 InputManagerOptionsView::InputManagerOptionsView(ViewAttachParams attach, EmuInputView *emuInputView_):
 	TableView
 	{
-		// UI_TEXT("General Input Options"),
 		UI_TEXT("常规选项"),
 		attach, item
 	},
 	mogaInputSystem
 	{
-		// UI_TEXT("MOGA Controller Support"),
 		UI_TEXT("MOGA 手柄支持"),
 		attach,
 		app().mogaManagerIsActive(),
@@ -334,9 +322,7 @@ InputManagerOptionsView::InputManagerOptionsView(ViewAttachParams attach, EmuInp
 			if(!app().mogaManagerIsActive() && !appContext().packageIsInstalled("com.bda.pivot.mogapgp"))
 			{
 				app().postMessage(8,
-					// UI_TEXT("Install the MOGA Pivot app from Google Play to use your MOGA Pocket. ")
 					UI_TEXT("在使用 MOGA Pocket 之前，请先从谷歌 Play 商店下载并安装 MOGA Pivot 应用程序。 ")
-					// UI_TEXT("For MOGA Pro or newer, set switch to mode B and pair in the Android Bluetooth settings app instead."));
 					UI_TEXT("MOGA Pro 或更新型号的手柄, 需要先切换到模式 B，然后在安卓设备的设置中进行蓝牙配对连接。")
 				);
 				return;
@@ -346,7 +332,6 @@ InputManagerOptionsView::InputManagerOptionsView(ViewAttachParams attach, EmuInp
 	},
 	notifyDeviceChange
 	{
-		// UI_TEXT("Notify If Devices Change"),
 		UI_TEXT("设备变更通知"),
 		attach,
 		app().notifyOnInputDeviceChange,
@@ -357,13 +342,11 @@ InputManagerOptionsView::InputManagerOptionsView(ViewAttachParams attach, EmuInp
 	},
 	bluetoothHeading
 	{
-		// UI_TEXT("In-app Bluetooth Options"),
 		UI_TEXT("应用程序运行时的蓝牙选项："),
 		attach,
 	},
 	keepBtActive
 	{
-		// UI_TEXT("Keep Connections In Background"),
 		UI_TEXT("后台运行时仍保持连接"),
 		attach,
 		app().keepBluetoothActive,
@@ -382,7 +365,6 @@ InputManagerOptionsView::InputManagerOptionsView(ViewAttachParams attach, EmuInp
 	},
 	btScanSecs
 	{
-		// UI_TEXT("Scan Time"),
 		UI_TEXT("检测时间"),
 		attach,
 		MenuId{app().bluetoothAdapter.scanSecs},
@@ -394,7 +376,6 @@ InputManagerOptionsView::InputManagerOptionsView(ViewAttachParams attach, EmuInp
 	},
 	btScanCache
 	{
-		// UI_TEXT("Cache Scan Results"),
 		UI_TEXT("缓存检测结果"),
 		attach,
 		app().bluetoothAdapter.useScanCache,
@@ -405,7 +386,6 @@ InputManagerOptionsView::InputManagerOptionsView(ViewAttachParams attach, EmuInp
 	},
 	altGamepadConfirm
 	{
-		// UI_TEXT("Swap Confirm/Cancel Keys"),
 		UI_TEXT("确认键和取消键交换位置"),
 		attach,
 		app().swappedConfirmKeys(),
@@ -459,7 +439,6 @@ public:
 	ProfileSelectMenu(ViewAttachParams attach, Input::Device &dev, std::string_view selectedName, const InputManager &mgr):
 		TextTableView
 		{
-			// UI_TEXT("Key Profile"),
 			UI_TEXT("按键配置"),
 			attach,
 			mgr.customKeyConfigs.size() + 8 // reserve space for built-in configs
@@ -515,11 +494,11 @@ InputManagerDeviceView::InputManagerDeviceView(UTF16String name, ViewAttachParam
 		[&]
 		{
 			DynArray<TextMenuItem> items{EmuSystem::maxPlayers + 1uz};
-			items[0] = {
-				// UI_TEXT("Multiple"),
-				UI_TEXT("多人合作"),
-				attach, {.id = InputDeviceConfig::PLAYER_MULTI}
-			};
+			items[0] =
+				{
+					UI_TEXT("多人合作"),
+					attach, {.id = InputDeviceConfig::PLAYER_MULTI}
+				};
 			for(auto i : iotaCount(EmuSystem::maxPlayers))
 			{
 				items[i + 1] = {playerNumStrings[i], attach, {.id = i}};
@@ -529,7 +508,6 @@ InputManagerDeviceView::InputManagerDeviceView(UTF16String name, ViewAttachParam
 	},
 	player
 	{
-		// UI_TEXT("Player"),
 		UI_TEXT("玩家索引"),
 		attach,
 		MenuId{inputDevData(dev).devConf.player()},
@@ -572,7 +550,6 @@ InputManagerDeviceView::InputManagerDeviceView(UTF16String name, ViewAttachParam
 	},
 	renameProfile
 	{
-		// UI_TEXT("Rename Profile"),
 		UI_TEXT("重命名配置"),
 		attach,
 		[this](const Input::Event &e)
@@ -580,21 +557,20 @@ InputManagerDeviceView::InputManagerDeviceView(UTF16String name, ViewAttachParam
 			if(!devConf.mutableKeyConf(inputManager))
 			{
 				app().postMessage(2,
-					// UI_TEXT("Can't rename a built-in profile")
 					UI_TEXT("无法重命名应用程序自带的配置")
 				);
 				return;
 			}
 			pushAndShowNewCollectValueInputView<const char*>(attachParams(), e,
-				// UI_TEXT("Input name"),
 				UI_TEXT("请输入按键配置的名称"),
 				devConf.keyConf(inputManager).name,
 				[this](CollectTextInputView &, auto str)
 				{
 					if(customKeyConfigsContainName(inputManager.customKeyConfigs, str))
 					{
-						// app().postErrorMessage(UI_TEXT("Another profile is already using this name"));
-						app().postErrorMessage(UI_TEXT("与已有的配置命名冲突"));
+						app().postErrorMessage(
+							UI_TEXT("与已有的配置命名冲突")
+						);
 						postDraw();
 						return false;
 					}
@@ -602,53 +578,45 @@ InputManagerDeviceView::InputManagerDeviceView(UTF16String name, ViewAttachParam
 					onShow();
 					postDraw();
 					return true;
-				}
-			);
+				});
 		}
 	},
 	newProfile
 	{
-		// UI_TEXT("New Profile"),
 		UI_TEXT("新建配置"),
 		attach,
 		[this](const Input::Event &e)
 		{
-			pushAndShowModal(
-				makeView<YesNoAlertView>(
-					// UI_TEXT("Create a new profile? All keys from the current profile will be copied over."),
-					UI_TEXT("是否要新建一个按键配置？新的配置内容会以当前配置为初始值。"),
-					YesNoAlertView::Delegates
+			pushAndShowModal(makeView<YesNoAlertView>(
+				UI_TEXT("是否要新建一个按键配置？新的配置内容会以当前配置为初始值。"),
+				YesNoAlertView::Delegates
+				{
+					.onYes = [this](const Input::Event &e)
 					{
-						.onYes = [this](const Input::Event &e)
-						{
-							pushAndShowNewCollectValueInputView<const char*>(attachParams(), e,
-								// UI_TEXT("Input name"),
-								UI_TEXT("请输入按键配置的名称"),
-								"",
-								[this](CollectTextInputView &, auto str)
+						pushAndShowNewCollectValueInputView<const char*>(attachParams(), e,
+							UI_TEXT("请输入按键配置的名称"),
+							"",
+							[this](CollectTextInputView &, auto str)
+							{
+								if(customKeyConfigsContainName(inputManager.customKeyConfigs, str))
 								{
-									if(customKeyConfigsContainName(inputManager.customKeyConfigs, str))
-									{
-										// app().postErrorMessage(UI_TEXT("Another profile is already using this name"));
-										app().postErrorMessage(UI_TEXT("与已有的配置命名冲突"));
-										return false;
-									}
-									devConf.setKeyConfCopiedFromExisting(inputManager, str);
-									log.info("created new profile:{}", devConf.keyConf(inputManager).name);
-									onShow();
-									postDraw();
-									return true;
+									app().postErrorMessage(
+										UI_TEXT("与已有的配置命名冲突")
+									);
+									return false;
 								}
-							);
-						}
+								devConf.setKeyConfCopiedFromExisting(inputManager, str);
+								log.info("created new profile:{}", devConf.keyConf(inputManager).name);
+								onShow();
+								postDraw();
+								return true;
+							});
 					}
-				), e
-			);
+				}), e);
 		}
 	},
 	deleteProfile
 	{
-		// UI_TEXT("Delete Profile"),
 		UI_TEXT("删除配置"),
 		attach,
 		[this](const Input::Event &e)
@@ -656,7 +624,6 @@ InputManagerDeviceView::InputManagerDeviceView(UTF16String name, ViewAttachParam
 			if(!devConf.mutableKeyConf(inputManager))
 			{
 				app().postMessage(2,
-					// UI_TEXT("Can't delete a built-in profile")
 					UI_TEXT("无法删除应用程序自带的配置")
 				);
 				return;
@@ -679,7 +646,6 @@ InputManagerDeviceView::InputManagerDeviceView(UTF16String name, ViewAttachParam
 	},
 	iCadeMode
 	{
-		// UI_TEXT("iCade Mode"),
 		UI_TEXT("iCade 模式"),
 		attach,
 		inputDevData(dev).devConf.iCadeMode(),
@@ -693,15 +659,11 @@ InputManagerDeviceView::InputManagerDeviceView(UTF16String name, ViewAttachParam
 			{
 				if(!item.boolValue())
 				{
-					pushAndShowModal(
-						makeView<YesNoAlertView>(
-							// UI_TEXT("This mode allows input from an iCade-compatible Bluetooth device, don't enable if this isn't an iCade"),
-							UI_TEXT("开启此模式后可以用兼容 iCade 的蓝牙设备进行输入，非 iCade 设备请不要开启"),
-							// UI_TEXT("Enable"), UI_TEXT("Cancel"),
-							UI_TEXT("开启"), UI_TEXT("取消"),
-							YesNoAlertView::Delegates{.onYes = [this]{ confirmICadeMode(); }}
-						), e
-					);
+					pushAndShowModal(makeView<YesNoAlertView>(
+						UI_TEXT("开启此模式后可以用兼容 iCade 的蓝牙设备进行输入，非 iCade 设备请不要开启"),
+						UI_TEXT("开启"),
+						UI_TEXT("取消"),
+						YesNoAlertView::Delegates{.onYes = [this]{ confirmICadeMode(); }}), e);
 				}
 				else
 					confirmICadeMode();
@@ -710,7 +672,6 @@ InputManagerDeviceView::InputManagerDeviceView(UTF16String name, ViewAttachParam
 	},
 	consumeUnboundKeys
 	{
-		// UI_TEXT("Handle Unbound Keys"),
 		UI_TEXT("响应未映射的按键"),
 		attach,
 		inputDevData(dev).devConf.shouldHandleUnboundKeys,
@@ -722,7 +683,6 @@ InputManagerDeviceView::InputManagerDeviceView(UTF16String name, ViewAttachParam
 	},
 	joystickAxisStick1Keys
 	{
-		// UI_TEXT("Stick 1 as D-Pad"),
 		UI_TEXT("使用1号摇杆作为方向键"),
 		attach,
 		inputDevData(dev).devConf.joystickAxesAsKeys(Input::AxisSetId::stick1),
@@ -734,7 +694,6 @@ InputManagerDeviceView::InputManagerDeviceView(UTF16String name, ViewAttachParam
 	},
 	joystickAxisStick2Keys
 	{
-		// UI_TEXT("Stick 2 as D-Pad"),
 		UI_TEXT("使用2号摇杆作为方向键"),
 		attach,
 		inputDevData(dev).devConf.joystickAxesAsKeys(Input::AxisSetId::stick2),
@@ -746,7 +705,6 @@ InputManagerDeviceView::InputManagerDeviceView(UTF16String name, ViewAttachParam
 	},
 	joystickAxisHatKeys
 	{
-		// UI_TEXT("POV Hat as D-Pad"),
 		UI_TEXT("使用飞行摇杆作为方向键"),
 		attach,
 		inputDevData(dev).devConf.joystickAxesAsKeys(Input::AxisSetId::hat),
@@ -758,8 +716,7 @@ InputManagerDeviceView::InputManagerDeviceView(UTF16String name, ViewAttachParam
 	},
 	joystickAxisTriggerKeys
 	{
-		// UI_TEXT("L/R Triggers as L2/R2"),
-		UI_TEXT("使用左右扳机作为L2/R2键"),
+		UI_TEXT("使用左右扳机作为 L2/R2 键"),
 		attach,
 		inputDevData(dev).devConf.joystickAxesAsKeys(Input::AxisSetId::triggers),
 		[this](BoolMenuItem &item, const Input::Event &e)
@@ -770,8 +727,7 @@ InputManagerDeviceView::InputManagerDeviceView(UTF16String name, ViewAttachParam
 	},
 	joystickAxisPedalKeys
 	{
-		// UI_TEXT("Brake/Gas as L2/R2"),
-		UI_TEXT("使用刹车/油门作为L2/R2键"),
+		UI_TEXT("使用刹车/油门作为 L2/R2 键"),
 		attach,
 		inputDevData(dev).devConf.joystickAxesAsKeys(Input::AxisSetId::pedals),
 		[this](BoolMenuItem &item, const Input::Event &e)
@@ -782,31 +738,24 @@ InputManagerDeviceView::InputManagerDeviceView(UTF16String name, ViewAttachParam
 	},
 	categories
 	{
-		// UI_TEXT("Action Categories"),
 		UI_TEXT("按键映射："),
 		attach
 	},
 	options
 	{
-		// UI_TEXT("Options"),
 		UI_TEXT("选项："),
 		attach
 	},
 	joystickSetup
 	{
-		// UI_TEXT("Joystick Axis Setup"),
 		UI_TEXT("摇杆设置："),
 		attach
 	},
 	devConf{inputDevData(dev).devConf}
 {
-	loadProfile.setName(
-		std::format(
-			// UI_TEXT("Profile: {}"),
-			UI_TEXT("按键配置：{}"),
-			devConf.keyConf(inputManager).name
-		)
-	);
+	loadProfile.setName(std::format(
+		UI_TEXT("按键配置：{}"),
+		devConf.keyConf(inputManager).name));
 	renameProfile.setActive(devConf.mutableKeyConf(inputManager));
 	deleteProfile.setActive(devConf.mutableKeyConf(inputManager));
 	loadItems();
@@ -876,13 +825,9 @@ void InputManagerDeviceView::loadItems()
 void InputManagerDeviceView::onShow()
 {
 	TableView::onShow();
-	loadProfile.compile(
-		std::format(
-			// UI_TEXT("Profile: {}"),
-			UI_TEXT("按键配置：{}"),
-			devConf.keyConf(inputManager).name
-		)
-	);
+	loadProfile.compile(std::format(
+		UI_TEXT("按键配置：{}"),
+		devConf.keyConf(inputManager).name));
 	bool keyConfIsMutable = devConf.mutableKeyConf(inputManager);
 	renameProfile.setActive(keyConfIsMutable);
 	deleteProfile.setActive(keyConfIsMutable);

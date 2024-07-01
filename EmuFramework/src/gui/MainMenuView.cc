@@ -51,12 +51,14 @@ static void onScanStatus(EmuApp &app, BluetoothScanState status, int arg);
 template <class ViewT>
 static void handledFailedBTAdapterInit(ViewT &view, ViewAttachParams attach, const Input::Event &e)
 {
-	// view.app().postErrorMessage(UI_TEXT("Unable to initialize Bluetooth adapter"));
-	view.app().postErrorMessage(UI_TEXT("无法初始化蓝牙适配器"));
+	view.app().postErrorMessage(
+		UI_TEXT("无法初始化蓝牙适配器")
+	);
 	#ifdef CONFIG_BLUETOOTH_BTSTACK
 	if(!FS::exists("/var/lib/dpkg/info/ch.ringwald.btstack.list"))
 	{
-		view.pushAndShowModal(std::make_unique<YesNoAlertView>(attach, "BTstack not found, open Cydia and install?",
+		view.pushAndShowModal(std::make_unique<YesNoAlertView>(attach,
+			UI_TEXT("BTstack not found, open Cydia and install?"),
 			YesNoAlertView::Delegates
 			{
 				.onYes = [](View &v){ v.appContext().openURL("cydia://package/ch.ringwald.btstack"); }
@@ -69,7 +71,6 @@ MainMenuView::MainMenuView(ViewAttachParams attach, bool customMenu):
 	TableView{EmuApp::mainViewName(), attach, item},
 	loadGame
 	{
-		// UI_TEXT("Open Content"),
 		UI_TEXT("打开游戏"),
 		attach,
 		[this](const Input::Event &e)
@@ -79,7 +80,6 @@ MainMenuView::MainMenuView(ViewAttachParams attach, bool customMenu):
 	},
 	systemActions
 	{
-		// UI_TEXT("System Actions"),
 		UI_TEXT("游戏菜单"),
 		attach,
 		[this](const Input::Event &e)
@@ -91,7 +91,6 @@ MainMenuView::MainMenuView(ViewAttachParams attach, bool customMenu):
 	},
 	recentGames
 	{
-		// UI_TEXT("Recent Content"),
 		UI_TEXT("最近打开过的游戏"),
 		attach,
 		[this](const Input::Event &e)
@@ -113,7 +112,6 @@ MainMenuView::MainMenuView(ViewAttachParams attach, bool customMenu):
 	},
 	options
 	{
-		// UI_TEXT("Options"),
 		UI_TEXT("选项"),
 		attach,
 		[this](const Input::Event &e)
@@ -123,7 +121,6 @@ MainMenuView::MainMenuView(ViewAttachParams attach, bool customMenu):
 	},
 	onScreenInputManager
 	{
-		// UI_TEXT("On-screen Input Setup"),
 		UI_TEXT("屏幕按键设置"),
 		attach,
 		[this](const Input::Event &e)
@@ -133,7 +130,6 @@ MainMenuView::MainMenuView(ViewAttachParams attach, bool customMenu):
 	},
 	inputManager
 	{
-		// UI_TEXT("Key/Gamepad Input Setup"),
 		UI_TEXT("实体控制器设置"),
 		attach,
 		[this](const Input::Event &e)
@@ -143,7 +139,6 @@ MainMenuView::MainMenuView(ViewAttachParams attach, bool customMenu):
 	},
 	benchmark
 	{
-		// UI_TEXT("Benchmark Content"),
 		UI_TEXT("检查游戏"),
 		attach,
 		[this](const Input::Event &e)
@@ -153,7 +148,6 @@ MainMenuView::MainMenuView(ViewAttachParams attach, bool customMenu):
 	},
 	scanWiimotes
 	{
-		// UI_TEXT("Scan for Wiimotes/iCP/JS1"),
 		UI_TEXT("检测 Wiimotes/iCP/JS1"),
 		attach,
 		[this](const Input::Event &e)
@@ -167,11 +161,15 @@ MainMenuView::MainMenuView(ViewAttachParams attach, bool customMenu):
 						onScanStatus(app(), status, arg);
 					}))
 				{
-					app().postMessage(4, false, UI_TEXT("Starting Scan...\n(see website for device-specific help)"));
+					app().postMessage(4, false,
+						UI_TEXT("Starting Scan...\n(see website for device-specific help)")
+					);
 				}
 				else
 				{
-					app().postMessage(1, false, UI_TEXT("Still scanning"));
+					app().postMessage(1, false,
+						UI_TEXT("Still scanning")
+					);
 				}
 			}
 			else
@@ -183,7 +181,6 @@ MainMenuView::MainMenuView(ViewAttachParams attach, bool customMenu):
 	},
 	bluetoothDisconnect
 	{
-		// UI_TEXT("Disconnect Bluetooth"),
 		UI_TEXT("断开蓝牙连接"),
 		attach,
 		[this](const Input::Event &e)
@@ -191,19 +188,15 @@ MainMenuView::MainMenuView(ViewAttachParams attach, bool customMenu):
 			auto devConnected = Bluetooth::devsConnected(appContext());
 			if(devConnected)
 			{
-				pushAndShowModal(
-					makeView<YesNoAlertView>(
-						std::format(
-							UI_TEXT("Really disconnect {} Bluetooth device(s)?"),
-							devConnected),
-						YesNoAlertView::Delegates{.onYes = [this]{ app().closeBluetoothConnections(); }}),
-					e);
+				pushAndShowModal(makeView<YesNoAlertView>(std::format(
+					UI_TEXT("Really disconnect {} Bluetooth device(s)?"),
+					devConnected),
+					YesNoAlertView::Delegates{.onYes = [this]{ app().closeBluetoothConnections(); }}), e);
 			}
 		}
 	},
 	acceptPS3ControllerConnection
 	{
-		// UI_TEXT("Scan for PS3 Controller"),
 		UI_TEXT("检测 PS3 手柄"),
 		attach,
 		[this](const Input::Event &e)
@@ -211,8 +204,9 @@ MainMenuView::MainMenuView(ViewAttachParams attach, bool customMenu):
 			app().bluetoothAdapter.openDefault();
 			if(app().bluetoothAdapter.isOpen())
 			{
-				// app().postMessage(4, UI_TEXT("Prepare to push the PS button"));
-				app().postMessage(4, UI_TEXT("准备按下 PS 键"));
+				app().postMessage(4,
+					UI_TEXT("准备按下 PS 键")
+				);
 				auto startedScan = Bluetooth::listenForDevices(appContext(), app().bluetoothAdapter,
 					[this](BluetoothAdapter &bta, BluetoothScanState status, int arg)
 					{
@@ -228,7 +222,9 @@ MainMenuView::MainMenuView(ViewAttachParams attach, bool customMenu):
 							}
 							case BluetoothScanState::Complete:
 							{
-								app().postMessage(4, UI_TEXT("Push the PS button on your controller\n(see website for pairing help)"));
+								app().postMessage(4,
+									UI_TEXT("Push the PS button on your controller\n(see website for pairing help)")
+								);
 								break;
 							}
 							default: onScanStatus(app(), status, arg);
@@ -236,7 +232,9 @@ MainMenuView::MainMenuView(ViewAttachParams attach, bool customMenu):
 					});
 				if(!startedScan)
 				{
-					app().postMessage(1, UI_TEXT("Still scanning"));
+					app().postMessage(1,
+						UI_TEXT("Still scanning")
+					);
 				}
 			}
 			else
@@ -248,7 +246,6 @@ MainMenuView::MainMenuView(ViewAttachParams attach, bool customMenu):
 	},
 	about
 	{
-		// UI_TEXT("About"),
 		UI_TEXT("关于"),
 		attach,
 		[this](const Input::Event &e)
@@ -258,7 +255,6 @@ MainMenuView::MainMenuView(ViewAttachParams attach, bool customMenu):
 	},
 	exitApp
 	{
-		// UI_TEXT("Exit"),
 		UI_TEXT("退出"),
 		attach,
 		[this]()
@@ -281,28 +277,38 @@ static void onScanStatus(EmuApp &app, BluetoothScanState status, int arg)
 		{
 			if(Config::envIsIOS)
 			{
-				app.postErrorMessage(UI_TEXT("BTstack power on failed, make sure the iOS Bluetooth stack is not active"));
+				app.postErrorMessage(
+					UI_TEXT("BTstack power on failed, make sure the iOS Bluetooth stack is not active")
+				);
 			}
 			break;
 		}
 		case BluetoothScanState::Failed:
 		{
-			app.postErrorMessage(UI_TEXT("Scan failed"));
+			app.postErrorMessage(
+				UI_TEXT("Scan failed")
+			);
 			break;
 		}
 		case BluetoothScanState::NoDevs:
 		{
-			app.postMessage(UI_TEXT("No devices found"));
+			app.postMessage(
+				UI_TEXT("No devices found")
+			);
 			break;
 		}
 		case BluetoothScanState::Processing:
 		{
-			app.postMessage(2, 0, std::format(UI_TEXT("Checking {} device(s)..."), arg));
+			app.postMessage(2, 0, std::format(
+				UI_TEXT("Checking {} device(s)..."),
+				arg));
 			break;
 		}
 		case BluetoothScanState::NameFailed:
 		{
-			app.postErrorMessage(UI_TEXT("Failed reading a device name"));
+			app.postErrorMessage(
+				UI_TEXT("Failed reading a device name")
+			);
 			break;
 		}
 		case BluetoothScanState::Complete:
@@ -310,12 +316,16 @@ static void onScanStatus(EmuApp &app, BluetoothScanState status, int arg)
 			int devs = Bluetooth::pendingDevs();
 			if(devs)
 			{
-				app.postMessage(2, 0, std::format(UI_TEXT("Connecting to {} device(s)..."), devs));
+				app.postMessage(2, 0, std::format(
+					UI_TEXT("Connecting to {} device(s)..."),
+					devs));
 				Bluetooth::connectPendingDevs(app.bluetoothAdapter);
 			}
 			else
 			{
-				app.postMessage(UI_TEXT("Scan complete, no recognized devices"));
+				app.postMessage(
+					UI_TEXT("Scan complete, no recognized devices")
+				);
 			}
 			break;
 		}
@@ -374,7 +384,6 @@ void MainMenuView::reloadItems()
 OptionCategoryView::OptionCategoryView(ViewAttachParams attach):
 	TableView
 	{
-		// UI_TEXT("Options"),
 		UI_TEXT("选项"),
 		attach,
 		[this](ItemMessage msg) -> ItemReply
@@ -389,7 +398,6 @@ OptionCategoryView::OptionCategoryView(ViewAttachParams attach):
 	subConfig
 	{
 		{
-			// UI_TEXT("Frame Timing"),
 			UI_TEXT("渲染耗时"),
 			attach,
 			[this](const Input::Event &e)
@@ -398,7 +406,6 @@ OptionCategoryView::OptionCategoryView(ViewAttachParams attach):
 			}
 		},
 		{
-			// UI_TEXT("Video"),
 			UI_TEXT("视频"),
 			attach,
 			[this](const Input::Event &e)
@@ -407,7 +414,6 @@ OptionCategoryView::OptionCategoryView(ViewAttachParams attach):
 			}
 		},
 		{
-			// UI_TEXT("Audio"),
 			UI_TEXT("音频"),
 			attach,
 			[this](const Input::Event &e)
@@ -416,7 +422,6 @@ OptionCategoryView::OptionCategoryView(ViewAttachParams attach):
 			}
 		},
 		{
-			// UI_TEXT("System"),
 			UI_TEXT("系统"),
 			attach,
 			[this](const Input::Event &e)
@@ -425,7 +430,6 @@ OptionCategoryView::OptionCategoryView(ViewAttachParams attach):
 			}
 		},
 		{
-			// UI_TEXT("File Paths"),
 			UI_TEXT("文件路径"),
 			attach,
 			[this](const Input::Event &e)
@@ -434,7 +438,6 @@ OptionCategoryView::OptionCategoryView(ViewAttachParams attach):
 			}
 		},
 		{
-			// UI_TEXT("GUI"),
 			UI_TEXT("界面"),
 			attach,
 			[this](const Input::Event &e)
@@ -443,7 +446,6 @@ OptionCategoryView::OptionCategoryView(ViewAttachParams attach):
 			}
 		},
 		{
-			// UI_TEXT("Online Documentation"),
 			UI_TEXT("在线文档"),
 			attach,
 			[this]
