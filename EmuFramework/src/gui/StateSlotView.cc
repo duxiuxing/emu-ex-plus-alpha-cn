@@ -28,48 +28,38 @@ constexpr SystemLogger log{"StateSlotView"};
 static auto slotHeadingName(EmuSystem &sys)
 {
 	return std::format(
-		// UI_TEXT("Set State Slot ({})"),
 		UI_TEXT("当前的存档点序号：{}"),
-		sys.stateSlot()
-	);
+		sys.stateSlot());
 }
 
 StateSlotView::StateSlotView(ViewAttachParams attach):
 	TableView
 	{
-		// UI_TEXT("Save States"),
 		UI_TEXT("手动存档点"),
-		attach,
-		menuItems
+		attach, menuItems
 	},
 	load
 	{
-		// UI_TEXT("Load State"),
 		UI_TEXT("读取进度"),
 		attach,
 		[this](TextMenuItem &item, View &, const Input::Event &e)
 		{
 			if(!item.active())
 				return;
-			pushAndShowModal(
-				makeView<YesNoAlertView>(
-					// UI_TEXT("Really load state?"),
-					UI_TEXT("是否要读取进度？"),
-					YesNoAlertView::Delegates
+			pushAndShowModal(makeView<YesNoAlertView>(
+				UI_TEXT("是否要读取进度？"),
+				YesNoAlertView::Delegates
+				{
+					.onYes = [this]
 					{
-						.onYes = [this]
-						{
-							if(app().loadStateWithSlot(system().stateSlot()))
-								app().showEmulation();
-						}
+						if(app().loadStateWithSlot(system().stateSlot()))
+							app().showEmulation();
 					}
-				), e
-			);
+				}), e);
 		}
 	},
 	save
 	{
-		// UI_TEXT("Save State"),
 		UI_TEXT("保存进度"),
 		attach,
 		[this](const Input::Event &e)
@@ -80,13 +70,9 @@ StateSlotView::StateSlotView(ViewAttachParams attach):
 			}
 			else
 			{
-				pushAndShowModal(
-					makeView<YesNoAlertView>(
-						// UI_TEXT("Really overwrite state?"),
-						UI_TEXT("是否要覆盖已有进度？"),
-						YesNoAlertView::Delegates{.onYes = [this]{ doSaveState(); }}
-					), e
-				);
+				pushAndShowModal(makeView<YesNoAlertView>(
+					UI_TEXT("是否要覆盖已有进度？"),
+					YesNoAlertView::Delegates{.onYes = [this]{ doSaveState(); }}), e);
 			}
 		}
 	},

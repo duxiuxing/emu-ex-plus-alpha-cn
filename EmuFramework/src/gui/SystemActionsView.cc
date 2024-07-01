@@ -38,36 +38,28 @@ constexpr SystemLogger log{"SystemActionsView"};
 static auto autoSaveName(EmuApp &app)
 {
 	return std::format(
-		// UI_TEXT("Autosave Slot ({})"),
 		UI_TEXT("当前的自动存档点：{}"),
-		app.autosaveManager.slotFullName()
-	);
+		app.autosaveManager.slotFullName());
 }
 
 static std::string saveAutosaveName(EmuApp &app)
 {
 	auto &autosaveManager = app.autosaveManager;
 	if(!autosaveManager.timerFrequency().count())
-		// return UI_TEXT("Save Autosave State");
 		return UI_TEXT("保存自动存档的进度");
 	return std::format(
-		// UI_TEXT("Save Autosave State (Timer In {:%M:%S})"),
 		UI_TEXT("保存自动存档的进度 (倒计时 {:%M:%S})"),
-		duration_cast<Seconds>(autosaveManager.saveTimer.nextFireTime())
-	);
+		duration_cast<Seconds>(autosaveManager.saveTimer.nextFireTime()));
 }
 
 SystemActionsView::SystemActionsView(ViewAttachParams attach, bool customMenu):
 	TableView
 	{
-		// UI_TEXT("System Actions"),
 		UI_TEXT("游戏菜单"),
-		attach,
-		item
+		attach, item
 	},
 	cheats
 	{
-		// UI_TEXT("Cheats"),
 		UI_TEXT("金手指"),
 		attach,
 		[this](const Input::Event &e)
@@ -80,7 +72,6 @@ SystemActionsView::SystemActionsView(ViewAttachParams attach, bool customMenu):
 	},
 	reset
 	{
-		// UI_TEXT("Reset"),
 		UI_TEXT("重启游戏"),
 		attach,
 		[this](const Input::Event &e)
@@ -102,25 +93,20 @@ SystemActionsView::SystemActionsView(ViewAttachParams attach, bool customMenu):
 		{
 			if(!item.active())
 				return;
-			pushAndShowModal(
-				makeView<YesNoAlertView>(
-					// UI_TEXT("Really save state?"),
-					UI_TEXT("是否要保存进度？"),
-					YesNoAlertView::Delegates
+			pushAndShowModal(makeView<YesNoAlertView>(
+				UI_TEXT("是否要保存进度？"),
+				YesNoAlertView::Delegates
+				{
+					.onYes = [this]
 					{
-						.onYes = [this]
-						{
-							if(app().autosaveManager.save(AutosaveActionSource::Manual))
-								app().showEmulation();
-						}
+						if(app().autosaveManager.save(AutosaveActionSource::Manual))
+							app().showEmulation();
 					}
-				), e
-			);
+				}), e);
 		}
 	},
 	revertAutosave
 	{
-		// UI_TEXT("Load Autosave State"),
 		UI_TEXT("读取自动存档的进度"),
 		attach,
 		[this](TextMenuItem &item, const Input::Event &e)
@@ -130,32 +116,26 @@ SystemActionsView::SystemActionsView(ViewAttachParams attach, bool customMenu):
 			auto saveTime = app().autosaveManager.stateTimeAsString();
 			if(saveTime.empty())
 			{
-				// app().postMessage(UI_TEXT("No saved state"));
-				app().postMessage(UI_TEXT("无效的存档进度"));
+				app().postMessage(
+					UI_TEXT("无效的存档进度")
+				);
 				return;
 			}
-			pushAndShowModal(
-				makeView<YesNoAlertView>(
-					std::format(
-						// UI_TEXT("Really load state from: {}?"),
-						UI_TEXT("是否要从 {} 读取进度？"),
-						saveTime
-					),
-					YesNoAlertView::Delegates
+			pushAndShowModal(makeView<YesNoAlertView>(std::format(
+				UI_TEXT("是否要从 {} 读取进度？"),
+				saveTime),
+				YesNoAlertView::Delegates
+				{
+					.onYes = [this]
 					{
-						.onYes = [this]
-						{
-							if(app().autosaveManager.load(AutosaveActionSource::Manual))
-								app().showEmulation();
-						}
+						if(app().autosaveManager.load(AutosaveActionSource::Manual))
+							app().showEmulation();
 					}
-				), e
-			);
+				}), e);
 		}
 	},
 	stateSlot
 	{
-		// UI_TEXT("Manual Save States"),
 		UI_TEXT("手动存档点"),
 		attach,
 		[this](const Input::Event &e)
@@ -165,7 +145,6 @@ SystemActionsView::SystemActionsView(ViewAttachParams attach, bool customMenu):
 	},
 	addLauncherIcon
 	{
-		// UI_TEXT("Add Content Shortcut To Launcher"),
 		UI_TEXT("添加游戏快捷方式到桌面"),
 		attach,
 		[this](const Input::Event &e)
@@ -177,30 +156,21 @@ SystemActionsView::SystemActionsView(ViewAttachParams attach, bool customMenu):
 				// shortcuts to bundled games not yet supported
 				return;
 			}
-			pushAndShowNewCollectValueInputView<const char*>(
-				attachParams(), e,
-				// UI_TEXT("Shortcut Name"),
+			pushAndShowNewCollectValueInputView<const char*>(attachParams(), e,
 				UI_TEXT("快捷方式名称"),
 				system().contentDisplayName(),
 				[this](CollectTextInputView &, auto str)
 				{
 					appContext().addLauncherIcon(str, system().contentLocation());
-					app().postMessage(
-						2, false,
-						std::format(
-							// UI_TEXT("Added shortcut:\n{}"),
-							UI_TEXT("已添加快捷方式：\n{}"),
-							str
-						)
-					);
+					app().postMessage(2, false, std::format(
+						UI_TEXT("已添加快捷方式：\n{}"),
+						str));
 					return true;
-				}
-			);
+				});
 		}
 	},
 	screenshot
 	{
-		// UI_TEXT("Screenshot Next Frame"),
 		UI_TEXT("截图"),
 		attach,
 		[this](const Input::Event &e)
@@ -210,57 +180,46 @@ SystemActionsView::SystemActionsView(ViewAttachParams attach, bool customMenu):
 			auto pathName = appContext().fileUriDisplayName(app().screenshotDirectory());
 			if(pathName.empty())
 			{
-				// app().postMessage(UI_TEXT("Save path isn't valid"));
-				app().postMessage(UI_TEXT("无效的截图保存路径"));
+				app().postMessage(
+					UI_TEXT("无效的截图保存路径")
+				);
 				return;
 			}
-			pushAndShowModal(
-				makeView<YesNoAlertView>(
-					std::format(
-						// UI_TEXT("Save screenshot to folder {}?"),
-						UI_TEXT("是否把截图保存到文件夹 {}？"),
-						pathName
-					),
-					YesNoAlertView::Delegates
+			pushAndShowModal(makeView<YesNoAlertView>(std::format(
+				UI_TEXT("是否把截图保存到文件夹 {}？"),
+				pathName),
+				YesNoAlertView::Delegates
+				{
+					.onYes = [this]
 					{
-						.onYes = [this]
-						{
-							app().video.takeGameScreenshot();
-							system().runFrame({}, &app().video, nullptr);
-						}
+						app().video.takeGameScreenshot();
+						system().runFrame({}, &app().video, nullptr);
 					}
-				), e
-			);
+				}), e);
 		}
 	},
 	resetSessionOptions
 	{
-		// UI_TEXT("Reset Saved Options"),
 		UI_TEXT("重置选项"),
 		attach,
 		[this](const Input::Event &e)
 		{
 			if(!app().hasSavedSessionOptions())
 				return;
-			pushAndShowModal(
-				makeView<YesNoAlertView>(
-					// UI_TEXT("Reset saved options for the currently running system to defaults? Some options only take effect next time the system loads."),
-					UI_TEXT("是否要恢复选项的默认值？某些选项需要重启模拟器才能生效。"),
-					YesNoAlertView::Delegates
+			pushAndShowModal(makeView<YesNoAlertView>(
+				UI_TEXT("是否要恢复选项的默认值？某些选项需要重启模拟器才能生效。"),
+				YesNoAlertView::Delegates
+				{
+					.onYes = [this]
 					{
-						.onYes = [this]
-						{
-							resetSessionOptions.setActive(false);
-							app().deleteSessionOptions();
-						}
+						resetSessionOptions.setActive(false);
+						app().deleteSessionOptions();
 					}
-				), e
-			);
+				}), e);
 		}
 	},
 	close
 	{
-		// UI_TEXT("Close Content"),
 		UI_TEXT("关闭游戏"),
 		attach,
 		[this](const Input::Event &e)
