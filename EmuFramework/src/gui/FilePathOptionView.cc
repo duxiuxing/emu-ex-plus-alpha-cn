@@ -37,7 +37,7 @@ static FS::FileString savePathStrToDisplayName(IG::ApplicationContext ctx, std::
 	{
 		if(savePathStr == optionSavePathDefaultToken)
 			// return UI_TEXT("App Folder");
-			return UI_TEXT("应用文件夹");
+			return UI_TEXT("应用程序文件夹");
 		else
 			return ctx.fileUriDisplayName(savePathStr);
 	}
@@ -124,7 +124,7 @@ FilePathOptionView::FilePathOptionView(ViewAttachParams attach, bool customMenu)
 			);
 			multiChoiceView->appendItem(
 				// UI_TEXT("App Folder"),
-				UI_TEXT("应用文件夹"),
+				UI_TEXT("应用程序文件夹"),
 				[this](View &view)
 				{
 					system().setUserSaveDirectory(optionSavePathDefaultToken);
@@ -141,9 +141,9 @@ FilePathOptionView::FilePathOptionView(ViewAttachParams attach, bool customMenu)
 						makeView<YesNoAlertView>(
 							std::format(
 								// UI_TEXT("Please select the \"Game Data/{}\" folder from an old version of the app to use its existing saves ")
-								UI_TEXT("请选择 \"Game Data/{}\" 文件夹，此文件夹为老版本应用的游戏数据文件夹，")
+								UI_TEXT("请选择 \"Game Data/{}\" 文件夹，此文件夹为老版本应用程序的游戏数据文件夹，")
 								// UI_TEXT("and convert it to a regular save path (this is only needed once)"),
-								UI_TEXT("新版本应用将对其进行数据迁移 (本操作只需要执行一次)"),
+								UI_TEXT("新版本应用程序将对其进行数据迁移 (本操作只需要执行一次)"),
 								system().shortSystemName()
 							),
 							YesNoAlertView::Delegates
@@ -225,12 +225,9 @@ void FilePathOptionView::onSavePathChange(std::string_view path)
 {
 	if(path == optionSavePathDefaultToken)
 	{
-		app().postMessage(
-			4, false,
-			std::format(
-				// UI_TEXT("App Folder:\n{}"),
-				UI_TEXT("应用文件夹：\n{}"),
-				system().fallbackSaveDirectory()));
+		app().postMessage(4, false,	std::format(
+			UI_TEXT("应用程序文件夹：\n{}"),
+			system().fallbackSaveDirectory()));
 	}
 	savePath.compile(savesMenuName(appContext(), path));
 }

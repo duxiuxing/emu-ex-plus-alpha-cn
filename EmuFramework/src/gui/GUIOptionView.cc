@@ -371,7 +371,7 @@ GUIOptionView::GUIOptionView(ViewAttachParams attach, bool customMenu):
 	layoutBehindSystemUI
 	{
 		// UI_TEXT("Display Behind OS UI"),
-		UI_TEXT("全屏显示应用界面"),
+		UI_TEXT("全屏显示应用程序界面"),
 		attach,
 		app().doesLayoutBehindSystemUI(),
 		[this](BoolMenuItem &item)

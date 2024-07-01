@@ -335,7 +335,7 @@ InputManagerOptionsView::InputManagerOptionsView(ViewAttachParams attach, EmuInp
 			{
 				app().postMessage(8,
 					// UI_TEXT("Install the MOGA Pivot app from Google Play to use your MOGA Pocket. ")
-					UI_TEXT("在使用 MOGA Pocket 之前，请先从谷歌 Play 商店下载并安装 MOGA Pivot 应用。 ")
+					UI_TEXT("在使用 MOGA Pocket 之前，请先从谷歌 Play 商店下载并安装 MOGA Pivot 应用程序。 ")
 					// UI_TEXT("For MOGA Pro or newer, set switch to mode B and pair in the Android Bluetooth settings app instead."));
 					UI_TEXT("MOGA Pro 或更新型号的手柄, 需要先切换到模式 B，然后在安卓设备的设置中进行蓝牙配对连接。")
 				);
@@ -358,7 +358,7 @@ InputManagerOptionsView::InputManagerOptionsView(ViewAttachParams attach, EmuInp
 	bluetoothHeading
 	{
 		// UI_TEXT("In-app Bluetooth Options"),
-		UI_TEXT("应用运行时的蓝牙选项："),
+		UI_TEXT("应用程序运行时的蓝牙选项："),
 		attach,
 	},
 	keepBtActive
@@ -581,7 +581,7 @@ InputManagerDeviceView::InputManagerDeviceView(UTF16String name, ViewAttachParam
 			{
 				app().postMessage(2,
 					// UI_TEXT("Can't rename a built-in profile")
-					UI_TEXT("无法重命名应用自带的配置")
+					UI_TEXT("无法重命名应用程序自带的配置")
 				);
 				return;
 			}
@@ -657,7 +657,7 @@ InputManagerDeviceView::InputManagerDeviceView(UTF16String name, ViewAttachParam
 			{
 				app().postMessage(2,
 					// UI_TEXT("Can't delete a built-in profile")
-					UI_TEXT("无法删除应用自带的配置")
+					UI_TEXT("无法删除应用程序自带的配置")
 				);
 				return;
 			}

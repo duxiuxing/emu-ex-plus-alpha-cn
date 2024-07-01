@@ -292,7 +292,7 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, EmuVideoLayer &videoLa
 	menuScale
 	{
 		// UI_TEXT("Menu Scale"),
-		UI_TEXT("应用缩放"),
+		UI_TEXT("应用程序缩放"),
 		attach,
 		MenuId{app().menuScale},
 		menuScaleItems,
@@ -597,7 +597,7 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, EmuVideoLayer &videoLa
 				if(!app().setWindowDrawableConfig(conf))
 				{
 					// app().postMessage(UI_TEXT("Restart app for option to take effect"));
-					app().postMessage(UI_TEXT("请重启应用使选项生效"));
+					app().postMessage(UI_TEXT("请重启应用程序使选项生效"));
 					return;
 				}
 				renderPixelFormat.updateDisplayString();

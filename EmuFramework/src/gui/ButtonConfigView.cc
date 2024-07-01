@@ -68,54 +68,46 @@ ButtonConfigView::ButtonConfigView(ViewAttachParams attach, InputManagerView &ro
 	rootIMView{rootIMView_},
 	reset
 	{
-		// UI_TEXT("Unbind All"),
 		UI_TEXT("解除全部映射"),
 		attach,
 		[this](const Input::Event &e)
 		{
-			pushAndShowModal(
-				makeView<YesNoAlertView>(
-					// UI_TEXT("Really unbind all keys in this category?"),
-					UI_TEXT("是否要解除此类别中全部按键的映射？"),
-					YesNoAlertView::Delegates
+			pushAndShowModal(makeView<YesNoAlertView>(
+				UI_TEXT("是否要解除此类别中全部按键的映射？"),
+				YesNoAlertView::Delegates
+				{
+					.onYes = [this]
 					{
-						.onYes = [this]
-						{
-							auto conf = devConf.makeMutableKeyConf(app());
-							if(!conf)
-								return;
-							conf->unbindCategory(cat);
-							updateKeyNames(*conf);
-							devConf.buildKeyMap(app().inputManager);
-						}
-					}),
-				e);
+						auto conf = devConf.makeMutableKeyConf(app());
+						if(!conf)
+							return;
+						conf->unbindCategory(cat);
+						updateKeyNames(*conf);
+						devConf.buildKeyMap(app().inputManager);
+					}
+				}), e);
 		}
 	},
 	resetDefaults
 	{
-		// UI_TEXT("Reset Defaults"),
 		UI_TEXT("恢复默认映射"),
 		attach,
 		[this](const Input::Event &e)
 		{
-			pushAndShowModal(
-				makeView<YesNoAlertView>(
-					// UI_TEXT("Really reset all keys in this category to defaults?"),
-					UI_TEXT("是否要恢复此类别中全部按键的默认映射？"),
-					YesNoAlertView::Delegates
+			pushAndShowModal(makeView<YesNoAlertView>(
+				UI_TEXT("是否要恢复此类别中全部按键的默认映射？"),
+				YesNoAlertView::Delegates
+				{
+					.onYes = [this]
 					{
-						.onYes = [this]
-						{
-							auto conf = devConf.mutableKeyConf(app().inputManager);
-							if(!conf)
-								return;
-							conf->resetCategory(cat, app().inputManager.defaultConfig(devConf.device()));
-							updateKeyNames(*conf);
-							devConf.buildKeyMap(app().inputManager);
-						}
-					}),
-				e);
+						auto conf = devConf.mutableKeyConf(app().inputManager);
+						if(!conf)
+							return;
+						conf->resetCategory(cat, app().inputManager.defaultConfig(devConf.device()));
+						updateKeyNames(*conf);
+						devConf.buildKeyMap(app().inputManager);
+					}
+				}), e);
 		}
 	},
 	cat{cat_},
@@ -208,18 +200,18 @@ void ButtonConfigSetView::initPointerUI()
 	if(pointerUIIsInit())
 		return;
 	log.info("init pointer UI elements");
-	unbind = {
-		renderer().mainTask,
-		// UI_TEXT("Unbind"),
-		UI_TEXT("解除映射"),
-		&defaultFace()
-	};
-	cancel = {
-		renderer().mainTask,
-		// UI_TEXT("Cancel"),
-		UI_TEXT("取消"),
-		&defaultFace()
-	};
+	unbind =
+		{
+			renderer().mainTask,
+			UI_TEXT("解除映射"),
+			&defaultFace()
+		};
+	cancel =
+		{
+			renderer().mainTask,
+			UI_TEXT("取消"),
+			&defaultFace()
+		};
 	unbindB.x2 = 1;
 }
 
@@ -296,12 +288,9 @@ bool ButtonConfigSetView::inputEvent(const Input::Event& e, ViewInputEventParams
 					else
 					{
 						savedDev = d;
-						app().postMessage(
-							7, false,
-							std::format(
-								// UI_TEXT("You pushed a key from device:\n{}\nPush another from it to open its config menu"),
-								UI_TEXT("你在设备：\n{}\n按下了一个键，再按下另一个键可以打开其设置菜单"),
-								inputDevData(*d).displayName));
+						app().postMessage(7, false,	std::format(
+							UI_TEXT("你在设备：\n{}\n按下了一个键，再按下另一个键可以打开其设置菜单"),
+							inputDevData(*d).displayName));
 						postDraw();
 					}
 					return true;
@@ -362,21 +351,13 @@ void ButtonConfigSetView::draw(Gfx::RendererCommands&__restrict__ cmds, ViewDraw
 void ButtonConfigSetView::onAddedToController(ViewController *, const Input::Event &e)
 {
 	if(e.motionEvent())
-		text.resetString(
-			std::format(
-				// UI_TEXT("Push up to 3 keys, release any to set:\n{}"),
-				UI_TEXT("正在设置：{}\n请按下再松开按键完成设置\n(支持最多 3 个按键的组合)"),
-				actionStr
-			)
-		);
+		text.resetString(std::format(
+			UI_TEXT("正在设置：{}\n请按下再松开按键完成设置\n(支持最多 3 个按键的组合)"),
+			actionStr));
 	else
-		text.resetString(
-			std::format(
-				// UI_TEXT("Push up to 3 keys, release any to set:\n{}\n\nTo unbind:\nQuickly push [Left] key twice in previous menu"),
-				UI_TEXT("正在设置：{}\n请按下并松开按键完成设置\n(支持最多 3 个按键的组合)\n\n若想解除映射：\n可在上一界面快速按 [方向键的左] 两次"),
-				actionStr
-			)
-		);
+		text.resetString(std::format(
+			UI_TEXT("正在设置：{}\n请按下并松开按键完成设置\n(支持最多 3 个按键的组合)\n\n若想解除映射：\n可在上一界面快速按两次 [方向键的左]"),
+			actionStr));
 	if(e.motionEvent())
 	{
 		initPointerUI();

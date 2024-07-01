@@ -91,8 +91,9 @@ bool InputManager::handleAppActionKeyInput(EmuApp& app, InputAction action, cons
 			{
 				if(app.saveStateWithSlot(app.system().stateSlot()) && notify)
 				{
-					// app.postMessage(UI_TEXT("State Saved"));
-					app.postMessage(UI_TEXT("进度已保存"));
+					app.postMessage(
+						UI_TEXT("进度已保存")
+					);
 				}
 			};
 			if(app.shouldOverwriteExistingState())
@@ -102,22 +103,17 @@ bool InputManager::handleAppActionKeyInput(EmuApp& app, InputAction action, cons
 			}
 			else
 			{
-				viewController.pushAndShowModal(
-					std::make_unique<YesNoAlertView>(app.attachParams(),
-						// UI_TEXT("Really Overwrite State?"),
-						UI_TEXT("是否要覆盖已有进度？"),
-						YesNoAlertView::Delegates
+				viewController.pushAndShowModal(std::make_unique<YesNoAlertView>(app.attachParams(),
+					UI_TEXT("是否要覆盖已有进度？"),
+					YesNoAlertView::Delegates
+					{
+						.onYes = [&app]
 						{
-							.onYes = [&app]
-							{
-								doSaveState(app, false);
-								app.showEmulation();
-							},
-							.onNo = [&app]{ app.showEmulation(); }
-						}
-					),
-					srcEvent, false
-				);
+							doSaveState(app, false);
+							app.showEmulation();
+						},
+						.onNo = [&app]{ app.showEmulation(); }
+					}),	srcEvent, false);
 			}
 			return true;
 		}
@@ -134,13 +130,9 @@ bool InputManager::handleAppActionKeyInput(EmuApp& app, InputAction action, cons
 			if(!isPushed)
 				break;
 			system.decStateSlot();
-			app.postMessage(1, false,
-				std::format(
-					// UI_TEXT("State Slot: {}"),
-					UI_TEXT("当前的存档点序号：{}"),
-					system.stateSlotName()
-				)
-			);
+			app.postMessage(1, false, std::format(
+				UI_TEXT("当前的存档点序号：{}"),
+				system.stateSlotName()));
 			return true;
 		}
 		case incStateSlot:
@@ -148,13 +140,9 @@ bool InputManager::handleAppActionKeyInput(EmuApp& app, InputAction action, cons
 			if(!isPushed)
 				break;
 			system.incStateSlot();
-			app.postMessage(1, false,
-				std::format(
-					// UI_TEXT("State Slot: {}"),
-					UI_TEXT("当前的存档点序号：{}"),
-					system.stateSlotName()
-				)
-			);
+			app.postMessage(1, false, std::format(
+				UI_TEXT("当前的存档点序号：{}"),
+				system.stateSlotName()));
 			return true;
 		}
 		case takeScreenshot:
@@ -190,14 +178,9 @@ bool InputManager::handleAppActionKeyInput(EmuApp& app, InputAction action, cons
 		{
 			if(!isPushed)
 				break;
-			viewController.pushAndShowModal(
-				std::make_unique<YesNoAlertView>(app.attachParams(),
-					// UI_TEXT("Really Exit?"),
-					UI_TEXT("是否要退出应用？"),
-					YesNoAlertView::Delegates{.onYes = [&app]{ app.appContext().exit(); }}
-				),
-				srcEvent, false
-			);
+			viewController.pushAndShowModal(std::make_unique<YesNoAlertView>(app.attachParams(),
+				UI_TEXT("是否要退出应用程序？"),
+				YesNoAlertView::Delegates{.onYes = [&app]{ app.appContext().exit(); }}), srcEvent, false);
 			break;
 		}
 		case slowMotion:
@@ -220,8 +203,7 @@ bool InputManager::handleAppActionKeyInput(EmuApp& app, InputAction action, cons
 				app.rewindManager.rewindState(app);
 			else
 				app.postMessage(3, false,
-					// UI_TEXT("Please set rewind states in Options➔System")
-					UI_TEXT("请到“选项➔系统”中开启倒带操作")
+					UI_TEXT("请在“选项➔系统”中开启倒带操作")
 				);
 			break;
 		}
@@ -491,17 +473,14 @@ std::string InputManager::toString(KeyInfo k) const
 	std::string s{toString(k.codes[0], k.flags)};
 	for(const auto &c : k.codes | std::ranges::views::drop(1))
 	{
-		s += " + ";
+		s += UI_TEXT(" + ");
 		s += toString(c, k.flags);
 	}
 	if(k.flags.turbo && k.flags.toggle)
-		// s += UI_TEXT(" (Turbo Toggle)");
 		s += UI_TEXT(" (连发 切换)");
 	else if(k.flags.turbo)
-		// s += UI_TEXT(" (Turbo)");
 		s += UI_TEXT(" (连发)");
 	else if(k.flags.toggle)
-		// s += UI_TEXT(" (Toggle)");
 		s += UI_TEXT(" (切换)");
 	return s;
 }
@@ -575,61 +554,42 @@ std::string_view toString(AppKeyCode code)
 	switch(code)
 	{
 		case AppKeyCode::openContent:
-			// return UI_TEXT("Open Content");
 			return UI_TEXT("打开游戏");
 		case AppKeyCode::closeContent:
-			// return UI_TEXT("Close Content");
 			return UI_TEXT("关闭游戏");
 		case AppKeyCode::openSystemActions:
-			// return UI_TEXT("Open System Actions");
 			return UI_TEXT("打开模拟器菜单");
 		case AppKeyCode::saveState:
-			// return UI_TEXT("Save State");
 			return UI_TEXT("保存进度");
 		case AppKeyCode::loadState:
-			// return UI_TEXT("Load State");
 			return UI_TEXT("读取进度");
 		case AppKeyCode::decStateSlot:
-			// return UI_TEXT("Decrement State Slot");
 			return UI_TEXT("上一个存档点");
 		case AppKeyCode::incStateSlot:
-			// return UI_TEXT("Increment State Slot");
 			return UI_TEXT("下一个存档点");
 		case AppKeyCode::fastForward:
-			// return UI_TEXT("Fast-forward");
 			return UI_TEXT("快进");
 		case AppKeyCode::takeScreenshot:
-			// return UI_TEXT("Take Screenshot");
 			return UI_TEXT("截图");
 		case AppKeyCode::openMenu:
-			// return UI_TEXT("Open Menu");
 			return UI_TEXT("打开菜单");
 		case AppKeyCode::toggleFastForward:
-			// return UI_TEXT("Toggle Fast-forward");
 			return UI_TEXT("快进切换");
 		case AppKeyCode::turboModifier:
-			// return UI_TEXT("Turbo Modifier");
 			return UI_TEXT("连发调节");
 		case AppKeyCode::exitApp:
-			// return UI_TEXT("Exit App");
-			return UI_TEXT("退出应用");
+			return UI_TEXT("退出应用程序");
 		case AppKeyCode::slowMotion:
-			// return UI_TEXT("Slow-motion");
 			return UI_TEXT("慢动作");
 		case AppKeyCode::toggleSlowMotion:
-			// return UI_TEXT("Toggle Slow-motion");
 			return UI_TEXT("慢动作切换");
 		case AppKeyCode::rewind:
-			// return UI_TEXT("Rewind One State");
 			return UI_TEXT("倒退一个进度");
 		case AppKeyCode::softReset:
-			// return UI_TEXT("Soft Reset");
 			return UI_TEXT("软重启");
 		case AppKeyCode::hardReset:
-			// return UI_TEXT("Hard Reset");
 			return UI_TEXT("硬重启");
 		case AppKeyCode::resetMenu:
-			// return UI_TEXT("Open Reset Menu");
 			return UI_TEXT("打开重启菜单");
 	};
 	return "";

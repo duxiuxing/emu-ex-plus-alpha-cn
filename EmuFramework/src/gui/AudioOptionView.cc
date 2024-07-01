@@ -25,15 +25,12 @@ namespace EmuEx
 AudioOptionView::AudioOptionView(ViewAttachParams attach, EmuAudio& audio_, bool customMenu):
 	TableView
 	{
-		// UI_TEXT("Audio Options"),
 		UI_TEXT("音频选项"),
-		attach,
-		item
+		attach,	item
 	},
 	audio{audio_},
 	snd
 	{
-		// UI_TEXT("Sound"),
 		UI_TEXT("声音"),
 		attach,
 		audio_.isEnabled(),
@@ -44,7 +41,6 @@ AudioOptionView::AudioOptionView(ViewAttachParams attach, EmuAudio& audio_, bool
 	},
 	soundDuringFastSlowMode
 	{
-		// UI_TEXT("Sound During Fast/Slow Mode"),
 		UI_TEXT("声音 (变速模式下)"),
 		attach,
 		audio_.isEnabledDuringAltSpeed(),
@@ -55,18 +51,15 @@ AudioOptionView::AudioOptionView(ViewAttachParams attach, EmuAudio& audio_, bool
 	},
 	soundVolumeItem
 	{
-		{"100%", attach, {.id = 100}},
-		{"50%",  attach, {.id = 50}},
-		{"25%",  attach, {.id = 25}},
+		{UI_TEXT("100%"), attach, {.id = 100}},
+		{UI_TEXT("50%"),  attach, {.id = 50}},
+		{UI_TEXT("25%"),  attach, {.id = 25}},
 		{
-			// UI_TEXT("Custom Value"),
 			UI_TEXT("自定义"),
 			attach,
 			[this](const Input::Event &e)
 			{
-				pushAndShowNewCollectValueRangeInputView<int, 0, 125>(
-					attachParams(), e,
-					// UI_TEXT("Input 0 to 125"),
+				pushAndShowNewCollectValueRangeInputView<int, 0, 125>(attachParams(), e,
 					UI_TEXT("请输入 0 到 125 之间的值"),
 					"",
 					[this](CollectTextInputView &, auto val)
@@ -82,7 +75,6 @@ AudioOptionView::AudioOptionView(ViewAttachParams attach, EmuAudio& audio_, bool
 	},
 	soundVolume
 	{
-		// UI_TEXT("Volume"),
 		UI_TEXT("音量"),
 		attach,
 		MenuId{audio_.maxVolume()},
@@ -98,17 +90,16 @@ AudioOptionView::AudioOptionView(ViewAttachParams attach, EmuAudio& audio_, bool
 	},
 	soundBuffersItem
 	{
-		{"1", attach, {.id = 1}},
-		{"2", attach, {.id = 2}},
-		{"3", attach, {.id = 3}},
-		{"4", attach, {.id = 4}},
-		{"5", attach, {.id = 5}},
-		{"6", attach, {.id = 6}},
-		{"7", attach, {.id = 7}},
+		{UI_TEXT("1"), attach, {.id = 1}},
+		{UI_TEXT("2"), attach, {.id = 2}},
+		{UI_TEXT("3"), attach, {.id = 3}},
+		{UI_TEXT("4"), attach, {.id = 4}},
+		{UI_TEXT("5"), attach, {.id = 5}},
+		{UI_TEXT("6"), attach, {.id = 6}},
+		{UI_TEXT("7"), attach, {.id = 7}},
 	},
 	soundBuffers
 	{
-		// UI_TEXT("Buffer Size In Frames"),
 		UI_TEXT("缓冲区大小 (单位：帧)"),
 		attach,
 		MenuId{audio_.soundBuffers},
@@ -119,7 +110,6 @@ AudioOptionView::AudioOptionView(ViewAttachParams attach, EmuAudio& audio_, bool
 	},
 	addSoundBuffersOnUnderrun
 	{
-		// UI_TEXT("Auto-increase Buffer Size"),
 		UI_TEXT("自动调整缓冲区大小"),
 		attach,
 		audio_.addSoundBuffersOnUnderrunSetting,
@@ -134,7 +124,6 @@ AudioOptionView::AudioOptionView(ViewAttachParams attach, EmuAudio& audio_, bool
 		{
 			decltype(audioRateItem) items;
 			items.emplace_back(
-				// UI_TEXT("Device Native"),
 				UI_TEXT("和当前设备一致"),
 				attach,
 				[this](View &view)
@@ -145,17 +134,16 @@ AudioOptionView::AudioOptionView(ViewAttachParams attach, EmuAudio& audio_, bool
 					return false;
 				});
 			auto setRateDel = [this](TextMenuItem &item) { audio.setRate(item.id); };
-			items.emplace_back("22KHz", attach, setRateDel, MenuItem::Config{.id = 22050});
-			items.emplace_back("32KHz", attach, setRateDel, MenuItem::Config{.id = 32000});
-			items.emplace_back("44KHz", attach, setRateDel, MenuItem::Config{.id = 44100});
+			items.emplace_back(UI_TEXT("22KHz"), attach, setRateDel, MenuItem::Config{.id = 22050});
+			items.emplace_back(UI_TEXT("32KHz"), attach, setRateDel, MenuItem::Config{.id = 32000});
+			items.emplace_back(UI_TEXT("44KHz"), attach, setRateDel, MenuItem::Config{.id = 44100});
 			if(audio.maxRate() >= 48000)
-				items.emplace_back("48KHz", attach, setRateDel, MenuItem::Config{.id = 48000});
+				items.emplace_back(UI_TEXT("48KHz"), attach, setRateDel, MenuItem::Config{.id = 48000});
 			return items;
 		}()
 	},
 	audioRate
 	{
-		// UI_TEXT("Sound Rate"),
 		UI_TEXT("声音采样率"),
 		attach,
 		MenuId{audio_.rate()},
@@ -163,7 +151,6 @@ AudioOptionView::AudioOptionView(ViewAttachParams attach, EmuAudio& audio_, bool
 	},
 	audioSoloMix
 	{
-		// UI_TEXT("Mix With Other Apps"),
 		UI_TEXT("混音"),
 		attach,
 		!audio_.manager.soloMix(),
@@ -178,7 +165,6 @@ AudioOptionView::AudioOptionView(ViewAttachParams attach, EmuAudio& audio_, bool
 		{
 			ApiItemContainer items{};
 			items.emplace_back(
-				// UI_TEXT("Auto"),
 				UI_TEXT("自动"),
 				attachParams(),
 				[this](View &view)
@@ -200,7 +186,6 @@ AudioOptionView::AudioOptionView(ViewAttachParams attach, EmuAudio& audio_, bool
 	},
 	api
 	{
-		// UI_TEXT("Audio Driver"),
 		UI_TEXT("音频驱动"),
 		attach,
 		MenuId{audio_.manager.makeValidAPI(audio_.outputAPI())},

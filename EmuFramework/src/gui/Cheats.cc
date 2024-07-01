@@ -23,29 +23,25 @@ namespace EmuEx
 BaseCheatsView::BaseCheatsView(ViewAttachParams attach):
 	TableView
 	{
-		// UI_TEXT("Cheats"),
 		UI_TEXT("金手指"),
 		attach,
 		[this](ItemMessage msg) -> ItemReply
 		{
-			return msg.visit(
-				overloaded
+			return msg.visit(overloaded
+			{
+				[&](const ItemsMessage &m) -> ItemReply { return 1 + cheat.size(); },
+				[&](const GetItemMessage &m) -> ItemReply
 				{
-					[&](const ItemsMessage &m) -> ItemReply { return 1 + cheat.size(); },
-					[&](const GetItemMessage &m) -> ItemReply
-					{
-						if(m.idx == 0)
-							return &edit;
-						else
-							return &cheat[m.idx - 1];
-					},
-				}
-			);
+					if(m.idx == 0)
+						return &edit;
+					else
+						return &cheat[m.idx - 1];
+				},
+			});
 		}
 	},
 	edit
 	{
-		// UI_TEXT("Add/Edit"),
 		UI_TEXT("添加/编辑"),
 		attach,
 		[this](const Input::Event &e)
@@ -58,8 +54,7 @@ BaseCheatsView::BaseCheatsView(ViewAttachParams attach):
 					loadCheatItems();
 					highlightCell(selectedCell);
 					place();
-				}
-			);
+				});
 			pushAndShow(std::move(editCheatsView), e);
 		}
 	} {}
@@ -67,7 +62,6 @@ BaseCheatsView::BaseCheatsView(ViewAttachParams attach):
 BaseEditCheatListView::BaseEditCheatListView(ViewAttachParams attach, TableView::ItemSourceDelegate itemSrc):
 	TableView
 	{
-		// UI_TEXT("Edit Cheats"),
 		UI_TEXT("编辑金手指"),
 		attach,
 		itemSrc

@@ -24,35 +24,26 @@ namespace EmuEx
 CPUAffinityView::CPUAffinityView(ViewAttachParams attach, int cpuCount):
 	TableView
 	{
-		// UI_TEXT("Configure CPU Affinity"),
 		UI_TEXT("CPU 亲和性配置"),
-		attach,
-		menuItems
+		attach,	menuItems
 	},
 	affinityModeItems
 	{
 		{
-			// UI_TEXT("Auto (Use only performance cores or hints for low latency)"),
 			UI_TEXT("Auto (仅使用性能核心或提示实现低延迟)"),
-			attach,
-			{.id = CPUAffinityMode::Auto}
+			attach,	{.id = CPUAffinityMode::Auto}
 		},
 		{
-			// UI_TEXT("Any (Use any core even if it increases latency)"),
 			UI_TEXT("Any (使用任何核心，即使它增加了延迟)"),
-			attach,
-			{.id = CPUAffinityMode::Any}
+			attach,	{.id = CPUAffinityMode::Any}
 		},
 		{
-			// UI_TEXT("Manual (Use cores set in previous menu)"),
 			UI_TEXT("Manual (使用上一界面中开启的核心)"),
-			attach,
-			{.id = CPUAffinityMode::Manual}
+			attach,	{.id = CPUAffinityMode::Manual}
 		},
 	},
 	affinityMode
 	{
-		// UI_TEXT("CPU Affinity Mode"),
 		UI_TEXT("CPU 亲和性模式"),
 		attach,
 		MenuId{app().cpuAffinityMode.value()},
@@ -68,7 +59,6 @@ CPUAffinityView::CPUAffinityView(ViewAttachParams attach, int cpuCount):
 	},
 	cpusHeading
 	{
-		// UI_TEXT("Manual CPU Affinity"),
 		UI_TEXT("CPU 的各个核心："),
 		attach
 	}
@@ -82,9 +72,10 @@ CPUAffinityView::CPUAffinityView(ViewAttachParams attach, int cpuCount):
 			{
 				auto freq = appContext().maxCPUFrequencyKHz(i);
 				if(!freq)
-					// return std::format(UI_TEXT("{} (Offline)"), i);
-					return std::format(UI_TEXT("{} (离线)"), i);
-				return std::format("{} ({}MHz)", i, freq / 1000);
+					return std::format(
+						UI_TEXT("{} (离线)"),
+						i);
+				return std::format(UI_TEXT("{} ({}MHz)"), i, freq / 1000);
 			}(),
 			attach, app().cpuAffinity(i),
 			[this, i](BoolMenuItem &item) { app().setCPUAffinity(i, item.flipBoolValue(*this)); });
