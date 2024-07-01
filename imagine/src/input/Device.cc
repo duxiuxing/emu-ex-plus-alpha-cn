@@ -58,244 +58,164 @@ static const char *keyButtonName(Key b)
 		case Keycode::N:
 			return UI_TEXT("n 键");
 		case Keycode::O:
-			// return UI_TEXT("o");
 			return UI_TEXT("o 键");
 		case Keycode::P:
-			// return UI_TEXT("p");
 			return UI_TEXT("p 键");
 		case Keycode::Q:
-			// return UI_TEXT("q");
 			return UI_TEXT("q 键");
 		case Keycode::R:
-			// return UI_TEXT("r");
 			return UI_TEXT("r 键");
 		case Keycode::S:
-			// return UI_TEXT("s");
 			return UI_TEXT("s 键");
 		case Keycode::T:
-			// return UI_TEXT("t");
 			return UI_TEXT("t 键");
 		case Keycode::U:
-			// return UI_TEXT("u");
 			return UI_TEXT("u 键");
 		case Keycode::V:
-			// return UI_TEXT("v");
 			return UI_TEXT("v 键");
 		case Keycode::W:
-			// return UI_TEXT("w");
 			return UI_TEXT("w 键");
 		case Keycode::X:
-			// return UI_TEXT("x");
 			return UI_TEXT("x 键");
 		case Keycode::Y:
-			// return UI_TEXT("y");
 			return UI_TEXT("y 键");
 		case Keycode::Z:
-			// return UI_TEXT("z");
 			return UI_TEXT("z 键");
 		case Keycode::APOSTROPHE:
-			// return UI_TEXT("'");
-			return UI_TEXT("' 键");
+			return UI_TEXT("' 键 (单引号)");
 		case Keycode::COMMA:
-			// return UI_TEXT(",");
 			return UI_TEXT(", 键");
 		case Keycode::MINUS:
-			// return UI_TEXT("-");
 			return UI_TEXT("- 键");
 		case Keycode::PERIOD:
-			// return UI_TEXT(".");
 			return UI_TEXT(". 键");
 		case Keycode::SLASH:
-			// return UI_TEXT("/");
 			return UI_TEXT("/ 键");
 		case Keycode::_0:
-			// return UI_TEXT("0");
 			return UI_TEXT("0 键");
 		case Keycode::_1:
-			// return UI_TEXT("1");
 			return UI_TEXT("1 键");
 		case Keycode::_2:
-			// return UI_TEXT("2");
 			return UI_TEXT("2 键");
 		case Keycode::_3:
-			// return UI_TEXT("3");
 			return UI_TEXT("3 键");
 		case Keycode::_4:
-			// return UI_TEXT("4");
 			return UI_TEXT("4 键");
 		case Keycode::_5:
-			// return UI_TEXT("5");
 			return UI_TEXT("5 键");
 		case Keycode::_6:
-			// return UI_TEXT("6");
 			return UI_TEXT("6 键");
 		case Keycode::_7:
-			// return UI_TEXT("7");
 			return UI_TEXT("7 键");
 		case Keycode::_8:
-			// return UI_TEXT("8");
 			return UI_TEXT("8 键");
 		case Keycode::_9:
-			// return UI_TEXT("9");
 			return UI_TEXT("9 键");
 		case Keycode::SEMICOLON:
-			// return UI_TEXT(";");
 			return UI_TEXT("; 键");
 		case Keycode::EQUALS:
-			// return UI_TEXT("=");
 			return UI_TEXT("= 键");
 		case Keycode::LEFT_BRACKET:
-			// return UI_TEXT("[");
 			return UI_TEXT("[ 键");
 		case Keycode::BACKSLASH:
-			// return UI_TEXT("\\");
 			return UI_TEXT("\\ 键");
 		case Keycode::RIGHT_BRACKET:
-			// return UI_TEXT("]");
 			return UI_TEXT("] 键");
 		case Keycode::GRAVE:
-			// return UI_TEXT("`");
-			return UI_TEXT("` 键");
+			return UI_TEXT("` 键 (反引号)");
 		case Keycode::BACK:
-			// return UI_TEXT("Back");
 			return UI_TEXT("返回键");
 		case Keycode::ESCAPE:
-			// return UI_TEXT("Escape");
 			return UI_TEXT("Esc 键");
 		case Keycode::ENTER:
-			// return UI_TEXT("Enter");
 			return UI_TEXT("回车键");
 		case Keycode::LALT:
-			// return UI_TEXT("Left Alt");
 			return UI_TEXT("左边的 Alt 键");
 		case Keycode::RALT:
-			// return UI_TEXT("Right Alt");
 			return UI_TEXT("右边的 Alt 键");
 		case Keycode::LSHIFT:
-			// return UI_TEXT("Left Shift");
 			return UI_TEXT("左边的 Shift 键");
 		case Keycode::RSHIFT:
-			// return UI_TEXT("Right Shift");
 			return UI_TEXT("右边的 Shift 键");
 		case Keycode::LCTRL:
-			// return UI_TEXT("Left Ctrl");
 			return UI_TEXT("左边的 Ctrl 键");
 		case Keycode::RCTRL:
-			// return UI_TEXT("Right Ctrl");
 			return UI_TEXT("右边的 Ctrl 键");
 		case Keycode::UP:
-			// return UI_TEXT("Up");
-			return UI_TEXT("方向键上");
+			return UI_TEXT("方向键的上");
 		case Keycode::RIGHT:
-			// return UI_TEXT("Right");
-			return UI_TEXT("方向键右");
+			return UI_TEXT("方向键的右");
 		case Keycode::DOWN:
-			// return UI_TEXT("Down");
-			return UI_TEXT("方向键下");
-		case Keycode::LEFT:
-			// return UI_TEXT("Left");
-			return UI_TEXT("方向键左");
+			return UI_TEXT("方向键的下");
+		case Keycode::LEFT:;
+			return UI_TEXT("方向键的左");
 		case Keycode::BACK_SPACE:
-			// return UI_TEXT("Back Space");
 			return UI_TEXT("退格键");
 		case Keycode::MENU:
-			// return UI_TEXT("Menu");
 			return UI_TEXT("菜单键");
 		case Keycode::HOME:
-			// return UI_TEXT("Home");
 			return UI_TEXT("Home 键");
 		case Keycode::END:
-			// return UI_TEXT("End");
 			return UI_TEXT("End 键");
 		case Keycode::INSERT:
-			// return UI_TEXT("Insert");
 			return UI_TEXT("插入键");
 		case Keycode::DELETE:
-			// return UI_TEXT("Delete");
 			return UI_TEXT("删除键");
 		case Keycode::TAB:
-			// return UI_TEXT("Tab");
 			return UI_TEXT("Tab 键");
 		case Keycode::SCROLL_LOCK:
-			// return UI_TEXT("Scroll Lock");
 			return UI_TEXT("滑动锁定键");
 		case Keycode::CAPS:
-			// return UI_TEXT("Caps Lock");
 			return UI_TEXT("大写切换键");
 		case Keycode::PAUSE:
-			// return UI_TEXT("Pause");
 			return UI_TEXT("暂停键");
 		case Keycode::LSUPER:
-			// return UI_TEXT("Left Start/Option");
 			return UI_TEXT("左边的开始键");
 		case Keycode::RSUPER:
-			// return UI_TEXT("Right Start/Option");
 			return UI_TEXT("右边的开始键");
 		case Keycode::PGUP:
-			// return UI_TEXT("Page Up");
 			return UI_TEXT("向上翻页键");
 		case Keycode::PGDOWN:
-			// return UI_TEXT("Page Down");
 			return UI_TEXT("向下翻页键");
 		case Keycode::PRINT_SCREEN:
-			// return UI_TEXT("Print Screen");
 			return UI_TEXT("截屏键");
 		case Keycode::NUM_LOCK:
-			// return UI_TEXT("Num Lock");
 			return UI_TEXT("数字锁定键");
 		case Keycode::NUMPAD_0:
-			// return UI_TEXT("Numpad 0");
 			return UI_TEXT("数字键盘的 0");
 		case Keycode::NUMPAD_1:
-			// return UI_TEXT("Numpad 1");
 			return UI_TEXT("数字键盘的 1");
 		case Keycode::NUMPAD_2:
-			// return UI_TEXT("Numpad 2");
 			return UI_TEXT("数字键盘的 2");
 		case Keycode::NUMPAD_3:
-			// return UI_TEXT("Numpad 3");
 			return UI_TEXT("数字键盘的 3");
 		case Keycode::NUMPAD_4:
-			// return UI_TEXT("Numpad 4");
 			return UI_TEXT("数字键盘的 4");
 		case Keycode::NUMPAD_5:
-			// return UI_TEXT("Numpad 5");
 			return UI_TEXT("数字键盘的 5");
 		case Keycode::NUMPAD_6:
-			// return UI_TEXT("Numpad 6");
 			return UI_TEXT("数字键盘的 6");
 		case Keycode::NUMPAD_7:
-			// return UI_TEXT("Numpad 7");
 			return UI_TEXT("数字键盘的 7");
 		case Keycode::NUMPAD_8:
-			// return UI_TEXT("Numpad 8");
 			return UI_TEXT("数字键盘的 8");
 		case Keycode::NUMPAD_9:
-			// return UI_TEXT("Numpad 9");
 			return UI_TEXT("数字键盘的 9");
 		case Keycode::NUMPAD_DIV:
-			// return UI_TEXT("Numpad /");
 			return UI_TEXT("数字键盘的 /");
 		case Keycode::NUMPAD_MULT:
-			// return UI_TEXT("Numpad *");
 			return UI_TEXT("数字键盘的 *");
 		case Keycode::NUMPAD_SUB:
-			// return UI_TEXT("Numpad -");
 			return UI_TEXT("数字键盘的 -");
 		case Keycode::NUMPAD_ADD:
-			// return UI_TEXT("Numpad +");
 			return UI_TEXT("数字键盘的 +");
 		case Keycode::NUMPAD_DOT:
-			// return UI_TEXT("Numpad .");
 			return UI_TEXT("数字键盘的 .");
 		case Keycode::NUMPAD_COMMA:
-			// return UI_TEXT("Numpad ,");
 			return UI_TEXT("数字键盘的 ,");
 		case Keycode::NUMPAD_ENTER:
-			// return UI_TEXT("Numpad Enter");
 			return UI_TEXT("数字键盘的回车");
 		case Keycode::NUMPAD_EQUALS:
-			// return UI_TEXT("Numpad =");
 			return UI_TEXT("数字键盘的 =");
 		#if CONFIG_PACKAGE_X11 || defined __ANDROID__
 		case Keycode::AT:
@@ -352,86 +272,59 @@ static const char *keyButtonName(Key b)
 			return UI_TEXT("Right Meta");
 		#endif
 		case Keycode::F1:
-			// return UI_TEXT("F1");
 			return UI_TEXT("F1 键");
 		case Keycode::F2:
-			// return UI_TEXT("F2");
 			return UI_TEXT("F2 键");
 		case Keycode::F3:
-			// return UI_TEXT("F3");
 			return UI_TEXT("F3 键");
 		case Keycode::F4:
-			// return UI_TEXT("F4");
 			return UI_TEXT("F4 键");
 		case Keycode::F5:
-			// return UI_TEXT("F5");
 			return UI_TEXT("F5 键");
 		case Keycode::F6:
-			// return UI_TEXT("F6");
 			return UI_TEXT("F6 键");
 		case Keycode::F7:
-			// return UI_TEXT("F7");
 			return UI_TEXT("F7 键");
 		case Keycode::F8:
-			// return UI_TEXT("F8");
 			return UI_TEXT("F8 键");
 		case Keycode::F9:
-			// return UI_TEXT("F9");
 			return UI_TEXT("F9 键");
 		case Keycode::F10:
-			// eturn UI_TEXT("F10");
 			return UI_TEXT("F10 键");
 		case Keycode::F11:
-			// return UI_TEXT("F11");
 			return UI_TEXT("F11 键");
 		case Keycode::F12:
-			// return UI_TEXT("F12");
 			return UI_TEXT("F12 键");
 		case Keycode::GAME_A:
-			// return UI_TEXT("A");
-			return UI_TEXT("游戏手柄的 A");
+			return UI_TEXT("A 键");
 		case Keycode::GAME_B:
-			// return UI_TEXT("B");
-			return UI_TEXT("游戏手柄的 B");
+			return UI_TEXT("B 键");
 		case Keycode::GAME_C:
-			// return UI_TEXT("C");
-			return UI_TEXT("游戏手柄的 C");
+			return UI_TEXT("C 键");
 		case Keycode::GAME_X:
-			// return UI_TEXT("X");
-			return UI_TEXT("游戏手柄的 X");
+			return UI_TEXT("X 键");
 		case Keycode::GAME_Y:
-			// return UI_TEXT("Y");
-			return UI_TEXT("游戏手柄的 Y");
+			return UI_TEXT("Y 键");
 		case Keycode::GAME_Z:
-			// return UI_TEXT("Z");
-			return UI_TEXT("游戏手柄的 Z");
+			return UI_TEXT("Z 键");
 		case Keycode::GAME_L1:
-			// return UI_TEXT("L1");
-			return UI_TEXT("游戏手柄的 L1");
+			return UI_TEXT("L1 键");
 		case Keycode::GAME_R1:
-			// return UI_TEXT("R1");
-			return UI_TEXT("游戏手柄的 R1");
+			return UI_TEXT("R1 键");
 		case Keycode::GAME_L2:
-			// return UI_TEXT("L2");
-			return UI_TEXT("游戏手柄的 L2");
+			return UI_TEXT("L2 键");
 		case Keycode::GAME_R2:
-			// return UI_TEXT("R2");
-			return UI_TEXT("游戏手柄的 R2");
+			return UI_TEXT("R2 键");
 		case Keycode::GAME_LEFT_THUMB:
-			// return UI_TEXT("L-Thumb");
-			return UI_TEXT("游戏手柄的 L-Thumb");
+			return UI_TEXT("L-Thumb 键");
 		case Keycode::GAME_RIGHT_THUMB:
-			// return UI_TEXT("R-Thumb");
-			return UI_TEXT("游戏手柄的 R-Thumb");
+			return UI_TEXT("R-Thumb 键");
 		case Keycode::GAME_START:
-			// return UI_TEXT("Start");
-			return UI_TEXT("游戏手柄的开始");
+			return UI_TEXT("开始键");
 		case Keycode::GAME_SELECT:
-			// return UI_TEXT("Select");
-			return UI_TEXT("游戏手柄的选择");
+			return UI_TEXT("选择键");
 		case Keycode::GAME_MODE:
-			// return UI_TEXT("Mode");
-			return UI_TEXT("游戏手柄的模式");
+			return UI_TEXT("模式键");
 		case Keycode::GAME_1:
 			return UI_TEXT("G1");
 		case Keycode::GAME_2:
@@ -473,13 +366,13 @@ static const char *keyButtonName(Key b)
 		case Keycode::JS1_YAXIS_NEG:
 			return UI_TEXT("Y Axis-");
 		case Keycode::JS2_XAXIS_POS:
-			return UI_TEXT("X Axis+ 2");
+			return UI_TEXT("右摇杆的右");
 		case Keycode::JS2_XAXIS_NEG:
-			return UI_TEXT("X Axis- 2");
+			return UI_TEXT("右摇杆的左");
 		case Keycode::JS2_YAXIS_POS:
-			return UI_TEXT("Y Axis+ 2");
+			return UI_TEXT("右摇杆的下");
 		case Keycode::JS2_YAXIS_NEG:
-			return UI_TEXT("Y Axis- 2");
+			return UI_TEXT("右摇杆的上");
 		case Keycode::JS3_XAXIS_POS:
 			return UI_TEXT("X Axis+ 3");
 		case Keycode::JS3_XAXIS_NEG:
@@ -505,16 +398,12 @@ static const char *keyButtonName(Key b)
 		case Keycode::JS_WHEEL_AXIS_NEG:
 			return UI_TEXT("Wheel Left");
 		case Keycode::JS_LTRIGGER_AXIS:
-			// return UI_TEXT("L Trigger");
-			return UI_TEXT("左边的扳机");
+			return UI_TEXT("左扳机");
 		case Keycode::JS_RTRIGGER_AXIS:
-			// return UI_TEXT("R Trigger");
-			return UI_TEXT("右边的扳机");
+			return UI_TEXT("右扳机");
 		case Keycode::JS_GAS_AXIS:
-			// return UI_TEXT("Gas");
 			return UI_TEXT("油门");
 		case Keycode::JS_BRAKE_AXIS:
-			// return UI_TEXT("Brake");
 			return UI_TEXT("刹车");
 		// Android-specific
 		#ifdef __ANDROID__
@@ -559,19 +448,19 @@ static const char *ps3SysButtonName(Key b)
 	switch(b)
 	{
 		case Keycode::PS3::CROSS:
-			return UI_TEXT("Cross");
+			return UI_TEXT("交叉键");
 		case Keycode::PS3::CIRCLE:
-			return UI_TEXT("Circle");
+			return UI_TEXT("圆圈键");
 		case Keycode::PS3::SQUARE:
-			return UI_TEXT("Square");
+			return UI_TEXT("正方键");
 		case Keycode::PS3::TRIANGLE:
-			 return UI_TEXT("Triangle");
+			 return UI_TEXT("三角键");
 		case Keycode::PS3::PS:
-			return UI_TEXT("PS");
+			return UI_TEXT("PS 键");
 		case Keycode::GAME_LEFT_THUMB:
-			return UI_TEXT("L3");
+			return UI_TEXT("L3 键");
 		case Keycode::GAME_RIGHT_THUMB:
-			return UI_TEXT("R3");
+			return UI_TEXT("R3 键");
 	}
 	return nullptr;
 	#else
@@ -585,13 +474,13 @@ static const char *xperiaPlayButtonName(Key b)
 	switch(b)
 	{
 		case Keycode::XperiaPlay::CROSS:
-			return UI_TEXT("Cross");
+			return UI_TEXT("交叉键");
 		case Keycode::XperiaPlay::CIRCLE:
-			return UI_TEXT("Circle");
+			return UI_TEXT("圆圈键");
 		case Keycode::XperiaPlay::SQUARE:
-			return UI_TEXT("Square");
+			return UI_TEXT("正方键");
 		case Keycode::XperiaPlay::TRIANGLE:
-			return UI_TEXT("Triangle");
+			return UI_TEXT("三角键");
 	}
 	return nullptr;
 }
@@ -601,19 +490,19 @@ static const char *ouyaButtonName(Key b)
 	switch(b)
 	{
 		case Keycode::Ouya::O:
-			return UI_TEXT("O");
+			return UI_TEXT("O 键");
 		case Keycode::Ouya::U:
-			return UI_TEXT("U");
+			return UI_TEXT("U 键");
 		case Keycode::Ouya::Y:
-			return UI_TEXT("Y");
+			return UI_TEXT("Y 键");
 		case Keycode::Ouya::A:
-			return UI_TEXT("A");
+			return UI_TEXT("A 键");
 		case Keycode::Ouya::L3:
-			return UI_TEXT("L3");
+			return UI_TEXT("L3 键");
 		case Keycode::Ouya::R3:
-			return UI_TEXT("R3");
+			return UI_TEXT("R3 键");
 		case Keycode::MENU:
-			return UI_TEXT("System");
+			return UI_TEXT("系统键");
 	}
 	return nullptr;
 }
@@ -625,23 +514,23 @@ static const char *openPandoraButtonName(Key b)
 	switch(b)
 	{
 		case Keycode::Pandora::L:
-			return UI_TEXT("L");
+			return UI_TEXT("L 键");
 		case Keycode::Pandora::R:
-			return UI_TEXT("R");
+			return UI_TEXT("R 键");
 		case Keycode::Pandora::A:
-			return UI_TEXT("A");
+			return UI_TEXT("A 键");
 		case Keycode::Pandora::B:
-			return UI_TEXT("B");
+			return UI_TEXT("B 键");
 		case Keycode::Pandora::Y:
-			return UI_TEXT("Y");
+			return UI_TEXT("Y 键");
 		case Keycode::Pandora::X:
-			return UI_TEXT("X");
+			return UI_TEXT("X 键");
 		case Keycode::Pandora::SELECT:
-			return UI_TEXT("Select");
+			return UI_TEXT("选择键");
 		case Keycode::Pandora::START:
-			return UI_TEXT("Start");
+			return UI_TEXT("开始键");
 		case Keycode::Pandora::LOGO:
-			return UI_TEXT("Logo");
+			return UI_TEXT("Logo 键");
 	}
 	return nullptr;
 }
@@ -745,13 +634,13 @@ std::string Device::keyString(Key k, KeyNameFlags flags) const
 			{
 				case LALT:
 				case RALT:
-					return UI_TEXT("Alt");
+					return UI_TEXT("Alt 键");
 				case LSHIFT:
 				case RSHIFT:
-					return UI_TEXT("Shift");
+					return UI_TEXT("Shift 键");
 				case LCTRL:
 				case RCTRL:
-					return UI_TEXT("Ctrl");
+					return UI_TEXT("Ctrl 键");
 			}
 		}
 		return std::string{name};

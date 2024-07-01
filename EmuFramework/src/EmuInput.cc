@@ -621,7 +621,7 @@ std::string_view toString(AppKeyCode code)
 			return UI_TEXT("慢动作切换");
 		case AppKeyCode::rewind:
 			// return UI_TEXT("Rewind One State");
-			return UI_TEXT("回退一个进度");
+			return UI_TEXT("倒退一个进度");
 		case AppKeyCode::softReset:
 			// return UI_TEXT("Soft Reset");
 			return UI_TEXT("软重启");
