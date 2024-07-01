@@ -104,7 +104,6 @@ public:
 	auto diagonalSensitivity() const { return config.diagonalSensitivity; }
 	std::string name(const InputManager &) const
 	{
-		// return UI_TEXT("D-Pad");
 		return UI_TEXT("方向键");
 	}
 	void updateMeasurements(const Window &win);

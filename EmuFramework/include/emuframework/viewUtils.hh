@@ -114,7 +114,6 @@ inline void pushAndShowNewCollectValueInputView(ViewAttachParams attach, const I
 			if(items <= 0)
 			{
 				postErrorMessage(view.appContext(),
-					// UI_TEXT("Enter a value")
 					UI_TEXT("请输入一个值")
 				);
 				return true;
@@ -145,7 +144,6 @@ inline void pushAndShowNewCollectValueRangeInputView(ViewAttachParams attach, co
 			else
 			{
 				postErrorMessage(view.appContext(),
-					// UI_TEXT("Value not in range")
 					UI_TEXT("输入值不在有效的取值范围")
 				);
 				return false;
@@ -167,7 +165,6 @@ inline void pushAndShowNewCollectValuePairRangeInputView(ViewAttachParams attach
 			else
 			{
 				postErrorMessage(view.appContext(),
-					// UI_TEXT("Values not in range")
 					UI_TEXT("输入值不在有效的取值范围")
 				);
 				return false;
