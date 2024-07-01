@@ -113,7 +113,7 @@ bool InputManager::handleAppActionKeyInput(EmuApp& app, InputAction action, cons
 							app.showEmulation();
 						},
 						.onNo = [&app]{ app.showEmulation(); }
-					}),	srcEvent, false);
+					}), srcEvent, false);
 			}
 			return true;
 		}

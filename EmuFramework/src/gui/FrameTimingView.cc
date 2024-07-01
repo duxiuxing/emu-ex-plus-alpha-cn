@@ -117,9 +117,13 @@ public:
 			auto detectedFrameTime = round<SteadyClockTime>(detectedFrameTimeSecs);
 			{
 				if(detectedFrameTime.count())
-					fpsText.resetString(std::format("{:g}fps", toHz(detectedFrameTimeSecs)));
+					fpsText.resetString(std::format(
+						UI_TEXT("{:g}fps"),
+						toHz(detectedFrameTimeSecs)));
 				else
-					fpsText.resetString("0fps");
+					fpsText.resetString(
+						UI_TEXT("0fps")
+					);
 				fpsText.compile();
 			}
 			if(stableFrameTime)
@@ -179,7 +183,9 @@ static std::string makeFrameRateStr(VideoSystem vidSys, const OutputTimingManage
 	else if(frameTimeOpt == OutputTimingManager::originalOption)
 		return UI_TEXT("原始");
 	else
-		return std::format("{:g}Hz", toHz(frameTimeOpt));
+		return std::format(
+			UI_TEXT("{:g}Hz"),
+			toHz(frameTimeOpt));
 }
 
 FrameTimingView::FrameTimingView(ViewAttachParams attach):
@@ -196,7 +202,7 @@ FrameTimingView::FrameTimingView(ViewAttachParams attach):
 		},
 		{
 			UI_TEXT("全速"),
-			attach,{.id = 1}
+			attach, {.id = 1}
 		},
 		{UI_TEXT("1/2"), attach, {.id = 2}},
 		{UI_TEXT("1/3"), attach, {.id = 3}},
@@ -420,7 +426,9 @@ FrameTimingView::FrameTimingView(ViewAttachParams attach):
 				UI_TEXT("关"),
 				attach, setRateDel, MenuItem::Config{.id = 0});
 			for(auto rate : app().emuScreen().supportedFrameRates())
-				items.emplace_back(std::format("{:g}Hz", rate), attach, setRateDel, MenuItem::Config{.id = std::bit_cast<MenuId>(rate)});
+				items.emplace_back(std::format(
+					UI_TEXT("{:g}Hz"),
+					rate), attach, setRateDel, MenuItem::Config{.id = std::bit_cast<MenuId>(rate)});
 			return items;
 		}()
 	},

@@ -198,7 +198,7 @@ void FilePathOptionView::onSavePathChange(std::string_view path)
 {
 	if(path == optionSavePathDefaultToken)
 	{
-		app().postMessage(4, false,	std::format(
+		app().postMessage(4, false, std::format(
 			UI_TEXT("应用程序文件夹：\n{}"),
 			system().fallbackSaveDirectory()));
 	}
