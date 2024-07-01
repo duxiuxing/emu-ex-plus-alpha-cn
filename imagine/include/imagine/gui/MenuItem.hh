@@ -317,13 +317,13 @@ public:
 
 protected:
 	UTF16String offStr
-		{
-			UI_TEXT(u"Off")
-		};
+	{
+		UI_TEXT(u"Off")
+	};
 	UTF16String onStr
-		{
-			UI_TEXT(u"On")
-		};
+	{
+		UI_TEXT(u"On")
+	};
 };
 
 class MultiChoiceMenuItem : public BaseDualTextMenuItem

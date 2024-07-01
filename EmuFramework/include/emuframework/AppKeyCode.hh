@@ -75,7 +75,11 @@ constexpr struct AppKeys
 	static constexpr size_t size() { return sizeof(AppKeys) / sizeof(KeyInfo); }
 } appKeys;
 
-constexpr KeyCategory appKeyCategory{UI_TEXT("In-Emulation Actions"), appKeys};
+constexpr KeyCategory appKeyCategory
+{
+	UI_TEXT("In-Emulation Actions"),
+	appKeys
+};
 
 constexpr std::array genericGamepadAppKeyCodeMap
 {
