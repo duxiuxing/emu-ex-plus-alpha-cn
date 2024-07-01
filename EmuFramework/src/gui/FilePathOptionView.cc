@@ -136,7 +136,9 @@ FilePathOptionView::FilePathOptionView(ViewAttachParams attach, bool customMenu)
 										auto ctx = appContext();
 										if(!hasWriteAccessToDir(path))
 										{
-											app().postErrorMessage(UI_TEXT("This folder lacks write access"));
+											app().postErrorMessage(
+												UI_TEXT("This folder lacks write access")
+											);
 											return;
 										}
 										if(ctx.fileUriDisplayName(path) != system().shortSystemName())
@@ -194,11 +196,9 @@ void FilePathOptionView::onSavePathChange(std::string_view path)
 {
 	if(path == optionSavePathDefaultToken)
 	{
-		app().postMessage(
-			4, false,
-			std::format(
-				UI_TEXT("App Folder:\n{}"),
-				system().fallbackSaveDirectory()));
+		app().postMessage(4, false, std::format(
+			UI_TEXT("App Folder:\n{}"),
+			system().fallbackSaveDirectory()));
 	}
 	savePath.compile(savesMenuName(appContext(), path));
 }
