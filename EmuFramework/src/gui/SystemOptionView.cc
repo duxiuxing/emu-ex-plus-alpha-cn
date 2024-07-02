@@ -29,46 +29,33 @@ namespace EmuEx
 SystemOptionView::SystemOptionView(ViewAttachParams attach, bool customMenu):
 	TableView
 	{
-		// UI_TEXT("System Options"),
 		UI_TEXT("系统选项"),
-		attach,
-		item
+		attach, item
 	},
 	autosaveTimerItem
 	{
 		{
-			// UI_TEXT("Off"),
 			UI_TEXT("关"),
-			attach,
-			{.id = 0}
+			attach, {.id = 0}
 		},
 		{
-			// UI_TEXT("5min"),
 			UI_TEXT("5 分钟"),
-			attach,
-			{.id = 5}
+			attach, {.id = 5}
 		},
 		{
-			// UI_TEXT("10min"),
 			UI_TEXT("10 分钟"),
-			attach,
-			{.id = 10}
+			attach, {.id = 10}
 		},
 		{
-			// UI_TEXT("15min"),
 			UI_TEXT("15 分钟"),
-			attach,
-			{.id = 15}
+			attach, {.id = 15}
 		},
 		{
-			// UI_TEXT("Custom Value"),
 			UI_TEXT("自定义"),
 			attach,
 			[this](const Input::Event &e)
 			{
-				pushAndShowNewCollectValueRangeInputView<int, 0, maxAutosaveSaveFreq.count()>(
-					attachParams(), e,
-					// UI_TEXT("Input 0 to 720"),
+				pushAndShowNewCollectValueRangeInputView<int, 0, maxAutosaveSaveFreq.count()>(attachParams(), e,
 					UI_TEXT("请输入 0 到 720 之间的值"),
 					"",
 					[this](CollectTextInputView &, auto val)
@@ -84,7 +71,6 @@ SystemOptionView::SystemOptionView(ViewAttachParams attach, bool customMenu):
 	},
 	autosaveTimer
 	{
-		// UI_TEXT("Autosave Timer"),
 		UI_TEXT("自动存档计时"),
 		attach,
 		MenuId{app().autosaveManager.saveTimer.frequency.count()},
@@ -103,33 +89,24 @@ SystemOptionView::SystemOptionView(ViewAttachParams attach, bool customMenu):
 	autosaveLaunchItem
 	{
 		{
-			// UI_TEXT("Main Slot"),
 			UI_TEXT("开启并自动读取进度"),
-			attach,
-			{.id = AutosaveLaunchMode::Load}
+			attach, {.id = AutosaveLaunchMode::Load}
 		},
 		{
-			// UI_TEXT("Main Slot (No State)"),
 			UI_TEXT("开启但不读取进度"),
-			attach,
-			{.id = AutosaveLaunchMode::LoadNoState}
+			attach, {.id = AutosaveLaunchMode::LoadNoState}
 		},
 		{
-			// UI_TEXT("No Save Slot"),
 			UI_TEXT("关闭自动存档"),
-			attach,
-			{.id = AutosaveLaunchMode::NoSave}
+			attach, {.id = AutosaveLaunchMode::NoSave}
 		},
 		{
-			// UI_TEXT("Select Slot"),
 			UI_TEXT("选择自动存档点"),
-			attach,
-			{.id = AutosaveLaunchMode::Ask}
+			attach, {.id = AutosaveLaunchMode::Ask}
 		},
 	},
 	autosaveLaunch
 	{
-		// UI_TEXT("Autosave Launch Mode"),
 		UI_TEXT("自动存档启动模式"),
 		attach,
 		MenuId{app().autosaveManager.autosaveLaunchMode},
@@ -140,13 +117,10 @@ SystemOptionView::SystemOptionView(ViewAttachParams attach, bool customMenu):
 	},
 	autosaveContent
 	{
-		// UI_TEXT("Autosave Content"),
 		UI_TEXT("自动存档内容"),
 		attach,
 		app().autosaveManager.saveOnlyBackupMemory,
-		// UI_TEXT("State & Backup RAM"),
 		UI_TEXT("保存进度和内存快照"),
-		// UI_TEXT("Only Backup RAM"),
 		UI_TEXT("仅保存内存快照"),
 		[this](BoolMenuItem &item)
 		{
@@ -155,7 +129,6 @@ SystemOptionView::SystemOptionView(ViewAttachParams attach, bool customMenu):
 	},
 	confirmOverwriteState
 	{
-		// UI_TEXT("Confirm Overwrite State"),
 		UI_TEXT("确认后再覆盖已有进度"),
 		attach,
 		app().confirmOverwriteState,
@@ -166,20 +139,32 @@ SystemOptionView::SystemOptionView(ViewAttachParams attach, bool customMenu):
 	},
 	fastModeSpeedItem
 	{
-		{"1.5x",  attach, {.id = 150}},
-		{"2x",    attach, {.id = 200}},
-		{"4x",    attach, {.id = 400}},
-		{"8x",    attach, {.id = 800}},
-		{"16x",   attach, {.id = 1600}},
 		{
-			// UI_TEXT("Custom Value"),
+			UI_TEXT("1.5x"),
+			attach, {.id = 150}
+		},
+		{
+			UI_TEXT("2x"),
+			attach, {.id = 200}
+		},
+		{
+			UI_TEXT("4x"),
+			attach, {.id = 400}
+		},
+		{
+			UI_TEXT("8x"),
+			attach, {.id = 800}
+		},
+		{
+			UI_TEXT("16x"),
+			attach, {.id = 1600}
+		},
+		{
 			UI_TEXT("自定义"),
 			attach,
 			[this](const Input::Event &e)
 			{
-				pushAndShowNewCollectValueRangeInputView<float, 1, 20>(
-					attachParams(), e,
-					// UI_TEXT("Input above 1.0 to 20.0"),
+				pushAndShowNewCollectValueRangeInputView<float, 1, 20>(attachParams(), e,
 					UI_TEXT("请输入 1.0 到 20.0 之间的值"),
 					"",
 					[this](CollectTextInputView &, auto val)
@@ -196,7 +181,6 @@ SystemOptionView::SystemOptionView(ViewAttachParams attach, bool customMenu):
 	},
 	fastModeSpeed
 	{
-		// UI_TEXT("Fast-forward Speed"),
 		UI_TEXT("快进速度"),
 		attach,
 		MenuId{app().altSpeed(AltSpeedMode::fast)},
@@ -204,7 +188,9 @@ SystemOptionView::SystemOptionView(ViewAttachParams attach, bool customMenu):
 		{
 			.onSetDisplayString = [this](auto idx, Gfx::Text &t)
 			{
-				t.resetString(std::format("{:g}x", app().altSpeedAsDouble(AltSpeedMode::fast)));
+				t.resetString(std::format(
+					UI_TEXT("{:g}x"),
+					app().altSpeedAsDouble(AltSpeedMode::fast)));
 				return true;
 			},
 			.defaultItemOnSelect = [this](TextMenuItem &item) { app().setAltSpeed(AltSpeedMode::fast, item.id); }
@@ -212,17 +198,20 @@ SystemOptionView::SystemOptionView(ViewAttachParams attach, bool customMenu):
 	},
 	slowModeSpeedItem
 	{
-		{"0.25x", attach, {.id = 25}},
-		{"0.50x", attach, {.id = 50}},
 		{
-			// UI_TEXT("Custom Value"),
+			UI_TEXT("0.25x"),
+			attach, {.id = 25}
+		},
+		{
+			UI_TEXT("0.50x"),
+			attach, {.id = 50}
+		},
+		{
 			UI_TEXT("自定义"),
 			attach,
 			[this](const Input::Event &e)
 			{
-				pushAndShowNewCollectValueInputView<float>(
-					attachParams(), e,
-					// UI_TEXT("Input 0.05 up to 1.0"),
+				pushAndShowNewCollectValueInputView<float>(attachParams(), e,
 					UI_TEXT("请输入 0.05 到 1.0 之间的值"),
 					"",
 					[this](CollectTextInputView &, auto val)
@@ -236,8 +225,9 @@ SystemOptionView::SystemOptionView(ViewAttachParams attach, bool customMenu):
 						}
 						else
 						{
-							// app().postErrorMessage(UI_TEXT("Value not in range"));
-							app().postErrorMessage(UI_TEXT("输入值不在有效的取值范围"));
+							app().postErrorMessage(
+								UI_TEXT("输入值不在有效的取值范围")
+							);
 							return false;
 						}
 					});
@@ -247,7 +237,6 @@ SystemOptionView::SystemOptionView(ViewAttachParams attach, bool customMenu):
 	},
 	slowModeSpeed
 	{
-		// UI_TEXT("Slow-motion Speed"),
 		UI_TEXT("慢动作速度"),
 		attach,
 		MenuId{app().altSpeed(AltSpeedMode::slow)},
@@ -255,7 +244,9 @@ SystemOptionView::SystemOptionView(ViewAttachParams attach, bool customMenu):
 		{
 			.onSetDisplayString = [this](auto idx, Gfx::Text &t)
 			{
-				t.resetString(std::format("{:g}x", app().altSpeedAsDouble(AltSpeedMode::slow)));
+				t.resetString(std::format(
+					UI_TEXT("{:g}x"),
+					app().altSpeedAsDouble(AltSpeedMode::slow)));
 				return true;
 			},
 			.defaultItemOnSelect = [this](TextMenuItem &item) { app().setAltSpeed(AltSpeedMode::slow, item.id); }
@@ -263,18 +254,24 @@ SystemOptionView::SystemOptionView(ViewAttachParams attach, bool customMenu):
 	},
 	rewindStatesItem
 	{
-		{"0",  attach, {.id = 0}},
-		{"30", attach, {.id = 30}},
-		{"60", attach, {.id = 60}},
 		{
-			// UI_TEXT("Custom Value"),
+			UI_TEXT("0"),
+			attach, {.id = 0}
+		},
+		{
+			UI_TEXT("30"),
+			attach, {.id = 30}
+		},
+		{
+			UI_TEXT("60"),
+			attach, {.id = 60}
+		},
+		{
 			UI_TEXT("自定义"),
 			attach,
 			[this](const Input::Event &e)
 			{
-				pushAndShowNewCollectValueRangeInputView<int, 0, 50000>(
-					attachParams(), e,
-					// UI_TEXT("Input 0 to 50000"),
+				pushAndShowNewCollectValueRangeInputView<int, 0, 50000>(attachParams(), e,
 					UI_TEXT("请输入 0 到 50000 之间的值"),
 					std::to_string(app().rewindManager.maxStates),
 					[this](CollectTextInputView &, auto val)
@@ -290,7 +287,6 @@ SystemOptionView::SystemOptionView(ViewAttachParams attach, bool customMenu):
 	},
 	rewindStates
 	{
-		// UI_TEXT("Rewind States"),
 		UI_TEXT("进度点的个数上限"),
 		attach,
 		MenuId{app().rewindManager.maxStates},
@@ -306,15 +302,12 @@ SystemOptionView::SystemOptionView(ViewAttachParams attach, bool customMenu):
 	},
 	rewindTimeInterval
 	{
-		// UI_TEXT("Rewind State Interval (Seconds)"),
 		UI_TEXT("进度点的时间间隔 (秒)"),
 		std::to_string(app().rewindManager.saveTimer.frequency.count()),
 		attach,
 		[this](const Input::Event &e)
 		{
-			pushAndShowNewCollectValueRangeInputView<int, 1, 60>(
-				attachParams(), e,
-				// UI_TEXT("Input 1 to 60"),
+			pushAndShowNewCollectValueRangeInputView<int, 1, 60>(attachParams(), e,
 				UI_TEXT("请输入 1 到 60 之间的值"),
 				std::to_string(app().rewindManager.saveTimer.frequency.count()),
 				[this](CollectTextInputView &, auto val)
@@ -327,13 +320,10 @@ SystemOptionView::SystemOptionView(ViewAttachParams attach, bool customMenu):
 	},
 	performanceMode
 	{
-		// UI_TEXT("Performance Mode"),
 		UI_TEXT("性能模式"),
 		attach,
 		app().useSustainedPerformanceMode,
-		// UI_TEXT("Normal"),
 		UI_TEXT("普通"),
-		// UI_TEXT("Sustained"),
 		UI_TEXT("持续"),
 		[this](BoolMenuItem &item)
 		{
@@ -342,7 +332,6 @@ SystemOptionView::SystemOptionView(ViewAttachParams attach, bool customMenu):
 	},
 	noopThread
 	{
-		// UI_TEXT("No-op Thread (Experimental)"),
 		UI_TEXT("无操作线程"),
 		attach,
 		(bool)app().useNoopThread,
@@ -353,7 +342,6 @@ SystemOptionView::SystemOptionView(ViewAttachParams attach, bool customMenu):
 	},
 	cpuAffinity
 	{
-		// UI_TEXT("Configure CPU Affinity"),
 		UI_TEXT("CPU 亲和性配置"),
 		attach,
 		[this](const Input::Event &e)
