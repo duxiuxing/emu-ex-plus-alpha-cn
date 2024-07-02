@@ -48,7 +48,8 @@ namespace EmuEx
 {
 
 constexpr SystemLogger log{"NES.emu"};
-const char *EmuSystem::creditsViewStr = UI_TEXT(CREDITS_INFO_STRING "(c) 2011-2024\nRobert Broglia\nwww.explusalpha.com\n\nPortions (c) the\nFCEUX Team\nfceux.com");
+const char *EmuSystem::creditsViewStr =
+	UI_TEXT(CREDITS_INFO_STRING "(c) 2011-2024\nRobert Broglia\nwww.explusalpha.com\n\nPortions (c) the\nFCEUX Team\nfceux.com");
 bool EmuSystem::hasCheats = true;
 bool EmuSystem::hasPALVideoSystem = true;
 bool EmuSystem::hasResetModes = true;
@@ -84,12 +85,12 @@ static bool hasNESExtension(std::string_view name)
 
 const char *EmuSystem::shortSystemName() const
 {
-	return "FC-NES";
+	return UI_TEXT("FC-NES");
 }
 
 const char *EmuSystem::systemName() const
 {
-	return "Famicom (Nintendo Entertainment System)";
+	return UI_TEXT("Famicom (Nintendo Entertainment System)");
 }
 
 EmuSystem::NameFilterFunc EmuSystem::defaultFsFilter = hasNESExtension;
@@ -243,10 +244,14 @@ static const char* fceuInputToStr(int input)
 {
 	switch(input)
 	{
-		case SI_UNSET: return "Unset";
-		case SI_GAMEPAD: return "Gamepad";
-		case SI_ZAPPER: return "Zapper";
-		case SI_NONE: return "None";
+		case SI_UNSET:
+			return UI_TEXT("Unset");
+		case SI_GAMEPAD:
+			return UI_TEXT("Gamepad");
+		case SI_ZAPPER:
+			return UI_TEXT("Zapper");
+		case SI_NONE:
+			return UI_TEXT("None");
 		default: bug_unreachable("input == %d", input); return 0;
 	}
 }
@@ -319,11 +324,14 @@ const char *regionToStr(int region)
 {
 	switch(region)
 	{
-		case 0: return "NTSC";
-		case 1: return "PAL";
-		case 2: return "Dendy";
+		case 0:
+			return UI_TEXT("NTSC");
+		case 1:
+			return UI_TEXT("PAL");
+		case 2:
+			return UI_TEXT("Dendy");
 	}
-	return "Unknown";
+	return UI_TEXT("Unknown");
 }
 
 static int regionFromName(std::string_view name)
@@ -377,7 +385,9 @@ void NesSystem::loadContent(IO &io, EmuSystemCreateParams, OnLoadProgressDelegat
 		if(loaderErrorString.size())
 			throw std::runtime_error(std::exchange(loaderErrorString, {}));
 		else
-			throw std::runtime_error("Error loading game");
+			throw std::runtime_error(
+				UI_TEXT("Error loading game")
+			);
 	}
 	autoDetectedRegion = regionFromName(contentFileName());
 	setRegion(optionVideoSystem, optionDefaultVideoSystem, autoDetectedRegion);
