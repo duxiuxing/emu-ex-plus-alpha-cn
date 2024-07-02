@@ -165,7 +165,7 @@ constexpr std::span<const KeyConfigDesc> genericKeyConfigs()
 		KeyConfigDesc
 		{
 			Map::SYSTEM, DeviceSubtype::GENERIC_GAMEPAD,
-			UI_TEXT("常规游戏手柄"),
+			UI_TEXT("常规手柄"),
 			genericGamepadMap
 		},
 		KeyConfigDesc
