@@ -411,7 +411,11 @@ SystemInputDeviceDesc NesSystem::inputDeviceDesc(int idx) const
 		},
 	};
 
-	static constexpr SystemInputDeviceDesc gamepadDesc{"Gamepad", gamepadComponents};
+	static constexpr SystemInputDeviceDesc gamepadDesc
+	{
+		UI_TEXT("手柄"),
+		gamepadComponents
+	};
 
 	return gamepadDesc;
 }
