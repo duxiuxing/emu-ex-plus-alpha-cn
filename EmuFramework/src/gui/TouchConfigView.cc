@@ -37,12 +37,17 @@ constexpr bool CAN_TURN_OFF_MENU_BTN = !Config::envIsIOS;
 
 constexpr const char *ctrlStateStr[]
 {
-	UI_TEXT("关"), UI_TEXT("开"), UI_TEXT("隐藏")
+	UI_TEXT("关"),
+	UI_TEXT("开"),
+	UI_TEXT("隐藏")
 };
 
 constexpr const char *touchCtrlExtraBtnSizeMenuName[4]
 {
-	UI_TEXT("无"), UI_TEXT("10%"), UI_TEXT("20%"), UI_TEXT("30%")
+	UI_TEXT("无"),
+	UI_TEXT("10%"),
+	UI_TEXT("20%"),
+	UI_TEXT("30%")
 };
 
 constexpr int touchCtrlExtraBtnSizeMenuVal[4]

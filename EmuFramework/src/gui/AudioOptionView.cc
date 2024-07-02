@@ -26,7 +26,7 @@ AudioOptionView::AudioOptionView(ViewAttachParams attach, EmuAudio& audio_, bool
 	TableView
 	{
 		UI_TEXT("音频选项"),
-		attach,	item
+		attach, item
 	},
 	audio{audio_},
 	snd
@@ -56,7 +56,7 @@ AudioOptionView::AudioOptionView(ViewAttachParams attach, EmuAudio& audio_, bool
 			attach, {.id = 100}
 		},
 		{
-			UI_TEXT("50%"),.
+			UI_TEXT("50%"),
 			attach, {.id = 50}
 		},
 		{
