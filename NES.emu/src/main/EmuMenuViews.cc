@@ -73,23 +73,19 @@ class ConsoleOptionView : public TableView, public MainAppHelper
 	{
 		{
 			UI_TEXT("Auto"),
-			attachParams(),
-			{.id = packInputEnums(SI_UNSET, SI_UNSET)}
+			attachParams(), {.id = packInputEnums(SI_UNSET, SI_UNSET)}
 		},
 		{
 			UI_TEXT("Gamepads"),
-			attachParams(),
-			{.id = packInputEnums(SI_GAMEPAD, SI_GAMEPAD)}
+			attachParams(), {.id = packInputEnums(SI_GAMEPAD, SI_GAMEPAD)}
 		},
 		{
 			UI_TEXT("Gun (2P, NES)"),
-			attachParams(),
-			{.id = packInputEnums(SI_GAMEPAD, SI_ZAPPER)}
+			attachParams(), {.id = packInputEnums(SI_GAMEPAD, SI_ZAPPER)}
 		},
 		{
 			UI_TEXT("Gun (1P, VS)"),
-			attachParams(),
-			{.id = packInputEnums(SI_ZAPPER, SI_GAMEPAD)}
+			attachParams(), {.id = packInputEnums(SI_ZAPPER, SI_GAMEPAD)}
 		},
 	};
 
@@ -127,23 +123,19 @@ class ConsoleOptionView : public TableView, public MainAppHelper
 	{
 		{
 			UI_TEXT("Auto"),
-			attachParams(),
-			{.id = 0}
+			attachParams(), {.id = 0}
 		},
 		{
 			UI_TEXT("NTSC"),
-			attachParams(),
-			{.id = 1}
+			attachParams(), {.id = 1}
 		},
 		{
 			UI_TEXT("PAL"),
-			attachParams(),
-			{.id = 2}
+			attachParams(), {.id = 2}
 		},
 		{
 			UI_TEXT("Dendy"),
-			attachParams(),
-			{.id = 3}
+			attachParams(), {.id = 3}
 		},
 	};
 
@@ -158,7 +150,12 @@ class ConsoleOptionView : public TableView, public MainAppHelper
 			{
 				if(idx == 0)
 				{
-					t.resetString(dendy ? UI_TEXT("Dendy") : pal_emulation ? UI_TEXT("PAL") : UI_TEXT("NTSC"));
+					t.resetString(dendy
+						? UI_TEXT("Dendy")
+						: pal_emulation
+							? UI_TEXT("PAL")
+							: UI_TEXT("NTSC")
+					);
 					return true;
 				}
 				return false;
@@ -222,10 +219,22 @@ class ConsoleOptionView : public TableView, public MainAppHelper
 
 	TextMenuItem visibleVideoLinesItem[4]
 	{
-		{"8+224", attachParams(), {.id = packVideoLines(8, 224)}},
-		{"8+232", attachParams(), {.id = packVideoLines(8, 232)}},
-		{"0+232", attachParams(), {.id = packVideoLines(0, 232)}},
-		{"0+240", attachParams(), {.id = packVideoLines(0, 240)}},
+		{
+			UI_TEXT("8+224"),
+			attachParams(), {.id = packVideoLines(8, 224)}
+		},
+		{
+			UI_TEXT("8+232"),
+			attachParams(), {.id = packVideoLines(8, 232)}
+		},
+		{
+			UI_TEXT("0+232"),
+			attachParams(), {.id = packVideoLines(0, 232)}
+		},
+		{
+			UI_TEXT("0+240"),
+			attachParams(), {.id = packVideoLines(0, 240)}
+		},
 	};
 
 	MultiChoiceMenuItem visibleVideoLines
@@ -366,12 +375,20 @@ class CustomVideoOptionView : public VideoOptionView, public MainAppHelper
 	{
 		{
 			UI_TEXT("Auto"),
-			attachParams(),
-			[this](){ system().optionDefaultVideoSystem = 0; }
+			attachParams(), [this](){ system().optionDefaultVideoSystem = 0; }
 		},
-		{"NTSC", attachParams(), [this](){ system().optionDefaultVideoSystem = 1; }},
-		{"PAL", attachParams(), [this](){ system().optionDefaultVideoSystem = 2; }},
-		{"Dendy", attachParams(), [this](){ system().optionDefaultVideoSystem = 3; }},
+		{
+			UI_TEXT("NTSC"),
+			attachParams(), [this](){ system().optionDefaultVideoSystem = 1; }
+		},
+		{
+			UI_TEXT("PAL"),
+			attachParams(), [this](){ system().optionDefaultVideoSystem = 2; }
+		},
+		{
+			UI_TEXT("Dendy"),
+			attachParams(), [this](){ system().optionDefaultVideoSystem = 3; }
+		},
 	};
 
 	MultiChoiceMenuItem videoSystem
@@ -408,14 +425,38 @@ class CustomVideoOptionView : public VideoOptionView, public MainAppHelper
 
 	TextMenuItem defaultPalItem[9]
 	{
-		{"FCEUX",               attachParams(), [this]() { setPalette(appContext(), ""); }},
-		{"Digital Prime (FBX)", attachParams(), [this]() { setPalette(appContext(), digitalPrimePalPath); }},
-		{"Smooth V2 (FBX)",     attachParams(), [this]() { setPalette(appContext(), smoothPalPath); }},
-		{"Magnum (FBX)",        attachParams(), [this]() { setPalette(appContext(), magnumPalPath); }},
-		{"Classic (FBX)",       attachParams(), [this]() { setPalette(appContext(), classicPalPath); }},
-		{"Wavebeam",            attachParams(), [this]() { setPalette(appContext(), wavebeamPalPath); }},
-		{"Lightful",            attachParams(), [this]() { setPalette(appContext(), lightfulPalPath); }},
-		{"Palightful",          attachParams(), [this]() { setPalette(appContext(), palightfulPalPath); }},
+		{
+			UI_TEXT("FCEUX"),
+			attachParams(), [this]() { setPalette(appContext(), ""); }
+		},
+		{
+			UI_TEXT("Digital Prime (FBX)"),
+			attachParams(), [this]() { setPalette(appContext(), digitalPrimePalPath); }
+		},
+		{
+			UI_TEXT("Smooth V2 (FBX)"),
+			attachParams(), [this]() { setPalette(appContext(), smoothPalPath); }
+		},
+		{
+			UI_TEXT("Magnum (FBX)"),
+			attachParams(), [this]() { setPalette(appContext(), magnumPalPath); }
+		},
+		{
+			UI_TEXT("Classic (FBX)"),
+			attachParams(), [this]() { setPalette(appContext(), classicPalPath); }
+		},
+		{
+			UI_TEXT("Wavebeam"),
+			attachParams(), [this]() { setPalette(appContext(), wavebeamPalPath); }
+		},
+		{
+			UI_TEXT("Lightful"),
+			attachParams(), [this]() { setPalette(appContext(), lightfulPalPath); }
+		},
+		{
+			UI_TEXT("Palightful"),
+			attachParams(), [this]() { setPalette(appContext(), palightfulPalPath); }
+		},
 		{
 			UI_TEXT("Custom File"),
 			attachParams(),
@@ -469,10 +510,22 @@ class CustomVideoOptionView : public VideoOptionView, public MainAppHelper
 
 	TextMenuItem visibleVideoLinesItem[4]
 	{
-		{"8+224", attachParams(), setVisibleVideoLinesDel(8, 224)},
-		{"8+232", attachParams(), setVisibleVideoLinesDel(8, 232)},
-		{"0+232", attachParams(), setVisibleVideoLinesDel(0, 232)},
-		{"0+240", attachParams(), setVisibleVideoLinesDel(0, 240)},
+		{
+			UI_TEXT("8+224"),
+			attachParams(), setVisibleVideoLinesDel(8, 224)
+		},
+		{
+			UI_TEXT("8+232"),
+			attachParams(), setVisibleVideoLinesDel(8, 232)
+		},
+		{
+			UI_TEXT("0+232"),
+			attachParams(), setVisibleVideoLinesDel(0, 232)
+		},
+		{
+			UI_TEXT("0+240"),
+			attachParams(), setVisibleVideoLinesDel(0, 240)
+		},
 	};
 
 	MultiChoiceMenuItem visibleVideoLines
@@ -539,18 +592,15 @@ class CustomAudioOptionView : public AudioOptionView, public MainAppHelper
 	{
 		{
 			UI_TEXT("Normal"),
-			attachParams(),
-			[this](){ setQuality(0); }
+			attachParams(), [this](){ setQuality(0); }
 		},
 		{
 			UI_TEXT("High"),
-			attachParams(),
-			[this]() { setQuality(1); }
+			attachParams(), [this](){ setQuality(1); }
 		},
 		{
 			UI_TEXT("Highest"),
-			attachParams(),
-			[this]() { setQuality(2); }
+			attachParams(), [this](){ setQuality(2); }
 		}
 	};
 
@@ -844,7 +894,9 @@ private:
 		if(!isFDS)
 			return;
 		if(!FCEU_FDSInserted())
-			fdsControl.compile(UI_TEXT("FDS Control (No Disk)"));
+			fdsControl.compile(
+				UI_TEXT("FDS Control (No Disk)")
+			);
 		else
 			fdsControl.compile(std::format(
 				UI_TEXT("FDS Control (Disk {}:{})"),

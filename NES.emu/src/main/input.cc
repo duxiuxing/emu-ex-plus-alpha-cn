@@ -294,7 +294,9 @@ void NesSystem::handleInputAction(EmuApp *app, InputAction a)
 				std::unreachable();
 			};
 			if(app)
-				app->postMessage(std::format(UI_TEXT("Set {}"), fdsSideToString(FCEU_FDSCurrentSide())));
+				app->postMessage(std::format(
+					UI_TEXT("Set {}"),
+					fdsSideToString(FCEU_FDSCurrentSide())));
 		}
 	}
 	else // gamepad bits
@@ -407,7 +409,11 @@ SystemInputDeviceDesc NesSystem::inputDeviceDesc(int idx) const
 		},
 	};
 
-	static constexpr SystemInputDeviceDesc gamepadDesc{"Gamepad", gamepadComponents};
+	static constexpr SystemInputDeviceDesc gamepadDesc
+	{
+		UI_TEXT("Gamepad"),
+		gamepadComponents
+	};
 
 	return gamepadDesc;
 }
