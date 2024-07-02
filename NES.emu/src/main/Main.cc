@@ -48,7 +48,7 @@ namespace EmuEx
 {
 
 constexpr SystemLogger log{"NES.emu"};
-const char* EmuSystem::creditsViewStr =
+const char *EmuSystem::creditsViewStr =
 	UI_TEXT(CREDITS_INFO_STRING "(c) 2011-2024\nRobert Broglia\nwww.explusalpha.com\n\nPortions (c) the\nFCEUX Team\nfceux.com\n\n翻译：R-Sam\nGitHub\nduxiuxing/emu-ex-plus-alpha-cn");
 bool EmuSystem::hasCheats = true;
 bool EmuSystem::hasPALVideoSystem = true;
@@ -385,7 +385,9 @@ void NesSystem::loadContent(IO &io, EmuSystemCreateParams, OnLoadProgressDelegat
 		if(loaderErrorString.size())
 			throw std::runtime_error(std::exchange(loaderErrorString, {}));
 		else
-			throw std::runtime_error(UI_TEXT("Error loading game"));
+			throw std::runtime_error(
+				UI_TEXT("Error loading game")
+			);
 	}
 	autoDetectedRegion = regionFromName(contentFileName());
 	setRegion(optionVideoSystem, optionDefaultVideoSystem, autoDetectedRegion);
