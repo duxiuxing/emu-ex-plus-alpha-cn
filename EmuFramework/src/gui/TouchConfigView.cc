@@ -37,13 +37,17 @@ constexpr bool CAN_TURN_OFF_MENU_BTN = !Config::envIsIOS;
 
 constexpr const char *ctrlStateStr[]
 {
-	UI_TEXT("Off"), UI_TEXT("On"), UI_TEXT("Hidden")
+	UI_TEXT("Off"),
+	UI_TEXT("On"),
+	UI_TEXT("Hidden")
 };
 
 constexpr const char *touchCtrlExtraBtnSizeMenuName[4]
 {
 	UI_TEXT("None"),
-	"10%", "20%", "30%"
+	UI_TEXT("10%"),
+	UI_TEXT("20%"),
+	UI_TEXT("30%")
 };
 
 constexpr int touchCtrlExtraBtnSizeMenuVal[4]
@@ -70,24 +74,34 @@ class DPadElementConfigView : public TableView, public EmuAppHelper
 {
 public:
 	DPadElementConfigView(ViewAttachParams attach, TouchConfigView &confView_, VController &vCtrl_, VControllerElement &elem_):
-		TableView{
+		TableView
+		{
 			UI_TEXT("Edit D-Pad"),
-			attach, item},
+			attach, item
+		},
 		vCtrl{vCtrl_},
 		elem{elem_},
 		confView{confView_},
 		deadzoneItems
 		{
-			{"1mm",    attach, {.id = 100}},
-			{"1.35mm", attach, {.id = 135}},
-			{"1.6mm",  attach, {.id = 160}},
+			{
+				UI_TEXT("1mm"),
+				attach, {.id = 100}
+			},
+			{
+				UI_TEXT("1.35mm"),
+				attach, {.id = 135}
+			},
+			{
+				UI_TEXT("1.6mm"),
+				attach, {.id = 160}
+			},
 			{
 				UI_TEXT("Custom Value"),
 				attach,
 				[this](const Input::Event &e)
 				{
-					pushAndShowNewCollectValueRangeInputView<float, 1, 3>(
-						attachParams(), e,
+					pushAndShowNewCollectValueRangeInputView<float, 1, 3>(attachParams(), e,
 						UI_TEXT("Input 1.0 to 3.0"),
 						"",
 						[this](CollectTextInputView &, auto val)
@@ -111,7 +125,9 @@ public:
 			{
 				.onSetDisplayString = [this](auto idx, Gfx::Text &t)
 				{
-					t.resetString(std::format("{:g}mm", elem.dPad()->deadzone() / 100.));
+					t.resetString(std::format(
+						UI_TEXT("{:g}mm"),
+						elem.dPad()->deadzone() / 100.));
 					return true;
 				},
 				.defaultItemOnSelect = [this](TextMenuItem &item) { elem.dPad()->setDeadzone(renderer(), item.id, window()); }
@@ -121,7 +137,7 @@ public:
 		{
 			{
 				UI_TEXT("None"),
-				attach,	{.id = 1000}
+				attach, {.id = 1000}
 			},
 			{
 				UI_TEXT("33% (Low)"),
@@ -144,8 +160,7 @@ public:
 				attach,
 				[this](const Input::Event &e)
 				{
-					pushAndShowNewCollectValueRangeInputView<float, 0, 99>(
-						attachParams(), e,
+					pushAndShowNewCollectValueRangeInputView<float, 0, 99>(attachParams(), e,
 						UI_TEXT("Input 0 to 99.0"),
 						"",
 						[this](CollectTextInputView &, auto val)
@@ -171,7 +186,9 @@ public:
 			{
 				.onSetDisplayString = [this](auto idx, Gfx::Text &t)
 				{
-					t.resetString(std::format("{:g}%", 100.f - elem.dPad()->diagonalSensitivity() * 100.f));
+					t.resetString(std::format(
+						UI_TEXT("{:g}%"),
+						100.f - elem.dPad()->diagonalSensitivity() * 100.f));
 					return true;
 				},
 				.defaultItemOnSelect = [this](TextMenuItem &item) { elem.dPad()->setDiagonalSensitivity(renderer(), float(item.id) / 1000.f); }
@@ -215,20 +232,18 @@ public:
 			attach,
 			[this](const Input::Event &e)
 			{
-				pushAndShowModal(
-					makeView<YesNoAlertView>(
-						UI_TEXT("Really remove this d-pad?"),
-						YesNoAlertView::Delegates
+				pushAndShowModal(makeView<YesNoAlertView>(
+					UI_TEXT("Really remove this d-pad?"),
+					YesNoAlertView::Delegates
+					{
+						.onYes = [this]
 						{
-							.onYes = [this]
-							{
-								vCtrl.remove(elem);
-								vCtrl.place();
-								confView.reloadItems();
-								dismiss();
-							}
-						}),
-					e);
+							vCtrl.remove(elem);
+							vCtrl.place();
+							confView.reloadItems();
+							dismiss();
+						}
+					}), e);
 			}
 		},
 		actionsHeading
@@ -317,9 +332,11 @@ public:
 	using OnChange = DelegateFunc<void()>;
 
 	ButtonElementConfigView(ViewAttachParams attach, OnChange onChange_, VController &vCtrl_, VControllerElement &elem_, VControllerButton &btn_):
-		TableView{
+		TableView
+		{
 			UI_TEXT("Edit Button"),
-			attach, item},
+			attach, item
+		},
 		vCtrl{vCtrl_},
 		elem{elem_},
 		btn{btn_},
@@ -434,9 +451,11 @@ class ButtonGroupElementConfigView : public TableView, public EmuAppHelper
 {
 public:
 	ButtonGroupElementConfigView(ViewAttachParams attach, TouchConfigView &confView_, VController &vCtrl_, VControllerElement &elem_):
-		TableView{
+		TableView
+		{
 			UI_TEXT("Edit Buttons"),
-			attach, item},
+			attach, item
+		},
 		vCtrl{vCtrl_},
 		elem{elem_},
 		confView{confView_},
@@ -462,11 +481,26 @@ public:
 		},
 		rowSizeItems
 		{
-			{"1", attach, {.id = 1}},
-			{"2", attach, {.id = 2}},
-			{"3", attach, {.id = 3}},
-			{"4", attach, {.id = 4}},
-			{"5", attach, {.id = 5}},
+			{
+				UI_TEXT("1"),
+				attach, {.id = 1}
+			},
+			{
+				UI_TEXT("2"),
+				attach, {.id = 2}
+			},
+			{
+				UI_TEXT("3"),
+				attach, {.id = 3}
+			},
+			{
+				UI_TEXT("4"),
+				attach, {.id = 4}
+			},
+			{
+				UI_TEXT("5"),
+				attach, {.id = 5}
+			},
 		},
 		rowSize
 		{
@@ -484,17 +518,28 @@ public:
 		},
 		spaceItems
 		{
-			{"1mm", attach, {.id = 1}},
-			{"2mm", attach, {.id = 2}},
-			{"3mm", attach, {.id = 3}},
-			{"4mm", attach, {.id = 4}},
+			{
+				UI_TEXT("1mm"),
+				attach, {.id = 1}
+			},
+			{
+				UI_TEXT("2mm"),
+				attach, {.id = 2}
+			},
+			{
+				UI_TEXT("3mm"),
+				attach, {.id = 3}
+			},
+			{
+				UI_TEXT("4mm"),
+				attach, {.id = 4}
+			},
 			{
 				UI_TEXT("Custom Value"),
 				attach,
 				[this](const Input::Event &e)
 				{
-					pushAndShowNewCollectValueRangeInputView<int, 0, 8>(
-						attachParams(), e,
+					pushAndShowNewCollectValueRangeInputView<int, 0, 8>(attachParams(), e,
 						UI_TEXT("Input 0 to 8"),
 						"",
 						[this](CollectTextInputView &, auto val)
@@ -530,12 +575,30 @@ public:
 		},
 		staggerItems
 		{
-			{"-0.75x V", attach, {.id = 0}},
-			{"-0.5x V",  attach, {.id = 1}},
-			{"0",        attach, {.id = 2}},
-			{"0.5x V",   attach, {.id = 3}},
-			{"0.75x V",  attach, {.id = 4}},
-			{"1x H&V",   attach, {.id = 5}},
+			{
+				UI_TEXT("-0.75x V"),
+				attach, {.id = 0}
+			},
+			{
+				UI_TEXT("-0.5x V"),
+				attach, {.id = 1}
+			},
+			{
+				UI_TEXT("0"),
+				attach, {.id = 2}
+			},
+			{
+				UI_TEXT("0.5x V"),
+				attach, {.id = 3}
+			},
+			{
+				UI_TEXT("0.75x V"),
+				attach, {.id = 4}
+			},
+			{
+				UI_TEXT("1x H&V"),
+				attach, {.id = 5}
+			},
 		},
 		stagger
 		{
@@ -562,8 +625,7 @@ public:
 				attach,
 				[this](const Input::Event &e)
 				{
-					pushAndShowNewCollectValueRangeInputView<int, 0, 30>(
-						attachParams(), e,
+					pushAndShowNewCollectValueRangeInputView<int, 0, 30>(attachParams(), e,
 						UI_TEXT("Input 0 to 30"),
 						"",
 						[this](CollectTextInputView &, auto val)
@@ -589,7 +651,9 @@ public:
 				{
 					if(!idx)
 						return false;
-					t.resetString(std::format("{}%", elem.buttonGroup()->layout.xPadding));
+					t.resetString(std::format(
+						UI_TEXT("{}%"),
+						elem.buttonGroup()->layout.xPadding));
 					return true;
 				},
 				.defaultItemOnSelect = [this](TextMenuItem &item)
@@ -610,8 +674,7 @@ public:
 				attach,
 				[this](const Input::Event &e)
 				{
-					pushAndShowNewCollectValueRangeInputView<int, 0, 30>(
-						attachParams(), e,
+					pushAndShowNewCollectValueRangeInputView<int, 0, 30>(attachParams(), e,
 						UI_TEXT("Input 0 to 30"),
 						"",
 						[this](CollectTextInputView &, auto val)
@@ -637,7 +700,9 @@ public:
 				{
 					if(!idx)
 						return false;
-					t.resetString(std::format("{}%", elem.buttonGroup()->layout.yPadding));
+					t.resetString(std::format(
+						UI_TEXT("{}%"),
+						elem.buttonGroup()->layout.yPadding));
 					return true;
 				},
 				.defaultItemOnSelect = [this](TextMenuItem &item)
@@ -708,9 +773,11 @@ public:
 					}), e);
 			}
 		},
-		buttonsHeading{
+		buttonsHeading
+		{
 			UI_TEXT("Buttons In Group"),
-			attach}
+			attach
+		}
 	{
 		reloadItems();
 	}
@@ -855,9 +922,11 @@ void TouchConfigView::refreshTouchConfigMenu()
 }
 
 TouchConfigView::TouchConfigView(ViewAttachParams attach, VController &vCtrl):
-	TableView{
+	TableView
+	{
 		UI_TEXT("On-screen Input Setup"),
-		attach, item},
+		attach, item
+	},
 	vController{vCtrl},
 	touchCtrlItem
 	{
@@ -910,23 +979,52 @@ TouchConfigView::TouchConfigView(ViewAttachParams attach, VController &vCtrl):
 	},
 	sizeItem
 	{
-		{"6.5mm", attach, {.id = 650}},
-		{"7mm",   attach, {.id = 700}},
-		{"7.5mm", attach, {.id = 750}},
-		{"8mm",   attach, {.id = 800}},
-		{"8.5mm", attach, {.id = 850}},
-		{"9mm",   attach, {.id = 900}},
-		{"10mm",  attach, {.id = 1000}},
-		{"12mm",  attach, {.id = 1200}},
-		{"14mm",  attach, {.id = 1400}},
-		{"15mm",  attach, {.id = 1500}},
+		{
+			UI_TEXT("6.5mm"),
+			attach, {.id = 650}
+		},
+		{
+			UI_TEXT("7mm"),
+			attach, {.id = 700}
+		},
+		{
+			UI_TEXT("7.5mm"),
+			attach, {.id = 750}
+		},
+		{
+			UI_TEXT("8mm"),
+			attach, {.id = 800}
+		},
+		{
+			UI_TEXT("8.5mm"),
+			attach, {.id = 850}
+		},
+		{
+			UI_TEXT("9mm"),
+			attach, {.id = 900}
+		},
+		{
+			UI_TEXT("10mm"),
+			attach, {.id = 1000}
+		},
+		{
+			UI_TEXT("12mm"),
+			attach, {.id = 1200}
+		},
+		{
+			UI_TEXT("14mm"),
+			attach, {.id = 1400}
+		},
+		{
+			UI_TEXT("15mm"),
+			attach, {.id = 1500}
+		},
 		{
 			UI_TEXT("Custom Value"),
 			attach,
 			[this](const Input::Event &e)
 			{
-				pushAndShowNewCollectValueRangeInputView<float, 3, 30>(
-					attachParams(), e,
+				pushAndShowNewCollectValueRangeInputView<float, 3, 30>(attachParams(), e,
 					UI_TEXT("Input 3.0 to 30.0"),
 					"",
 					[this](CollectTextInputView &, auto val)
@@ -950,7 +1048,9 @@ TouchConfigView::TouchConfigView(ViewAttachParams attach, VController &vCtrl):
 		{
 			.onSetDisplayString = [this](auto idx, Gfx::Text &t)
 			{
-				t.resetString(std::format("{:g}mm", vController.buttonSize() / 100.));
+				t.resetString(std::format(
+					UI_TEXT("{:g}mm"),
+					vController.buttonSize() / 100.));
 				return true;
 			},
 			.defaultItemOnSelect = [this](TextMenuItem &item){ vController.setButtonSize(item.id); }
@@ -988,12 +1088,30 @@ TouchConfigView::TouchConfigView(ViewAttachParams attach, VController &vCtrl):
 	},
 	alphaItem
 	{
-		{"0%",  attach, {.id = 0}},
-		{"10%", attach, {.id = int(255. * .1)}},
-		{"25%", attach, {.id = int(255. * .25)}},
-		{"50%", attach, {.id = int(255. * .5)}},
-		{"65%", attach, {.id = int(255. * .65)}},
-		{"75%", attach, {.id = int(255. * .75)}},
+		{
+			UI_TEXT("0%"),
+			attach, {.id = 0}
+		},
+		{
+			UI_TEXT("10%"),
+			attach, {.id = int(255. * .1)}
+		},
+		{
+			UI_TEXT("25%"),
+			attach, {.id = int(255. * .25)}
+		},
+		{
+			UI_TEXT("50%"),
+			attach, {.id = int(255. * .5)}
+		},
+		{
+			UI_TEXT("65%"),
+			attach, {.id = int(255. * .65)}
+		},
+		{
+			UI_TEXT("75%"),
+			attach, {.id = int(255. * .75)}
+		},
 	},
 	alpha
 	{

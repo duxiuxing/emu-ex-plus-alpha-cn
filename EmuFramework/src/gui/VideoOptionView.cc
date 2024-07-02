@@ -32,7 +32,9 @@ constexpr SystemLogger log{"VideoOptionView"};
 
 static const char *autoWindowPixelFormatStr(IG::ApplicationContext ctx)
 {
-	return ctx.defaultWindowPixelFormat() == PixelFmtRGB565 ? UI_TEXT("RGB565") : UI_TEXT("RGBA8888");
+	return ctx.defaultWindowPixelFormat() == PixelFmtRGB565
+		? UI_TEXT("RGB565")
+		: UI_TEXT("RGBA8888");
 }
 
 constexpr uint16_t pack(Gfx::DrawableConfig c)
@@ -125,8 +127,7 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, EmuVideoLayer &videoLa
 				attach,
 				[this](const Input::Event &e)
 				{
-					pushAndShowNewCollectValueInputView<std::pair<float, float>>(
-						attachParams(), e,
+					pushAndShowNewCollectValueInputView<std::pair<float, float>>(attachParams(), e,
 						UI_TEXT("Input decimal or fraction"),
 						"",
 						[this](CollectTextInputView &, auto val)
@@ -140,7 +141,9 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, EmuVideoLayer &videoLa
 							}
 							else
 							{
-								app().postErrorMessage(UI_TEXT("Value not in range"));
+								app().postErrorMessage(
+									UI_TEXT("Value not in range")
+								);
 								return false;
 							}
 						});
@@ -161,7 +164,9 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, EmuVideoLayer &videoLa
 			{
 				if(idx == aspectRatioItem.size() - 1)
 				{
-					t.resetString(std::format("{:g}", app().videoAspectRatio()));
+					t.resetString(std::format(
+						UI_TEXT("{:g}"),
+						app().videoAspectRatio()));
 					return true;
 				}
 				return false;
@@ -171,37 +176,31 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, EmuVideoLayer &videoLa
 	contentScaleItems
 	{
 		{
-			"100%",
-			attach,
-			{.id = 100}
+			UI_TEXT("100%"),
+			attach, {.id = 100}
 		},
 		{
-			"90%",
-			attach,
-			{.id = 90}
+			UI_TEXT("90%"),
+			attach, {.id = 90}
 		},
 		{
-			"80%",
-			attach,
-			{.id = 80}
+			UI_TEXT("80%"),
+			attach, {.id = 80}
 		},
 		{
 			UI_TEXT("Integer-only"),
-			attach,
-			{.id = optionContentScaleIntegerOnly}
+			attach, {.id = optionContentScaleIntegerOnly}
 		},
 		{
 			UI_TEXT("Integer-only (Height)"),
-			attach,
-			{.id = optionContentScaleIntegerOnlyY}
+			attach, {.id = optionContentScaleIntegerOnlyY}
 		},
 		{
 			UI_TEXT("Custom Value"),
 			attach,
 			[this](const Input::Event &e)
 			{
-				pushAndShowNewCollectValueRangeInputView<int, 10, 200>(
-					attachParams(), e,
+				pushAndShowNewCollectValueRangeInputView<int, 10, 200>(attachParams(), e,
 					UI_TEXT("Input 10 to 200"),
 					"",
 					[this](CollectTextInputView &, auto val)
@@ -238,27 +237,23 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, EmuVideoLayer &videoLa
 	menuScaleItems
 	{
 		{
-			"100%",
-			attach,
-			{.id = 100}
+			UI_TEXT("100%"),
+			attach, {.id = 100}
 		},
 		{
-			"95%",
-			attach,
-			{.id = 95}
+			UI_TEXT("95%"),
+			attach, {.id = 95}
 		},
 		{
-			"90%",
-			attach,
-			{.id = 90}
+			UI_TEXT("90%"),
+			attach, {.id = 90}
 		},
 		{
 			UI_TEXT("Custom Value"),
 			attach,
 			[this](const Input::Event &e)
 			{
-				pushAndShowNewCollectValueRangeInputView<int, 50, 100>(
-					attachParams(), e,
+				pushAndShowNewCollectValueRangeInputView<int, 50, 100>(attachParams(), e,
 					UI_TEXT("Input 50 to 100"),
 					"",
 					[this](CollectTextInputView &, auto val)
@@ -292,28 +287,23 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, EmuVideoLayer &videoLa
 	{
 		{
 			UI_TEXT("Auto"),
-			attach,
-			{.id = Rotation::ANY}
+			attach, {.id = Rotation::ANY}
 		},
 		{
 			UI_TEXT("Standard"),
-			attach,
-			{.id = Rotation::UP}
+			attach, {.id = Rotation::UP}
 		},
 		{
 			UI_TEXT("90° Right"),
-			attach,
-			{.id = Rotation::RIGHT}
+			attach, {.id = Rotation::RIGHT}
 		},
 		{
 			UI_TEXT("Upside Down"),
-			attach,
-			{.id = Rotation::DOWN}
+			attach, {.id = Rotation::DOWN}
 		},
 		{
 			UI_TEXT("90° Left"),
-			attach,
-			{.id = Rotation::LEFT}
+			attach, {.id = Rotation::LEFT}
 		},
 	},
 	contentRotation
@@ -354,33 +344,27 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, EmuVideoLayer &videoLa
 	{
 		{
 			UI_TEXT("Off"),
-			attach,
-			{.id = ImageEffectId::DIRECT}
+			attach, {.id = ImageEffectId::DIRECT}
 		},
 		{
 			UI_TEXT("hq2x"),
-			attach,
-			{.id = ImageEffectId::HQ2X}
+			attach, {.id = ImageEffectId::HQ2X}
 		},
 		{
 			UI_TEXT("Scale2x"),
-			attach,
-			{.id = ImageEffectId::SCALE2X}
+			attach, {.id = ImageEffectId::SCALE2X}
 		},
 		{
 			UI_TEXT("Prescale 2x"),
-			attach,
-			{.id = ImageEffectId::PRESCALE2X}
+			attach, {.id = ImageEffectId::PRESCALE2X}
 		},
 		{
 			UI_TEXT("Prescale 3x"),
-			attach,
-			{.id = ImageEffectId::PRESCALE3X}
+			attach, {.id = ImageEffectId::PRESCALE3X}
 		},
 		{
 			UI_TEXT("Prescale 4x"),
-			attach,
-			{.id = ImageEffectId::PRESCALE4X}
+			attach, {.id = ImageEffectId::PRESCALE4X}
 		},
 	},
 	imgEffect
@@ -401,43 +385,35 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, EmuVideoLayer &videoLa
 	{
 		{
 			UI_TEXT("Off"),
-			attach,
-			{.id = 0}
+			attach, {.id = 0}
 		},
 		{
 			UI_TEXT("Scanlines"),
-			attach,
-			{.id = ImageOverlayId::SCANLINES}
+			attach, {.id = ImageOverlayId::SCANLINES}
 		},
 		{
 			UI_TEXT("Scanlines 2x"),
-			attach,
-			{.id = ImageOverlayId::SCANLINES_2}
+			attach, {.id = ImageOverlayId::SCANLINES_2}
 		},
 		{
 			UI_TEXT("LCD Grid"),
-			attach,
-			{.id = ImageOverlayId::LCD}
+			attach, {.id = ImageOverlayId::LCD}
 		},
 		{
 			UI_TEXT("CRT Mask"),
-			attach,
-			{.id = ImageOverlayId::CRT_MASK}
+			attach, {.id = ImageOverlayId::CRT_MASK}
 		},
 		{
 			UI_TEXT("CRT Mask .5x"),
-			attach,
-			{.id = ImageOverlayId::CRT_MASK_2}
+			attach, {.id = ImageOverlayId::CRT_MASK_2}
 		},
 		{
 			UI_TEXT("CRT Grille"),
-			attach,
-			{.id = ImageOverlayId::CRT_GRILLE}
+			attach, {.id = ImageOverlayId::CRT_GRILLE}
 		},
 		{
 			UI_TEXT("CRT Grille .5x"),
-			attach,
-			{.id = ImageOverlayId::CRT_GRILLE_2}
+			attach, {.id = ImageOverlayId::CRT_GRILLE_2}
 		}
 	},
 	overlayEffect
@@ -456,17 +432,28 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, EmuVideoLayer &videoLa
 	},
 	overlayEffectLevelItem
 	{
-		{"100%", attach, {.id = 100}},
-		{"75%",  attach, {.id = 75}},
-		{"50%",  attach, {.id = 50}},
-		{"25%",  attach, {.id = 25}},
+		{
+			UI_TEXT("100%"),
+			attach, {.id = 100}
+		},
+		{
+			UI_TEXT("75%"),
+			attach, {.id = 75}
+		},
+		{
+			UI_TEXT("50%"),
+			attach, {.id = 50}
+		},
+		{
+			UI_TEXT("25%"),
+			attach, {.id = 25}
+		},
 		{
 			UI_TEXT("Custom Value"),
 			attach,
 			[this](const Input::Event &e)
 			{
-				pushAndShowNewCollectValueRangeInputView<int, 0, 100>(
-					attachParams(), e,
+				pushAndShowNewCollectValueRangeInputView<int, 0, 100>(attachParams(), e,
 					UI_TEXT("Input 0 to 100"),
 					"",
 					[this](CollectTextInputView &, auto val)
@@ -490,7 +477,9 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, EmuVideoLayer &videoLa
 		{
 			.onSetDisplayString = [this](auto idx, Gfx::Text &t)
 			{
-				t.resetString(std::format("{}%", int(videoLayer.overlayIntensity() * 100.f)));
+				t.resetString(std::format(
+					UI_TEXT("{}%"),
+					int(videoLayer.overlayIntensity() * 100.f)));
 				return true;
 			},
 			.defaultItemOnSelect = [this](TextMenuItem &item)
@@ -504,18 +493,15 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, EmuVideoLayer &videoLa
 	{
 		{
 			UI_TEXT("Auto (Match display format)"),
-			attach,
-			{.id = PixelFormatId::Unset}
+			attach, {.id = PixelFormatId::Unset}
 		},
 		{
 			UI_TEXT("RGBA8888"),
-			attach,
-			{.id = PixelFormatId::RGBA8888}
+			attach, {.id = PixelFormatId::RGBA8888}
 		},
 		{
 			UI_TEXT("RGB565"),
-			attach,
-			{.id = PixelFormatId::RGB565}
+			attach, {.id = PixelFormatId::RGB565}
 		},
 	},
 	imgEffectPixelFormat
@@ -553,7 +539,9 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, EmuVideoLayer &videoLa
 				auto conf = unpackDrawableConfig(item.id);
 				if(!app().setWindowDrawableConfig(conf))
 				{
-					app().postMessage(UI_TEXT("Restart app for option to take effect"));
+					app().postMessage(
+						UI_TEXT("Restart app for option to take effect")
+					);
 					return;
 				}
 				renderPixelFormat.updateDisplayString();
@@ -618,11 +606,16 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, EmuVideoLayer &videoLa
 	{
 		{
 			UI_TEXT("Auto (Match display format)"),
-			attach,
-			{.id = PixelFormatId::Unset}
+			attach, {.id = PixelFormatId::Unset}
 		},
-		{"RGBA8888",	attach, {.id = PixelFormatId::RGBA8888}},
-		{"RGB565",		attach, {.id = PixelFormatId::RGB565}},
+		{
+			UI_TEXT("RGBA8888"),
+			attach, {.id = PixelFormatId::RGBA8888}
+		},
+		{
+			UI_TEXT("RGB565"),
+			attach, {.id = PixelFormatId::RGB565}
+		},
 	},
 	renderPixelFormat
 	{
@@ -712,11 +705,9 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, EmuVideoLayer &videoLa
 		attach,
 		[this](const Input::Event &e)
 		{
-			pushAndShow(
-				makeViewWithName<TableView>(
-					UI_TEXT("All Levels"),
-					brightnessItem),
-				e);
+			pushAndShow(makeViewWithName<TableView>(
+				UI_TEXT("All Levels"),
+				brightnessItem), e);
 		}
 	},
 	red
@@ -728,7 +719,9 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, EmuVideoLayer &videoLa
 		{
 			.onSetDisplayString = [this](auto idx, Gfx::Text &t)
 			{
-				t.resetString(std::format("{}%", videoLayer.channelBrightnessAsInt(ImageChannel::Red)));
+				t.resetString(std::format(
+					UI_TEXT("{}%"),
+					videoLayer.channelBrightnessAsInt(ImageChannel::Red)));
 				return true;
 			}
 		},
@@ -742,7 +735,9 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, EmuVideoLayer &videoLa
 		{
 			.onSetDisplayString = [this](auto idx, Gfx::Text &t)
 			{
-				t.resetString(std::format("{}%", videoLayer.channelBrightnessAsInt(ImageChannel::Green)));
+				t.resetString(std::format(
+					UI_TEXT("{}%"),
+					videoLayer.channelBrightnessAsInt(ImageChannel::Green)));
 				return true;
 			}
 		},
@@ -756,7 +751,9 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, EmuVideoLayer &videoLa
 		{
 			.onSetDisplayString = [this](auto idx, Gfx::Text &t)
 			{
-				t.resetString(std::format("{}%", videoLayer.channelBrightnessAsInt(ImageChannel::Blue)));
+				t.resetString(std::format(
+					UI_TEXT("{}%"),
+					videoLayer.channelBrightnessAsInt(ImageChannel::Blue)));
 				return true;
 			}
 		},
@@ -825,8 +822,7 @@ TextMenuItem::SelectDelegate VideoOptionView::setVideoBrightnessCustomDel(ImageC
 {
 	return [=, this](const Input::Event &e)
 	{
-		pushAndShowNewCollectValueRangeInputView<int, 0, 200>(
-			attachParams(), e,
+		pushAndShowNewCollectValueRangeInputView<int, 0, 200>(attachParams(), e,
 			UI_TEXT("Input 0 to 200"),
 			"",
 			[=, this](CollectTextInputView &, auto val)

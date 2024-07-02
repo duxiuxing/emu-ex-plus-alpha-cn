@@ -30,38 +30,32 @@ SystemOptionView::SystemOptionView(ViewAttachParams attach, bool customMenu):
 	TableView
 	{
 		UI_TEXT("System Options"),
-		attach,
-		item
+		attach, item
 	},
 	autosaveTimerItem
 	{
 		{
 			UI_TEXT("Off"),
-			attach,
-			{.id = 0}
+			attach, {.id = 0}
 		},
 		{
 			UI_TEXT("5min"),
-			attach,
-			{.id = 5}
+			attach, {.id = 5}
 		},
 		{
 			UI_TEXT("10min"),
-			attach,
-			{.id = 10}
+			attach, {.id = 10}
 		},
 		{
 			UI_TEXT("15min"),
-			attach,
-			{.id = 15}
+			attach, {.id = 15}
 		},
 		{
 			UI_TEXT("Custom Value"),
 			attach,
 			[this](const Input::Event &e)
 			{
-				pushAndShowNewCollectValueRangeInputView<int, 0, maxAutosaveSaveFreq.count()>(
-					attachParams(), e,
+				pushAndShowNewCollectValueRangeInputView<int, 0, maxAutosaveSaveFreq.count()>(attachParams(), e,
 					UI_TEXT("Input 0 to 720"),
 					"",
 					[this](CollectTextInputView &, auto val)
@@ -96,23 +90,19 @@ SystemOptionView::SystemOptionView(ViewAttachParams attach, bool customMenu):
 	{
 		{
 			UI_TEXT("Main Slot"),
-			attach,
-			{.id = AutosaveLaunchMode::Load}
+			attach, {.id = AutosaveLaunchMode::Load}
 		},
 		{
 			UI_TEXT("Main Slot (No State)"),
-			attach,
-			{.id = AutosaveLaunchMode::LoadNoState}
+			attach, {.id = AutosaveLaunchMode::LoadNoState}
 		},
 		{
 			UI_TEXT("No Save Slot"),
-			attach,
-			{.id = AutosaveLaunchMode::NoSave}
+			attach, {.id = AutosaveLaunchMode::NoSave}
 		},
 		{
 			UI_TEXT("Select Slot"),
-			attach,
-			{.id = AutosaveLaunchMode::Ask}
+			attach, {.id = AutosaveLaunchMode::Ask}
 		},
 	},
 	autosaveLaunch
@@ -149,18 +139,32 @@ SystemOptionView::SystemOptionView(ViewAttachParams attach, bool customMenu):
 	},
 	fastModeSpeedItem
 	{
-		{"1.5x",  attach, {.id = 150}},
-		{"2x",    attach, {.id = 200}},
-		{"4x",    attach, {.id = 400}},
-		{"8x",    attach, {.id = 800}},
-		{"16x",   attach, {.id = 1600}},
+		{
+			UI_TEXT("1.5x"),
+			attach, {.id = 150}
+		},
+		{
+			UI_TEXT("2x"),
+			attach, {.id = 200}
+		},
+		{
+			UI_TEXT("4x"),
+			attach, {.id = 400}
+		},
+		{
+			UI_TEXT("8x"),
+			attach, {.id = 800}
+		},
+		{
+			UI_TEXT("16x"),
+			attach, {.id = 1600}
+		},
 		{
 			UI_TEXT("Custom Value"),
 			attach,
 			[this](const Input::Event &e)
 			{
-				pushAndShowNewCollectValueRangeInputView<float, 1, 20>(
-					attachParams(), e,
+				pushAndShowNewCollectValueRangeInputView<float, 1, 20>(attachParams(), e,
 					UI_TEXT("Input above 1.0 to 20.0"),
 					"",
 					[this](CollectTextInputView &, auto val)
@@ -184,7 +188,9 @@ SystemOptionView::SystemOptionView(ViewAttachParams attach, bool customMenu):
 		{
 			.onSetDisplayString = [this](auto idx, Gfx::Text &t)
 			{
-				t.resetString(std::format("{:g}x", app().altSpeedAsDouble(AltSpeedMode::fast)));
+				t.resetString(std::format(
+					UI_TEXT("{:g}x"),
+					app().altSpeedAsDouble(AltSpeedMode::fast)));
 				return true;
 			},
 			.defaultItemOnSelect = [this](TextMenuItem &item) { app().setAltSpeed(AltSpeedMode::fast, item.id); }
@@ -192,15 +198,20 @@ SystemOptionView::SystemOptionView(ViewAttachParams attach, bool customMenu):
 	},
 	slowModeSpeedItem
 	{
-		{"0.25x", attach, {.id = 25}},
-		{"0.50x", attach, {.id = 50}},
+		{
+			UI_TEXT("0.25x"),
+			attach, {.id = 25}
+		},
+		{
+			UI_TEXT("0.50x"),
+			attach, {.id = 50}
+		},
 		{
 			UI_TEXT("Custom Value"),
 			attach,
 			[this](const Input::Event &e)
 			{
-				pushAndShowNewCollectValueInputView<float>(
-					attachParams(), e,
+				pushAndShowNewCollectValueInputView<float>(attachParams(), e,
 					UI_TEXT("Input 0.05 up to 1.0"),
 					"",
 					[this](CollectTextInputView &, auto val)
@@ -214,7 +225,9 @@ SystemOptionView::SystemOptionView(ViewAttachParams attach, bool customMenu):
 						}
 						else
 						{
-							app().postErrorMessage(UI_TEXT("Value not in range"));
+							app().postErrorMessage(
+								UI_TEXT("Value not in range")
+							);
 							return false;
 						}
 					});
@@ -231,7 +244,9 @@ SystemOptionView::SystemOptionView(ViewAttachParams attach, bool customMenu):
 		{
 			.onSetDisplayString = [this](auto idx, Gfx::Text &t)
 			{
-				t.resetString(std::format("{:g}x", app().altSpeedAsDouble(AltSpeedMode::slow)));
+				t.resetString(std::format(
+					UI_TEXT("{:g}x"),
+					app().altSpeedAsDouble(AltSpeedMode::slow)));
 				return true;
 			},
 			.defaultItemOnSelect = [this](TextMenuItem &item) { app().setAltSpeed(AltSpeedMode::slow, item.id); }
@@ -239,16 +254,24 @@ SystemOptionView::SystemOptionView(ViewAttachParams attach, bool customMenu):
 	},
 	rewindStatesItem
 	{
-		{"0",  attach, {.id = 0}},
-		{"30", attach, {.id = 30}},
-		{"60", attach, {.id = 60}},
+		{
+			UI_TEXT("0"),
+			attach, {.id = 0}
+		},
+		{
+			UI_TEXT("30"),
+			attach, {.id = 30}
+		},
+		{
+			UI_TEXT("60"),
+			attach, {.id = 60}
+		},
 		{
 			UI_TEXT("Custom Value"),
 			attach,
 			[this](const Input::Event &e)
 			{
-				pushAndShowNewCollectValueRangeInputView<int, 0, 50000>(
-					attachParams(), e,
+				pushAndShowNewCollectValueRangeInputView<int, 0, 50000>(attachParams(), e,
 					UI_TEXT("Input 0 to 50000"),
 					std::to_string(app().rewindManager.maxStates),
 					[this](CollectTextInputView &, auto val)
@@ -284,8 +307,7 @@ SystemOptionView::SystemOptionView(ViewAttachParams attach, bool customMenu):
 		attach,
 		[this](const Input::Event &e)
 		{
-			pushAndShowNewCollectValueRangeInputView<int, 1, 60>(
-				attachParams(), e,
+			pushAndShowNewCollectValueRangeInputView<int, 1, 60>(attachParams(), e,
 				UI_TEXT("Input 1 to 60"),
 				std::to_string(app().rewindManager.saveTimer.frequency.count()),
 				[this](CollectTextInputView &, auto val)
