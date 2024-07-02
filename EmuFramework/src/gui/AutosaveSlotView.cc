@@ -230,8 +230,7 @@ void AutosaveSlotView::refreshSlots()
 		std::format(
 			UI_TEXT("默认：{}"),
 			slotDescription(app(), "")),
-		attachParams(),
-		[this]()
+		attachParams(), [this]()
 		{
 			if(app().autosaveManager.setSlot(""))
 			{
