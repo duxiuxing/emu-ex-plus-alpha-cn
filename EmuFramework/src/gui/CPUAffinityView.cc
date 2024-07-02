@@ -75,7 +75,9 @@ CPUAffinityView::CPUAffinityView(ViewAttachParams attach, int cpuCount):
 					return std::format(
 						UI_TEXT("{} (离线)"),
 						i);
-				return std::format(UI_TEXT("{} ({}MHz)"), i, freq / 1000);
+				return std::format(
+					UI_TEXT("{} ({}MHz)"),
+					i, freq / 1000);
 			}(),
 			attach, app().cpuAffinity(i),
 			[this, i](BoolMenuItem &item) { app().setCPUAffinity(i, item.flipBoolValue(*this)); });
