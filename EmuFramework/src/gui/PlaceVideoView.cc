@@ -25,8 +25,18 @@ PlaceVideoView::PlaceVideoView(ViewAttachParams attach, EmuVideoLayer &layer, VC
 	View(attach),
 	layer{layer},
 	vController{vController},
-	exitText{attach.rendererTask, "Exit", &defaultFace()},
-	resetText{attach.rendererTask, "Reset", &defaultFace()},
+	exitText
+	{
+		attach.rendererTask,
+		UI_TEXT("Exit"),
+		&defaultFace()
+	},
+	resetText
+	{
+		attach.rendererTask,
+		UI_TEXT("Reset"),
+		&defaultFace()
+	},
 	quads{attach.rendererTask, {.size = 4}}
 {
 	app().applyOSNavStyle(appContext(), true);
