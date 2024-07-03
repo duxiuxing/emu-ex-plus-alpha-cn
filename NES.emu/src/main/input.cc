@@ -272,7 +272,9 @@ void NesSystem::handleInputAction(EmuApp *app, InputAction a)
 		{
 			FCEU_FDSInsert();
 			if(app)
-				app->postMessage(UI_TEXT("Disk ejected, push again to switch side"));
+				app->postMessage(
+					UI_TEXT("Disk ejected, push again to switch side")
+				);
 		}
 		else
 		{
