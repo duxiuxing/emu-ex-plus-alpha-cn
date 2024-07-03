@@ -245,13 +245,13 @@ static const char* fceuInputToStr(int input)
 	switch(input)
 	{
 		case SI_UNSET:
-			return UI_TEXT("Unset");
+			return UI_TEXT("未设置");
 		case SI_GAMEPAD:
-			return UI_TEXT("Gamepad");
+			return UI_TEXT("手柄");
 		case SI_ZAPPER:
-			return UI_TEXT("Zapper");
+			return UI_TEXT("光枪");
 		case SI_NONE:
-			return UI_TEXT("None");
+			return UI_TEXT("无");
 		default: bug_unreachable("input == %d", input); return 0;
 	}
 }
@@ -331,7 +331,7 @@ const char *regionToStr(int region)
 		case 2:
 			return UI_TEXT("Dendy");
 	}
-	return UI_TEXT("Unknown");
+	return UI_TEXT("未知");
 }
 
 static int regionFromName(std::string_view name)
@@ -386,7 +386,7 @@ void NesSystem::loadContent(IO &io, EmuSystemCreateParams, OnLoadProgressDelegat
 			throw std::runtime_error(std::exchange(loaderErrorString, {}));
 		else
 			throw std::runtime_error(
-				UI_TEXT("Error loading game")
+				UI_TEXT("加载游戏出错")
 			);
 	}
 	autoDetectedRegion = regionFromName(contentFileName());

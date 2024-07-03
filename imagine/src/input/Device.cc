@@ -182,94 +182,94 @@ static const char *keyButtonName(Key b)
 		case Keycode::NUM_LOCK:
 			return UI_TEXT("数字锁定键");
 		case Keycode::NUMPAD_0:
-			return UI_TEXT("数字键盘的 0");
+			return UI_TEXT("0 键 (数字键盘)");
 		case Keycode::NUMPAD_1:
-			return UI_TEXT("数字键盘的 1");
+			return UI_TEXT("1 键 (数字键盘)");
 		case Keycode::NUMPAD_2:
-			return UI_TEXT("数字键盘的 2");
+			return UI_TEXT("2 键 (数字键盘)");
 		case Keycode::NUMPAD_3:
-			return UI_TEXT("数字键盘的 3");
+			return UI_TEXT("3 键 (数字键盘)");
 		case Keycode::NUMPAD_4:
-			return UI_TEXT("数字键盘的 4");
+			return UI_TEXT("4 键 (数字键盘)");
 		case Keycode::NUMPAD_5:
-			return UI_TEXT("数字键盘的 5");
+			return UI_TEXT("5 键 (数字键盘)");
 		case Keycode::NUMPAD_6:
-			return UI_TEXT("数字键盘的 6");
+			return UI_TEXT("6 键 (数字键盘)");
 		case Keycode::NUMPAD_7:
-			return UI_TEXT("数字键盘的 7");
+			return UI_TEXT("7 键 (数字键盘)");
 		case Keycode::NUMPAD_8:
-			return UI_TEXT("数字键盘的 8");
+			return UI_TEXT("8 键 (数字键盘)");
 		case Keycode::NUMPAD_9:
-			return UI_TEXT("数字键盘的 9");
+			return UI_TEXT("9 键 (数字键盘)");
 		case Keycode::NUMPAD_DIV:
-			return UI_TEXT("数字键盘的 /");
+			return UI_TEXT("/ 键 (数字键盘)");
 		case Keycode::NUMPAD_MULT:
-			return UI_TEXT("数字键盘的 *");
+			return UI_TEXT("* 键 (数字键盘)");
 		case Keycode::NUMPAD_SUB:
-			return UI_TEXT("数字键盘的 -");
+			return UI_TEXT("- 键 (数字键盘)");
 		case Keycode::NUMPAD_ADD:
-			return UI_TEXT("数字键盘的 +");
+			return UI_TEXT("+ 键 (数字键盘)");
 		case Keycode::NUMPAD_DOT:
-			return UI_TEXT("数字键盘的 .");
+			return UI_TEXT(". 键 (数字键盘)");
 		case Keycode::NUMPAD_COMMA:
-			return UI_TEXT("数字键盘的 ,");
+			return UI_TEXT(", 键 (数字键盘)");
 		case Keycode::NUMPAD_ENTER:
-			return UI_TEXT("数字键盘的回车");
+			return UI_TEXT("回车键 (数字键盘)");
 		case Keycode::NUMPAD_EQUALS:
-			return UI_TEXT("数字键盘的 =");
+			return UI_TEXT("= 键 (数字键盘)");
 		#if CONFIG_PACKAGE_X11 || defined __ANDROID__
 		case Keycode::AT:
-			return UI_TEXT("@");
+			return UI_TEXT("@ 键");
 		case Keycode::STAR:
-			return UI_TEXT("*");
+			return UI_TEXT("* 键");
 		case Keycode::PLUS:
-			return UI_TEXT("+");
+			return UI_TEXT("+ 键");
 		case Keycode::POUND:
-			return UI_TEXT("#");
+			return UI_TEXT("# 键");
 		case Keycode::LEFT_PAREN:
-			return UI_TEXT("(");
+			return UI_TEXT("( 键");
 		case Keycode::RIGHT_PAREN:
-			return UI_TEXT(")");
+			return UI_TEXT(") 键");
 		case Keycode::SEARCH:
-			return UI_TEXT("Search");
+			return UI_TEXT("搜索键");
 		case Keycode::CLEAR:
-			return UI_TEXT("Clear");
+			return UI_TEXT("清除键");
 		case Keycode::EXPLORER:
-			return UI_TEXT("Explorer");
+			return UI_TEXT("Explorer 键");
 		case Keycode::MAIL:
-			return UI_TEXT("Mail");
+			return UI_TEXT("Mail 键");
 		case Keycode::VOL_UP:
-			return UI_TEXT("Vol Up");
+			return UI_TEXT("提高音量键");
 		case Keycode::VOL_DOWN:
-			return UI_TEXT("Vol Down");
+			return UI_TEXT("降低音量键");
 		#endif
 		#if CONFIG_PACKAGE_X11
 		case Keycode::NUMPAD_INSERT:
-			return UI_TEXT("Numpad Insert");
+			return UI_TEXT("插入键 (数字键盘)");
 		case Keycode::NUMPAD_DELETE:
-			return UI_TEXT("Numpad Delete");
+			return UI_TEXT("删除键 (数字键盘)");
 		case Keycode::NUMPAD_BEGIN:
-			return UI_TEXT("Numpad Begin");
+			return UI_TEXT("Begin 键 (数字键盘)");
 		case Keycode::NUMPAD_HOME:
-			return UI_TEXT("Numpad Home");
+			return UI_TEXT("Home 键 (数字键盘)");
 		case Keycode::NUMPAD_END:
-			return UI_TEXT("Numpad End");
+			return UI_TEXT("End 键 (数字键盘)");
 		case Keycode::NUMPAD_PGUP:
-			return UI_TEXT("Numpad Page Up");
+			return UI_TEXT("向上翻页键 (数字键盘)");
 		case Keycode::NUMPAD_PGDOWN:
-			return UI_TEXT("Numpad Page Down");
+			return UI_TEXT("向下翻页键 (数字键盘)");
 		case Keycode::NUMPAD_UP:
-			return UI_TEXT("Numpad Up");
+			return UI_TEXT("方向键的上 (数字键盘)");
 		case Keycode::NUMPAD_RIGHT:
-			return UI_TEXT("Numpad Right");
+			return UI_TEXT("方向键的右 (数字键盘)");
 		case Keycode::NUMPAD_DOWN:
-			return UI_TEXT("Numpad Down");
+			return UI_TEXT("方向键的下 (数字键盘)");
 		case Keycode::NUMPAD_LEFT:
-			return UI_TEXT("Numpad Left");
+			return UI_TEXT("方向键的左 (数字键盘)");
 		case Keycode::LMETA:
-			return UI_TEXT("Left Meta");
+			return UI_TEXT("左边的 Meta 键");
 		case Keycode::RMETA:
-			return UI_TEXT("Right Meta");
+			return UI_TEXT("右边的 Meta 键");
 		#endif
 		case Keycode::F1:
 			return UI_TEXT("F1 键");
@@ -358,13 +358,13 @@ static const char *keyButtonName(Key b)
 		case Keycode::GAME_16:
 			return UI_TEXT("G16");
 		case Keycode::JS1_XAXIS_POS:
-			return UI_TEXT("X Axis+");
+			return UI_TEXT("左摇杆的右");
 		case Keycode::JS1_XAXIS_NEG:
-			return UI_TEXT("X Axis-");
+			return UI_TEXT("左摇杆的左");
 		case Keycode::JS1_YAXIS_POS:
-			return UI_TEXT("Y Axis+");
+			return UI_TEXT("左摇杆的下");
 		case Keycode::JS1_YAXIS_NEG:
-			return UI_TEXT("Y Axis-");
+			return UI_TEXT("左摇杆的上");
 		case Keycode::JS2_XAXIS_POS:
 			return UI_TEXT("右摇杆的右");
 		case Keycode::JS2_XAXIS_NEG:

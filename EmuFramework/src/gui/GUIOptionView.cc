@@ -339,13 +339,13 @@ GUIOptionView::GUIOptionView(ViewAttachParams attach, bool customMenu):
 	},
 	setWindowSize
 	{
-		UI_TEXT("Set Window Size"),
+		UI_TEXT("设置窗口大小"),
 		attach,
 		[this](const Input::Event &e)
 		{
 			pushAndShowNewCollectValuePairRangeInputView<int, 320, 8192, 240, 8192>(
 				attachParams(), e,
-				UI_TEXT("Input Width & Height"),
+				UI_TEXT("请输入宽度和高度"),
 				"",
 				[this](CollectTextInputView &, auto val)
 				{
@@ -356,7 +356,7 @@ GUIOptionView::GUIOptionView(ViewAttachParams attach, bool customMenu):
 	},
 	toggleFullScreen
 	{
-		UI_TEXT("Toggle Full Screen"),
+		UI_TEXT("全屏切换"),
 		attach,
 		[this]{ app().emuWindow().toggleFullScreen(); }
 	}

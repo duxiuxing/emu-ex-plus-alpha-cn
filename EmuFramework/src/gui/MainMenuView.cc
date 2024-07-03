@@ -162,13 +162,13 @@ MainMenuView::MainMenuView(ViewAttachParams attach, bool customMenu):
 					}))
 				{
 					app().postMessage(4, false,
-						UI_TEXT("Starting Scan...\n(see website for device-specific help)")
+						UI_TEXT("正在启动检测...\n(请访问设备官网以获取详细的产品使用说明)")
 					);
 				}
 				else
 				{
 					app().postMessage(1, false,
-						UI_TEXT("Still scanning")
+						UI_TEXT("检测中")
 					);
 				}
 			}
@@ -189,7 +189,7 @@ MainMenuView::MainMenuView(ViewAttachParams attach, bool customMenu):
 			if(devConnected)
 			{
 				pushAndShowModal(makeView<YesNoAlertView>(std::format(
-					UI_TEXT("Really disconnect {} Bluetooth device(s)?"),
+					UI_TEXT("是否要断开 {} 蓝牙设备？"),
 					devConnected),
 					YesNoAlertView::Delegates{.onYes = [this]{ app().closeBluetoothConnections(); }}), e);
 			}
@@ -216,14 +216,14 @@ MainMenuView::MainMenuView(ViewAttachParams attach, bool customMenu):
 							{
 								app().postErrorMessage(Config::envIsLinux ? 8 : 2,
 									Config::envIsLinux ?
-										UI_TEXT("Unable to register server, make sure this executable has cap_net_bind_service enabled and bluetoothd isn't running") :
-										UI_TEXT("Bluetooth setup failed"));
+										UI_TEXT("无法注册服务器，请确保此可执行文件已启用 cap_net_bind_service，并且 bluetoothd 没有在运行") :
+										UI_TEXT("蓝牙设置失败"));
 								break;
 							}
 							case BluetoothScanState::Complete:
 							{
 								app().postMessage(4,
-									UI_TEXT("Push the PS button on your controller\n(see website for pairing help)")
+									UI_TEXT("请按下手柄上的 PS 键\n(请访问设备官网以获取详细的配对说明)")
 								);
 								break;
 							}
@@ -233,7 +233,7 @@ MainMenuView::MainMenuView(ViewAttachParams attach, bool customMenu):
 				if(!startedScan)
 				{
 					app().postMessage(1,
-						UI_TEXT("Still scanning")
+						UI_TEXT("检测中")
 					);
 				}
 			}
@@ -278,7 +278,7 @@ static void onScanStatus(EmuApp &app, BluetoothScanState status, int arg)
 			if(Config::envIsIOS)
 			{
 				app.postErrorMessage(
-					UI_TEXT("BTstack power on failed, make sure the iOS Bluetooth stack is not active")
+					UI_TEXT("BTstack 电源打开失败，请确保 iOS 的蓝牙协议栈没有被激活")
 				);
 			}
 			break;
@@ -286,28 +286,28 @@ static void onScanStatus(EmuApp &app, BluetoothScanState status, int arg)
 		case BluetoothScanState::Failed:
 		{
 			app.postErrorMessage(
-				UI_TEXT("Scan failed")
+				UI_TEXT("检测失败")
 			);
 			break;
 		}
 		case BluetoothScanState::NoDevs:
 		{
 			app.postMessage(
-				UI_TEXT("No devices found")
+				UI_TEXT("没有发现任何设备")
 			);
 			break;
 		}
 		case BluetoothScanState::Processing:
 		{
 			app.postMessage(2, 0, std::format(
-				UI_TEXT("Checking {} device(s)..."),
+				UI_TEXT("正在检测 {} 设备..."),
 				arg));
 			break;
 		}
 		case BluetoothScanState::NameFailed:
 		{
 			app.postErrorMessage(
-				UI_TEXT("Failed reading a device name")
+				UI_TEXT("读取设备名称失败")
 			);
 			break;
 		}
@@ -317,14 +317,14 @@ static void onScanStatus(EmuApp &app, BluetoothScanState status, int arg)
 			if(devs)
 			{
 				app.postMessage(2, 0, std::format(
-					UI_TEXT("Connecting to {} device(s)..."),
+					UI_TEXT("正在连接 {} 设备..."),
 					devs));
 				Bluetooth::connectPendingDevs(app.bluetoothAdapter);
 			}
 			else
 			{
 				app.postMessage(
-					UI_TEXT("Scan complete, no recognized devices")
+					UI_TEXT("检测完成，没有可识别的设备")
 				);
 			}
 			break;

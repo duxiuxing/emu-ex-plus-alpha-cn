@@ -201,7 +201,7 @@ constexpr std::span<const KeyConfigDesc> genericKeyConfigs()
 		KeyConfigDesc
 		{
 			Map::APPLE_GAME_CONTROLLER,
-			UI_TEXT("Default"),
+			UI_TEXT("默认值"),
 			appleGamepadMap
 		},
 		#endif
@@ -209,25 +209,25 @@ constexpr std::span<const KeyConfigDesc> genericKeyConfigs()
 		KeyConfigDesc
 		{
 			Map::WIIMOTE,
-			UI_TEXT("Default"),
+			UI_TEXT("默认值"),
 			wiimoteMap
 		},
 		KeyConfigDesc
 		{
 			Map::WII_CC,
-			UI_TEXT("Default"),
+			UI_TEXT("默认值"),
 			genericGamepadMap
 		},
 		KeyConfigDesc
 		{
 			Map::ICONTROLPAD,
-			UI_TEXT("Default"),
+			UI_TEXT("默认值"),
 			genericGamepadMap
 		},
 		KeyConfigDesc
 		{
 			Map::ZEEMOTE,
-			UI_TEXT("Default"),
+			UI_TEXT("默认值"),
 			wiimoteMap
 		},
 		#endif
@@ -235,7 +235,7 @@ constexpr std::span<const KeyConfigDesc> genericKeyConfigs()
 		KeyConfigDesc
 		{
 			Map::PS3PAD,
-			UI_TEXT("Default"),
+			UI_TEXT("默认值"),
 			genericGamepadMap
 		},
 		#endif

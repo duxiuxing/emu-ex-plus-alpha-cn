@@ -204,9 +204,18 @@ FrameTimingView::FrameTimingView(ViewAttachParams attach):
 			UI_TEXT("全速"),
 			attach, {.id = 1}
 		},
-		{UI_TEXT("1/2"), attach, {.id = 2}},
-		{UI_TEXT("1/3"), attach, {.id = 3}},
-		{UI_TEXT("1/4"), attach, {.id = 4}},
+		{
+			UI_TEXT("1/2"),
+			attach, {.id = 2}
+		},
+		{
+			UI_TEXT("1/3"),
+			attach, {.id = 3}
+		},
+		{
+			UI_TEXT("1/4"),
+			attach, {.id = 4}
+		},
 	},
 	frameInterval
 	{
