@@ -130,17 +130,17 @@ static const char *keyButtonName(Key b)
 		case Keycode::ENTER:
 			return UI_TEXT("回车键");
 		case Keycode::LALT:
-			return UI_TEXT("左边的 Alt 键");
+			return UI_TEXT("左 Alt 键");
 		case Keycode::RALT:
-			return UI_TEXT("右边的 Alt 键");
+			return UI_TEXT("右 Alt 键");
 		case Keycode::LSHIFT:
-			return UI_TEXT("左边的 Shift 键");
+			return UI_TEXT("左 Shift 键");
 		case Keycode::RSHIFT:
-			return UI_TEXT("右边的 Shift 键");
+			return UI_TEXT("右 Shift 键");
 		case Keycode::LCTRL:
-			return UI_TEXT("左边的 Ctrl 键");
+			return UI_TEXT("左 Ctrl 键");
 		case Keycode::RCTRL:
-			return UI_TEXT("右边的 Ctrl 键");
+			return UI_TEXT("右 Ctrl 键");
 		case Keycode::UP:
 			return UI_TEXT("方向键的上");
 		case Keycode::RIGHT:
@@ -267,9 +267,9 @@ static const char *keyButtonName(Key b)
 		case Keycode::NUMPAD_LEFT:
 			return UI_TEXT("方向键的左 (数字键盘)");
 		case Keycode::LMETA:
-			return UI_TEXT("左边的 Meta 键");
+			return UI_TEXT("左 Meta 键");
 		case Keycode::RMETA:
-			return UI_TEXT("右边的 Meta 键");
+			return UI_TEXT("右 Meta 键");
 		#endif
 		case Keycode::F1:
 			return UI_TEXT("F1 键");
