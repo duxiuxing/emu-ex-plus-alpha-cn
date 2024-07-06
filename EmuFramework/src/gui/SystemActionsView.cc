@@ -181,7 +181,7 @@ SystemActionsView::SystemActionsView(ViewAttachParams attach, bool customMenu):
 			if(pathName.empty())
 			{
 				app().postMessage(
-					UI_TEXT("无效的截图保存路径")
+					UI_TEXT("无效的保存路径")
 				);
 				return;
 			}

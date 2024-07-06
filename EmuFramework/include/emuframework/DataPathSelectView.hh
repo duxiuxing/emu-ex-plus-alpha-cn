@@ -91,7 +91,7 @@ public:
 						if(mode == DataPathSelectMode::Folder && !EmuApp::hasArchiveExtension(displayName))
 						{
 							picker.applicationAs<EmuApp>().postErrorMessage(
-								UI_TEXT("文件扩展名无效")
+								UI_TEXT("无效的文件扩展名")
 							);
 							return;
 						}

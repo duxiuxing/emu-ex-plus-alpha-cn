@@ -205,7 +205,7 @@ MainMenuView::MainMenuView(ViewAttachParams attach, bool customMenu):
 			if(app().bluetoothAdapter.isOpen())
 			{
 				app().postMessage(4,
-					UI_TEXT("准备按下 PS 键")
+					UI_TEXT("准备按下【PS 键】")
 				);
 				auto startedScan = Bluetooth::listenForDevices(appContext(), app().bluetoothAdapter,
 					[this](BluetoothAdapter &bta, BluetoothScanState status, int arg)
@@ -216,14 +216,14 @@ MainMenuView::MainMenuView(ViewAttachParams attach, bool customMenu):
 							{
 								app().postErrorMessage(Config::envIsLinux ? 8 : 2,
 									Config::envIsLinux ?
-										UI_TEXT("无法注册服务器，请确保此可执行文件已启用 cap_net_bind_service，并且 bluetoothd 没有在运行") :
+										UI_TEXT("无法注册服务器，请确保此可执行文件已启用 cap_net_bind_service，并且 bluetoothd 进程没有在运行") :
 										UI_TEXT("蓝牙设置失败"));
 								break;
 							}
 							case BluetoothScanState::Complete:
 							{
 								app().postMessage(4,
-									UI_TEXT("请按下手柄上的 PS 键\n(请访问设备官网以获取详细的配对说明)")
+									UI_TEXT("请按下手柄上的【PS 键】\n(请访问设备官网以获取详细的配对说明)")
 								);
 								break;
 							}
@@ -293,7 +293,7 @@ static void onScanStatus(EmuApp &app, BluetoothScanState status, int arg)
 		case BluetoothScanState::NoDevs:
 		{
 			app.postMessage(
-				UI_TEXT("没有发现任何设备")
+				UI_TEXT("没有发现蓝牙设备")
 			);
 			break;
 		}

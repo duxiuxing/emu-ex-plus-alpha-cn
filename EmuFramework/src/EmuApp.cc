@@ -132,7 +132,7 @@ public:
 		AlertView
 		{
 			attach,
-			UI_TEXT("是否要退出？(确认请再按一下返回键或 Esc 键)"),
+			UI_TEXT("是否要退出？(确认请再按一下【返回键】或【Esc 键】)"),
 			hasEmuContent ? 3u : 2u
 		}
 	{

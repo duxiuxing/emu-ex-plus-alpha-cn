@@ -386,7 +386,7 @@ InputManagerOptionsView::InputManagerOptionsView(ViewAttachParams attach, EmuInp
 	},
 	altGamepadConfirm
 	{
-		UI_TEXT("确认键和取消键交换位置"),
+		UI_TEXT("【确认键】和【取消键】交换位置"),
 		attach,
 		app().swappedConfirmKeys(),
 		[this](BoolMenuItem &item)

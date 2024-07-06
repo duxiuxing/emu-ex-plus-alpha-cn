@@ -89,7 +89,7 @@ FilePathOptionView::FilePathOptionView(ViewAttachParams attach, bool customMenu)
 							if(!hasWriteAccessToDir(path))
 							{
 								app().postErrorMessage(
-									UI_TEXT("此文件夹缺少写入权限")
+									UI_TEXT("没有此文件夹的写入权限")
 								);
 								return;
 							}
