@@ -349,17 +349,17 @@ SystemOptionView::SystemOptionView(ViewAttachParams attach, bool customMenu):
 			pushAndShow(makeView<CPUAffinityView>(appContext().cpuCount()), e);
 		}
 	},
-	autosaveOptions
+	autosaveHeading
 	{
 		UI_TEXT("自动存档："),
 		attach
 	},
-	rewindOptions
+	rewindHeading
 	{
 		UI_TEXT("倒带操作："),
 		attach
 	},
-	otherOptions
+	otherHeading
 	{
 		UI_TEXT("其他选项："),
 		attach
@@ -373,14 +373,14 @@ SystemOptionView::SystemOptionView(ViewAttachParams attach, bool customMenu):
 
 void SystemOptionView::loadStockItems()
 {
-	item.emplace_back(&autosaveOptions);
+	item.emplace_back(&autosaveHeading);
 	item.emplace_back(&autosaveLaunch);
 	item.emplace_back(&autosaveTimer);
 	item.emplace_back(&autosaveContent);
-	item.emplace_back(&rewindOptions);
+	item.emplace_back(&rewindHeading);
 	item.emplace_back(&rewindStates);
 	item.emplace_back(&rewindTimeInterval);
-	item.emplace_back(&otherOptions);
+	item.emplace_back(&otherHeading);
 	item.emplace_back(&confirmOverwriteState);
 	item.emplace_back(&fastModeSpeed);
 	item.emplace_back(&slowModeSpeed);
