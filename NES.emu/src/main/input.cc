@@ -88,22 +88,22 @@ std::span<const KeyCategory> NesApp::keyCategories()
 	{
 		KeyCategory
 		{
-			UI_TEXT("手柄的游戏按键"),
+			UI_TEXT("游戏按键"),
 			gpKeyInfo
 		},
 		KeyCategory
 		{
-			UI_TEXT("2号手柄的游戏按键"),
+			UI_TEXT("游戏按键 (2号手柄)"),
 			gp2KeyInfo, 1
 		},
 		KeyCategory
 		{
-			UI_TEXT("3号手柄的游戏按键"),
+			UI_TEXT("游戏按键 (3号手柄)"),
 			gp2KeyInfo, 2
 		},
 		KeyCategory
 		{
-			UI_TEXT("4号手柄的游戏按键"),
+			UI_TEXT("游戏按键 (4号手柄)"),
 			gp2KeyInfo, 3
 		},
 		KeyCategory
@@ -136,7 +136,7 @@ std::string_view NesApp::systemKeyCodeToString(KeyCode c)
 		case NesKey::B:
 			return UI_TEXT("B");
 		case NesKey::toggleDiskSide:
-			return UI_TEXT("弹出磁盘/翻另一面");
+			return UI_TEXT("弹出磁碟/磁碟翻面");
 		default: return "";
 	}
 }
@@ -273,7 +273,7 @@ void NesSystem::handleInputAction(EmuApp *app, InputAction a)
 			FCEU_FDSInsert();
 			if(app)
 				app->postMessage(
-					UI_TEXT("磁盘已弹出，翻另一面请再按一下")
+					UI_TEXT("磁碟已弹出，再按一次把磁碟翻面")
 				);
 		}
 		else
@@ -285,13 +285,13 @@ void NesSystem::handleInputAction(EmuApp *app, InputAction a)
 				switch (side)
 				{
 					case 0:
-						return UI_TEXT("1号碟 A面");
+						return UI_TEXT("1号磁碟 A面");
 					case 1:
-						return UI_TEXT("1号碟 B面");
+						return UI_TEXT("1号磁碟 B面");
 					case 2:
-						return UI_TEXT("2号碟 A面");
+						return UI_TEXT("2号磁碟 A面");
 					case 3:
-						return UI_TEXT("2号碟 B面");
+						return UI_TEXT("2号磁碟 B面");
 				}
 				std::unreachable();
 			};

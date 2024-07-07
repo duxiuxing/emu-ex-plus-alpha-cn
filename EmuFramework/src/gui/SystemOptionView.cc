@@ -323,7 +323,7 @@ SystemOptionView::SystemOptionView(ViewAttachParams attach, bool customMenu):
 		UI_TEXT("性能模式"),
 		attach,
 		app().useSustainedPerformanceMode,
-		UI_TEXT("普通"),
+		UI_TEXT("正常"),
 		UI_TEXT("持续"),
 		[this](BoolMenuItem &item)
 		{
