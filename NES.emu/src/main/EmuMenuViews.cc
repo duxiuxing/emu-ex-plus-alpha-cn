@@ -555,7 +555,7 @@ class CustomVideoOptionView : public VideoOptionView, public MainAppHelper
 
 	BoolMenuItem correctLineAspect
 	{
-		UI_TEXT("修正行的宽高比例"),
+		UI_TEXT("修正行每行宽高比例"),
 		attachParams(),
 		(bool)system().optionCorrectLineAspect,
 		[this](BoolMenuItem &item)
@@ -810,7 +810,7 @@ private:
 	TextMenuItem setSide[DISK_SIDES]
 	{
 		{
-			UI_TEXT("设置1号碟 A面"),
+			UI_TEXT("指定1号磁碟 A面"),
 			attachParams(),
 			[this](View &view, Input::Event e)
 			{
@@ -819,7 +819,7 @@ private:
 			}
 		},
 		{
-			UI_TEXT("设置1号碟 B面"),
+			UI_TEXT("指定1号磁碟 B面"),
 			attachParams(),
 			[this](View &view, Input::Event e)
 			{
@@ -828,7 +828,7 @@ private:
 			}
 		},
 		{
-			UI_TEXT("设置2号碟 A面"),
+			UI_TEXT("指定2号磁碟 A面"),
 			attachParams(),
 			[this](View &view, Input::Event e)
 			{
@@ -837,7 +837,7 @@ private:
 			}
 		},
 		{
-			UI_TEXT("设置2号碟 B面"),
+			UI_TEXT("指定2号磁碟 B面"),
 			attachParams(),
 			[this](View &view, Input::Event e)
 			{
@@ -867,7 +867,7 @@ public:
 	FDSControlView(ViewAttachParams attach):
 		TableView
 		{
-			UI_TEXT("FDS Control"),
+			UI_TEXT("磁碟机控制"),
 			attach,
 			items
 		}
@@ -899,7 +899,7 @@ private:
 			);
 		else
 			fdsControl.compile(std::format(
-				UI_TEXT("磁碟机控制 ({}号碟 {}面)"),
+				UI_TEXT("磁碟机控制 ({}号磁碟 {}面)"),
 				(FCEU_FDSCurrentSide() >> 1) + 1, (FCEU_FDSCurrentSide() & 1) ? 'B' : 'A'));
 	}
 
