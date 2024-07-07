@@ -348,6 +348,21 @@ SystemOptionView::SystemOptionView(ViewAttachParams attach, bool customMenu):
 		{
 			pushAndShow(makeView<CPUAffinityView>(appContext().cpuCount()), e);
 		}
+	},
+	autosaveHeading
+	{
+		UI_TEXT("Autosave Options"),
+		attach
+	},
+	rewindHeading
+	{
+		UI_TEXT("Rewind Options"),
+		attach
+	},
+	otherHeading
+	{
+		UI_TEXT("Other Options"),
+		attach
 	}
 {
 	if(!customMenu)
@@ -358,14 +373,17 @@ SystemOptionView::SystemOptionView(ViewAttachParams attach, bool customMenu):
 
 void SystemOptionView::loadStockItems()
 {
+	item.emplace_back(&autosaveHeading);
 	item.emplace_back(&autosaveLaunch);
 	item.emplace_back(&autosaveTimer);
 	item.emplace_back(&autosaveContent);
+	item.emplace_back(&rewindHeading);
+	item.emplace_back(&rewindStates);
+	item.emplace_back(&rewindTimeInterval);
+	item.emplace_back(&otherHeading);
 	item.emplace_back(&confirmOverwriteState);
 	item.emplace_back(&fastModeSpeed);
 	item.emplace_back(&slowModeSpeed);
-	item.emplace_back(&rewindStates);
-	item.emplace_back(&rewindTimeInterval);
 	if(used(performanceMode) && appContext().hasSustainedPerformanceMode())
 		item.emplace_back(&performanceMode);
 	if(used(noopThread))
