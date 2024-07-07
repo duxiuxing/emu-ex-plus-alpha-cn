@@ -129,7 +129,7 @@ constexpr InputComponentDesc leftUIComponents
 };
 constexpr InputComponentDesc rewindUIComponents
 {
-	UI_TEXT("倒退一个进度"),
+	UI_TEXT("倒退一个进度点"),
 	rewindUIKeys, InputComponent::ui, LT2DO
 };
 

@@ -181,7 +181,7 @@ SystemOptionView::SystemOptionView(ViewAttachParams attach, bool customMenu):
 	},
 	fastModeSpeed
 	{
-		UI_TEXT("快进速度"),
+		UI_TEXT("快进倍速"),
 		attach,
 		MenuId{app().altSpeed(AltSpeedMode::fast)},
 		fastModeSpeedItem,
@@ -237,7 +237,7 @@ SystemOptionView::SystemOptionView(ViewAttachParams attach, bool customMenu):
 	},
 	slowModeSpeed
 	{
-		UI_TEXT("慢动作速度"),
+		UI_TEXT("慢动作倍速"),
 		attach,
 		MenuId{app().altSpeed(AltSpeedMode::slow)},
 		slowModeSpeedItem,
