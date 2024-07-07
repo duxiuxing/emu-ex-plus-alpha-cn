@@ -306,7 +306,7 @@ private:
 	void assignAction(int idx, const Input::Event &e)
 	{
 		auto multiChoiceView = makeViewWithName<TextTableView>(
-			UI_TEXT("指定按键映射"),
+			UI_TEXT("按键映射"),
 			16);
 		auto &app = this->app();
 		addCategories(app, elem, [&](const KeyCategory &cat)
@@ -343,12 +343,12 @@ public:
 		onChange{onChange_},
 		key
 		{
-			UI_TEXT("动作"),
+			UI_TEXT("按键映射"),
 			app().inputManager.toString(btn_.key), attach,
 			[this](const Input::Event &e)
 			{
 				auto multiChoiceView = makeViewWithName<TextTableView>(
-					UI_TEXT("指定按键映射"),
+					UI_TEXT("按键映射"),
 					16);
 				auto &app = this->app();
 				addCategories(app, elem, [&](const KeyCategory &cat)

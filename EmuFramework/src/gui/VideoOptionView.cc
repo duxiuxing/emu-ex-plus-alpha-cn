@@ -643,7 +643,7 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, EmuVideoLayer &videoLa
 	brightnessItem
 	{
 		{
-			UI_TEXT("默认值"),
+			UI_TEXT("默认"),
 			attach,
 			[this](View &v)
 			{
@@ -661,7 +661,7 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, EmuVideoLayer &videoLa
 	redItem
 	{
 		{
-			UI_TEXT("默认值"),
+			UI_TEXT("默认"),
 			attach,
 			[this](){ videoLayer.setBrightness(1.f, ImageChannel::Red); },
 			{.id = 100}
@@ -676,7 +676,7 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, EmuVideoLayer &videoLa
 	greenItem
 	{
 		{
-			UI_TEXT("默认值"),
+			UI_TEXT("默认"),
 			attach,
 			[this](){ videoLayer.setBrightness(1.f, ImageChannel::Green); },
 			{.id = 100}
@@ -691,7 +691,7 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, EmuVideoLayer &videoLa
 	blueItem
 	{
 		{
-			UI_TEXT("默认值"),
+			UI_TEXT("默认"),
 			attach,
 			[this](){ videoLayer.setBrightness(1.f, ImageChannel::Blue); },
 			{.id = 100}
