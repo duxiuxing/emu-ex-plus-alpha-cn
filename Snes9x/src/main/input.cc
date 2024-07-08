@@ -79,11 +79,31 @@ std::span<const KeyCategory> Snes9xApp::keyCategories()
 {
 	static constexpr std::array categories
 	{
-		KeyCategory{"Gamepad", gpKeyInfo},
-		KeyCategory{"Gamepad 2", gp2KeyInfo, 1},
-		KeyCategory{"Gamepad 3", gp3KeyInfo, 2},
-		KeyCategory{"Gamepad 4", gp4KeyInfo, 3},
-		KeyCategory{"Gamepad 5", gp4KeyInfo, 4},
+		KeyCategory
+		{
+			UI_TEXT("Gamepad"),
+			gpKeyInfo
+		},
+		KeyCategory
+		{
+			UI_TEXT("Gamepad 2"),
+			gp2KeyInfo, 1
+		},
+		KeyCategory
+		{
+			UI_TEXT("Gamepad 3"),
+			gp3KeyInfo, 2
+		},
+		KeyCategory
+		{
+			UI_TEXT("Gamepad 4"),
+			gp4KeyInfo, 3
+		},
+		KeyCategory
+		{
+			UI_TEXT("Gamepad 5"),
+			gp4KeyInfo, 4
+		},
 	};
 	return categories;
 }
@@ -92,18 +112,30 @@ std::string_view Snes9xApp::systemKeyCodeToString(KeyCode c)
 {
 	switch(SnesKey(c))
 	{
-		case SnesKey::Up: return "Up";
-		case SnesKey::Right: return "Right";
-		case SnesKey::Down: return "Down";
-		case SnesKey::Left: return "Left";
-		case SnesKey::Select: return "Select";
-		case SnesKey::Start: return "Start";
-		case SnesKey::A: return "A";
-		case SnesKey::B: return "B";
-		case SnesKey::X: return "X";
-		case SnesKey::Y: return "Y";
-		case SnesKey::L: return "L";
-		case SnesKey::R: return "R";
+		case SnesKey::Up:
+			return UI_TEXT("Up");
+		case SnesKey::Right:
+			return UI_TEXT("Right");
+		case SnesKey::Down:
+			return UI_TEXT("Down");
+		case SnesKey::Left:
+			return UI_TEXT("Left");
+		case SnesKey::Select:
+			return UI_TEXT("Select");
+		case SnesKey::Start:
+			return UI_TEXT("Start");
+		case SnesKey::A:
+			return UI_TEXT("A");
+		case SnesKey::B:
+			return UI_TEXT("B");
+		case SnesKey::X:
+			return UI_TEXT("X");
+		case SnesKey::Y:
+			return UI_TEXT("Y");
+		case SnesKey::L:
+			return UI_TEXT("L");
+		case SnesKey::R:
+			return UI_TEXT("R");
 		default: return "";
 	}
 }
@@ -591,14 +623,46 @@ SystemInputDeviceDesc Snes9xSystem::inputDeviceDesc(int idx) const
 {
 	static constexpr std::array gamepadComponents
 	{
-		InputComponentDesc{"D-Pad", dpadKeyInfo, InputComponent::dPad, LB2DO},
-		InputComponentDesc{"Face Buttons", faceKeyInfo, InputComponent::button, RB2DO, {.staggeredLayout = true}},
-		InputComponentDesc{"Face Buttons + Inline L/R", faceLRKeyInfo, InputComponent::button, RB2DO, {.altConfig = true, .staggeredLayout = true}},
-		InputComponentDesc{"L", lKeyInfo, InputComponent::trigger, LB2DO},
-		InputComponentDesc{"R", rKeyInfo, InputComponent::trigger, RB2DO},
-		InputComponentDesc{"Select", {&centerKeyInfo[0], 1}, InputComponent::button, LB2DO},
-		InputComponentDesc{"Start", {&centerKeyInfo[1], 1}, InputComponent::button, RB2DO},
-		InputComponentDesc{"Select/Start", centerKeyInfo, InputComponent::button, CB2DO, {.altConfig = true}},
+		InputComponentDesc
+		{
+			UI_TEXT("D-Pad"),
+			dpadKeyInfo, InputComponent::dPad, LB2DO
+		},
+		InputComponentDesc
+		{
+			UI_TEXT("Face Buttons"),
+			faceKeyInfo, InputComponent::button, RB2DO, {.staggeredLayout = true}
+		},
+		InputComponentDesc
+		{
+			UI_TEXT("Face Buttons + Inline L/R"),
+			faceLRKeyInfo, InputComponent::button, RB2DO, {.altConfig = true, .staggeredLayout = true}
+		},
+		InputComponentDesc
+		{
+			UI_TEXT("L"),
+			lKeyInfo, InputComponent::trigger, LB2DO
+		},
+		InputComponentDesc
+		{
+			UI_TEXT("R"),
+			rKeyInfo, InputComponent::trigger, RB2DO
+		},
+		InputComponentDesc
+		{
+			UI_TEXT("Select"),
+			{&centerKeyInfo[0], 1}, InputComponent::button, LB2DO
+		},
+		InputComponentDesc
+		{
+			UI_TEXT("Start"),
+			{&centerKeyInfo[1], 1}, InputComponent::button, RB2DO
+		},
+		InputComponentDesc
+		{
+			UI_TEXT("Select/Start"),
+			centerKeyInfo, InputComponent::button, CB2DO, {.altConfig = true}
+		},
 	};
 
 	static constexpr SystemInputDeviceDesc gamepadDesc{"Gamepad", gamepadComponents};

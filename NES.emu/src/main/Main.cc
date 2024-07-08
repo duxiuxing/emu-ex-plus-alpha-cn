@@ -103,7 +103,10 @@ NesSystem::NesSystem(ApplicationContext ctx):
 	backupSavestates = false;
 	if(!FCEUI_Initialize())
 	{
-		throw std::runtime_error{"Error in FCEUI_Initialize"};
+		throw std::runtime_error
+			{
+				UI_TEXT("Error in FCEUI_Initialize")
+			};
 	}
 }
 
@@ -135,7 +138,10 @@ void NesSystem::readState(EmuApp &app, std::span<uint8_t> buff)
 {
 	EmuFileIO memFile{buff};
 	if(!FCEUSS_LoadFP(&memFile, SSLOADPARAM_NOBACKUP))
-		throw std::runtime_error("Invalid state data");
+		throw std::runtime_error
+			{
+				UI_TEXT("Invalid state data")
+			};
 }
 
 size_t NesSystem::writeState(std::span<uint8_t> buff, SaveStateFlags flags)
@@ -385,9 +391,10 @@ void NesSystem::loadContent(IO &io, EmuSystemCreateParams, OnLoadProgressDelegat
 		if(loaderErrorString.size())
 			throw std::runtime_error(std::exchange(loaderErrorString, {}));
 		else
-			throw std::runtime_error(
-				UI_TEXT("Error loading game")
-			);
+			throw std::runtime_error
+				{
+					UI_TEXT("Error loading game")
+				};
 	}
 	autoDetectedRegion = regionFromName(contentFileName());
 	setRegion(optionVideoSystem, optionDefaultVideoSystem, autoDetectedRegion);
