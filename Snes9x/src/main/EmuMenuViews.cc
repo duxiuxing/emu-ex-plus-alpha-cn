@@ -37,30 +37,30 @@ class CustomAudioOptionView : public AudioOptionView, public MainAppHelper
 	TextMenuItem dspInterpolationItem[5]
 	{
 		{
-			UI_TEXT("None"),
+			UI_TEXT("无"),
 			attachParams(), [this](){ setDSPInterpolation(0); }
 		},
 		{
-			UI_TEXT("Linear"),
+			UI_TEXT("线性"),
 			attachParams(), [this](){ setDSPInterpolation(1); }
 		},
 		{
-			UI_TEXT("Gaussian"),
+			UI_TEXT("高斯"),
 			attachParams(), [this](){ setDSPInterpolation(2); }
 		},
 		{
-			UI_TEXT("Cubic"),
+			UI_TEXT("立方"),
 			attachParams(), [this](){ setDSPInterpolation(3); }
 		},
 		{
-			UI_TEXT("Sinc"),
+			UI_TEXT("正弦"),
 			attachParams(), [this](){ setDSPInterpolation(4); }
 		},
 	};
 
 	MultiChoiceMenuItem dspInterpolation
 	{
-		UI_TEXT("DSP Interpolation"),
+		UI_TEXT("DSP 插值"),
 		attachParams(),
 		system().optionAudioDSPInterpolation.value(),
 		dspInterpolationItem
@@ -79,7 +79,7 @@ class ConsoleOptionView : public TableView, public MainAppHelper
 {
 	BoolMenuItem multitap
 	{
-		UI_TEXT("5-Player Adapter"),
+		UI_TEXT("5人玩家适配器"),
 		attachParams(),
 		(bool)system().optionMultitap,
 		[this](BoolMenuItem &item, View &, Input::Event e)
@@ -94,31 +94,31 @@ class ConsoleOptionView : public TableView, public MainAppHelper
 	{
 		#ifndef SNES9X_VERSION_1_4
 		{
-			UI_TEXT("Auto (NSRT)"),
+			UI_TEXT("自动 (NSRT)"),
 			attachParams(), setInputPortsDel(), {.id = SNES_AUTO_INPUT}
 		},
 		#endif
 		{
-			UI_TEXT("Gamepads"),
+			UI_TEXT("手柄"),
 			attachParams(), setInputPortsDel(), {.id = SNES_JOYPAD}
 		},
 		{
-			UI_TEXT("Superscope"),
+			UI_TEXT("超任光枪"),
 			attachParams(), setInputPortsDel(), {.id = SNES_SUPERSCOPE}
 		},
 		{
-			UI_TEXT("Justifier"),
+			UI_TEXT("Justifier 光枪"),
 			attachParams(), setInputPortsDel(), {.id = SNES_JUSTIFIER}
 		},
 		{
-			UI_TEXT("Mouse"),
+			UI_TEXT("鼠标"),
 			attachParams(), setInputPortsDel(), {.id = SNES_MOUSE_SWAPPED}
 		},
 	};
 
 	MultiChoiceMenuItem inputPorts
 	{
-		UI_TEXT("Input Ports"),
+		UI_TEXT("输入端口"),
 		attachParams(),
 		MenuId{system().snesInputPort},
 		inputPortsItem
@@ -138,7 +138,7 @@ class ConsoleOptionView : public TableView, public MainAppHelper
 	TextMenuItem videoSystemItem[4]
 	{
 		{
-			UI_TEXT("Auto"),
+			UI_TEXT("自动"),
 			attachParams(), [this](Input::Event e){ setVideoSystem(0, e); }
 		},
 		{
@@ -150,14 +150,14 @@ class ConsoleOptionView : public TableView, public MainAppHelper
 			attachParams(), [this](Input::Event e){ setVideoSystem(2, e); }
 		},
 		{
-			UI_TEXT("NTSC + PAL Spoof"),
+			UI_TEXT("NTSC + PAL 欺骗"),
 			attachParams(), [this](Input::Event e){ setVideoSystem(3, e); }
 		},
 	};
 
 	MultiChoiceMenuItem videoSystem
 	{
-		UI_TEXT("System"),
+		UI_TEXT("视频制式"),
 		attachParams(),
 		system().optionVideoSystem.value(),
 		videoSystemItem
@@ -172,13 +172,13 @@ class ConsoleOptionView : public TableView, public MainAppHelper
 
 	TextHeadingMenuItem videoHeading
 	{
-		UI_TEXT("Video"),
+		UI_TEXT("视频："),
 		attachParams()
 	};
 
 	BoolMenuItem allowExtendedLines
 	{
-		UI_TEXT("Allow Extended 239/478 Lines"),
+		UI_TEXT("允许扩展 239/478 行"),
 		attachParams(),
 		(bool)system().optionAllowExtendedVideoLines,
 		[this](BoolMenuItem &item, View &, Input::Event e)
@@ -191,18 +191,18 @@ class ConsoleOptionView : public TableView, public MainAppHelper
 	TextMenuItem deinterlaceModeItems[2]
 	{
 		{
-			UI_TEXT("Bob"),
+			UI_TEXT("Bob 算法"),
 			attachParams(), {.id = DeinterlaceMode::Bob}
 		},
 		{
-			UI_TEXT("Weave"),
+			UI_TEXT("Weave 算法"),
 			attachParams(), {.id = DeinterlaceMode::Weave}
 		},
 	};
 
 	MultiChoiceMenuItem deinterlaceMode
 	{
-		UI_TEXT("Deinterlace Mode"),
+		UI_TEXT("反交错算法"),
 		attachParams(),
 		MenuId{system().deinterlaceMode},
 		deinterlaceModeItems,
@@ -218,13 +218,13 @@ class ConsoleOptionView : public TableView, public MainAppHelper
 	#ifndef SNES9X_VERSION_1_4
 	TextHeadingMenuItem emulationHacks
 	{
-		UI_TEXT("Emulation Hacks"),
+		UI_TEXT("模拟器修改："),
 		attachParams()
 	};
 
 	BoolMenuItem blockInvalidVRAMAccess
 	{
-		UI_TEXT("Allow Invalid VRAM Access"),
+		UI_TEXT("允许无效的 VRAM 访问"),
 		attachParams(),
 		(bool)!system().optionBlockInvalidVRAMAccess,
 		[this](BoolMenuItem &item, View &, Input::Event e)
@@ -237,7 +237,7 @@ class ConsoleOptionView : public TableView, public MainAppHelper
 
 	BoolMenuItem separateEchoBuffer
 	{
-		UI_TEXT("Separate Echo Buffer From Ram"),
+		UI_TEXT("分离回波缓冲区"),
 		attachParams(),
 		(bool)system().optionSeparateEchoBuffer,
 		[this](BoolMenuItem &item, View &, Input::Event e)
@@ -262,12 +262,12 @@ class ConsoleOptionView : public TableView, public MainAppHelper
 			attachParams(), [this]() { setSuperFXClock(100); }
 		},
 		{
-			UI_TEXT("Custom Value"),
+			UI_TEXT("自定义"),
 			attachParams(),
 			[this](Input::Event e)
 			{
 				pushAndShowNewCollectValueInputView<int>(attachParams(), e,
-					UI_TEXT("Input 5 to 250"),
+					UI_TEXT("请输入 5 到 250 之间的值"),
 					"",
 					[this](CollectTextInputView&, auto val)
 					{
@@ -281,7 +281,7 @@ class ConsoleOptionView : public TableView, public MainAppHelper
 						else
 						{
 							app().postErrorMessage(
-								UI_TEXT("Value not in range")
+								UI_TEXT("输入值不在有效的取值范围")
 							);
 							return false;
 						}
@@ -293,7 +293,7 @@ class ConsoleOptionView : public TableView, public MainAppHelper
 
 	MultiChoiceMenuItem superFXClock
 	{
-		UI_TEXT("SuperFX Clock Multiplier"),
+		UI_TEXT("SuperFX 时钟乘法器"),
 		attachParams(),
 		[this]()
 		{
@@ -335,7 +335,7 @@ public:
 	ConsoleOptionView(ViewAttachParams attach):
 		TableView
 		{
-			UI_TEXT("Console Options"),
+			UI_TEXT("主机选项"),
 			attach,
 			menuItem
 		}
@@ -347,7 +347,7 @@ class CustomSystemActionsView : public SystemActionsView
 private:
 	TextMenuItem options
 	{
-		UI_TEXT("Console Options"),
+		UI_TEXT("主机选项"),
 		attachParams(),
 		[this](TextMenuItem &, View &, Input::Event e)
 		{
@@ -377,7 +377,7 @@ class CustomFilePathOptionView : public FilePathOptionView, public MainAppHelper
 		[this](const Input::Event &e)
 		{
 			pushAndShow(makeViewWithName<UserPathSelectView>(
-				UI_TEXT("Cheats"),
+				UI_TEXT("金手指文件夹"),
 				system().userPath(system().cheatsDir),
 				[this](CStringView path)
 				{
@@ -394,7 +394,7 @@ class CustomFilePathOptionView : public FilePathOptionView, public MainAppHelper
 		[this](const Input::Event &e)
 		{
 			pushAndShow(makeViewWithName<UserPathSelectView>(
-				UI_TEXT("Patches"),
+				UI_TEXT("补丁文件夹"),
 				system().userPath(system().patchesDir),
 				[this](CStringView path)
 				{
@@ -408,7 +408,7 @@ class CustomFilePathOptionView : public FilePathOptionView, public MainAppHelper
 	static std::string satMenuName(IG::ApplicationContext ctx, std::string_view userPath)
 	{
 		return std::format(
-			UI_TEXT("Satellaview Files: {}"),
+			UI_TEXT("卫星视图文件夹：{}"),
 			userPathToDisplayName(ctx, userPath));
 	}
 
@@ -418,7 +418,7 @@ class CustomFilePathOptionView : public FilePathOptionView, public MainAppHelper
 		[this](const Input::Event &e)
 		{
 			pushAndShow(makeViewWithName<UserPathSelectView>(
-				UI_TEXT("Satellaview Files"),
+				UI_TEXT("卫星视图文件夹"),
 				system().userPath(system().satDir),
 				[this](CStringView path)
 				{
@@ -434,7 +434,8 @@ class CustomFilePathOptionView : public FilePathOptionView, public MainAppHelper
 		bsxMenuName(system().bsxBiosPath), attachParams(),
 		[this](const Input::Event &e)
 		{
-			pushAndShow(makeViewWithName<DataFileSelectView<>>("BS-X BIOS",
+			pushAndShow(makeViewWithName<DataFileSelectView<>>(
+				UI_TEXT("BS-X BIOS"),
 				app().validSearchPath(FS::dirnameUri(system().bsxBiosPath)),
 				[this](CStringView path, FS::file_type type)
 				{
@@ -449,7 +450,7 @@ class CustomFilePathOptionView : public FilePathOptionView, public MainAppHelper
 	std::string bsxMenuName(CStringView path) const
 	{
 		return std::format(
-			UI_TEXT("BS-X BIOS: {}"),
+			UI_TEXT("BS-X BIOS：{}"),
 			appContext().fileUriDisplayName(path));
 	}
 
@@ -474,7 +475,7 @@ class CustomFilePathOptionView : public FilePathOptionView, public MainAppHelper
 	std::string sufamiMenuName(CStringView path) const
 	{
 		return std::format(
-			UI_TEXT("Sufami Turbo BIOS: {}"),
+			UI_TEXT("Sufami Turbo BIOS：{}"),
 			appContext().fileUriDisplayName(path));
 	}
 

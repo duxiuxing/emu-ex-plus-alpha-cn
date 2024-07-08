@@ -186,7 +186,7 @@ static void writeCheatsFile(EmuSystem &sys)
 EmuEditCheatView::EmuEditCheatView(ViewAttachParams attach, int cheatIdx, RefreshCheatsDelegate onCheatListChanged_):
 	BaseEditCheatView
 	{
-		UI_TEXT("Edit Address/Values"),
+		UI_TEXT("编辑地址/数值"),
 		attach,
 		cheatName(cheatIdx),
 		items,
@@ -203,13 +203,13 @@ EmuEditCheatView::EmuEditCheatView(ViewAttachParams attach, int cheatIdx, Refres
 	items{&name, &addr, &value, &saved, &remove},
 	addr
 	{
-		UI_TEXT("Address"),
+		UI_TEXT("地址"),
 		u"",
 		attach,
 		[this](DualTextMenuItem &item, View &, Input::Event e)
 		{
 			pushAndShowNewCollectValueInputView<const char*>(attachParams(), e,
-				UI_TEXT("Input 6-digit hex"),
+				UI_TEXT("请输入六位十六进制数字"),
 				addrStr.data(),
 				[this](CollectTextInputView&, auto str)
 				{
@@ -218,7 +218,7 @@ EmuEditCheatView::EmuEditCheatView(ViewAttachParams attach, int cheatIdx, Refres
 					{
 						logMsg("addr 0x%X too large", a);
 						app().postMessage(true,
-							UI_TEXT("Invalid input")
+							UI_TEXT("无效的输入")
 						);
 						return false;
 					}
@@ -243,13 +243,13 @@ EmuEditCheatView::EmuEditCheatView(ViewAttachParams attach, int cheatIdx, Refres
 	},
 	value
 	{
-		UI_TEXT("Value"),
+		UI_TEXT("数值"),
 		u"",
 		attach,
 		[this](DualTextMenuItem &item, View &, Input::Event e)
 		{
 			pushAndShowNewCollectValueInputView<const char*>(attachParams(), e,
-				UI_TEXT("Input 2-digit hex"),
+				UI_TEXT("请输入两位十六进制数字"),
 				valueStr.data(),
 				[this](CollectTextInputView&, const char *str)
 				{
@@ -257,7 +257,7 @@ EmuEditCheatView::EmuEditCheatView(ViewAttachParams attach, int cheatIdx, Refres
 					if(a > 0xFF)
 					{
 						app().postMessage(true,
-							UI_TEXT("value must be <= FF")
+							UI_TEXT("数值必须小于等于 FF")
 						);
 						return false;
 					}
@@ -283,16 +283,16 @@ EmuEditCheatView::EmuEditCheatView(ViewAttachParams attach, int cheatIdx, Refres
 	saved
 	{
 		#ifndef SNES9X_VERSION_1_4
-		UI_TEXT("Conditional Value"),
+		UI_TEXT("条件值"),
 		#else
-		UI_TEXT("Saved Value"),
+		UI_TEXT("保存值"),
 		#endif
 		u"",
 		attach,
 		[this](DualTextMenuItem &item, View &, Input::Event e)
 		{
 			pushAndShowNewCollectTextInputView(attachParams(), e,
-				UI_TEXT("Input 2-digit hex or blank"),
+				UI_TEXT("请输入两位十六进制数字或留空"),
 				savedStr.data(),
 				[this](CollectTextInputView &view, const char *str)
 				{
@@ -305,7 +305,7 @@ EmuEditCheatView::EmuEditCheatView(ViewAttachParams attach, int cheatIdx, Refres
 							if(a > 0xFF)
 							{
 								app().postMessage(true,
-									UI_TEXT("value must be <= FF")
+									UI_TEXT("数值必须小于等于 FF")
 								);
 								return true;
 							}
@@ -409,19 +409,19 @@ EmuEditCheatListView::EmuEditCheatListView(ViewAttachParams attach):
 	},
 	addCode
 	{
-		UI_TEXT("Add Game Genie/Action Replay/Gold Finger Code"),
+		UI_TEXT("添加金手指代码"),
 		attach,
 		[this](TextMenuItem &item, View &, Input::Event e)
 		{
 			if(numCheats() == EmuCheats::MAX)
 			{
 				app().postMessage(true,
-					UI_TEXT("Too many cheats, delete some first")
+					UI_TEXT("已达个数上限，请先删除一些再添加")
 				);
 				return;
 			}
 			pushAndShowNewCollectTextInputView(attachParams(), e,
-				UI_TEXT("Input xxxx-xxxx (GG), xxxxxxxx (AR), or GF code"),
+				UI_TEXT("请输入 GG 码 (xxxx-xxxx)、AR 码 (xxxxxxxx) 或 GF 码"),
 				"",
 				[this](CollectTextInputView &view, const char *str)
 				{
@@ -430,20 +430,20 @@ EmuEditCheatListView::EmuEditCheatListView(ViewAttachParams attach):
 						if(!addCheat(str))
 						{
 							app().postMessage(true,
-								UI_TEXT("Invalid format")
+								UI_TEXT("无效的格式")
 							);
 							return true;
 						}
 						auto idx = numCheats() - 1;
 						setCheatName(idx,
-							UI_TEXT("Unnamed Cheat")
+							UI_TEXT("新建的金手指")
 						);
 						logMsg("added new cheat, %d total", numCheats());
 						onCheatListChanged();
 						writeCheatsFile(system());
 						view.dismiss();
 						pushAndShowNewCollectTextInputView(attachParams(), {},
-							UI_TEXT("Input description"),
+							UI_TEXT("请输入描述说明"),
 							"",
 							[this, idx](CollectTextInputView &view, const char *str)
 							{

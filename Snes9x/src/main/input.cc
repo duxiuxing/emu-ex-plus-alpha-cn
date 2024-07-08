@@ -81,27 +81,27 @@ std::span<const KeyCategory> Snes9xApp::keyCategories()
 	{
 		KeyCategory
 		{
-			UI_TEXT("Gamepad"),
+			UI_TEXT("游戏按键"),
 			gpKeyInfo
 		},
 		KeyCategory
 		{
-			UI_TEXT("Gamepad 2"),
+			UI_TEXT("游戏按键 (2号手柄)"),
 			gp2KeyInfo, 1
 		},
 		KeyCategory
 		{
-			UI_TEXT("Gamepad 3"),
+			UI_TEXT("游戏按键 (3号手柄)"),
 			gp3KeyInfo, 2
 		},
 		KeyCategory
 		{
-			UI_TEXT("Gamepad 4"),
+			UI_TEXT("游戏按键 (4号手柄)"),
 			gp4KeyInfo, 3
 		},
 		KeyCategory
 		{
-			UI_TEXT("Gamepad 5"),
+			UI_TEXT("游戏按键 (5号手柄)"),
 			gp4KeyInfo, 4
 		},
 	};
@@ -113,17 +113,17 @@ std::string_view Snes9xApp::systemKeyCodeToString(KeyCode c)
 	switch(SnesKey(c))
 	{
 		case SnesKey::Up:
-			return UI_TEXT("Up");
+			return UI_TEXT("上");
 		case SnesKey::Right:
-			return UI_TEXT("Right");
+			return UI_TEXT("右");
 		case SnesKey::Down:
-			return UI_TEXT("Down");
+			return UI_TEXT("下");
 		case SnesKey::Left:
-			return UI_TEXT("Left");
+			return UI_TEXT("左");
 		case SnesKey::Select:
-			return UI_TEXT("Select");
+			return UI_TEXT("选择");
 		case SnesKey::Start:
-			return UI_TEXT("Start");
+			return UI_TEXT("开始");
 		case SnesKey::A:
 			return UI_TEXT("A");
 		case SnesKey::B:
@@ -625,42 +625,42 @@ SystemInputDeviceDesc Snes9xSystem::inputDeviceDesc(int idx) const
 	{
 		InputComponentDesc
 		{
-			UI_TEXT("D-Pad"),
+			UI_TEXT("方向键"),
 			dpadKeyInfo, InputComponent::dPad, LB2DO
 		},
 		InputComponentDesc
 		{
-			UI_TEXT("Face Buttons"),
+			UI_TEXT("动作键"),
 			faceKeyInfo, InputComponent::button, RB2DO, {.staggeredLayout = true}
 		},
 		InputComponentDesc
 		{
-			UI_TEXT("Face Buttons + Inline L/R"),
+			UI_TEXT("动作键 + L/R 键"),
 			faceLRKeyInfo, InputComponent::button, RB2DO, {.altConfig = true, .staggeredLayout = true}
 		},
 		InputComponentDesc
 		{
-			UI_TEXT("L"),
+			UI_TEXT("L 键"),
 			lKeyInfo, InputComponent::trigger, LB2DO
 		},
 		InputComponentDesc
 		{
-			UI_TEXT("R"),
+			UI_TEXT("R 键"),
 			rKeyInfo, InputComponent::trigger, RB2DO
 		},
 		InputComponentDesc
 		{
-			UI_TEXT("Select"),
+			UI_TEXT("选择键"),
 			{&centerKeyInfo[0], 1}, InputComponent::button, LB2DO
 		},
 		InputComponentDesc
 		{
-			UI_TEXT("Start"),
+			UI_TEXT("开始键"),
 			{&centerKeyInfo[1], 1}, InputComponent::button, RB2DO
 		},
 		InputComponentDesc
 		{
-			UI_TEXT("Select/Start"),
+			UI_TEXT("选择/开始键"),
 			centerKeyInfo, InputComponent::button, CB2DO, {.altConfig = true}
 		},
 	};

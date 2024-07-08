@@ -31,7 +31,7 @@ namespace EmuEx
 {
 
 const char *EmuSystem::creditsViewStr =
-	UI_TEXT(CREDITS_INFO_STRING "(c) 2011-2024\nRobert Broglia\nwww.explusalpha.com\n\nPortions (c) the\nSnes9x Team\nwww.snes9x.com");
+	UI_TEXT(CREDITS_INFO_STRING "(c) 2011-2024\nRobert Broglia\nwww.explusalpha.com\n\nPortions (c) the\nSnes9x Team\nwww.snes9x.com\n\n翻译：R-Sam\nGitHub\nduxiuxing/emu-ex-plus-alpha-cn");
 #if PIXEL_FORMAT == RGB565
 constexpr auto srcPixFmt = IG::PixelFmtRGB565;
 #else
@@ -62,8 +62,8 @@ const BundledGameInfo &EmuSystem::bundledGameInfo(int idx) const
 	static constexpr BundledGameInfo info[]
 	{
 		{
-			UI_TEXT("Bio Worm"),
-			UI_TEXT("Bio Worm.7z")
+			UI_TEXT("生化怪虫"),
+			UI_TEXT("生化怪虫.7z")
 		}
 	};
 
@@ -164,7 +164,7 @@ void Snes9xSystem::readState(EmuApp &, std::span<uint8_t> buff)
 	if(!unfreezeStateFrom(buff))
 		throw std::runtime_error
 			{
-				UI_TEXT("Invalid state data")
+				UI_TEXT("无效的进度数据")
 			};
 	IPPU.RenderThisFrame = TRUE;
 }
@@ -239,7 +239,7 @@ IOBuffer Snes9xSystem::readSufamiTurboBios() const
 	if(sufamiBiosPath.empty())
 		throw std::runtime_error
 			{
-				UI_TEXT("No Sufami Turbo BIOS set")
+				UI_TEXT("没有设置 Sufami Turbo BIOS")
 			};
 	logMsg("loading Sufami Turbo BIOS:%s", sufamiBiosPath.data());
 	if(EmuApp::hasArchiveExtension(appCtx.fileUriDisplayName(sufamiBiosPath)))
@@ -252,13 +252,13 @@ IOBuffer Snes9xSystem::readSufamiTurboBios() const
 			if(!isSufamiTurboBios(buff))
 				throw std::runtime_error
 					{
-						UI_TEXT("Incompatible Sufami Turbo BIOS")
+						UI_TEXT("不兼容的 Sufami Turbo BIOS")
 					};
 			return buff;
 		}
 		throw std::runtime_error
 			{
-				UI_TEXT("Sufami Turbo BIOS not in archive, must end in .bin or .bios")
+				UI_TEXT("无效的 Sufami Turbo BIOS 文件，必须以 .bin 或 .bios 结尾")
 			};
 	}
 	else
@@ -267,7 +267,7 @@ IOBuffer Snes9xSystem::readSufamiTurboBios() const
 		if(!isSufamiTurboBios(buff))
 			throw std::runtime_error
 				{
-					UI_TEXT("Incompatible Sufami Turbo BIOS")
+					UI_TEXT("不兼容的 Sufami Turbo BIOS")
 				};
 		return buff;
 	}
@@ -280,7 +280,7 @@ void Snes9xSystem::loadContent(IO &io, EmuSystemCreateParams, OnLoadProgressDele
 	{
 		throw std::runtime_error
 			{
-				UI_TEXT("ROM is too large")
+				UI_TEXT("ROM 文件过大")
 			};
 	}
 	#ifndef SNES9X_VERSION_1_4
@@ -316,7 +316,7 @@ void Snes9xSystem::loadContent(IO &io, EmuSystemCreateParams, OnLoadProgressDele
 		{
 			throw std::runtime_error
 				{
-					UI_TEXT("Error loading ROM")
+					UI_TEXT("读取 ROM 文件时出错")
 				};
 		}
 	}
@@ -327,7 +327,7 @@ void Snes9xSystem::loadContent(IO &io, EmuSystemCreateParams, OnLoadProgressDele
 		{
 			throw std::runtime_error
 				{
-					UI_TEXT("Error loading ROM")
+					UI_TEXT("读取 ROM 文件时出错")
 				};
 		}
 	}
