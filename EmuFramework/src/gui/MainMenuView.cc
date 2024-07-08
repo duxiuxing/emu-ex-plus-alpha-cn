@@ -103,7 +103,7 @@ MainMenuView::MainMenuView(ViewAttachParams attach, bool customMenu):
 	},
 	bundledGames
 	{
-		UI_TEXT("Bundled Content"),
+		UI_TEXT("自带游戏"),
 		attach,
 		[this](const Input::Event &e)
 		{
