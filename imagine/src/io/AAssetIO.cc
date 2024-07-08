@@ -53,7 +53,7 @@ AAssetIO::AAssetIO(ApplicationContext ctx, CStringView name, OpenFlags openFlags
 			throw std::runtime_error
 				{
 					std::format(
-						UI_TEXT("打开资源文件时出错：{}"),
+						UI_TEXT("打开资源时出错：{}"),
 						name)
 				};
 	}
