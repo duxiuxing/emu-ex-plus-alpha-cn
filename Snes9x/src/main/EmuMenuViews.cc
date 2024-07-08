@@ -434,7 +434,8 @@ class CustomFilePathOptionView : public FilePathOptionView, public MainAppHelper
 		bsxMenuName(system().bsxBiosPath), attachParams(),
 		[this](const Input::Event &e)
 		{
-			pushAndShow(makeViewWithName<DataFileSelectView<>>("BS-X BIOS",
+			pushAndShow(makeViewWithName<DataFileSelectView<>>(
+				UI_TEXT("BS-X BIOS"),
 				app().validSearchPath(FS::dirnameUri(system().bsxBiosPath)),
 				[this](CStringView path, FS::file_type type)
 				{
