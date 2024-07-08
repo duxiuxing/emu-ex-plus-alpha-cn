@@ -62,8 +62,8 @@ const BundledGameInfo &EmuSystem::bundledGameInfo(int idx) const
 	static constexpr BundledGameInfo info[]
 	{
 		{
-			UI_TEXT("生化怪虫"),
-			UI_TEXT("生化怪虫.7z")
+			UI_TEXT("Bio Worm"),
+			UI_TEXT("Bio Worm.7z")
 		}
 	};
 
