@@ -169,7 +169,7 @@ void ArchiveIO::init(IO io)
 		throw std::runtime_error
 			{
 				std::format(
-					UI_TEXT("Error opening archive: {}"),
+					UI_TEXT("打开文件时出错：{}"),
 					errString)
 			};
 	}
