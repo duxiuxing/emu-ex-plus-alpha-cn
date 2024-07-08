@@ -224,7 +224,8 @@ int FCEUD_FDSReadBIOS(void *buff, uint32 size)
 	const auto &fdsBiosPath = sys.fdsBiosPath;
 	if(fdsBiosPath.empty())
 	{
-		sys.loaderErrorString = "No FDS BIOS set";
+		sys.loaderErrorString =
+			UI_TEXT("没有设置 FDS BIOS");
 		return -1;
 	}
 	EmuEx::log.info("loading FDS BIOS:{}", fdsBiosPath);
@@ -241,13 +242,15 @@ int FCEUD_FDSReadBIOS(void *buff, uint32 size)
 				EmuEx::log.info("archive file entry:%s", entry.name().data());
 				if(entry.size() != size)
 				{
-					sys.loaderErrorString = "Incompatible FDS BIOS";
+					sys.loaderErrorString =
+						UI_TEXT("不兼容的 FDS BIOS");
 					return -1;
 				}
 				return entry.read(buff, size);
 			}
 		}
-		sys.loaderErrorString = "Error opening FDS BIOS";
+		sys.loaderErrorString =
+			UI_TEXT("打开 FDS BIOS 时出错");
 		return -1;
 	}
 	else
@@ -255,7 +258,8 @@ int FCEUD_FDSReadBIOS(void *buff, uint32 size)
 		auto io = appCtx.openFileUri(fdsBiosPath, {.accessHint = IOAccessHint::All});
 		if(io.size() != size)
 		{
-			sys.loaderErrorString = "Incompatible FDS BIOS";
+			sys.loaderErrorString =
+				UI_TEXT("不兼容的 FDS BIOS");
 			return -1;
 		}
 		return io.read(buff, size);

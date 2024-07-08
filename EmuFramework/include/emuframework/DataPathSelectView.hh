@@ -77,7 +77,7 @@ public:
 		{
 			mode == DataPathSelectMode::File
 				? UI_TEXT("选择文件")
-				: UI_TEXT("选择打包文件"),
+				: UI_TEXT("选择档案文件"),
 			attach,
 			[=](View &view, const Input::Event &e)
 			{
