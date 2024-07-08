@@ -258,7 +258,7 @@ IOBuffer Snes9xSystem::readSufamiTurboBios() const
 		}
 		throw std::runtime_error
 			{
-				UI_TEXT("无效的 Sufami Turbo BIOS 文件，必须以 .bin 或 .bios 结尾")
+				UI_TEXT("无效的 Sufami Turbo BIOS 档案，必须以 .bin 或 .bios 结尾")
 			};
 	}
 	else
@@ -280,7 +280,7 @@ void Snes9xSystem::loadContent(IO &io, EmuSystemCreateParams, OnLoadProgressDele
 	{
 		throw std::runtime_error
 			{
-				UI_TEXT("ROM 文件过大")
+				UI_TEXT("ROM 过大")
 			};
 	}
 	#ifndef SNES9X_VERSION_1_4
@@ -327,7 +327,7 @@ void Snes9xSystem::loadContent(IO &io, EmuSystemCreateParams, OnLoadProgressDele
 		{
 			throw std::runtime_error
 				{
-					UI_TEXT("读取 ROM 文件时出错")
+					UI_TEXT("读取 ROM 时出错")
 				};
 		}
 	}
