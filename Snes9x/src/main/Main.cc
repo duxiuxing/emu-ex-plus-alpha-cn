@@ -30,7 +30,8 @@ static bool S9xInterlaceField()
 namespace EmuEx
 {
 
-const char *EmuSystem::creditsViewStr = CREDITS_INFO_STRING "(c) 2011-2024\nRobert Broglia\nwww.explusalpha.com\n\nPortions (c) the\nSnes9x Team\nwww.snes9x.com";
+const char *EmuSystem::creditsViewStr =
+	UI_TEXT(CREDITS_INFO_STRING "(c) 2011-2024\nRobert Broglia\nwww.explusalpha.com\n\nPortions (c) the\nSnes9x Team\nwww.snes9x.com");
 #if PIXEL_FORMAT == RGB565
 constexpr auto srcPixFmt = IG::PixelFmtRGB565;
 #else
@@ -60,7 +61,10 @@ const BundledGameInfo &EmuSystem::bundledGameInfo(int idx) const
 {
 	static constexpr BundledGameInfo info[]
 	{
-		{"Bio Worm", "Bio Worm.7z"}
+		{
+			UI_TEXT("Bio Worm"),
+			UI_TEXT("Bio Worm.7z")
+		}
 	};
 
 	return info[0];
@@ -68,12 +72,12 @@ const BundledGameInfo &EmuSystem::bundledGameInfo(int idx) const
 
 const char *EmuSystem::shortSystemName() const
 {
-	return "SFC-SNES";
+	return UI_TEXT("SFC-SNES");
 }
 
 const char *EmuSystem::systemName() const
 {
-	return "Super Famicom (SNES)";
+	return UI_TEXT("Super Famicom (SNES)");
 }
 
 MutablePixmapView Snes9xSystem::fbPixmapView(WSize size, bool useInterlaceFields)
@@ -158,7 +162,10 @@ void Snes9xSystem::readState(EmuApp &, std::span<uint8_t> buff)
 		buff = uncompArr;
 	}
 	if(!unfreezeStateFrom(buff))
-		throw std::runtime_error("Invalid state data");
+		throw std::runtime_error
+			{
+				UI_TEXT("Invalid state data")
+			};
 	IPPU.RenderThisFrame = TRUE;
 }
 
@@ -230,7 +237,10 @@ bool Snes9xSystem::hasBiosExtension(std::string_view name)
 IOBuffer Snes9xSystem::readSufamiTurboBios() const
 {
 	if(sufamiBiosPath.empty())
-		throw std::runtime_error{"No Sufami Turbo BIOS set"};
+		throw std::runtime_error
+			{
+				UI_TEXT("No Sufami Turbo BIOS set")
+			};
 	logMsg("loading Sufami Turbo BIOS:%s", sufamiBiosPath.data());
 	if(EmuApp::hasArchiveExtension(appCtx.fileUriDisplayName(sufamiBiosPath)))
 	{
@@ -240,16 +250,25 @@ IOBuffer Snes9xSystem::readSufamiTurboBios() const
 				continue;
 			auto buff = entry.buffer(IOBufferMode::Release);
 			if(!isSufamiTurboBios(buff))
-				throw std::runtime_error{"Incompatible Sufami Turbo BIOS"};
+				throw std::runtime_error
+					{
+						UI_TEXT("Incompatible Sufami Turbo BIOS")
+					};
 			return buff;
 		}
-		throw std::runtime_error{"Sufami Turbo BIOS not in archive, must end in .bin or .bios"};
+		throw std::runtime_error
+			{
+				UI_TEXT("Sufami Turbo BIOS not in archive, must end in .bin or .bios")
+			};
 	}
 	else
 	{
 		auto buff = appCtx.openFileUri(sufamiBiosPath, {.accessHint = IOAccessHint::All}).releaseBuffer();
 		if(!isSufamiTurboBios(buff))
-			throw std::runtime_error{"Incompatible Sufami Turbo BIOS"};
+			throw std::runtime_error
+				{
+					UI_TEXT("Incompatible Sufami Turbo BIOS")
+				};
 		return buff;
 	}
 }
@@ -259,7 +278,10 @@ void Snes9xSystem::loadContent(IO &io, EmuSystemCreateParams, OnLoadProgressDele
 	auto size = io.size();
 	if(size > CMemory::MAX_ROM_SIZE + 512)
 	{
-		throw std::runtime_error("ROM is too large");
+		throw std::runtime_error
+			{
+				UI_TEXT("ROM is too large")
+			};
 	}
 	#ifndef SNES9X_VERSION_1_4
 	IG::fill(Memory.NSRTHeader);
@@ -292,7 +314,10 @@ void Snes9xSystem::loadContent(IO &io, EmuSystemCreateParams, OnLoadProgressDele
 			nullptr, 0,
 			biosBuff.data(), biosBuff.size()))
 		{
-			throw std::runtime_error("Error loading ROM");
+			throw std::runtime_error
+				{
+					UI_TEXT("Error loading ROM")
+				};
 		}
 	}
 	else
@@ -300,7 +325,10 @@ void Snes9xSystem::loadContent(IO &io, EmuSystemCreateParams, OnLoadProgressDele
 	{
 		if(!Memory.LoadROMMem((const uint8*)buff.data(), buff.size(), contentFileName().data()))
 		{
-			throw std::runtime_error("Error loading ROM");
+			throw std::runtime_error
+				{
+					UI_TEXT("Error loading ROM")
+				};
 		}
 	}
 	setupSNESInput(EmuApp::get(appContext()).defaultVController());

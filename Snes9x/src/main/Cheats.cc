@@ -186,7 +186,7 @@ static void writeCheatsFile(EmuSystem &sys)
 EmuEditCheatView::EmuEditCheatView(ViewAttachParams attach, int cheatIdx, RefreshCheatsDelegate onCheatListChanged_):
 	BaseEditCheatView
 	{
-		"Edit Address/Values",
+		UI_TEXT("Edit Address/Values"),
 		attach,
 		cheatName(cheatIdx),
 		items,
@@ -203,19 +203,23 @@ EmuEditCheatView::EmuEditCheatView(ViewAttachParams attach, int cheatIdx, Refres
 	items{&name, &addr, &value, &saved, &remove},
 	addr
 	{
-		"Address",
+		UI_TEXT("Address"),
 		u"",
 		attach,
 		[this](DualTextMenuItem &item, View &, Input::Event e)
 		{
-			pushAndShowNewCollectValueInputView<const char*>(attachParams(), e, "Input 6-digit hex", addrStr.data(),
+			pushAndShowNewCollectValueInputView<const char*>(attachParams(), e,
+				UI_TEXT("Input 6-digit hex"),
+				addrStr.data(),
 				[this](CollectTextInputView&, auto str)
 				{
 					unsigned a = strtoul(str, nullptr, 16);
 					if(a > 0xFFFFFF)
 					{
 						logMsg("addr 0x%X too large", a);
-						app().postMessage(true, "Invalid input");
+						app().postMessage(true,
+							UI_TEXT("Invalid input")
+						);
 						return false;
 					}
 					addrStr = a ? str : "0";
@@ -239,18 +243,22 @@ EmuEditCheatView::EmuEditCheatView(ViewAttachParams attach, int cheatIdx, Refres
 	},
 	value
 	{
-		"Value",
+		UI_TEXT("Value"),
 		u"",
 		attach,
 		[this](DualTextMenuItem &item, View &, Input::Event e)
 		{
-			pushAndShowNewCollectValueInputView<const char*>(attachParams(), e, "Input 2-digit hex", valueStr.data(),
+			pushAndShowNewCollectValueInputView<const char*>(attachParams(), e,
+				UI_TEXT("Input 2-digit hex"),
+				valueStr.data(),
 				[this](CollectTextInputView&, const char *str)
 				{
 					unsigned a = strtoul(str, nullptr, 16);
 					if(a > 0xFF)
 					{
-						app().postMessage(true, "value must be <= FF");
+						app().postMessage(true,
+							UI_TEXT("value must be <= FF")
+						);
 						return false;
 					}
 					valueStr = a ? str : "0";
@@ -275,15 +283,17 @@ EmuEditCheatView::EmuEditCheatView(ViewAttachParams attach, int cheatIdx, Refres
 	saved
 	{
 		#ifndef SNES9X_VERSION_1_4
-		"Conditional Value",
+		UI_TEXT("Conditional Value"),
 		#else
-		"Saved Value",
+		UI_TEXT("Saved Value"),
 		#endif
 		u"",
 		attach,
 		[this](DualTextMenuItem &item, View &, Input::Event e)
 		{
-			pushAndShowNewCollectTextInputView(attachParams(), e, "Input 2-digit hex or blank", savedStr.data(),
+			pushAndShowNewCollectTextInputView(attachParams(), e,
+				UI_TEXT("Input 2-digit hex or blank"),
+				savedStr.data(),
 				[this](CollectTextInputView &view, const char *str)
 				{
 					if(str)
@@ -294,7 +304,9 @@ EmuEditCheatView::EmuEditCheatView(ViewAttachParams attach, int cheatIdx, Refres
 							unsigned a = strtoul(str, nullptr, 16);
 							if(a > 0xFF)
 							{
-								app().postMessage(true, "value must be <= FF");
+								app().postMessage(true,
+									UI_TEXT("value must be <= FF")
+								);
 								return true;
 							}
 							savedStr = str;
@@ -397,32 +409,42 @@ EmuEditCheatListView::EmuEditCheatListView(ViewAttachParams attach):
 	},
 	addCode
 	{
-		"Add Game Genie/Action Replay/Gold Finger Code", attach,
+		UI_TEXT("Add Game Genie/Action Replay/Gold Finger Code"),
+		attach,
 		[this](TextMenuItem &item, View &, Input::Event e)
 		{
 			if(numCheats() == EmuCheats::MAX)
 			{
-				app().postMessage(true, "Too many cheats, delete some first");
+				app().postMessage(true,
+					UI_TEXT("Too many cheats, delete some first")
+				);
 				return;
 			}
 			pushAndShowNewCollectTextInputView(attachParams(), e,
-				"Input xxxx-xxxx (GG), xxxxxxxx (AR), or GF code", "",
+				UI_TEXT("Input xxxx-xxxx (GG), xxxxxxxx (AR), or GF code"),
+				"",
 				[this](CollectTextInputView &view, const char *str)
 				{
 					if(str)
 					{
 						if(!addCheat(str))
 						{
-							app().postMessage(true, "Invalid format");
+							app().postMessage(true,
+								UI_TEXT("Invalid format")
+							);
 							return true;
 						}
 						auto idx = numCheats() - 1;
-						setCheatName(idx, "Unnamed Cheat");
+						setCheatName(idx,
+							UI_TEXT("Unnamed Cheat")
+						);
 						logMsg("added new cheat, %d total", numCheats());
 						onCheatListChanged();
 						writeCheatsFile(system());
 						view.dismiss();
-						pushAndShowNewCollectTextInputView(attachParams(), {}, "Input description", "",
+						pushAndShowNewCollectTextInputView(attachParams(), {},
+							UI_TEXT("Input description"),
+							"",
 							[this, idx](CollectTextInputView &view, const char *str)
 							{
 								if(str)
