@@ -166,7 +166,12 @@ void ArchiveIO::init(IO io)
 		auto errString = archive_error_string(newArch.get());
 		if(Config::DEBUG_BUILD)
 			logErr("error opening archive:%s", errString);
-		throw std::runtime_error{std::format("Error opening archive: {}", errString)};
+		throw std::runtime_error
+			{
+				std::format(
+					UI_TEXT("Error opening archive: {}"),
+					errString)
+			};
 	}
 	logMsg("opened archive:%p", newArch.get());
 	arch = std::move(newArch);
