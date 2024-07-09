@@ -83,22 +83,22 @@ std::span<const KeyCategory> MdApp::keyCategories()
 	{
 		KeyCategory
 		{
-			UI_TEXT("Gamepad"),
+			UI_TEXT("游戏按键"),
 			gpKeyInfo
 		},
 		KeyCategory
 		{
-			UI_TEXT("Gamepad 2"),
+			UI_TEXT("游戏按键 (2号手柄)"),
 			gp2KeyInfo, 1
 		},
 		KeyCategory
 		{
-			UI_TEXT("Gamepad 3"),
+			UI_TEXT("游戏按键 (3号手柄)"),
 			gp3KeyInfo, 2
 		},
 		KeyCategory
 		{
-			UI_TEXT("Gamepad 4"),
+			UI_TEXT("游戏按键 (4号手柄)"),
 			gp4KeyInfo, 3
 		},
 	};
@@ -110,17 +110,17 @@ std::string_view MdApp::systemKeyCodeToString(KeyCode c)
 	switch(MdKey(c))
 	{
 		case MdKey::Up:
-			return UI_TEXT("Up");
+			return UI_TEXT("上");
 		case MdKey::Right:
-			return UI_TEXT("Right");
+			return UI_TEXT("右");
 		case MdKey::Down:
-			return UI_TEXT("Down");
+			return UI_TEXT("下");
 		case MdKey::Left:
-			return UI_TEXT("Left");
+			return UI_TEXT("左");
 		case MdKey::Mode:
-			return UI_TEXT("Mode");
+			return UI_TEXT("模式");
 		case MdKey::Start:
-			return UI_TEXT("Start");
+			return UI_TEXT("开始");
 		case MdKey::A:
 			return UI_TEXT("A");
 		case MdKey::B:
@@ -313,23 +313,23 @@ const char *mdInputSystemToStr(uint8 system)
 	switch(system)
 	{
 		case NO_SYSTEM:
-			return UI_TEXT("unconnected");
+			return UI_TEXT("未连接");
 		case SYSTEM_MD_GAMEPAD:
-			return UI_TEXT("gamepad");
+			return UI_TEXT("MD 手柄");
 		case SYSTEM_MS_GAMEPAD:
-			return UI_TEXT("sms gamepad");
+			return UI_TEXT("SMS 手柄");
 		case SYSTEM_MOUSE:
-			return UI_TEXT("mouse");
+			return UI_TEXT("鼠标");
 		case SYSTEM_MENACER:
-			return UI_TEXT("menacer");
+			return UI_TEXT("Menacer 光枪");
 		case SYSTEM_JUSTIFIER:
-			return UI_TEXT("justifier");
+			return UI_TEXT("Justifier 光枪");
 		case SYSTEM_TEAMPLAYER:
-			return UI_TEXT("team-player");
+			return UI_TEXT("Team Player 控制器");
 		case SYSTEM_LIGHTPHASER:
-			return UI_TEXT("light-phaser");
+			return UI_TEXT("Light Phaser 光枪");
 		default:
-			return UI_TEXT("unknown");
+			return UI_TEXT("未知设备");
 	}
 }
 
@@ -441,34 +441,34 @@ SystemInputDeviceDesc MdSystem::inputDeviceDesc(int idx) const
 	{
 		InputComponentDesc
 		{
-			UI_TEXT("D-Pad"),
+			UI_TEXT("方向键"),
 			dpadKeyInfo, InputComponent::dPad, LB2DO
 		},
 		InputComponentDesc
 		{
-			UI_TEXT("Face Buttons"),
+			UI_TEXT("动作键"),
 			faceKeyInfo, InputComponent::button, RB2DO
 		},
 		InputComponentDesc
 		{
-			UI_TEXT("Mode"),
+			UI_TEXT("模式键"),
 			{&centerKeyInfo[0], 1}, InputComponent::button, LB2DO
 		},
 		InputComponentDesc
 		{
-			UI_TEXT("Start"),
+			UI_TEXT("开始键"),
 			{&centerKeyInfo[1], 1}, InputComponent::button, RB2DO
 		},
 		InputComponentDesc
 		{
-			UI_TEXT("Mode/Start"),
+			UI_TEXT("模式/开始键"),
 			centerKeyInfo, InputComponent::button, CB2DO, {.altConfig = true}
 		},
 	};
 
 	static constexpr SystemInputDeviceDesc gamepadDesc
 	{
-		UI_TEXT("Gamepad"),
+		UI_TEXT("手柄"),
 		gamepadComponents
 	};
 

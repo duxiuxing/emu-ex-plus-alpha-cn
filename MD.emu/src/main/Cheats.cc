@@ -40,9 +40,9 @@ StaticArrayList<MdCheat, maxCheats> cheatList;
 StaticArrayList<MdCheat*, maxCheats> romCheatList;
 StaticArrayList<MdCheat*, maxCheats> ramCheatList;
 static const char *INPUT_CODE_8BIT_STR =
-	UI_TEXT("Input xxx-xxx-xxx (GG) or xxxxxx:xx (AR) code");
+	UI_TEXT("请输入 GG 码 (xxx-xxx-xxx) 或 AR 码 (xxxxxx:xx)");
 static const char *INPUT_CODE_16BIT_STR =
-	UI_TEXT("Input xxxx-xxxx (GG) or xxxxxx:xxxx (AR) code");
+	UI_TEXT("请输入 GG 码 (xxxx-xxxx) 或 AR 码 (xxxxxx:xxxx)");
 
 static bool strIs16BitGGCode(const char *str)
 {
@@ -597,7 +597,7 @@ EmuEditCheatListView::EmuEditCheatListView(ViewAttachParams attach):
 	},
 	addCode
 	{
-		UI_TEXT("Add Game Genie / Action Replay Code"),
+		UI_TEXT("添加金手指代码"),
 		attach,
 		[this](TextMenuItem &item, View &, Input::Event e)
 		{
@@ -609,7 +609,7 @@ EmuEditCheatListView::EmuEditCheatListView(ViewAttachParams attach):
 						if(cheatList.isFull())
 						{
 							app().postMessage(true,
-								UI_TEXT("Cheat list is full")
+								UI_TEXT("已达个数上限，请先删除一些再添加")
 							);
 							view.dismiss();
 							return false;
@@ -617,7 +617,7 @@ EmuEditCheatListView::EmuEditCheatListView(ViewAttachParams attach):
 						if(strlen(str) > 11)
 						{
 							app().postMessage(true,
-								UI_TEXT("Code is too long")
+								UI_TEXT("输入的代码过长")
 							);
 							return true;
 						}
@@ -626,12 +626,12 @@ EmuEditCheatListView::EmuEditCheatListView(ViewAttachParams attach):
 						if(!decodeCheat(c.code.data(), c.address, c.data, c.origData))
 						{
 							app().postMessage(true,
-								UI_TEXT("Invalid code")
+								UI_TEXT("无效的代码")
 							);
 							return true;
 						}
 						c.name =
-							UI_TEXT("Unnamed Cheat");
+							UI_TEXT("新建的金手指");
 						cheatList.push_back(c);
 						logMsg("added new cheat, %zu total", cheatList.size());
 						updateCheats();
@@ -639,7 +639,7 @@ EmuEditCheatListView::EmuEditCheatListView(ViewAttachParams attach):
 						writeCheatFile(system());
 						view.dismiss();
 						pushAndShowNewCollectTextInputView(attachParams(), {},
-							UI_TEXT("Input description"),
+							UI_TEXT("请输入描述说明"),
 							"",
 							[this](CollectTextInputView &view, const char *str)
 							{
