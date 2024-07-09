@@ -38,7 +38,8 @@ class ConsoleOptionView : public TableView, public MainAppHelper
 {
 	BoolMenuItem sixButtonPad
 	{
-		"6-button Gamepad", attachParams(),
+		UI_TEXT("6-button Gamepad"),
+		attachParams(),
 		(bool)system().option6BtnPad,
 		[this](BoolMenuItem &item, View &, Input::Event e)
 		{
@@ -50,7 +51,8 @@ class ConsoleOptionView : public TableView, public MainAppHelper
 
 	BoolMenuItem multitap
 	{
-		"4-Player Adapter", attachParams(),
+		UI_TEXT("4-Player Adapter"),
+		attachParams(),
 		(bool)system().optionMultiTap,
 		[this](BoolMenuItem &item, View &, Input::Event e)
 		{
@@ -63,23 +65,38 @@ class ConsoleOptionView : public TableView, public MainAppHelper
 	{
 		switch(system)
 		{
-			case SYSTEM_MENACER: return "Menacer";
-			case SYSTEM_JUSTIFIER: return "Justifier";
+			case SYSTEM_MENACER:
+				return UI_TEXT("Menacer");
+			case SYSTEM_JUSTIFIER:
+				return UI_TEXT("Justifier");
 		}
 		return "Gamepad";
 	}
 
 	TextMenuItem inputPortsItem[4]
 	{
-		{"Auto",      attachParams(), setInputPortsDel(-1, -1), {.id = -1}},
-		{"Gamepads",  attachParams(), setInputPortsDel(SYSTEM_MD_GAMEPAD, SYSTEM_MD_GAMEPAD), {.id = SYSTEM_MD_GAMEPAD}},
-		{"Menacer",   attachParams(), setInputPortsDel(SYSTEM_MD_GAMEPAD, SYSTEM_MENACER),    {.id = SYSTEM_MENACER}},
-		{"Justifier", attachParams(), setInputPortsDel(SYSTEM_MD_GAMEPAD, SYSTEM_JUSTIFIER),  {.id = SYSTEM_JUSTIFIER}},
+		{
+			UI_TEXT("Auto"),
+			attachParams(), setInputPortsDel(-1, -1), {.id = -1}
+		},
+		{
+			UI_TEXT("Gamepads"),
+			attachParams(), setInputPortsDel(SYSTEM_MD_GAMEPAD, SYSTEM_MD_GAMEPAD), {.id = SYSTEM_MD_GAMEPAD}
+		},
+		{
+			UI_TEXT("Menacer"),
+			attachParams(), setInputPortsDel(SYSTEM_MD_GAMEPAD, SYSTEM_MENACER),    {.id = SYSTEM_MENACER}
+		},
+		{
+			UI_TEXT("Justifier"),
+			attachParams(), setInputPortsDel(SYSTEM_MD_GAMEPAD, SYSTEM_JUSTIFIER),  {.id = SYSTEM_JUSTIFIER}
+		},
 	};
 
 	MultiChoiceMenuItem inputPorts
 	{
-		"Input Ports", attachParams(),
+		UI_TEXT("Input Ports"),
+		attachParams(),
 		MenuId{system().mdInputPortDev[1]},
 		inputPortsItem,
 		{
@@ -104,14 +121,24 @@ class ConsoleOptionView : public TableView, public MainAppHelper
 
 	TextMenuItem videoSystemItem[3]
 	{
-		{"Auto", attachParams(), [this](Input::Event e){ setVideoSystem(0, e); }},
-		{"NTSC", attachParams(), [this](Input::Event e){ setVideoSystem(1, e); }},
-		{"PAL", attachParams(),  [this](Input::Event e){ setVideoSystem(2, e); }},
+		{
+			UI_TEXT("Auto"),
+			attachParams(), [this](Input::Event e){ setVideoSystem(0, e); }
+		},
+		{
+			UI_TEXT("NTSC"),
+			attachParams(), [this](Input::Event e){ setVideoSystem(1, e); }
+		},
+		{
+			UI_TEXT("PAL"),
+			attachParams(),  [this](Input::Event e){ setVideoSystem(2, e); }
+		},
 	};
 
 	MultiChoiceMenuItem videoSystem
 	{
-		"Video System", attachParams(),
+		UI_TEXT("Video System"),
+		attachParams(),
 		system().optionVideoSystem.value(),
 		videoSystemItem,
 		{
@@ -119,7 +146,10 @@ class ConsoleOptionView : public TableView, public MainAppHelper
 			{
 				if(idx == 0)
 				{
-					t.resetString(vdp_pal ? "PAL" : "NTSC");
+					t.resetString(vdp_pal
+						? UI_TEXT("PAL")
+						: UI_TEXT("NTSC")
+					);
 					return true;
 				}
 				return false;
@@ -136,15 +166,28 @@ class ConsoleOptionView : public TableView, public MainAppHelper
 
 	TextMenuItem regionItem[4]
 	{
-		{"Auto",   attachParams(), [this](Input::Event e){ setRegion(0, e); }},
-		{"USA",    attachParams(), [this](Input::Event e){ setRegion(1, e); }},
-		{"Europe", attachParams(), [this](Input::Event e){ setRegion(2, e); }},
-		{"Japan",  attachParams(), [this](Input::Event e){ setRegion(3, e); }},
+		{
+			UI_TEXT("Auto"),
+			attachParams(), [this](Input::Event e){ setRegion(0, e); }
+		},
+		{
+			UI_TEXT("USA"),
+			attachParams(), [this](Input::Event e){ setRegion(1, e); }
+		},
+		{
+			UI_TEXT("Europe"),
+			attachParams(), [this](Input::Event e){ setRegion(2, e); }
+		},
+		{
+			UI_TEXT("Japan"),
+			attachParams(), [this](Input::Event e){ setRegion(3, e); }
+		},
 	};
 
 	MultiChoiceMenuItem region
 	{
-		"Game Region", attachParams(),
+		UI_TEXT("Game Region"),
+		attachParams(),
 		std::min((int)config.region_detect, 4),
 		regionItem,
 		{
@@ -156,9 +199,12 @@ class ConsoleOptionView : public TableView, public MainAppHelper
 					{
 						switch(region)
 						{
-							case REGION_USA: return "USA";
-							case REGION_EUROPE: return "Europe";
-							default: return "Japan";
+							case REGION_USA:
+								return UI_TEXT("USA");
+							case REGION_EUROPE:
+								return UI_TEXT("Europe");
+							default:
+								return UI_TEXT("Japan");
 						}
 					};
 					t.resetString(regionStr(region_code));
@@ -182,7 +228,7 @@ public:
 	ConsoleOptionView(ViewAttachParams attach):
 		TableView
 		{
-			"Console Options",
+			UI_TEXT("Console Options"),
 			attach,
 			item
 		}
@@ -203,7 +249,8 @@ class CustomSystemActionsView : public SystemActionsView
 private:
 	TextMenuItem options
 	{
-		"Console Options", attachParams(),
+		UI_TEXT("Console Options"),
+		attachParams(),
 		[this](TextMenuItem &, View &, Input::Event e)
 		{
 			if(system().hasContent())
@@ -227,7 +274,8 @@ class CustomAudioOptionView : public AudioOptionView, public MainAppHelper
 
 	BoolMenuItem smsFM
 	{
-		"MarkIII FM Sound Unit", attachParams(),
+		UI_TEXT("MarkIII FM Sound Unit"),
+		attachParams(),
 		(bool)system().optionSmsFM,
 		[this](BoolMenuItem &item, View &, Input::Event e)
 		{
@@ -251,14 +299,15 @@ class CustomSystemOptionView : public SystemOptionView, public MainAppHelper
 
 	BoolMenuItem bigEndianSram
 	{
-		"Use Big-Endian SRAM", attachParams(),
+		UI_TEXT("Use Big-Endian SRAM"),
+		attachParams(),
 		(bool)system().optionBigEndianSram,
 		[this](BoolMenuItem &item, Input::Event e)
 		{
 			app().pushAndShowModalView(makeView<YesNoAlertView>(
-				"Warning, this changes the format of SRAM saves files. "
-				"Turn on to make them compatible with other emulators like Gens. "
-				"Any SRAM loaded with the incorrect setting will be corrupted.",
+				UI_TEXT("Warning, this changes the format of SRAM saves files. ")
+				UI_TEXT("Turn on to make them compatible with other emulators like Gens. ")
+				UI_TEXT("Any SRAM loaded with the incorrect setting will be corrupted."),
 				YesNoAlertView::Delegates{.onYes = [this]{ system().optionBigEndianSram = bigEndianSram.flipBoolValue(*this); }}), e);
 		}
 	};
@@ -281,7 +330,9 @@ class CustomFilePathOptionView : public FilePathOptionView, public MainAppHelper
 		cheatsMenuName(appContext(), system().cheatsDir), attachParams(),
 		[this](const Input::Event &e)
 		{
-			pushAndShow(makeViewWithName<UserPathSelectView>("Cheats", system().userPath(system().cheatsDir),
+			pushAndShow(makeViewWithName<UserPathSelectView>(
+				UI_TEXT("Cheats"),
+				system().userPath(system().cheatsDir),
 				[this](CStringView path)
 				{
 					logMsg("set cheats path:%s", path.data());
@@ -294,9 +345,9 @@ class CustomFilePathOptionView : public FilePathOptionView, public MainAppHelper
 	#ifndef NO_SCD
 	static constexpr std::string_view biosHeadingStr[3]
 	{
-		"USA CD BIOS",
-		"Japan CD BIOS",
-		"Europe CD BIOS"
+		UI_TEXT("USA CD BIOS"),
+		UI_TEXT("Japan CD BIOS"),
+		UI_TEXT("Europe CD BIOS")
 	};
 
 	static int8_t regionCodeToIdx(uint8_t region)
@@ -329,7 +380,9 @@ class CustomFilePathOptionView : public FilePathOptionView, public MainAppHelper
 	std::string biosMenuEntryStr(uint8_t region, IG::CStringView path) const
 	{
 		auto regionStr = biosHeadingStr[regionCodeToIdx(region)];
-		return std::format("{}: {}", regionStr, appContext().fileUriDisplayName(path));
+		return std::format(
+			UI_TEXT("{}: {}"),
+			regionStr, appContext().fileUriDisplayName(path));
 	}
 
 	TextMenuItem::SelectDelegate setCDBiosPathDel(uint8_t region)

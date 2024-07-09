@@ -39,8 +39,10 @@ namespace EmuEx
 StaticArrayList<MdCheat, maxCheats> cheatList;
 StaticArrayList<MdCheat*, maxCheats> romCheatList;
 StaticArrayList<MdCheat*, maxCheats> ramCheatList;
-static const char *INPUT_CODE_8BIT_STR = "Input xxx-xxx-xxx (GG) or xxxxxx:xx (AR) code";
-static const char *INPUT_CODE_16BIT_STR = "Input xxxx-xxxx (GG) or xxxxxx:xxxx (AR) code";
+static const char *INPUT_CODE_8BIT_STR =
+	UI_TEXT("Input xxx-xxx-xxx (GG) or xxxxxx:xx (AR) code");
+static const char *INPUT_CODE_16BIT_STR =
+	UI_TEXT("Input xxxx-xxxx (GG) or xxxxxx:xxxx (AR) code");
 
 static bool strIs16BitGGCode(const char *str)
 {
@@ -595,7 +597,8 @@ EmuEditCheatListView::EmuEditCheatListView(ViewAttachParams attach):
 	},
 	addCode
 	{
-		"Add Game Genie / Action Replay Code", attach,
+		UI_TEXT("Add Game Genie / Action Replay Code"),
+		attach,
 		[this](TextMenuItem &item, View &, Input::Event e)
 		{
 			pushAndShowNewCollectTextInputView(attachParams(), e, emuSystemIs16Bit() ? INPUT_CODE_16BIT_STR : INPUT_CODE_8BIT_STR, "",
@@ -605,30 +608,39 @@ EmuEditCheatListView::EmuEditCheatListView(ViewAttachParams attach):
 					{
 						if(cheatList.isFull())
 						{
-							app().postMessage(true, "Cheat list is full");
+							app().postMessage(true,
+								UI_TEXT("Cheat list is full")
+							);
 							view.dismiss();
 							return false;
 						}
 						if(strlen(str) > 11)
 						{
-							app().postMessage(true, "Code is too long");
+							app().postMessage(true,
+								UI_TEXT("Code is too long")
+							);
 							return true;
 						}
 						MdCheat c;
 						c.code = IG::toUpperCase<decltype(c.code)>(str);
 						if(!decodeCheat(c.code.data(), c.address, c.data, c.origData))
 						{
-							app().postMessage(true, "Invalid code");
+							app().postMessage(true,
+								UI_TEXT("Invalid code")
+							);
 							return true;
 						}
-						c.name = "Unnamed Cheat";
+						c.name =
+							UI_TEXT("Unnamed Cheat");
 						cheatList.push_back(c);
 						logMsg("added new cheat, %zu total", cheatList.size());
 						updateCheats();
 						onCheatListChanged();
 						writeCheatFile(system());
 						view.dismiss();
-						pushAndShowNewCollectTextInputView(attachParams(), {}, "Input description", "",
+						pushAndShowNewCollectTextInputView(attachParams(), {},
+							UI_TEXT("Input description"),
+							"",
 							[this](CollectTextInputView &view, const char *str)
 							{
 								if(str)
