@@ -316,7 +316,7 @@ void Snes9xSystem::loadContent(IO &io, EmuSystemCreateParams, OnLoadProgressDele
 		{
 			throw std::runtime_error
 				{
-					UI_TEXT("读取 ROM 文件时出错")
+					UI_TEXT("读取 ROM 时出错")
 				};
 		}
 	}

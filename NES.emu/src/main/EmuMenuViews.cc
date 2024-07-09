@@ -48,7 +48,7 @@ class ConsoleOptionView : public TableView, public MainAppHelper
 {
 	BoolMenuItem fourScore
 	{
-		UI_TEXT("4人玩家适配器"),
+		UI_TEXT("四人玩家适配器"),
 		attachParams(),
 		(bool)system().optionFourScore,
 		[this](BoolMenuItem &item, View &, Input::Event e)
