@@ -38,7 +38,7 @@ class ConsoleOptionView : public TableView, public MainAppHelper
 {
 	BoolMenuItem sixButtonPad
 	{
-		UI_TEXT("6-button Gamepad"),
+		UI_TEXT("六键手柄"),
 		attachParams(),
 		(bool)system().option6BtnPad,
 		[this](BoolMenuItem &item, View &, Input::Event e)
@@ -51,7 +51,7 @@ class ConsoleOptionView : public TableView, public MainAppHelper
 
 	BoolMenuItem multitap
 	{
-		UI_TEXT("4-Player Adapter"),
+		UI_TEXT("四人玩家适配器"),
 		attachParams(),
 		(bool)system().optionMultiTap,
 		[this](BoolMenuItem &item, View &, Input::Event e)
@@ -66,36 +66,36 @@ class ConsoleOptionView : public TableView, public MainAppHelper
 		switch(system)
 		{
 			case SYSTEM_MENACER:
-				return UI_TEXT("Menacer");
+				return UI_TEXT("Menacer 光枪");
 			case SYSTEM_JUSTIFIER:
-				return UI_TEXT("Justifier");
+				return UI_TEXT("Justifier 光枪");
 		}
-		return "Gamepad";
+		return UI_TEXT("手柄");
 	}
 
 	TextMenuItem inputPortsItem[4]
 	{
 		{
-			UI_TEXT("Auto"),
+			UI_TEXT("自动"),
 			attachParams(), setInputPortsDel(-1, -1), {.id = -1}
 		},
 		{
-			UI_TEXT("Gamepads"),
+			UI_TEXT("手柄"),
 			attachParams(), setInputPortsDel(SYSTEM_MD_GAMEPAD, SYSTEM_MD_GAMEPAD), {.id = SYSTEM_MD_GAMEPAD}
 		},
 		{
-			UI_TEXT("Menacer"),
+			UI_TEXT("Menacer 光枪"),
 			attachParams(), setInputPortsDel(SYSTEM_MD_GAMEPAD, SYSTEM_MENACER),    {.id = SYSTEM_MENACER}
 		},
 		{
-			UI_TEXT("Justifier"),
+			UI_TEXT("Justifier 光枪"),
 			attachParams(), setInputPortsDel(SYSTEM_MD_GAMEPAD, SYSTEM_JUSTIFIER),  {.id = SYSTEM_JUSTIFIER}
 		},
 	};
 
 	MultiChoiceMenuItem inputPorts
 	{
-		UI_TEXT("Input Ports"),
+		UI_TEXT("输入端口"),
 		attachParams(),
 		MenuId{system().mdInputPortDev[1]},
 		inputPortsItem,
@@ -122,7 +122,7 @@ class ConsoleOptionView : public TableView, public MainAppHelper
 	TextMenuItem videoSystemItem[3]
 	{
 		{
-			UI_TEXT("Auto"),
+			UI_TEXT("自动"),
 			attachParams(), [this](Input::Event e){ setVideoSystem(0, e); }
 		},
 		{
@@ -137,7 +137,7 @@ class ConsoleOptionView : public TableView, public MainAppHelper
 
 	MultiChoiceMenuItem videoSystem
 	{
-		UI_TEXT("Video System"),
+		UI_TEXT("视频制式"),
 		attachParams(),
 		system().optionVideoSystem.value(),
 		videoSystemItem,
@@ -167,26 +167,26 @@ class ConsoleOptionView : public TableView, public MainAppHelper
 	TextMenuItem regionItem[4]
 	{
 		{
-			UI_TEXT("Auto"),
+			UI_TEXT("自动"),
 			attachParams(), [this](Input::Event e){ setRegion(0, e); }
 		},
 		{
-			UI_TEXT("USA"),
+			UI_TEXT("美国"),
 			attachParams(), [this](Input::Event e){ setRegion(1, e); }
 		},
 		{
-			UI_TEXT("Europe"),
+			UI_TEXT("欧洲"),
 			attachParams(), [this](Input::Event e){ setRegion(2, e); }
 		},
 		{
-			UI_TEXT("Japan"),
+			UI_TEXT("日本"),
 			attachParams(), [this](Input::Event e){ setRegion(3, e); }
 		},
 	};
 
 	MultiChoiceMenuItem region
 	{
-		UI_TEXT("Game Region"),
+		UI_TEXT("游戏地区"),
 		attachParams(),
 		std::min((int)config.region_detect, 4),
 		regionItem,
@@ -200,11 +200,11 @@ class ConsoleOptionView : public TableView, public MainAppHelper
 						switch(region)
 						{
 							case REGION_USA:
-								return UI_TEXT("USA");
+								return UI_TEXT("美国");
 							case REGION_EUROPE:
-								return UI_TEXT("Europe");
+								return UI_TEXT("欧洲");
 							default:
-								return UI_TEXT("Japan");
+								return UI_TEXT("日本");
 						}
 					};
 					t.resetString(regionStr(region_code));
@@ -228,7 +228,7 @@ public:
 	ConsoleOptionView(ViewAttachParams attach):
 		TableView
 		{
-			UI_TEXT("Console Options"),
+			UI_TEXT("主机选项"),
 			attach,
 			item
 		}
@@ -249,7 +249,7 @@ class CustomSystemActionsView : public SystemActionsView
 private:
 	TextMenuItem options
 	{
-		UI_TEXT("Console Options"),
+		UI_TEXT("主机选项"),
 		attachParams(),
 		[this](TextMenuItem &, View &, Input::Event e)
 		{

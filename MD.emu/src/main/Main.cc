@@ -49,7 +49,7 @@ namespace EmuEx
 
 constexpr SystemLogger log{"MD.emu"};
 const char *EmuSystem::creditsViewStr =
-	UI_TEXT(CREDITS_INFO_STRING "(c) 2011-2024\nRobert Broglia\nwww.explusalpha.com\n\nPortions (c) the\nGenesis Plus Team\nsegaretro.org/Genesis_Plus");
+	UI_TEXT(CREDITS_INFO_STRING "(c) 2011-2024\nRobert Broglia\nwww.explusalpha.com\n\nPortions (c) the\nGenesis Plus Team\nsegaretro.org/Genesis_Plus\n\n翻译：R-Sam\nGitHub\nduxiuxing/emu-ex-plus-alpha-cn");
 bool EmuSystem::hasCheats = true;
 bool EmuSystem::hasPALVideoSystem = true;
 bool EmuSystem::canRenderRGBA8888 = RENDER_BPP == 32;
@@ -387,36 +387,36 @@ void MdSystem::loadContent(IO &io, EmuSystemCreateParams, OnLoadProgressDelegate
 				case REGION_USA: return
 					{
 						cdBiosUSAPath,
-						UI_TEXT("USA")
+						UI_TEXT("美国")
 					};
 				case REGION_EUROPE: return
 					{
 						cdBiosEurPath,
-						UI_TEXT("Europe")
+						UI_TEXT("欧洲")
 					};
 				default: return
 					{
 						cdBiosJpnPath,
-						UI_TEXT("Japan")
+						UI_TEXT("日本")
 					};
 			}
 		}();
 		if(biosPath.empty())
 		{
 			throw std::runtime_error(std::format(
-				UI_TEXT("Set a {} BIOS in the Options"),
+				UI_TEXT("在选项中设置 {} BIOS"),
 				biosName));
 		}
 		auto [biosSize, biosFilename] = FileUtils::readFromUriWithArchiveScan(appContext(), biosPath, {cart.rom, MAXROMSIZE}, hasMDExtension);
 		if(biosSize <= 0)
 			throw std::runtime_error(std::format(
-				UI_TEXT("Error loading BIOS: {}"),
+				UI_TEXT("读取 BIOS 时出错：{}"),
 				biosPath));
 		init_rom(biosSize, "");
 		if(!sCD.isActive)
 		{
 			throw std::runtime_error(std::format(
-				UI_TEXT("Invalid BIOS: {}"),
+				UI_TEXT("无效的 BIOS：{}"),
 				biosPath));
 		}
 	}
@@ -458,7 +458,7 @@ void MdSystem::loadContent(IO &io, EmuSystemCreateParams, OnLoadProgressDelegate
 		if(Insert_CD(cd) != 0)
 		{
 			throw std::runtime_error(
-				UI_TEXT("Error loading CD")
+				UI_TEXT("读取 CD 时出错")
 			);
 		}
 		deleteCDAccess.cancel();
