@@ -31,7 +31,7 @@ class EmuSystem;
 
 std::u16string_view EmuApp::mainViewName()
 {
-	return UI_TEXT(u"sfc∞… " CONFIG_APP_NAME " " IMAGINE_VERSION);
+	return UI_TEXT(u"sfcÂêß " CONFIG_APP_NAME " " IMAGINE_VERSION);
 }
 
 bool EmuApp::hasGooglePlayStoreFeatures()
