@@ -79,7 +79,7 @@ class ConsoleOptionView : public TableView, public MainAppHelper
 {
 	BoolMenuItem multitap
 	{
-		UI_TEXT("5人玩家适配器"),
+		UI_TEXT("五人玩家适配器"),
 		attachParams(),
 		(bool)system().optionMultitap,
 		[this](BoolMenuItem &item, View &, Input::Event e)
