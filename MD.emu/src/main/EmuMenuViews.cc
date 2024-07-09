@@ -305,9 +305,9 @@ class CustomSystemOptionView : public SystemOptionView, public MainAppHelper
 		[this](BoolMenuItem &item, Input::Event e)
 		{
 			app().pushAndShowModalView(makeView<YesNoAlertView>(
-				UI_TEXT("Warning, this changes the format of SRAM saves files. ")
-				UI_TEXT("Turn on to make them compatible with other emulators like Gens. ")
-				UI_TEXT("Any SRAM loaded with the incorrect setting will be corrupted."),
+				UI_TEXT("警告，此选项会改变 SRAM 存档文件的格式。 ")
+				UI_TEXT("开启后可以使存档文件兼容 Gens 等其它模拟器。 ")
+				UI_TEXT("错误的设置将会导致 SRAM 在读取存档文件时出现数据损坏。"),
 				YesNoAlertView::Delegates{.onYes = [this]{ system().optionBigEndianSram = bigEndianSram.flipBoolValue(*this); }}), e);
 		}
 	};
@@ -331,7 +331,7 @@ class CustomFilePathOptionView : public FilePathOptionView, public MainAppHelper
 		[this](const Input::Event &e)
 		{
 			pushAndShow(makeViewWithName<UserPathSelectView>(
-				UI_TEXT("Cheats"),
+				UI_TEXT("金手指文件夹"),
 				system().userPath(system().cheatsDir),
 				[this](CStringView path)
 				{
@@ -345,9 +345,9 @@ class CustomFilePathOptionView : public FilePathOptionView, public MainAppHelper
 	#ifndef NO_SCD
 	static constexpr std::string_view biosHeadingStr[3]
 	{
-		UI_TEXT("USA CD BIOS"),
-		UI_TEXT("Japan CD BIOS"),
-		UI_TEXT("Europe CD BIOS")
+		UI_TEXT("美国区的 CD BIOS"),
+		UI_TEXT("日本区的 CD BIOS"),
+		UI_TEXT("欧洲区的 CD BIOS")
 	};
 
 	static int8_t regionCodeToIdx(uint8_t region)
@@ -381,7 +381,7 @@ class CustomFilePathOptionView : public FilePathOptionView, public MainAppHelper
 	{
 		auto regionStr = biosHeadingStr[regionCodeToIdx(region)];
 		return std::format(
-			UI_TEXT("{}: {}"),
+			UI_TEXT("{}：{}"),
 			regionStr, appContext().fileUriDisplayName(path));
 	}
 
