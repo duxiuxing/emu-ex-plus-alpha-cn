@@ -274,7 +274,7 @@ class CustomAudioOptionView : public AudioOptionView, public MainAppHelper
 
 	BoolMenuItem smsFM
 	{
-		UI_TEXT("MarkIII FM Sound Unit"),
+		UI_TEXT("MarkIII 调频声音单元"),
 		attachParams(),
 		(bool)system().optionSmsFM,
 		[this](BoolMenuItem &item, View &, Input::Event e)
@@ -299,7 +299,7 @@ class CustomSystemOptionView : public SystemOptionView, public MainAppHelper
 
 	BoolMenuItem bigEndianSram
 	{
-		UI_TEXT("Use Big-Endian SRAM"),
+		UI_TEXT("使用大端字节序 SRAM"),
 		attachParams(),
 		(bool)system().optionBigEndianSram,
 		[this](BoolMenuItem &item, Input::Event e)
