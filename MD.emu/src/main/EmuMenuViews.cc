@@ -70,7 +70,7 @@ class ConsoleOptionView : public TableView, public MainAppHelper
 			case SYSTEM_JUSTIFIER:
 				return UI_TEXT("Justifier");
 		}
-		return "Gamepad";
+		return UI_TEXT("Gamepad");
 	}
 
 	TextMenuItem inputPortsItem[4]
