@@ -356,7 +356,7 @@ void ButtonConfigSetView::onAddedToController(ViewController *, const Input::Eve
 			actionStr));
 	else
 		text.resetString(std::format(
-			UI_TEXT("正在设置：{}\n请按下并松开按键完成设置\n(支持最多 3 个按键的组合)\n\n若想解除映射：\n可在上一界面快速按两次【方向键的左】"),
+			UI_TEXT("正在设置：{}\n请按下并松开按键完成设置\n(支持最多 3 个按键的组合)\n\n若想解除映射：\n可在上一界面快速按两下【方向键的左】"),
 			actionStr));
 	if(e.motionEvent())
 	{
