@@ -81,10 +81,26 @@ std::span<const KeyCategory> MdApp::keyCategories()
 {
 	static constexpr std::array categories
 	{
-		KeyCategory{"Gamepad", gpKeyInfo},
-		KeyCategory{"Gamepad 2", gp2KeyInfo, 1},
-		KeyCategory{"Gamepad 3", gp3KeyInfo, 2},
-		KeyCategory{"Gamepad 4", gp4KeyInfo, 3},
+		KeyCategory
+		{
+			UI_TEXT("Gamepad"),
+			gpKeyInfo
+		},
+		KeyCategory
+		{
+			UI_TEXT("Gamepad 2"),
+			gp2KeyInfo, 1
+		},
+		KeyCategory
+		{
+			UI_TEXT("Gamepad 3"),
+			gp3KeyInfo, 2
+		},
+		KeyCategory
+		{
+			UI_TEXT("Gamepad 4"),
+			gp4KeyInfo, 3
+		},
 	};
 	return categories;
 }
@@ -93,18 +109,30 @@ std::string_view MdApp::systemKeyCodeToString(KeyCode c)
 {
 	switch(MdKey(c))
 	{
-		case MdKey::Up: return "Up";
-		case MdKey::Right: return "Right";
-		case MdKey::Down: return "Down";
-		case MdKey::Left: return "Left";
-		case MdKey::Mode: return "Mode";
-		case MdKey::Start: return "Start";
-		case MdKey::A: return "A";
-		case MdKey::B: return "B";
-		case MdKey::C: return "C";
-		case MdKey::X: return "X";
-		case MdKey::Y: return "Y";
-		case MdKey::Z: return "Z";
+		case MdKey::Up:
+			return UI_TEXT("Up");
+		case MdKey::Right:
+			return UI_TEXT("Right");
+		case MdKey::Down:
+			return UI_TEXT("Down");
+		case MdKey::Left:
+			return UI_TEXT("Left");
+		case MdKey::Mode:
+			return UI_TEXT("Mode");
+		case MdKey::Start:
+			return UI_TEXT("Start");
+		case MdKey::A:
+			return UI_TEXT("A");
+		case MdKey::B:
+			return UI_TEXT("B");
+		case MdKey::C:
+			return UI_TEXT("C");
+		case MdKey::X:
+			return UI_TEXT("X");
+		case MdKey::Y:
+			return UI_TEXT("Y");
+		case MdKey::Z:
+			return UI_TEXT("Z");
 		default: return "";
 	}
 }
@@ -284,15 +312,24 @@ const char *mdInputSystemToStr(uint8 system)
 {
 	switch(system)
 	{
-		case NO_SYSTEM: return "unconnected";
-		case SYSTEM_MD_GAMEPAD: return "gamepad";
-		case SYSTEM_MS_GAMEPAD: return "sms gamepad";
-		case SYSTEM_MOUSE: return "mouse";
-		case SYSTEM_MENACER: return "menacer";
-		case SYSTEM_JUSTIFIER: return "justifier";
-		case SYSTEM_TEAMPLAYER: return "team-player";
-		case SYSTEM_LIGHTPHASER: return "light-phaser";
-		default : return "unknown";
+		case NO_SYSTEM:
+			return UI_TEXT("unconnected");
+		case SYSTEM_MD_GAMEPAD:
+			return UI_TEXT("gamepad");
+		case SYSTEM_MS_GAMEPAD:
+			return UI_TEXT("sms gamepad");
+		case SYSTEM_MOUSE:
+			return UI_TEXT("mouse");
+		case SYSTEM_MENACER:
+			return UI_TEXT("menacer");
+		case SYSTEM_JUSTIFIER:
+			return UI_TEXT("justifier");
+		case SYSTEM_TEAMPLAYER:
+			return UI_TEXT("team-player");
+		case SYSTEM_LIGHTPHASER:
+			return UI_TEXT("light-phaser");
+		default:
+			return UI_TEXT("unknown");
 	}
 }
 
@@ -402,14 +439,38 @@ SystemInputDeviceDesc MdSystem::inputDeviceDesc(int idx) const
 {
 	static constexpr std::array gamepadComponents
 	{
-		InputComponentDesc{"D-Pad", dpadKeyInfo, InputComponent::dPad, LB2DO},
-		InputComponentDesc{"Face Buttons", faceKeyInfo, InputComponent::button, RB2DO},
-		InputComponentDesc{"Mode", {&centerKeyInfo[0], 1}, InputComponent::button, LB2DO},
-		InputComponentDesc{"Start", {&centerKeyInfo[1], 1}, InputComponent::button, RB2DO},
-		InputComponentDesc{"Mode/Start", centerKeyInfo, InputComponent::button, CB2DO, {.altConfig = true}},
+		InputComponentDesc
+		{
+			UI_TEXT("D-Pad"),
+			dpadKeyInfo, InputComponent::dPad, LB2DO
+		},
+		InputComponentDesc
+		{
+			UI_TEXT("Face Buttons"),
+			faceKeyInfo, InputComponent::button, RB2DO
+		},
+		InputComponentDesc
+		{
+			UI_TEXT("Mode"),
+			{&centerKeyInfo[0], 1}, InputComponent::button, LB2DO
+		},
+		InputComponentDesc
+		{
+			UI_TEXT("Start"),
+			{&centerKeyInfo[1], 1}, InputComponent::button, RB2DO
+		},
+		InputComponentDesc
+		{
+			UI_TEXT("Mode/Start"),
+			centerKeyInfo, InputComponent::button, CB2DO, {.altConfig = true}
+		},
 	};
 
-	static constexpr SystemInputDeviceDesc gamepadDesc{"Gamepad", gamepadComponents};
+	static constexpr SystemInputDeviceDesc gamepadDesc
+	{
+		UI_TEXT("Gamepad"),
+		gamepadComponents
+	};
 
 	return gamepadDesc;
 }

@@ -235,7 +235,7 @@ GUIOptionView::GUIOptionView(ViewAttachParams attach, bool customMenu):
 	},
 	showBundledGames
 	{
-		UI_TEXT("Show Bundled Content"),
+		UI_TEXT("显示自带游戏"),
 		attach,
 		app().showsBundledGames,
 		[this](BoolMenuItem &item)

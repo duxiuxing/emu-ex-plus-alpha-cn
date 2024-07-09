@@ -48,7 +48,8 @@ namespace EmuEx
 {
 
 constexpr SystemLogger log{"MD.emu"};
-const char *EmuSystem::creditsViewStr = CREDITS_INFO_STRING "(c) 2011-2024\nRobert Broglia\nwww.explusalpha.com\n\nPortions (c) the\nGenesis Plus Team\nsegaretro.org/Genesis_Plus";
+const char *EmuSystem::creditsViewStr =
+	UI_TEXT(CREDITS_INFO_STRING "(c) 2011-2024\nRobert Broglia\nwww.explusalpha.com\n\nPortions (c) the\nGenesis Plus Team\nsegaretro.org/Genesis_Plus");
 bool EmuSystem::hasCheats = true;
 bool EmuSystem::hasPALVideoSystem = true;
 bool EmuSystem::canRenderRGBA8888 = RENDER_BPP == 32;
@@ -88,12 +89,12 @@ static bool hasMDWithCDExtension(std::string_view name)
 
 const char *EmuSystem::shortSystemName() const
 {
-	return "MD-Genesis";
+	return UI_TEXT("MD-Genesis");
 }
 
 const char *EmuSystem::systemName() const
 {
-	return "Mega Drive (Sega Genesis)";
+	return UI_TEXT("Mega Drive (Sega Genesis)");
 }
 
 EmuSystem::NameFilterFunc EmuSystem::defaultFsFilter = hasMDWithCDExtension;
@@ -383,22 +384,40 @@ void MdSystem::loadContent(IO &io, EmuSystemCreateParams, OnLoadProgressDelegate
 		{
 			switch(region)
 			{
-				case REGION_USA: return {cdBiosUSAPath, "USA"};
-				case REGION_EUROPE: return {cdBiosEurPath, "Europe"};
-				default: return {cdBiosJpnPath, "Japan"};
+				case REGION_USA: return
+					{
+						cdBiosUSAPath,
+						UI_TEXT("USA")
+					};
+				case REGION_EUROPE: return
+					{
+						cdBiosEurPath,
+						UI_TEXT("Europe")
+					};
+				default: return
+					{
+						cdBiosJpnPath,
+						UI_TEXT("Japan")
+					};
 			}
 		}();
 		if(biosPath.empty())
 		{
-			throw std::runtime_error(std::format("Set a {} BIOS in the Options", biosName));
+			throw std::runtime_error(std::format(
+				UI_TEXT("Set a {} BIOS in the Options"),
+				biosName));
 		}
 		auto [biosSize, biosFilename] = FileUtils::readFromUriWithArchiveScan(appContext(), biosPath, {cart.rom, MAXROMSIZE}, hasMDExtension);
 		if(biosSize <= 0)
-			throw std::runtime_error(std::format("Error loading BIOS: {}", biosPath));
+			throw std::runtime_error(std::format(
+				UI_TEXT("Error loading BIOS: {}"),
+				biosPath));
 		init_rom(biosSize, "");
 		if(!sCD.isActive)
 		{
-			throw std::runtime_error(std::format("Invalid BIOS: {}", biosPath));
+			throw std::runtime_error(std::format(
+				UI_TEXT("Invalid BIOS: {}"),
+				biosPath));
 		}
 	}
 	else
@@ -438,7 +457,9 @@ void MdSystem::loadContent(IO &io, EmuSystemCreateParams, OnLoadProgressDelegate
 	{
 		if(Insert_CD(cd) != 0)
 		{
-			throw std::runtime_error("Error loading CD");
+			throw std::runtime_error(
+				UI_TEXT("Error loading CD")
+			);
 		}
 		deleteCDAccess.cancel();
 	}
