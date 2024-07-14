@@ -145,7 +145,7 @@ SystemActionsView::SystemActionsView(ViewAttachParams attach, bool customMenu):
 	},
 	inputOverrides
 	{
-		UI_TEXT("Input Overrides"),
+		UI_TEXT("输入设置 (这个游戏)"),
 		attach,
 		[this](const Input::Event &e)
 		{
