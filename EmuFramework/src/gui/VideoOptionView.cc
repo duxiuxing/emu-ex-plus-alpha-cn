@@ -567,7 +567,7 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, EmuVideoLayer &videoLa
 	{
 		UI_TEXT("显示颜色格式"),
 		attach,
-		MenuId{pack(app().windowDrawableConfig())},
+		MenuId{pack(app().windowDrawableConfig)},
 		windowPixelFormatItem,
 		{
 			.onSetDisplayString = [this](auto idx, Gfx::Text &t)
@@ -813,7 +813,7 @@ void VideoOptionView::loadStockItems()
 	{
 		item.emplace_back(&windowPixelFormat);
 	}
-	if(EmuSystem::canRenderRGBA8888)
+	if(EmuSystem::canRenderMultipleFormats())
 		item.emplace_back(&renderPixelFormat);
 	item.emplace_back(&imgEffectPixelFormat);
 	if(used(secondDisplay))
