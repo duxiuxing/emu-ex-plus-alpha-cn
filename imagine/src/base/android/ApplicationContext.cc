@@ -71,7 +71,7 @@ FS::PathLocation ApplicationContext::sharedStoragePathLocation() const
 	return
 		{
 			path,
-			UI_TEXT("存储介质"),
+			UI_TEXT("存储空间"),
 			UI_TEXT("媒体文件夹")
 		};
 }
