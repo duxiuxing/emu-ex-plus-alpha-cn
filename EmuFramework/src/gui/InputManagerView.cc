@@ -13,13 +13,14 @@
 	You should have received a copy of the GNU General Public License
 	along with EmuFramework.  If not, see <http://www.gnu.org/licenses/> */
 
-#include <emuframework/InputManagerView.hh>
 #include <emuframework/ButtonConfigView.hh>
 #include <emuframework/EmuApp.hh>
 #include <emuframework/EmuViewController.hh>
 #include <emuframework/AppKeyCode.hh>
 #include <emuframework/EmuOptions.hh>
 #include <emuframework/viewUtils.hh>
+#include "InputManagerView.hh"
+#include "ProfileSelectView.hh"
 #include "../InputDeviceData.hh"
 #include <imagine/gui/TextEntry.hh>
 #include <imagine/gui/TextTableView.hh>
@@ -37,9 +38,9 @@ namespace EmuEx
 {
 
 constexpr SystemLogger log{"InputManagerView"};
-static const char *confirmDeleteDeviceSettingsStr =
+constexpr auto confirmDeleteDeviceSettingsStr =
 	UI_TEXT("Delete device settings from the configuration file? Any key profiles in use are kept");
-static const char *confirmDeleteProfileStr =
+constexpr auto confirmDeleteProfileStr =
 	UI_TEXT("Delete profile from the configuration file? Devices using it will revert to their default profile");
 
 IdentInputDeviceView::IdentInputDeviceView(ViewAttachParams attach):
@@ -111,39 +112,26 @@ InputManagerView::InputManagerView(ViewAttachParams attach,
 		attach,
 		[this](TextMenuItem &item, View &, const Input::Event &e)
 		{
-			auto &savedInputDevs = inputManager.savedInputDevs;
-			if(!savedInputDevs.size())
+			auto &savedDevConfigs = inputManager.savedDevConfigs;
+			if(!savedDevConfigs.size())
 			{
 				app().postMessage(
 					UI_TEXT("No saved device settings")
 				);
 				return;
 			}
-			auto multiChoiceView = makeViewWithName<TextTableView>(item, savedInputDevs.size());
-			for(auto &ePtr : savedInputDevs)
+			auto multiChoiceView = makeViewWithName<TextTableView>(item, savedDevConfigs.size());
+			for(auto &ePtr : savedDevConfigs)
 			{
-				multiChoiceView->appendItem(InputDeviceData::makeDisplayName(ePtr->name, ePtr->enumId),
-					[this, deleteDeviceConfigPtr = ePtr.get()](const Input::Event &e)
+				multiChoiceView->appendItem(Input::Device::makeDisplayName(ePtr->name, ePtr->enumId),
+					[this, &deleteDeviceConfig = *ePtr](const Input::Event &e)
 					{
 						pushAndShowModal(makeView<YesNoAlertView>(confirmDeleteDeviceSettingsStr,
 							YesNoAlertView::Delegates
 							{
-								.onYes = [this, deleteDeviceConfigPtr]
+								.onYes = [this, &deleteDeviceConfig]
 								{
-									log.info("deleting device settings for:{},{}",
-										deleteDeviceConfigPtr->name, deleteDeviceConfigPtr->enumId);
-									auto ctx = appContext();
-									for(auto &devPtr : ctx.inputDevices())
-									{
-										auto &inputDevConf = inputDevData(*devPtr).devConf;
-										if(inputDevConf.hasSavedConf(*deleteDeviceConfigPtr))
-										{
-											log.info("removing from active device");
-											inputDevConf.setSavedConf(inputManager, nullptr);
-											break;
-										}
-									}
-									std::erase_if(inputManager.savedInputDevs, [&](auto &ptr){ return ptr.get() == deleteDeviceConfigPtr; });
+									inputManager.deleteDeviceSavedConfig(appContext(), deleteDeviceConfig);
 									dismissPrevious();
 								}
 							}), e);
@@ -231,7 +219,7 @@ InputManagerView::InputManagerView(ViewAttachParams attach,
 		attach,
 		[this](const Input::Event &e)
 		{
-			pushAndShow(makeView<InputManagerOptionsView>(&app().viewController().inputView), e);
+			pushAndShow(makeView<InputManagerOptionsView>(app().viewController().inputView), e);
 		}
 	},
 	deviceListHeading
@@ -249,7 +237,7 @@ InputManagerView::InputManagerView(ViewAttachParams attach,
 		place();
 		show();
 	};
-	deleteDeviceConfig.setActive(inputManager.savedInputDevs.size());
+	deleteDeviceConfig.setActive(inputManager.savedDevConfigs.size());
 	deleteProfile.setActive(inputManager.customKeyConfigs.size());
 	loadItems();
 }
@@ -297,7 +285,7 @@ void InputManagerView::loadItems()
 void InputManagerView::onShow()
 {
 	TableView::onShow();
-	deleteDeviceConfig.setActive(inputManager.savedInputDevs.size());
+	deleteDeviceConfig.setActive(inputManager.savedDevConfigs.size());
 	deleteProfile.setActive(inputManager.customKeyConfigs.size());
 }
 
@@ -306,7 +294,7 @@ void InputManagerView::pushAndShowDeviceView(const Input::Device &dev, const Inp
 	pushAndShow(makeViewWithName<InputManagerDeviceView>(inputDevData(dev).displayName, *this, dev, inputManager), e);
 }
 
-InputManagerOptionsView::InputManagerOptionsView(ViewAttachParams attach, EmuInputView *emuInputView_):
+InputManagerOptionsView::InputManagerOptionsView(ViewAttachParams attach, EmuInputView& emuInputView_):
 	TableView
 	{
 		UI_TEXT("General Input Options"),
@@ -429,59 +417,9 @@ InputManagerOptionsView::InputManagerOptionsView(ViewAttachParams attach, EmuInp
 	}
 }
 
-class ProfileSelectMenu : public TextTableView
-{
-public:
-	using ProfileChangeDelegate = DelegateFunc<void (std::string_view profile)>;
-
-	ProfileChangeDelegate onProfileChange{};
-
-	ProfileSelectMenu(ViewAttachParams attach, Input::Device &dev, std::string_view selectedName, const InputManager &mgr):
-		TextTableView
-		{
-			UI_TEXT("Key Profile"),
-			attach,
-			mgr.customKeyConfigs.size() + 8 // reserve space for built-in configs
-		}
-	{
-		for(auto &confPtr : mgr.customKeyConfigs)
-		{
-			auto &conf = *confPtr;
-			if(conf.desc().map == dev.map())
-			{
-				if(selectedName == conf.name)
-				{
-					activeItem = textItem.size();
-				}
-				textItem.emplace_back(conf.name, attach,
-					[this, &conf](const Input::Event &e)
-					{
-						auto del = onProfileChange;
-						dismiss();
-						del(conf.name);
-					});
-			}
-		}
-		for(const auto &conf : EmuApp::defaultKeyConfigs())
-		{
-			if(dev.map() != conf.map)
-				continue;
-			if(selectedName == conf.name)
-				activeItem = textItem.size();
-			textItem.emplace_back(conf.name, attach,
-				[this, &conf](const Input::Event &e)
-				{
-					auto del = onProfileChange;
-					dismiss();
-					del(conf.name);
-				});
-		}
-	}
-};
-
 static bool customKeyConfigsContainName(auto &customKeyConfigs, std::string_view name)
 {
-	return std::ranges::find_if(customKeyConfigs, [&](auto &confPtr){ return confPtr->name == name; }) != customKeyConfigs.end();
+	return find(customKeyConfigs, [&](auto &confPtr){ return confPtr->name == name; }).has_value();
 }
 
 InputManagerDeviceView::InputManagerDeviceView(UTF16String name, ViewAttachParams attach,
@@ -497,7 +435,7 @@ InputManagerDeviceView::InputManagerDeviceView(UTF16String name, ViewAttachParam
 			items[0] =
 				{
 					UI_TEXT("Multiple"),
-					attach, {.id = InputDeviceConfig::PLAYER_MULTI}
+					attach, {.id = playerIndexMulti}
 				};
 			for(auto i : iotaCount(EmuSystem::maxPlayers))
 			{
@@ -510,16 +448,15 @@ InputManagerDeviceView::InputManagerDeviceView(UTF16String name, ViewAttachParam
 	{
 		UI_TEXT("Player"),
 		attach,
-		MenuId{inputDevData(dev).devConf.player()},
+		MenuId{inputDevData(dev).devConf.savedPlayer()},
 		playerItems,
 		{
 			.defaultItemOnSelect = [this](TextMenuItem &item)
 			{
 				auto playerVal = item.id;
-				bool changingMultiplayer = (playerVal == InputDeviceConfig::PLAYER_MULTI && devConf.player() != InputDeviceConfig::PLAYER_MULTI) ||
-					(playerVal != InputDeviceConfig::PLAYER_MULTI && devConf.player() == InputDeviceConfig::PLAYER_MULTI);
-				devConf.setPlayer(inputManager, playerVal);
-				devConf.save(inputManager);
+				bool changingMultiplayer = (playerVal == playerIndexMulti && devConf.savedPlayer() != playerIndexMulti) ||
+					(playerVal != playerIndexMulti && devConf.savedPlayer() == playerIndexMulti);
+				devConf.setSavedPlayer(inputManager, playerVal);
 				if(changingMultiplayer)
 				{
 					loadItems();
@@ -536,8 +473,8 @@ InputManagerDeviceView::InputManagerDeviceView(UTF16String name, ViewAttachParam
 		u"", attach,
 		[this](const Input::Event &e)
 		{
-			auto profileSelectMenu = makeView<ProfileSelectMenu>(devConf.device(),
-				devConf.keyConf(inputManager).name, inputManager);
+			auto profileSelectMenu = makeView<ProfileSelectView>(devConf.device().map(),
+				devConf.keyConf(inputManager).name, app());
 			profileSelectMenu->onProfileChange =
 					[this](std::string_view profile)
 					{
@@ -790,7 +727,7 @@ void InputManagerDeviceView::loadItems()
 	addCategoryItem(appKeyCategory);
 	for(auto &cat : EmuApp::keyCategories())
 	{
-		if(cat.multiplayerIndex && devConf.player() != InputDeviceConfig::PLAYER_MULTI)
+		if(cat.multiplayerIndex && devConf.savedPlayer() != playerIndexMulti)
 			continue;
 		addCategoryItem(cat);
 	}
