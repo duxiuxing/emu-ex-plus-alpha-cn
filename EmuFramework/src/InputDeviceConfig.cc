@@ -31,19 +31,10 @@ static StaticString<16> uniqueCustomConfigName(auto &customKeyConfigs)
 		auto name = format<StaticString<16>>(
 			UI_TEXT("自定义 {}"),
 			i+1);
+		std::string_view nameStr{name};
 		// Check if this name is free
 		log.info("checking:{}", name);
-		bool exists{};
-		for(auto &ePtr : customKeyConfigs)
-		{
-			log.info("against:{}", ePtr->name);
-			if(ePtr->name == std::string_view{name})
-			{
-				exists = true;
-				break;
-			}
-		}
-		if(!exists)
+		if(!find(customKeyConfigs, [&](auto &ptr){return ptr->name == nameStr;}))
 		{
 			log.info("unique custom key config name:{}", name);
 			return name;
@@ -52,13 +43,22 @@ static StaticString<16> uniqueCustomConfigName(auto &customKeyConfigs)
 	return {};
 }
 
-void InputDeviceConfig::deleteConf(InputManager &mgr)
+void InputDeviceConfig::deleteConf(InputManager& mgr)
 {
 	if(!savedConf)
 		return;
 	log.info("removing device config for {}", savedConf->name);
-	std::erase_if(mgr.savedInputDevs, [&](auto &ptr){ return ptr.get() == savedConf; });
+	std::erase_if(mgr.savedDevConfigs, [&](auto &ptr){ return ptr.get() == savedConf; });
 	savedConf = nullptr;
+}
+
+void InputDeviceConfig::deleteSessionConf(InputManager& mgr)
+{
+	if(!sessionSavedConf)
+		return;
+	log.info("removing device session config for {}", sessionSavedConf->name);
+	std::erase_if(mgr.savedSessionDevConfigs, [&](auto &ptr){ return ptr.get() == sessionSavedConf; });
+	sessionSavedConf = nullptr;
 }
 
 void InputDeviceConfig::setICadeMode(bool on)
@@ -83,13 +83,40 @@ void InputDeviceConfig::setJoystickAxesAsKeys(Input::AxisSetId id, bool on)
 
 void InputDeviceConfig::setKeyConfName(InputManager &mgr, std::string_view name)
 {
-	save(mgr);
-	if(name.size() > 255) // truncate if name is too long for config file
-	{
-		name.remove_suffix(name.size() - 255);
-	}
-	savedConf->keyConfName = name;
+	save(mgr).keyConfName = name;
 	buildKeyMap(mgr);
+}
+
+void InputDeviceConfig::setSessionKeyConfName(InputManager &mgr, std::string_view name)
+{
+	saveSession(mgr).keyConfName = name;
+	buildKeyMap(mgr);
+}
+
+InputDeviceSessionConfig InputDeviceConfig::sessionConfig(const InputManager &mgr) const
+{
+	InputDeviceSessionConfig conf;
+	if(sessionSavedConf)
+	{
+		conf.keyConfName = sessionSavedConf->keyConfName;
+		conf.player = sessionSavedConf->player;
+	}
+	if(!conf.keyConfName.size())
+	{
+		if(savedConf && savedConf->keyConfName.size())
+		{
+			conf.keyConfName = savedConf->keyConfName;
+		}
+		else
+		{
+			conf.keyConfName = mgr.defaultConfig(*dev).name;
+		}
+	}
+	if(conf.player == playerIndexUnset)
+	{
+		conf.player = savedPlayer();
+	}
+	return conf;
 }
 
 KeyConfigDesc InputDeviceConfig::keyConf(const InputManager &mgr) const
@@ -143,14 +170,13 @@ KeyConfig *InputDeviceConfig::setKeyConfCopiedFromExisting(InputManager &mgr, st
 	return newConf.get();
 }
 
-void InputDeviceConfig::save(InputManager &mgr)
+InputDeviceSavedConfig& InputDeviceConfig::save(InputManager& mgr)
 {
 	if(!savedConf)
 	{
-		savedConf = mgr.savedInputDevs.emplace_back(std::make_unique<InputDeviceSavedConfig>()).get();
-		log.info("allocated new device config, {} total", mgr.savedInputDevs.size());
+		savedConf = mgr.savedDevConfigs.emplace_back(std::make_unique<InputDeviceSavedConfig>()).get();
+		log.info("allocated new device config, {} total", mgr.savedDevConfigs.size());
 	}
-	savedConf->player = player_;
 	savedConf->enabled = isEnabled;
 	savedConf->enumId = dev->enumId();
 	savedConf->joystickAxisAsDpadFlags.stick1 = dev->joystickAxesAsKeys(Input::AxisSetId::stick1);
@@ -161,6 +187,19 @@ void InputDeviceConfig::save(InputManager &mgr)
 	savedConf->iCadeMode = dev->iCadeMode();
 	savedConf->handleUnboundEvents = shouldHandleUnboundKeys;
 	savedConf->name = dev->name();
+	return *savedConf;
+}
+
+InputDeviceSavedSessionConfig& InputDeviceConfig::saveSession(InputManager& mgr)
+{
+	if(!sessionSavedConf)
+	{
+		sessionSavedConf = mgr.savedSessionDevConfigs.emplace_back(std::make_unique<InputDeviceSavedSessionConfig>()).get();
+		log.info("allocated new device session config, {} total", mgr.savedSessionDevConfigs.size());
+	}
+	sessionSavedConf->enumId = dev->enumId();
+	sessionSavedConf->name = dev->name();
+	return *sessionSavedConf;
 }
 
 void InputDeviceConfig::setSavedConf(const InputManager &mgr, InputDeviceSavedConfig *savedConf, bool updateKeymap)
@@ -168,7 +207,6 @@ void InputDeviceConfig::setSavedConf(const InputManager &mgr, InputDeviceSavedCo
 	this->savedConf = savedConf;
 	if(savedConf)
 	{
-		player_ = savedConf->player;
 		isEnabled = savedConf->enabled;
 		dev->setJoystickAxesAsKeys(Input::AxisSetId::stick1, savedConf->joystickAxisAsDpadFlags.stick1);
 		dev->setJoystickAxesAsKeys(Input::AxisSetId::stick2, savedConf->joystickAxisAsDpadFlags.stick2);
@@ -180,7 +218,6 @@ void InputDeviceConfig::setSavedConf(const InputManager &mgr, InputDeviceSavedCo
 	}
 	else
 	{
-		player_ = dev->enumId() < EmuSystem::maxPlayers ? dev->enumId() : 0;
 		isEnabled = true;
 		dev->setJoystickAxesAsKeys(Input::AxisSetId::stick1, true);
 		dev->setJoystickAxesAsKeys(Input::AxisSetId::hat, true);
@@ -189,6 +226,13 @@ void InputDeviceConfig::setSavedConf(const InputManager &mgr, InputDeviceSavedCo
 		dev->setICadeMode(false);
 		shouldHandleUnboundKeys = false;
 	}
+	if(updateKeymap)
+		buildKeyMap(mgr);
+}
+
+void InputDeviceConfig::setSavedConf(const InputManager &mgr, InputDeviceSavedSessionConfig *savedConf, bool updateKeymap)
+{
+	this->sessionSavedConf = savedConf;
 	if(updateKeymap)
 		buildKeyMap(mgr);
 }
@@ -202,9 +246,15 @@ bool InputDeviceConfig::setKey(EmuApp &app, KeyInfo code, MappedKeys mapKey)
 	return true;
 }
 
-void InputDeviceConfig::setPlayer(const InputManager &mgr, int p)
+void InputDeviceConfig::setSavedPlayer(InputManager& mgr, int p)
 {
-	player_ = p;
+	save(mgr).player = p;
+	buildKeyMap(mgr);
+}
+
+void InputDeviceConfig::setSavedSessionPlayer(InputManager& mgr, int p)
+{
+	saveSession(mgr).player = p;
 	buildKeyMap(mgr);
 }
 
