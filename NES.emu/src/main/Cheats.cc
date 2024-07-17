@@ -381,9 +381,7 @@ EmuEditCheatListView::EmuEditCheatListView(ViewAttachParams attach):
 								);
 								return true;
 							}
-							if(!FCEUI_AddCheat(
-								UI_TEXT("Unnamed Cheat"),
-								a, v, c, 1))
+							if(!FCEUI_AddCheat(UNNAMED_CHEAT, a, v, c, 1))
 							{
 								app().postMessage(true,
 									UI_TEXT("Error adding cheat")

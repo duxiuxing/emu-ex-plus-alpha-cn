@@ -27,6 +27,9 @@ namespace EmuEx
 using namespace IG;
 using RefreshCheatsDelegate = DelegateFunc<void ()>;
 
+static const char *UNNAMED_CHEAT =
+	UI_TEXT("Unnamed Cheat");
+
 class BaseCheatsView : public TableView, public EmuAppHelper
 {
 public:

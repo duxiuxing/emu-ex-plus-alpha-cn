@@ -35,7 +35,7 @@ static void writeCheatFile(EmuSystem &);
 EmuEditCheatView::EmuEditCheatView(ViewAttachParams attach, int cheatIdx, RefreshCheatsDelegate onCheatListChanged_):
 	BaseEditCheatView
 	{
-		"Edit Code",
+		UI_TEXT("Edit Code"),
 		attach,
 		cheatsList[cheatIdx].desc,
 		items,
@@ -52,12 +52,14 @@ EmuEditCheatView::EmuEditCheatView(ViewAttachParams attach, int cheatIdx, Refres
 	items{&name, &code, &remove},
 	code
 	{
-		"Code",
+		UI_TEXT("Code"),
 		cheatsList[cheatIdx].codestring,
 		attach,
 		[this](DualTextMenuItem &, View &, Input::Event)
 		{
-			app().postMessage("To change this cheat, please delete and re-add it");
+			app().postMessage(
+				UI_TEXT("To change this cheat, please delete and re-add it")
+			);
 		}
 	},
 	idx{cheatIdx}
@@ -93,11 +95,16 @@ void EmuEditCheatListView::addNewCheat(int isGSv3)
 {
 	if(cheatsList.size() == cheatsList.capacity())
 	{
-		app().postMessage(true, "Too many cheats, delete some first");
+		app().postMessage(true,
+			UI_TEXT("Too many cheats, delete some first")
+		);
 		return;
 	}
 	pushAndShowNewCollectTextInputView(attachParams(), {},
-		isGSv3 ? "Input xxxxxxxx yyyyyyyy" : "Input xxxxxxxx yyyyyyyy (GS) or xxxxxxxx yyyy (AR)", "",
+		isGSv3
+			? UI_TEXT("Input xxxxxxxx yyyyyyyy")
+			: UI_TEXT("Input xxxxxxxx yyyyyyyy (GS) or xxxxxxxx yyyy (AR)"),
+		"",
 		[this, isGSv3](CollectTextInputView &view, const char *str)
 		{
 			if(str)
@@ -109,9 +116,9 @@ void EmuEditCheatListView::addNewCheat(int isGSv3)
 					tempStr.erase(tempStr.begin() + 8);
 				}
 				if(isGSv3 ?
-					cheatsAddGSACode(gGba.cpu, tempStr.data(), "Unnamed Cheat", true) :
-					((tempStr.size() == 16 && cheatsAddGSACode(gGba.cpu, tempStr.data(), "Unnamed Cheat", false))
-					|| cheatsAddCBACode(gGba.cpu, tempStr.data(), "Unnamed Cheat")))
+					cheatsAddGSACode(gGba.cpu, tempStr.data(), UNNAMED_CHEAT, true) :
+					((tempStr.size() == 16 && cheatsAddGSACode(gGba.cpu, tempStr.data(), UNNAMED_CHEAT, false))
+					|| cheatsAddCBACode(gGba.cpu, tempStr.data(), UNNAMED_CHEAT)))
 				{
 					logMsg("added new cheat, %d total", (int)cheatsList.size());
 				}

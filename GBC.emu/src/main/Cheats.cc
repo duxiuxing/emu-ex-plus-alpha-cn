@@ -242,7 +242,7 @@ EmuEditCheatListView::EmuEditCheatListView(ViewAttachParams attach):
 						}
 						GbcCheat c;
 						c.code = IG::toUpperCase<decltype(c.code)>(str);
-						c.name = "Unnamed Cheat";
+						c.name = UNNAMED_CHEAT;
 						cheatList.push_back(c);
 						logMsg("added new cheat, %zu total", cheatList.size());
 						static_cast<GbcSystem&>(system()).applyCheats();
