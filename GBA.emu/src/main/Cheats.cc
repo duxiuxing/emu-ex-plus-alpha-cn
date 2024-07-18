@@ -124,14 +124,18 @@ void EmuEditCheatListView::addNewCheat(int isGSv3)
 				}
 				else
 				{
-					app().postMessage(true, "Invalid format");
+					app().postMessage(true,
+						UI_TEXT("Invalid format")
+					);
 					return true;
 				}
 				cheatsDisable(gGba.cpu, cheatsList.size()-1);
 				onCheatListChanged();
 				writeCheatFile(system());
 				view.dismiss();
-				pushAndShowNewCollectTextInputView(attachParams(), {}, "Input description", "",
+				pushAndShowNewCollectTextInputView(attachParams(), {},
+					UI_TEXT("Input description"),
+					"",
 					[this](CollectTextInputView &view, const char *str)
 					{
 						if(str)
@@ -179,7 +183,8 @@ EmuEditCheatListView::EmuEditCheatListView(ViewAttachParams attach):
 	},
 	addGS12CBCode
 	{
-		"Add Game Shark v1-2/Code Breaker Code", attach,
+		UI_TEXT("Add Game Shark v1-2/Code Breaker Code"),
+		attach,
 		[this](TextMenuItem &item, View &, Input::Event e)
 		{
 			addNewCheat(false);
@@ -187,7 +192,8 @@ EmuEditCheatListView::EmuEditCheatListView(ViewAttachParams attach):
 	},
 	addGS3Code
 	{
-		"Add Game Shark v3 Code", attach,
+		UI_TEXT("Add Game Shark v3 Code"),
+		attach,
 		[this](TextMenuItem &item, View &, Input::Event e)
 		{
 			addNewCheat(true);

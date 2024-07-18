@@ -92,7 +92,12 @@ std::span<const KeyCategory> GbaApp::keyCategories()
 {
 	static constexpr std::array categories
 	{
-		KeyCategory{"Gamepad", gpKeyInfo},
+		KeyCategory
+		{
+			UI_TEXT("Gamepad"),
+			gpKeyInfo
+	
+		},
 	};
 	return categories;
 }
@@ -101,18 +106,30 @@ std::string_view GbaApp::systemKeyCodeToString(KeyCode c)
 {
 	switch(GbaKey(c))
 	{
-		case GbaKey::Up: return "Up";
-		case GbaKey::Right: return "Right";
-		case GbaKey::Down: return "Down";
-		case GbaKey::Left: return "Left";
-		case GbaKey::Select: return "Select";
-		case GbaKey::Start: return "Start";
-		case GbaKey::A: return "A";
-		case GbaKey::B: return "B";
-		case GbaKey::L: return "L";
-		case GbaKey::R: return "R";
-		case GbaKey::LightInc: return "Light Sensor Level +";
-		case GbaKey::LightDec: return "Light Sensor Level -";
+		case GbaKey::Up:
+			return UI_TEXT("Up");
+		case GbaKey::Right:
+			return UI_TEXT("Right");
+		case GbaKey::Down:
+			return UI_TEXT("Down");
+		case GbaKey::Left:
+			return UI_TEXT("Left");
+		case GbaKey::Select:
+			return UI_TEXT("Select");
+		case GbaKey::Start:
+			return UI_TEXT("Start");
+		case GbaKey::A:
+			return UI_TEXT("A");
+		case GbaKey::B:
+			return UI_TEXT("B");
+		case GbaKey::L:
+			return UI_TEXT("L");
+		case GbaKey::R:
+			return UI_TEXT("R");
+		case GbaKey::LightInc:.
+			return UI_TEXT("Light Sensor Level +");
+		case GbaKey::LightDec:
+			return UI_TEXT("Light Sensor Level -");
 		default: return "";
 	}
 }
@@ -232,7 +249,9 @@ void GbaSystem::handleInputAction(EmuApp *app, InputAction a)
 			darknessLevel = std::clamp(darknessLevel + darknessChange, 0, 0xff);
 			if(app)
 			{
-				app->postMessage(1, false, std::format("Light sensor level: {}%", remap(darknessLevel, 0xff, 0, 0, 100)));
+				app->postMessage(1, false, std::format(
+					UI_TEXT("Light sensor level: {}%"),
+					remap(darknessLevel, 0xff, 0, 0, 100)));
 			}
 			break;
 		}
@@ -252,14 +271,46 @@ SystemInputDeviceDesc GbaSystem::inputDeviceDesc(int idx) const
 {
 	static constexpr std::array gamepadComponents
 	{
-		InputComponentDesc{"D-Pad", dpadKeyInfo, InputComponent::dPad, LB2DO},
-		InputComponentDesc{"Face Buttons", faceKeyInfo, InputComponent::button, RB2DO},
-		InputComponentDesc{"Face Buttons + Inline L/R", faceLRKeyInfo, InputComponent::button, RB2DO, {.altConfig = true}},
-		InputComponentDesc{"L", lKeyInfo, InputComponent::trigger, LB2DO},
-		InputComponentDesc{"R", rKeyInfo, InputComponent::trigger, RB2DO},
-		InputComponentDesc{"Select", {&centerKeyInfo[0], 1}, InputComponent::button, LB2DO},
-		InputComponentDesc{"Start", {&centerKeyInfo[1], 1}, InputComponent::button, RB2DO},
-		InputComponentDesc{"Select/Start", centerKeyInfo, InputComponent::button, CB2DO, {.altConfig = true}},
+		InputComponentDesc
+		{
+			UI_TEXT("D-Pad"),
+			dpadKeyInfo, InputComponent::dPad, LB2DO
+		},
+		InputComponentDesc
+		{
+			UI_TEXT("Face Buttons"),
+			faceKeyInfo, InputComponent::button, RB2DO
+		},
+		InputComponentDesc
+		{
+			UI_TEXT("Face Buttons + Inline L/R"),
+			faceLRKeyInfo, InputComponent::button, RB2DO, {.altConfig = true}
+		},
+		InputComponentDesc
+		{
+			UI_TEXT("L"),
+			lKeyInfo, InputComponent::trigger, LB2DO
+		},
+		InputComponentDesc
+		{
+			UI_TEXT("R"),
+			rKeyInfo, InputComponent::trigger, RB2DO
+		},
+		InputComponentDesc
+		{
+			UI_TEXT("Select"),
+			{&centerKeyInfo[0], 1}, InputComponent::button, LB2DO
+		},
+		InputComponentDesc
+		{
+			UI_TEXT("Start"),
+			{&centerKeyInfo[1], 1}, InputComponent::button, RB2DO
+		},
+		InputComponentDesc
+		{
+			UI_TEXT("Select/Start"),
+			centerKeyInfo, InputComponent::button, CB2DO, {.altConfig = true}
+		},
 	};
 
 	static constexpr SystemInputDeviceDesc gamepadDesc{"Gamepad", gamepadComponents};
