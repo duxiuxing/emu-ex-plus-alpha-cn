@@ -34,7 +34,8 @@
 namespace EmuEx
 {
 
-const char *EmuSystem::creditsViewStr = CREDITS_INFO_STRING "(c) 2011-2024\nRobert Broglia\nwww.explusalpha.com\n\nPortions (c) the\nMednafen Team\nmednafen.github.io";
+const char *EmuSystem::creditsViewStr =
+	UI_TEXT(CREDITS_INFO_STRING "(c) 2011-2024\nRobert Broglia\nwww.explusalpha.com\n\nPortions (c) the\nMednafen Team\nmednafen.github.io");
 bool EmuSystem::hasRectangularPixels = true;
 bool EmuSystem::stateSizeChangesAtRuntime = true;
 constexpr double masterClockFrac = 21477272.727273 / 3.;
@@ -62,12 +63,12 @@ static bool hasPCEWithCDExtension(std::string_view name)
 
 const char *EmuSystem::shortSystemName() const
 {
-	return "PCE-TG16";
+	return UI_TEXT("PCE-TG16");
 }
 
 const char *EmuSystem::systemName() const
 {
-	return "PC Engine (TurboGrafx-16)";
+	return UI_TEXT("PC Engine (TurboGrafx-16)");
 }
 
 EmuSystem::NameFilterFunc EmuSystem::defaultFsFilter = hasPCEWithCDExtension;

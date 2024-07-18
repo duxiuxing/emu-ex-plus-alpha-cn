@@ -126,7 +126,7 @@ std::string_view GbaApp::systemKeyCodeToString(KeyCode c)
 			return UI_TEXT("L");
 		case GbaKey::R:
 			return UI_TEXT("R");
-		case GbaKey::LightInc:.
+		case GbaKey::LightInc:
 			return UI_TEXT("Light Sensor Level +");
 		case GbaKey::LightDec:
 			return UI_TEXT("Light Sensor Level -");

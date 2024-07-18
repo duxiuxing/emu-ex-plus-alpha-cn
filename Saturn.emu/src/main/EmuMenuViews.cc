@@ -53,7 +53,7 @@ class CustomFilePathOptionView : public FilePathOptionView, public MainAppHelper
 		[this](Input::Event e)
 		{
 			pushAndShow(makeViewWithName<DataFileSelectView<ArchivePathSelectMode::exclude>>(
-				"NA/EU BIOS",
+				UI_TEXT("NA/EU BIOS"),
 				app().validSearchPath(FS::dirnameUri(system().naBiosPath)),
 				[this](CStringView path, FS::file_type type)
 				{
@@ -67,7 +67,9 @@ class CustomFilePathOptionView : public FilePathOptionView, public MainAppHelper
 
 	std::string naBiosMenuEntryStr(std::string_view path) const
 	{
-		return std::format("NA/EU BIOS: {}", appContext().fileUriDisplayName(path));
+		return std::format(
+			UI_TEXT("NA/EU BIOS: {}"),
+			appContext().fileUriDisplayName(path));
 	}
 
 	TextMenuItem jpBiosPath
@@ -76,7 +78,7 @@ class CustomFilePathOptionView : public FilePathOptionView, public MainAppHelper
 		[this](Input::Event e)
 		{
 			pushAndShow(makeViewWithName<DataFileSelectView<ArchivePathSelectMode::exclude>>(
-				"JP BIOS",
+				UI_TEXT("JP BIOS"),
 				app().validSearchPath(FS::dirnameUri(system().jpBiosPath)),
 				[this](CStringView path, FS::file_type type)
 				{
@@ -90,7 +92,9 @@ class CustomFilePathOptionView : public FilePathOptionView, public MainAppHelper
 
 	std::string jpBiosMenuEntryStr(std::string_view path) const
 	{
-		return std::format("JP BIOS: {}", appContext().fileUriDisplayName(path));
+		return std::format(
+			UI_TEXT("JP BIOS: {}"),
+			appContext().fileUriDisplayName(path));
 	}
 
 	TextMenuItem kof95ROMPath
@@ -99,7 +103,7 @@ class CustomFilePathOptionView : public FilePathOptionView, public MainAppHelper
 		[this](Input::Event e)
 		{
 			pushAndShow(makeViewWithName<DataFileSelectView<ArchivePathSelectMode::exclude>>(
-				"KoF '95 ROM",
+				UI_TEXT("KoF '95 ROM"),
 				app().validSearchPath(FS::dirnameUri(system().kof95ROMPath)),
 				[this](CStringView path, FS::file_type type)
 				{
@@ -113,7 +117,9 @@ class CustomFilePathOptionView : public FilePathOptionView, public MainAppHelper
 
 	std::string kof95MenuEntryStr(std::string_view path) const
 	{
-		return std::format("KoF '95 ROM: {}", appContext().fileUriDisplayName(path));
+		return std::format(
+			UI_TEXT("KoF '95 ROM: {}"),
+			appContext().fileUriDisplayName(path));
 	}
 
 	TextMenuItem ultramanROMPath
@@ -122,7 +128,7 @@ class CustomFilePathOptionView : public FilePathOptionView, public MainAppHelper
 		[this](Input::Event e)
 		{
 			pushAndShow(makeViewWithName<DataFileSelectView<ArchivePathSelectMode::exclude>>(
-				"Ultraman ROM",
+				UI_TEXT("Ultraman ROM"),
 				app().validSearchPath(FS::dirnameUri(system().ultramanROMPath)),
 				[this](CStringView path, FS::file_type type)
 				{
@@ -136,7 +142,9 @@ class CustomFilePathOptionView : public FilePathOptionView, public MainAppHelper
 
 	std::string ultramanMenuEntryStr(std::string_view path) const
 	{
-		return std::format("Ultraman ROM: {}", appContext().fileUriDisplayName(path));
+		return std::format(
+			UI_TEXT("Ultraman ROM: {}"),
+			appContext().fileUriDisplayName(path));
 	}
 
 public:
@@ -154,13 +162,20 @@ constexpr auto cartTypeToString(int t)
 {
 	switch(t)
 	{
-		case CART_NONE: return "None";
-		case CART_BACKUP_MEM: return "512K Backup RAM";
-		case CART_EXTRAM_1M: return "1M RAM";
-		case CART_EXTRAM_4M: return "4M RAM";
-		case CART_CS1RAM_16M: return "16M CS1 RAM";
-		case CART_KOF95: return "KoF '95";
-		case CART_ULTRAMAN: return "Ultraman";
+		case CART_NONE:
+			return UI_TEXT("None");
+		case CART_BACKUP_MEM:
+			return UI_TEXT("512K Backup RAM");
+		case CART_EXTRAM_1M:
+			return UI_TEXT("1M RAM");
+		case CART_EXTRAM_4M:
+			return UI_TEXT("4M RAM");
+		case CART_CS1RAM_16M:
+			return UI_TEXT("16M CS1 RAM");
+		case CART_KOF95:
+			return UI_TEXT("KoF '95");
+		case CART_ULTRAMAN:
+			return UI_TEXT("Ultraman");
 	}
 	return "";
 }
@@ -169,14 +184,22 @@ constexpr auto regionToString(int t)
 {
 	switch(t)
 	{
-		case SMPC_AREA_JP: return "Japan";
-		case SMPC_AREA_NA: return "North America";
-		case SMPC_AREA_EU_PAL: return "Europe";
-		case SMPC_AREA_KR: return "South Korea";
-		case SMPC_AREA_ASIA_NTSC: return "Asia (NTSC)";
-		case SMPC_AREA_ASIA_PAL: return "Asia (PAL)";
-		case SMPC_AREA_CSA_NTSC: return "Brazil";
-		case SMPC_AREA_CSA_PAL: return "Latin America";
+		case SMPC_AREA_JP:
+			return UI_TEXT("Japan");
+		case SMPC_AREA_NA:
+			return UI_TEXT("North America");
+		case SMPC_AREA_EU_PAL:
+			return UI_TEXT("Europe");
+		case SMPC_AREA_KR:
+			return UI_TEXT("South Korea");
+		case SMPC_AREA_ASIA_NTSC:
+			return UI_TEXT("Asia (NTSC)");
+		case SMPC_AREA_ASIA_PAL:
+			return UI_TEXT("Asia (PAL)");
+		case SMPC_AREA_CSA_NTSC:
+			return UI_TEXT("Brazil");
+		case SMPC_AREA_CSA_PAL:
+			return UI_TEXT("Latin America");
 	}
 	return "";
 }
@@ -185,7 +208,10 @@ class ConsoleOptionView : public TableView, public MainAppHelper
 {
 	TextMenuItem cartTypeItems[8]
 	{
-		{"Auto",                            attachParams(), {.id = CART__RESERVED}},
+		{
+			UI_TEXT("Auto"),
+			attachParams(), {.id = CART__RESERVED}
+		},
 		{cartTypeToString(CART_NONE),       attachParams(), {.id = CART_NONE}},
 		{cartTypeToString(CART_BACKUP_MEM), attachParams(), {.id = CART_BACKUP_MEM}},
 		{cartTypeToString(CART_EXTRAM_1M),  attachParams(), {.id = CART_EXTRAM_1M}},
@@ -197,7 +223,8 @@ class ConsoleOptionView : public TableView, public MainAppHelper
 
 	MultiChoiceMenuItem cartType
 	{
-		"Cart Type", attachParams(),
+		UI_TEXT("Cart Type"),
+		attachParams(),
 		MenuId{system().cartType},
 		cartTypeItems,
 		{
@@ -221,7 +248,10 @@ class ConsoleOptionView : public TableView, public MainAppHelper
 
 	TextMenuItem regionItems[9]
 	{
-		{"Auto",                              attachParams(), {.id = 0}},
+		{
+			UI_TEXT("Auto"),
+			attachParams(), {.id = 0}
+		},
 		{regionToString(SMPC_AREA_JP),        attachParams(), {.id = SMPC_AREA_JP}},
 		{regionToString(SMPC_AREA_NA),        attachParams(), {.id = SMPC_AREA_NA}},
 		{regionToString(SMPC_AREA_EU_PAL),    attachParams(), {.id = SMPC_AREA_EU_PAL}},
@@ -234,7 +264,8 @@ class ConsoleOptionView : public TableView, public MainAppHelper
 
 	MultiChoiceMenuItem region
 	{
-		"Region", attachParams(),
+		UI_TEXT("Region"),
+		attachParams(),
 		MenuId{system().region},
 		regionItems,
 		{
@@ -260,7 +291,8 @@ class ConsoleOptionView : public TableView, public MainAppHelper
 
 	MultiChoiceMenuItem disc
 	{
-		"Disc", attachParams(),
+		UI_TEXT("Disc"),
+		attachParams(),
 		MenuId{system().currentDiscId()},
 		discItems
 	};
@@ -277,7 +309,8 @@ class ConsoleOptionView : public TableView, public MainAppHelper
 
 	BoolMenuItem showHOverscan
 	{
-		"Show Horizontal Overscan", attachParams(),
+		UI_TEXT("Show Horizontal Overscan"),
+		attachParams(),
 		system().showHOverscan,
 		[this](BoolMenuItem &item)
 		{
@@ -288,20 +321,36 @@ class ConsoleOptionView : public TableView, public MainAppHelper
 
 	TextMenuItem visibleNtscVideoLinesItem[2]
 	{
-		{"8+224", attachParams(), {.id = std::bit_cast<MenuId>(VideoLineRange{8, 231})}},
-		{"0+240", attachParams(), {.id = std::bit_cast<MenuId>(VideoLineRange{0, 239})}},
+		{
+			UI_TEXT("8+224"),
+			attachParams(), {.id = std::bit_cast<MenuId>(VideoLineRange{8, 231})}
+		},
+		{
+			UI_TEXT("0+240"),
+			attachParams(), {.id = std::bit_cast<MenuId>(VideoLineRange{0, 239})}
+		},
 	};
 
 	TextMenuItem visiblePalVideoLinesItem[3]
 	{
-		{"16+256", attachParams(), {.id = std::bit_cast<MenuId>(VideoLineRange{16, 271})}},
-		{"32+224", attachParams(), {.id = std::bit_cast<MenuId>(VideoLineRange{32, 255})}},
-		{"0+288",  attachParams(), {.id = std::bit_cast<MenuId>(VideoLineRange{0, 287})}},
+		{
+			UI_TEXT("16+256"),
+			attachParams(), {.id = std::bit_cast<MenuId>(VideoLineRange{16, 271})}
+		},
+		{
+			UI_TEXT("32+224"),
+			attachParams(), {.id = std::bit_cast<MenuId>(VideoLineRange{32, 255})}
+		},
+		{
+			UI_TEXT("0+288"),
+			attachParams(), {.id = std::bit_cast<MenuId>(VideoLineRange{0, 287})}
+		},
 	};
 
 	MultiChoiceMenuItem visibleVideoLines
 	{
-		"Visible Lines", attachParams(),
+		UI_TEXT("Visible Lines"),
+		attachParams(),
 		std::bit_cast<MenuId>(system().videoLines),
 		[&]() -> std::span<TextMenuItem>
 		{
@@ -321,13 +370,20 @@ class ConsoleOptionView : public TableView, public MainAppHelper
 
 	TextMenuItem deinterlaceModeItems[2]
 	{
-		{"Bob",   attachParams(), {.id = DeinterlaceMode::Bob}},
-		{"Weave", attachParams(), {.id = DeinterlaceMode::Weave}},
+		{
+			UI_TEXT("Bob"),
+			attachParams(), {.id = DeinterlaceMode::Bob}
+		},
+		{
+			UI_TEXT("Weave"),
+			attachParams(), {.id = DeinterlaceMode::Weave}
+		},
 	};
 
 	MultiChoiceMenuItem deinterlaceMode
 	{
-		"Deinterlace Mode", attachParams(),
+		UI_TEXT("Deinterlace Mode"),
+		attachParams(),
 		MenuId{system().deinterlaceMode},
 		deinterlaceModeItems,
 		{
@@ -341,16 +397,32 @@ class ConsoleOptionView : public TableView, public MainAppHelper
 
 	TextMenuItem contentRotationItems[5]
 	{
-		{"Auto",        attachParams(), {.id = Rotation::ANY}},
-		{"Standard",    attachParams(), {.id = Rotation::UP}},
-		{"90° Right",   attachParams(), {.id = Rotation::RIGHT}},
-		{"Upside Down", attachParams(), {.id = Rotation::DOWN}},
-		{"90° Left",    attachParams(), {.id = Rotation::LEFT}},
+		{
+			UI_TEXT("Auto"),
+			attachParams(), {.id = Rotation::ANY}
+		},
+		{
+			UI_TEXT("Standard"),
+			attachParams(), {.id = Rotation::UP}
+		},
+		{
+			UI_TEXT("90° Right"),
+			attachParams(), {.id = Rotation::RIGHT}
+		},
+		{
+			UI_TEXT("Upside Down"),
+			attachParams(), {.id = Rotation::DOWN}
+		},
+		{
+			UI_TEXT("90° Left"),
+			attachParams(), {.id = Rotation::LEFT}
+		},
 	};
 
 	MultiChoiceMenuItem contentRotation
 	{
-		"Content Rotation", attachParams(),
+		UI_TEXT("Content Rotation"),
+		attachParams(),
 		MenuId{system().sysContentRotation},
 		contentRotationItems,
 		{
@@ -365,14 +437,24 @@ class ConsoleOptionView : public TableView, public MainAppHelper
 
 	TextMenuItem widescreenModeItems[3]
 	{
-		{"Auto",  attachParams(), {.id = WidescreenMode::Auto}},
-		{"On",    attachParams(), {.id = WidescreenMode::On}},
-		{"Off",   attachParams(), {.id = WidescreenMode::Off}},
+		{
+			UI_TEXT("Auto"),
+			attachParams(), {.id = WidescreenMode::Auto}
+		},
+		{
+			UI_TEXT("On"),
+			attachParams(), {.id = WidescreenMode::On}
+		},
+		{
+			UI_TEXT("Off"),
+			attachParams(), {.id = WidescreenMode::Off}
+		},
 	};
 
 	MultiChoiceMenuItem widescreenMode
 	{
-		"Anamorphic Widescreen Content", attachParams(),
+		UI_TEXT("Anamorphic Widescreen Content"),
+		attachParams(),
 		MenuId{system().widescreenMode},
 		widescreenModeItems,
 		{
@@ -385,11 +467,20 @@ class ConsoleOptionView : public TableView, public MainAppHelper
 		}
 	};
 
-	TextHeadingMenuItem inputHeading{"Input", attachParams()};
+	TextHeadingMenuItem inputHeading
+	{
+		UI_TEXT("Input"),
+		attachParams()
+	};
 
 	BoolMenuItem multitapItem(int idx)
 	{
-		return { std::format("Port {} Multitap", idx + 1), attachParams(),
+		return
+		{
+			std::format(
+				UI_TEXT("Port {} Multitap"),
+				idx + 1),
+			attachParams(),
 			system().inputConfig.multitaps[idx],
 			[this, idx](BoolMenuItem &item)
 			{
@@ -407,14 +498,28 @@ class ConsoleOptionView : public TableView, public MainAppHelper
 
 	TextMenuItem inputDeviceItems[3]
 	{
-		{"Gamepad", attachParams(), setInputPortsDel(), {.id = InputDeviceType::gamepad}},
-		{"Gun",     attachParams(), setInputPortsDel(), {.id = InputDeviceType::gun}},
-		{"None",    attachParams(), setInputPortsDel(), {.id = InputDeviceType::none}},
+		{
+			UI_TEXT("Gamepad"),
+			attachParams(), setInputPortsDel(), {.id = InputDeviceType::gamepad}
+		},
+		{
+			UI_TEXT("Gun"),
+			attachParams(), setInputPortsDel(), {.id = InputDeviceType::gun}
+		},
+		{
+			UI_TEXT("None"),
+			attachParams(), setInputPortsDel(), {.id = InputDeviceType::none}
+		},
 	};
 
 	MultiChoiceMenuItem inputDeviceItem(int idx)
 	{
-		return {std::format("Port {}", idx + 1), attachParams(),
+		return
+		{
+			std::format(
+				UI_TEXT("Port {}"),
+				idx + 1),
+			attachParams(),
 			MenuId{system().inputConfig.devs[idx]},
 			inputDeviceItems,
 			{
@@ -474,7 +579,7 @@ public:
 	ConsoleOptionView(ViewAttachParams attach):
 		TableView
 		{
-			"Console Options",
+			UI_TEXT("Console Options"),
 			attach,
 			menuItems
 		},
@@ -483,7 +588,11 @@ public:
 			[&](auto &system)
 			{
 				auto discItems = DynArray<TextMenuItem>{system.CDInterfaces.size() + 1};
-				discItems[0] = {"Eject", attachParams(), setDiscDel(), {.id = -1}};
+				discItems[0] =
+					{
+						UI_TEXT("Eject"),
+						attachParams(), setDiscDel(), {.id = -1}
+					};
 				const char *numStrings[] {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14" , "15", "16"};
 				for(auto i : iotaCount(system.CDInterfaces.size()))
 				{
@@ -518,7 +627,8 @@ class CustomSystemActionsView : public SystemActionsView
 private:
 	TextMenuItem options
 	{
-		"Console Options", attachParams(),
+		UI_TEXT("Console Options"),
+		attachParams(),
 		[this](Input::Event e) { pushAndShow(makeView<ConsoleOptionView>(), e); }
 	};
 
@@ -536,7 +646,8 @@ class CustomSystemOptionView : public SystemOptionView, public MainAppHelper
 
 	BoolMenuItem autoSetRTC
 	{
-		"Auto-Set RTC On Start", attachParams(),
+		UI_TEXT("Auto-Set RTC On Start"),
+		attachParams(),
 		system().autoRTCTime,
 		[this](BoolMenuItem &item)
 		{
@@ -546,17 +657,36 @@ class CustomSystemOptionView : public SystemOptionView, public MainAppHelper
 
 	TextMenuItem biosLanguageItems[6]
 	{
-		{"English",  attachParams(), {.id = SMPC_RTC_LANG_ENGLISH}},
-		{"German",   attachParams(), {.id = SMPC_RTC_LANG_GERMAN}},
-		{"French",   attachParams(), {.id = SMPC_RTC_LANG_FRENCH}},
-		{"Spanish",  attachParams(), {.id = SMPC_RTC_LANG_SPANISH}},
-		{"Italian",  attachParams(), {.id = SMPC_RTC_LANG_ITALIAN}},
-		{"Japanese", attachParams(), {.id = SMPC_RTC_LANG_JAPANESE}},
+		{
+			UI_TEXT("English"),
+			attachParams(), {.id = SMPC_RTC_LANG_ENGLISH}
+		},
+		{
+			UI_TEXT("German"),
+			attachParams(), {.id = SMPC_RTC_LANG_GERMAN}
+		},
+		{
+			UI_TEXT("French"),
+			attachParams(), {.id = SMPC_RTC_LANG_FRENCH}
+		},
+		{
+			UI_TEXT("Spanish"),
+			attachParams(), {.id = SMPC_RTC_LANG_SPANISH}
+		},
+		{
+			UI_TEXT("Italian"),
+			attachParams(), {.id = SMPC_RTC_LANG_ITALIAN}
+		},
+		{
+			UI_TEXT("Japanese"),
+			attachParams(), {.id = SMPC_RTC_LANG_JAPANESE}
+		},
 	};
 
 	MultiChoiceMenuItem biosLanguage
 	{
-		"BIOS Language", attachParams(),
+		UI_TEXT("BIOS Language"),
+		attachParams(),
 		MenuId{system().biosLanguage},
 		biosLanguageItems,
 		{
@@ -586,7 +716,8 @@ class CustomVideoOptionView : public VideoOptionView, public MainAppHelper
 
 	BoolMenuItem showHOverscan
 	{
-		"Default Show Horizontal Overscan", attachParams(),
+		UI_TEXT("Default Show Horizontal Overscan"),
+		attachParams(),
 		system().defaultShowHOverscan,
 		[this](BoolMenuItem &item)
 		{
@@ -596,13 +727,20 @@ class CustomVideoOptionView : public VideoOptionView, public MainAppHelper
 
 	TextMenuItem visibleVideoLinesItem[2]
 	{
-		{"8+224", attachParams(), {.id = std::bit_cast<MenuId>(VideoLineRange{8, 231})}},
-		{"0+240", attachParams(), {.id = std::bit_cast<MenuId>(VideoLineRange{0, 239})}},
+		{
+			UI_TEXT("8+224"),
+			attachParams(), {.id = std::bit_cast<MenuId>(VideoLineRange{8, 231})}
+		},
+		{
+			UI_TEXT("0+240"),
+			attachParams(), {.id = std::bit_cast<MenuId>(VideoLineRange{0, 239})}
+		},
 	};
 
 	MultiChoiceMenuItem visibleVideoLines
 	{
-		"Default NTSC Visible Lines", attachParams(),
+		UI_TEXT("Default NTSC Visible Lines"),
+		attachParams(),
 		std::bit_cast<MenuId>(system().defaultNtscLines),
 		visibleVideoLinesItem,
 		{
@@ -615,7 +753,8 @@ class CustomVideoOptionView : public VideoOptionView, public MainAppHelper
 
 	BoolMenuItem correctLineAspect
 	{
-		"Correct Line Aspect Ratio", attachParams(),
+		UI_TEXT("Correct Line Aspect Ratio"),
+		attachParams(),
 		system().correctLineAspect,
 		[this](BoolMenuItem &item)
 		{

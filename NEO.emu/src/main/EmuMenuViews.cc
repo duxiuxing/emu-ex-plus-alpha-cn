@@ -45,9 +45,18 @@ class ConsoleOptionView : public TableView, public MainAppHelper
 {
 	TextMenuItem timerItem[3]
 	{
-		{"Off",  attachParams(), setTimerIntDel(), {.id = 0}},
-		{"On",   attachParams(), setTimerIntDel(), {.id = 1}},
-		{"Auto", attachParams(), setTimerIntDel(), {.id = 2}},
+		{
+			UI_TEXT("Off"),
+			attachParams(), setTimerIntDel(), {.id = 0}
+		},
+		{
+			UI_TEXT("On"),
+			attachParams(), setTimerIntDel(), {.id = 1}
+		},
+		{
+			UI_TEXT("Auto"),
+			attachParams(), setTimerIntDel(), {.id = 2}
+		},
 	};
 
 	TextMenuItem::SelectDelegate setTimerIntDel()
@@ -62,7 +71,8 @@ class ConsoleOptionView : public TableView, public MainAppHelper
 
 	MultiChoiceMenuItem timer
 	{
-		"Emulate Timer", attachParams(),
+		UI_TEXT("Emulate Timer"),
+		attachParams(),
 		std::min((int)system().optionTimerInt, 2),
 		timerItem,
 		{
@@ -70,7 +80,10 @@ class ConsoleOptionView : public TableView, public MainAppHelper
 			{
 				if(idx == 2)
 				{
-					t.resetString(conf.raster ? "On" : "Off");
+					t.resetString(conf.raster
+						? UI_TEXT("On")
+						: UI_TEXT("Off")
+					);
 					return true;
 				}
 				else
@@ -88,7 +101,7 @@ public:
 	ConsoleOptionView(ViewAttachParams attach):
 		TableView
 		{
-			"Console Options",
+			UI_TEXT("Console Options"),
 			attach,
 			menuItem
 		}
@@ -110,15 +123,28 @@ class CustomSystemOptionView : public SystemOptionView, public MainAppHelper
 
 	TextMenuItem regionItem[4]
 	{
-		{"Japan",  attachParams(), setRegionDel(), {.id = CTY_JAPAN}},
-		{"Europe", attachParams(), setRegionDel(), {.id = CTY_EUROPE}},
-		{"USA",    attachParams(), setRegionDel(), {.id = CTY_USA}},
-		{"Asia",   attachParams(), setRegionDel(), {.id = CTY_ASIA}},
+		{
+			UI_TEXT("Japan"),
+			attachParams(), setRegionDel(), {.id = CTY_JAPAN}
+		},
+		{
+			UI_TEXT("Europe"),
+			attachParams(), setRegionDel(), {.id = CTY_EUROPE}
+		},
+		{
+			UI_TEXT("USA"),
+			attachParams(), setRegionDel(), {.id = CTY_USA}
+		},
+		{
+			UI_TEXT("Asia"),
+			attachParams(), setRegionDel(), {.id = CTY_ASIA}
+		},
 	};
 
 	MultiChoiceMenuItem region
 	{
-		"MVS Region", attachParams(),
+		UI_TEXT("MVS Region"),
+		attachParams(),
 		std::min((int)conf.country, 3),
 		regionItem
 	};
@@ -134,25 +160,48 @@ class CustomSystemOptionView : public SystemOptionView, public MainAppHelper
 
 	TextMenuItem biosItem[7]
 	{
-		{"Unibios 2.3", attachParams(), setBiosDel(), {.id = SYS_UNIBIOS}},
-		{"Unibios 3.0", attachParams(), setBiosDel(), {.id = SYS_UNIBIOS_3_0}},
-		{"Unibios 3.1", attachParams(), setBiosDel(), {.id = SYS_UNIBIOS_3_1}},
-		{"Unibios 3.2", attachParams(), setBiosDel(), {.id = SYS_UNIBIOS_3_2}},
-		{"Unibios 3.3", attachParams(), setBiosDel(), {.id = SYS_UNIBIOS_3_3}},
-		{"Unibios 4.0", attachParams(), setBiosDel(), {.id = SYS_UNIBIOS_4_0}},
-		{"MVS",         attachParams(), setBiosDel(), {.id = SYS_ARCADE}},
+		{
+			UI_TEXT("Unibios 2.3"),
+			attachParams(), setBiosDel(), {.id = SYS_UNIBIOS}
+		},
+		{
+			UI_TEXT("Unibios 3.0"),
+			attachParams(), setBiosDel(), {.id = SYS_UNIBIOS_3_0}
+		},
+		{
+			UI_TEXT("Unibios 3.1"),
+			attachParams(), setBiosDel(), {.id = SYS_UNIBIOS_3_1}
+		},
+		{
+			UI_TEXT("Unibios 3.2"),
+			attachParams(), setBiosDel(), {.id = SYS_UNIBIOS_3_2}
+		},
+		{
+			UI_TEXT("Unibios 3.3"),
+			attachParams(), setBiosDel(), {.id = SYS_UNIBIOS_3_3}
+		},
+		{
+			UI_TEXT("Unibios 4.0"),
+			attachParams(), setBiosDel(), {.id = SYS_UNIBIOS_4_0}
+		},
+		{
+			UI_TEXT("MVS"),
+			attachParams(), setBiosDel(), {.id = SYS_ARCADE}
+		},
 	};
 
 	MultiChoiceMenuItem bios
 	{
-		"BIOS Type", attachParams(),
+		UI_TEXT("BIOS Type"),
+		attachParams(),
 		MenuId{conf.system},
 		biosItem
 	};
 
 	BoolMenuItem createAndUseCache
 	{
-		"Make/Use Cache Files", attachParams(),
+		UI_TEXT("Make/Use Cache Files"),
+		attachParams(),
 		(bool)system().optionCreateAndUseCache,
 		[this](BoolMenuItem &item, View &, Input::Event e)
 		{
@@ -162,7 +211,8 @@ class CustomSystemOptionView : public SystemOptionView, public MainAppHelper
 
 	BoolMenuItem strictROMChecking
 	{
-		"Strict ROM Checking", attachParams(),
+		UI_TEXT("Strict ROM Checking"),
+		attachParams(),
 		(bool)system().optionStrictROMChecking,
 		[this](BoolMenuItem &item, View &, Input::Event e)
 		{
@@ -187,7 +237,8 @@ class EmuGUIOptionView : public GUIOptionView, public MainAppHelper
 
 	BoolMenuItem listAll
 	{
-		"List All Games", attachParams(),
+		UI_TEXT("List All Games"),
+		attachParams(),
 		(bool)system().optionListAllGames,
 		[this](BoolMenuItem &item, View &, Input::Event e)
 		{
@@ -496,7 +547,7 @@ public:
 	GameListView(ViewAttachParams attach):
 		TableView
 		{
-			"Game List",
+			UI_TEXT("Game List"),
 			attach,
 			item
 		}
@@ -540,7 +591,7 @@ public:
 						if(entry.bugs)
 						{
 							app().pushAndShowModalView(makeView<YesNoAlertView>(
-								"This game doesn't yet work properly, load anyway?",
+								UI_TEXT("This game doesn't yet work properly, load anyway?"),
 								YesNoAlertView::Delegates{.onYes = [this, &entry](Input::Event e){ loadGame(entry, e); }}), e);
 						}
 						else
@@ -550,7 +601,9 @@ public:
 					}
 					else
 					{
-						app().postMessage(3, 1, std::format("{} not present", entry.name));
+						app().postMessage(3, 1, std::format(
+							UI_TEXT("{} not present"),
+							entry.name));
 					}
 					return true;
 				});
@@ -568,23 +621,35 @@ class UnibiosSwitchesView : public TableView
 {
 	TextMenuItem regionItem[3]
 	{
-		{"Japan", attachParams(), [](){ setRegion(0); }},
-		{"USA", attachParams(), [](){ setRegion(1); }},
-		{"Europe", attachParams(), [](){ setRegion(2); }},
+		{
+			UI_TEXT("Japan"),
+			attachParams(), [](){ setRegion(0); }
+		},
+		{
+			UI_TEXT("USA"),
+			attachParams(), [](){ setRegion(1); }
+		},
+		{
+			UI_TEXT("Europe"),
+			attachParams(), [](){ setRegion(2); }
+		},
 	};
 
 	MultiChoiceMenuItem region
 	{
-		"Region", attachParams(),
+		UI_TEXT("Region"),
+		attachParams(),
 		(int)memory.memcard[3] & 0x3,
 		regionItem
 	};
 
 	BoolMenuItem system
 	{
-		"Mode", attachParams(),
+		UI_TEXT("Mode"),
+		attachParams(),
 		bool(memory.memcard[2] & 0x80),
-		"Console (AES)", "Arcade (MVS)",
+		UI_TEXT("Console (AES)"),
+		UI_TEXT("Arcade (MVS)"),
 		[this](BoolMenuItem &item, View &, Input::Event e)
 		{
 			bool on = item.flipBoolValue(*this);
@@ -603,7 +668,7 @@ public:
 	UnibiosSwitchesView(ViewAttachParams attach):
 		TableView
 		{
-			"Unibios Switches",
+			UI_TEXT("Unibios Switches"),
 			attach,
 			items
 		}
@@ -622,7 +687,8 @@ class CustomSystemActionsView : public SystemActionsView
 private:
 	TextMenuItem unibiosSwitches
 	{
-		"Unibios Switches", attachParams(),
+		UI_TEXT("Unibios Switches"),
+		attachParams(),
 		[this](TextMenuItem &item, View &, Input::Event e)
 		{
 			if(system().hasContent())
@@ -633,7 +699,9 @@ private:
 				}
 				else
 				{
-					app().postMessage("Only used with Unibios");
+					app().postMessage(
+						UI_TEXT("Only used with Unibios")
+					);
 				}
 			}
 		}
@@ -641,7 +709,8 @@ private:
 
 	TextMenuItem options
 	{
-		"Console Options", attachParams(),
+		UI_TEXT("Console Options"),
+		attachParams(),
 		[this](TextMenuItem &, View &, Input::Event e)
 		{
 			if(system().hasContent())
@@ -672,13 +741,16 @@ class CustomMainMenuView : public MainMenuView
 private:
 	TextMenuItem gameList
 	{
-		"Open Content From List", attachParams(),
+		UI_TEXT("Open Content From List"),
+		attachParams(),
 		[this](TextMenuItem &, View &, Input::Event e)
 		{
 			auto gameListMenu = makeView<GameListView>();
 			if(!gameListMenu->games())
 			{
-				app().postMessage(6, true, "No content found, use \"Open Content\" command to browse to a folder with ROM archives.");
+				app().postMessage(6, true,
+					UI_TEXT("No content found, use \"Open Content\" command to browse to a folder with ROM archives.")
+				);
 				return;
 			}
 			pushAndShow(std::move(gameListMenu), e);
