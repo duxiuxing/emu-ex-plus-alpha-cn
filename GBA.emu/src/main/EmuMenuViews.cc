@@ -44,14 +44,24 @@ class ConsoleOptionView : public TableView, public MainAppHelper
 {
 	TextMenuItem biosItems[3]
 	{
-		{"Auto", attachParams(), {.id = AutoTristate::Auto}},
-		{"Off",  attachParams(), {.id = AutoTristate::Off}},
-		{"On",   attachParams(), {.id = AutoTristate::On}},
+		{
+			UI_TEXT("Auto"),
+			attachParams(), {.id = AutoTristate::Auto}
+		},
+		{
+			UI_TEXT("Off"),
+			attachParams(), {.id = AutoTristate::Off}
+		},
+		{
+			UI_TEXT("On"),
+			attachParams(), {.id = AutoTristate::On}
+		},
 	};
 
 	MultiChoiceMenuItem bios
 	{
-		"Use BIOS", attachParams(),
+		UI_TEXT("Use BIOS"),
+		attachParams(),
 		MenuId{system().useBios.value()},
 		biosItems,
 		{
@@ -66,14 +76,24 @@ class ConsoleOptionView : public TableView, public MainAppHelper
 
 	TextMenuItem rtcItem[3]
 	{
-		{"Auto", attachParams(), {.id = RtcMode::AUTO}},
-		{"Off",  attachParams(), {.id = RtcMode::OFF}},
-		{"On",   attachParams(), {.id = RtcMode::ON}},
+		{
+			UI_TEXT("Auto"),
+			attachParams(), {.id = RtcMode::AUTO}
+		},
+		{
+			UI_TEXT("Off"),
+			attachParams(), {.id = RtcMode::OFF}
+		},
+		{
+			UI_TEXT("On"),
+			attachParams(), {.id = RtcMode::ON}
+		},
 	};
 
 	MultiChoiceMenuItem rtc
 	{
-		"RTC Emulation", attachParams(),
+		UI_TEXT("RTC Emulation"),
+		attachParams(),
 		MenuId{system().optionRtcEmulation.value()},
 		rtcItem,
 		{
@@ -81,7 +101,10 @@ class ConsoleOptionView : public TableView, public MainAppHelper
 			{
 				if(idx == 0)
 				{
-					t.resetString(rtcIsEnabled() ? "On" : "Off");
+					t.resetString(rtcIsEnabled()
+						? UI_TEXT("On")
+						: UI_TEXT("Off")
+					);
 					return true;
 				}
 				return false;
@@ -96,18 +119,40 @@ class ConsoleOptionView : public TableView, public MainAppHelper
 
 	TextMenuItem saveTypeItem[7]
 	{
-		{"Auto",            attachParams(), {.id = packSaveTypeOverride(GBA_SAVE_AUTO)}},
-		{"EEPROM",          attachParams(), {.id = packSaveTypeOverride(GBA_SAVE_EEPROM)}},
-		{"SRAM",            attachParams(), {.id = packSaveTypeOverride(GBA_SAVE_SRAM)}},
-		{"Flash (64K)",     attachParams(), {.id = packSaveTypeOverride(GBA_SAVE_FLASH, SIZE_FLASH512)}},
-		{"Flash (128K)",    attachParams(), {.id = packSaveTypeOverride(GBA_SAVE_FLASH, SIZE_FLASH1M)}},
-		{"EEPROM + Sensor", attachParams(), {.id = packSaveTypeOverride(GBA_SAVE_EEPROM_SENSOR)}},
-		{"None",            attachParams(), {.id = packSaveTypeOverride(GBA_SAVE_NONE)}},
+		{
+			UI_TEXT("Auto"),
+			attachParams(), {.id = packSaveTypeOverride(GBA_SAVE_AUTO)}
+		},
+		{
+			UI_TEXT("EEPROM"),
+			attachParams(), {.id = packSaveTypeOverride(GBA_SAVE_EEPROM)}
+		},
+		{
+			UI_TEXT("SRAM"),
+			attachParams(), {.id = packSaveTypeOverride(GBA_SAVE_SRAM)}
+		},
+		{
+			UI_TEXT("Flash (64K)"),
+			attachParams(), {.id = packSaveTypeOverride(GBA_SAVE_FLASH, SIZE_FLASH512)}
+		},
+		{
+			UI_TEXT("Flash (128K)"),
+			attachParams(), {.id = packSaveTypeOverride(GBA_SAVE_FLASH, SIZE_FLASH1M)}
+		},
+		{
+			UI_TEXT("EEPROM + Sensor"),
+			attachParams(), {.id = packSaveTypeOverride(GBA_SAVE_EEPROM_SENSOR)}
+		},
+		{
+			UI_TEXT("None"),
+			attachParams(), {.id = packSaveTypeOverride(GBA_SAVE_NONE)}
+		},
 	};
 
 	MultiChoiceMenuItem saveType
 	{
-		"Save Type", attachParams(),
+		UI_TEXT("Save Type"),
+		attachParams(),
 		MenuId{system().optionSaveTypeOverride},
 		saveTypeItem,
 		{
@@ -132,7 +177,8 @@ class ConsoleOptionView : public TableView, public MainAppHelper
 				};
 				if(saveMemoryHasContent())
 				{
-					pushAndShowModal(makeView<YesNoAlertView>("Really change save type? Existing data in .sav file may be lost so please make a backup before proceeding.",
+					pushAndShowModal(makeView<YesNoAlertView>(
+						UI_TEXT("Really change save type? Existing data in .sav file may be lost so please make a backup before proceeding."),
 						YesNoAlertView::Delegates
 						{
 							.onYes = [this, optVal = item.id](const Input::Event &e)
@@ -154,16 +200,32 @@ class ConsoleOptionView : public TableView, public MainAppHelper
 	#ifdef IG_CONFIG_SENSORS
 	TextMenuItem hardwareSensorItem[5]
 	{
-		{"Auto",          attachParams(), {.id = GbaSensorType::Auto}},
-		{"None",          attachParams(), {.id = GbaSensorType::None}},
-		{"Accelerometer", attachParams(), {.id = GbaSensorType::Accelerometer}},
-		{"Gyroscope",     attachParams(), {.id = GbaSensorType::Gyroscope}},
-		{"Light",         attachParams(), {.id = GbaSensorType::Light}},
+		{
+			UI_TEXT("Auto"),
+			attachParams(), {.id = GbaSensorType::Auto}
+		},
+		{
+			UI_TEXT("None"),
+			attachParams(), {.id = GbaSensorType::None}
+		},
+		{
+			UI_TEXT("Accelerometer"),
+			attachParams(), {.id = GbaSensorType::Accelerometer}
+		},
+		{
+			UI_TEXT("Gyroscope"),
+			attachParams(), {.id = GbaSensorType::Gyroscope}
+		},
+		{
+			UI_TEXT("Light"),
+			attachParams(), {.id = GbaSensorType::Light}
+		},
 	};
 
 	MultiChoiceMenuItem hardwareSensor
 	{
-		"Hardware Sensor", attachParams(),
+		UI_TEXT("Hardware Sensor"),
+		attachParams(),
 		MenuId{system().sensorType},
 		hardwareSensorItem,
 		{
@@ -198,7 +260,7 @@ public:
 	ConsoleOptionView(ViewAttachParams attach):
 		TableView
 		{
-			"Console Options",
+			UI_TEXT("Console Options"),
 			attach,
 			menuItem
 		} {}
@@ -208,7 +270,8 @@ class CustomSystemActionsView : public SystemActionsView
 {
 	TextMenuItem options
 	{
-		"Console Options", attachParams(),
+		UI_TEXT("Console Options"),
+		attachParams(),
 		[this](TextMenuItem &, View &, Input::Event e)
 		{
 			if(system().hasContent())
@@ -231,7 +294,11 @@ class CustomAudioOptionView : public AudioOptionView, public MainAppHelper
 	using MainAppHelper::system;
 	using MainAppHelper::app;
 
-	TextHeadingMenuItem mixer{"Mixer", attachParams()};
+	TextHeadingMenuItem mixer
+	{
+		UI_TEXT("Mixer"),
+		attachParams()
+	};
 
 	using VolumeChoiceItemArr = std::array<TextMenuItem, 3>;
 
@@ -241,22 +308,27 @@ class CustomAudioOptionView : public AudioOptionView, public MainAppHelper
 		{
 			TextMenuItem
 			{
-				"Default", attachParams(),
+				UI_TEXT("Default"),
+				attachParams(),
 				[this, gbVol]() { soundSetVolume(gGba, 1.f, gbVol); },
 				{.id = 100}
 			},
 			TextMenuItem
 			{
-				"Off", attachParams(),
+				UI_TEXT("Off"),
+				attachParams(),
 				[this, gbVol]() { soundSetVolume(gGba, 0, gbVol); },
 				{.id = 0}
 			},
 			TextMenuItem
 			{
-				"Custom Value", attachParams(),
+				UI_TEXT("Custom Value"),
+				attachParams(),
 				[this, gbVol](Input::Event e)
 				{
-					pushAndShowNewCollectValueRangeInputView<int, 0, 100>(attachParams(), e, "Input 0 to 100", "",
+					pushAndShowNewCollectValueRangeInputView<int, 0, 100>(attachParams(), e,
+						UI_TEXT("Input 0 to 100"),
+						"",
 						[this, gbVol](CollectTextInputView&, auto val)
 						{
 							soundSetVolume(gGba, val / 100.f, gbVol);
@@ -281,13 +353,18 @@ class CustomAudioOptionView : public AudioOptionView, public MainAppHelper
 	{
 		return
 		{
-			gbVol ? "GB APU Volume" : "PCM Volume", attachParams(),
+			gbVol
+				? UI_TEXT("GB APU Volume")
+				: UI_TEXT("PCM Volume"),
+			attachParams(),
 			MenuId{soundVolumeAsInt(gGba, gbVol)},
 			volumeLevelItem[gbVol ? 1 : 0],
 			{
 				.onSetDisplayString = [this, gbVol](auto idx, Gfx::Text &t)
 				{
-					t.resetString(std::format("{}%", soundVolumeAsInt(gGba, gbVol)));
+					t.resetString(std::format(
+						UI_TEXT("{}%"),
+						soundVolumeAsInt(gGba, gbVol)));
 					return true;
 				}
 			},
@@ -315,28 +392,44 @@ class CustomAudioOptionView : public AudioOptionView, public MainAppHelper
 
 	std::array<BoolMenuItem, 6> channelEnable
 	{
-		channelEnableItem("PCM #1", 0x100),
-		channelEnableItem("PCM #2", 0x200),
-		channelEnableItem("Pulse #1", 0x1),
-		channelEnableItem("Pulse #2", 0x2),
-		channelEnableItem("Wave", 0x4),
-		channelEnableItem("Noise", 0x8),
+		channelEnableItem(
+			UI_TEXT("PCM #1"),
+			0x100),
+		channelEnableItem(
+			UI_TEXT("PCM #2"),
+			0x200),
+		channelEnableItem(
+			UI_TEXT("Pulse #1"),
+			0x1),
+		channelEnableItem(
+			UI_TEXT("Pulse #2"),
+			0x2),
+		channelEnableItem(
+			UI_TEXT("Wave"),
+			0x4),
+		channelEnableItem(
+			UI_TEXT("Noise"),
+			0x8),
 	};
 
 	std::array<TextMenuItem, 2> filteringLevelItem
 	{
 		TextMenuItem
 		{
-			"Default", attachParams(),
+			UI_TEXT("Default"),
+			attachParams(),
 			[this]() { soundSetFiltering(gGba, .5f); },
 			{.id = 50}
 		},
 		TextMenuItem
 		{
-			"Custom Value", attachParams(),
+			UI_TEXT("Custom Value"),
+			attachParams(),
 			[this](Input::Event e)
 			{
-				pushAndShowNewCollectValueRangeInputView<int, 0, 100>(attachParams(), e, "Input 0 to 100", "",
+				pushAndShowNewCollectValueRangeInputView<int, 0, 100>(attachParams(), e,
+					UI_TEXT("Input 0 to 100"),
+					"",
 					[this](CollectTextInputView&, auto val)
 					{
 						soundSetFiltering(gGba, val / 100.f);
@@ -351,13 +444,16 @@ class CustomAudioOptionView : public AudioOptionView, public MainAppHelper
 
 	MultiChoiceMenuItem filteringLevel
 	{
-		"Filtering Level", attachParams(),
+		UI_TEXT("Filtering Level"),
+		attachParams(),
 		MenuId{soundFilteringAsInt(gGba)},
 		filteringLevelItem,
 		{
 			.onSetDisplayString = [this](auto idx, Gfx::Text &t)
 			{
-				t.resetString(std::format("{}%", soundFilteringAsInt(gGba)));
+				t.resetString(std::format(
+					UI_TEXT("{}%"),
+					soundFilteringAsInt(gGba)));
 				return true;
 			}
 		},
@@ -365,7 +461,8 @@ class CustomAudioOptionView : public AudioOptionView, public MainAppHelper
 
 	BoolMenuItem filtering
 	{
-		"Filtering", attachParams(),
+		UI_TEXT("Filtering"),
+		attachParams(),
 		soundGetInterpolation(gGba),
 		[this](BoolMenuItem &item)
 		{
@@ -398,7 +495,8 @@ class CustomSystemOptionView : public SystemOptionView, public MainAppHelper
 
 	BoolMenuItem bios
 	{
-		"Default Use BIOS", attachParams(),
+		UI_TEXT("Default Use BIOS"),
+		attachParams(),
 		system().defaultUseBios,
 		[this](BoolMenuItem &item)
 		{
@@ -409,14 +507,29 @@ class CustomSystemOptionView : public SystemOptionView, public MainAppHelper
 	#ifdef IG_CONFIG_SENSORS
 	TextMenuItem lightSensorScaleItem[5]
 	{
-		{"Darkness",      attachParams(), {.id = 0}},
-		{"Indoor Light",  attachParams(), {.id = 100}},
-		{"Overcast Day",  attachParams(), {.id = 1000}},
-		{"Sunny Day",     attachParams(), {.id = 10000}},
-		{"Custom Value",  attachParams(),
+		{
+			UI_TEXT("Darkness"),
+			attachParams(), {.id = 0}
+		},
+		{
+			UI_TEXT("Indoor Light"),
+			attachParams(), {.id = 100}},
+		{
+			UI_TEXT("Overcast Day"),
+			attachParams(), {.id = 1000}
+		},
+		{
+			UI_TEXT("Sunny Day"),
+			attachParams(), {.id = 10000}
+		},
+		{
+			UI_TEXT("Custom Value"),
+			attachParams(),
 			[this](Input::Event e)
 			{
-				pushAndShowNewCollectValueRangeInputView<int, 0, 50000>(attachParams(), e, "Input 0 to 50000", "",
+				pushAndShowNewCollectValueRangeInputView<int, 0, 50000>(attachParams(), e,
+					UI_TEXT("Input 0 to 50000"),
+					"",
 					[this](CollectTextInputView&, auto val)
 					{
 						system().lightSensorScaleLux = val;
@@ -431,13 +544,16 @@ class CustomSystemOptionView : public SystemOptionView, public MainAppHelper
 
 	MultiChoiceMenuItem lightSensorScale
 	{
-		"Light Sensor Scale", attachParams(),
+		UI_TEXT("Light Sensor Scale"),
+		attachParams(),
 		MenuId{system().lightSensorScaleLux},
 		lightSensorScaleItem,
 		{
 			.onSetDisplayString = [this](auto idx, Gfx::Text &t)
 			{
-				t.resetString(std::format("{} lux", (int)system().lightSensorScaleLux));
+				t.resetString(std::format(
+					UI_TEXT("{} lux"),
+					(int)system().lightSensorScaleLux));
 				return true;
 			},
 			.defaultItemOnSelect = [this](TextMenuItem &item)
@@ -469,7 +585,9 @@ class CustomFilePathOptionView : public FilePathOptionView, public MainAppHelper
 		cheatsMenuName(appContext(), system().cheatsDir), attachParams(),
 		[this](const Input::Event &e)
 		{
-			pushAndShow(makeViewWithName<UserPathSelectView>("Cheats", system().userPath(system().cheatsDir),
+			pushAndShow(makeViewWithName<UserPathSelectView>(
+				UI_TEXT("Cheats"),
+				system().userPath(system().cheatsDir),
 				[this](CStringView path)
 				{
 					logMsg("set cheats path:%s", path.data());
@@ -484,7 +602,9 @@ class CustomFilePathOptionView : public FilePathOptionView, public MainAppHelper
 		patchesMenuName(appContext(), system().patchesDir), attachParams(),
 		[this](const Input::Event &e)
 		{
-			pushAndShow(makeViewWithName<UserPathSelectView>("Patches", system().userPath(system().patchesDir),
+			pushAndShow(makeViewWithName<UserPathSelectView>(
+				UI_TEXT("Patches"),
+				system().userPath(system().patchesDir),
 				[this](CStringView path)
 				{
 					logMsg("set patches path:%s", path.data());
@@ -499,7 +619,8 @@ class CustomFilePathOptionView : public FilePathOptionView, public MainAppHelper
 		biosMenuEntryStr(system().biosPath), attachParams(),
 		[this](Input::Event e)
 		{
-			pushAndShow(makeViewWithName<DataFileSelectView<>>("BIOS",
+			pushAndShow(makeViewWithName<DataFileSelectView<>>(
+				UI_TEXT("BIOS"),
 				app().validSearchPath(FS::dirnameUri(system().biosPath)),
 				[this](CStringView path, FS::file_type type)
 				{
@@ -513,7 +634,9 @@ class CustomFilePathOptionView : public FilePathOptionView, public MainAppHelper
 
 	std::string biosMenuEntryStr(std::string_view path) const
 	{
-		return std::format("BIOS: {}", appContext().fileUriDisplayName(path));
+		return std::format(
+			UI_TEXT("BIOS: {}"),
+			appContext().fileUriDisplayName(path));
 	}
 
 	static bool hasBiosExtension(std::string_view name)

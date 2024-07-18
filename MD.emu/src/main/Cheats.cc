@@ -630,8 +630,7 @@ EmuEditCheatListView::EmuEditCheatListView(ViewAttachParams attach):
 							);
 							return true;
 						}
-						c.name =
-							UI_TEXT("新建的金手指");
+						c.name = UNNAMED_CHEAT;
 						cheatList.push_back(c);
 						logMsg("added new cheat, %zu total", cheatList.size());
 						updateCheats();

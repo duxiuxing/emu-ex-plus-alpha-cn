@@ -141,7 +141,7 @@ void readCheatFile(EmuSystem &sys_)
 EmuEditCheatView::EmuEditCheatView(ViewAttachParams attach, GbcCheat &cheat_, RefreshCheatsDelegate onCheatListChanged_):
 	BaseEditCheatView
 	{
-		"Edit Code",
+		UI_TEXT("Edit Code"),
 		attach,
 		cheat_.name,
 		items,
@@ -159,18 +159,21 @@ EmuEditCheatView::EmuEditCheatView(ViewAttachParams attach, GbcCheat &cheat_, Re
 	items{&name, &ggCode, &remove},
 	ggCode
 	{
-		"Code",
+		UI_TEXT("Code"),
 		cheat_.code,
 		attach,
 		[this](DualTextMenuItem &item, View &, Input::Event e)
 		{
 			pushAndShowNewCollectValueInputView<const char*>(attachParams(), e,
-				"Input xxxxxxxx (GS) or xxx-xxx-xxx (GG) code", cheat->code,
+				UI_TEXT("Input xxxxxxxx (GS) or xxx-xxx-xxx (GG) code"),
+				cheat->code,
 				[this](CollectTextInputView&, auto str)
 				{
 					if(!strIsGGCode(str) && !strIsGSCode(str))
 					{
-						app().postMessage(true, "Invalid format");
+						app().postMessage(true,
+							UI_TEXT("Invalid format")
+						);
 						postDraw();
 						return false;
 					}
@@ -224,32 +227,39 @@ EmuEditCheatListView::EmuEditCheatListView(ViewAttachParams attach):
 		[this](TextMenuItem &item, View &, Input::Event e)
 		{
 			pushAndShowNewCollectTextInputView(attachParams(), e,
-				"Input xxxxxxxx (GS) or xxx-xxx-xxx (GG) code", "",
+				UI_TEXT("Input xxxxxxxx (GS) or xxx-xxx-xxx (GG) code"),
+				"",
 				[this](CollectTextInputView &view, const char *str)
 				{
 					if(str)
 					{
 						if(cheatList.isFull())
 						{
-							app().postMessage(true, "Cheat list is full");
+							app().postMessage(true,
+								UI_TEXT("Cheat list is full")
+							);
 							view.dismiss();
 							return false;
 						}
 						if(!strIsGGCode(str) && !strIsGSCode(str))
 						{
-							app().postMessage(true, "Invalid format");
+							app().postMessage(true,
+								UI_TEXT("Invalid format")
+							);
 							return true;
 						}
 						GbcCheat c;
 						c.code = IG::toUpperCase<decltype(c.code)>(str);
-						c.name = "Unnamed Cheat";
+						c.name = UNNAMED_CHEAT;
 						cheatList.push_back(c);
 						logMsg("added new cheat, %zu total", cheatList.size());
 						static_cast<GbcSystem&>(system()).applyCheats();
 						onCheatListChanged();
 						writeCheatFile(system());
 						view.dismiss();
-						pushAndShowNewCollectTextInputView(attachParams(), {}, "Input description", "",
+						pushAndShowNewCollectTextInputView(attachParams(), {},
+							UI_TEXT("Input description"),
+							"",
 							[this](CollectTextInputView &view, const char *str)
 							{
 								if(str)

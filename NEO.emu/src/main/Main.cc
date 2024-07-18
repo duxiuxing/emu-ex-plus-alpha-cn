@@ -92,7 +92,8 @@ namespace EmuEx
 {
 
 constexpr SystemLogger log{"NEO.emu"};
-const char *EmuSystem::creditsViewStr = CREDITS_INFO_STRING "(c) 2012-2024\nRobert Broglia\nwww.explusalpha.com\n\nPortions (c) the\nGngeo Team\ncode.google.com/p/gngeo";
+const char *EmuSystem::creditsViewStr =
+	UI_TEXT(CREDITS_INFO_STRING "(c) 2012-2024\nRobert Broglia\nwww.explusalpha.com\n\nPortions (c) the\nGngeo Team\ncode.google.com/p/gngeo");
 bool EmuSystem::handlesGenericIO = false; // TODO: need to re-factor GnGeo file loading code
 bool EmuSystem::canRenderRGBA8888 = false;
 bool EmuSystem::hasRectangularPixels = true;
@@ -122,12 +123,12 @@ NeoSystem::NeoSystem(ApplicationContext ctx):
 
 const char *EmuSystem::shortSystemName() const
 {
-	return "NeoGeo";
+	return UI_TEXT("NeoGeo");
 }
 
 const char *EmuSystem::systemName() const
 {
-	return "Neo Geo";
+	return UI_TEXT("Neo Geo");
 }
 
 static bool hasNeoGeoExtension(std::string_view name)
@@ -171,7 +172,9 @@ void NeoSystem::readState(EmuApp &app, std::span<uint8_t> buff)
 	}
 	MapIO buffIO{buff};
 	if(!openState(buffIO, STREAD))
-		throw std::runtime_error("Invalid state data");
+		throw std::runtime_error(
+			UI_TEXT("Invalid state data")
+		);
 	makeState(buffIO, STREAD);
 
 	/* Restore them */
@@ -284,7 +287,9 @@ void NeoSystem::loadContent(IO &, EmuSystemCreateParams, OnLoadProgressDelegate 
 	ROM_DEF *drv = res_load_drv(&ctx, contentName().data());
 	if(!drv)
 	{
-		throw std::runtime_error("This game isn't recognized");
+		throw std::runtime_error(
+			UI_TEXT("This game isn't recognized")
+		);
 	}
 	auto freeDrv = IG::scopeGuard([&](){ free(drv); });
 	log.info("rom set {}, {}", drv->name, drv->longname);
@@ -489,8 +494,14 @@ void gn_init_pbar(unsigned action, int size)
 			{
 				default:
 				case PBAR_ACTION_LOADROM: { return ""; } // defaults to "Loading..."
-				case PBAR_ACTION_DECRYPT: { return "Decrypting..."; }
-				case PBAR_ACTION_SAVEGNO: { return "Building Cache...\n(may take a while)"; };
+				case PBAR_ACTION_DECRYPT:
+					{
+						return UI_TEXT("Decrypting...");
+					}
+				case PBAR_ACTION_SAVEGNO:
+					{
+						return UI_TEXT("Building Cache...\n(may take a while)");
+					};
 			}
 		};
 		sys.onLoadProgress(0, size, actionString(action));
