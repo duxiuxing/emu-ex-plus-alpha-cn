@@ -42,7 +42,8 @@ namespace EmuEx
 {
 
 constexpr SystemLogger log{"GBA.emu"};
-const char *EmuSystem::creditsViewStr = CREDITS_INFO_STRING "(c) 2012-2024\nRobert Broglia\nwww.explusalpha.com\n\nPortions (c) the\nVBA-m Team\nvba-m.com";
+const char *EmuSystem::creditsViewStr =
+	UI_TEXT(CREDITS_INFO_STRING "(c) 2012-2024\nRobert Broglia\nwww.explusalpha.com\n\nPortions (c) the\nVBA-m Team\nvba-m.com");
 bool EmuSystem::hasBundledGames = true;
 bool EmuSystem::hasCheats = true;
 bool EmuApp::needsGlobalInstance = true;
@@ -61,7 +62,10 @@ const BundledGameInfo &EmuSystem::bundledGameInfo(int idx) const
 {
 	static const BundledGameInfo info[]
 	{
-		{"Motocross Challenge", "Motocross Challenge.7z"}
+		{
+			UI_TEXT("Motocross Challenge"),
+			UI_TEXT("Motocross Challenge.7z")
+		}
 	};
 
 	return info[0];
@@ -69,12 +73,12 @@ const BundledGameInfo &EmuSystem::bundledGameInfo(int idx) const
 
 const char *EmuSystem::shortSystemName() const
 {
-	return "GBA";
+	return UI_TEXT("GBA");
 }
 
 const char *EmuSystem::systemName() const
 {
-	return "Game Boy Advance";
+	return UI_TEXT("Game Boy Advance");
 }
 
 void GbaSystem::reset(EmuApp &, ResetMode mode)
@@ -85,7 +89,9 @@ void GbaSystem::reset(EmuApp &, ResetMode mode)
 
 FS::FileString GbaSystem::stateFilename(int slot, std::string_view name) const
 {
-	return IG::format<FS::FileString>("{}{}.sgm", name, saveSlotChar(slot));
+	return IG::format<FS::FileString>(
+		UI_TEXT("{}{}.sgm"),
+		name, saveSlotChar(slot));
 }
 
 void GbaSystem::readState(EmuApp &app, std::span<uint8_t> buff)
@@ -97,7 +103,9 @@ void GbaSystem::readState(EmuApp &app, std::span<uint8_t> buff)
 		buff = uncompArr;
 	}
 	if(!CPUReadState(gGba, buff.data()))
-		throw std::runtime_error("Invalid state data");
+		throw std::runtime_error(
+			UI_TEXT("Invalid state data")
+		);
 }
 
 size_t GbaSystem::writeState(std::span<uint8_t> buff, SaveStateFlags flags)
@@ -173,7 +181,9 @@ void GbaSystem::applyGamePatches(uint8_t *rom, int &romSize)
 		log.info("applying IPS patch:{}", userFilePath(patchesDir, ".ips"));
 		if(!patchApplyIPS(f, &rom, &romSize))
 		{
-			throw std::runtime_error(std::format("Error applying IPS patch in:\n{}", patchesDir));
+			throw std::runtime_error(std::format(
+				UI_TEXT("Error applying IPS patch in:\n{}"),
+				patchesDir));
 		}
 	}
 	else if(auto f = IG::FileUtils::fopenUri(ctx, userFilePath(patchesDir, ".ups"), "rb");
@@ -182,7 +192,9 @@ void GbaSystem::applyGamePatches(uint8_t *rom, int &romSize)
 		log.info("applying UPS patch:{}", userFilePath(patchesDir, ".ups"));
 		if(!patchApplyUPS(f, &rom, &romSize))
 		{
-			throw std::runtime_error(std::format("Error applying UPS patch in:\n{}", patchesDir));
+			throw std::runtime_error(std::format(
+				UI_TEXT("Error applying UPS patch in:\n{}"),
+				patchesDir));
 		}
 	}
 	else if(auto f = IG::FileUtils::fopenUri(ctx, userFilePath(patchesDir, ".ppf"), "rb");
@@ -191,7 +203,9 @@ void GbaSystem::applyGamePatches(uint8_t *rom, int &romSize)
 		log.info("applying UPS patch:{}", userFilePath(patchesDir, ".ppf"));
 		if(!patchApplyPPF(f, &rom, &romSize))
 		{
-			throw std::runtime_error(std::format("Error applying PPF patch in:\n{}", patchesDir));
+			throw std::runtime_error(std::format(
+				UI_TEXT("Error applying PPF patch in:\n{}"),
+				patchesDir));
 		}
 	}
 }
@@ -210,7 +224,9 @@ void GbaSystem::loadContent(IO &io, EmuSystemCreateParams, OnLoadProgressDelegat
 	{
 		biosRom = appContext().openFileUri(biosPath, {.accessHint = IOAccessHint::All}).buffer(IOBufferMode::Release);
 		if(biosRom.size() != 0x4000)
-			throw std::runtime_error("BIOS size should be 16KB");
+			throw std::runtime_error(
+				UI_TEXT("BIOS size should be 16KB")
+			);
 	}
 	CPUInit(gGba, biosRom);
 	CPUReset(gGba);

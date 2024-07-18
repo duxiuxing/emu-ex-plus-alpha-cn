@@ -32,7 +32,10 @@ std::span<const AspectRatioInfo> GbaSystem::aspectRatioInfos()
 {
 	static constexpr AspectRatioInfo aspectRatioInfo[]
 	{
-		{"3:2 (Original)", {3, 2}},
+		{
+			UI_TEXT("3:2 (Original)"),
+			{3, 2}
+		},
 		EMU_SYSTEM_DEFAULT_ASPECT_RATIO_INFO_INIT
 	};
 	return aspectRatioInfo;
