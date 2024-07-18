@@ -31,7 +31,8 @@ namespace EmuEx
 {
 
 constexpr SystemLogger log{"GBC.emu"};
-const char *EmuSystem::creditsViewStr = CREDITS_INFO_STRING "(c) 2011-2024\nRobert Broglia\nwww.explusalpha.com\n\n\nPortions (c) the\nGambatte Team\ngambatte.sourceforge.net";
+const char *EmuSystem::creditsViewStr =
+	UI_TEXT(CREDITS_INFO_STRING "(c) 2011-2024\nRobert Broglia\nwww.explusalpha.com\n\n\nPortions (c) the\nGambatte Team\ngambatte.sourceforge.net");
 bool EmuSystem::hasCheats = true;
 constexpr WSize lcdSize{gambatte::lcd_hres, gambatte::lcd_vres};
 
@@ -46,12 +47,12 @@ GbcApp::GbcApp(ApplicationInitParams initParams, ApplicationContext &ctx):
 
 const char *EmuSystem::shortSystemName() const
 {
-	return "GB";
+	return UI_TEXT("GB");
 }
 
 const char *EmuSystem::systemName() const
 {
-	return "Game Boy";
+	return UI_TEXT("Game Boy");
 }
 
 uint_least32_t GbcSystem::makeOutputColor(uint_least32_t rgb888) const
@@ -90,14 +91,18 @@ void GbcSystem::reset(EmuApp &app, ResetMode mode)
 
 FS::FileString GbcSystem::stateFilename(int slot, std::string_view name) const
 {
-	return IG::format<FS::FileString>("{}.0{}.gqs", name, saveSlotCharUpper(slot));
+	return IG::format<FS::FileString>(
+		UI_TEXT("{}.0{}.gqs"),
+		name, saveSlotCharUpper(slot));
 }
 
 void GbcSystem::readState(EmuApp &app, std::span<uint8_t> buff)
 {
 	IStream<MapIO> stream{buff};
 	if(!gbEmu.loadState(stream))
-		throw std::runtime_error("Invalid state data");
+		throw std::runtime_error(
+			UI_TEXT("Invalid state data")
+		);
 }
 
 size_t GbcSystem::writeState(std::span<uint8_t> buff, SaveStateFlags flags)
