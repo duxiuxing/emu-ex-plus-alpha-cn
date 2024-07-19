@@ -41,7 +41,8 @@ class CustomAudioOptionView : public AudioOptionView, public MainAppHelper
 
 	MultiChoiceMenuItem resampler
 	{
-		"Resampler", attachParams(),
+		UI_TEXT("Resampler"),
+		attachParams(),
 		system().optionAudioResampler.value(),
 		resamplerItem
 	};
@@ -82,31 +83,72 @@ class CustomVideoOptionView : public VideoOptionView, public MainAppHelper
 
 	TextMenuItem gbPaletteItem[13]
 	{
-		{"Original",   attachParams(), setGbPaletteDel(), {.id = 0}},
-		{"Brown",      attachParams(), setGbPaletteDel(), {.id = 1}},
-		{"Red",        attachParams(), setGbPaletteDel(), {.id = 2}},
-		{"Dark Brown", attachParams(), setGbPaletteDel(), {.id = 3}},
-		{"Pastel",     attachParams(), setGbPaletteDel(), {.id = 4}},
-		{"Orange",     attachParams(), setGbPaletteDel(), {.id = 5}},
-		{"Yellow",     attachParams(), setGbPaletteDel(), {.id = 6}},
-		{"Blue",       attachParams(), setGbPaletteDel(), {.id = 7}},
-		{"Dark Blue",  attachParams(), setGbPaletteDel(), {.id = 8}},
-		{"Gray",       attachParams(), setGbPaletteDel(), {.id = 9}},
-		{"Green",      attachParams(), setGbPaletteDel(), {.id = 10}},
-		{"Dark Green", attachParams(), setGbPaletteDel(), {.id = 11}},
-		{"Reverse",    attachParams(), setGbPaletteDel(), {.id = 12}},
+		{
+			UI_TEXT("Original"),
+			attachParams(), setGbPaletteDel(), {.id = 0}
+		},
+		{
+			UI_TEXT("Brown"),
+			attachParams(), setGbPaletteDel(), {.id = 1}
+		},
+		{
+			UI_TEXT("Red"),
+			attachParams(), setGbPaletteDel(), {.id = 2}
+		},
+		{
+			UI_TEXT("Dark Brown"),
+			attachParams(), setGbPaletteDel(), {.id = 3}
+		},
+		{
+			UI_TEXT("Pastel"),
+			attachParams(), setGbPaletteDel(), {.id = 4}
+		},
+		{
+			UI_TEXT("Orange"),
+			attachParams(), setGbPaletteDel(), {.id = 5}
+		},
+		{
+			UI_TEXT("Yellow"),
+			attachParams(), setGbPaletteDel(), {.id = 6}
+		},
+		{
+			UI_TEXT("Blue"),
+			attachParams(), setGbPaletteDel(), {.id = 7}
+		},
+		{
+			UI_TEXT("Dark Blue"),
+			attachParams(), setGbPaletteDel(), {.id = 8}
+		},
+		{
+			UI_TEXT("Gray"),
+			attachParams(), setGbPaletteDel(), {.id = 9}
+		},
+		{
+			UI_TEXT("Green"),
+			attachParams(), setGbPaletteDel(), {.id = 10}
+		},
+		{
+			UI_TEXT("Dark Green"),
+			attachParams(), setGbPaletteDel(), {.id = 11}
+		},
+		{
+			UI_TEXT("Reverse"),
+			attachParams(), setGbPaletteDel(), {.id = 12}
+		},
 	};
 
 	MultiChoiceMenuItem gbPalette
 	{
-		"GB Palette", attachParams(),
+		UI_TEXT("GB Palette"),
+		attachParams(),
 		MenuId{system().optionGBPal},
 		gbPaletteItem
 	};
 
 	BoolMenuItem fullSaturation
 	{
-		"Saturated GBC Colors", attachParams(),
+		UI_TEXT("Saturated GBC Colors"),
+		attachParams(),
 		(bool)system().optionFullGbcSaturation,
 		[this](BoolMenuItem &item, View &, Input::Event e)
 		{
@@ -132,7 +174,8 @@ class ConsoleOptionView : public TableView, public MainAppHelper
 {
 	BoolMenuItem useBuiltinGBPalette
 	{
-		"Use Built-in GB Palettes", attachParams(),
+		UI_TEXT("Use Built-in GB Palettes"),
+		attachParams(),
 		(bool)system().optionUseBuiltinGBPalette,
 		[this](BoolMenuItem &item, View &, Input::Event e)
 		{
@@ -144,7 +187,8 @@ class ConsoleOptionView : public TableView, public MainAppHelper
 
 	BoolMenuItem reportAsGba
 	{
-		"Report Hardware as GBA", attachParams(),
+		UI_TEXT("Report Hardware as GBA"),
+		attachParams(),
 		system().optionReportAsGba,
 		[this](BoolMenuItem &item, View &, Input::Event e)
 		{
@@ -164,7 +208,7 @@ public:
 	ConsoleOptionView(ViewAttachParams attach):
 		TableView
 		{
-			"Console Options",
+			UI_TEXT("Console Options"),
 			attach,
 			menuItem
 		}
@@ -175,7 +219,8 @@ class CustomSystemActionsView : public SystemActionsView
 {
 	TextMenuItem options
 	{
-		"Console Options", attachParams(),
+		UI_TEXT("Console Options"),
+		attachParams(),
 		[this](TextMenuItem &, View &, Input::Event e)
 		{
 			if(system().hasContent())
@@ -202,7 +247,9 @@ class CustomFilePathOptionView : public FilePathOptionView, public MainAppHelper
 		cheatsMenuName(appContext(), system().cheatsDir), attachParams(),
 		[this](const Input::Event &e)
 		{
-			pushAndShow(makeViewWithName<UserPathSelectView>("Cheats", system().userPath(system().cheatsDir),
+			pushAndShow(makeViewWithName<UserPathSelectView>(
+				UI_TEXT("Cheats"),
+				system().userPath(system().cheatsDir),
 				[this](CStringView path)
 				{
 					logMsg("set cheats path:%s", path.data());

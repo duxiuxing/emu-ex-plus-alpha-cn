@@ -227,7 +227,7 @@ GUIOptionView::GUIOptionView(ViewAttachParams attach, bool customMenu):
 		attach,
 		app().systemActionsIsDefaultMenu,
 		UI_TEXT("最后使用"),
-		UI_TEXT("游戏菜单"),
+		EmuApp::ViewName::SYSTEM_ACTIONS,
 		[this](BoolMenuItem &item)
 		{
 			app().systemActionsIsDefaultMenu = item.flipBoolValue(*this);

@@ -152,6 +152,12 @@ public:
 		LIST_CHEATS,
 	};
 
+	class ViewName
+	{
+	public:
+		static const char* SYSTEM_ACTIONS;
+	};
+
 	// Static app configuration
 	static bool hasIcon;
 	static bool needsGlobalInstance;

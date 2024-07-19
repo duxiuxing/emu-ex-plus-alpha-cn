@@ -66,7 +66,9 @@ std::span<const KeyCategory> GbcApp::keyCategories()
 {
 	static constexpr KeyCategory categories[]
 	{
-		{"Gamepad", gpKeyInfo},
+		{
+			UI_TEXT("Gamepad"),
+			gpKeyInfo},
 	};
 	return categories;
 }
@@ -75,14 +77,22 @@ std::string_view GbcApp::systemKeyCodeToString(KeyCode c)
 {
 	switch(GbcKey(c))
 	{
-		case GbcKey::Up: return "Up";
-		case GbcKey::Right: return "Right";
-		case GbcKey::Down: return "Down";
-		case GbcKey::Left: return "Left";
-		case GbcKey::Select: return "Select";
-		case GbcKey::Start: return "Start";
-		case GbcKey::A: return "A";
-		case GbcKey::B: return "B";
+		case GbcKey::Up:
+			return UI_TEXT("Up");
+		case GbcKey::Right:
+			return UI_TEXT("Right");
+		case GbcKey::Down:
+			return UI_TEXT("Down");
+		case GbcKey::Left:
+			return UI_TEXT("Left");
+		case GbcKey::Select:
+			return UI_TEXT("Select");
+		case GbcKey::Start:
+			return UI_TEXT("Start");
+		case GbcKey::A:
+			return UI_TEXT("A");
+		case GbcKey::B:
+			return UI_TEXT("B");
 		default: return "";
 	}
 }
@@ -188,11 +198,31 @@ SystemInputDeviceDesc GbcSystem::inputDeviceDesc(int idx) const
 {
 	static constexpr std::array gamepadComponents
 	{
-		InputComponentDesc{"D-Pad", dpadKeyInfo, InputComponent::dPad, LB2DO},
-		InputComponentDesc{"Face Buttons", faceKeyInfo, InputComponent::button, RB2DO},
-		InputComponentDesc{"Select", {&centerKeyInfo[0], 1}, InputComponent::button, LB2DO},
-		InputComponentDesc{"Start", {&centerKeyInfo[1], 1}, InputComponent::button, RB2DO},
-		InputComponentDesc{"Select/Start", centerKeyInfo, InputComponent::button, CB2DO, {.altConfig = true}},
+		InputComponentDesc
+		{
+			UI_TEXT("D-Pad"),
+			dpadKeyInfo, InputComponent::dPad, LB2DO
+		},
+		InputComponentDesc
+		{
+			UI_TEXT("Face Buttons"),
+			faceKeyInfo, InputComponent::button, RB2DO
+		},
+		InputComponentDesc
+		{
+			UI_TEXT("Select"),
+			{&centerKeyInfo[0], 1}, InputComponent::button, LB2DO
+		},
+		InputComponentDesc
+		{
+			UI_TEXT("Start"),
+			{&centerKeyInfo[1], 1}, InputComponent::button, RB2DO
+		},
+		InputComponentDesc
+		{
+			UI_TEXT("Select/Start"),
+			centerKeyInfo, InputComponent::button, CB2DO, {.altConfig = true}
+		},
 	};
 
 	static constexpr SystemInputDeviceDesc gamepadDesc{"Gamepad", gamepadComponents};

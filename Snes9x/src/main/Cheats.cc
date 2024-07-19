@@ -435,9 +435,7 @@ EmuEditCheatListView::EmuEditCheatListView(ViewAttachParams attach):
 							return true;
 						}
 						auto idx = numCheats() - 1;
-						setCheatName(idx,
-							UI_TEXT("新建的金手指")
-						);
+						setCheatName(idx, UNNAMED_CHEAT);
 						logMsg("added new cheat, %d total", numCheats());
 						onCheatListChanged();
 						writeCheatsFile(system());
