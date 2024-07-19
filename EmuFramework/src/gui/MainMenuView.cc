@@ -80,7 +80,7 @@ MainMenuView::MainMenuView(ViewAttachParams attach, bool customMenu):
 	},
 	systemActions
 	{
-		UI_TEXT("游戏菜单"),
+		EmuApp::ViewName::SYSTEM_ACTIONS,
 		attach,
 		[this](const Input::Event &e)
 		{
