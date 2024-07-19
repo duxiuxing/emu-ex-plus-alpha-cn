@@ -55,7 +55,7 @@ static std::string saveAutosaveName(EmuApp &app)
 SystemActionsView::SystemActionsView(ViewAttachParams attach, bool customMenu):
 	TableView
 	{
-		UI_TEXT("System Actions"),
+		EmuApp::ViewName::SYSTEM_ACTIONS,
 		attach, item
 	},
 	cheats

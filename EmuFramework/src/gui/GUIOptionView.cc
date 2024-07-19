@@ -227,7 +227,7 @@ GUIOptionView::GUIOptionView(ViewAttachParams attach, bool customMenu):
 		attach,
 		app().systemActionsIsDefaultMenu,
 		UI_TEXT("Last Used"),
-		UI_TEXT("System Actions"),
+		EmuApp::ViewName::SYSTEM_ACTIONS,
 		[this](BoolMenuItem &item)
 		{
 			app().systemActionsIsDefaultMenu = item.flipBoolValue(*this);
