@@ -76,8 +76,16 @@ std::span<const KeyCategory> NeoApp::keyCategories()
 {
 	static constexpr std::array categories
 	{
-		KeyCategory{"Gamepad", gpKeyInfo},
-		KeyCategory{"Gamepad 2", gp2KeyInfo, 1},
+		KeyCategory
+		{
+			UI_TEXT("Gamepad"),
+			gpKeyInfo
+		},
+		KeyCategory
+		{
+			UI_TEXT("Gamepad 2"),
+			gp2KeyInfo, 1
+		},
 	};
 	return categories;
 }
@@ -86,17 +94,28 @@ std::string_view NeoApp::systemKeyCodeToString(KeyCode c)
 {
 	switch(NeoKey(c))
 	{
-		case NeoKey::Up: return "Up";
-		case NeoKey::Right: return "Right";
-		case NeoKey::Down: return "Down";
-		case NeoKey::Left: return "Left";
-		case NeoKey::Select: return "Select";
-		case NeoKey::Start: return "Start";
-		case NeoKey::TestSwitch: return "Test Switch";
-		case NeoKey::A: return "A";
-		case NeoKey::B: return "B";
-		case NeoKey::C: return "C";
-		case NeoKey::D: return "D";
+		case NeoKey::Up:
+			return UI_TEXT("Up");
+		case NeoKey::Right:
+			return UI_TEXT("Right");
+		case NeoKey::Down:
+			return UI_TEXT("Down");
+		case NeoKey::Left:
+			return UI_TEXT("Left");
+		case NeoKey::Select:
+			return UI_TEXT("Select");
+		case NeoKey::Start:
+			return UI_TEXT("Start");
+		case NeoKey::TestSwitch:
+			return UI_TEXT("Test Switch");
+		case NeoKey::A:
+			return UI_TEXT("A");
+		case NeoKey::B:
+			return UI_TEXT("B");
+		case NeoKey::C:
+			return UI_TEXT("C");
+		case NeoKey::D:
+			return UI_TEXT("D");
 		default: return "";
 	}
 }
@@ -261,14 +280,38 @@ SystemInputDeviceDesc NeoSystem::inputDeviceDesc(int idx) const
 {
 	static constexpr std::array gamepadComponents
 	{
-		InputComponentDesc{"D-Pad", dpadKeyInfo, InputComponent::dPad, LB2DO},
-		InputComponentDesc{"Face Buttons", faceKeyInfo, InputComponent::button, RB2DO, {.staggeredLayout = true}},
-		InputComponentDesc{"Select", {&centerKeyInfo[0], 1}, InputComponent::button, LB2DO},
-		InputComponentDesc{"Start", {&centerKeyInfo[1], 1}, InputComponent::button, RB2DO},
-		InputComponentDesc{"Select/Start", centerKeyInfo, InputComponent::button, CB2DO, {.altConfig = true}},
+		InputComponentDesc
+		{
+			UI_TEXT("D-Pad"),
+			dpadKeyInfo, InputComponent::dPad, LB2DO
+		},
+		InputComponentDesc
+		{
+			UI_TEXT("Face Buttons"),
+			faceKeyInfo, InputComponent::button, RB2DO, {.staggeredLayout = true}
+		},
+		InputComponentDesc
+		{
+			UI_TEXT("Select"),
+			{&centerKeyInfo[0], 1}, InputComponent::button, LB2DO
+		},
+		InputComponentDesc
+		{
+			UI_TEXT("Start"),
+			{&centerKeyInfo[1], 1}, InputComponent::button, RB2DO
+		},
+		InputComponentDesc
+		{
+			UI_TEXT("Select/Start"),
+			centerKeyInfo, InputComponent::button, CB2DO, {.altConfig = true}
+		},
 	};
 
-	static constexpr SystemInputDeviceDesc gamepadDesc{"Gamepad", gamepadComponents};
+	static constexpr SystemInputDeviceDesc gamepadDesc
+	{
+		UI_TEXT("Gamepad"),
+		gamepadComponents
+	};
 
 	return gamepadDesc;
 }

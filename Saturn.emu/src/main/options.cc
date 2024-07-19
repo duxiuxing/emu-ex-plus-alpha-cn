@@ -31,7 +31,10 @@ std::span<const AspectRatioInfo> SaturnSystem::aspectRatioInfos()
 {
 	static constexpr AspectRatioInfo aspectRatioInfo[]
 	{
-		{"4:3 (Original)", {4, 3}},
+		{
+			UI_TEXT("4:3 (Original)"),
+			{4, 3}
+		},
 		EMU_SYSTEM_DEFAULT_ASPECT_RATIO_INFO_INIT
 	};
 	return aspectRatioInfo;
@@ -259,25 +262,33 @@ std::string MDFN_MakeFName(MakeFName_Type type, int id1, const char *cd1)
 			if(biosName == "kof95")
 			{
 				if(sys.kof95ROMPath.empty())
-					throw MDFN_Error(0, _("Please set KoF '95 ROM in Options➔File Paths"));
+					throw MDFN_Error(0,
+						_(UI_TEXT("Please set KoF '95 ROM in Options➔File Paths"))
+					);
 				return std::string{sys.kof95ROMPath};
 			}
 			else if(biosName == "ultraman")
 			{
 				if(sys.ultramanROMPath.empty())
-					throw MDFN_Error(0, _("Please set Ultraman ROM in Options➔File Paths"));
+					throw MDFN_Error(0,
+						_(UI_TEXT("Please set Ultraman ROM in Options➔File Paths"))
+					);
 				return std::string{sys.ultramanROMPath};
 			}
 			else if(biosName == "na")
 			{
 				if(sys.naBiosPath.empty())
-					throw MDFN_Error(0, _("Please set NA/EU BIOS in Options➔File Paths"));
+					throw MDFN_Error(0,
+						_(UI_TEXT("Please set NA/EU BIOS in Options➔File Paths"))
+					);
 				return std::string{sys.naBiosPath};
 			}
 			else
 			{
 				if(sys.jpBiosPath.empty())
-					throw MDFN_Error(0, _("Please set JP BIOS in Options➔File Paths"));
+					throw MDFN_Error(0,
+						_(UI_TEXT("Please set JP BIOS in Options➔File Paths"))
+					);
 				return std::string{sys.jpBiosPath};
 			}
 		}

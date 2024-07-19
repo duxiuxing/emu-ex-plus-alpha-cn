@@ -144,14 +144,22 @@ const char *saveTypeStr(int type, int size)
 {
 	switch(type)
 	{
-		case GBA_SAVE_AUTO: return "Auto";
-		case GBA_SAVE_EEPROM: return "EEPROM";
-		case GBA_SAVE_SRAM: return "SRAM";
-		case GBA_SAVE_FLASH: return size == SIZE_FLASH1M ? "Flash (128K)" : "Flash (64K)";
-		case GBA_SAVE_EEPROM_SENSOR: return "EEPROM + Sensor";
-		case GBA_SAVE_NONE: return "None";
+		case GBA_SAVE_AUTO:
+			return UI_TEXT("Auto");
+		case GBA_SAVE_EEPROM:
+			return UI_TEXT("EEPROM");
+		case GBA_SAVE_SRAM:
+			return UI_TEXT("SRAM");
+		case GBA_SAVE_FLASH:
+			return size == SIZE_FLASH1M
+				? UI_TEXT("Flash (128K)")
+				: UI_TEXT("Flash (64K)");
+		case GBA_SAVE_EEPROM_SENSOR:
+			return UI_TEXT("EEPROM + Sensor");
+		case GBA_SAVE_NONE:
+			return UI_TEXT("None");
 	}
-	return "Unknown";
+	return UI_TEXT("Unknown");
 }
 
 bool saveMemoryHasContent()
@@ -443,23 +451,42 @@ void cheatsReadGame(const uint8_t*& data)
 
 const char *dispModeName(GBALCD::RenderLineFunc renderLine)
 {
-	if (renderLine == mode0RenderLine) return "0";
-	else if (renderLine == mode0RenderLineNoWindow) return "0NW";
-	else if (renderLine == mode0RenderLineAll) return "0A";
-	else if (renderLine == mode1RenderLine) return "1";
-	else if (renderLine == mode1RenderLineNoWindow) return "1NW";
-	else if (renderLine == mode1RenderLineAll) return "1A";
-	else if (renderLine == mode2RenderLine) return "2";
-	else if (renderLine == mode2RenderLineNoWindow) return "2NW";
-	else if (renderLine == mode2RenderLineAll) return "2A";
-	else if (renderLine == mode3RenderLine) return "3";
-	else if (renderLine == mode3RenderLineNoWindow) return "3NW";
-	else if (renderLine == mode3RenderLineAll) return "3A";
-	else if (renderLine == mode4RenderLine) return "4";
-	else if (renderLine == mode4RenderLineNoWindow) return "4NW";
-	else if (renderLine == mode4RenderLineAll) return "4A";
-	else if (renderLine == mode5RenderLine) return "5";
-	else if (renderLine == mode5RenderLineNoWindow) return "5NW";
-	else if (renderLine == mode5RenderLineAll) return "5A";
-	else return "Invalid";
+	if (renderLine == mode0RenderLine)
+		return UI_TEXT("0");
+	else if (renderLine == mode0RenderLineNoWindow)
+		return UI_TEXT("0NW");
+	else if (renderLine == mode0RenderLineAll)
+		return UI_TEXT("0A");
+	else if (renderLine == mode1RenderLine)
+		return UI_TEXT("1");
+	else if (renderLine == mode1RenderLineNoWindow)
+		return UI_TEXT("1NW");
+	else if (renderLine == mode1RenderLineAll)
+		return UI_TEXT("1A");
+	else if (renderLine == mode2RenderLine)
+		return UI_TEXT("2");
+	else if (renderLine == mode2RenderLineNoWindow)
+		return UI_TEXT("2NW");
+	else if (renderLine == mode2RenderLineAll)
+		return UI_TEXT("2A");
+	else if (renderLine == mode3RenderLine)
+		return UI_TEXT("3");
+	else if (renderLine == mode3RenderLineNoWindow)
+		return UI_TEXT("3NW");
+	else if (renderLine == mode3RenderLineAll)
+		return UI_TEXT("3A");
+	else if (renderLine == mode4RenderLine)
+		return UI_TEXT("4");
+	else if (renderLine == mode4RenderLineNoWindow)
+		return UI_TEXT("4NW");
+	else if (renderLine == mode4RenderLineAll)
+		return UI_TEXT("4A");
+	else if (renderLine == mode5RenderLine)
+		return UI_TEXT("5");
+	else if (renderLine == mode5RenderLineNoWindow)
+		return UI_TEXT("5NW");
+	else if (renderLine == mode5RenderLineAll)
+		return UI_TEXT("5A");
+	else
+		return UI_TEXT("Invalid");
 }
