@@ -60,6 +60,8 @@ constexpr SystemLogger log{"App"};
 static EmuApp *gAppPtr{};
 [[gnu::weak]] bool EmuApp::hasIcon = true;
 [[gnu::weak]] bool EmuApp::needsGlobalInstance = false;
+const char *EmuApp::ViewName::SYSTEM_ACTIONS =
+	UI_TEXT("游戏菜单");
 constexpr float pausedVideoBrightnessScale = .75f;
 
 constexpr AssetDesc assetDesc[wise_enum::size<AssetID>]

@@ -118,18 +118,66 @@ std::span<const KeyCategory> SaturnApp::keyCategories()
 {
 	static constexpr std::array categories
 	{
-		KeyCategory{"Gamepad",    gpKeyInfo},
-		KeyCategory{"Gamepad 2",  gp2KeyInfo, 1},
-		KeyCategory{"Gamepad 3",  gp3KeyInfo, 2},
-		KeyCategory{"Gamepad 4",  gp4KeyInfo, 3},
-		KeyCategory{"Gamepad 5",  gp5KeyInfo, 4},
-		KeyCategory{"Gamepad 6",  gp6KeyInfo, 5},
-		KeyCategory{"Gamepad 7",  gp7KeyInfo, 6},
-		KeyCategory{"Gamepad 8",  gp8KeyInfo, 7},
-		KeyCategory{"Gamepad 9",  gp9KeyInfo, 8},
-		KeyCategory{"Gamepad 10", gp10KeyInfo, 9},
-		KeyCategory{"Gamepad 11", gp11KeyInfo, 10},
-		KeyCategory{"Gamepad 12", gp12KeyInfo, 11},
+		KeyCategory
+		{
+			UI_TEXT("Gamepad"),
+			gpKeyInfo
+		},
+		KeyCategory
+		{
+			UI_TEXT("Gamepad 2"),
+			gp2KeyInfo, 1
+		},
+		KeyCategory
+		{
+			UI_TEXT("Gamepad 3"),
+			gp3KeyInfo, 2
+		},
+		KeyCategory
+		{
+			UI_TEXT("Gamepad 4"),
+			gp4KeyInfo, 3
+		},
+		KeyCategory
+		{
+			UI_TEXT("Gamepad 5"),
+			gp5KeyInfo, 4
+		},
+		KeyCategory
+		{
+			UI_TEXT("Gamepad 6"),
+			gp6KeyInfo, 5
+		},
+		KeyCategory
+		{
+			UI_TEXT("Gamepad 7"),
+			gp7KeyInfo, 6
+		},
+		KeyCategory
+		{
+			UI_TEXT("Gamepad 8"),
+			gp8KeyInfo, 7
+		},
+		KeyCategory
+		{
+			UI_TEXT("Gamepad 9"),
+			gp9KeyInfo, 8
+		},
+		KeyCategory
+		{
+			UI_TEXT("Gamepad 10"),
+			gp10KeyInfo, 9
+		},
+		KeyCategory
+		{
+			UI_TEXT("Gamepad 11"),
+			gp11KeyInfo, 10
+		},
+		KeyCategory
+		{
+			UI_TEXT("Gamepad 12"),
+			gp12KeyInfo, 11
+		},
 	};
 	return categories;
 }
@@ -138,19 +186,32 @@ std::string_view SaturnApp::systemKeyCodeToString(KeyCode c)
 {
 	switch(SaturnKey(c))
 	{
-		case SaturnKey::Up: return "Up";
-		case SaturnKey::Right: return "Right";
-		case SaturnKey::Down: return "Down";
-		case SaturnKey::Left: return "Left";
-		case SaturnKey::Start: return "Start";
-		case SaturnKey::A: return "A";
-		case SaturnKey::B: return "B";
-		case SaturnKey::C: return "C";
-		case SaturnKey::X: return "X";
-		case SaturnKey::Y: return "Y";
-		case SaturnKey::Z: return "Z";
-		case SaturnKey::L: return "L";
-		case SaturnKey::R: return "R";
+		case SaturnKey::Up:
+			return UI_TEXT("Up");
+		case SaturnKey::Right:
+			return UI_TEXT("Right");
+		case SaturnKey::Down:
+			return UI_TEXT("Down");
+		case SaturnKey::Left:
+			return UI_TEXT("Left");
+		case SaturnKey::Start:
+			return UI_TEXT("Start");
+		case SaturnKey::A:
+			return UI_TEXT("A");
+		case SaturnKey::B:
+			return UI_TEXT("B");
+		case SaturnKey::C:
+			return UI_TEXT("C");
+		case SaturnKey::X:
+			return UI_TEXT("X");
+		case SaturnKey::Y:
+			return UI_TEXT("Y");
+		case SaturnKey::Z:
+			return UI_TEXT("Z");
+		case SaturnKey::L:
+			return UI_TEXT("L");
+		case SaturnKey::R:
+			return UI_TEXT("R");
 		default: return "";
 	}
 }
@@ -305,15 +366,43 @@ SystemInputDeviceDesc SaturnSystem::inputDeviceDesc(int idx) const
 {
 	static constexpr std::array gamepadComponents
 	{
-		InputComponentDesc{"D-Pad", dpadKeyInfo, InputComponent::dPad, LB2DO},
-		InputComponentDesc{"Face Buttons", faceKeyInfo, InputComponent::button, RB2DO},
-		InputComponentDesc{"Face Buttons + Inline L/R", faceLRKeyInfo, InputComponent::button, RB2DO, {.altConfig = true}},
-		InputComponentDesc{"L", lKeyInfo, InputComponent::trigger, LB2DO},
-		InputComponentDesc{"R", rKeyInfo, InputComponent::trigger, RB2DO},
-		InputComponentDesc{"Start", centerKeyInfo, InputComponent::button, RB2DO},
+		InputComponentDesc
+		{
+			UI_TEXT("D-Pad"),
+			dpadKeyInfo, InputComponent::dPad, LB2DO
+		},
+		InputComponentDesc
+		{
+			UI_TEXT("Face Buttons"),
+			faceKeyInfo, InputComponent::button, RB2DO
+		},
+		InputComponentDesc
+		{
+			UI_TEXT("Face Buttons + Inline L/R"),
+			faceLRKeyInfo, InputComponent::button, RB2DO, {.altConfig = true}
+		},
+		InputComponentDesc
+		{
+			UI_TEXT("L"),
+			lKeyInfo, InputComponent::trigger, LB2DO
+		},
+		InputComponentDesc
+		{
+			UI_TEXT("R"),
+			rKeyInfo, InputComponent::trigger, RB2DO
+		},
+		InputComponentDesc
+		{
+			UI_TEXT("Start"),
+			centerKeyInfo, InputComponent::button, RB2DO
+		},
 	};
 
-	static constexpr SystemInputDeviceDesc gamepadDesc{"Gamepad", gamepadComponents};
+	static constexpr SystemInputDeviceDesc gamepadDesc
+	{
+		UI_TEXT("Gamepad"),
+		gamepadComponents
+	};
 
 	return gamepadDesc;
 }
@@ -323,16 +412,26 @@ static const char *toString(InputDeviceType dev)
 	using enum InputDeviceType;
 	switch(dev)
 	{
-		case none: return "none";
-		case gamepad: return "gamepad";
-		case multipad: return "3dpad";
-		case mouse: return "mouse";
-		case wheel: return "wheel";
-		case mission: return "mission";
-		case dmission: return "dmission";
-		case gun: return "gun";
-		case keyboard: return "keyboard";
-		case jpkeyboard: return "jpkeyboard";
+		case none:
+			return UI_TEXT("none");
+		case gamepad:
+			return UI_TEXT("gamepad");
+		case multipad:
+			return UI_TEXT("3dpad");
+		case mouse:
+			return UI_TEXT("mouse");
+		case wheel:
+			return UI_TEXT("wheel");
+		case mission:
+			return UI_TEXT("mission");
+		case dmission:
+			return UI_TEXT("dmission");
+		case gun:
+			return UI_TEXT("gun");
+		case keyboard:
+			return UI_TEXT("keyboard");
+		case jpkeyboard:
+			return UI_TEXT("jpkeyboard");
 	}
 	std::unreachable();
 }

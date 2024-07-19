@@ -381,9 +381,7 @@ EmuEditCheatListView::EmuEditCheatListView(ViewAttachParams attach):
 								);
 								return true;
 							}
-							if (!FCEUI_AddCheat(
-								UI_TEXT("新建的金手指"),
-								a, v, c, 1))
+							if(!FCEUI_AddCheat(UNNAMED_CHEAT, a, v, c, 1))
 							{
 								app().postMessage(true,
 									UI_TEXT("添加金手指时出错")

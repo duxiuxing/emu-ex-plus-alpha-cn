@@ -48,7 +48,8 @@ namespace EmuEx
 {
 
 constexpr SystemLogger log{"Saturnemu"};
-const char *EmuSystem::creditsViewStr = CREDITS_INFO_STRING "(c) 2011-2024\nRobert Broglia\nwww.explusalpha.com\n\nPortions (c) the\nMednafen Team\nmednafen.github.io";
+const char *EmuSystem::creditsViewStr =
+	UI_TEXT(CREDITS_INFO_STRING "(c) 2011-2024\nRobert Broglia\nwww.explusalpha.com\n\nPortions (c) the\nMednafen Team\nmednafen.github.io");
 bool EmuSystem::handlesArchiveFiles = true;
 bool EmuSystem::hasResetModes = true;
 bool EmuSystem::hasRectangularPixels = true;
@@ -72,12 +73,12 @@ static bool hasCDExtension(std::string_view name)
 
 const char *EmuSystem::shortSystemName() const
 {
-	return "Saturn";
+	return UI_TEXT("Saturn");
 }
 
 const char *EmuSystem::systemName() const
 {
-	return "Sega Saturn";
+	return UI_TEXT("Sega Saturn");
 }
 
 EmuSystem::NameFilterFunc EmuSystem::defaultFsFilter = hasCDExtension;
@@ -96,7 +97,9 @@ void SaturnSystem::loadCartNV(EmuApp &app, FileIO &io)
 	if(!io)
 		io = app.appContext().openFileUri(app.contentSaveFilePath(fullExt), OpenFlags::testCreateFile());
 	if(!io)
-		throw std::runtime_error(std::format("Error opening {}, please verify save path has write access", contentNameExt(fullExt)));
+		throw std::runtime_error(std::format(
+			UI_TEXT("Error opening {}, please verify save path has write access"),
+			contentNameExt(fullExt)));
 	auto buff = io.buffer();
 	if(!hasGzipHeader(buff))
 	{
@@ -105,7 +108,9 @@ void SaturnSystem::loadCartNV(EmuApp &app, FileIO &io)
 	}
 	auto outputSize = uncompressGzip({static_cast<uint8*>(nv_ptr), size_t(nv_size)}, buff);
 	if(!outputSize)
-		throw std::runtime_error("Error uncompressing cart memory");
+		throw std::runtime_error(
+			UI_TEXT("Error uncompressing cart memory")
+		);
 	if(nv16)
 	{
 		for(uint64 i = 0; i < nv_size; i += 2)
@@ -262,7 +267,9 @@ void SaturnSystem::loadContent(IO &io, EmuSystemCreateParams, OnLoadProgressDele
 	{
 		auto cdImgFile = scanCDImages(ArchiveIO{std::move(io)});
 		if(!cdImgFile)
-			throw std::runtime_error("No recognized file extensions in archive");
+			throw std::runtime_error(
+				UI_TEXT("No recognized file extensions in archive")
+			);
 		contentFileName_ = cdImgFile.name();
 		std::vector<std::string> filenames;
 		if(endsWithAnyCaseless(cdImgFile.name(), ".m3u"))
@@ -305,7 +312,9 @@ void SaturnSystem::loadContent(IO &io, EmuSystemCreateParams, OnLoadProgressDele
 		}
 	}
 	if(!CDInterfaces.size())
-		throw std::runtime_error("No disc images found");
+		throw std::runtime_error(
+			UI_TEXT("No disc images found")
+		);
 	writeCDMD5(mdfnGameInfo, CDInterfaces);
 	mdfnGameInfo.LoadCD(&CDInterfaces);
 	MDFN_IEN_SS::CDB_SetDisc(false, CDInterfaces[0]);

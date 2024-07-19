@@ -302,7 +302,7 @@ void EmuViewController::updateExtraWindowViewport(IG::Window &win, IG::Viewport 
 
 void EmuViewController::popToSystemActionsMenu()
 {
-	viewStack.popTo(viewStack.viewIdx("System Actions"));
+	viewStack.popTo(viewStack.viewIdx(EmuApp::ViewName::SYSTEM_ACTIONS));
 }
 
 void EmuViewController::postDrawToEmuWindows()
@@ -426,7 +426,7 @@ void EmuViewController::setShowNavViewBackButton(bool show)
 void EmuViewController::showSystemActionsView(ViewAttachParams attach, const Input::Event &e)
 {
 	app().showUI();
-	if(!viewStack.contains("System Actions"))
+	if(!viewStack.contains(EmuApp::ViewName::SYSTEM_ACTIONS))
 	{
 		viewStack.pushAndShow(app().makeView(attach, EmuApp::ViewID::SYSTEM_ACTIONS), e);
 	}
@@ -446,7 +446,7 @@ void EmuViewController::onSystemCreated()
 void EmuViewController::onSystemClosed()
 {
 	viewStack.navView()->showRightBtn(false);
-	if(int idx = viewStack.viewIdx("System Actions");
+	if(int idx = viewStack.viewIdx(EmuApp::ViewName::SYSTEM_ACTIONS);
 		idx > 0)
 	{
 		// pop to menu below System Actions
