@@ -27,6 +27,9 @@ namespace EmuEx
 using namespace IG;
 using RefreshCheatsDelegate = DelegateFunc<void ()>;
 
+static const char *UNNAMED_CHEAT =
+	UI_TEXT("新建的金手指");
+
 class BaseCheatsView : public TableView, public EmuAppHelper
 {
 public:

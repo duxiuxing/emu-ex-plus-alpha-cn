@@ -34,15 +34,25 @@ namespace EmuEx
 
 using MainAppHelper = EmuAppHelperBase<MainApp>;
 
-constexpr std::string_view pceFastText{"pce_fast (Default for general use)"};
-constexpr std::string_view pceText{"pce (Better accuracy, higher power usage)"};
-constexpr std::string_view changeEmuCoreText{"Really change emulation core? Note that save states from different cores aren't compatible."};
+constexpr std::string_view pceFastText
+{
+	UI_TEXT("pce_fast (Default for general use)")
+};
+constexpr std::string_view pceText
+{
+	UI_TEXT("pce (Better accuracy, higher power usage)")
+};
+constexpr std::string_view changeEmuCoreText
+{
+	UI_TEXT("Really change emulation core? Note that save states from different cores aren't compatible.")
+};
 
 class ConsoleOptionView : public TableView, public MainAppHelper
 {
 	BoolMenuItem sixButtonPad
 	{
-		"6-button Gamepad", attachParams(),
+		UI_TEXT("6-button Gamepad"),
+		attachParams(),
 		(bool)system().option6BtnPad,
 		[this](BoolMenuItem &item, const Input::Event &e)
 		{
@@ -54,7 +64,8 @@ class ConsoleOptionView : public TableView, public MainAppHelper
 
 	BoolMenuItem arcadeCard
 	{
-		"Arcade Card", attachParams(),
+		UI_TEXT("Arcade Card"),
+		attachParams(),
 		(bool)system().optionArcadeCard,
 		[this](BoolMenuItem &item, const Input::Event &e)
 		{
@@ -64,20 +75,41 @@ class ConsoleOptionView : public TableView, public MainAppHelper
 		}
 	};
 
-	TextHeadingMenuItem videoHeading{"Video", attachParams()};
+	TextHeadingMenuItem videoHeading
+	{
+		UI_TEXT("Video"),
+		attachParams()
+	
+	};
 
 	TextMenuItem visibleVideoLinesItem[5]
 	{
-		{"11+224", attachParams(), setVisibleVideoLinesDel(11, 234)},
-		{"18+224", attachParams(), setVisibleVideoLinesDel(18, 241)},
-		{"4+232",  attachParams(), setVisibleVideoLinesDel(4, 235)},
-		{"3+239",  attachParams(), setVisibleVideoLinesDel(3, 241)},
-		{"0+242",  attachParams(), setVisibleVideoLinesDel(0, 241)},
+		{
+			UI_TEXT("11+224"),
+			attachParams(), setVisibleVideoLinesDel(11, 234)
+		},
+		{
+			UI_TEXT("18+224"),
+			attachParams(), setVisibleVideoLinesDel(18, 241)
+		},
+		{
+			UI_TEXT("4+232"),
+			attachParams(), setVisibleVideoLinesDel(4, 235)
+		},
+		{
+			UI_TEXT("3+239"),
+			attachParams(), setVisibleVideoLinesDel(3, 241)
+		},
+		{
+			UI_TEXT("0+242"),
+			attachParams(), setVisibleVideoLinesDel(0, 241)
+		},
 	};
 
 	MultiChoiceMenuItem visibleVideoLines
 	{
-		"Visible Lines", attachParams(),
+		UI_TEXT("Visible Lines"),
+		attachParams(),
 		[this]()
 		{
 			switch(system().visibleLines.first)
@@ -99,14 +131,18 @@ class ConsoleOptionView : public TableView, public MainAppHelper
 
 	TextMenuItem emuCoreItems[3]
 	{
-		{"Auto",      attachParams(), setEmuCoreDel(), {.id = EmuCore::Auto}},
+		{
+			UI_TEXT("Auto"),
+			attachParams(), setEmuCoreDel(), {.id = EmuCore::Auto}
+		},
 		{pceFastText, attachParams(), setEmuCoreDel(), {.id = EmuCore::Fast}},
 		{pceText,     attachParams(), setEmuCoreDel(), {.id = EmuCore::Accurate}},
 	};
 
 	MultiChoiceMenuItem emuCore
 	{
-		"Emulation Core", attachParams(),
+		UI_TEXT("Emulation Core"),
+		attachParams(),
 		MenuId{system().core},
 		emuCoreItems,
 		{
@@ -154,7 +190,7 @@ public:
 	ConsoleOptionView(ViewAttachParams attach):
 		TableView
 		{
-			"Console Options",
+			UI_TEXT("Console Options"),
 			attach,
 			menuItem
 		}
@@ -166,7 +202,8 @@ class CustomSystemActionsView : public SystemActionsView
 private:
 	TextMenuItem options
 	{
-		"Console Options", attachParams(),
+		UI_TEXT("Console Options"),
+		attachParams(),
 		[this](Input::Event e) { pushAndShow(makeView<ConsoleOptionView>(), e); }
 	};
 
@@ -188,7 +225,8 @@ class CustomFilePathOptionView : public FilePathOptionView, public MainAppHelper
 		biosMenuEntryStr(system().sysCardPath), attachParams(),
 		[this](Input::Event e)
 		{
-			pushAndShow(makeViewWithName<DataFileSelectView<>>("System Card",
+			pushAndShow(makeViewWithName<DataFileSelectView<>>(
+				UI_TEXT("System Card"),
 				app().validSearchPath(FS::dirnameUri(system().sysCardPath)),
 				[this](CStringView path, FS::file_type type)
 				{
@@ -202,7 +240,9 @@ class CustomFilePathOptionView : public FilePathOptionView, public MainAppHelper
 
 	std::string biosMenuEntryStr(std::string_view path) const
 	{
-		return std::format("System Card: {}", appContext().fileUriDisplayName(path));
+		return std::format(
+			UI_TEXT("System Card: {}"),
+			appContext().fileUriDisplayName(path));
 	}
 
 public:
@@ -220,23 +260,40 @@ class CustomVideoOptionView : public VideoOptionView, public MainAppHelper
 
 	BoolMenuItem spriteLimit
 	{
-		"Sprite Limit", attachParams(),
+		UI_TEXT("Sprite Limit"),
+		attachParams(),
 		!system().noSpriteLimit,
 		[this](BoolMenuItem &item) { system().setNoSpriteLimit(!item.flipBoolValue(*this)); }
 	};
 
 	TextMenuItem visibleVideoLinesItem[5]
 	{
-		{"11+224", attachParams(), setVisibleVideoLinesDel(11, 234)},
-		{"18+224", attachParams(), setVisibleVideoLinesDel(18, 241)},
-		{"4+232",  attachParams(), setVisibleVideoLinesDel(4, 235)},
-		{"3+239",  attachParams(), setVisibleVideoLinesDel(3, 241)},
-		{"0+242",  attachParams(), setVisibleVideoLinesDel(0, 241)},
+		{
+			UI_TEXT("11+224"),
+			attachParams(), setVisibleVideoLinesDel(11, 234)
+		},
+		{
+			UI_TEXT("18+224"),
+			attachParams(), setVisibleVideoLinesDel(18, 241)
+		},
+		{
+			UI_TEXT("4+232"),
+			attachParams(), setVisibleVideoLinesDel(4, 235)
+		},
+		{
+			UI_TEXT("3+239"),
+			attachParams(), setVisibleVideoLinesDel(3, 241)
+		},
+		{
+			UI_TEXT("0+242"),
+			attachParams(), setVisibleVideoLinesDel(0, 241)
+		},
 	};
 
 	MultiChoiceMenuItem visibleVideoLines
 	{
-		"Default Visible Lines", attachParams(),
+		UI_TEXT("Default Visible Lines"),
+		attachParams(),
 		[this]()
 		{
 			switch(system().defaultVisibleLines.first)
@@ -258,7 +315,8 @@ class CustomVideoOptionView : public VideoOptionView, public MainAppHelper
 
 	BoolMenuItem correctLineAspect
 	{
-		"Correct Line Aspect Ratio", attachParams(),
+		UI_TEXT("Correct Line Aspect Ratio"),
+		attachParams(),
 		system().correctLineAspect,
 		[this](BoolMenuItem &item)
 		{
@@ -284,15 +342,28 @@ class CustomSystemOptionView : public SystemOptionView, public MainAppHelper
 
 	TextMenuItem cdSpeedItem[5]
 	{
-		{"1x", attachParams(), setCdSpeedDel(), {.id = 1}},
-		{"2x", attachParams(), setCdSpeedDel(), {.id = 2}},
-		{"4x", attachParams(), setCdSpeedDel(), {.id = 4}},
-		{"8x", attachParams(), setCdSpeedDel(), {.id = 8}},
+		{
+			UI_TEXT("1x"),
+			attachParams(), setCdSpeedDel(), {.id = 1}
+		},
+		{			
+			UI_TEXT("2x"),
+			attachParams(), setCdSpeedDel(), {.id = 2}
+		},
+		{
+			UI_TEXT("4x"),
+			attachParams(), setCdSpeedDel(), {.id = 4}
+		},
+		{
+			UI_TEXT("8x"),
+			attachParams(), setCdSpeedDel(), {.id = 8}
+		},
 	};
 
 	MultiChoiceMenuItem cdSpeed
 	{
-		"CD Access Speed", attachParams(),
+		UI_TEXT("CD Access Speed"),
+		attachParams(),
 		MenuId{system().cdSpeed},
 		cdSpeedItem
 	};
@@ -304,14 +375,18 @@ class CustomSystemOptionView : public SystemOptionView, public MainAppHelper
 
 	TextMenuItem emuCoreItems[3]
 	{
-		{"Auto",      attachParams(), setEmuCoreDel(), {.id = EmuCore::Auto}},
+		{
+			UI_TEXT("Auto"),
+			attachParams(), setEmuCoreDel(), {.id = EmuCore::Auto}
+		},
 		{pceFastText, attachParams(), setEmuCoreDel(), {.id = EmuCore::Fast}},
 		{pceText,     attachParams(), setEmuCoreDel(), {.id = EmuCore::Accurate}},
 	};
 
 	MultiChoiceMenuItem emuCore
 	{
-		"Emulation Core", attachParams(),
+		UI_TEXT("Emulation Core"),
+		attachParams(),
 		MenuId{system().defaultCore},
 		emuCoreItems,
 		{
@@ -361,7 +436,11 @@ class CustomAudioOptionView : public AudioOptionView, public MainAppHelper
 	using MainAppHelper::system;
 	using MainAppHelper::app;
 
-	TextHeadingMenuItem mixer{"Mixer", attachParams()};
+	TextHeadingMenuItem mixer
+	{
+		UI_TEXT("Mixer"),
+		attachParams()
+	};
 
 	struct VolumeTypeDesc
 	{
@@ -373,8 +452,18 @@ class CustomAudioOptionView : public AudioOptionView, public MainAppHelper
 	{
 		switch(type)
 		{
-			case VolumeType::CDDA: return {"CD-DA Volume", 0};
-			case VolumeType::ADPCM: return {"ADPCM Volume", 1};
+			case VolumeType::CDDA:
+				return
+					{
+						UI_TEXT("CD-DA Volume"),
+						0
+					};
+			case VolumeType::ADPCM:
+				return
+					{
+						UI_TEXT("ADPCM Volume"),
+						1
+					};
 		}
 		bug_unreachable("invalid VolumeType");
 	}
@@ -387,22 +476,27 @@ class CustomAudioOptionView : public AudioOptionView, public MainAppHelper
 		{
 			TextMenuItem
 			{
-				"Default", attachParams(),
+				UI_TEXT("Default"),
+				attachParams(),
 				[=, this]() { system().setVolume(type, 100); },
 				{.id = 100}
 			},
 			TextMenuItem
 			{
-				"Off", attachParams(),
+				UI_TEXT("Off"),
+				attachParams(),
 				[=, this]() { system().setVolume(type, 0); },
 				{.id = 0}
 			},
 			TextMenuItem
 			{
-				"Custom Value", attachParams(),
+				UI_TEXT("Custom Value"),
+				attachParams(),
 				[=, this](Input::Event e)
 				{
-					pushAndShowNewCollectValueRangeInputView<int, 0, 200>(attachParams(), e, "Input 0 to 200", "",
+					pushAndShowNewCollectValueRangeInputView<int, 0, 200>(attachParams(), e,
+						UI_TEXT("Input 0 to 200"),
+						"",
 						[=, this](CollectTextInputView&, auto val)
 						{
 							system().setVolume(type, val);
@@ -432,7 +526,9 @@ class CustomAudioOptionView : public AudioOptionView, public MainAppHelper
 			{
 				.onSetDisplayString = [this, type](auto idx, Gfx::Text &t)
 				{
-					t.resetString(std::format("{}%", system().volume(type)));
+					t.resetString(std::format(
+						UI_TEXT("{}%"),
+						system().volume(type)));
 					return true;
 				}
 			},
@@ -447,7 +543,8 @@ class CustomAudioOptionView : public AudioOptionView, public MainAppHelper
 
 	BoolMenuItem adpcmFilter
 	{
-		"ADPCM Low-pass Filter", attachParams(),
+		UI_TEXT("ADPCM Low-pass Filter"),
+		attachParams(),
 		system().adpcmFilter,
 		[this](BoolMenuItem &item) { system().setAdpcmFilter(item.flipBoolValue(*this)); }
 	};
