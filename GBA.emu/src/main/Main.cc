@@ -43,7 +43,7 @@ namespace EmuEx
 
 constexpr SystemLogger log{"GBA.emu"};
 const char *EmuSystem::creditsViewStr =
-	UI_TEXT(CREDITS_INFO_STRING "(c) 2012-2024\nRobert Broglia\nwww.explusalpha.com\n\nPortions (c) the\nVBA-m Team\nvba-m.com");
+	UI_TEXT(CREDITS_INFO_STRING "(c) 2012-2024\nRobert Broglia\nwww.explusalpha.com\n\nPortions (c) the\nVBA-m Team\nvba-m.com\n\n翻译：R-Sam\nGitHub\nduxiuxing/emu-ex-plus-alpha-cn");
 bool EmuSystem::hasBundledGames = true;
 bool EmuSystem::hasCheats = true;
 bool EmuApp::needsGlobalInstance = true;
@@ -63,8 +63,8 @@ const BundledGameInfo &EmuSystem::bundledGameInfo(int idx) const
 	static const BundledGameInfo info[]
 	{
 		{
-			UI_TEXT("Motocross Challenge"),
-			UI_TEXT("Motocross Challenge.7z")
+			UI_TEXT("摩托车越野赛挑战"),
+			UI_TEXT("摩托车越野赛挑战.7z")
 		}
 	};
 
