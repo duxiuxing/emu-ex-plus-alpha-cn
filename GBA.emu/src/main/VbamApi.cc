@@ -145,7 +145,7 @@ const char *saveTypeStr(int type, int size)
 	switch(type)
 	{
 		case GBA_SAVE_AUTO:
-			return UI_TEXT("Auto");
+			return UI_TEXT("自动");
 		case GBA_SAVE_EEPROM:
 			return UI_TEXT("EEPROM");
 		case GBA_SAVE_SRAM:
@@ -157,9 +157,9 @@ const char *saveTypeStr(int type, int size)
 		case GBA_SAVE_EEPROM_SENSOR:
 			return UI_TEXT("EEPROM + Sensor");
 		case GBA_SAVE_NONE:
-			return UI_TEXT("None");
+			return UI_TEXT("无");
 	}
-	return UI_TEXT("Unknown");
+	return UI_TEXT("未知");
 }
 
 bool saveMemoryHasContent()
@@ -488,5 +488,5 @@ const char *dispModeName(GBALCD::RenderLineFunc renderLine)
 	else if (renderLine == mode5RenderLineAll)
 		return UI_TEXT("5A");
 	else
-		return UI_TEXT("Invalid");
+		return UI_TEXT("无效");
 }
