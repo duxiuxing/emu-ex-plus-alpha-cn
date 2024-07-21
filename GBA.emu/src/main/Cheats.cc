@@ -35,7 +35,7 @@ static void writeCheatFile(EmuSystem &);
 EmuEditCheatView::EmuEditCheatView(ViewAttachParams attach, int cheatIdx, RefreshCheatsDelegate onCheatListChanged_):
 	BaseEditCheatView
 	{
-		UI_TEXT("Edit Code"),
+		UI_TEXT("编辑金手指代码"),
 		attach,
 		cheatsList[cheatIdx].desc,
 		items,
@@ -52,13 +52,13 @@ EmuEditCheatView::EmuEditCheatView(ViewAttachParams attach, int cheatIdx, Refres
 	items{&name, &code, &remove},
 	code
 	{
-		UI_TEXT("Code"),
+		UI_TEXT("金手指代码"),
 		cheatsList[cheatIdx].codestring,
 		attach,
 		[this](DualTextMenuItem &, View &, Input::Event)
 		{
 			app().postMessage(
-				UI_TEXT("To change this cheat, please delete and re-add it")
+				UI_TEXT("要更改此代码，请删除并重新添加它")
 			);
 		}
 	},
@@ -96,14 +96,14 @@ void EmuEditCheatListView::addNewCheat(int isGSv3)
 	if(cheatsList.size() == cheatsList.capacity())
 	{
 		app().postMessage(true,
-			UI_TEXT("Too many cheats, delete some first")
+			UI_TEXT("已达个数上限，请先删除一些再添加")
 		);
 		return;
 	}
 	pushAndShowNewCollectTextInputView(attachParams(), {},
 		isGSv3
-			? UI_TEXT("Input xxxxxxxx yyyyyyyy")
-			: UI_TEXT("Input xxxxxxxx yyyyyyyy (GS) or xxxxxxxx yyyy (AR)"),
+			? UI_TEXT("请输入 xxxxxxxx yyyyyyyy")
+			: UI_TEXT("请输入 GS 码 (xxxxxxxx yyyyyyyy) 或 AR 码 (xxxxxxxx yyyy)"),
 		"",
 		[this, isGSv3](CollectTextInputView &view, const char *str)
 		{
@@ -125,7 +125,7 @@ void EmuEditCheatListView::addNewCheat(int isGSv3)
 				else
 				{
 					app().postMessage(true,
-						UI_TEXT("Invalid format")
+						UI_TEXT("无效的格式")
 					);
 					return true;
 				}
@@ -134,7 +134,7 @@ void EmuEditCheatListView::addNewCheat(int isGSv3)
 				writeCheatFile(system());
 				view.dismiss();
 				pushAndShowNewCollectTextInputView(attachParams(), {},
-					UI_TEXT("Input description"),
+					UI_TEXT("请输入描述说明"),
 					"",
 					[this](CollectTextInputView &view, const char *str)
 					{
@@ -183,7 +183,7 @@ EmuEditCheatListView::EmuEditCheatListView(ViewAttachParams attach):
 	},
 	addGS12CBCode
 	{
-		UI_TEXT("Add Game Shark v1-2/Code Breaker Code"),
+		UI_TEXT("添加 GS v1-2/CB 码"),
 		attach,
 		[this](TextMenuItem &item, View &, Input::Event e)
 		{
@@ -192,7 +192,7 @@ EmuEditCheatListView::EmuEditCheatListView(ViewAttachParams attach):
 	},
 	addGS3Code
 	{
-		UI_TEXT("Add Game Shark v3 Code"),
+		UI_TEXT("添加 GS v3 码"),
 		attach,
 		[this](TextMenuItem &item, View &, Input::Event e)
 		{

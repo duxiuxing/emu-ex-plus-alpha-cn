@@ -43,7 +43,7 @@ namespace EmuEx
 
 constexpr SystemLogger log{"GBA.emu"};
 const char *EmuSystem::creditsViewStr =
-	UI_TEXT(CREDITS_INFO_STRING "(c) 2012-2024\nRobert Broglia\nwww.explusalpha.com\n\nPortions (c) the\nVBA-m Team\nvba-m.com");
+	UI_TEXT(CREDITS_INFO_STRING "(c) 2012-2024\nRobert Broglia\nwww.explusalpha.com\n\nPortions (c) the\nVBA-m Team\nvba-m.com\n\n翻译：R-Sam\nGitHub\nduxiuxing/emu-ex-plus-alpha-cn");
 bool EmuSystem::hasBundledGames = true;
 bool EmuSystem::hasCheats = true;
 bool EmuApp::needsGlobalInstance = true;
@@ -63,8 +63,8 @@ const BundledGameInfo &EmuSystem::bundledGameInfo(int idx) const
 	static const BundledGameInfo info[]
 	{
 		{
-			UI_TEXT("Motocross Challenge"),
-			UI_TEXT("Motocross Challenge.7z")
+			UI_TEXT("摩托车越野赛挑战"),
+			UI_TEXT("摩托车越野赛挑战.7z")
 		}
 	};
 
@@ -104,7 +104,7 @@ void GbaSystem::readState(EmuApp &app, std::span<uint8_t> buff)
 	}
 	if(!CPUReadState(gGba, buff.data()))
 		throw std::runtime_error(
-			UI_TEXT("Invalid state data")
+			UI_TEXT("无效的进度数据")
 		);
 }
 
@@ -182,7 +182,7 @@ void GbaSystem::applyGamePatches(uint8_t *rom, int &romSize)
 		if(!patchApplyIPS(f, &rom, &romSize))
 		{
 			throw std::runtime_error(std::format(
-				UI_TEXT("Error applying IPS patch in:\n{}"),
+				UI_TEXT("应用 IPS 补丁时出错：\n{}"),
 				patchesDir));
 		}
 	}
@@ -193,7 +193,7 @@ void GbaSystem::applyGamePatches(uint8_t *rom, int &romSize)
 		if(!patchApplyUPS(f, &rom, &romSize))
 		{
 			throw std::runtime_error(std::format(
-				UI_TEXT("Error applying UPS patch in:\n{}"),
+				UI_TEXT("应用 UPS 补丁时出错：\n{}"),
 				patchesDir));
 		}
 	}
@@ -204,7 +204,7 @@ void GbaSystem::applyGamePatches(uint8_t *rom, int &romSize)
 		if(!patchApplyPPF(f, &rom, &romSize))
 		{
 			throw std::runtime_error(std::format(
-				UI_TEXT("Error applying PPF patch in:\n{}"),
+				UI_TEXT("应用 PPF 补丁时出错：\n{}"),
 				patchesDir));
 		}
 	}
@@ -225,7 +225,7 @@ void GbaSystem::loadContent(IO &io, EmuSystemCreateParams, OnLoadProgressDelegat
 		biosRom = appContext().openFileUri(biosPath, {.accessHint = IOAccessHint::All}).buffer(IOBufferMode::Release);
 		if(biosRom.size() != 0x4000)
 			throw std::runtime_error(
-				UI_TEXT("BIOS size should be 16KB")
+				UI_TEXT("BIOS 的大小应该为 16KB")
 			);
 	}
 	CPUInit(gGba, biosRom);
