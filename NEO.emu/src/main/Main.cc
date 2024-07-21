@@ -496,11 +496,11 @@ void gn_init_pbar(unsigned action, int size)
 				case PBAR_ACTION_LOADROM: { return ""; } // defaults to "Loading..."
 				case PBAR_ACTION_DECRYPT:
 					{
-						return UI_TEXT("Decrypting...");
+						return UI_TEXT("解密中...");
 					}
 				case PBAR_ACTION_SAVEGNO:
 					{
-						return UI_TEXT("Building Cache...\n(may take a while)");
+						return UI_TEXT("缓存构建中...\n(可能需要一段时间)");
 					};
 			}
 		};
