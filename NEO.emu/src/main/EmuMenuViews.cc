@@ -749,7 +749,7 @@ private:
 			if(!gameListMenu->games())
 			{
 				app().postMessage(6, true,
-					UI_TEXT("No content found, use \"Open Content\" command to browse to a folder with ROM archives.")
+					UI_TEXT("找不到游戏，请选择“打开游戏”，浏览到带有 ROM 档案的文件夹。")
 				);
 				return;
 			}
