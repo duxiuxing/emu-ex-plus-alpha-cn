@@ -93,7 +93,7 @@ namespace EmuEx
 
 constexpr SystemLogger log{"NEO.emu"};
 const char *EmuSystem::creditsViewStr =
-	UI_TEXT(CREDITS_INFO_STRING "(c) 2012-2024\nRobert Broglia\nwww.explusalpha.com\n\nPortions (c) the\nGngeo Team\ncode.google.com/p/gngeo");
+	UI_TEXT(CREDITS_INFO_STRING "(c) 2012-2024\nRobert Broglia\nwww.explusalpha.com\n\nPortions (c) the\nGngeo Team\ncode.google.com/p/gngeo\n\n翻译：R-Sam\nGitHub\nduxiuxing/emu-ex-plus-alpha-cn");
 bool EmuSystem::handlesGenericIO = false; // TODO: need to re-factor GnGeo file loading code
 bool EmuSystem::canRenderRGBA8888 = false;
 bool EmuSystem::hasRectangularPixels = true;
@@ -173,7 +173,7 @@ void NeoSystem::readState(EmuApp &app, std::span<uint8_t> buff)
 	MapIO buffIO{buff};
 	if(!openState(buffIO, STREAD))
 		throw std::runtime_error(
-			UI_TEXT("Invalid state data")
+			UI_TEXT("无效的进度数据")
 		);
 	makeState(buffIO, STREAD);
 
@@ -288,7 +288,7 @@ void NeoSystem::loadContent(IO &, EmuSystemCreateParams, OnLoadProgressDelegate 
 	if(!drv)
 	{
 		throw std::runtime_error(
-			UI_TEXT("This game isn't recognized")
+			UI_TEXT("无法识别这个游戏")
 		);
 	}
 	auto freeDrv = IG::scopeGuard([&](){ free(drv); });

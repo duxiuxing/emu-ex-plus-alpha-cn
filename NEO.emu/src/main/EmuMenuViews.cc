@@ -81,8 +81,8 @@ class ConsoleOptionView : public TableView, public MainAppHelper
 				if(idx == 2)
 				{
 					t.resetString(conf.raster
-						? UI_TEXT("On")
-						: UI_TEXT("Off")
+						? UI_TEXT("开")
+						: UI_TEXT("关")
 					);
 					return true;
 				}
@@ -602,7 +602,7 @@ public:
 					else
 					{
 						app().postMessage(3, 1, std::format(
-							UI_TEXT("{} not present"),
+							UI_TEXT("{} 不存在"),
 							entry.name));
 					}
 					return true;
