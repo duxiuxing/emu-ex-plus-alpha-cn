@@ -82,7 +82,7 @@ class ConsoleOptionView : public TableView, public MainAppHelper
 		UI_TEXT("5-Player Adapter"),
 		attachParams(),
 		(bool)system().optionMultitap,
-		[this](BoolMenuItem &item, View &, Input::Event e)
+		[this](BoolMenuItem &item)
 		{
 			system().sessionOptionSet();
 			system().optionMultitap = item.flipBoolValue(*this);
@@ -181,7 +181,7 @@ class ConsoleOptionView : public TableView, public MainAppHelper
 		UI_TEXT("Allow Extended 239/478 Lines"),
 		attachParams(),
 		(bool)system().optionAllowExtendedVideoLines,
-		[this](BoolMenuItem &item, View &, Input::Event e)
+		[this](BoolMenuItem &item)
 		{
 			system().sessionOptionSet();
 			system().optionAllowExtendedVideoLines = item.flipBoolValue(*this);
@@ -227,7 +227,7 @@ class ConsoleOptionView : public TableView, public MainAppHelper
 		UI_TEXT("Allow Invalid VRAM Access"),
 		attachParams(),
 		(bool)!system().optionBlockInvalidVRAMAccess,
-		[this](BoolMenuItem &item, View &, Input::Event e)
+		[this](BoolMenuItem &item)
 		{
 			system().sessionOptionSet();
 			system().optionBlockInvalidVRAMAccess = !item.flipBoolValue(*this);
@@ -240,7 +240,7 @@ class ConsoleOptionView : public TableView, public MainAppHelper
 		UI_TEXT("Separate Echo Buffer From Ram"),
 		attachParams(),
 		(bool)system().optionSeparateEchoBuffer,
-		[this](BoolMenuItem &item, View &, Input::Event e)
+		[this](BoolMenuItem &item)
 		{
 			system().sessionOptionSet();
 			system().optionSeparateEchoBuffer = item.flipBoolValue(*this);
@@ -304,7 +304,7 @@ class ConsoleOptionView : public TableView, public MainAppHelper
 		}(),
 		superFXClockItem,
 		{
-			.onSetDisplayString = [this](auto idx, Gfx::Text &t)
+			.onSetDisplayString = [this](auto, Gfx::Text& t)
 			{
 				t.resetString(std::format(
 					UI_TEXT("{}%"),
@@ -437,7 +437,7 @@ class CustomFilePathOptionView : public FilePathOptionView, public MainAppHelper
 			pushAndShow(makeViewWithName<DataFileSelectView<>>(
 				UI_TEXT("BS-X BIOS"),
 				app().validSearchPath(FS::dirnameUri(system().bsxBiosPath)),
-				[this](CStringView path, FS::file_type type)
+				[this](CStringView path, FS::file_type)
 				{
 					system().bsxBiosPath = path;
 					logMsg("set BS-X bios:%s", path.data());
@@ -462,7 +462,7 @@ class CustomFilePathOptionView : public FilePathOptionView, public MainAppHelper
 			pushAndShow(makeViewWithName<DataFileSelectView<>>(
 				UI_TEXT("Sufami Turbo BIOS"),
 				app().validSearchPath(FS::dirnameUri(system().sufamiBiosPath)),
-				[this](CStringView path, FS::file_type type)
+				[this](CStringView path, FS::file_type)
 				{
 					system().sufamiBiosPath = path;
 					logMsg("set Sufami Turbo bios:%s", path.data());

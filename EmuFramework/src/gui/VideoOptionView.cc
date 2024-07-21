@@ -28,7 +28,7 @@
 namespace EmuEx
 {
 
-constexpr SystemLogger log{"VideoOptionView"};
+[[maybe_unused]] constexpr SystemLogger log{"VideoOptionView"};
 
 static const char *autoWindowPixelFormatStr(IG::ApplicationContext ctx)
 {
@@ -222,7 +222,7 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, EmuVideoLayer &videoLa
 		MenuId{videoLayer_.scale},
 		contentScaleItems,
 		{
-			.onSetDisplayString = [this](auto idx, Gfx::Text &t)
+			.onSetDisplayString = [this](auto, Gfx::Text& t)
 			{
 				if(videoLayer.scale <= 200)
 				{
@@ -275,7 +275,7 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, EmuVideoLayer &videoLa
 		MenuId{app().menuScale},
 		menuScaleItems,
 		{
-			.onSetDisplayString = [this](auto idx, Gfx::Text &t)
+			.onSetDisplayString = [this](auto, Gfx::Text& t)
 			{
 				t.resetString(std::format("{}%", app().menuScale.value()));
 				return true;
@@ -475,7 +475,7 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, EmuVideoLayer &videoLa
 		MenuId{videoLayer_.overlayIntensity() * 100.f},
 		overlayEffectLevelItem,
 		{
-			.onSetDisplayString = [this](auto idx, Gfx::Text &t)
+			.onSetDisplayString = [this](auto, Gfx::Text& t)
 			{
 				t.resetString(std::format(
 					UI_TEXT("{}%"),
@@ -717,7 +717,7 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, EmuVideoLayer &videoLa
 		MenuId{videoLayer_.channelBrightnessAsInt(ImageChannel::Red)},
 		redItem,
 		{
-			.onSetDisplayString = [this](auto idx, Gfx::Text &t)
+			.onSetDisplayString = [this](auto, Gfx::Text& t)
 			{
 				t.resetString(std::format(
 					UI_TEXT("{}%"),
@@ -733,7 +733,7 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, EmuVideoLayer &videoLa
 		MenuId{videoLayer_.channelBrightnessAsInt(ImageChannel::Green)},
 		greenItem,
 		{
-			.onSetDisplayString = [this](auto idx, Gfx::Text &t)
+			.onSetDisplayString = [this](auto, Gfx::Text& t)
 			{
 				t.resetString(std::format(
 					UI_TEXT("{}%"),
@@ -749,7 +749,7 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, EmuVideoLayer &videoLa
 		MenuId{videoLayer_.channelBrightnessAsInt(ImageChannel::Blue)},
 		blueItem,
 		{
-			.onSetDisplayString = [this](auto idx, Gfx::Text &t)
+			.onSetDisplayString = [this](auto, Gfx::Text& t)
 			{
 				t.resetString(std::format(
 					UI_TEXT("{}%"),

@@ -31,7 +31,7 @@ public:
 			{
 				UI_TEXT("Soft Reset"),
 				attach,
-				[this, &app]()
+				[&app]()
 				{
 					app.system().reset(app, EmuSystem::ResetMode::SOFT);
 					app.showEmulation();
@@ -41,7 +41,7 @@ public:
 			{
 				UI_TEXT("Hard Reset"),
 				attach,
-				[this, &app]()
+				[&app]()
 				{
 					app.system().reset(app, EmuSystem::ResetMode::HARD);
 					app.showEmulation();

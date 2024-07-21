@@ -194,7 +194,7 @@ void GbcSystem::clearInputBuffers(EmuInputView &)
 	gbcInput.bits = 0;
 }
 
-SystemInputDeviceDesc GbcSystem::inputDeviceDesc(int idx) const
+SystemInputDeviceDesc GbcSystem::inputDeviceDesc(int) const
 {
 	static constexpr std::array gamepadComponents
 	{
@@ -225,7 +225,11 @@ SystemInputDeviceDesc GbcSystem::inputDeviceDesc(int idx) const
 		},
 	};
 
-	static constexpr SystemInputDeviceDesc gamepadDesc{"Gamepad", gamepadComponents};
+	static constexpr SystemInputDeviceDesc gamepadDesc
+	{
+		UI_TEXT("Gamepad"),
+		gamepadComponents
+	};
 
 	return gamepadDesc;
 }

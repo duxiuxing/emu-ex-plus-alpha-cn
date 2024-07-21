@@ -71,7 +71,7 @@ SystemOptionView::SystemOptionView(ViewAttachParams attach, bool customMenu):
 	},
 	autosaveTimer
 	{
-		UI_TEXT("Autosave Timer"),
+		UI_TEXT("Timer"),
 		attach,
 		MenuId{app().autosaveManager.saveTimer.frequency.count()},
 		autosaveTimerItem,
@@ -107,7 +107,7 @@ SystemOptionView::SystemOptionView(ViewAttachParams attach, bool customMenu):
 	},
 	autosaveLaunch
 	{
-		UI_TEXT("Autosave Launch Mode"),
+		UI_TEXT("Launch Mode"),
 		attach,
 		MenuId{app().autosaveManager.autosaveLaunchMode},
 		autosaveLaunchItem,
@@ -117,7 +117,7 @@ SystemOptionView::SystemOptionView(ViewAttachParams attach, bool customMenu):
 	},
 	autosaveContent
 	{
-		UI_TEXT("Autosave Content"),
+		UI_TEXT("Content"),
 		attach,
 		app().autosaveManager.saveOnlyBackupMemory,
 		UI_TEXT("State & Backup RAM"),
@@ -186,7 +186,7 @@ SystemOptionView::SystemOptionView(ViewAttachParams attach, bool customMenu):
 		MenuId{app().altSpeed(AltSpeedMode::fast)},
 		fastModeSpeedItem,
 		{
-			.onSetDisplayString = [this](auto idx, Gfx::Text &t)
+			.onSetDisplayString = [this](auto, Gfx::Text& t)
 			{
 				t.resetString(std::format(
 					UI_TEXT("{:g}x"),
@@ -242,7 +242,7 @@ SystemOptionView::SystemOptionView(ViewAttachParams attach, bool customMenu):
 		MenuId{app().altSpeed(AltSpeedMode::slow)},
 		slowModeSpeedItem,
 		{
-			.onSetDisplayString = [this](auto idx, Gfx::Text &t)
+			.onSetDisplayString = [this](auto, Gfx::Text& t)
 			{
 				t.resetString(std::format(
 					UI_TEXT("{:g}x"),
@@ -287,12 +287,12 @@ SystemOptionView::SystemOptionView(ViewAttachParams attach, bool customMenu):
 	},
 	rewindStates
 	{
-		UI_TEXT("Rewind States"),
+		UI_TEXT("States"),
 		attach,
 		MenuId{app().rewindManager.maxStates},
 		rewindStatesItem,
 		{
-			.onSetDisplayString = [this](auto idx, Gfx::Text &t)
+			.onSetDisplayString = [this](auto, Gfx::Text& t)
 			{
 				t.resetString(std::format("{}", app().rewindManager.maxStates));
 				return true;
@@ -302,7 +302,7 @@ SystemOptionView::SystemOptionView(ViewAttachParams attach, bool customMenu):
 	},
 	rewindTimeInterval
 	{
-		UI_TEXT("Rewind State Interval (Seconds)"),
+		UI_TEXT("State Interval (Seconds)"),
 		std::to_string(app().rewindManager.saveTimer.frequency.count()),
 		attach,
 		[this](const Input::Event &e)

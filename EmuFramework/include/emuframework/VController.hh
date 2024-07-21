@@ -157,7 +157,7 @@ public:
 	void draw(Gfx::RendererCommands &__restrict__) const;
 	int getInput(WPt c) const;
 	KeyInfo translateInput(int idx) const;
-	bool keyInput(VController &v, Gfx::Renderer &r, const Input::KeyEvent &e);
+	bool keyInput(VController&, const Input::KeyEvent&);
 	[[nodiscard]] WindowRect selectKey(int x, int y);
 	void selectKeyRel(int x, int y);
 	void unselectKey();
@@ -165,8 +165,8 @@ public:
 	KeyInfo currentKey() const;
 	KeyInfo currentKey(int x, int y) const;
 	VControllerKbMode mode() const { return mode_; }
-	void setMode(EmuSystem &, Gfx::Renderer &, VControllerKbMode mode);
-	void cycleMode(EmuSystem &, Gfx::Renderer &);
+	void setMode(EmuSystem&, VControllerKbMode mode);
+	void cycleMode(EmuSystem&);
 	void applyMap(KbMap map);
 	void updateKeyboardMapping(EmuSystem &);
 	void setShiftActive(bool);
@@ -443,7 +443,7 @@ public:
 		{
 			[&](VControllerDPad &e){ e.setShowBounds(r, on); },
 			[&](VControllerButtonGroup &e){ e.setShowBounds(on); },
-			[](auto &e){}
+			[](auto&){}
 		});
 	}
 
@@ -451,7 +451,7 @@ public:
 	{
 		return visit(overloaded
 		{
-			[&](const VControllerDPad &e){ return LB2DO; },
+			[&](const VControllerDPad&){ return LB2DO; },
 			[](auto &e){ return e.layout.origin; }
 		});
 	}

@@ -49,7 +49,7 @@ protected:
 static void onScanStatus(EmuApp &app, BluetoothScanState status, int arg);
 
 template <class ViewT>
-static void handledFailedBTAdapterInit(ViewT &view, ViewAttachParams attach, const Input::Event &e)
+static void handledFailedBTAdapterInit(ViewT& view, [[maybe_unused]] ViewAttachParams attach, [[maybe_unused]] const Input::Event& e)
 {
 	view.app().postErrorMessage(
 		UI_TEXT("Unable to initialize Bluetooth adapter")
@@ -208,7 +208,7 @@ MainMenuView::MainMenuView(ViewAttachParams attach, bool customMenu):
 					UI_TEXT("Prepare to push the PS button")
 				);
 				auto startedScan = Bluetooth::listenForDevices(appContext(), app().bluetoothAdapter,
-					[this](BluetoothAdapter &bta, BluetoothScanState status, int arg)
+					[this](BluetoothAdapter&, BluetoothScanState status, int arg)
 					{
 						switch(status)
 						{
@@ -390,8 +390,8 @@ OptionCategoryView::OptionCategoryView(ViewAttachParams attach):
 		{
 			return msg.visit(overloaded
 			{
-				[&](const ItemsMessage &m) -> ItemReply { return EmuApp::hasGooglePlayStoreFeatures() ? std::size(subConfig) : std::size(subConfig)-1; },
-				[&](const GetItemMessage &m) -> ItemReply { return &subConfig[m.idx]; },
+				[&](const ItemsMessage&) -> ItemReply { return EmuApp::hasGooglePlayStoreFeatures() ? std::size(subConfig) : std::size(subConfig)-1; },
+				[&](const GetItemMessage& m) -> ItemReply { return &subConfig[m.idx]; },
 			});
 		}
 	},

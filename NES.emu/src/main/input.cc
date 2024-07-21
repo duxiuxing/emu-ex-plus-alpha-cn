@@ -266,8 +266,9 @@ void NesSystem::handleInputAction(EmuApp *app, InputAction a)
 	{
 		if(!isFDS || !a.isPushed())
 			return;
+		EmuSystemTask::SuspendContext suspendCtx;
 		if(app)
-			app->syncEmulationThread();
+			suspendCtx = app->suspendEmulationThread();
 		if(FCEU_FDSInserted())
 		{
 			FCEU_FDSInsert();

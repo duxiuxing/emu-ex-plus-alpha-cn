@@ -97,7 +97,7 @@ class ConsoleOptionView : public TableView, public MainAppHelper
 		MenuId{system().optionRtcEmulation.value()},
 		rtcItem,
 		{
-			.onSetDisplayString = [this](auto idx, Gfx::Text &t)
+			.onSetDisplayString = [](auto idx, Gfx::Text& t)
 			{
 				if(idx == 0)
 				{
@@ -310,14 +310,14 @@ class CustomAudioOptionView : public AudioOptionView, public MainAppHelper
 			{
 				UI_TEXT("Default"),
 				attachParams(),
-				[this, gbVol]() { soundSetVolume(gGba, 1.f, gbVol); },
+				[gbVol]() { soundSetVolume(gGba, 1.f, gbVol); },
 				{.id = 100}
 			},
 			TextMenuItem
 			{
 				UI_TEXT("Off"),
 				attachParams(),
-				[this, gbVol]() { soundSetVolume(gGba, 0, gbVol); },
+				[gbVol]() { soundSetVolume(gGba, 0, gbVol); },
 				{.id = 0}
 			},
 			TextMenuItem
@@ -360,7 +360,7 @@ class CustomAudioOptionView : public AudioOptionView, public MainAppHelper
 			MenuId{soundVolumeAsInt(gGba, gbVol)},
 			volumeLevelItem[gbVol ? 1 : 0],
 			{
-				.onSetDisplayString = [this, gbVol](auto idx, Gfx::Text &t)
+				.onSetDisplayString = [gbVol](auto idx, Gfx::Text& t)
 				{
 					t.resetString(std::format(
 						UI_TEXT("{}%"),
@@ -418,7 +418,7 @@ class CustomAudioOptionView : public AudioOptionView, public MainAppHelper
 		{
 			UI_TEXT("Default"),
 			attachParams(),
-			[this]() { soundSetFiltering(gGba, .5f); },
+			[]() { soundSetFiltering(gGba, .5f); },
 			{.id = 50}
 		},
 		TextMenuItem
@@ -449,7 +449,7 @@ class CustomAudioOptionView : public AudioOptionView, public MainAppHelper
 		MenuId{soundFilteringAsInt(gGba)},
 		filteringLevelItem,
 		{
-			.onSetDisplayString = [this](auto idx, Gfx::Text &t)
+			.onSetDisplayString = [](auto, Gfx::Text& t)
 			{
 				t.resetString(std::format(
 					UI_TEXT("{}%"),
