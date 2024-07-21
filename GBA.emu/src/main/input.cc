@@ -94,7 +94,7 @@ std::span<const KeyCategory> GbaApp::keyCategories()
 	{
 		KeyCategory
 		{
-			UI_TEXT("Gamepad"),
+			UI_TEXT("游戏按键"),
 			gpKeyInfo
 	
 		},
@@ -107,17 +107,17 @@ std::string_view GbaApp::systemKeyCodeToString(KeyCode c)
 	switch(GbaKey(c))
 	{
 		case GbaKey::Up:
-			return UI_TEXT("Up");
+			return UI_TEXT("上");
 		case GbaKey::Right:
-			return UI_TEXT("Right");
+			return UI_TEXT("右");
 		case GbaKey::Down:
-			return UI_TEXT("Down");
+			return UI_TEXT("下");
 		case GbaKey::Left:
-			return UI_TEXT("Left");
+			return UI_TEXT("左");
 		case GbaKey::Select:
-			return UI_TEXT("Select");
+			return UI_TEXT("选择");
 		case GbaKey::Start:
-			return UI_TEXT("Start");
+			return UI_TEXT("开始");
 		case GbaKey::A:
 			return UI_TEXT("A");
 		case GbaKey::B:
@@ -127,9 +127,9 @@ std::string_view GbaApp::systemKeyCodeToString(KeyCode c)
 		case GbaKey::R:
 			return UI_TEXT("R");
 		case GbaKey::LightInc:
-			return UI_TEXT("Light Sensor Level +");
+			return UI_TEXT("提高亮度");
 		case GbaKey::LightDec:
-			return UI_TEXT("Light Sensor Level -");
+			return UI_TEXT("降低亮度");
 		default: return "";
 	}
 }
@@ -250,7 +250,7 @@ void GbaSystem::handleInputAction(EmuApp *app, InputAction a)
 			if(app)
 			{
 				app->postMessage(1, false, std::format(
-					UI_TEXT("Light sensor level: {}%"),
+					UI_TEXT("亮度：{}%"),
 					remap(darknessLevel, 0xff, 0, 0, 100)));
 			}
 			break;
@@ -273,47 +273,51 @@ SystemInputDeviceDesc GbaSystem::inputDeviceDesc(int idx) const
 	{
 		InputComponentDesc
 		{
-			UI_TEXT("D-Pad"),
+			UI_TEXT("方向键"),
 			dpadKeyInfo, InputComponent::dPad, LB2DO
 		},
 		InputComponentDesc
 		{
-			UI_TEXT("Face Buttons"),
+			UI_TEXT("动作键"),
 			faceKeyInfo, InputComponent::button, RB2DO
 		},
 		InputComponentDesc
 		{
-			UI_TEXT("Face Buttons + Inline L/R"),
+			UI_TEXT("动作键 + L/R 键"),
 			faceLRKeyInfo, InputComponent::button, RB2DO, {.altConfig = true}
 		},
 		InputComponentDesc
 		{
-			UI_TEXT("L"),
+			UI_TEXT("L 键"),
 			lKeyInfo, InputComponent::trigger, LB2DO
 		},
 		InputComponentDesc
 		{
-			UI_TEXT("R"),
+			UI_TEXT("R 键"),
 			rKeyInfo, InputComponent::trigger, RB2DO
 		},
 		InputComponentDesc
 		{
-			UI_TEXT("Select"),
+			UI_TEXT("选择键"),
 			{&centerKeyInfo[0], 1}, InputComponent::button, LB2DO
 		},
 		InputComponentDesc
 		{
-			UI_TEXT("Start"),
+			UI_TEXT("开始键"),
 			{&centerKeyInfo[1], 1}, InputComponent::button, RB2DO
 		},
 		InputComponentDesc
 		{
-			UI_TEXT("Select/Start"),
+			UI_TEXT("选择/开始键"),
 			centerKeyInfo, InputComponent::button, CB2DO, {.altConfig = true}
 		},
 	};
 
-	static constexpr SystemInputDeviceDesc gamepadDesc{"Gamepad", gamepadComponents};
+	static constexpr SystemInputDeviceDesc gamepadDesc
+	{
+		UI_TEXT("手柄"),
+		gamepadComponents
+	};
 
 	return gamepadDesc;
 }

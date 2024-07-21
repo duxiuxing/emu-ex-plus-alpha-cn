@@ -356,7 +356,7 @@ void FSPicker::pushFileLocationsView(const Input::Event &e)
 	int customItems = 1 + Config::envIsLinux + appContext().hasSystemPathPicker() + appContext().hasSystemDocumentPicker();
 	auto view = makeView<FileLocationsTextTableView>(appContext().rootFileLocations(), customItems);
 	static constexpr std::string_view failedSystemPickerMsg =
-		UI_TEXT("此设备没有文件管理器，请从存储空间选择一个媒体文件夹来代替");
+		UI_TEXT("此设备没有文件管理器，请从“存储空间”选择一个媒体文件夹来代替");
 	if(appContext().hasSystemPathPicker())
 	{
 		view->appendItem(
