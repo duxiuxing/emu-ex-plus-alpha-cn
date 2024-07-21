@@ -97,13 +97,19 @@ DynArray<uint8_t> EmuSystem::uncompressGzipState(std::span<uint8_t> buff, size_t
 	assert(hasGzipHeader(buff));
 	auto uncompSize = gzipUncompressedSize(buff);
 	if(expectedSize && expectedSize != uncompSize)
-		throw std::runtime_error("Invalid state size from header");
+		throw std::runtime_error(
+			UI_TEXT("文件头部的数据长度信息无效")
+		);
 	auto uncompArr = dynArrayForOverwrite<uint8_t>(uncompSize);
 	auto size = uncompressGzip(uncompArr, buff);
 	if(!size)
-		throw std::runtime_error("Error uncompressing state");
+		throw std::runtime_error(
+			UI_TEXT("解压时出错")
+		);
 	if(expectedSize && size != expectedSize)
-		throw std::runtime_error("Invalid state size");
+		throw std::runtime_error(
+			UI_TEXT("无效的数据长度信息")
+		);
 	return uncompArr;
 }
 
@@ -443,7 +449,9 @@ void EmuSystem::loadContentFromFile(IO file, CStringView path, std::string_view 
 		}
 		if(!io)
 		{
-			throw std::runtime_error("No recognized file extensions in archive");
+			throw std::runtime_error(
+				UI_TEXT("档案中没有可识别的文件扩展名")
+			);
 		}
 		closeAndSetupNew(path, displayName);
 		contentFileName_ = originalName;
@@ -458,17 +466,23 @@ void EmuSystem::loadContentFromFile(IO file, CStringView path, std::string_view 
 
 void EmuSystem::throwFileReadError()
 {
-	throw std::runtime_error("Error reading file");
+	throw std::runtime_error(
+		UI_TEXT("读取文件时出错")
+	);
 }
 
 void EmuSystem::throwFileWriteError()
 {
-	throw std::runtime_error("Error writing file");
+	throw std::runtime_error(
+		UI_TEXT("保存文件时出错")
+	);
 }
 
 void EmuSystem::throwMissingContentDirError()
 {
-	throw std::runtime_error("This content must be opened with a folder, \"Browse For File\" isn't supported");
+	throw std::runtime_error(
+		UI_TEXT("此游戏必须用文件夹打开，无法用“浏览文件”菜单项打开")
+	);
 }
 
 FS::PathString EmuSystem::contentDirectory(std::string_view name) const
