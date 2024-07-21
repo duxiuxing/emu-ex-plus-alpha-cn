@@ -67,7 +67,7 @@ std::span<const KeyCategory> GbcApp::keyCategories()
 	static constexpr KeyCategory categories[]
 	{
 		{
-			UI_TEXT("Gamepad"),
+			UI_TEXT("游戏按键"),
 			gpKeyInfo},
 	};
 	return categories;
@@ -78,17 +78,17 @@ std::string_view GbcApp::systemKeyCodeToString(KeyCode c)
 	switch(GbcKey(c))
 	{
 		case GbcKey::Up:
-			return UI_TEXT("Up");
+			return UI_TEXT("上");
 		case GbcKey::Right:
-			return UI_TEXT("Right");
+			return UI_TEXT("右");
 		case GbcKey::Down:
-			return UI_TEXT("Down");
+			return UI_TEXT("下");
 		case GbcKey::Left:
-			return UI_TEXT("Left");
+			return UI_TEXT("左");
 		case GbcKey::Select:
-			return UI_TEXT("Select");
+			return UI_TEXT("选择");
 		case GbcKey::Start:
-			return UI_TEXT("Start");
+			return UI_TEXT("开始");
 		case GbcKey::A:
 			return UI_TEXT("A");
 		case GbcKey::B:
@@ -200,32 +200,36 @@ SystemInputDeviceDesc GbcSystem::inputDeviceDesc(int idx) const
 	{
 		InputComponentDesc
 		{
-			UI_TEXT("D-Pad"),
+			UI_TEXT("方向键"),
 			dpadKeyInfo, InputComponent::dPad, LB2DO
 		},
 		InputComponentDesc
 		{
-			UI_TEXT("Face Buttons"),
+			UI_TEXT("动作键"),
 			faceKeyInfo, InputComponent::button, RB2DO
 		},
 		InputComponentDesc
 		{
-			UI_TEXT("Select"),
+			UI_TEXT("选择键"),
 			{&centerKeyInfo[0], 1}, InputComponent::button, LB2DO
 		},
 		InputComponentDesc
 		{
-			UI_TEXT("Start"),
+			UI_TEXT("开始键"),
 			{&centerKeyInfo[1], 1}, InputComponent::button, RB2DO
 		},
 		InputComponentDesc
 		{
-			UI_TEXT("Select/Start"),
+			UI_TEXT("选择/开始键"),
 			centerKeyInfo, InputComponent::button, CB2DO, {.altConfig = true}
 		},
 	};
 
-	static constexpr SystemInputDeviceDesc gamepadDesc{"Gamepad", gamepadComponents};
+	static constexpr SystemInputDeviceDesc gamepadDesc
+	{
+		UI_TEXT("手柄"),
+		gamepadComponents
+	};
 
 	return gamepadDesc;
 }

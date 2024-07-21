@@ -32,7 +32,7 @@ namespace EmuEx
 
 constexpr SystemLogger log{"GBC.emu"};
 const char *EmuSystem::creditsViewStr =
-	UI_TEXT(CREDITS_INFO_STRING "(c) 2011-2024\nRobert Broglia\nwww.explusalpha.com\n\n\nPortions (c) the\nGambatte Team\ngambatte.sourceforge.net");
+	UI_TEXT(CREDITS_INFO_STRING "(c) 2011-2024\nRobert Broglia\nwww.explusalpha.com\n\n\nPortions (c) the\nGambatte Team\ngambatte.sourceforge.net\n\n翻译：R-Sam\nGitHub\nduxiuxing/emu-ex-plus-alpha-cn");
 bool EmuSystem::hasCheats = true;
 constexpr WSize lcdSize{gambatte::lcd_hres, gambatte::lcd_vres};
 
@@ -101,7 +101,7 @@ void GbcSystem::readState(EmuApp &app, std::span<uint8_t> buff)
 	IStream<MapIO> stream{buff};
 	if(!gbEmu.loadState(stream))
 		throw std::runtime_error(
-			UI_TEXT("Invalid state data")
+			UI_TEXT("无效的进度数据")
 		);
 }
 
