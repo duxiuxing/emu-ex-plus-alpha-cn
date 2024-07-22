@@ -104,7 +104,7 @@ DynArray<uint8_t> EmuSystem::uncompressGzipState(std::span<uint8_t> buff, size_t
 	auto size = uncompressGzip(uncompArr, buff);
 	if(!size)
 		throw std::runtime_error(
-			UI_TEXT("解压时出错")
+			UI_TEXT("解压数据时出错")
 		);
 	if(expectedSize && size != expectedSize)
 		throw std::runtime_error(
