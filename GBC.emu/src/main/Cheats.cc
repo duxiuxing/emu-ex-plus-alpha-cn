@@ -122,7 +122,7 @@ void readCheatFile(EmuSystem &sys_)
 		return;
 	}
 	auto size = file.get<uint16_t>();
-	for(auto i : iotaCount(size))
+	for([[maybe_unused]] auto i : iotaCount(size))
 	{
 		if(cheatList.isFull())
 		{
@@ -141,7 +141,7 @@ void readCheatFile(EmuSystem &sys_)
 EmuEditCheatView::EmuEditCheatView(ViewAttachParams attach, GbcCheat &cheat_, RefreshCheatsDelegate onCheatListChanged_):
 	BaseEditCheatView
 	{
-		UI_TEXT("Edit Code"),
+		UI_TEXT("编辑金手指代码"),
 		attach,
 		cheat_.name,
 		items,
@@ -159,20 +159,20 @@ EmuEditCheatView::EmuEditCheatView(ViewAttachParams attach, GbcCheat &cheat_, Re
 	items{&name, &ggCode, &remove},
 	ggCode
 	{
-		UI_TEXT("Code"),
+		UI_TEXT("金手指代码"),
 		cheat_.code,
 		attach,
-		[this](DualTextMenuItem &item, View &, Input::Event e)
+		[this](Input::Event e)
 		{
 			pushAndShowNewCollectValueInputView<const char*>(attachParams(), e,
-				UI_TEXT("Input xxxxxxxx (GS) or xxx-xxx-xxx (GG) code"),
+				UI_TEXT("请输入 GS 码 (xxxxxxxx) 或 GG 码 (xxx-xxx-xxx)"),
 				cheat->code,
 				[this](CollectTextInputView&, auto str)
 				{
 					if(!strIsGGCode(str) && !strIsGSCode(str))
 					{
 						app().postMessage(true,
-							UI_TEXT("Invalid format")
+							UI_TEXT("无效的格式")
 						);
 						postDraw();
 						return false;
@@ -209,8 +209,8 @@ EmuEditCheatListView::EmuEditCheatListView(ViewAttachParams attach):
 		{
 			return msg.visit(overloaded
 			{
-				[&](const ItemsMessage &m) -> ItemReply { return 1 + cheat.size(); },
-				[&](const GetItemMessage &m) -> ItemReply
+				[&](const ItemsMessage&) -> ItemReply { return 1 + cheat.size(); },
+				[&](const GetItemMessage& m) -> ItemReply
 				{
 					switch(m.idx)
 					{
@@ -223,11 +223,12 @@ EmuEditCheatListView::EmuEditCheatListView(ViewAttachParams attach):
 	},
 	addGGGS
 	{
-		"Add Game Genie / GameShark Code", attach,
-		[this](TextMenuItem &item, View &, Input::Event e)
+		UI_TEXT("添加金手指代码"),
+		attach,
+		[this](const Input::Event& e)
 		{
 			pushAndShowNewCollectTextInputView(attachParams(), e,
-				UI_TEXT("Input xxxxxxxx (GS) or xxx-xxx-xxx (GG) code"),
+				UI_TEXT("请输入 GS 码 (xxxxxxxx) 或 GG 码 (xxx-xxx-xxx)"),
 				"",
 				[this](CollectTextInputView &view, const char *str)
 				{
@@ -236,7 +237,7 @@ EmuEditCheatListView::EmuEditCheatListView(ViewAttachParams attach):
 						if(cheatList.isFull())
 						{
 							app().postMessage(true,
-								UI_TEXT("Cheat list is full")
+								UI_TEXT("已达个数上限，请先删除一些再添加")
 							);
 							view.dismiss();
 							return false;
@@ -244,7 +245,7 @@ EmuEditCheatListView::EmuEditCheatListView(ViewAttachParams attach):
 						if(!strIsGGCode(str) && !strIsGSCode(str))
 						{
 							app().postMessage(true,
-								UI_TEXT("Invalid format")
+								UI_TEXT("无效的格式")
 							);
 							return true;
 						}
@@ -258,7 +259,7 @@ EmuEditCheatListView::EmuEditCheatListView(ViewAttachParams attach):
 						writeCheatFile(system());
 						view.dismiss();
 						pushAndShowNewCollectTextInputView(attachParams(), {},
-							UI_TEXT("Input description"),
+							UI_TEXT("请输入描述说明"),
 							"",
 							[this](CollectTextInputView &view, const char *str)
 							{
@@ -320,7 +321,7 @@ void EmuCheatsView::loadCheatItems()
 	{
 		auto &thisCheat = *it;
 		cheat.emplace_back(thisCheat.name, attachParams(), thisCheat.isOn(),
-			[this, cIdx](BoolMenuItem &item, View &, Input::Event e)
+			[this, cIdx](BoolMenuItem &item)
 			{
 				item.flipBoolValue(*this);
 				auto &c = cheatList[cIdx];

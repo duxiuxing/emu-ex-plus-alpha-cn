@@ -39,6 +39,7 @@ FSPicker::FSPicker(ViewAttachParams attach, Gfx::TextureSpan backRes, Gfx::Textu
 	filter{filter},
 	controller{attach},
 	msgText{attach.rendererTask, face_ ? face_ : &defaultFace()},
+	dirListEvent{{.debugLabel = "FSPicker::dirListEvent", .eventLoop = EventLoop::forThread()}, {}},
 	mode_{mode}
 {
 	auto nav = makeView<BasicNavView>
@@ -361,7 +362,7 @@ void FSPicker::pushFileLocationsView(const Input::Event &e)
 	{
 		view->appendItem(
 			UI_TEXT("浏览文件夹"),
-			[this](View &view, const Input::Event &e)
+			[this](View& view, const Input::Event&)
 			{
 				if(!appContext().showSystemPathPicker())
 				{
@@ -374,7 +375,7 @@ void FSPicker::pushFileLocationsView(const Input::Event &e)
 	{
 		view->appendItem(
 			UI_TEXT("浏览文件"),
-			[this](View &view, const Input::Event &e)
+			[this](View& view, const Input::Event&)
 			{
 				if(!appContext().showSystemDocumentPicker())
 				{
@@ -386,7 +387,7 @@ void FSPicker::pushFileLocationsView(const Input::Event &e)
 	for(auto &loc : view->locations())
 	{
 		view->appendItem(loc.description,
-			[this, &loc](View &view, const Input::Event &e)
+			[this, &loc](View& view, const Input::Event& e)
 			{
 				auto ctx = appContext();
 				if(ctx.usesPermission(Permission::WRITE_EXT_STORAGE))
@@ -402,7 +403,7 @@ void FSPicker::pushFileLocationsView(const Input::Event &e)
 	{
 		view->appendItem(
 			UI_TEXT("根目录"),
-			[this](View &view, const Input::Event &e)
+			[this](View& view, const Input::Event& e)
 			{
 				changeDirByInput("/", {}, e, DepthMode::reset);
 				view.dismiss();
@@ -410,7 +411,7 @@ void FSPicker::pushFileLocationsView(const Input::Event &e)
 	}
 	view->appendItem(
 		UI_TEXT("自定义路径"),
-		[this](const Input::Event &e)
+		[this](const Input::Event& e)
 		{
 			auto textInputView = makeView<CollectTextInputView>(
 				UI_TEXT("请输入一个有效的目录路径"),

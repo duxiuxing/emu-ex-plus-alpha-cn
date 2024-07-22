@@ -154,7 +154,7 @@ public:
 		}
 	}
 
-	void onAddedToController(ViewController *, const Input::Event &e) final
+	void onAddedToController(ViewController*, const Input::Event&) final
 	{
 		lastFrameTimestamp = SteadyClock::now();
 		detectFrameRate =
@@ -311,7 +311,7 @@ FrameTimingView::FrameTimingView(ViewAttachParams attach):
 		app().outputTimingManager.frameTimeOptionAsMenuId(VideoSystem::NATIVE_NTSC),
 		frameRateItems,
 		{
-			.onSetDisplayString = [this](auto idx, Gfx::Text &t)
+			.onSetDisplayString = [this](auto, Gfx::Text& t)
 			{
 				t.resetString(makeFrameRateStr(VideoSystem::NATIVE_NTSC, app().outputTimingManager));
 				return true;
@@ -330,7 +330,7 @@ FrameTimingView::FrameTimingView(ViewAttachParams attach):
 		app().outputTimingManager.frameTimeOptionAsMenuId(VideoSystem::PAL),
 		frameRateItems,
 		{
-			.onSetDisplayString = [this](auto idx, Gfx::Text &t)
+			.onSetDisplayString = [this](auto, Gfx::Text& t)
 			{
 				t.resetString(makeFrameRateStr(VideoSystem::PAL, app().outputTimingManager));
 				return true;
@@ -376,7 +376,7 @@ FrameTimingView::FrameTimingView(ViewAttachParams attach):
 		frameClockItems,
 		MultiChoiceMenuItem::Config
 		{
-			.onSetDisplayString = [this](auto idx, Gfx::Text &t)
+			.onSetDisplayString = [this](auto, Gfx::Text& t)
 			{
 				t.resetString(wise_enum::to_string(app().effectiveFrameTimeSource()));
 				return true;
@@ -411,7 +411,7 @@ FrameTimingView::FrameTimingView(ViewAttachParams attach):
 		presentModeItems,
 		MultiChoiceMenuItem::Config
 		{
-			.onSetDisplayString = [this](auto idx, Gfx::Text &t)
+			.onSetDisplayString = [this](auto, Gfx::Text& t)
 			{
 				t.resetString(renderer().evalPresentMode(app().emuWindow(), app().presentMode) == Gfx::PresentMode::FIFO
 					? UI_TEXT("队列")
@@ -471,7 +471,7 @@ FrameTimingView::FrameTimingView(ViewAttachParams attach):
 		presentationTimeItems,
 		MultiChoiceMenuItem::Config
 		{
-			.onSetDisplayString = [this](auto idx, Gfx::Text &t)
+			.onSetDisplayString = [this](auto, Gfx::Text& t)
 			{
 				if(app().presentationTimeMode == PresentationTimeMode::off)
 					return false;

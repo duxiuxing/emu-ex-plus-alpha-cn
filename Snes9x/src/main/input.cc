@@ -271,7 +271,7 @@ void Snes9xSystem::handleInputAction(EmuApp *, InputAction a)
 	padData = setOrClearBits(padData, bit(a.code), a.isPushed());
 }
 
-void Snes9xSystem::clearInputBuffers(EmuInputView &view)
+void Snes9xSystem::clearInputBuffers(EmuInputView&)
 {
 	for(auto p : iotaCount(maxPlayers))
 	{
@@ -619,7 +619,7 @@ bool Snes9xSystem::onPointerInputEnd(const Input::MotionEvent &e, Input::DragTra
 	return false;
 }
 
-SystemInputDeviceDesc Snes9xSystem::inputDeviceDesc(int idx) const
+SystemInputDeviceDesc Snes9xSystem::inputDeviceDesc(int) const
 {
 	static constexpr std::array gamepadComponents
 	{
