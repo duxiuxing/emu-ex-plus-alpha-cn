@@ -46,15 +46,15 @@ class ConsoleOptionView : public TableView, public MainAppHelper
 	TextMenuItem timerItem[3]
 	{
 		{
-			UI_TEXT("Off"),
+			UI_TEXT("关"),
 			attachParams(), setTimerIntDel(), {.id = 0}
 		},
 		{
-			UI_TEXT("On"),
+			UI_TEXT("开"),
 			attachParams(), setTimerIntDel(), {.id = 1}
 		},
 		{
-			UI_TEXT("Auto"),
+			UI_TEXT("自动"),
 			attachParams(), setTimerIntDel(), {.id = 2}
 		},
 	};
@@ -71,18 +71,18 @@ class ConsoleOptionView : public TableView, public MainAppHelper
 
 	MultiChoiceMenuItem timer
 	{
-		UI_TEXT("Emulate Timer"),
+		UI_TEXT("模拟计时器"),
 		attachParams(),
 		std::min((int)system().optionTimerInt, 2),
 		timerItem,
 		{
-			.onSetDisplayString = [this](auto idx, Gfx::Text &t)
+			.onSetDisplayString = [](auto idx, Gfx::Text& t)
 			{
 				if(idx == 2)
 				{
 					t.resetString(conf.raster
-						? UI_TEXT("On")
-						: UI_TEXT("Off")
+						? UI_TEXT("开")
+						: UI_TEXT("关")
 					);
 					return true;
 				}
@@ -101,7 +101,7 @@ public:
 	ConsoleOptionView(ViewAttachParams attach):
 		TableView
 		{
-			UI_TEXT("Console Options"),
+			UI_TEXT("主机选项"),
 			attach,
 			menuItem
 		}
@@ -124,26 +124,26 @@ class CustomSystemOptionView : public SystemOptionView, public MainAppHelper
 	TextMenuItem regionItem[4]
 	{
 		{
-			UI_TEXT("Japan"),
+			UI_TEXT("日本"),
 			attachParams(), setRegionDel(), {.id = CTY_JAPAN}
 		},
 		{
-			UI_TEXT("Europe"),
+			UI_TEXT("欧洲"),
 			attachParams(), setRegionDel(), {.id = CTY_EUROPE}
 		},
 		{
-			UI_TEXT("USA"),
+			UI_TEXT("美国"),
 			attachParams(), setRegionDel(), {.id = CTY_USA}
 		},
 		{
-			UI_TEXT("Asia"),
+			UI_TEXT("亚洲"),
 			attachParams(), setRegionDel(), {.id = CTY_ASIA}
 		},
 	};
 
 	MultiChoiceMenuItem region
 	{
-		UI_TEXT("MVS Region"),
+		UI_TEXT("MVS 地区"),
 		attachParams(),
 		std::min((int)conf.country, 3),
 		regionItem
@@ -192,7 +192,7 @@ class CustomSystemOptionView : public SystemOptionView, public MainAppHelper
 
 	MultiChoiceMenuItem bios
 	{
-		UI_TEXT("BIOS Type"),
+		UI_TEXT("BIOS 类型"),
 		attachParams(),
 		MenuId{conf.system},
 		biosItem
@@ -200,7 +200,7 @@ class CustomSystemOptionView : public SystemOptionView, public MainAppHelper
 
 	BoolMenuItem createAndUseCache
 	{
-		UI_TEXT("Make/Use Cache Files"),
+		UI_TEXT("使用缓存文件"),
 		attachParams(),
 		(bool)system().optionCreateAndUseCache,
 		[this](BoolMenuItem &item, View &, Input::Event e)
@@ -211,7 +211,7 @@ class CustomSystemOptionView : public SystemOptionView, public MainAppHelper
 
 	BoolMenuItem strictROMChecking
 	{
-		UI_TEXT("Strict ROM Checking"),
+		UI_TEXT("严格检查 ROM"),
 		attachParams(),
 		(bool)system().optionStrictROMChecking,
 		[this](BoolMenuItem &item, View &, Input::Event e)
@@ -237,7 +237,7 @@ class EmuGUIOptionView : public GUIOptionView, public MainAppHelper
 
 	BoolMenuItem listAll
 	{
-		UI_TEXT("List All Games"),
+		UI_TEXT("列出所有游戏"),
 		attachParams(),
 		(bool)system().optionListAllGames,
 		[this](BoolMenuItem &item, View &, Input::Event e)
@@ -547,7 +547,7 @@ public:
 	GameListView(ViewAttachParams attach):
 		TableView
 		{
-			UI_TEXT("Game List"),
+			UI_TEXT("游戏列表"),
 			attach,
 			item
 		}
@@ -591,7 +591,7 @@ public:
 						if(entry.bugs)
 						{
 							app().pushAndShowModalView(makeView<YesNoAlertView>(
-								UI_TEXT("This game doesn't yet work properly, load anyway?"),
+								UI_TEXT("这个游戏目前还不能完美运行，是否要继续读取？"),
 								YesNoAlertView::Delegates{.onYes = [this, &entry](Input::Event e){ loadGame(entry, e); }}), e);
 						}
 						else
@@ -602,7 +602,7 @@ public:
 					else
 					{
 						app().postMessage(3, 1, std::format(
-							UI_TEXT("{} not present"),
+							UI_TEXT("{} 不存在"),
 							entry.name));
 					}
 					return true;
@@ -622,22 +622,22 @@ class UnibiosSwitchesView : public TableView
 	TextMenuItem regionItem[3]
 	{
 		{
-			UI_TEXT("Japan"),
+			UI_TEXT("日本"),
 			attachParams(), [](){ setRegion(0); }
 		},
 		{
-			UI_TEXT("USA"),
+			UI_TEXT("美国"),
 			attachParams(), [](){ setRegion(1); }
 		},
 		{
-			UI_TEXT("Europe"),
+			UI_TEXT("欧洲"),
 			attachParams(), [](){ setRegion(2); }
 		},
 	};
 
 	MultiChoiceMenuItem region
 	{
-		UI_TEXT("Region"),
+		UI_TEXT("地区"),
 		attachParams(),
 		(int)memory.memcard[3] & 0x3,
 		regionItem
@@ -645,11 +645,11 @@ class UnibiosSwitchesView : public TableView
 
 	BoolMenuItem system
 	{
-		UI_TEXT("Mode"),
+		UI_TEXT("模式"),
 		attachParams(),
 		bool(memory.memcard[2] & 0x80),
-		UI_TEXT("Console (AES)"),
-		UI_TEXT("Arcade (MVS)"),
+		UI_TEXT("主机模式 (AES)"),
+		UI_TEXT("街机模式 (MVS)"),
 		[this](BoolMenuItem &item, View &, Input::Event e)
 		{
 			bool on = item.flipBoolValue(*this);
@@ -668,7 +668,7 @@ public:
 	UnibiosSwitchesView(ViewAttachParams attach):
 		TableView
 		{
-			UI_TEXT("Unibios Switches"),
+			UI_TEXT("Unibios 设置"),
 			attach,
 			items
 		}
@@ -687,7 +687,7 @@ class CustomSystemActionsView : public SystemActionsView
 private:
 	TextMenuItem unibiosSwitches
 	{
-		UI_TEXT("Unibios Switches"),
+		UI_TEXT("Unibios 设置"),
 		attachParams(),
 		[this](TextMenuItem &item, View &, Input::Event e)
 		{
@@ -700,7 +700,7 @@ private:
 				else
 				{
 					app().postMessage(
-						UI_TEXT("Only used with Unibios")
+						UI_TEXT("游戏必须和 Unibios 一起使用")
 					);
 				}
 			}
@@ -709,7 +709,7 @@ private:
 
 	TextMenuItem options
 	{
-		UI_TEXT("Console Options"),
+		UI_TEXT("主机选项"),
 		attachParams(),
 		[this](TextMenuItem &, View &, Input::Event e)
 		{

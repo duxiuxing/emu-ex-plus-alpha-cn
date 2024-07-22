@@ -108,7 +108,7 @@ void StateSlotView::refreshSlot(int slot)
 			return std::format("{}", sys.stateSlotName(slot));
 	};
 	auto &s = stateSlot[slot];
-	s = {str(), attachParams(), [this, slot](View &view)
+	s = {str(), attachParams(), [this, slot](View&)
 	{
 		auto &sys = system();
 		stateSlot[sys.stateSlot()].setHighlighted(false);
@@ -135,7 +135,7 @@ void StateSlotView::refreshSlots()
 void StateSlotView::doSaveState()
 {
 	auto slot = system().stateSlot();
-	if(app().saveStateWithSlot(slot))
+	if(app().saveStateWithSlot(slot, false))
 		app().showEmulation();
 	refreshSlot(slot);
 	place();

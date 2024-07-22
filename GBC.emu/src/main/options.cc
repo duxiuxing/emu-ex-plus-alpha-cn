@@ -28,7 +28,7 @@ std::span<const AspectRatioInfo> GbcSystem::aspectRatioInfos()
 	static constexpr AspectRatioInfo aspectRatioInfo[]
 	{
 		{
-			UI_TEXT("10:9 (Original)"),
+			UI_TEXT("10:9 (原画)"),
 			{10, 9}
 		},
 		EMU_SYSTEM_DEFAULT_ASPECT_RATIO_INFO_INIT
