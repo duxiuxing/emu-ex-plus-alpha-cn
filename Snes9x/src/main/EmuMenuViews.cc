@@ -191,11 +191,11 @@ class ConsoleOptionView : public TableView, public MainAppHelper
 	TextMenuItem deinterlaceModeItems[2]
 	{
 		{
-			UI_TEXT("Bob"),
+			UI_TEXT("Bob 算法"),
 			attachParams(), {.id = DeinterlaceMode::Bob}
 		},
 		{
-			UI_TEXT("Weave"),
+			UI_TEXT("Weave 算法"),
 			attachParams(), {.id = DeinterlaceMode::Weave}
 		},
 	};
