@@ -416,7 +416,7 @@ void MdSystem::loadContent(IO &io, EmuSystemCreateParams, OnLoadProgressDelegate
 		if(!sCD.isActive)
 		{
 			throw std::runtime_error(std::format(
-				UI_TEXT("无效的 BIOS：{}"),
+				UI_TEXT("无效的 BIOS 文件：{}"),
 				biosPath));
 		}
 	}

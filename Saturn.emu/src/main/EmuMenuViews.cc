@@ -68,7 +68,7 @@ class CustomFilePathOptionView : public FilePathOptionView, public MainAppHelper
 	std::string naBiosMenuEntryStr(std::string_view path) const
 	{
 		return std::format(
-			UI_TEXT("NA/EU BIOS：{}"),
+			UI_TEXT("NA/EU BIOS 文件：{}"),
 			appContext().fileUriDisplayName(path));
 	}
 
@@ -93,7 +93,7 @@ class CustomFilePathOptionView : public FilePathOptionView, public MainAppHelper
 	std::string jpBiosMenuEntryStr(std::string_view path) const
 	{
 		return std::format(
-			UI_TEXT("JP BIOS：{}"),
+			UI_TEXT("JP BIOS 文件：{}"),
 			appContext().fileUriDisplayName(path));
 	}
 
@@ -118,7 +118,7 @@ class CustomFilePathOptionView : public FilePathOptionView, public MainAppHelper
 	std::string kof95MenuEntryStr(std::string_view path) const
 	{
 		return std::format(
-			UI_TEXT("格斗之王 '95 ROM：{}"),
+			UI_TEXT("格斗之王 '95 ROM 文件：{}"),
 			appContext().fileUriDisplayName(path));
 	}
 
@@ -143,7 +143,7 @@ class CustomFilePathOptionView : public FilePathOptionView, public MainAppHelper
 	std::string ultramanMenuEntryStr(std::string_view path) const
 	{
 		return std::format(
-			UI_TEXT("奥特曼 ROM：{}"),
+			UI_TEXT("奥特曼 ROM 文件：{}"),
 			appContext().fileUriDisplayName(path));
 	}
 

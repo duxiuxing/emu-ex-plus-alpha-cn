@@ -36,22 +36,22 @@ using MainAppHelper = EmuAppHelperBase<MainApp>;
 
 constexpr std::string_view pceFastText
 {
-	UI_TEXT("pce_fast (Default for general use)")
+	UI_TEXT("pce_fast (推荐使用的默认值)")
 };
 constexpr std::string_view pceText
 {
-	UI_TEXT("pce (Better accuracy, higher power usage)")
+	UI_TEXT("pce (精度更好，能耗更高)")
 };
 constexpr std::string_view changeEmuCoreText
 {
-	UI_TEXT("Really change emulation core? Note that save states from different cores aren't compatible.")
+	UI_TEXT("是否要更改模拟核心？注意，不同核心的存档互不兼容。")
 };
 
 class ConsoleOptionView : public TableView, public MainAppHelper
 {
 	BoolMenuItem sixButtonPad
 	{
-		UI_TEXT("6-button Gamepad"),
+		UI_TEXT("六键手柄"),
 		attachParams(),
 		(bool)system().option6BtnPad,
 		[this](BoolMenuItem &item, const Input::Event &e)
@@ -64,7 +64,7 @@ class ConsoleOptionView : public TableView, public MainAppHelper
 
 	BoolMenuItem arcadeCard
 	{
-		UI_TEXT("Arcade Card"),
+		UI_TEXT("街机卡模式"),
 		attachParams(),
 		(bool)system().optionArcadeCard,
 		[this](BoolMenuItem &item, const Input::Event &e)
@@ -77,7 +77,7 @@ class ConsoleOptionView : public TableView, public MainAppHelper
 
 	TextHeadingMenuItem videoHeading
 	{
-		UI_TEXT("Video"),
+		UI_TEXT("视频："),
 		attachParams()
 	
 	};
@@ -108,7 +108,7 @@ class ConsoleOptionView : public TableView, public MainAppHelper
 
 	MultiChoiceMenuItem visibleVideoLines
 	{
-		UI_TEXT("Visible Lines"),
+		UI_TEXT("可见行数"),
 		attachParams(),
 		[this]()
 		{
@@ -132,7 +132,7 @@ class ConsoleOptionView : public TableView, public MainAppHelper
 	TextMenuItem emuCoreItems[3]
 	{
 		{
-			UI_TEXT("Auto"),
+			UI_TEXT("自动"),
 			attachParams(), setEmuCoreDel(), {.id = EmuCore::Auto}
 		},
 		{pceFastText, attachParams(), setEmuCoreDel(), {.id = EmuCore::Fast}},
@@ -141,7 +141,7 @@ class ConsoleOptionView : public TableView, public MainAppHelper
 
 	MultiChoiceMenuItem emuCore
 	{
-		UI_TEXT("Emulation Core"),
+		UI_TEXT("模拟器核心"),
 		attachParams(),
 		MenuId{system().core},
 		emuCoreItems,
@@ -190,7 +190,7 @@ public:
 	ConsoleOptionView(ViewAttachParams attach):
 		TableView
 		{
-			UI_TEXT("Console Options"),
+			UI_TEXT("主机选项"),
 			attach,
 			menuItem
 		}
@@ -202,7 +202,7 @@ class CustomSystemActionsView : public SystemActionsView
 private:
 	TextMenuItem options
 	{
-		UI_TEXT("Console Options"),
+		UI_TEXT("主机选项"),
 		attachParams(),
 		[this](Input::Event e) { pushAndShow(makeView<ConsoleOptionView>(), e); }
 	};
@@ -226,7 +226,7 @@ class CustomFilePathOptionView : public FilePathOptionView, public MainAppHelper
 		[this](Input::Event e)
 		{
 			pushAndShow(makeViewWithName<DataFileSelectView<>>(
-				UI_TEXT("System Card"),
+				UI_TEXT("系统卡文件"),
 				app().validSearchPath(FS::dirnameUri(system().sysCardPath)),
 				[this](CStringView path, FS::file_type type)
 				{
@@ -241,7 +241,7 @@ class CustomFilePathOptionView : public FilePathOptionView, public MainAppHelper
 	std::string biosMenuEntryStr(std::string_view path) const
 	{
 		return std::format(
-			UI_TEXT("System Card: {}"),
+			UI_TEXT("系统卡文件：{}"),
 			appContext().fileUriDisplayName(path));
 	}
 
@@ -260,7 +260,7 @@ class CustomVideoOptionView : public VideoOptionView, public MainAppHelper
 
 	BoolMenuItem spriteLimit
 	{
-		UI_TEXT("Sprite Limit"),
+		UI_TEXT("精灵限制"),
 		attachParams(),
 		!system().noSpriteLimit,
 		[this](BoolMenuItem &item) { system().setNoSpriteLimit(!item.flipBoolValue(*this)); }
@@ -292,7 +292,7 @@ class CustomVideoOptionView : public VideoOptionView, public MainAppHelper
 
 	MultiChoiceMenuItem visibleVideoLines
 	{
-		UI_TEXT("Default Visible Lines"),
+		UI_TEXT("默认可见行数"),
 		attachParams(),
 		[this]()
 		{
@@ -315,7 +315,7 @@ class CustomVideoOptionView : public VideoOptionView, public MainAppHelper
 
 	BoolMenuItem correctLineAspect
 	{
-		UI_TEXT("Correct Line Aspect Ratio"),
+		UI_TEXT("修正每行宽高比例"),
 		attachParams(),
 		system().correctLineAspect,
 		[this](BoolMenuItem &item)
@@ -362,7 +362,7 @@ class CustomSystemOptionView : public SystemOptionView, public MainAppHelper
 
 	MultiChoiceMenuItem cdSpeed
 	{
-		UI_TEXT("CD Access Speed"),
+		UI_TEXT("光盘读取倍速"),
 		attachParams(),
 		MenuId{system().cdSpeed},
 		cdSpeedItem
@@ -376,7 +376,7 @@ class CustomSystemOptionView : public SystemOptionView, public MainAppHelper
 	TextMenuItem emuCoreItems[3]
 	{
 		{
-			UI_TEXT("Auto"),
+			UI_TEXT("自动"),
 			attachParams(), setEmuCoreDel(), {.id = EmuCore::Auto}
 		},
 		{pceFastText, attachParams(), setEmuCoreDel(), {.id = EmuCore::Fast}},
@@ -385,7 +385,7 @@ class CustomSystemOptionView : public SystemOptionView, public MainAppHelper
 
 	MultiChoiceMenuItem emuCore
 	{
-		UI_TEXT("Emulation Core"),
+		UI_TEXT("模拟器核心"),
 		attachParams(),
 		MenuId{system().defaultCore},
 		emuCoreItems,
@@ -438,7 +438,7 @@ class CustomAudioOptionView : public AudioOptionView, public MainAppHelper
 
 	TextHeadingMenuItem mixer
 	{
-		UI_TEXT("Mixer"),
+		UI_TEXT("音频混合器："),
 		attachParams()
 	};
 
@@ -455,13 +455,13 @@ class CustomAudioOptionView : public AudioOptionView, public MainAppHelper
 			case VolumeType::CDDA:
 				return
 					{
-						UI_TEXT("CD-DA Volume"),
+						UI_TEXT("CD-DA 音量"),
 						0
 					};
 			case VolumeType::ADPCM:
 				return
 					{
-						UI_TEXT("ADPCM Volume"),
+						UI_TEXT("ADPCM 音量"),
 						1
 					};
 		}
@@ -476,26 +476,26 @@ class CustomAudioOptionView : public AudioOptionView, public MainAppHelper
 		{
 			TextMenuItem
 			{
-				UI_TEXT("Default"),
+				UI_TEXT("默认"),
 				attachParams(),
 				[=, this]() { system().setVolume(type, 100); },
 				{.id = 100}
 			},
 			TextMenuItem
 			{
-				UI_TEXT("Off"),
+				UI_TEXT("关"),
 				attachParams(),
 				[=, this]() { system().setVolume(type, 0); },
 				{.id = 0}
 			},
 			TextMenuItem
 			{
-				UI_TEXT("Custom Value"),
+				UI_TEXT("自定义"),
 				attachParams(),
 				[=, this](Input::Event e)
 				{
 					pushAndShowNewCollectValueRangeInputView<int, 0, 200>(attachParams(), e,
-						UI_TEXT("Input 0 to 200"),
+						UI_TEXT("请输入 0 到 200 之间的值"),
 						"",
 						[=, this](CollectTextInputView&, auto val)
 						{
@@ -543,7 +543,7 @@ class CustomAudioOptionView : public AudioOptionView, public MainAppHelper
 
 	BoolMenuItem adpcmFilter
 	{
-		UI_TEXT("ADPCM Low-pass Filter"),
+		UI_TEXT("ADPCM 低通滤波器"),
 		attachParams(),
 		system().adpcmFilter,
 		[this](BoolMenuItem &item) { system().setAdpcmFilter(item.flipBoolValue(*this)); }
