@@ -50,6 +50,7 @@ namespace EmuEx
 constexpr SystemLogger log{"NES.emu"};
 const char *EmuSystem::creditsViewStr =
 	UI_TEXT(CREDITS_INFO_STRING "(c) 2011-2024\nRobert Broglia\nwww.explusalpha.com\n\nPortions (c) the\nFCEUX Team\nfceux.com\n\n翻译：R-Sam\nGitHub\nduxiuxing/emu-ex-plus-alpha-cn");
+bool EmuSystem::hasBundledGames = true;
 bool EmuSystem::hasCheats = true;
 bool EmuSystem::hasPALVideoSystem = true;
 bool EmuSystem::hasResetModes = true;
