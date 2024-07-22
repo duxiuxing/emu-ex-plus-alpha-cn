@@ -305,7 +305,11 @@ class ConsoleOptionView : public TableView, public MainAppHelper
 		};
 	}
 
-	TextHeadingMenuItem videoHeading{"Video", attachParams()};
+	TextHeadingMenuItem videoHeading
+	{
+		UI_TEXT("Video"),
+		attachParams()
+	};
 
 	BoolMenuItem showHOverscan
 	{
