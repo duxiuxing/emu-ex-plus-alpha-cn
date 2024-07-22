@@ -450,7 +450,7 @@ class CustomFilePathOptionView : public FilePathOptionView, public MainAppHelper
 	std::string bsxMenuName(CStringView path) const
 	{
 		return std::format(
-			UI_TEXT("BS-X BIOS：{}"),
+			UI_TEXT("BS-X BIOS 文件：{}"),
 			appContext().fileUriDisplayName(path));
 	}
 
@@ -475,7 +475,7 @@ class CustomFilePathOptionView : public FilePathOptionView, public MainAppHelper
 	std::string sufamiMenuName(CStringView path) const
 	{
 		return std::format(
-			UI_TEXT("Sufami Turbo BIOS：{}"),
+			UI_TEXT("Sufami Turbo BIOS 文件：{}"),
 			appContext().fileUriDisplayName(path));
 	}
 

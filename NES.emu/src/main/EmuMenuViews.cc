@@ -788,7 +788,7 @@ class CustomFilePathOptionView : public FilePathOptionView, public MainAppHelper
 	std::string biosMenuEntryStr(CStringView path) const
 	{
 		return std::format(
-			UI_TEXT("磁碟机 BIOS：{}"),
+			UI_TEXT("磁碟机的 BIOS 文件：{}"),
 			appContext().fileUriDisplayName(path));
 	}
 

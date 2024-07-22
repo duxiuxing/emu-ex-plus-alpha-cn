@@ -78,27 +78,27 @@ std::span<const KeyCategory> PceApp::keyCategories()
 	{
 		KeyCategory
 		{
-			UI_TEXT("Gamepad"),
+			UI_TEXT("游戏按键"),
 			gpKeyInfo
 		},
 		KeyCategory
 		{
-			UI_TEXT("Gamepad 2"),
+			UI_TEXT("游戏按键 (2号手柄)"),
 			gp2KeyInfo, 1
 		},
 		KeyCategory
 		{
-			UI_TEXT("Gamepad 3"),
+			UI_TEXT("游戏按键 (3号手柄)"),
 			gp3KeyInfo, 2
 		},
 		KeyCategory
 		{
-			UI_TEXT("Gamepad 4"),
+			UI_TEXT("游戏按键 (4号手柄)"),
 			gp4KeyInfo, 3
 		},
 		KeyCategory
 		{
-			UI_TEXT("Gamepad 5"),
+			UI_TEXT("游戏按键 (5号手柄)"),
 			gp4KeyInfo, 4
 		},
 	};
@@ -110,17 +110,17 @@ std::string_view PceApp::systemKeyCodeToString(KeyCode c)
 	switch(PceKey(c))
 	{
 		case PceKey::Up:
-			return UI_TEXT("Up");
+			return UI_TEXT("上");
 		case PceKey::Right:
-			return UI_TEXT("Right");
+			return UI_TEXT("右");
 		case PceKey::Down:
-			return UI_TEXT("Down");
+			return UI_TEXT("下");
 		case PceKey::Left:
-			return UI_TEXT("Left");
+			return UI_TEXT("左");
 		case PceKey::Select:
-			return UI_TEXT("Select");
+			return UI_TEXT("选择");
 		case PceKey::Run:
-			return UI_TEXT("Run");
+			return UI_TEXT("运行");
 		case PceKey::I:
 			return UI_TEXT("I");
 		case PceKey::II:
@@ -276,34 +276,34 @@ SystemInputDeviceDesc PceSystem::inputDeviceDesc(int idx) const
 	{
 		InputComponentDesc
 		{
-			UI_TEXT("D-Pad"),
+			UI_TEXT("方向键"),
 			dpadKeyInfo, InputComponent::dPad, LB2DO
 		},
 		InputComponentDesc
 		{
-			UI_TEXT("Face Buttons"),
+			UI_TEXT("动作键"),
 			faceKeyInfo, InputComponent::button, RB2DO
 		},
 		InputComponentDesc
 		{
-			UI_TEXT("Select"),
+			UI_TEXT("选择键"),
 			{&centerKeyInfo[0], 1}, InputComponent::button, LB2DO
 		},
 		InputComponentDesc
 		{
-			UI_TEXT("Run"),
+			UI_TEXT("运行键"),
 			{&centerKeyInfo[1], 1}, InputComponent::button, RB2DO
 		},
 		InputComponentDesc
 		{
-			UI_TEXT("Select/Run"),
+			UI_TEXT("选择/运行键"),
 			centerKeyInfo, InputComponent::button, CB2DO, {.altConfig = true}
 		},
 	};
 
 	static constexpr SystemInputDeviceDesc gamepadDesc
 	{
-		UI_TEXT("Gamepad"),
+		UI_TEXT("手柄"),
 		gamepadComponents
 	};
 
