@@ -83,6 +83,19 @@ static bool hasNESExtension(std::string_view name)
 	return hasROMExtension(name) || hasFDSExtension(name) || endsWithAnyCaseless(name, ".nsf");
 }
 
+const BundledGameInfo& EmuSystem::bundledGameInfo(int) const
+{
+	static constexpr BundledGameInfo info[]
+	{
+		{
+			UI_TEXT("俄罗斯方块(美)"),
+			UI_TEXT("俄罗斯方块(美).7z")
+		}
+	};
+
+	return info[0];
+}
+
 const char *EmuSystem::shortSystemName() const
 {
 	return UI_TEXT("FC-NES");
