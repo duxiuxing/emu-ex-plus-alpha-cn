@@ -142,7 +142,7 @@ class ConsoleOptionView : public TableView, public MainAppHelper
 		system().optionVideoSystem.value(),
 		videoSystemItem,
 		{
-			.onSetDisplayString = [this](auto idx, Gfx::Text &t)
+			.onSetDisplayString = [](auto idx, Gfx::Text& t)
 			{
 				if(idx == 0)
 				{
@@ -191,7 +191,7 @@ class ConsoleOptionView : public TableView, public MainAppHelper
 		std::min((int)config.region_detect, 4),
 		regionItem,
 		{
-			.onSetDisplayString = [this](auto idx, Gfx::Text &t)
+			.onSetDisplayString = [](auto idx, Gfx::Text& t)
 			{
 				if(idx == 0)
 				{

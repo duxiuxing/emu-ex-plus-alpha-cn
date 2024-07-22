@@ -33,8 +33,8 @@ AutosaveManager::AutosaveManager(EmuApp &app_):
 	saveTimer
 	{
 		defaultSaveFreq,
-		"AutosaveManager::autosaveTimer",
-		[this]()
+		{.debugLabel = "AutosaveManager::autosaveTimer"},
+		[this]
 		{
 			log.debug("running autosave timer");
 			save();
@@ -100,7 +100,7 @@ bool AutosaveManager::saveState()
 	if(stateIO.write(state.span(), 0).bytes != ssize_t(state.size()))
 	{
 		app.postErrorMessage(4,
-			UI_TEXT("保存自动存档的进度时出错")
+			UI_TEXT("保存进度到自动存档时出错")
 		);
 		return false;
 	}
@@ -157,7 +157,7 @@ bool AutosaveManager::deleteSlot(std::string_view name)
 		return false;
 	auto ctx = appContext();
 	if(!ctx.forEachInDirectoryUri(system().contentLocalSaveDirectory(name),
-			[this, ctx](const FS::directory_entry &e)
+		[ctx](const FS::directory_entry &e)
 		{
 			ctx.removeFileUri(e.path());
 			return true;

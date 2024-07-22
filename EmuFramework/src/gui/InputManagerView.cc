@@ -179,7 +179,7 @@ InputManagerView::InputManagerView(ViewAttachParams attach,
 	{
 		UI_TEXT("重新检测系统输入设备"),
 		attach,
-		[this](const Input::Event &e)
+		[this]
 		{
 			appContext().enumInputDevices();
 			int devices = 0;
@@ -612,7 +612,7 @@ InputManagerDeviceView::InputManagerDeviceView(UTF16String name, ViewAttachParam
 		UI_TEXT("响应未映射的按键"),
 		attach,
 		inputDevData(dev).devConf.shouldHandleUnboundKeys,
-		[this](BoolMenuItem &item, const Input::Event &e)
+		[this](BoolMenuItem& item)
 		{
 			devConf.shouldHandleUnboundKeys = item.flipBoolValue(*this);
 			devConf.save(inputManager);
@@ -623,7 +623,7 @@ InputManagerDeviceView::InputManagerDeviceView(UTF16String name, ViewAttachParam
 		UI_TEXT("使用1号摇杆作为方向键"),
 		attach,
 		inputDevData(dev).devConf.joystickAxesAsKeys(Input::AxisSetId::stick1),
-		[this](BoolMenuItem &item, const Input::Event &e)
+		[this](BoolMenuItem& item)
 		{
 			devConf.setJoystickAxesAsKeys(Input::AxisSetId::stick1, item.flipBoolValue(*this));
 			devConf.save(inputManager);
@@ -634,7 +634,7 @@ InputManagerDeviceView::InputManagerDeviceView(UTF16String name, ViewAttachParam
 		UI_TEXT("使用2号摇杆作为方向键"),
 		attach,
 		inputDevData(dev).devConf.joystickAxesAsKeys(Input::AxisSetId::stick2),
-		[this](BoolMenuItem &item, const Input::Event &e)
+		[this](BoolMenuItem& item)
 		{
 			devConf.setJoystickAxesAsKeys(Input::AxisSetId::stick2, item.flipBoolValue(*this));
 			devConf.save(inputManager);
@@ -645,7 +645,7 @@ InputManagerDeviceView::InputManagerDeviceView(UTF16String name, ViewAttachParam
 		UI_TEXT("使用飞行摇杆作为方向键"),
 		attach,
 		inputDevData(dev).devConf.joystickAxesAsKeys(Input::AxisSetId::hat),
-		[this](BoolMenuItem &item, const Input::Event &e)
+		[this](BoolMenuItem& item)
 		{
 			devConf.setJoystickAxesAsKeys(Input::AxisSetId::hat, item.flipBoolValue(*this));
 			devConf.save(inputManager);
@@ -656,7 +656,7 @@ InputManagerDeviceView::InputManagerDeviceView(UTF16String name, ViewAttachParam
 		UI_TEXT("使用左右扳机作为 L2/R2 键"),
 		attach,
 		inputDevData(dev).devConf.joystickAxesAsKeys(Input::AxisSetId::triggers),
-		[this](BoolMenuItem &item, const Input::Event &e)
+		[this](BoolMenuItem& item)
 		{
 			devConf.setJoystickAxesAsKeys(Input::AxisSetId::triggers, item.flipBoolValue(*this));
 			devConf.save(inputManager);
@@ -667,7 +667,7 @@ InputManagerDeviceView::InputManagerDeviceView(UTF16String name, ViewAttachParam
 		UI_TEXT("使用刹车/油门作为 L2/R2 键"),
 		attach,
 		inputDevData(dev).devConf.joystickAxesAsKeys(Input::AxisSetId::pedals),
-		[this](BoolMenuItem &item, const Input::Event &e)
+		[this](BoolMenuItem& item)
 		{
 			devConf.setJoystickAxesAsKeys(Input::AxisSetId::pedals, item.flipBoolValue(*this));
 			devConf.save(inputManager);

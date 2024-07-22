@@ -41,7 +41,7 @@ class CustomAudioOptionView : public AudioOptionView, public MainAppHelper
 
 	MultiChoiceMenuItem resampler
 	{
-		UI_TEXT("Resampler"),
+		UI_TEXT("重采样器"),
 		attachParams(),
 		system().optionAudioResampler.value(),
 		resamplerItem
@@ -84,62 +84,62 @@ class CustomVideoOptionView : public VideoOptionView, public MainAppHelper
 	TextMenuItem gbPaletteItem[13]
 	{
 		{
-			UI_TEXT("Original"),
+			UI_TEXT("原画"),
 			attachParams(), setGbPaletteDel(), {.id = 0}
 		},
 		{
-			UI_TEXT("Brown"),
+			UI_TEXT("棕色"),
 			attachParams(), setGbPaletteDel(), {.id = 1}
 		},
 		{
-			UI_TEXT("Red"),
+			UI_TEXT("红色"),
 			attachParams(), setGbPaletteDel(), {.id = 2}
 		},
 		{
-			UI_TEXT("Dark Brown"),
+			UI_TEXT("深棕色"),
 			attachParams(), setGbPaletteDel(), {.id = 3}
 		},
 		{
-			UI_TEXT("Pastel"),
+			UI_TEXT("色粉画"),
 			attachParams(), setGbPaletteDel(), {.id = 4}
 		},
 		{
-			UI_TEXT("Orange"),
+			UI_TEXT("橙色"),
 			attachParams(), setGbPaletteDel(), {.id = 5}
 		},
 		{
-			UI_TEXT("Yellow"),
+			UI_TEXT("黄色"),
 			attachParams(), setGbPaletteDel(), {.id = 6}
 		},
 		{
-			UI_TEXT("Blue"),
+			UI_TEXT("蓝色"),
 			attachParams(), setGbPaletteDel(), {.id = 7}
 		},
 		{
-			UI_TEXT("Dark Blue"),
+			UI_TEXT("深蓝色"),
 			attachParams(), setGbPaletteDel(), {.id = 8}
 		},
 		{
-			UI_TEXT("Gray"),
+			UI_TEXT("灰色"),
 			attachParams(), setGbPaletteDel(), {.id = 9}
 		},
 		{
-			UI_TEXT("Green"),
+			UI_TEXT("绿色"),
 			attachParams(), setGbPaletteDel(), {.id = 10}
 		},
 		{
-			UI_TEXT("Dark Green"),
+			UI_TEXT("深绿色"),
 			attachParams(), setGbPaletteDel(), {.id = 11}
 		},
 		{
-			UI_TEXT("Reverse"),
+			UI_TEXT("反相颜色"),
 			attachParams(), setGbPaletteDel(), {.id = 12}
 		},
 	};
 
 	MultiChoiceMenuItem gbPalette
 	{
-		UI_TEXT("GB Palette"),
+		UI_TEXT("GB 调色板"),
 		attachParams(),
 		MenuId{system().optionGBPal},
 		gbPaletteItem
@@ -147,10 +147,10 @@ class CustomVideoOptionView : public VideoOptionView, public MainAppHelper
 
 	BoolMenuItem fullSaturation
 	{
-		UI_TEXT("Saturated GBC Colors"),
+		UI_TEXT("饱和 GBC 颜色"),
 		attachParams(),
 		(bool)system().optionFullGbcSaturation,
-		[this](BoolMenuItem &item, View &, Input::Event e)
+		[this](BoolMenuItem &item)
 		{
 			system().optionFullGbcSaturation = item.flipBoolValue(*this);
 			if(system().hasContent())
@@ -174,10 +174,10 @@ class ConsoleOptionView : public TableView, public MainAppHelper
 {
 	BoolMenuItem useBuiltinGBPalette
 	{
-		UI_TEXT("Use Built-in GB Palettes"),
+		UI_TEXT("使用内置 GB 调色板"),
 		attachParams(),
 		(bool)system().optionUseBuiltinGBPalette,
-		[this](BoolMenuItem &item, View &, Input::Event e)
+		[this](BoolMenuItem &item)
 		{
 			system().sessionOptionSet();
 			system().optionUseBuiltinGBPalette = item.flipBoolValue(*this);
@@ -187,7 +187,7 @@ class ConsoleOptionView : public TableView, public MainAppHelper
 
 	BoolMenuItem reportAsGba
 	{
-		UI_TEXT("Report Hardware as GBA"),
+		UI_TEXT("将硬件上报为 GBA"),
 		attachParams(),
 		system().optionReportAsGba,
 		[this](BoolMenuItem &item, View &, Input::Event e)
@@ -208,7 +208,7 @@ public:
 	ConsoleOptionView(ViewAttachParams attach):
 		TableView
 		{
-			UI_TEXT("Console Options"),
+			UI_TEXT("主机选项"),
 			attach,
 			menuItem
 		}
@@ -219,7 +219,7 @@ class CustomSystemActionsView : public SystemActionsView
 {
 	TextMenuItem options
 	{
-		UI_TEXT("Console Options"),
+		UI_TEXT("主机选项"),
 		attachParams(),
 		[this](TextMenuItem &, View &, Input::Event e)
 		{
@@ -248,7 +248,7 @@ class CustomFilePathOptionView : public FilePathOptionView, public MainAppHelper
 		[this](const Input::Event &e)
 		{
 			pushAndShow(makeViewWithName<UserPathSelectView>(
-				UI_TEXT("Cheats"),
+				UI_TEXT("金手指文件夹"),
 				system().userPath(system().cheatsDir),
 				[this](CStringView path)
 				{
