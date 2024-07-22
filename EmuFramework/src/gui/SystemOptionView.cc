@@ -71,7 +71,7 @@ SystemOptionView::SystemOptionView(ViewAttachParams attach, bool customMenu):
 	},
 	autosaveTimer
 	{
-		UI_TEXT("自动存档计时"),
+		UI_TEXT("计时器"),
 		attach,
 		MenuId{app().autosaveManager.saveTimer.frequency.count()},
 		autosaveTimerItem,
@@ -89,11 +89,11 @@ SystemOptionView::SystemOptionView(ViewAttachParams attach, bool customMenu):
 	autosaveLaunchItem
 	{
 		{
-			UI_TEXT("开启并自动读取进度"),
+			UI_TEXT("开启自动存档并读取进度"),
 			attach, {.id = AutosaveLaunchMode::Load}
 		},
 		{
-			UI_TEXT("开启但不读取进度"),
+			UI_TEXT("开启自动存档但不读取进度"),
 			attach, {.id = AutosaveLaunchMode::LoadNoState}
 		},
 		{
@@ -107,7 +107,7 @@ SystemOptionView::SystemOptionView(ViewAttachParams attach, bool customMenu):
 	},
 	autosaveLaunch
 	{
-		UI_TEXT("自动存档启动模式"),
+		UI_TEXT("启动模式"),
 		attach,
 		MenuId{app().autosaveManager.autosaveLaunchMode},
 		autosaveLaunchItem,
@@ -117,7 +117,7 @@ SystemOptionView::SystemOptionView(ViewAttachParams attach, bool customMenu):
 	},
 	autosaveContent
 	{
-		UI_TEXT("自动存档内容"),
+		UI_TEXT("内容"),
 		attach,
 		app().autosaveManager.saveOnlyBackupMemory,
 		UI_TEXT("保存进度和内存快照"),
@@ -186,7 +186,7 @@ SystemOptionView::SystemOptionView(ViewAttachParams attach, bool customMenu):
 		MenuId{app().altSpeed(AltSpeedMode::fast)},
 		fastModeSpeedItem,
 		{
-			.onSetDisplayString = [this](auto idx, Gfx::Text &t)
+			.onSetDisplayString = [this](auto, Gfx::Text& t)
 			{
 				t.resetString(std::format(
 					UI_TEXT("{:g}x"),
@@ -242,7 +242,7 @@ SystemOptionView::SystemOptionView(ViewAttachParams attach, bool customMenu):
 		MenuId{app().altSpeed(AltSpeedMode::slow)},
 		slowModeSpeedItem,
 		{
-			.onSetDisplayString = [this](auto idx, Gfx::Text &t)
+			.onSetDisplayString = [this](auto, Gfx::Text& t)
 			{
 				t.resetString(std::format(
 					UI_TEXT("{:g}x"),
@@ -292,7 +292,7 @@ SystemOptionView::SystemOptionView(ViewAttachParams attach, bool customMenu):
 		MenuId{app().rewindManager.maxStates},
 		rewindStatesItem,
 		{
-			.onSetDisplayString = [this](auto idx, Gfx::Text &t)
+			.onSetDisplayString = [this](auto, Gfx::Text& t)
 			{
 				t.resetString(std::format("{}", app().rewindManager.maxStates));
 				return true;

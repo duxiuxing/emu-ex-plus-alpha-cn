@@ -122,7 +122,7 @@ void readCheatFile(EmuSystem &sys_)
 		return;
 	}
 	auto size = file.get<uint16_t>();
-	for(auto i : iotaCount(size))
+	for([[maybe_unused]] auto i : iotaCount(size))
 	{
 		if(cheatList.isFull())
 		{
@@ -162,7 +162,7 @@ EmuEditCheatView::EmuEditCheatView(ViewAttachParams attach, GbcCheat &cheat_, Re
 		UI_TEXT("金手指代码"),
 		cheat_.code,
 		attach,
-		[this](DualTextMenuItem &item, View &, Input::Event e)
+		[this](Input::Event e)
 		{
 			pushAndShowNewCollectValueInputView<const char*>(attachParams(), e,
 				UI_TEXT("请输入 GS 码 (xxxxxxxx) 或 GG 码 (xxx-xxx-xxx)"),
@@ -209,8 +209,8 @@ EmuEditCheatListView::EmuEditCheatListView(ViewAttachParams attach):
 		{
 			return msg.visit(overloaded
 			{
-				[&](const ItemsMessage &m) -> ItemReply { return 1 + cheat.size(); },
-				[&](const GetItemMessage &m) -> ItemReply
+				[&](const ItemsMessage&) -> ItemReply { return 1 + cheat.size(); },
+				[&](const GetItemMessage& m) -> ItemReply
 				{
 					switch(m.idx)
 					{
@@ -225,7 +225,7 @@ EmuEditCheatListView::EmuEditCheatListView(ViewAttachParams attach):
 	{
 		UI_TEXT("添加金手指代码"),
 		attach,
-		[this](TextMenuItem &item, View &, Input::Event e)
+		[this](const Input::Event& e)
 		{
 			pushAndShowNewCollectTextInputView(attachParams(), e,
 				UI_TEXT("请输入 GS 码 (xxxxxxxx) 或 GG 码 (xxx-xxx-xxx)"),
@@ -321,7 +321,7 @@ void EmuCheatsView::loadCheatItems()
 	{
 		auto &thisCheat = *it;
 		cheat.emplace_back(thisCheat.name, attachParams(), thisCheat.isOn(),
-			[this, cIdx](BoolMenuItem &item, View &, Input::Event e)
+			[this, cIdx](BoolMenuItem &item)
 			{
 				item.flipBoolValue(*this);
 				auto &c = cheatList[cIdx];

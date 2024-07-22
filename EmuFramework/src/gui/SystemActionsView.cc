@@ -46,9 +46,9 @@ static std::string saveAutosaveName(EmuApp &app)
 {
 	auto &autosaveManager = app.autosaveManager;
 	if(!autosaveManager.timerFrequency().count())
-		return UI_TEXT("保存自动存档的进度");
+		return UI_TEXT("保存进度到自动存档");
 	return std::format(
-		UI_TEXT("保存自动存档的进度 (倒计时 {:%M:%S})"),
+		UI_TEXT("保存进度到自动存档 (倒计时 {:%M:%S})"),
 		duration_cast<Seconds>(autosaveManager.saveTimer.nextFireTime()));
 }
 

@@ -329,7 +329,7 @@ void EmuSystem::start(EmuApp &app)
 SteadyClockTime EmuSystem::benchmark(EmuVideo &video)
 {
 	auto before = SteadyClock::now();
-	for(auto i : iotaCount(180))
+	for([[maybe_unused]] auto i : iotaCount(180))
 	{
 		runFrame({}, &video, nullptr);
 	}
@@ -372,7 +372,7 @@ int EmuSystem::updateAudioFramesPerVideoFrame()
 	return wholeFrames;
 }
 
-[[gnu::weak]] FS::PathString EmuSystem::willLoadContentFromPath(std::string_view path, std::string_view displayName)
+[[gnu::weak]] FS::PathString EmuSystem::willLoadContentFromPath(std::string_view, std::string_view)
 {
 	return {};
 }

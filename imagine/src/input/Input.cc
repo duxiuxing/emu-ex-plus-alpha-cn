@@ -79,26 +79,36 @@ std::string_view BaseEvent::mapName(Map map)
 {
 	switch(map)
 	{
-		default: return "Unknown";
-		case Map::SYSTEM: return "Key Input";
-		case Map::POINTER: return "Pointer";
-		case Map::REL_POINTER: return "Relative Pointer";
+		default:
+			return UI_TEXT("Unknown");
+		case Map::SYSTEM:
+			return UI_TEXT("Key Input");
+		case Map::POINTER:
+			return UI_TEXT("Pointer");
+		case Map::REL_POINTER:
+			return UI_TEXT("Relative Pointer");
 		#ifdef CONFIG_INPUT_BLUETOOTH
-		case Map::WIIMOTE: return "Wiimote";
-		case Map::WII_CC: return "Classic / Wii U Pro Controller";
-		case Map::ICONTROLPAD: return "iControlPad";
-		case Map::ZEEMOTE: return "Zeemote JS1";
+		case Map::WIIMOTE:
+			return UI_TEXT("Wiimote");
+		case Map::WII_CC:
+			return UI_TEXT("Classic / Wii U Pro Controller");
+		case Map::ICONTROLPAD:
+			return UI_TEXT("iControlPad");
+		case Map::ZEEMOTE:
+			return UI_TEXT("Zeemote JS1");
 		#endif
 		#ifdef CONFIG_BLUETOOTH_SERVER
-		case Map::PS3PAD: return "PS3 Gamepad";
+		case Map::PS3PAD:
+			return UI_TEXT("PS3 Gamepad");
 		#endif
 		#ifdef CONFIG_INPUT_APPLE_GAME_CONTROLLER
-		case Map::APPLE_GAME_CONTROLLER: return "Apple Game Controller";
+		case Map::APPLE_GAME_CONTROLLER:
+			return UI_TEXT("Apple Game Controller");
 		#endif
 	}
 }
 
-size_t BaseEvent::mapNumKeys(Map map)
+size_t BaseEvent::mapNumKeys(Map)
 {
 	return Input::Keycode::COUNT;
 }
@@ -108,32 +118,48 @@ const char *sourceStr(Source src)
 	switch(src)
 	{
 		case Source::UNKNOWN: break;
-		case Source::KEYBOARD: return "Keyboard";
-		case Source::GAMEPAD: return "Gamepad";
-		case Source::MOUSE: return "Mouse";
-		case Source::TOUCHSCREEN: return "Touchscreen";
-		case Source::NAVIGATION: return "Navigation";
-		case Source::JOYSTICK: return "Joystick";
+		case Source::KEYBOARD:
+			return UI_TEXT("Keyboard");
+		case Source::GAMEPAD:
+			return UI_TEXT("Gamepad");
+		case Source::MOUSE:
+			return UI_TEXT("Mouse");
+		case Source::TOUCHSCREEN:
+			return UI_TEXT("Touchscreen");
+		case Source::NAVIGATION:
+			return UI_TEXT("Navigation");
+		case Source::JOYSTICK:
+			return UI_TEXT("Joystick");
 	}
-	return "Unknown";
+	return UI_TEXT("Unknown");
 }
 
 const char *actionStr(Action act)
 {
 	switch(act)
 	{
-		case Action::UNUSED: return "Unused";
-		case Action::RELEASED: return "Released";
-		case Action::PUSHED: return "Pushed";
-		case Action::MOVED: return "Moved";
-		case Action::MOVED_RELATIVE: return "Moved Relative";
-		case Action::EXIT_VIEW: return "Exit View";
-		case Action::ENTER_VIEW: return "Enter View";
-		case Action::SCROLL_UP: return "Scroll Up";
-		case Action::SCROLL_DOWN: return "Scroll Down";
-		case Action::CANCELED: return "Canceled";
+		case Action::UNUSED:
+			return UI_TEXT("Unused");
+		case Action::RELEASED:
+			return UI_TEXT("Released");
+		case Action::PUSHED:
+			return UI_TEXT("Pushed");
+		case Action::MOVED:
+			return UI_TEXT("Moved");
+		case Action::MOVED_RELATIVE:
+			return UI_TEXT("Moved Relative");
+		case Action::EXIT_VIEW:
+			return UI_TEXT("Exit View");
+		case Action::ENTER_VIEW:
+			return UI_TEXT("Enter View");
+		case Action::SCROLL_UP:
+			return UI_TEXT("Scroll Up");
+		case Action::SCROLL_DOWN:
+			return UI_TEXT("Scroll Down");
+		case Action::CANCELED:
+			return UI_TEXT("Canceled");
 	}
-	return "Unknown";
+	return UI_TEXT("Unknown");
 }
 
 Map validateMap(uint8_t mapValue)
@@ -158,7 +184,7 @@ Map validateMap(uint8_t mapValue)
 	}
 }
 
-DirectionKeys directionKeys(Map map)
+DirectionKeys directionKeys()
 {
 	return {Keycode::UP, Keycode::RIGHT, Keycode::DOWN, Keycode::LEFT};
 }
@@ -184,8 +210,8 @@ void BaseApplication::startKeyRepeatTimer(Input::KeyEvent event)
 	keyRepeatEvent.setRepeatCount(1);
 	if(!keyRepeatTimer) [[unlikely]]
 	{
-		keyRepeatTimer.emplace("keyRepeatTimer",
-			[this]()
+		keyRepeatTimer.emplace(TimerDesc{.debugLabel = "keyRepeatTimer"},
+			[this]
 			{
 				//logMsg("repeating key event");
 				if(keyRepeatEvent.pushed()) [[likely]]

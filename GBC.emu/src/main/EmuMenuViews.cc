@@ -150,7 +150,7 @@ class CustomVideoOptionView : public VideoOptionView, public MainAppHelper
 		UI_TEXT("饱和 GBC 颜色"),
 		attachParams(),
 		(bool)system().optionFullGbcSaturation,
-		[this](BoolMenuItem &item, View &, Input::Event e)
+		[this](BoolMenuItem &item)
 		{
 			system().optionFullGbcSaturation = item.flipBoolValue(*this);
 			if(system().hasContent())
@@ -177,7 +177,7 @@ class ConsoleOptionView : public TableView, public MainAppHelper
 		UI_TEXT("使用内置 GB 调色板"),
 		attachParams(),
 		(bool)system().optionUseBuiltinGBPalette,
-		[this](BoolMenuItem &item, View &, Input::Event e)
+		[this](BoolMenuItem &item)
 		{
 			system().sessionOptionSet();
 			system().optionUseBuiltinGBPalette = item.flipBoolValue(*this);
