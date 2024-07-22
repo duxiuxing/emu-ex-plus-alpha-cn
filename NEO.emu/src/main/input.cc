@@ -78,12 +78,12 @@ std::span<const KeyCategory> NeoApp::keyCategories()
 	{
 		KeyCategory
 		{
-			UI_TEXT("Gamepad"),
+			UI_TEXT("游戏按键"),
 			gpKeyInfo
 		},
 		KeyCategory
 		{
-			UI_TEXT("Gamepad 2"),
+			UI_TEXT("游戏按键 (2号手柄)"),
 			gp2KeyInfo, 1
 		},
 	};
@@ -95,19 +95,19 @@ std::string_view NeoApp::systemKeyCodeToString(KeyCode c)
 	switch(NeoKey(c))
 	{
 		case NeoKey::Up:
-			return UI_TEXT("Up");
+			return UI_TEXT("上");
 		case NeoKey::Right:
-			return UI_TEXT("Right");
+			return UI_TEXT("右");
 		case NeoKey::Down:
-			return UI_TEXT("Down");
+			return UI_TEXT("下");
 		case NeoKey::Left:
-			return UI_TEXT("Left");
+			return UI_TEXT("左");
 		case NeoKey::Select:
-			return UI_TEXT("Select");
+			return UI_TEXT("选择");
 		case NeoKey::Start:
-			return UI_TEXT("Start");
+			return UI_TEXT("开始");
 		case NeoKey::TestSwitch:
-			return UI_TEXT("Test Switch");
+			return UI_TEXT("测试开关");
 		case NeoKey::A:
 			return UI_TEXT("A");
 		case NeoKey::B:
@@ -282,34 +282,34 @@ SystemInputDeviceDesc NeoSystem::inputDeviceDesc(int idx) const
 	{
 		InputComponentDesc
 		{
-			UI_TEXT("D-Pad"),
+			UI_TEXT("方向键"),
 			dpadKeyInfo, InputComponent::dPad, LB2DO
 		},
 		InputComponentDesc
 		{
-			UI_TEXT("Face Buttons"),
+			UI_TEXT("动作键"),
 			faceKeyInfo, InputComponent::button, RB2DO, {.staggeredLayout = true}
 		},
 		InputComponentDesc
 		{
-			UI_TEXT("Select"),
+			UI_TEXT("选择键"),
 			{&centerKeyInfo[0], 1}, InputComponent::button, LB2DO
 		},
 		InputComponentDesc
 		{
-			UI_TEXT("Start"),
+			UI_TEXT("开始键"),
 			{&centerKeyInfo[1], 1}, InputComponent::button, RB2DO
 		},
 		InputComponentDesc
 		{
-			UI_TEXT("Select/Start"),
+			UI_TEXT("选择/开始键"),
 			centerKeyInfo, InputComponent::button, CB2DO, {.altConfig = true}
 		},
 	};
 
 	static constexpr SystemInputDeviceDesc gamepadDesc
 	{
-		UI_TEXT("Gamepad"),
+		UI_TEXT("手柄"),
 		gamepadComponents
 	};
 

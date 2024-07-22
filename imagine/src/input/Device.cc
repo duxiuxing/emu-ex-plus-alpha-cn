@@ -21,7 +21,7 @@ namespace IG::Input
 
 constexpr SystemLogger log{"InputDev"};
 
-static const char *keyButtonName(Key b)
+constexpr auto keyButtonName(Key b)
 {
 	switch(b)
 	{
@@ -442,7 +442,7 @@ static const char *keyButtonName(Key b)
 	return "";
 }
 
-static const char *ps3SysButtonName(Key b)
+constexpr const char* ps3SysButtonName([[maybe_unused]] Key b)
 {
 	#if defined __ANDROID__
 	switch(b)
@@ -469,7 +469,7 @@ static const char *ps3SysButtonName(Key b)
 }
 
 #ifdef __ANDROID__
-static const char *xperiaPlayButtonName(Key b)
+constexpr const char* xperiaPlayButtonName(Key b)
 {
 	switch(b)
 	{
@@ -485,7 +485,7 @@ static const char *xperiaPlayButtonName(Key b)
 	return nullptr;
 }
 
-static const char *ouyaButtonName(Key b)
+constexpr const char* ouyaButtonName(Key b)
 {
 	switch(b)
 	{
@@ -509,7 +509,7 @@ static const char *ouyaButtonName(Key b)
 #endif
 
 #ifdef CONFIG_MACHINE_PANDORA
-static const char *openPandoraButtonName(Key b)
+constexpr const char* openPandoraButtonName(Key b)
 {
 	switch(b)
 	{
@@ -599,7 +599,7 @@ const char *Device::keyName(Key k) const
 		default: return "";
 		case Map::SYSTEM:
 		{
-			auto subtypeButtonName = [](Subtype subtype, Key k) -> const char *
+			auto subtypeButtonName = [](Subtype subtype, [[maybe_unused]] Key k) -> const char *
 				{
 					switch(subtype)
 					{
