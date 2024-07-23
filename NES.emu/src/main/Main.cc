@@ -89,8 +89,8 @@ const BundledGameInfo& EmuSystem::bundledGameInfo(int) const
 	static constexpr BundledGameInfo info[]
 	{
 		{
-			UI_TEXT("俄罗斯方块(美)"),
-			UI_TEXT("俄罗斯方块(美).7z")
+			UI_TEXT("俄罗斯方块"),
+			UI_TEXT("俄罗斯方块.7z")
 		}
 	};
 
