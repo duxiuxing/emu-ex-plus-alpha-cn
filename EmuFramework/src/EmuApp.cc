@@ -1085,7 +1085,7 @@ bool EmuApp::saveState(CStringView path, bool notify)
 		system().saveState(path);
 		if(notify)
 			postMessage(
-				UI_TEXT("State Saved")
+				UI_TEXT("进度已保存")
 			);
 		return true;
 	}
