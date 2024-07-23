@@ -1084,7 +1084,9 @@ bool EmuApp::saveState(CStringView path, bool notify)
 	{
 		system().saveState(path);
 		if(notify)
-			postMessage("State Saved");
+			postMessage(
+				UI_TEXT("State Saved")
+			);
 		return true;
 	}
 	catch(std::exception &err)
