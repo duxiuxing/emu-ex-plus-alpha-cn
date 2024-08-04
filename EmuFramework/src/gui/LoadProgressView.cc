@@ -29,7 +29,7 @@ LoadProgressView::LoadProgressView(ViewAttachParams attach, const Input::Event &
 	text
 	{
 		attach.rendererTask,
-		UI_TEXT("Loading..."),
+		UI_TEXT("读取中..."),
 		&attach.viewManager.defaultFace
 	},
 	progessBarQuads{attach.rendererTask, {.size = 1}},
@@ -76,7 +76,7 @@ LoadProgressView::LoadProgressView(ViewAttachParams attach, const Input::Event &
 								break;
 							case 0: // default string
 								setLabel(
-									UI_TEXT("Loading...")
+									UI_TEXT("读取中...")
 								);
 								break;
 							default: // custom string
