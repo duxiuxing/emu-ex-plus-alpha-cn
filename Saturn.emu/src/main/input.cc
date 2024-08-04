@@ -383,7 +383,7 @@ SystemInputDeviceDesc SaturnSystem::inputDeviceDesc(int idx) const
 		},
 		InputComponentDesc
 		{
-			UI_TEXT(""L 键"),
+			UI_TEXT("L 键"),
 			lKeyInfo, InputComponent::trigger, LB2DO
 		},
 		InputComponentDesc
