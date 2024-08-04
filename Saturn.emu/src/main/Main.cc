@@ -49,7 +49,7 @@ namespace EmuEx
 
 constexpr SystemLogger log{"Saturnemu"};
 const char *EmuSystem::creditsViewStr =
-	UI_TEXT(CREDITS_INFO_STRING "(c) 2011-2024\nRobert Broglia\nwww.explusalpha.com\n\nPortions (c) the\nMednafen Team\nmednafen.github.io");
+	UI_TEXT(CREDITS_INFO_STRING "(c) 2011-2024\nRobert Broglia\nwww.explusalpha.com\n\nPortions (c) the\nMednafen Team\nmednafen.github.io\n\n翻译：R-Sam\nGitHub\nduxiuxing/emu-ex-plus-alpha-cn");
 bool EmuSystem::handlesArchiveFiles = true;
 bool EmuSystem::hasResetModes = true;
 bool EmuSystem::hasRectangularPixels = true;
@@ -98,7 +98,7 @@ void SaturnSystem::loadCartNV(EmuApp &app, FileIO &io)
 		io = app.appContext().openFileUri(app.contentSaveFilePath(fullExt), OpenFlags::testCreateFile());
 	if(!io)
 		throw std::runtime_error(std::format(
-			UI_TEXT("Error opening {}, please verify save path has write access"),
+			UI_TEXT("打开 {} 时出错，请检查保存路径的写入权限设置"),
 			contentNameExt(fullExt)));
 	auto buff = io.buffer();
 	if(!hasGzipHeader(buff))
@@ -109,7 +109,7 @@ void SaturnSystem::loadCartNV(EmuApp &app, FileIO &io)
 	auto outputSize = uncompressGzip({static_cast<uint8*>(nv_ptr), size_t(nv_size)}, buff);
 	if(!outputSize)
 		throw std::runtime_error(
-			UI_TEXT("Error uncompressing cart memory")
+			UI_TEXT("解压记忆卡数据时出错")
 		);
 	if(nv16)
 	{
@@ -268,7 +268,7 @@ void SaturnSystem::loadContent(IO &io, EmuSystemCreateParams, OnLoadProgressDele
 		auto cdImgFile = scanCDImages(ArchiveIO{std::move(io)});
 		if(!cdImgFile)
 			throw std::runtime_error(
-				UI_TEXT("No recognized file extensions in archive")
+				UI_TEXT("档案中没有可识别的文件扩展名")
 			);
 		contentFileName_ = cdImgFile.name();
 		std::vector<std::string> filenames;
@@ -313,7 +313,7 @@ void SaturnSystem::loadContent(IO &io, EmuSystemCreateParams, OnLoadProgressDele
 	}
 	if(!CDInterfaces.size())
 		throw std::runtime_error(
-			UI_TEXT("No disc images found")
+			UI_TEXT("没有发现光盘镜像")
 		);
 	writeCDMD5(mdfnGameInfo, CDInterfaces);
 	mdfnGameInfo.LoadCD(&CDInterfaces);
