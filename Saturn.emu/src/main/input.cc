@@ -412,26 +412,16 @@ static const char *toString(InputDeviceType dev)
 	using enum InputDeviceType;
 	switch(dev)
 	{
-		case none:
-			return UI_TEXT("none");
-		case gamepad:
-			return UI_TEXT("gamepad");
-		case multipad:
-			return UI_TEXT("3dpad");
-		case mouse:
-			return UI_TEXT("mouse");
-		case wheel:
-			return UI_TEXT("wheel");
-		case mission:
-			return UI_TEXT("mission");
-		case dmission:
-			return UI_TEXT("dmission");
-		case gun:
-			return UI_TEXT("gun");
-		case keyboard:
-			return UI_TEXT("keyboard");
-		case jpkeyboard:
-			return UI_TEXT("jpkeyboard");
+		case none: return "none";
+		case gamepad: return "gamepad";
+		case multipad: return "3dpad";
+		case mouse: return "mouse";
+		case wheel: return "wheel";
+		case mission: return "mission";
+		case dmission: return "dmission";
+		case gun: return "gun";
+		case keyboard: return "keyboard";
+		case jpkeyboard: return "jpkeyboard";
 	}
 	std::unreachable();
 }
