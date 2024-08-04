@@ -116,11 +116,11 @@ inline BoolMenuItem saveFilenameTypeMenuItem(auto &view, auto &system)
 {
 	return
 		{
-			UI_TEXT("Save Filename Type"),
+			UI_TEXT("存档文件名类型"),
 			view.attachParams(),
 			system.noMD5InFilenames,
-			UI_TEXT("Default"),
-			UI_TEXT("No MD5"),
+			UI_TEXT("默认"),
+			UI_TEXT("不含 MD5"),
 			[&](BoolMenuItem &item) { system.noMD5InFilenames = item.flipBoolValue(view); }
 		};
 }
@@ -187,16 +187,16 @@ inline void readStateMDFN(std::span<uint8_t> buff)
 		auto outputSize = uncompressGzip({s.map(), size_t(s.size())}, buff);
 		if(!outputSize)
 			throw std::runtime_error(
-				UI_TEXT("Error uncompressing state")
+				UI_TEXT("解压时出错")
 			);
 		if(outputSize <= 32)
 			throw std::runtime_error(
-				UI_TEXT("Invalid state size")
+				UI_TEXT("无效的数据长度信息"")
 			);
 		auto sizeFromHeader = MDFN_de32lsb(s.map() + 16 + 4) & 0x7FFFFFFF;
 		if(sizeFromHeader != outputSize)
 			throw std::runtime_error(std::format(
-				UI_TEXT("Bad state header size, got {} but expected {}"),
+				UI_TEXT("文件头部的数据长度信息错误，实际值 {} 而预期值 {}"),
 				sizeFromHeader, outputSize));
 		s.setSize(outputSize);
 		MDFNSS_LoadSM(&s);
