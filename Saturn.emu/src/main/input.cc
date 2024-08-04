@@ -120,62 +120,62 @@ std::span<const KeyCategory> SaturnApp::keyCategories()
 	{
 		KeyCategory
 		{
-			UI_TEXT("游戏按键"),
+			UI_TEXT("Gamepad"),
 			gpKeyInfo
 		},
 		KeyCategory
 		{
-			UI_TEXT("游戏按键 (2号手柄)"),
+			UI_TEXT("Gamepad 2"),
 			gp2KeyInfo, 1
 		},
 		KeyCategory
 		{
-			UI_TEXT("游戏按键 (3号手柄)"),
+			UI_TEXT("Gamepad 3"),
 			gp3KeyInfo, 2
 		},
 		KeyCategory
 		{
-			UI_TEXT("游戏按键 (4号手柄)"),
+			UI_TEXT("Gamepad 4"),
 			gp4KeyInfo, 3
 		},
 		KeyCategory
 		{
-			UI_TEXT("游戏按键 (5号手柄)"),
+			UI_TEXT("Gamepad 5"),
 			gp5KeyInfo, 4
 		},
 		KeyCategory
 		{
-			UI_TEXT("游戏按键 (6号手柄)"),
+			UI_TEXT("Gamepad 6"),
 			gp6KeyInfo, 5
 		},
 		KeyCategory
 		{
-			UI_TEXT("游戏按键 (7号手柄)"),
+			UI_TEXT("Gamepad 7"),
 			gp7KeyInfo, 6
 		},
 		KeyCategory
 		{
-			UI_TEXT("游戏按键 (8号手柄)"),
+			UI_TEXT("Gamepad 8"),
 			gp8KeyInfo, 7
 		},
 		KeyCategory
 		{
-			UI_TEXT("游戏按键 (9号手柄)"),
+			UI_TEXT("Gamepad 9"),
 			gp9KeyInfo, 8
 		},
 		KeyCategory
 		{
-			UI_TEXT("游戏按键 (10号手柄)"),
+			UI_TEXT("Gamepad 10"),
 			gp10KeyInfo, 9
 		},
 		KeyCategory
 		{
-			UI_TEXT("游戏按键 (11号手柄)"),
+			UI_TEXT("Gamepad 11"),
 			gp11KeyInfo, 10
 		},
 		KeyCategory
 		{
-			UI_TEXT("游戏按键 (12号手柄)"),
+			UI_TEXT("Gamepad 12"),
 			gp12KeyInfo, 11
 		},
 	};
@@ -187,15 +187,15 @@ std::string_view SaturnApp::systemKeyCodeToString(KeyCode c)
 	switch(SaturnKey(c))
 	{
 		case SaturnKey::Up:
-			return UI_TEXT("上");
+			return UI_TEXT("Up");
 		case SaturnKey::Right:
-			return UI_TEXT("右");
+			return UI_TEXT("Right");
 		case SaturnKey::Down:
-			return UI_TEXT("下");
+			return UI_TEXT("Down");
 		case SaturnKey::Left:
-			return UI_TEXT("左");
+			return UI_TEXT("Left");
 		case SaturnKey::Start:
-			return UI_TEXT("开始");
+			return UI_TEXT("Start");
 		case SaturnKey::A:
 			return UI_TEXT("A");
 		case SaturnKey::B:
@@ -368,39 +368,39 @@ SystemInputDeviceDesc SaturnSystem::inputDeviceDesc(int idx) const
 	{
 		InputComponentDesc
 		{
-			UI_TEXT("方向键"),
+			UI_TEXT("D-Pad"),
 			dpadKeyInfo, InputComponent::dPad, LB2DO
 		},
 		InputComponentDesc
 		{
-			UI_TEXT("动作键"),
+			UI_TEXT("Face Buttons"),
 			faceKeyInfo, InputComponent::button, RB2DO
 		},
 		InputComponentDesc
 		{
-			UI_TEXT("动作键 + L/R 键"),
+			UI_TEXT("Face Buttons + Inline L/R"),
 			faceLRKeyInfo, InputComponent::button, RB2DO, {.altConfig = true}
 		},
 		InputComponentDesc
 		{
-			UI_TEXT("L 键"),
+			UI_TEXT("L"),
 			lKeyInfo, InputComponent::trigger, LB2DO
 		},
 		InputComponentDesc
 		{
-			UI_TEXT("R 键"),
+			UI_TEXT("R"),
 			rKeyInfo, InputComponent::trigger, RB2DO
 		},
 		InputComponentDesc
 		{
-			UI_TEXT("开始键"),
+			UI_TEXT("Start"),
 			centerKeyInfo, InputComponent::button, RB2DO
 		},
 	};
 
 	static constexpr SystemInputDeviceDesc gamepadDesc
 	{
-		UI_TEXT("手柄"),
+		UI_TEXT("Gamepad"),
 		gamepadComponents
 	};
 
@@ -413,25 +413,25 @@ static const char *toString(InputDeviceType dev)
 	switch(dev)
 	{
 		case none:
-			return UI_TEXT("无");
+			return UI_TEXT("none");
 		case gamepad:
-			return UI_TEXT("手柄");
+			return UI_TEXT("gamepad");
 		case multipad:
-			return UI_TEXT("格斗手柄");
+			return UI_TEXT("3dpad");
 		case mouse:
-			return UI_TEXT("鼠标");
+			return UI_TEXT("mouse");
 		case wheel:
-			return UI_TEXT("方向盘");
+			return UI_TEXT("wheel");
 		case mission:
-			return UI_TEXT("飞行摇杆");
+			return UI_TEXT("mission");
 		case dmission:
-			return UI_TEXT("战机摇杆");
+			return UI_TEXT("dmission");
 		case gun:
-			return UI_TEXT("光枪");
+			return UI_TEXT("gun");
 		case keyboard:
-			return UI_TEXT("键盘");
+			return UI_TEXT("keyboard");
 		case jpkeyboard:
-			return UI_TEXT("JP 键盘");
+			return UI_TEXT("jpkeyboard");
 	}
 	std::unreachable();
 }

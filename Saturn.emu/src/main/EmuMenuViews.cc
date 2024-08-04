@@ -68,7 +68,7 @@ class CustomFilePathOptionView : public FilePathOptionView, public MainAppHelper
 	std::string naBiosMenuEntryStr(std::string_view path) const
 	{
 		return std::format(
-			UI_TEXT("NA/EU BIOS 文件：{}"),
+			UI_TEXT("NA/EU BIOS: {}"),
 			appContext().fileUriDisplayName(path));
 	}
 
@@ -93,7 +93,7 @@ class CustomFilePathOptionView : public FilePathOptionView, public MainAppHelper
 	std::string jpBiosMenuEntryStr(std::string_view path) const
 	{
 		return std::format(
-			UI_TEXT("JP BIOS 文件：{}"),
+			UI_TEXT("JP BIOS: {}"),
 			appContext().fileUriDisplayName(path));
 	}
 
@@ -103,7 +103,7 @@ class CustomFilePathOptionView : public FilePathOptionView, public MainAppHelper
 		[this](Input::Event e)
 		{
 			pushAndShow(makeViewWithName<DataFileSelectView<ArchivePathSelectMode::exclude>>(
-				UI_TEXT("格斗之王 '95 ROM"),
+				UI_TEXT("KoF '95 ROM"),
 				app().validSearchPath(FS::dirnameUri(system().kof95ROMPath)),
 				[this](CStringView path, FS::file_type type)
 				{
@@ -118,7 +118,7 @@ class CustomFilePathOptionView : public FilePathOptionView, public MainAppHelper
 	std::string kof95MenuEntryStr(std::string_view path) const
 	{
 		return std::format(
-			UI_TEXT("格斗之王 '95 ROM 文件：{}"),
+			UI_TEXT("KoF '95 ROM: {}"),
 			appContext().fileUriDisplayName(path));
 	}
 
@@ -128,7 +128,7 @@ class CustomFilePathOptionView : public FilePathOptionView, public MainAppHelper
 		[this](Input::Event e)
 		{
 			pushAndShow(makeViewWithName<DataFileSelectView<ArchivePathSelectMode::exclude>>(
-				UI_TEXT("奥特曼 ROM"),
+				UI_TEXT("Ultraman ROM"),
 				app().validSearchPath(FS::dirnameUri(system().ultramanROMPath)),
 				[this](CStringView path, FS::file_type type)
 				{
@@ -143,7 +143,7 @@ class CustomFilePathOptionView : public FilePathOptionView, public MainAppHelper
 	std::string ultramanMenuEntryStr(std::string_view path) const
 	{
 		return std::format(
-			UI_TEXT("奥特曼 ROM 文件：{}"),
+			UI_TEXT("Ultraman ROM: {}"),
 			appContext().fileUriDisplayName(path));
 	}
 
@@ -163,9 +163,9 @@ constexpr auto cartTypeToString(int t)
 	switch(t)
 	{
 		case CART_NONE:
-			return UI_TEXT("无");
+			return UI_TEXT("None");
 		case CART_BACKUP_MEM:
-			return UI_TEXT("512K 备份 RAM");
+			return UI_TEXT("512K Backup RAM");
 		case CART_EXTRAM_1M:
 			return UI_TEXT("1M RAM");
 		case CART_EXTRAM_4M:
@@ -173,9 +173,9 @@ constexpr auto cartTypeToString(int t)
 		case CART_CS1RAM_16M:
 			return UI_TEXT("16M CS1 RAM");
 		case CART_KOF95:
-			return UI_TEXT("格斗之王 '95");
+			return UI_TEXT("KoF '95");
 		case CART_ULTRAMAN:
-			return UI_TEXT("奥特曼");
+			return UI_TEXT("Ultraman");
 	}
 	return "";
 }
@@ -185,21 +185,21 @@ constexpr auto regionToString(int t)
 	switch(t)
 	{
 		case SMPC_AREA_JP:
-			return UI_TEXT("日本");
+			return UI_TEXT("Japan");
 		case SMPC_AREA_NA:
-			return UI_TEXT("北美");
+			return UI_TEXT("North America");
 		case SMPC_AREA_EU_PAL:
-			return UI_TEXT("欧洲");
+			return UI_TEXT("Europe");
 		case SMPC_AREA_KR:
-			return UI_TEXT("韩国");
+			return UI_TEXT("South Korea");
 		case SMPC_AREA_ASIA_NTSC:
-			return UI_TEXT("亚洲 (NTSC)");
+			return UI_TEXT("Asia (NTSC)");
 		case SMPC_AREA_ASIA_PAL:
-			return UI_TEXT("亚洲 (PAL)");
+			return UI_TEXT("Asia (PAL)");
 		case SMPC_AREA_CSA_NTSC:
-			return UI_TEXT("巴西");
+			return UI_TEXT("Brazil");
 		case SMPC_AREA_CSA_PAL:
-			return UI_TEXT("拉丁美洲");
+			return UI_TEXT("Latin America");
 	}
 	return "";
 }
@@ -209,7 +209,7 @@ class ConsoleOptionView : public TableView, public MainAppHelper
 	TextMenuItem cartTypeItems[8]
 	{
 		{
-			UI_TEXT("自动"),
+			UI_TEXT("Auto"),
 			attachParams(), {.id = CART__RESERVED}
 		},
 		{cartTypeToString(CART_NONE),       attachParams(), {.id = CART_NONE}},
@@ -223,7 +223,7 @@ class ConsoleOptionView : public TableView, public MainAppHelper
 
 	MultiChoiceMenuItem cartType
 	{
-		UI_TEXT("卡带类型"),
+		UI_TEXT("Cart Type"),
 		attachParams(),
 		MenuId{system().cartType},
 		cartTypeItems,
@@ -249,7 +249,7 @@ class ConsoleOptionView : public TableView, public MainAppHelper
 	TextMenuItem regionItems[9]
 	{
 		{
-			UI_TEXT("自动"),
+			UI_TEXT("Auto"),
 			attachParams(), {.id = 0}
 		},
 		{regionToString(SMPC_AREA_JP),        attachParams(), {.id = SMPC_AREA_JP}},
@@ -264,7 +264,7 @@ class ConsoleOptionView : public TableView, public MainAppHelper
 
 	MultiChoiceMenuItem region
 	{
-		UI_TEXT("地区"),
+		UI_TEXT("Region"),
 		attachParams(),
 		MenuId{system().region},
 		regionItems,
@@ -291,7 +291,7 @@ class ConsoleOptionView : public TableView, public MainAppHelper
 
 	MultiChoiceMenuItem disc
 	{
-		UI_TEXT("光盘"),
+		UI_TEXT("Disc"),
 		attachParams(),
 		MenuId{system().currentDiscId()},
 		discItems
@@ -307,13 +307,13 @@ class ConsoleOptionView : public TableView, public MainAppHelper
 
 	TextHeadingMenuItem videoHeading
 	{
-		UI_TEXT("视频："),
+		UI_TEXT("Video"),
 		attachParams()
 	};
 
 	BoolMenuItem showHOverscan
 	{
-		UI_TEXT("显示过度扫描裁剪掉的图像"),
+		UI_TEXT("Show Horizontal Overscan"),
 		attachParams(),
 		system().showHOverscan,
 		[this](BoolMenuItem &item)
@@ -353,7 +353,7 @@ class ConsoleOptionView : public TableView, public MainAppHelper
 
 	MultiChoiceMenuItem visibleVideoLines
 	{
-		UI_TEXT("可见行数"),
+		UI_TEXT("Visible Lines"),
 		attachParams(),
 		std::bit_cast<MenuId>(system().videoLines),
 		[&]() -> std::span<TextMenuItem>
@@ -375,18 +375,18 @@ class ConsoleOptionView : public TableView, public MainAppHelper
 	TextMenuItem deinterlaceModeItems[2]
 	{
 		{
-			UI_TEXT("Bob 算法"),
+			UI_TEXT("Bob"),
 			attachParams(), {.id = DeinterlaceMode::Bob}
 		},
 		{
-			UI_TEXT("Weave 算法"),
+			UI_TEXT("Weave"),
 			attachParams(), {.id = DeinterlaceMode::Weave}
 		},
 	};
 
 	MultiChoiceMenuItem deinterlaceMode
 	{
-		UI_TEXT("反交错算法"),
+		UI_TEXT("Deinterlace Mode"),
 		attachParams(),
 		MenuId{system().deinterlaceMode},
 		deinterlaceModeItems,
@@ -402,30 +402,30 @@ class ConsoleOptionView : public TableView, public MainAppHelper
 	TextMenuItem contentRotationItems[5]
 	{
 		{
-			UI_TEXT("自动"),
+			UI_TEXT("Auto"),
 			attachParams(), {.id = Rotation::ANY}
 		},
 		{
-			UI_TEXT("标准"),
+			UI_TEXT("Standard"),
 			attachParams(), {.id = Rotation::UP}
 		},
 		{
-			UI_TEXT("右转 90 度"),
+			UI_TEXT("90° Right"),
 			attachParams(), {.id = Rotation::RIGHT}
 		},
 		{
-			UI_TEXT("旋转 180 度"),
+			UI_TEXT("Upside Down"),
 			attachParams(), {.id = Rotation::DOWN}
 		},
 		{
-			UI_TEXT("左转 90 度"),
+			UI_TEXT("90° Left"),
 			attachParams(), {.id = Rotation::LEFT}
 		},
 	};
 
 	MultiChoiceMenuItem contentRotation
 	{
-		UI_TEXT("画面旋转"),
+		UI_TEXT("Content Rotation"),
 		attachParams(),
 		MenuId{system().sysContentRotation},
 		contentRotationItems,
@@ -442,22 +442,22 @@ class ConsoleOptionView : public TableView, public MainAppHelper
 	TextMenuItem widescreenModeItems[3]
 	{
 		{
-			UI_TEXT("自动"),
+			UI_TEXT("Auto"),
 			attachParams(), {.id = WidescreenMode::Auto}
 		},
 		{
-			UI_TEXT("开"),
+			UI_TEXT("On"),
 			attachParams(), {.id = WidescreenMode::On}
 		},
 		{
-			UI_TEXT("关"),
+			UI_TEXT("Off"),
 			attachParams(), {.id = WidescreenMode::Off}
 		},
 	};
 
 	MultiChoiceMenuItem widescreenMode
 	{
-		UI_TEXT("宽屏模式"),
+		UI_TEXT("Anamorphic Widescreen Content"),
 		attachParams(),
 		MenuId{system().widescreenMode},
 		widescreenModeItems,
@@ -473,7 +473,7 @@ class ConsoleOptionView : public TableView, public MainAppHelper
 
 	TextHeadingMenuItem inputHeading
 	{
-		UI_TEXT("输入："),
+		UI_TEXT("Input"),
 		attachParams()
 	};
 
@@ -482,7 +482,7 @@ class ConsoleOptionView : public TableView, public MainAppHelper
 		return
 		{
 			std::format(
-				UI_TEXT("端口 {} 扩展模式"),
+				UI_TEXT("Port {} Multitap"),
 				idx + 1),
 			attachParams(),
 			system().inputConfig.multitaps[idx],
@@ -503,15 +503,15 @@ class ConsoleOptionView : public TableView, public MainAppHelper
 	TextMenuItem inputDeviceItems[3]
 	{
 		{
-			UI_TEXT("手柄"),
+			UI_TEXT("Gamepad"),
 			attachParams(), setInputPortsDel(), {.id = InputDeviceType::gamepad}
 		},
 		{
-			UI_TEXT("光枪"),
+			UI_TEXT("Gun"),
 			attachParams(), setInputPortsDel(), {.id = InputDeviceType::gun}
 		},
 		{
-			UI_TEXT("无"),
+			UI_TEXT("None"),
 			attachParams(), setInputPortsDel(), {.id = InputDeviceType::none}
 		},
 	};
@@ -521,7 +521,7 @@ class ConsoleOptionView : public TableView, public MainAppHelper
 		return
 		{
 			std::format(
-				UI_TEXT("端口 {}"),
+				UI_TEXT("Port {}"),
 				idx + 1),
 			attachParams(),
 			MenuId{system().inputConfig.devs[idx]},
@@ -583,7 +583,7 @@ public:
 	ConsoleOptionView(ViewAttachParams attach):
 		TableView
 		{
-			UI_TEXT("主机选项"),
+			UI_TEXT("Console Options"),
 			attach,
 			menuItems
 		},
@@ -594,7 +594,7 @@ public:
 				auto discItems = DynArray<TextMenuItem>{system.CDInterfaces.size() + 1};
 				discItems[0] =
 					{
-						UI_TEXT("弹出"),
+						UI_TEXT("Eject"),
 						attachParams(), setDiscDel(), {.id = -1}
 					};
 				const char *numStrings[] {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14" , "15", "16"};
@@ -631,7 +631,7 @@ class CustomSystemActionsView : public SystemActionsView
 private:
 	TextMenuItem options
 	{
-		UI_TEXT("主机选项"),
+		UI_TEXT("Console Options"),
 		attachParams(),
 		[this](Input::Event e) { pushAndShow(makeView<ConsoleOptionView>(), e); }
 	};
@@ -650,7 +650,7 @@ class CustomSystemOptionView : public SystemOptionView, public MainAppHelper
 
 	BoolMenuItem autoSetRTC
 	{
-		UI_TEXT("启动时自动设置实时时钟"),
+		UI_TEXT("Auto-Set RTC On Start"),
 		attachParams(),
 		system().autoRTCTime,
 		[this](BoolMenuItem &item)
@@ -662,34 +662,34 @@ class CustomSystemOptionView : public SystemOptionView, public MainAppHelper
 	TextMenuItem biosLanguageItems[6]
 	{
 		{
-			UI_TEXT("英语"),
+			UI_TEXT("English"),
 			attachParams(), {.id = SMPC_RTC_LANG_ENGLISH}
 		},
 		{
-			UI_TEXT("德语"),
+			UI_TEXT("German"),
 			attachParams(), {.id = SMPC_RTC_LANG_GERMAN}
 		},
 		{
-			UI_TEXT("法语"),
+			UI_TEXT("French"),
 			attachParams(), {.id = SMPC_RTC_LANG_FRENCH}
 		},
 		{
-			UI_TEXT("西班牙语"),
+			UI_TEXT("Spanish"),
 			attachParams(), {.id = SMPC_RTC_LANG_SPANISH}
 		},
 		{
-			UI_TEXT("意大利语"),
+			UI_TEXT("Italian"),
 			attachParams(), {.id = SMPC_RTC_LANG_ITALIAN}
 		},
 		{
-			UI_TEXT("日语"),
+			UI_TEXT("Japanese"),
 			attachParams(), {.id = SMPC_RTC_LANG_JAPANESE}
 		},
 	};
 
 	MultiChoiceMenuItem biosLanguage
 	{
-		UI_TEXT("BIOS 语言"),
+		UI_TEXT("BIOS Language"),
 		attachParams(),
 		MenuId{system().biosLanguage},
 		biosLanguageItems,
@@ -720,7 +720,7 @@ class CustomVideoOptionView : public VideoOptionView, public MainAppHelper
 
 	BoolMenuItem showHOverscan
 	{
-		UI_TEXT("默认显示过度扫描裁剪掉的图像"),
+		UI_TEXT("Default Show Horizontal Overscan"),
 		attachParams(),
 		system().defaultShowHOverscan,
 		[this](BoolMenuItem &item)
@@ -743,7 +743,7 @@ class CustomVideoOptionView : public VideoOptionView, public MainAppHelper
 
 	MultiChoiceMenuItem visibleVideoLines
 	{
-		UI_TEXT("NTSC 制式默认可见行数"),
+		UI_TEXT("Default NTSC Visible Lines"),
 		attachParams(),
 		std::bit_cast<MenuId>(system().defaultNtscLines),
 		visibleVideoLinesItem,
@@ -757,7 +757,7 @@ class CustomVideoOptionView : public VideoOptionView, public MainAppHelper
 
 	BoolMenuItem correctLineAspect
 	{
-		UI_TEXT("修正每行宽高比例"),
+		UI_TEXT("Correct Line Aspect Ratio"),
 		attachParams(),
 		system().correctLineAspect,
 		[this](BoolMenuItem &item)
