@@ -368,39 +368,39 @@ SystemInputDeviceDesc SaturnSystem::inputDeviceDesc(int idx) const
 	{
 		InputComponentDesc
 		{
-			UI_TEXT("D-Pad"),
+			UI_TEXT("方向键"),
 			dpadKeyInfo, InputComponent::dPad, LB2DO
 		},
 		InputComponentDesc
 		{
-			UI_TEXT("Face Buttons"),
+			UI_TEXT("动作键"),
 			faceKeyInfo, InputComponent::button, RB2DO
 		},
 		InputComponentDesc
 		{
-			UI_TEXT("Face Buttons + Inline L/R"),
+			UI_TEXT("动作键 + L/R 键"),
 			faceLRKeyInfo, InputComponent::button, RB2DO, {.altConfig = true}
 		},
 		InputComponentDesc
 		{
-			UI_TEXT("L"),
+			UI_TEXT("L 键"),
 			lKeyInfo, InputComponent::trigger, LB2DO
 		},
 		InputComponentDesc
 		{
-			UI_TEXT("R"),
+			UI_TEXT("R 键"),
 			rKeyInfo, InputComponent::trigger, RB2DO
 		},
 		InputComponentDesc
 		{
-			UI_TEXT("Start"),
+			UI_TEXT("开始键"),
 			centerKeyInfo, InputComponent::button, RB2DO
 		},
 	};
 
 	static constexpr SystemInputDeviceDesc gamepadDesc
 	{
-		UI_TEXT("Gamepad"),
+		UI_TEXT("手柄"),
 		gamepadComponents
 	};
 
@@ -413,25 +413,25 @@ static const char *toString(InputDeviceType dev)
 	switch(dev)
 	{
 		case none:
-			return UI_TEXT("none");
+			return UI_TEXT("无");
 		case gamepad:
-			return UI_TEXT("gamepad");
+			return UI_TEXT("手柄");
 		case multipad:
-			return UI_TEXT("3dpad");
+			return UI_TEXT("格斗手柄");
 		case mouse:
-			return UI_TEXT("mouse");
+			return UI_TEXT("鼠标");
 		case wheel:
-			return UI_TEXT("wheel");
+			return UI_TEXT("方向盘");
 		case mission:
-			return UI_TEXT("mission");
+			return UI_TEXT("飞行摇杆");
 		case dmission:
-			return UI_TEXT("dmission");
+			return UI_TEXT("战机摇杆");
 		case gun:
-			return UI_TEXT("gun");
+			return UI_TEXT("光枪");
 		case keyboard:
-			return UI_TEXT("keyboard");
+			return UI_TEXT("键盘");
 		case jpkeyboard:
-			return UI_TEXT("jpkeyboard");
+			return UI_TEXT("JP 键盘");
 	}
 	std::unreachable();
 }
