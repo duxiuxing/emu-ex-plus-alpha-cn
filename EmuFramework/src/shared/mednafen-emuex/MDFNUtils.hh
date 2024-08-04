@@ -114,11 +114,15 @@ inline std::string savePathMDFN(int id1, const char *cd1)
 
 inline BoolMenuItem saveFilenameTypeMenuItem(auto &view, auto &system)
 {
-	return {"Save Filename Type", view.attachParams(),
-		system.noMD5InFilenames,
-		"Default", "No MD5",
-		[&](BoolMenuItem &item) { system.noMD5InFilenames = item.flipBoolValue(view); }
-	};
+	return
+		{
+			UI_TEXT("Save Filename Type"),
+			view.attachParams(),
+			system.noMD5InFilenames,
+			UI_TEXT("Default"),
+			UI_TEXT("No MD5"),
+			[&](BoolMenuItem &item) { system.noMD5InFilenames = item.flipBoolValue(view); }
+		};
 }
 
 inline void loadContent(EmuSystem &sys, Mednafen::MDFNGI &mdfnGameInfo, IO &io, size_t maxContentSize)
@@ -182,12 +186,18 @@ inline void readStateMDFN(std::span<uint8_t> buff)
 		MemoryStream s{gzipUncompressedSize(buff), -1};
 		auto outputSize = uncompressGzip({s.map(), size_t(s.size())}, buff);
 		if(!outputSize)
-			throw std::runtime_error("Error uncompressing state");
+			throw std::runtime_error(
+				UI_TEXT("Error uncompressing state")
+			);
 		if(outputSize <= 32)
-			throw std::runtime_error("Invalid state size");
+			throw std::runtime_error(
+				UI_TEXT("Invalid state size")
+			);
 		auto sizeFromHeader = MDFN_de32lsb(s.map() + 16 + 4) & 0x7FFFFFFF;
 		if(sizeFromHeader != outputSize)
-			throw std::runtime_error(std::format("Bad state header size, got {} but expected {}", sizeFromHeader, outputSize));
+			throw std::runtime_error(std::format(
+				UI_TEXT("Bad state header size, got {} but expected {}"),
+				sizeFromHeader, outputSize));
 		s.setSize(outputSize);
 		MDFNSS_LoadSM(&s);
 	}
