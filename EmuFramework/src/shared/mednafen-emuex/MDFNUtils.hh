@@ -191,7 +191,7 @@ inline void readStateMDFN(std::span<uint8_t> buff)
 			);
 		if(outputSize <= 32)
 			throw std::runtime_error(
-				UI_TEXT("无效的数据长度信息"")
+				UI_TEXT("无效的数据长度信息")
 			);
 		auto sizeFromHeader = MDFN_de32lsb(s.map() + 16 + 4) & 0x7FFFFFFF;
 		if(sizeFromHeader != outputSize)
