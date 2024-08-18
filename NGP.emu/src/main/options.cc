@@ -28,7 +28,11 @@ std::span<const AspectRatioInfo> NgpSystem::aspectRatioInfos()
 {
 	static constexpr AspectRatioInfo aspectRatioInfo[]
 	{
-		{"20:19 (Original)", {20, 19}},
+		{
+			
+			UI_TEXT("20:19 (Original)"),
+			{20, 19}
+		},
 		EMU_SYSTEM_DEFAULT_ASPECT_RATIO_INFO_INIT
 	};
 	return aspectRatioInfo;
