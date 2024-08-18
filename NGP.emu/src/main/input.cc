@@ -60,7 +60,11 @@ std::span<const KeyCategory> NgpApp::keyCategories()
 {
 	static constexpr std::array categories
 	{
-		KeyCategory{"Gamepad", gpKeyInfo},
+		KeyCategory
+		{
+			UI_TEXT("Gamepad"),
+			gpKeyInfo
+		},
 	};
 	return categories;
 }
@@ -69,13 +73,20 @@ std::string_view NgpApp::systemKeyCodeToString(KeyCode c)
 {
 	switch(NgpKey(c))
 	{
-		case NgpKey::Up: return "Up";
-		case NgpKey::Right: return "Right";
-		case NgpKey::Down: return "Down";
-		case NgpKey::Left: return "Left";
-		case NgpKey::Option: return "Option";
-		case NgpKey::A: return "A";
-		case NgpKey::B: return "B";
+		case NgpKey::Up:
+			return UI_TEXT("Up");
+		case NgpKey::Right:
+			return UI_TEXT("Right");
+		case NgpKey::Down:
+			return UI_TEXT("Down");
+		case NgpKey::Left:
+			return UI_TEXT("Left");
+		case NgpKey::Option:
+			return UI_TEXT("Option");
+		case NgpKey::A:
+			return UI_TEXT("A");
+		case NgpKey::B:
+			return UI_TEXT("B");
 		default: return "";
 	}
 }
@@ -177,12 +188,28 @@ SystemInputDeviceDesc NgpSystem::inputDeviceDesc(int idx) const
 {
 	static constexpr std::array gamepadComponents
 	{
-		InputComponentDesc{"D-Pad", dpadKeyInfo, InputComponent::dPad, LB2DO},
-		InputComponentDesc{"Face Buttons", faceKeyInfo, InputComponent::button, RB2DO},
-		InputComponentDesc{"Option", optionKeyInfo, InputComponent::button, RB2DO},
+		InputComponentDesc
+		{
+			UI_TEXT("D-Pad"),
+			dpadKeyInfo, InputComponent::dPad, LB2DO
+		},
+		InputComponentDesc
+		{
+			UI_TEXT("Face Buttons"),
+			faceKeyInfo, InputComponent::button, RB2DO
+		},
+		InputComponentDesc
+		{
+			UI_TEXT("Option"),
+			optionKeyInfo, InputComponent::button, RB2DO
+		},
 	};
 
-	static constexpr SystemInputDeviceDesc gamepadDesc{"Gamepad", gamepadComponents};
+	static constexpr SystemInputDeviceDesc gamepadDesc
+	{
+		UI_TEXT("Gamepad"),
+		gamepadComponents
+	};
 
 	return gamepadDesc;
 }
