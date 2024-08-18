@@ -29,7 +29,6 @@ std::span<const AspectRatioInfo> NgpSystem::aspectRatioInfos()
 	static constexpr AspectRatioInfo aspectRatioInfo[]
 	{
 		{
-			
 			UI_TEXT("20:19 (Original)"),
 			{20, 19}
 		},
