@@ -62,7 +62,7 @@ std::span<const KeyCategory> NgpApp::keyCategories()
 	{
 		KeyCategory
 		{
-			UI_TEXT("Gamepad"),
+			UI_TEXT("游戏按键"),
 			gpKeyInfo
 		},
 	};
@@ -74,15 +74,15 @@ std::string_view NgpApp::systemKeyCodeToString(KeyCode c)
 	switch(NgpKey(c))
 	{
 		case NgpKey::Up:
-			return UI_TEXT("Up");
+			return UI_TEXT("上");
 		case NgpKey::Right:
-			return UI_TEXT("Right");
+			return UI_TEXT("右");
 		case NgpKey::Down:
-			return UI_TEXT("Down");
+			return UI_TEXT("下");
 		case NgpKey::Left:
-			return UI_TEXT("Left");
+			return UI_TEXT("左");
 		case NgpKey::Option:
-			return UI_TEXT("Option");
+			return UI_TEXT("选项");
 		case NgpKey::A:
 			return UI_TEXT("A");
 		case NgpKey::B:
@@ -190,24 +190,24 @@ SystemInputDeviceDesc NgpSystem::inputDeviceDesc(int idx) const
 	{
 		InputComponentDesc
 		{
-			UI_TEXT("D-Pad"),
+			UI_TEXT("方向键"),
 			dpadKeyInfo, InputComponent::dPad, LB2DO
 		},
 		InputComponentDesc
 		{
-			UI_TEXT("Face Buttons"),
+			UI_TEXT("动作键"),
 			faceKeyInfo, InputComponent::button, RB2DO
 		},
 		InputComponentDesc
 		{
-			UI_TEXT("Option"),
+			UI_TEXT("选项键"),
 			optionKeyInfo, InputComponent::button, RB2DO
 		},
 	};
 
 	static constexpr SystemInputDeviceDesc gamepadDesc
 	{
-		UI_TEXT("Gamepad"),
+		UI_TEXT("手柄"),
 		gamepadComponents
 	};
 

@@ -28,11 +28,11 @@ class CustomSystemOptionView : public SystemOptionView, public MainAppHelper
 
 	BoolMenuItem ngpLanguage
 	{
-		UI_TEXT("NGP Language"),
+		UI_TEXT("NGP 语言"),
 		attachParams(),
 		system().optionNGPLanguage,
-		UI_TEXT("Japanese"),
-		UI_TEXT("English"),
+		UI_TEXT("日语"),
+		UI_TEXT("英语"),
 		[this](BoolMenuItem &item, View &, Input::Event e)
 		{
 			system().optionNGPLanguage = item.flipBoolValue(*this);
