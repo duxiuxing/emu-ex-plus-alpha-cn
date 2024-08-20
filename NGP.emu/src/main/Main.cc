@@ -50,6 +50,19 @@ EmuSystem::NameFilterFunc EmuSystem::defaultFsFilter =
 NgpApp::NgpApp(ApplicationInitParams initParams, ApplicationContext &ctx):
 	EmuApp{initParams, ctx}, ngpSystem{ctx} {}
 
+const BundledGameInfo &EmuSystem::bundledGameInfo(int) const
+{
+	static constexpr BundledGameInfo info[]
+	{
+		{
+			UI_TEXT("绘画拼图"),
+			UI_TEXT("绘画拼图.zip")
+		}
+	};
+
+	return info[0];
+}
+
 const char *EmuSystem::shortSystemName() const
 {
 	return UI_TEXT("NGP");
