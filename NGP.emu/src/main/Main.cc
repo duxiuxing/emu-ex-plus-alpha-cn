@@ -39,6 +39,7 @@ namespace EmuEx
 
 const char *EmuSystem::creditsViewStr =
 	UI_TEXT(CREDITS_INFO_STRING "(c) 2011-2024\nRobert Broglia\nwww.explusalpha.com\n\nPortions (c) the\nMednafen Team\nmednafen.github.io\n\n翻译：R-Sam\nGitHub\nduxiuxing/emu-ex-plus-alpha-cn");
+bool EmuSystem::hasBundledGames = true;
 bool EmuApp::needsGlobalInstance = true;
 
 EmuSystem::NameFilterFunc EmuSystem::defaultFsFilter =
