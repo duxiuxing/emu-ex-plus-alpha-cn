@@ -56,7 +56,7 @@ const BundledGameInfo &EmuSystem::bundledGameInfo(int) const
 	{
 		{
 			UI_TEXT("绘画拼图"),
-			UI_TEXT("绘画拼图.zip")
+			UI_TEXT("绘画拼图.7z")
 		}
 	};
 
