@@ -56,8 +56,8 @@ const BundledGameInfo &EmuSystem::bundledGameInfo(int) const
 	static constexpr BundledGameInfo info[]
 	{
 		{
-			UI_TEXT("绘画拼图"),
-			UI_TEXT("绘画拼图.7z")
+			UI_TEXT("以数织图"),
+			UI_TEXT("以数织图.7z")
 		}
 	};
 
