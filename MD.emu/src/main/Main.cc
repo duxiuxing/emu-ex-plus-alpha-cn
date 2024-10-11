@@ -465,7 +465,7 @@ void MdSystem::loadContent(IO &io, EmuSystemCreateParams, OnLoadProgressDelegate
 	}
 	#endif
 
-	readCheatFile(*this);
+	readCheatFile();
 	applyCheats();
 }
 
