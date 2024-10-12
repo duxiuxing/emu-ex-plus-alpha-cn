@@ -28,9 +28,6 @@ namespace EmuEx
 
 using namespace IG;
 
-static const char *UNNAMED_CHEAT =
-	UI_TEXT("Unnamed Cheat");
-
 class CheatsView : public TableView, public EmuAppHelper
 {
 public:
@@ -208,6 +205,7 @@ public:
 			UI_TEXT("Delete"),
 			attach,
 			[this](const Input::Event &e)
+			{
 				pushAndShowModal(makeView<YesNoAlertView>(
 					UI_TEXT("Really delete this cheat?"),
 					YesNoAlertView::Delegates{.onYes = [this]{ removeCheat(); }}), e);
