@@ -2,7 +2,7 @@
 - EmuFramework\include\emuframework\Cheats.hh
 - [EmuFramework\include\emuframework\DataPathSelectView.hh](#EmuFramework\include\emuframework\DataPathSelectView.hh)
 - [EmuFramework\include\emuframework\EmuAppInlines.hh](#EmuFramework\include\emuframework\EmuAppInlines.hh)
-- [EmuFramework\include\emuframework\keyRemappingUtils.hh](#keyRemappingUtils)
+- [EmuFramework\include\emuframework\keyRemappingUtils.hh](#keyRemappingUtils.hh)
 
 
 ## EmuFramework\include\emuframework\AppKeyCode.hh
@@ -55,7 +55,7 @@ UI_TEXT("Unset")
 UI_TEXT(u"" CONFIG_APP_NAME " " IMAGINE_VERSION)
 
 
-## keyRemappingUtils
+## keyRemappingUtils.hh
 
 UI_TEXT("PC Keyboard")
 
