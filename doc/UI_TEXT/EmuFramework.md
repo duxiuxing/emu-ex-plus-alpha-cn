@@ -1,11 +1,12 @@
-- [EmuFramework\include\emuframework\AppKeyCode.hh](#EmuFramework\include\emuframework\AppKeyCode.hh)
-- EmuFramework\include\emuframework\Cheats.hh
-- [EmuFramework\include\emuframework\DataPathSelectView.hh](#EmuFramework\include\emuframework\DataPathSelectView.hh)
-- [EmuFramework\include\emuframework\EmuAppInlines.hh](#EmuFramework\include\emuframework\EmuAppInlines.hh)
-- [EmuFramework\include\emuframework\keyRemappingUtils.hh](#keyRemappingUtils.hh)
+- [EmuFramework\include\emuframework\AppKeyCode.hh](#AppKeyCode_hh)
+- [EmuFramework\include\emuframework\Cheats.hh](#Cheats_hh)
+- [EmuFramework\include\emuframework\DataPathSelectView.hh](#DataPathSelectView_hh)
+- [EmuFramework\include\emuframework\EmuAppInlines.hh](#EmuAppInlines_hh)
+- [EmuFramework\include\emuframework\keyRemappingUtils.hh](#keyRemappingUtils_hh)
+- [EmuFramework\include\emuframework\UserPathSelectView.hh](#UserPathSelectView_hh)
 
 
-## EmuFramework\include\emuframework\AppKeyCode.hh
+<h2 id="AppKeyCode_hh">EmuFramework\include\emuframework\AppKeyCode.hh</h2>
 
 UI_TEXT("In-Emulation Actions")
 
@@ -16,7 +17,7 @@ UI_TEXT("Toggle Fast-forward")
 UI_TEXT("Rewind One State")
 
 
-## EmuFramework\include\emuframework\Cheats.hh
+<h2 id="Cheats_hh">EmuFramework\include\emuframework\Cheats.hh</h2>
 
 UI_TEXT("Cheats")
 
@@ -37,7 +38,7 @@ UI_TEXT("Delete")
 UI_TEXT("Really delete this cheat?")
 
 
-## EmuFramework\include\emuframework\DataPathSelectView.hh
+<h2 id="DataPathSelectView_hh">EmuFramework\include\emuframework\DataPathSelectView.hh</h2>
 
 UI_TEXT("Select Folder")
 
@@ -50,12 +51,12 @@ UI_TEXT("File doesn't have a valid extension")
 UI_TEXT("Unset")
 
 
-## EmuFramework\include\emuframework\EmuAppInlines.hh
+<h2 id="EmuAppInlines_hh">EmuFramework\include\emuframework\EmuAppInlines.hh</h2>
 
 UI_TEXT(u"" CONFIG_APP_NAME " " IMAGINE_VERSION)
 
 
-## keyRemappingUtils.hh
+<h2 id="keyRemappingUtils_hh">EmuFramework\include\emuframework\keyRemappingUtils.hh</h2>
 
 UI_TEXT("PC Keyboard")
 
@@ -65,22 +66,42 @@ UI_TEXT("PS3 Controller")
 
 UI_TEXT("OUYA Controller")
 
-UI_TEXT("Xperia Play"),	D:\workspace\github\duxiuxing\emu-ex-plus-alpha-cn-release\emu-ex-plus-alpha-cn-english\EmuFramework\include\emuframework\keyRemappingUtils.hh	188	4
-			UI_TEXT("Pandora Keys"),	D:\workspace\github\duxiuxing\emu-ex-plus-alpha-cn-release\emu-ex-plus-alpha-cn-english\EmuFramework\include\emuframework\keyRemappingUtils.hh	196	4
-			UI_TEXT("Default"),	D:\workspace\github\duxiuxing\emu-ex-plus-alpha-cn-release\emu-ex-plus-alpha-cn-english\EmuFramework\include\emuframework\keyRemappingUtils.hh	204	4
-			UI_TEXT("Default"),	D:\workspace\github\duxiuxing\emu-ex-plus-alpha-cn-release\emu-ex-plus-alpha-cn-english\EmuFramework\include\emuframework\keyRemappingUtils.hh	212	4
-			UI_TEXT("Default"),	D:\workspace\github\duxiuxing\emu-ex-plus-alpha-cn-release\emu-ex-plus-alpha-cn-english\EmuFramework\include\emuframework\keyRemappingUtils.hh	218	4
-			UI_TEXT("Default"),	D:\workspace\github\duxiuxing\emu-ex-plus-alpha-cn-release\emu-ex-plus-alpha-cn-english\EmuFramework\include\emuframework\keyRemappingUtils.hh	224	4
-			UI_TEXT("Default"),	D:\workspace\github\duxiuxing\emu-ex-plus-alpha-cn-release\emu-ex-plus-alpha-cn-english\EmuFramework\include\emuframework\keyRemappingUtils.hh	230	4
-			UI_TEXT("Default"),	D:\workspace\github\duxiuxing\emu-ex-plus-alpha-cn-release\emu-ex-plus-alpha-cn-english\EmuFramework\include\emuframework\keyRemappingUtils.hh	238	4
-			UI_TEXT("Select Folder"),	D:\workspace\github\duxiuxing\emu-ex-plus-alpha-cn-release\emu-ex-plus-alpha-cn-english\EmuFramework\include\emuframework\UserPathSelectView.hh	35	4
-			UI_TEXT("Same As Content"),	D:\workspace\github\duxiuxing\emu-ex-plus-alpha-cn-release\emu-ex-plus-alpha-cn-english\EmuFramework\include\emuframework\UserPathSelectView.hh	55	4
-			UI_TEXT("Same As Saves"),	D:\workspace\github\duxiuxing\emu-ex-plus-alpha-cn-release\emu-ex-plus-alpha-cn-english\EmuFramework\include\emuframework\UserPathSelectView.hh	65	4
-			return UI_TEXT("Content Folder");	D:\workspace\github\duxiuxing\emu-ex-plus-alpha-cn-release\emu-ex-plus-alpha-cn-english\EmuFramework\include\emuframework\UserPathSelectView.hh	97	11
-		return UI_TEXT("Saves Folder");	D:\workspace\github\duxiuxing\emu-ex-plus-alpha-cn-release\emu-ex-plus-alpha-cn-english\EmuFramework\include\emuframework\UserPathSelectView.hh	103	10
-		UI_TEXT("Cheats: {}"),	D:\workspace\github\duxiuxing\emu-ex-plus-alpha-cn-release\emu-ex-plus-alpha-cn-english\EmuFramework\include\emuframework\UserPathSelectView.hh	110	3
-		UI_TEXT("Patches: {}"),	D:\workspace\github\duxiuxing\emu-ex-plus-alpha-cn-release\emu-ex-plus-alpha-cn-english\EmuFramework\include\emuframework\UserPathSelectView.hh	117	3
-		UI_TEXT("Palettes: {}"),	D:\workspace\github\duxiuxing\emu-ex-plus-alpha-cn-release\emu-ex-plus-alpha-cn-english\EmuFramework\include\emuframework\UserPathSelectView.hh	124	3
+UI_TEXT("Xperia Play")
+
+UI_TEXT("Pandora Keys")
+
+UI_TEXT("Default")
+
+UI_TEXT("Default")
+
+UI_TEXT("Default")
+
+UI_TEXT("Default")
+
+UI_TEXT("Default")
+
+UI_TEXT("Default")
+
+
+<h2 id="UserPathSelectView_hh">EmuFramework\include\emuframework\UserPathSelectView.hh</h2>
+
+UI_TEXT("Select Folder")
+
+UI_TEXT("Same As Content")
+
+UI_TEXT("Same As Saves")
+
+UI_TEXT("Content Folder")
+
+UI_TEXT("Saves Folder")
+
+UI_TEXT("Cheats: {}")
+
+UI_TEXT("Patches: {}")
+
+UI_TEXT("Palettes: {}")
+
+
 		return UI_TEXT("D-Pad");	D:\workspace\github\duxiuxing\emu-ex-plus-alpha-cn-release\emu-ex-plus-alpha-cn-english\EmuFramework\include\emuframework\VController.hh	107	10
 					UI_TEXT("Enter a value")	D:\workspace\github\duxiuxing\emu-ex-plus-alpha-cn-release\emu-ex-plus-alpha-cn-english\EmuFramework\include\emuframework\viewUtils.hh	117	6
 					UI_TEXT("Value not in range")	D:\workspace\github\duxiuxing\emu-ex-plus-alpha-cn-release\emu-ex-plus-alpha-cn-english\EmuFramework\include\emuframework\viewUtils.hh	147	6
