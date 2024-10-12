@@ -197,7 +197,8 @@ public:
 						onCheatsChanged();
 						postDraw();
 						return true;
-					});
+					}
+				);
 			}
 		},
 		remove
