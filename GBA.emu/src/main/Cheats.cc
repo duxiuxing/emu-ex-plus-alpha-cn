@@ -98,7 +98,7 @@ static CheatsData* addCode(EmuApp& app, const char* code, const char* name, bool
 	}
 	else
 	{
-		app().postMessage(true,
+		app.postMessage(true,
 			UI_TEXT("Invalid format")
 		);
 		return {};
