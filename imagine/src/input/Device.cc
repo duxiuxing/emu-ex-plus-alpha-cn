@@ -170,9 +170,9 @@ constexpr auto keyButtonName(Key b)
 		case Keycode::PAUSE:
 			return UI_TEXT("暂停键");
 		case Keycode::LSUPER:
-			return UI_TEXT("左边的开始键");
+			return UI_TEXT("左边的开始/选项键");
 		case Keycode::RSUPER:
-			return UI_TEXT("右边的开始键");
+			return UI_TEXT("右边的开始/选项键");
 		case Keycode::PGUP:
 			return UI_TEXT("向上翻页键");
 		case Keycode::PGDOWN:
@@ -326,37 +326,37 @@ constexpr auto keyButtonName(Key b)
 		case Keycode::GAME_MODE:
 			return UI_TEXT("模式键");
 		case Keycode::GAME_1:
-			return UI_TEXT("G1");
+			return UI_TEXT("G1 键");
 		case Keycode::GAME_2:
-			return UI_TEXT("G2");
+			return UI_TEXT("G2 键");
 		case Keycode::GAME_3:
-			return UI_TEXT("G3");
+			return UI_TEXT("G3 键");
 		case Keycode::GAME_4:
-			return UI_TEXT("G4");
+			return UI_TEXT("G4 键");
 		case Keycode::GAME_5:
-			return UI_TEXT("G5");
+			return UI_TEXT("G5 键");
 		case Keycode::GAME_6:
-			return UI_TEXT("G6");
+			return UI_TEXT("G6 键");
 		case Keycode::GAME_7:
-			return UI_TEXT("G7");
+			return UI_TEXT("G7 键");
 		case Keycode::GAME_8:
-			return UI_TEXT("G8");
+			return UI_TEXT("G8 键");
 		case Keycode::GAME_9:
-			return UI_TEXT("G9");
+			return UI_TEXT("G9 键");
 		case Keycode::GAME_10:
-			return UI_TEXT("G10");
+			return UI_TEXT("G10 键");
 		case Keycode::GAME_11:
-			return UI_TEXT("G11");
+			return UI_TEXT("G11 键");
 		case Keycode::GAME_12:
-			return UI_TEXT("G12");
+			return UI_TEXT("G12 键");
 		case Keycode::GAME_13:
-			return UI_TEXT("G13");
+			return UI_TEXT("G13 键");
 		case Keycode::GAME_14:
-			return UI_TEXT("G14");
+			return UI_TEXT("G14 键");
 		case Keycode::GAME_15:
-			return UI_TEXT("G15");
+			return UI_TEXT("G15 键");
 		case Keycode::GAME_16:
-			return UI_TEXT("G16");
+			return UI_TEXT("G16 键");
 		case Keycode::JS1_XAXIS_POS:
 			return UI_TEXT("左摇杆的右");
 		case Keycode::JS1_XAXIS_NEG:
@@ -382,21 +382,21 @@ constexpr auto keyButtonName(Key b)
 		case Keycode::JS3_YAXIS_NEG:
 			return UI_TEXT("Y Axis- 3");
 		case Keycode::JS_POV_XAXIS_POS:
-			return UI_TEXT("POV Right");
+			return UI_TEXT("苦力帽的右");
 		case Keycode::JS_POV_XAXIS_NEG:
-			return UI_TEXT("POV Left");
+			return UI_TEXT("苦力帽的左");
 		case Keycode::JS_POV_YAXIS_POS:
-			return UI_TEXT("POV Down");
+			return UI_TEXT("苦力帽的下");
 		case Keycode::JS_POV_YAXIS_NEG:
-			return UI_TEXT("POV Up");
+			return UI_TEXT("苦力帽的上");
 		case Keycode::JS_RUDDER_AXIS_POS:
-			return UI_TEXT("Rudder Right");
+			return UI_TEXT("方向舵的右");
 		case Keycode::JS_RUDDER_AXIS_NEG:
-			return UI_TEXT("Rudder Left");
+			return UI_TEXT("方向舵的左");
 		case Keycode::JS_WHEEL_AXIS_POS:
-			return UI_TEXT("Wheel Right");
+			return UI_TEXT("滚轮右拨");
 		case Keycode::JS_WHEEL_AXIS_NEG:
-			return UI_TEXT("Wheel Left");
+			return UI_TEXT("滚轮左拨");
 		case Keycode::JS_LTRIGGER_AXIS:
 			return UI_TEXT("左扳机");
 		case Keycode::JS_RTRIGGER_AXIS:
@@ -408,35 +408,35 @@ constexpr auto keyButtonName(Key b)
 		// Android-specific
 		#ifdef __ANDROID__
 		case Keycode::SYMBOL:
-			return UI_TEXT("Sym");
+			return UI_TEXT("系统键");
 		case Keycode::NUM:
-			return UI_TEXT("Num");
+			return UI_TEXT("数字锁定键");
 		case Keycode::FUNCTION:
-			return UI_TEXT("Function");
+			return UI_TEXT("功能键");
 		case Keycode::CENTER:
-			return UI_TEXT("Center");
+			return UI_TEXT("中央键");
 		case Keycode::CAMERA:
-			return UI_TEXT("Camera");
+			return UI_TEXT("相机键");
 		case Keycode::CALL:
-			return UI_TEXT("Call");
+			return UI_TEXT("呼叫键");
 		case Keycode::END_CALL:
-			return UI_TEXT("End Call");
+			return UI_TEXT("结束呼叫键");
 		case Keycode::FOCUS:
-			return UI_TEXT("Focus");
+			return UI_TEXT("对焦键");
 		case Keycode::HEADSET_HOOK:
-			return UI_TEXT("Headset Hook");
+			return UI_TEXT("插入耳机");
 		case Keycode::MEDIA_PLAY_PAUSE:
-			return UI_TEXT("Play");
+			return UI_TEXT("播放键");
 		case Keycode::MEDIA_STOP:
-			return UI_TEXT("Stop");
+			return UI_TEXT("停止键");
 		case Keycode::MEDIA_NEXT:
-			return UI_TEXT("Next");
+			return UI_TEXT("下一个文件");
 		case Keycode::MEDIA_PREVIOUS:
-			return UI_TEXT("Previous");
+			return UI_TEXT("上一个文件");
 		case Keycode::MEDIA_REWIND:
-			return UI_TEXT("Rewind");
+			return UI_TEXT("倒带键");
 		case Keycode::MEDIA_FAST_FORWARD:
-			return UI_TEXT("Fast Forward");
+			return UI_TEXT("快进键");
 		#endif
 	}
 	return "";

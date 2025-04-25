@@ -357,7 +357,7 @@ void FSPicker::pushFileLocationsView(const Input::Event &e)
 	int customItems = 1 + Config::envIsLinux + appContext().hasSystemPathPicker() + appContext().hasSystemDocumentPicker();
 	auto view = makeView<FileLocationsTextTableView>(appContext().rootFileLocations(), customItems);
 	static constexpr std::string_view failedSystemPickerMsg =
-		UI_TEXT("此设备没有文件管理器，请从“存储空间”选择一个媒体文件夹来代替");
+		UI_TEXT("此设备没有文件管理器，请从“存储空间”选择一个文件夹");
 	if(appContext().hasSystemPathPicker())
 	{
 		view->appendItem(
@@ -589,7 +589,7 @@ void FSPicker::listDirectory(CStringView path, ThreadStop &stop)
 			? ""
 			: UI_TEXT("\n点击顶部标题栏重新选择路径");
 		msgText.resetString(std::format(
-			UI_TEXT("无法打开目录：\n{}{}"),
+			UI_TEXT("无法打开目录：\n系统错误 - {}{}"),
 			ec.message(), extraMsg));
 		msgText.compile();
 	}
