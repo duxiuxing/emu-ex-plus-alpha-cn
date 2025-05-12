@@ -368,6 +368,21 @@ void NeoSystem::runFrame(EmuSystemTaskContext taskCtx, EmuVideo *video, EmuAudio
 	}
 }
 
+void translateLongName(ROM_DEF* drv)
+{
+	static std::map<std::string_view, std::string_view> s_drvName2DisplayName = {
+		{"mslug3", "合金弹头3"}, {"mslug4", "合金弹头4"}
+	};
+
+	auto it = s_drvName2DisplayName.find(drv->name);
+	if (it != s_drvName2DisplayName.end())
+	{
+		length = it->second.length();
+		it->second.copy(drv->longname, length);
+		drv->longname[length] = '\0';
+	}
+}
+
 FS::FileString NeoSystem::contentDisplayNameForPath(IG::CStringView path) const
 {
 	auto contentName = contentDisplayNameForPathDefaultImpl(path);
@@ -377,6 +392,7 @@ FS::FileString NeoSystem::contentDisplayNameForPath(IG::CStringView path) const
 	ROM_DEF *drv = res_load_drv(&ctx, contentName.data());
 	if(!drv)
 		return contentName;
+	translateLongName(drv);
 	auto freeDrv = IG::scopeGuard([&](){ free(drv); });
 	return drv->longname;
 }
