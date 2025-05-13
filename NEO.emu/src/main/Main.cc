@@ -393,9 +393,8 @@ FS::FileString NeoSystem::contentDisplayNameForPath(IG::CStringView path) const
 	ROM_DEF *drv = res_load_drv(&ctx, contentName.data());
 	if(!drv)
 		return contentName;
-	translateLongName(drv);
 	auto freeDrv = IG::scopeGuard([&](){ free(drv); });
-	return drv->name;
+	return drv->longname;
 }
 
 void EmuApp::onCustomizeNavView(EmuApp::NavView &view)
@@ -452,6 +451,7 @@ CLINK ROM_DEF *res_load_drv(void *contextPtr, const char *name)
 		//EmuEx::log.debug("ROM file:{} region:{}, src:{:X} dest:{:X} size:{:X} crc:{:X}", drv->rom[i].filename,
 		//	drv->rom[i].region, drv->rom[i].src, drv->rom[i].dest, drv->rom[i].size, drv->rom[i].crc);
 	}
+	translateLongName(drv);
 	return drv;
 }
 
