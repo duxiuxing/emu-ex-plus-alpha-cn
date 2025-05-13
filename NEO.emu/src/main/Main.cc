@@ -14,6 +14,7 @@
 	along with NEO.emu.  If not, see <http://www.gnu.org/licenses/> */
 
 #define LOGTAG "main"
+#include <map>
 #include <emuframework/EmuSystemInlines.hh>
 #include <emuframework/EmuAppInlines.hh>
 #include <imagine/fs/ArchiveFS.hh>
@@ -377,7 +378,7 @@ void translateLongName(ROM_DEF* drv)
 	auto it = s_drvName2DisplayName.find(drv->name);
 	if (it != s_drvName2DisplayName.end())
 	{
-		length = it->second.length();
+		auto length = it->second.length();
 		it->second.copy(drv->longname, length);
 		drv->longname[length] = '\0';
 	}
