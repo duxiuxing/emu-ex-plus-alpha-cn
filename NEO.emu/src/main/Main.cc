@@ -395,7 +395,7 @@ FS::FileString NeoSystem::contentDisplayNameForPath(IG::CStringView path) const
 		return contentName;
 	translateLongName(drv);
 	auto freeDrv = IG::scopeGuard([&](){ free(drv); });
-	return drv->longname;
+	return drv->name;
 }
 
 void EmuApp::onCustomizeNavView(EmuApp::NavView &view)
