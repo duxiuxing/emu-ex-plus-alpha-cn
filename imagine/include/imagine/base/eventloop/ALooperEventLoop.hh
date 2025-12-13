@@ -25,7 +25,7 @@
 namespace IG
 {
 
-constexpr int pollEventInput = ALOOPER_EVENT_INPUT, pollEventOutput = ALOOPER_EVENT_OUTPUT,
+inline constexpr int pollEventInput = ALOOPER_EVENT_INPUT, pollEventOutput = ALOOPER_EVENT_OUTPUT,
 	pollEventError = ALOOPER_EVENT_ERROR, pollEventHangUp = ALOOPER_EVENT_HANGUP;
 
 struct ALooperFDEventSourceInfo
@@ -37,6 +37,7 @@ struct ALooperFDEventSourceInfo
 class ALooperFDEventSource
 {
 public:
+	constexpr ALooperFDEventSource() = default;
 	ALooperFDEventSource(MaybeUniqueFileDescriptor, FDEventSourceDesc, PollEventDelegate);
 	ALooperFDEventSource(ALooperFDEventSource&&) noexcept;
 	ALooperFDEventSource &operator=(ALooperFDEventSource&&) noexcept;

@@ -24,6 +24,7 @@
 #include <imagine/util/utility.h>
 #include <concepts>
 #include <thread>
+#include <string_view>
 
 namespace IG::Gfx
 {
@@ -47,14 +48,14 @@ public:
 
 	// Align delegate data to 16 bytes in case we store SIMD types
 	static constexpr size_t FuncDelegateStorageSize = sizeof(uintptr_t)*2 + sizeof(int)*16;
-	using FuncDelegate = DelegateFuncA<FuncDelegateStorageSize, 16, void(GLDisplay, std::binary_semaphore *, CommandMessages &)>;
+	using FuncDelegate = DelegateFuncA<FuncDelegateStorageSize, 16, void(GLDisplay, binary_semaphore*, CommandMessages &)>;
 
 	struct CommandMessage
 	{
-		std::binary_semaphore *semPtr{};
+		binary_semaphore* semPtr{};
 		FuncDelegate func{};
 
-		void setReplySemaphore(std::binary_semaphore *semPtr_) { assert(!semPtr); semPtr = semPtr_; };
+		void setReplySemaphore(binary_semaphore* semPtr_) { assert(!semPtr); semPtr = semPtr_; };
 	};
 
 	using CommandMessagePort = MessagePort<CommandMessage>;
@@ -62,16 +63,16 @@ public:
 	struct TaskContext
 	{
 		[[no_unique_address]] GLDisplay glDisplay{};
-		std::binary_semaphore *semaphorePtr{};
-		bool *semaphoreNeedsNotifyPtr{};
-		CommandMessages *msgsPtr;
+		binary_semaphore* semaphorePtr{};
+		bool* semaphoreNeedsNotifyPtr{};
+		CommandMessages* msgsPtr;
 
 		void notifySemaphore();
 		void markSemaphoreNotified();
 	};
 
 	GLTask(ApplicationContext);
-	GLTask(ApplicationContext, const char *debugLabel);
+	GLTask(ApplicationContext, std::string_view debugLabel);
 	~GLTask();
 	GLTask &operator=(GLTask &&) = delete;
 	bool makeGLContext(GLTaskConfig);
@@ -84,7 +85,7 @@ public:
 	void run(std::invocable auto &&f, MessageReplyMode mode = MessageReplyMode::none)
 	{
 		runFunc(
-			[=](GLDisplay, std::binary_semaphore *semPtr, CommandMessages &)
+			[=](GLDisplay, binary_semaphore* semPtr, CommandMessages&)
 			{
 				f();
 				if(semPtr)
@@ -95,7 +96,7 @@ public:
 	}
 
 	template<class ExtraData>
-	void run(std::invocable<TaskContext> auto &&f, ExtraData &&extData, MessageReplyMode mode = MessageReplyMode::none)
+	void run(std::invocable<TaskContext> auto&& f, ExtraData &&extData, MessageReplyMode mode = MessageReplyMode::none)
 	{
 		std::span<const uint8_t> extBuff;
 		if constexpr(!std::is_null_pointer_v<ExtraData>)
@@ -103,7 +104,7 @@ public:
 			extBuff = {reinterpret_cast<const uint8_t*>(&extData), sizeof(extData)};
 		}
 		runFunc(
-			[=](GLDisplay glDpy, std::binary_semaphore *semPtr, CommandMessages &msgs)
+			[=](GLDisplay glDpy, binary_semaphore* semPtr, CommandMessages& msgs)
 			{
 				bool semaphoreNeedsNotify = semPtr;
 				TaskContext ctx{glDpy, semPtr, &semaphoreNeedsNotify, &msgs};

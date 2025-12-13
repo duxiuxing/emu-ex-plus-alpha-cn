@@ -20,6 +20,7 @@
 #include <mach/mach.h>
 #include <utility>
 #include <cassert>
+#include <chrono>
 
 // TODO: remove when <semaphore> is fully supported by Apple Clang
 
@@ -32,7 +33,7 @@ class MachSemaphore
 public:
 	MachSemaphore(unsigned startValue)
 	{
-		auto ret = semaphore_create(mach_task_self(), &sem, SYNC_POLICY_FIFO, startValue);
+		[[maybe_unused]] auto ret = semaphore_create(mach_task_self(), &sem, SYNC_POLICY_FIFO, startValue);
 		assert(ret == KERN_SUCCESS);
 	}
 
@@ -58,6 +59,13 @@ public:
 		semaphore_wait(sem);
 	}
 
+	template<class Rep, class Period>
+	bool try_acquire_for(const std::chrono::duration<Rep, Period>&)
+	{
+		semaphore_wait(sem); // TODO
+		return true;
+	}
+
 	void release()
 	{
 		semaphore_signal(sem);
@@ -70,21 +78,14 @@ protected:
 	{
 		if(!sem)
 			return;
-		auto ret = semaphore_destroy(mach_task_self(), sem);
+		[[maybe_unused]] auto ret = semaphore_destroy(mach_task_self(), sem);
 		assert(ret == KERN_SUCCESS);
 		sem = {};
 	}
 };
 
 template<unsigned LeastMaxValue>
-using SemaphoreImpl = MachSemaphore<LeastMaxValue>;
+using counting_semaphore = MachSemaphore<LeastMaxValue>;
+using binary_semaphore = MachSemaphore<1>;
 
-}
-
-namespace std
-{
-template<unsigned LeastMaxValue>
-using counting_semaphore = IG::SemaphoreImpl<LeastMaxValue>;
-
-using binary_semaphore = std::counting_semaphore<1>;
 }

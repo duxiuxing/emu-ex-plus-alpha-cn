@@ -219,7 +219,7 @@ InputManagerView::InputManagerView(ViewAttachParams attach,
 		attach,
 		[this](const Input::Event &e)
 		{
-			pushAndShow(makeView<InputManagerOptionsView>(app().viewController().inputView), e);
+			pushAndShow(makeView<InputManagerOptionsView>(), e);
 		}
 	},
 	deviceListHeading
@@ -294,7 +294,7 @@ void InputManagerView::pushAndShowDeviceView(const Input::Device &dev, const Inp
 	pushAndShow(makeViewWithName<InputManagerDeviceView>(inputDevData(dev).displayName, *this, dev, inputManager), e);
 }
 
-InputManagerOptionsView::InputManagerOptionsView(ViewAttachParams attach, EmuInputView& emuInputView_):
+InputManagerOptionsView::InputManagerOptionsView(ViewAttachParams attach):
 	TableView
 	{
 		UI_TEXT("General Input Options"),
@@ -381,8 +381,7 @@ InputManagerOptionsView::InputManagerOptionsView(ViewAttachParams attach, EmuInp
 		{
 			app().setSwappedConfirmKeys(item.flipBoolValue(*this));
 		}
-	},
-	emuInputView{emuInputView_}
+	}
 {
 	if constexpr(MOGA_INPUT)
 	{

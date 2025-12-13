@@ -13,9 +13,6 @@
 	You should have received a copy of the GNU General Public License
 	along with Imagine.  If not, see <http://www.gnu.org/licenses/> */
 
-#include <imagine/base/CustomEvent.hh>
-#include <imagine/util/format.hh>
-#include <imagine/logger/logger.h>
 
 #ifdef __linux__
 #include <unistd.h>
@@ -27,6 +24,7 @@
 #include <sys/event.h>
 static constexpr uintptr_t CUSTOM_IDENT = 1;
 #endif
+import imagine;
 
 namespace IG
 {
@@ -48,7 +46,7 @@ static IG::UniqueFileDescriptor makeEventFD()
 #endif
 }
 
-static void notifyEventFD(int fd, [[maybe_unused]] const char *debugLabel)
+static void notifyEventFD(int fd, [[maybe_unused]] std::string_view debugLabel)
 {
 #ifdef USE_EVENTFD
 	eventfd_t counter = 1;
@@ -64,7 +62,7 @@ static void notifyEventFD(int fd, [[maybe_unused]] const char *debugLabel)
 #endif
 }
 
-static void cancelEventFD(int fd, [[maybe_unused]] const char *debugLabel)
+static void cancelEventFD(int fd, [[maybe_unused]] std::string_view debugLabel)
 {
 #ifdef USE_EVENTFD
 	eventfd_t counter;

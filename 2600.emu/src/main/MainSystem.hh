@@ -33,7 +33,7 @@ enum class PaddleRegionMode : uint8_t
 	FULL = 3,
 };
 
-enum
+enum A2600ConfigKey
 {
 	CFGKEY_2600_TV_PHOSPHOR = 270, CFGKEY_VIDEO_SYSTEM = 271,
 	CFGKEY_2600_TV_PHOSPHOR_BLEND = 272, CFGKEY_AUDIO_RESAMPLE_QUALITY = 273,
@@ -83,7 +83,7 @@ public:
 		PropertyDesc<uint8_t>{.isValid = isValidWithMax<6>}> optionVideoSystem;
 	Property<AudioSettings::ResamplingQuality, CFGKEY_AUDIO_RESAMPLE_QUALITY,
 		PropertyDesc<AudioSettings::ResamplingQuality>{.defaultValue = AudioSettings::DEFAULT_RESAMPLING_QUALITY,
-		.isValid = isValidWithMinMax<AudioSettings::ResamplingQuality::nearestNeightbour, AudioSettings::ResamplingQuality::lanczos_3>}>
+		.isValid = isValidWithMinMax<AudioSettings::ResamplingQuality::nearestNeighbour, AudioSettings::ResamplingQuality::lanczos_3>}>
 		optionAudioResampleQuality;
 	Property<Controller::Type, CFGKEY_INPUT_PORT_1,
 		PropertyDesc<Controller::Type>{.isValid = optionIsValidControllerType}> optionInputPort1;
@@ -117,8 +117,8 @@ public:
 	void clearInputBuffers(EmuInputView &view);
 	void handleInputAction(EmuApp *, InputAction);
 	SystemInputDeviceDesc inputDeviceDesc(int idx) const;
-	FrameTime frameTime() const;
-	void configAudioRate(FrameTime outputFrameTime, int outputRate);
+	FrameRate frameRate() const;
+	void configAudioRate(FrameRate outputFrameRate, int outputRate);
 	static std::span<const AspectRatioInfo> aspectRatioInfos();
 
 	// optional API functions
@@ -129,6 +129,7 @@ public:
 	void renderFramebuffer(EmuVideo &);
 	bool onVideoRenderFormatChange(EmuVideo &, PixelFormat);
 	bool resetSessionOptions(EmuApp &);
+	void onOptionsLoaded();
 
 private:
 	bool updatePaddle(Input::DragTrackerState dragState);

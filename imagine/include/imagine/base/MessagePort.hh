@@ -22,13 +22,14 @@
 #include <imagine/util/utility.h>
 #include <cstring>
 #include <span>
+#include <string_view>
 
 namespace IG
 {
 
 template <class MsgType>
 concept ReplySemaphoreSettableMessage =
-	requires (MsgType msg, std::binary_semaphore *sem){ msg.setReplySemaphore(sem); };
+	requires (MsgType msg, binary_semaphore* sem){ msg.setReplySemaphore(sem); };
 
 enum class MessageReplyMode
 {
@@ -104,7 +105,7 @@ public:
 	static constexpr size_t MSG_SIZE = sizeof(MsgType);
 	static_assert(MSG_SIZE < PIPE_BUF, "size of message too big for atomic writes");
 
-	PipeMessagePort(const char *debugLabel = nullptr, int capacity = 0):
+	PipeMessagePort(std::string_view debugLabel = {}, int capacity = 0):
 		pipe{debugLabel, (int)MSG_SIZE * capacity} {}
 
 	void attach(auto &&f)
@@ -149,7 +150,7 @@ public:
 	{
 		if(mode == MessageReplyMode::wait)
 		{
-			std::binary_semaphore replySemaphore{0};
+			binary_semaphore replySemaphore{0};
 			return send(msg, &replySemaphore);
 		}
 		else
@@ -158,7 +159,7 @@ public:
 		}
 	}
 
-	bool send(ReplySemaphoreSettableMessage auto msg, std::binary_semaphore *semPtr)
+	bool send(ReplySemaphoreSettableMessage auto msg, binary_semaphore* semPtr)
 	{
 		if(semPtr)
 		{

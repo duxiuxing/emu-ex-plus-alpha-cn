@@ -114,8 +114,7 @@ constexpr std::array genericKeyboardAppKeyCodeMap
 };
 
 constexpr std::array rightUIKeys{appKeys.openMenu};
-constexpr std::array leftUIKeys{appKeys.toggleFastForward};
-constexpr std::array rewindUIKeys{appKeys.rewind};
+constexpr std::array leftUIKeys{appKeys.toggleFastForward, appKeys.rewind};
 
 constexpr InputComponentDesc rightUIComponents
 {
@@ -124,13 +123,8 @@ constexpr InputComponentDesc rightUIComponents
 };
 constexpr InputComponentDesc leftUIComponents
 {
-	UI_TEXT("Toggle Fast-forward"),
+	UI_TEXT("Fast-forward/Rewind"),
 	leftUIKeys, InputComponent::ui, LT2DO
-};
-constexpr InputComponentDesc rewindUIComponents
-{
-	UI_TEXT("Rewind One State"),
-	rewindUIKeys, InputComponent::ui, LT2DO
 };
 
 std::string_view toString(AppKeyCode);

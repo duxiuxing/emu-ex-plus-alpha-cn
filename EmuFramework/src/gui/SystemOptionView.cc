@@ -21,7 +21,7 @@
 #include <imagine/base/ApplicationContext.hh>
 #include <imagine/gui/TextTableView.hh>
 #include <imagine/fs/FS.hh>
-#include <format>
+import std;
 
 namespace EmuEx
 {
@@ -297,7 +297,11 @@ SystemOptionView::SystemOptionView(ViewAttachParams attach, bool customMenu):
 				t.resetString(std::format("{}", app().rewindManager.maxStates));
 				return true;
 			},
-			.defaultItemOnSelect = [this](TextMenuItem &item) { app().rewindManager.updateMaxStates(item.id); }
+			.defaultItemOnSelect = [this](TextMenuItem &item)
+			{
+				app().rewindManager.updateMaxStates(item.id);
+				app().defaultVController().updateEnabledUIButtons();
+			}
 		},
 	},
 	rewindTimeInterval

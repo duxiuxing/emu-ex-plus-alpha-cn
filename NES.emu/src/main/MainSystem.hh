@@ -40,7 +40,7 @@ public:
 		CHEATCODE{.addr = addr, .val = val, .compare = compare, .type = type} {}
 };
 
-enum
+enum NesConfigKey
 {
 	CFGKEY_FDS_BIOS_PATH = 270, CFGKEY_FOUR_SCORE = 271,
 	CFGKEY_VIDEO_SYSTEM = 272, CFGKEY_SPRITE_LIMIT = 273,
@@ -119,8 +119,8 @@ public:
 	Property<uint8_t, CFGKEY_DEFAULT_VIDEO_SYSTEM,
 		PropertyDesc<uint8_t>{.defaultValue = 0, .isValid = isValidWithMax<3>}> optionDefaultVideoSystem;
 	Property<bool, CFGKEY_SPRITE_LIMIT, PropertyDesc<bool>{.defaultValue = true}> optionSpriteLimit;
-	Property<uint8_t, CFGKEY_SOUND_QUALITY,
-		PropertyDesc<uint8_t>{.defaultValue = 0, .isValid = isValidWithMax<2>}> optionSoundQuality;
+	Property<uint8_t, CFGKEY_SOUND_QUALITY, // default to "High" (1) as "Normal" (0) has low accuracy affecting samples per frame
+		PropertyDesc<uint8_t>{.defaultValue = 1, .isValid = isValidWithMax<2>}> optionSoundQuality;
 	Property<bool, CFGKEY_COMPATIBLE_FRAMESKIP> optionCompatibleFrameskip;
 	Property<uint8_t, CFGKEY_START_VIDEO_LINE,
 		PropertyDesc<uint8_t>{.defaultValue = 8, .isValid = isSupportedStartingLine}> optionDefaultStartVideoLine;
@@ -132,8 +132,8 @@ public:
 		PropertyDesc<uint8_t>{.defaultValue = 224, .isValid = isSupportedLineCount}> optionVisibleVideoLines;
 	Property<bool, CFGKEY_HORIZONTAL_VIDEO_CROP> optionHorizontalVideoCrop;
 	Property<bool, CFGKEY_CORRECT_LINE_ASPECT> optionCorrectLineAspect;
-	static constexpr auto ntscFrameTime{fromSeconds<FrameTime>(16777215./ 1008307711.)}; // ~60.099Hz
-	static constexpr auto palFrameTime{fromSeconds<FrameTime>(16777215. / 838977920.)}; // ~50.00Hz
+	static constexpr FrameRate ntscFrameRate{1008307711. / 16777215.}; // ~60.099Hz
+	static constexpr FrameRate palFrameRate{838977920. / 16777215.}; // ~50.00Hz
 
 	NesSystem(ApplicationContext);
 	void connectNESInput(int port, ESI type);
@@ -157,8 +157,8 @@ public:
 	void clearInputBuffers(EmuInputView &view);
 	void handleInputAction(EmuApp *, InputAction);
 	SystemInputDeviceDesc inputDeviceDesc(int idx) const;
-	FrameTime frameTime() const { return videoSystem() == VideoSystem::PAL ? palFrameTime : ntscFrameTime; }
-	void configAudioRate(FrameTime outputFrameTime, int outputRate);
+	FrameRate frameRate() const { return videoSystem() == VideoSystem::PAL ? palFrameRate : ntscFrameRate; }
+	void configAudioRate(FrameRate outputFrameRate, int outputRate);
 	static std::span<const AspectRatioInfo> aspectRatioInfos();
 
 	// optional API functions

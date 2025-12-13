@@ -17,11 +17,8 @@
 #include <emuframework/Option.hh>
 #include <emuframework/EmuOptions.hh>
 #include "configFile.hh"
-#include <imagine/base/ApplicationContext.hh>
-#include <imagine/io/FileIO.hh>
-#include <imagine/fs/FS.hh>
-#include <imagine/bluetooth/BluetoothAdapter.hh>
-#include <imagine/util/ScopeGuard.hh>
+#include <imagine/config/defs.hh>
+import imagine;
 
 namespace EmuEx
 {
@@ -42,6 +39,10 @@ void EmuApp::saveConfigFile(FileIO &io)
 	}
 	writeConfigHeader(io);
 	recentContent.writeConfig(io);
+	if(!handlesRecentContent)
+	{
+		recentContent.writeContent(io);
+	}
 	writeOptionValueIfNotDefault(io, imageEffectPixelFormat);
 	writeOptionValueIfNotDefault(io, menuScale);
 	writeOptionValueIfNotDefault(io, fontSize);
@@ -52,7 +53,7 @@ void EmuApp::saveConfigFile(FileIO &io)
 	writeOptionValueIfNotDefault(io, hidesStatusBar);
 	writeOptionValueIfNotDefault(io, showsBundledGames);
 	writeOptionValueIfNotDefault(io, frameInterval);
-	writeOptionValueIfNotDefault(io, frameTimeSource);
+	writeOptionValueIfNotDefault(io, frameClockSource);
 	writeOptionValueIfNotDefault(io, idleDisplayPowerSave);
 	writeOptionValueIfNotDefault(io, confirmOverwriteState);
 	writeOptionValueIfNotDefault(io, systemActionsIsDefaultMenu);
@@ -86,8 +87,8 @@ void EmuApp::saveConfigFile(FileIO &io)
 	writeOptionValueIfNotDefault(io, CFGKEY_VIDEO_PORTRAIT_OFFSET, videoLayer.portraitOffset, 0);
 	writeOptionValueIfNotDefault(io, fastModeSpeed);
 	writeOptionValueIfNotDefault(io, slowModeSpeed);
-	writeOptionValueIfNotDefault(io, CFGKEY_FRAME_RATE, outputTimingManager.frameTimeOption(VideoSystem::NATIVE_NTSC), OutputTimingManager::autoOption);
-	writeOptionValueIfNotDefault(io, CFGKEY_FRAME_RATE_PAL, outputTimingManager.frameTimeOption(VideoSystem::PAL), OutputTimingManager::autoOption);
+	writeOptionValueIfNotDefault(io, CFGKEY_FRAME_RATE, outputTimingManager.frameRateOption(VideoSystem::NATIVE_NTSC), OutputTimingManager::autoOption);
+	writeOptionValueIfNotDefault(io, CFGKEY_FRAME_RATE_PAL, outputTimingManager.frameRateOption(VideoSystem::PAL), OutputTimingManager::autoOption);
 	inputManager.vController.writeConfig(io);
 	autosaveManager.writeConfig(io);
 	rewindManager.writeConfig(io);
@@ -101,14 +102,16 @@ void EmuApp::saveConfigFile(FileIO &io)
 	writeOptionValueIfNotDefault(io, cpuAffinityMask);
 	writeOptionValueIfNotDefault(io, cpuAffinityMode);
 	writeOptionValueIfNotDefault(io, presentMode);
-	if(renderer.supportsPresentationTime())
-		writeOptionValueIfNotDefault(io, CFGKEY_RENDERER_PRESENTATION_TIME, presentationTimeMode, PresentationTimeMode::basic);
+	if(emuWindow().supportsFrameClockSource(FrameClockSource::Screen))
+		writeOptionValueIfNotDefault(io, outputFrameRateMode);
 	writeStringOptionValue(io, CFGKEY_LAST_DIR, contentSearchPath);
 	writeStringOptionValue(io, CFGKEY_SAVE_PATH, system().userSaveDirectory());
 	writeStringOptionValue(io, CFGKEY_SCREENSHOTS_PATH, userScreenshotPath);
 	system().writeConfig(ConfigType::MAIN, io);
 	inputManager.writeCustomKeyConfigs(io);
 	inputManager.writeSavedInputDevices(appContext(), io);
+	writeOptionValueIfNotDefault(io, showFrameTimingStats);
+	writeOptionValueIfNotDefault(io, lowLatencyVideo);
 }
 
 EmuApp::ConfigParams EmuApp::loadConfigFile(IG::ApplicationContext ctx)
@@ -160,16 +163,18 @@ EmuApp::ConfigParams EmuApp::loadConfigFile(IG::ApplicationContext ctx)
 						return true;
 					if(audio.readConfig(io, key))
 						return true;
-					if(recentContent.readConfig(io, key, system()))
+					if(recentContent.readConfig(io, key))
 						return true;
 					if(videoLayer.readConfig(io, key))
 						return true;
 					log.info("skipping key:{}", key);
 					return false;
 				}
+				case CFGKEY_RECENT_CONTENT_V2:
+					return handlesRecentContent ? system().readConfig(ConfigType::MAIN, io, key) : recentContent.readContent(io, system());
 				case CFGKEY_FRAME_INTERVAL: return readOptionValue(io, frameInterval);
-				case CFGKEY_FRAME_RATE: return readOptionValue<FrameTime>(io, [&](auto &&val){outputTimingManager.setFrameTimeOption(VideoSystem::NATIVE_NTSC, val);});
-				case CFGKEY_FRAME_RATE_PAL: return readOptionValue<FrameTime>(io, [&](auto &&val){outputTimingManager.setFrameTimeOption(VideoSystem::PAL, val);});
+				case CFGKEY_FRAME_RATE: return readOptionValue<FrameDuration>(io, [&](auto &&val){outputTimingManager.setFrameRateOption(VideoSystem::NATIVE_NTSC, val);});
+				case CFGKEY_FRAME_RATE_PAL: return readOptionValue<FrameDuration>(io, [&](auto &&val){outputTimingManager.setFrameRateOption(VideoSystem::PAL, val);});
 				case CFGKEY_LAST_DIR:
 					return readStringOptionValue<FS::PathString>(io, [&](auto &&path){contentSearchPath = path;});
 				case CFGKEY_FONT_Y_SIZE: return readOptionValue(io, fontSize);
@@ -209,9 +214,8 @@ EmuApp::ConfigParams EmuApp::loadConfigFile(IG::ApplicationContext ctx)
 				case CFGKEY_CPU_AFFINITY_MASK: return readOptionValue(io, cpuAffinityMask);
 				case CFGKEY_CPU_AFFINITY_MODE: return readOptionValue(io, cpuAffinityMode);
 				case CFGKEY_RENDERER_PRESENT_MODE: return readOptionValue(io, presentMode);
-				case CFGKEY_RENDERER_PRESENTATION_TIME:
-					return used(presentationTimeMode) ? readOptionValue(io, presentationTimeMode, [](auto m){return m <= lastEnum<PresentationTimeMode>;}) : false;
-				case CFGKEY_FRAME_CLOCK: return readOptionValue(io, frameTimeSource);
+				case CFGKEY_OUTPUT_FRAME_RATE_MODE: return readOptionValue(io, outputFrameRateMode);
+				case CFGKEY_FRAME_CLOCK: return readOptionValue(io, frameClockSource);
 				case CFGKEY_AUDIO_SOLO_MIX:
 					audio.manager.setSoloMix(readOptionValue<bool>(io));
 					return true;
@@ -231,6 +235,8 @@ EmuApp::ConfigParams EmuApp::loadConfigFile(IG::ApplicationContext ctx)
 				case CFGKEY_VIDEO_PORTRAIT_OFFSET: return readOptionValue(io, videoLayer.portraitOffset, [](auto v){return v >= -4096 && v <= 4096;});
 				case CFGKEY_INPUT_KEY_CONFIGS_V2: return inputManager.readCustomKeyConfig(io);
 				case CFGKEY_INPUT_DEVICE_CONFIGS: return inputManager.readSavedInputDevices(io);
+				case CFGKEY_SHOW_FRAME_TIMING_STATS: return readOptionValue(io, showFrameTimingStats);
+				case CFGKEY_LOW_LATENCY_VIDEO: return readOptionValue(io, lowLatencyVideo);
 			}
 			return false;
 		});

@@ -13,13 +13,8 @@
 	You should have received a copy of the GNU General Public License
 	along with Imagine.  If not, see <http://www.gnu.org/licenses/> */
 
-#include <imagine/base/ApplicationContext.hh>
-#include <imagine/base/Application.hh>
-#include <imagine/base/Screen.hh>
-#include <imagine/logger/logger.h>
-#include <imagine/time/Time.hh>
-#include <imagine/util/utility.h>
-#include <imagine/util/algorithm.h>
+#include <imagine/util/macros.h>
+import imagine;
 
 namespace IG
 {
@@ -29,21 +24,20 @@ constexpr SystemLogger log{"Screen"};
 Screen::Screen(ApplicationContext ctx, InitParams params):
 	ScreenImpl{ctx, params},
 	windowsPtr{&ctx.application().windows()},
-	appCtx{ctx} {}
-
-bool Screen::addOnFrame(OnFrameDelegate del, int priority)
+	appCtx{ctx}
 {
-	postFrame();
-	return onFrameDelegate.add(del, priority);
+	ctx.application().emplaceFrameTimer(frameTimer, *this);
 }
 
-bool Screen::removeOnFrame(OnFrameDelegate del)
+void Screen::addOnFrame(OnFrameDelegate del, int priority, InsertMode mode)
 {
-	bool removed = onFrameDelegate.remove(del);
-	if(!onFrameDelegate.size())
-	{
-		unpostFrame();
-	}
+	postFrame();
+	onFrameDelegate.insert(del, priority, mode);
+}
+
+bool Screen::removeOnFrame(OnFrameDelegate del, DelegateFuncEqualsMode mode)
+{
+	bool removed = onFrameDelegate.removeFirst(del, mode);
 	return removed;
 }
 
@@ -52,10 +46,13 @@ bool Screen::containsOnFrame(OnFrameDelegate del) const
 	return onFrameDelegate.contains(del);
 }
 
-void Screen::runOnFrameDelegates(SteadyClockTimePoint timestamp)
+void Screen::runOnFrameDelegates(SteadyClockTimePoint time)
 {
-	postFrame();
-	auto params = makeFrameParams(timestamp);
+	FrameParams params
+	{
+		.time = time, .lastTime = std::exchange(lastFrameTime_, time),
+		.duration = frameTimerRate().duration(), .mode = FrameClockMode::screen
+	};
 	onFrameDelegate.runAll([&](OnFrameDelegate del)
 	{
 		return del(params);
@@ -72,14 +69,18 @@ bool Screen::isPosted() const
 	return framePosted;
 }
 
-bool Screen::frameUpdate(SteadyClockTimePoint timestamp)
+bool Screen::frameUpdate(SteadyClockTimePoint time)
 {
-	assert(hasTime(timestamp));
+	assert(hasTime(time));
 	assert(isActive);
 	framePosted = false;
 	if(!onFrameDelegate.size())
+	{
+		lastFrameTime_ = {};
 		return false;
-	runOnFrameDelegates(timestamp);
+	}
+	postFrame();
+	runOnFrameDelegates(time);
 	for(auto &w : *windowsPtr)
 	{
 		if(w->screen() == this)
@@ -107,11 +108,6 @@ void Screen::setActive(bool active)
 	}
 }
 
-FrameParams Screen::makeFrameParams(SteadyClockTimePoint timestamp) const
-{
-	return {.timestamp = timestamp, .frameTime = frameTime(), .timeSource = FrameTimeSource::Screen};
-}
-
 void Screen::postFrame()
 {
 	if(!isActive) [[unlikely]]
@@ -123,7 +119,7 @@ void Screen::postFrame()
 		return;
 	//log.info("posting frame");
 	framePosted = true;
-	postFrameTimer();
+	frameTimer.scheduleVSync();
 }
 
 void Screen::unpostFrame()
@@ -131,7 +127,8 @@ void Screen::unpostFrame()
 	if(!framePosted)
 		return;
 	framePosted = false;
-	unpostFrameTimer();
+	lastFrameTime_ = {};
+	frameTimer.cancel();
 }
 
 bool Screen::shouldUpdateFrameTimer(const FrameTimer& frameTimer, bool newVariableFrameTimeValue)
@@ -140,7 +137,29 @@ bool Screen::shouldUpdateFrameTimer(const FrameTimer& frameTimer, bool newVariab
 		(!newVariableFrameTimeValue && std::holds_alternative<SimpleFrameTimer>(frameTimer));
 }
 
-[[gnu::weak]] SteadyClockTime Screen::presentationDeadline() const { return {}; }
+[[gnu::weak]] SteadyClockDuration Screen::targetFrameDuration() const { return frameRate().duration(); }
 
+FrameRate Screen::frameTimerRate() const { return frameTimer.frameRate() ?: frameRate(); }
+
+void Screen::setVariableFrameRate(bool useVariableTime)
+{
+	if(!shouldUpdateFrameTimer(frameTimer, useVariableTime))
+		return;
+	application().emplaceFrameTimer(frameTimer, *this, useVariableTime);
+}
+
+void Screen::setFrameEventsOnThisThread()
+{
+	frameTimer.setEventsOnThisThread(appContext());
+}
+
+void Screen::removeFrameEvents()
+{
+	unpostFrame();
+	frameTimer.removeEvents(appContext());
+}
+
+[[gnu::weak]] void Screen::setFrameInterval([[maybe_unused]] int interval) {}
+[[gnu::weak]] bool Screen::supportsFrameInterval() { return false; }
 
 }

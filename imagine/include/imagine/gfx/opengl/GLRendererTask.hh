@@ -17,11 +17,13 @@
 
 #include <imagine/config/defs.hh>
 #include <imagine/gfx/defs.hh>
+#include <imagine/gfx/RendererCommands.hh>
 #include "GLTask.hh"
 #include <imagine/base/GLContext.hh>
 #include <imagine/util/utility.h>
 #include <concepts>
 #include <array>
+#include <string_view>
 
 namespace IG
 {
@@ -38,10 +40,11 @@ class DrawContextSupport;
 class GLRendererTask : public GLTask
 {
 public:
+	using TaskContext = GLTask::TaskContext;
 	using CommandMessage = GLTask::CommandMessage;
 
 	GLRendererTask(ApplicationContext, Renderer &);
-	GLRendererTask(ApplicationContext, const char *debugLabel, Renderer &);
+	GLRendererTask(ApplicationContext, std::string_view debugLabel, Renderer &);
 	void initDefaultFramebuffer();
 	GLuint defaultFBO() const { return defaultFB; }
 	GLuint bindFramebuffer(Texture &tex);

@@ -74,7 +74,7 @@ struct InputConfig
 	constexpr bool operator ==(InputConfig const&) const = default;
 };
 
-enum
+enum SaturnConfigKey
 {
 	CFGKEY_NA_BIOS_PATH = 275, CFGKEY_JP_BIOS_PATH = 276,
 	CFGKEY_KOF_ROM_PATH = 277, CFGKEY_ULTRAMAN_ROM_PATH = 278,
@@ -101,7 +101,7 @@ class SaturnSystem final: public EmuSystem
 {
 public:
 	Mednafen::MDFNGI mdfnGameInfo{EmulatedSS};
-	FrameTime frameTime_{};
+	FrameRate frameRate_{};
 	double audioRate{44100};
 	size_t currStateSize{};
 	EmulateSpecStruct espec{};
@@ -175,8 +175,8 @@ public:
 	void clearInputBuffers(EmuInputView &view);
 	void handleInputAction(EmuApp *, InputAction);
 	SystemInputDeviceDesc inputDeviceDesc(int idx) const;
-	FrameTime frameTime() const;
-	void configAudioRate(FrameTime outputFrameTime, int outputRate);
+	FrameRate frameRate() const;
+	void configAudioRate(FrameRate outputFrameRate, int outputRate);
 	static std::span<const AspectRatioInfo> aspectRatioInfos();
 
 	// optional API functions

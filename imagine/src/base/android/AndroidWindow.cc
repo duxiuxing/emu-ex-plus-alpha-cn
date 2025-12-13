@@ -13,16 +13,11 @@
 	You should have received a copy of the GNU General Public License
 	along with Imagine.  If not, see <http://www.gnu.org/licenses/> */
 
-#include "android.hh"
-#include <imagine/logger/logger.h>
-#include <imagine/base/ApplicationContext.hh>
-#include <imagine/base/Application.hh>
-#include <imagine/base/Screen.hh>
-#include <imagine/base/Window.hh>
-#include <imagine/base/sharedLibrary.hh>
+#include <imagine/util/macros.h>
 #include <android/native_activity.h>
 #include <android/native_window_jni.h>
 #include <android/looper.h>
+import imagine.internal.android;
 
 namespace IG
 {
@@ -214,6 +209,10 @@ void AndroidWindow::setNativeWindow(ApplicationContext ctx, ANativeWindow *nWind
 	if(!nWindow)
 		return;
 	nWin = nWindow;
+	if(ctx.androidSDK() >= 35) // set default refresh rate since ARR is disabled
+	{
+		thisWindow.setIntendedFrameRate(0);
+	}
 	thisWindow.setFormat(nPixelFormat);
 	if(onInit)
 	{
@@ -241,16 +240,21 @@ NativeWindow Window::nativeObject() const
 void Window::setIntendedFrameRate(FrameRate rate)
 {
 	screen()->setFrameRate(rate);
-	if(appContext().androidSDK() < 30 || !nWin)
+	auto ctx = appContext();
+	if(ctx.androidSDK() < 30 || !nWin)
 		return;
+	if(ctx.androidSDK() >= 35 && !rate) // explicitly set a refresh rate since ARR is disabled
+	{
+		rate = screen()->supportedFrameRates().back();
+	}
 	if(!ANativeWindow_setFrameRate) [[unlikely]]
 	{
 		auto lib = openSharedLibrary("libnativewindow.so");
 		loadSymbol(ANativeWindow_setFrameRate, lib, "ANativeWindow_setFrameRate");
 	}
-	if(ANativeWindow_setFrameRate(nWin, rate, 0))
+	if(ANativeWindow_setFrameRate(nWin, rate.hz(), 0))
 	{
-		log.error("error in ANativeWindow_setFrameRate() with window:{} rate:{:g}", (void*)nWin, rate);
+		log.error("error in ANativeWindow_setFrameRate() with window:{} rate:{:g}", (void*)nWin, rate.hz());
 	}
 }
 

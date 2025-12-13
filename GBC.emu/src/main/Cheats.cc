@@ -264,12 +264,11 @@ EditCheatView::EditCheatView(ViewAttachParams attach, Cheat& cheat, BaseEditChea
 		UI_TEXT("Edit Cheat"),
 		attach,
 		cheat,
-		editCheatsView,
-		items
+		editCheatsView
 	},
 	addGGGS
 	{
-		UI_TEXT("Add Another Game Genie / GameShark Code"),
+		UI_TEXT("Add Another Code"),
 		attach,
 		[this](const Input::Event& e)
 		{

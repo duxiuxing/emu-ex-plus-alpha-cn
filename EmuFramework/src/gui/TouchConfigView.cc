@@ -23,12 +23,7 @@
 #include <imagine/util/variant.hh>
 #include "PlaceVideoView.hh"
 #include "PlaceVControlsView.hh"
-#include <utility>
-#include <vector>
-#include <array>
-#include <span>
-#include <ranges>
-#include <format>
+import std;
 
 namespace EmuEx
 {
@@ -874,9 +869,6 @@ public:
 		buttons.emplace_back(
 			leftUIComponents.name, attach,
 			[this]{ add(leftUIComponents); });
-		buttons.emplace_back(
-			rewindUIComponents.name, attach,
-			[this]{ add(rewindUIComponents); });
 	}
 
 private:
@@ -1163,7 +1155,7 @@ TouchConfigView::TouchConfigView(ViewAttachParams attach, VController &vCtrl):
 	},
 	resetEmuPositions
 	{
-		UI_TEXT("Reset Emulated Device Positions"),
+		UI_TEXT("Reset Emulator Button Positions"),
 		attach,
 		[this](const Input::Event &e)
 		{
@@ -1181,7 +1173,7 @@ TouchConfigView::TouchConfigView(ViewAttachParams attach, VController &vCtrl):
 	},
 	resetEmuGroups
 	{
-		UI_TEXT("Reset Emulated Device Groups"),
+		UI_TEXT("Reset Emulator Button Groups"),
 		attach,
 		[this](const Input::Event &e)
 		{
@@ -1237,7 +1229,7 @@ TouchConfigView::TouchConfigView(ViewAttachParams attach, VController &vCtrl):
 	},
 	devButtonsHeading
 	{
-		UI_TEXT("Emulated Device Button Groups"),
+		UI_TEXT("Emulator Button Groups"),
 		attach
 	},
 	uiButtonsHeading

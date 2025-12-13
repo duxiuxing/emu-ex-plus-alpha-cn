@@ -50,7 +50,7 @@ static std::string saveAutosaveName(EmuApp &app)
 		return UI_TEXT("Save Autosave State");
 	return std::format(
 		UI_TEXT("Save Autosave State (Timer In {:%M:%S})"),
-		duration_cast<Seconds>(autosaveManager.saveTimer.nextFireTime()));
+		duration_cast<Seconds>(autosaveManager.saveTimer.nextFireDuration()));
 }
 
 SystemActionsView::SystemActionsView(ViewAttachParams attach, bool customMenu):

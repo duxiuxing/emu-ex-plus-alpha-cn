@@ -13,15 +13,9 @@
 	You should have received a copy of the GNU General Public License
 	along with Imagine.  If not, see <http://www.gnu.org/licenses/> */
 
-#include <imagine/base/ApplicationContext.hh>
-#include <imagine/base/Application.hh>
-#include <imagine/base/Window.hh>
-#include <imagine/base/Screen.hh>
-#include <imagine/input/Event.hh>
-#include <imagine/util/algorithm.h>
-#include <imagine/util/variant.hh>
-#include <imagine/util/bit.hh>
-#include <imagine/logger/logger.h>
+#include <imagine/base/baseDefs.hh>
+#include <imagine/util/macros.h>
+import imagine;
 
 namespace IG
 {
@@ -35,15 +29,15 @@ BaseWindow::BaseWindow(ApplicationContext ctx, WindowConfig config):
 		[this](ApplicationContext ctx, bool backgrounded)
 		{
 			auto &win = *static_cast<Window*>(this);
-			auto savedDrawEventPriority = win.setDrawEventPriority(Window::drawEventPriorityLocked);
+			auto savedDrawEventEnabled = win.setDrawEventEnabled(false);
 			drawEvent.detach();
 			if(backgrounded)
 			{
 				ctx.addOnResume(
-					[this, savedDrawEventPriority](ApplicationContext, bool)
+					[this, savedDrawEventEnabled](ApplicationContext, bool)
 					{
 						auto &win = *static_cast<Window*>(this);
-						win.setDrawEventPriority(savedDrawEventPriority);
+						win.setDrawEventEnabled(savedDrawEventEnabled);
 						drawEvent.attach();
 						return false;
 					}, WINDOW_ON_RESUME_PRIORITY
@@ -63,63 +57,84 @@ BaseWindow::BaseWindow(ApplicationContext ctx, WindowConfig config):
 		}
 	} {}
 
-FrameTimeSource Window::evalFrameTimeSource(FrameTimeSource src) const
+void Window::addOnFrame(OnFrameDelegate del, FrameClockMode mode, int priority, InsertMode insMode)
 {
-	return src == FrameTimeSource::Unset ? defaultFrameTimeSource() : src;
-}
-
-bool Window::addOnFrame(OnFrameDelegate del, FrameTimeSource src, int priority)
-{
-	src = evalFrameTimeSource(src);
-	if(src != FrameTimeSource::Renderer)
+	if(mode == FrameClockMode::screen)
 	{
-		return screen()->addOnFrame(del);
+		screen()->addOnFrame(del, priority, insMode);
 	}
 	else
 	{
-		bool added = onFrame.add(del, priority);
+		onFrame.insert(del, priority, insMode);
 		if(drawPhase == DrawPhase::UPDATE)
 		{
 			// trigger a draw so delegate runs at start of next frame
 			setNeedsDraw(true);
 		}
 		drawEvent.notify();
-		return added;
 	}
 }
 
-bool Window::removeOnFrame(OnFrameDelegate del, FrameTimeSource src)
+bool Window::removeOnFrame(OnFrameDelegate del, FrameClockMode mode, DelegateFuncEqualsMode eqMode)
 {
-	src = evalFrameTimeSource(src);
-	if(src != FrameTimeSource::Renderer)
+	if(mode == FrameClockMode::screen)
 	{
-		return screen()->removeOnFrame(del);
+		return screen()->removeOnFrame(del, eqMode);
 	}
 	else
 	{
-		return onFrame.remove(del);
+		return onFrame.removeFirst(del, eqMode);
 	}
 }
 
-bool Window::moveOnFrame(Window &srcWin, OnFrameDelegate del, FrameTimeSource src)
+FrameClockSource Window::defaultFrameClockSource(FrameClockUsage usage) const
 {
-	srcWin.removeOnFrame(del, src);
-	return addOnFrame(del, src);
-}
-
-FrameTimeSource Window::defaultFrameTimeSource() const
-{
-	return screen()->supportsTimestamps() ? FrameTimeSource::Screen :
-		(Config::envIsAndroid ? FrameTimeSource::Renderer : FrameTimeSource::Timer);
-}
-
-void Window::configureFrameTimeSource(FrameTimeSource src)
-{
-	src = evalFrameTimeSource(src);
-	log.info("configuring for frame time source:{}", wise_enum::to_string(src));
-	if(src != FrameTimeSource::Renderer)
+	if(usage == FrameClockUsage::normal)
 	{
-		screen()->setVariableFrameTime(src == FrameTimeSource::Timer);
+		return supportsFrameClockSource(FrameClockSource::Screen) ? FrameClockSource::Screen : FrameClockSource::Renderer;
+	}
+	else
+	{
+		return supportsFrameClockSource(FrameClockSource::Screen) ? FrameClockSource::Screen :
+			Config::envIsAndroid ? FrameClockSource::Renderer : // Prefer double buffer vsync on old Android versions
+			FrameClockSource::Timer;
+	}
+}
+
+FrameClockSource Window::evalFrameClockSource(FrameClockSource src, FrameClockUsage usage) const
+{
+	return src == FrameClockSource::Unset ? defaultFrameClockSource(usage) : src;
+}
+
+FrameClockMode Window::toFrameClockMode(FrameClockSource src, FrameClockUsage usage) const
+{
+	src = evalFrameClockSource(src, usage);
+	return src == FrameClockSource::Renderer ? FrameClockMode::renderer : FrameClockMode::screen;
+}
+
+bool Window::supportsFrameClockSource(FrameClockSource src) const
+{
+	if(src == FrameClockSource::Screen)
+	{
+		return screen()->supportsTimestamps();
+	}
+	else if(src == FrameClockSource::Renderer)
+	{
+		if(Config::envIsAndroid) // Older Android versions without Choreographer API use double buffer vsync
+		{
+			return !screen()->supportsTimestamps();
+		}
+		return true;
+	}
+	return true;
+}
+
+void Window::configureFrameClock(FrameClockSource src, FrameClockUsage usage)
+{
+	src = evalFrameClockSource(src, usage);
+	if(src != FrameClockSource::Renderer)
+	{
+		screen()->setVariableFrameRate(src == FrameClockSource::Timer);
 	}
 }
 
@@ -148,7 +163,7 @@ Screen *Window::screen() const
 
 bool Window::setNeedsDraw(bool needsDraw)
 {
-	if(needsDraw && (!hasSurface() || drawEventPriority() == drawEventPriorityLocked))
+	if(needsDraw && (!hasSurface() || !drawEventIsEnabled()))
 	{
 		needsDraw = false;
 	}
@@ -161,11 +176,11 @@ bool Window::needsDraw() const
 	return drawNeeded;
 }
 
-void Window::postDraw(int8_t priority)
+void Window::postDraw()
 {
-	if(priority < drawEventPriority())
+	if(!drawEventIsEnabled()) [[unlikely]]
 	{
-		log.debug("skipped posting draw with priority:{} < {}", priority, drawEventPriority());
+		log.debug("skipped posting draw");
 		return;
 	}
 	if(!setNeedsDraw(true))
@@ -179,6 +194,7 @@ void Window::unpostDraw()
 {
 	setNeedsDraw(false);
 	drawEvent.cancel();
+	lastFrameTime = {};
 	//log.debug("window:{} cancelled draw", this);
 }
 
@@ -189,12 +205,12 @@ void Window::postFrameReady()
 		drawEvent.notify();
 }
 
-void Window::postDrawToMainThread(int8_t priority)
+void Window::postDrawToMainThread()
 {
 	appContext().runOnMainThread(
-		[this, priority](ApplicationContext)
+		[this](ApplicationContext)
 		{
-			postDraw(priority);
+			postDraw();
 		});
 }
 
@@ -205,7 +221,6 @@ void Window::postFrameReadyToMainThread()
 
 void Window::setFrameEventsOnThisThread()
 {
-	unpostDraw();
 	screen()->setFrameEventsOnThisThread();
 	drawEvent.attach();
 }
@@ -217,19 +232,16 @@ void Window::removeFrameEvents()
 	drawEvent.detach();
 }
 
-int8_t Window::setDrawEventPriority(int8_t priority)
+bool Window::setDrawEventEnabled(bool on)
 {
-	if(priority == drawEventPriorityLocked)
+	if(!on)
 	{
 		setNeedsDraw(false);
 	}
-	return std::exchange(drawEventPriority_, priority);
+	return std::exchange(drawEventEnabled, on);
 }
 
-int8_t Window::drawEventPriority() const
-{
-	return drawEventPriority_;
-}
+bool Window::drawEventIsEnabled() const { return drawEventEnabled; }
 
 void Window::drawNow(bool needsSync)
 {
@@ -307,12 +319,15 @@ void Window::dispatchOnFrame()
 {
 	if(drawPhase != DrawPhase::READY || !onFrame.size())
 	{
+		lastFrameTime = {};
 		return;
 	}
 	drawPhase = DrawPhase::UPDATE;
 	//log.debug("running {} onFrame delegates", onFrame.size());
-	FrameParams frameParams{.timestamp = SteadyClock::now(), .frameTime = screen()->frameTime(), .timeSource = FrameTimeSource::Renderer};
+	auto now = SteadyClock::now();
+	FrameParams frameParams{.time = now, .lastTime = std::exchange(lastFrameTime, now), .duration = screen()->frameRate().duration(), .mode = FrameClockMode::renderer};
 	onFrame.runAll([&](OnFrameDelegate del){ return del(frameParams); });
+	setNeedsDraw(true);
 }
 
 void Window::draw(bool needsSync)
@@ -401,8 +416,7 @@ bool Window::updatePhysicalSizeWithCurrentSize()
 	#endif
 }
 
-#ifdef CONFIG_GFX_SOFT_ORIENTATION
-bool Window::setValidOrientations(Orientations o)
+[[gnu::weak]] bool Window::setValidOrientations(Orientations o)
 {
 	if(o.portrait)
 		return requestOrientationChange(Rotation::UP);
@@ -416,11 +430,11 @@ bool Window::setValidOrientations(Orientations o)
 		return requestOrientationChange(Rotation::UP);
 }
 
-bool Window::requestOrientationChange(Rotation o)
+[[gnu::weak]] bool Window::requestOrientationChange(Rotation o)
 {
 	if(softOrientation_ != o)
 	{
-		log.info("setting orientation %s", wise_enum::to_string(o).data());
+		log.info("setting orientation:{}", wise_enum::to_string(o));
 		int savedRealWidth = realWidth();
 		int savedRealHeight = realHeight();
 		softOrientation_ = o;
@@ -432,7 +446,6 @@ bool Window::requestOrientationChange(Rotation o)
 	}
 	return false;
 }
-#endif
 
 Rotation Window::softOrientation() const
 {

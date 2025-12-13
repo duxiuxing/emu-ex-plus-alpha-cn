@@ -43,7 +43,7 @@ namespace EmuEx
 
 constexpr SystemLogger log{"2600.emu"};
 constexpr size_t MAX_ROM_SIZE = 512 * 1024;
-const char *EmuSystem::creditsViewStr = CREDITS_INFO_STRING "(c) 2011-2024\nRobert Broglia\nwww.explusalpha.com\n\nPortions (c) the\nStella Team\nstella-emu.github.io";
+const char *EmuSystem::creditsViewStr = CREDITS_INFO_STRING "(c) 2011-2025\nRobert Broglia\nwww.explusalpha.com\n\nPortions (c) the\nStella Team\nstella-emu.github.io";
 bool EmuSystem::hasPALVideoSystem = true;
 bool EmuSystem::hasResetModes = true;
 IG::Audio::SampleFormat EmuSystem::audioSampleFormat = IG::Audio::SampleFormats::f32;
@@ -113,7 +113,7 @@ void A2600System::loadContent(IO &io, EmuSystemCreateParams, OnLoadProgressDeleg
 	os.propSet().getMD5(md5, props);
 	defaultGameProps = props;
 	auto &romType = props.get(PropType::Cart_Type);
-	FilesystemNode fsNode{contentFileName().data()};
+	FSNode fsNode{contentFileName().data()};
 	auto &settings = os.settings();
 	settings.setValue("romloadcount", 0);
 	settings.setValue("plr.tv.jitter", false);
@@ -151,18 +151,17 @@ static auto consoleFrameRate(const OSystem &osystem)
 	return osystem.console().currentFrameRate();
 }
 
-FrameTime A2600System::frameTime() const
+FrameRate A2600System::frameRate() const
 {
-	return fromHz<FrameTime>(consoleFrameRate(osystem));
+	return consoleFrameRate(osystem);
 }
 
-void A2600System::configAudioRate(FrameTime outputFrameTime, int outputRate)
+void A2600System::configAudioRate(FrameRate outputFrameRate, int outputRate)
 {
 	if(!osystem.hasConsole())
 		return;
 	configuredInputVideoFrameRate = consoleFrameRate(osystem);
-	osystem.setSoundMixRate(std::round(audioMixRate(outputRate, configuredInputVideoFrameRate, outputFrameTime)),
-		AudioSettings::ResamplingQuality(optionAudioResampleQuality));
+	osystem.setSoundMixRate(std::round(audioMixRate(outputRate, configuredInputVideoFrameRate, outputFrameRate)));
 }
 
 static void renderVideo(EmuSystemTaskContext taskCtx, EmuVideo &video, FrameBuffer &fb, TIA &tia)
@@ -193,9 +192,9 @@ void A2600System::runFrame(EmuSystemTaskContext taskCtx, EmuVideo *video, EmuAud
 	}
 	if(auto newInputVideoFrameRate = osystem.console().currentFrameRate();
 		configuredInputVideoFrameRate != newInputVideoFrameRate
-		&& newInputVideoFrameRate >= 40.0 && newInputVideoFrameRate <= 70.0) [[unlikely]]
+		&& newInputVideoFrameRate >= 40.0f && newInputVideoFrameRate <= 70.0f) [[unlikely]]
 	{
-		onFrameTimeChanged();
+		onFrameRateChanged();
 	}
 }
 
@@ -265,6 +264,11 @@ bool A2600System::onVideoRenderFormatChange(EmuVideo &, IG::PixelFormat fmt)
 		osystem.frameBuffer().paletteHandler().setPalette();
 	}
 	return false;
+}
+
+void A2600System::onOptionsLoaded()
+{
+	osystem.soundEmuEx().setResampleQuality(optionAudioResampleQuality);
 }
 
 }

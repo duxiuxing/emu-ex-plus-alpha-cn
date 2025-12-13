@@ -13,17 +13,14 @@
 	You should have received a copy of the GNU General Public License
 	along with Imagine.  If not, see <http://www.gnu.org/licenses/> */
 
-#include <imagine/base/Screen.hh>
-#include <imagine/time/Time.hh>
-#include <imagine/thread/Thread.hh>
-#include <imagine/logger/logger.h>
-#include <imagine/base/linux/FBDevFrameTimer.hh>
-#include <imagine/util/memory/UniqueFileDescriptor.hh>
+#include <imagine/util/macros.h>
 #include <unistd.h>
 #include <fcntl.h>
 #include <sys/ioctl.h>
 #include <linux/fb.h>
 #include <sys/eventfd.h>
+#include <errno.h>
+import imagine;
 
 namespace IG
 {
@@ -43,20 +40,22 @@ FBDevFrameTimer::FBDevFrameTimer(Screen &screen, EventLoop loop):
 		eventfd(0, 0), {.debugLabel = "FBDevFrameTimer", .eventLoop = loop},
 		[this, &screen](int fd, int)
 		{
-			eventfd_t timestamp;
-			auto ret = read(fd, &timestamp, sizeof(timestamp));
-			assert(ret == sizeof(timestamp));
-			//log.debug("read frame timestamp:{}", timestamp);
+			eventfd_t time;
+			if(auto ret = read(fd, &time, sizeof(time));
+				ret != sizeof(time))
+			{
+				log.error("only read {} bytes from eventfd, expected {}", ret, sizeof(time));
+			}
+			//log.debug("read frame time:{}", time);
 			requested = false;
 			if(cancelled)
 			{
 				cancelled = false;
 				return true; // frame request was cancelled
 			}
-			if(screen.isPosted())
+			if(!screen.frameUpdate(SteadyClockTimePoint{Nanoseconds{time}}))
 			{
-				if(screen.frameUpdate(SteadyClockTimePoint{Nanoseconds{timestamp}}))
-					scheduleVSync();
+				cancel();
 			}
 			return true;
 		}
@@ -84,13 +83,17 @@ FBDevFrameTimer::FBDevFrameTimer(Screen &screen, EventLoop loop):
 				{
 					log.error("error in ioctl FBIO_WAITFORVSYNC");
 				}
-				eventfd_t timestamp = SteadyClock::now().time_since_epoch().count();
-				//log.info("got vsync at time:{}", timestamp);
-				auto ret = write(fd, &timestamp, sizeof(timestamp));
-				assert(ret == sizeof(timestamp));
+				eventfd_t time = SteadyClock::now().time_since_epoch().count();
+				//log.info("got vsync at time:{}", time);
+				if(auto ret = write(fd, &time, sizeof(time));
+					ret != sizeof(time))
+				{
+					log.error("only wrote {} bytes to eventfd, expected {}", ret, sizeof(time));
+				}
 			}
 			close(fbdev);
 		});
+	log.info("created frame timer");
 }
 
 FBDevFrameTimer::~FBDevFrameTimer()
@@ -120,6 +123,12 @@ void FBDevFrameTimer::cancel()
 void FBDevFrameTimer::setEventsOnThisThread(ApplicationContext)
 {
 	fdSrc.attach(EventLoop::forThread(), {});
+}
+
+void FBDevFrameTimer::removeEvents(ApplicationContext)
+{
+	cancel();
+	fdSrc.detach();
 }
 
 bool FBDevFrameTimer::testSupport()

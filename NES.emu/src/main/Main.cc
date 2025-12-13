@@ -49,7 +49,7 @@ namespace EmuEx
 
 constexpr SystemLogger log{"NES.emu"};
 const char *EmuSystem::creditsViewStr =
-	UI_TEXT(CREDITS_INFO_STRING "(c) 2011-2024\nRobert Broglia\nwww.explusalpha.com\n\nPortions (c) the\nFCEUX Team\nfceux.com");
+	UI_TEXT(CREDITS_INFO_STRING "(c) 2011-2025\nRobert Broglia\nwww.explusalpha.com\n\nPortions (c) the\nFCEUX Team\nfceux.com");
 bool EmuSystem::hasCheats = true;
 bool EmuSystem::hasPALVideoSystem = true;
 bool EmuSystem::hasResetModes = true;
@@ -403,9 +403,9 @@ bool NesSystem::onVideoRenderFormatChange(EmuVideo &video, PixelFormat fmt)
 	return true;
 }
 
-void NesSystem::configAudioRate(FrameTime outputFrameTime, int outputRate)
+void NesSystem::configAudioRate(FrameRate outputFrameRate, int outputRate)
 {
-	uint32 mixRate = std::round(audioMixRate(outputRate, outputFrameTime));
+	uint32 mixRate = std::round(audioMixRate(outputRate, outputFrameRate));
 	if(FSettings.SndRate == mixRate)
 		return;
 	log.info("set sound mix rate:{}", (int)mixRate);

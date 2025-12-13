@@ -13,8 +13,8 @@
 	You should have received a copy of the GNU General Public License
 	along with Imagine.  If not, see <http://www.gnu.org/licenses/> */
 
-#include <imagine/input/Device.hh>
-#include <imagine/logger/logger.h>
+#include <imagine/input/inputDefs.hh>
+import imagine;
 
 namespace IG::Input
 {
@@ -447,15 +447,15 @@ constexpr const char* ps3SysButtonName([[maybe_unused]] Key b)
 	#if defined __ANDROID__
 	switch(b)
 	{
-		case Keycode::PS3::CROSS:
+		case PS3Key::CROSS:
 			return UI_TEXT("Cross");
-		case Keycode::PS3::CIRCLE:
+		case PS3Key::CIRCLE:
 			return UI_TEXT("Circle");
-		case Keycode::PS3::SQUARE:
+		case PS3Key::SQUARE:
 			return UI_TEXT("Square");
-		case Keycode::PS3::TRIANGLE:
+		case PS3Key::TRIANGLE:
 			 return UI_TEXT("Triangle");
-		case Keycode::PS3::PS:
+		case PS3Key::PS:
 			return UI_TEXT("PS");
 		case Keycode::GAME_LEFT_THUMB:
 			return UI_TEXT("L3");
@@ -473,13 +473,13 @@ constexpr const char* xperiaPlayButtonName(Key b)
 {
 	switch(b)
 	{
-		case Keycode::XperiaPlay::CROSS:
+		case XperiaPlayKey::CROSS:
 			return UI_TEXT("Cross");
-		case Keycode::XperiaPlay::CIRCLE:
+		case XperiaPlayKey::CIRCLE:
 			return UI_TEXT("Circle");
-		case Keycode::XperiaPlay::SQUARE:
+		case XperiaPlayKey::SQUARE:
 			return UI_TEXT("Square");
-		case Keycode::XperiaPlay::TRIANGLE:
+		case XperiaPlayKey::TRIANGLE:
 			return UI_TEXT("Triangle");
 	}
 	return nullptr;
@@ -489,17 +489,17 @@ constexpr const char* ouyaButtonName(Key b)
 {
 	switch(b)
 	{
-		case Keycode::Ouya::O:
+		case OuyaKey::O:
 			return UI_TEXT("O");
-		case Keycode::Ouya::U:
+		case OuyaKey::U:
 			return UI_TEXT("U");
-		case Keycode::Ouya::Y:
+		case OuyaKey::Y:
 			return UI_TEXT("Y");
-		case Keycode::Ouya::A:
+		case OuyaKey::A:
 			return UI_TEXT("A");
-		case Keycode::Ouya::L3:
+		case OuyaKey::L3:
 			return UI_TEXT("L3");
-		case Keycode::Ouya::R3:
+		case OuyaKey::R3:
 			return UI_TEXT("R3");
 		case Keycode::MENU:
 			return UI_TEXT("System");
@@ -513,23 +513,23 @@ constexpr const char* openPandoraButtonName(Key b)
 {
 	switch(b)
 	{
-		case Keycode::Pandora::L:
+		case PandoraKey::L:
 			return UI_TEXT("L");
-		case Keycode::Pandora::R:
+		case PandoraKey::R:
 			return UI_TEXT("R");
-		case Keycode::Pandora::A:
+		case PandoraKey::A:
 			return UI_TEXT("A");
-		case Keycode::Pandora::B:
+		case PandoraKey::B:
 			return UI_TEXT("B");
-		case Keycode::Pandora::Y:
+		case PandoraKey::Y:
 			return UI_TEXT("Y");
-		case Keycode::Pandora::X:
+		case PandoraKey::X:
 			return UI_TEXT("X");
-		case Keycode::Pandora::SELECT:
+		case PandoraKey::SELECT:
 			return UI_TEXT("Select");
-		case Keycode::Pandora::START:
+		case PandoraKey::START:
 			return UI_TEXT("Start");
-		case Keycode::Pandora::LOGO:
+		case PandoraKey::LOGO:
 			return UI_TEXT("Logo");
 	}
 	return nullptr;
@@ -629,17 +629,16 @@ std::string Device::keyString(Key k, KeyNameFlags flags) const
 	{
 		if(flags.basicModifiers)
 		{
-			using namespace Keycode;
 			switch(k)
 			{
-				case LALT:
-				case RALT:
+				case Keycode::LALT:
+				case Keycode::RALT:
 					return UI_TEXT("Alt");
-				case LSHIFT:
-				case RSHIFT:
+				case Keycode::LSHIFT:
+				case Keycode::RSHIFT:
 					return UI_TEXT("Shift");
-				case LCTRL:
-				case RCTRL:
+				case Keycode::LCTRL:
+				case Keycode::RCTRL:
 					return UI_TEXT("Ctrl");
 			}
 		}

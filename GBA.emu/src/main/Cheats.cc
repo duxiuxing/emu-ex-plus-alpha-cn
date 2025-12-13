@@ -262,18 +262,17 @@ EditCheatView::EditCheatView(ViewAttachParams attach, Cheat& cheat, BaseEditChea
 		UI_TEXT("Edit Cheat"),
 		attach,
 		cheat,
-		editCheatsView,
-		items
+		editCheatsView
 	},
 	addGS12CBCode
 	{
-		UI_TEXT("Add Another Game Shark v1-2/Code Breaker Code"),
+		UI_TEXT("Add Another GS v1-2/CB Code"),
 		attach,
 		[this](const Input::Event& e) { addNewCheatCode(cheatInputString(false), e, 0); }
 	},
 	addGS3Code
 	{
-		UI_TEXT("Add Another Game Shark v3 Code"),
+		UI_TEXT("Add Another GS v3 Code"),
 		attach,
 		[this](const Input::Event& e) { addNewCheatCode(cheatInputString(true), e, 1); }
 	}

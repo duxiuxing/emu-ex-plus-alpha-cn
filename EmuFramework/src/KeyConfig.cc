@@ -16,9 +16,8 @@
 #include <emuframework/EmuInput.hh>
 #include <emuframework/EmuOptions.hh>
 #include <emuframework/Option.hh>
-#include <imagine/io/MapIO.hh>
-#include <imagine/io/FileIO.hh>
-#include <imagine/logger/logger.h>
+#include <imagine/util/macros.h>
+import imagine;
 
 namespace EmuEx
 {
@@ -33,7 +32,7 @@ KeyConfig KeyConfig::readConfig(MapIO &io)
 	readSizedData<uint8_t>(io, keyConf.name);
 	auto mappings = io.get<uint8_t>();
 	keyConf.keyMap.reserve(mappings);
-	for([[maybe_unused]] auto mappingIdx : iotaCount(mappings))
+	for(auto _ : iotaCount(mappings))
 	{
 		KeyMapping m;
 		io.read(m.key.codes.data(), m.key.codes.capacity());
@@ -97,7 +96,7 @@ void KeyConfig::set(KeyInfo key, MappedKeys mapKey)
 	}
 	else
 	{
-		log.info("adding key mapping:{:X}", mapKey[0]);
+		//log.info("adding key mapping:{:X}", mapKey[0]);
 		keyMap.emplace_back(key, mapKey);
 	}
 }

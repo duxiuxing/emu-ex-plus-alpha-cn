@@ -19,21 +19,9 @@
 #include <emuframework/EmuAudio.hh>
 #include <emuframework/EmuVideo.hh>
 #include <emuframework/EmuViewController.hh>
-#include <imagine/base/ApplicationContext.hh>
-#include <imagine/fs/ArchiveFS.hh>
-#include <imagine/fs/FSUtils.hh>
-#include <imagine/io/IO.hh>
-#include <imagine/input/DragTracker.hh>
-#include <imagine/util/utility.h>
-#include <imagine/util/math.hh>
-#include <imagine/util/ScopeGuard.hh>
-#include <imagine/util/string.h>
-#include <imagine/util/zlib.hh>
-#include <imagine/util/format.hh>
-#include <imagine/logger/logger.h>
-#include <algorithm>
-#include <cstring>
+#include <imagine/util/macros.h>
 #include "pathUtils.hh"
+import imagine;
 
 namespace EmuEx
 {
@@ -292,7 +280,7 @@ bool EmuSystem::hasContent() const
 	return contentName_.size();
 }
 
-void EmuSystem::resetFrameTime()
+void EmuSystem::resetFrameTiming()
 {
 	timing.reset();
 }
@@ -313,7 +301,7 @@ void EmuSystem::start(EmuApp &app)
 	if(inputHasKeyboard)
 		app.defaultVController().keyboard().setShiftActive(false);
 	clearInputBuffers(app.viewController().inputView);
-	resetFrameTime();
+	resetFrameTiming();
 	onStart();
 	app.startAudio();
 	app.autosaveManager.startTimer();
@@ -326,42 +314,42 @@ void EmuSystem::start(EmuApp &app)
 	app.rewindManager.startTimer();
 }
 
-SteadyClockTime EmuSystem::benchmark(EmuVideo &video)
+SteadyClockDuration EmuSystem::benchmark(EmuVideo& video)
 {
 	auto before = SteadyClock::now();
-	for([[maybe_unused]] auto i : iotaCount(180))
+	for(auto _ : iotaCount(180))
 	{
 		runFrame({}, &video, nullptr);
 	}
 	return SteadyClock::now() - before;
 }
 
-void EmuSystem::configFrameTime(int outputRate, FrameTime outputFrameTime)
+void EmuSystem::configFrameRate(int outputRate, FrameDuration outputFrameDuration)
 {
 	if(!hasContent())
 		return;
-	if(frameTimeMultiplier == 1.)
+	if(frameRateMultiplier == 1.)
 	{
-		configAudioRate(outputFrameTime, outputRate);
-		audioFramesPerVideoFrameFloat = outputRate * duration_cast<FloatSeconds>(outputFrameTime).count();
+		configAudioRate(outputFrameDuration, outputRate);
+		audioFramesPerVideoFrameFloat = outputRate * duration_cast<FloatSeconds>(outputFrameDuration).count();
 		audioFramesPerVideoFrame = std::ceil(audioFramesPerVideoFrameFloat);
 		currentAudioFramesPerVideoFrame = audioFramesPerVideoFrameFloat;
 	}
-	timing.setFrameTime(outputFrameTime);
+	timing.setFrameDuration(outputFrameDuration);
 }
 
-void EmuSystem::onFrameTimeChanged()
+void EmuSystem::onFrameRateChanged()
 {
-	log.info("frame rate changed:{}", scaledFrameRate());
-	EmuApp::get(appContext()).configFrameTime();
+	log.info("frame rate changed:{}", scaledFrameRate().hz());
+	EmuApp::get(appContext()).updateFrameRate();
 }
 
-double EmuSystem::audioMixRate(int outputRate, double inputFrameRate, FrameTime outputFrameTime)
+double EmuSystem::audioMixRate(int outputRate, FrameRate inputFrameRate, FrameRate outputFrameRate)
 {
 	assumeExpr(outputRate > 0);
-	assumeExpr(inputFrameRate > 0);
-	assumeExpr(outputFrameTime.count() > 0);
-	return inputFrameRate * duration_cast<FloatSeconds>(outputFrameTime).count() * outputRate;
+	assumeExpr(inputFrameRate.hz() > 0);
+	assumeExpr(outputFrameRate.hz() > 0);
+	return (inputFrameRate.hz() / outputFrameRate.hz()) * outputRate;
 }
 
 int EmuSystem::updateAudioFramesPerVideoFrame()
@@ -611,6 +599,36 @@ FileIO EmuSystem::openStaticBackupMemoryFile(CStringView uri, size_t size, uint8
 		}
 	}
 	return file;
+}
+
+void EmuSystem::runFrames(EmuSystemTaskContext taskCtx, EmuVideo *video, EmuAudio *audio, int frames)
+{
+	skipFrames(taskCtx, frames - 1, audio);
+	runFrame(taskCtx, video, audio);
+	updateBackupMemoryCounter();
+}
+
+void EmuSystem::skipFrames(EmuSystemTaskContext taskCtx, int frames, EmuAudio *audio)
+{
+	assert(hasContent());
+	for(auto _ : iotaCount(frames))
+	{
+		runFrame(taskCtx, nullptr, audio);
+	}
+}
+
+bool EmuSystem::skipForwardFrames(EmuSystemTaskContext taskCtx, int frames)
+{
+	for(auto i : iotaCount(frames))
+	{
+		skipFrames(taskCtx, 1, nullptr);
+		if(!shouldFastForward())
+		{
+			log.info("skip-forward ended early after {} frame(s)", i);
+			return false;
+		}
+	}
+	return true;
 }
 
 EmuSystem &gSystem() { return gApp().system(); }
