@@ -13,14 +13,10 @@
 	You should have received a copy of the GNU General Public License
 	along with Imagine.  If not, see <http://www.gnu.org/licenses/> */
 
-#include <imagine/base/Timer.hh>
-#include <imagine/base/EventLoop.hh>
-#include <imagine/logger/logger.h>
-#include <imagine/util/format.hh>
-#include <imagine/util/utility.h>
+#include <imagine/config/defs.hh>
+#include <imagine/util/macros.h>
 #include <unistd.h>
-#include <cerrno>
-#include <cstring>
+#include <errno.h>
 
 #if __has_include(<sys/timerfd.h>) && (!defined __ANDROID__ || ANDROID_MIN_API >= 19)
 #include <sys/timerfd.h>
@@ -61,6 +57,8 @@ static int timerfd_gettime(int ufd,
 }
 #endif
 
+import imagine;
+
 namespace IG
 {
 
@@ -100,25 +98,25 @@ bool TimerFD::arm(timespec time, timespec repeatInterval, int flags)
 	struct itimerspec newTime{repeatInterval, time};
 	if(timerfd_settime(fdSrc.fd(), flags, &newTime, nullptr) != 0)
 	{
-		log.error("error in timerfd_settime:{} ({})", strerror(errno), fdSrc.debugLabel());
+		log.error("error in timerfd_settime:{} ({})", std::strerror(errno), fdSrc.debugLabel());
 		return false;
 	}
 	return true;
 }
 
-void Timer::run(Time time, Time repeatTime, bool isAbsTime, CallbackDelegate callback)
+void Timer::run(Duration timeUntilRun, Duration repeatInterval, bool isAbsTime, CallbackDelegate callback)
 {
 	if(callback)
 		setCallback(callback);
-	time_t seconds = time.count() / 1000000000l;
-	long leftoverNs = time.count() % 1000000000l;
-	time_t repeatSeconds = repeatTime.count() / 1000000000l;
-	long repeatLeftoverNs = repeatTime.count() % 1000000000l;
+	time_t seconds = timeUntilRun.count() / 1000000000l;
+	long leftoverNs = timeUntilRun.count() % 1000000000l;
+	time_t repeatSeconds = repeatInterval.count() / 1000000000l;
+	long repeatLeftoverNs = repeatInterval.count() % 1000000000l;
 	if(Config::DEBUG_BUILD)
 	{
-		FloatSeconds relTime = isAbsTime ? time - SteadyClock::now().time_since_epoch() : time;
+		FloatSeconds relTime = isAbsTime ? timeUntilRun - SteadyClock::now().time_since_epoch() : timeUntilRun;
 		log.info("arming fd:{} ({}) to run in:{}s repeats:{}s",
-			fdSrc.fd(), fdSrc.debugLabel(), relTime.count(), FloatSeconds(repeatTime).count());
+			fdSrc.fd(), fdSrc.debugLabel(), relTime.count(), FloatSeconds(repeatInterval).count());
 	}
 	if(!arm({seconds, leftoverNs}, {repeatSeconds, repeatLeftoverNs}, isAbsTime ? TFD_TIMER_ABSTIME : 0))
 	{
@@ -138,8 +136,13 @@ void Timer::setCallback(CallbackDelegate callback)
 
 void Timer::setEventLoop(EventLoop loop)
 {
-	cancel();
 	fdSrc.attach(loop);
+}
+
+void Timer::unsetEventLoop()
+{
+	cancel();
+	fdSrc.detach();
 }
 
 void Timer::dispatchEarly()
@@ -148,11 +151,16 @@ void Timer::dispatchEarly()
 	(*callback_)();
 }
 
-bool Timer::isArmed()
+bool Timer::isArmed() const
+{
+	return timeUntilRun().count();
+}
+
+Timer::Duration Timer::timeUntilRun() const
 {
 	struct itimerspec currTime{};
 	timerfd_gettime(fdSrc.fd(), &currTime);
-	return currTime.it_value.tv_nsec || currTime.it_value.tv_sec;
+	return Nanoseconds{currTime.it_value.tv_nsec} + Seconds{currTime.it_value.tv_sec};
 }
 
 Timer::operator bool() const

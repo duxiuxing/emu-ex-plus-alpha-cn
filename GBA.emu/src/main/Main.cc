@@ -43,7 +43,7 @@ namespace EmuEx
 
 constexpr SystemLogger log{"GBA.emu"};
 const char *EmuSystem::creditsViewStr =
-	UI_TEXT(CREDITS_INFO_STRING "(c) 2012-2024\nRobert Broglia\nwww.explusalpha.com\n\nPortions (c) the\nVBA-m Team\nvba-m.com\n\n翻译：R-Sam\nGitHub\nduxiuxing/emu-ex-plus-alpha-cn");
+	UI_TEXT(CREDITS_INFO_STRING "(c) 2012-2025\nRobert Broglia\nwww.explusalpha.com\n\nPortions (c) the\nVBA-m Team\nvba-m.com\n\n中文翻译：R-Sam\nGitHub\nduxiuxing/emu-ex-plus-alpha-cn");
 bool EmuSystem::hasBundledGames = true;
 bool EmuSystem::hasCheats = true;
 bool EmuApp::needsGlobalInstance = true;
@@ -52,7 +52,7 @@ constexpr WSize lcdSize{240, 160};
 EmuSystem::NameFilterFunc EmuSystem::defaultFsFilter =
 	[](std::string_view name)
 	{
-		return IG::endsWithAnyCaseless(name, ".gba");
+		return IG::endsWithAnyCaseless(name, ".gba", ".mb");
 	};
 
 GbaApp::GbaApp(ApplicationInitParams initParams, ApplicationContext &ctx):
@@ -169,6 +169,8 @@ void GbaSystem::closeSystem()
 	sensorListener = {};
 	darknessLevel = darknessLevelDefault;
 	cheatsList.clear();
+  gGba.cpu.matrix = {};
+  gGba.mem.rom2.reset();
 }
 
 void GbaSystem::applyGamePatches(uint8_t *rom, int &romSize)
@@ -212,7 +214,8 @@ void GbaSystem::applyGamePatches(uint8_t *rom, int &romSize)
 
 void GbaSystem::loadContent(IO &io, EmuSystemCreateParams, OnLoadProgressDelegate)
 {
-	int size = CPULoadRomWithIO(gGba, io);
+	coreOptions.cpuIsMultiBoot = endsWithAnyCaseless(contentFileName(), ".mb");
+	int size = CPULoadRomWithIO(gGba, io, coreOptions.cpuIsMultiBoot ? LoadDestination::ram : LoadDestination::rom);
 	if(!size)
 	{
 		throwFileReadError();
@@ -266,9 +269,9 @@ void GbaSystem::runFrame(EmuSystemTaskContext taskCtx, EmuVideo *video, EmuAudio
 	CPULoop(gGba, taskCtx, video, audio);
 }
 
-void GbaSystem::configAudioRate(FrameTime outputFrameTime, int outputRate)
+void GbaSystem::configAudioRate(FrameRate outputFrameRate, int outputRate)
 {
-	long mixRate = std::round(audioMixRate(outputRate, outputFrameTime));
+	long mixRate = std::round(audioMixRate(outputRate, outputFrameRate));
 	log.info("set sound mix rate:{}", mixRate);
 	soundSetSampleRate(gGba, mixRate);
 }

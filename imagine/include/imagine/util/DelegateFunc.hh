@@ -25,7 +25,7 @@
 namespace IG
 {
 
-constexpr struct DelegateFuncDefaultInit{} delegateFuncDefaultInit;
+inline constexpr struct DelegateFuncDefaultInit{} delegateFuncDefaultInit;
 
 template <size_t, size_t, class, class ...> class DelegateFuncBase;
 
@@ -87,6 +87,7 @@ public:
 	}
 
 	constexpr bool operator ==(DelegateFuncBase const&) const = default;
+	constexpr bool equalsByFunc(DelegateFuncBase const& other) const { return exec == other.exec; }
 
 	template<class... CallArgs>
 	constexpr R callCopy(CallArgs&&... args) const

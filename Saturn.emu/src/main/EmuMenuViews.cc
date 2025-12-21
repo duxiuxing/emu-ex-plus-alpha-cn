@@ -103,7 +103,7 @@ class CustomFilePathOptionView : public FilePathOptionView, public MainAppHelper
 		[this](Input::Event e)
 		{
 			pushAndShow(makeViewWithName<DataFileSelectView<ArchivePathSelectMode::exclude>>(
-				UI_TEXT("格斗之王 '95 ROM"),
+				UI_TEXT("拳皇95 ROM"),
 				app().validSearchPath(FS::dirnameUri(system().kof95ROMPath)),
 				[this](CStringView path, FS::file_type type)
 				{
@@ -118,7 +118,7 @@ class CustomFilePathOptionView : public FilePathOptionView, public MainAppHelper
 	std::string kof95MenuEntryStr(std::string_view path) const
 	{
 		return std::format(
-			UI_TEXT("格斗之王 '95 ROM 文件：{}"),
+			UI_TEXT("拳皇95 ROM 文件：{}"),
 			appContext().fileUriDisplayName(path));
 	}
 
@@ -173,7 +173,7 @@ constexpr auto cartTypeToString(int t)
 		case CART_CS1RAM_16M:
 			return UI_TEXT("16M CS1 RAM");
 		case CART_KOF95:
-			return UI_TEXT("格斗之王 '95");
+			return UI_TEXT("拳皇95");
 		case CART_ULTRAMAN:
 			return UI_TEXT("奥特曼");
 	}

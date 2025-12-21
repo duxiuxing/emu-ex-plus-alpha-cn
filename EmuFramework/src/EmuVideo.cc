@@ -15,10 +15,8 @@
 
 #include <emuframework/EmuVideo.hh>
 #include <emuframework/EmuApp.hh>
-#include <imagine/gfx/Renderer.hh>
-#include <imagine/gfx/RendererTask.hh>
-#include <imagine/gfx/RendererCommands.hh>
-#include <imagine/logger/logger.h>
+#include <imagine/util/macros.h>
+import imagine.gfx;
 
 namespace EmuEx
 {
@@ -71,8 +69,7 @@ bool EmuVideo::setFormat(IG::PixmapDesc desc, EmuSystemTaskContext taskCtx)
 	{
 		Gfx::TextureConfig conf{desc, samplerConfig()};
 		conf.colorSpace = colSpace;
-		bool singleBuffer = renderer().maxSwapChainImages() < 3 || app().effectiveFrameTimeSource() != FrameTimeSource::Renderer;
-		vidImg = renderer().makePixmapBufferTexture(conf, bufferMode, singleBuffer);
+		vidImg = renderer().makePixmapBufferTexture(conf, bufferMode);
 	}
 	else
 	{
@@ -82,10 +79,6 @@ bool EmuVideo::setFormat(IG::PixmapDesc desc, EmuSystemTaskContext taskCtx)
 	if(taskCtx)
 	{
 		taskCtx.task().sendVideoFormatChangedReply(*this);
-	}
-	else
-	{
-		dispatchFormatChanged();
 	}
 	return true;
 }

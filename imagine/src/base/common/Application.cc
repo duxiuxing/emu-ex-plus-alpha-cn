@@ -13,13 +13,13 @@
 	You should have received a copy of the GNU General Public License
 	along with Imagine.  If not, see <http://www.gnu.org/licenses/> */
 
-#include <imagine/base/Application.hh>
-#include <imagine/logger/logger.h>
+#include <imagine/util/macros.h>
+import imagine;
 
 namespace IG
 {
 
-const char *copyright = "Imagine is Copyright 2010-2023 Robert Broglia";
+const char *copyright = "Imagine is Copyright 2010-2025 Robert Broglia";
 constexpr SystemLogger log{"App"};
 
 BaseApplication::BaseApplication(ApplicationContext ctx)
@@ -166,12 +166,12 @@ bool BaseApplication::isExiting() const
 
 bool BaseApplication::addOnResume(ResumeDelegate del, int priority)
 {
-	return onResume_.add(del, priority);
+	return onResume_.insert(del, priority, InsertMode::unique);
 }
 
 bool BaseApplication::removeOnResume(ResumeDelegate del)
 {
-	return onResume_.remove(del);
+	return onResume_.removeFirst(del);
 }
 
 bool BaseApplication::containsOnResume(ResumeDelegate del) const
@@ -181,12 +181,12 @@ bool BaseApplication::containsOnResume(ResumeDelegate del) const
 
 bool BaseApplication::addOnExit(ExitDelegate del, int priority)
 {
-	return onExit_.add(del, priority);
+	return onExit_.insert(del, priority, InsertMode::unique);
 }
 
 bool BaseApplication::removeOnExit(ExitDelegate del)
 {
-	return onExit_.remove(del);
+	return onExit_.removeFirst(del);
 }
 
 bool BaseApplication::containsOnExit(ExitDelegate del) const

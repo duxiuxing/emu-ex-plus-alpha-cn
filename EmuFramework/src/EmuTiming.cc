@@ -14,21 +14,18 @@
 	along with EmuFramework.  If not, see <http://www.gnu.org/licenses/> */
 
 #include <emuframework/EmuTiming.hh>
-#include <imagine/util/utility.h>
-#include <imagine/util/math.hh>
-#include <imagine/logger/logger.h>
-#include <cmath>
+#include <imagine/util/macros.h>
+import imagine;
 
 namespace EmuEx
 {
 
 constexpr SystemLogger log{"EmuTiming"};
 
-EmuFrameTimeInfo EmuTiming::advanceFrames(FrameParams params)
+EmuFrameTimingInfo EmuTiming::advanceFrames(FrameParams params)
 {
-	auto frameTimeDiff = params.timestamp - lastFrameTimestamp_;
-	auto framesDiff  = params.elapsedFrames(lastFrameTimestamp_);
-	std::exchange(lastFrameTimestamp_, params.timestamp);
+	auto durationDelta = params.delta();
+	auto framesDiff  = params.elapsedFrames();
 	if(exactFrameDivisor > 0)
 	{
 		savedAdvancedFrames += framesDiff;
@@ -39,32 +36,32 @@ EmuFrameTimeInfo EmuTiming::advanceFrames(FrameParams params)
 			elapsedFrames = quot;
 			savedAdvancedFrames = rem;
 		}
-		return {elapsedFrames, frameTimeDiff};
+		return {elapsedFrames, durationDelta};
 	}
 	else
 	{
 		if(!hasTime(startFrameTime)) [[unlikely]]
 		{
 			// first frame
-			startFrameTime = params.timestamp;
+			startFrameTime = params.time;
 			lastFrame = 0;
 			return {};
 		}
-		assumeExpr(timePerVideoFrame.count() > 0);
+		assumeExpr(videoFrameDuration.count() > 0);
 		assumeExpr(startFrameTime.time_since_epoch().count() > 0);
-		assumeExpr(params.timestamp >= startFrameTime);
-		auto timeTotal = params.timestamp - startFrameTime;
-		auto now = divRoundClosestPositive(timeTotal.count(), timePerVideoFrame.count());
+		assumeExpr(params.time >= startFrameTime);
+		auto timeTotal = params.time - startFrameTime;
+		auto now = divRoundClosestPositive(timeTotal.count(), videoFrameDuration.count());
 		int elapsedFrames = now - lastFrame;
 		lastFrame = now;
-		return {elapsedFrames, frameTimeDiff};
+		return {elapsedFrames, durationDelta};
 	}
 }
 
-void EmuTiming::setFrameTime(SteadyClockTime time)
+void EmuTiming::setFrameDuration(SteadyClockDuration d)
 {
-	timePerVideoFrame = time;
-	log.info("configured frame time:{} ({:g} fps)", timePerVideoFrame, toHz(time));
+	videoFrameDuration = d;
+	log.info("configured frame time:{} ({:g} fps)", videoFrameDuration, toHz(d));
 	reset();
 }
 

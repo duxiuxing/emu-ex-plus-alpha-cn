@@ -57,7 +57,7 @@ namespace EmuEx
 
 class EmuApp;
 
-enum
+enum PceConfigKey
 {
 	CFGKEY_SYSCARD_PATH = 275, CFGKEY_ARCADE_CARD = 276,
 	CFGKEY_6_BTN_PAD = 277, CFGKEY_VISIBLE_LINES = 278,
@@ -146,8 +146,8 @@ public:
 	void clearInputBuffers(EmuInputView &view);
 	void handleInputAction(EmuApp *, InputAction);
 	SystemInputDeviceDesc inputDeviceDesc(int idx) const;
-	FrameTime frameTime() const;
-	void configAudioRate(FrameTime outputFrameTime, int outputRate);
+	FrameRate frameRate() const;
+	void configAudioRate(FrameRate outputFrameRate, int outputRate);
 	static std::span<const AspectRatioInfo> aspectRatioInfos();
 
 	// optional API functions

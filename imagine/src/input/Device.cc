@@ -13,8 +13,8 @@
 	You should have received a copy of the GNU General Public License
 	along with Imagine.  If not, see <http://www.gnu.org/licenses/> */
 
-#include <imagine/input/Device.hh>
-#include <imagine/logger/logger.h>
+#include <imagine/input/inputDefs.hh>
+import imagine;
 
 namespace IG::Input
 {
@@ -447,15 +447,15 @@ constexpr const char* ps3SysButtonName([[maybe_unused]] Key b)
 	#if defined __ANDROID__
 	switch(b)
 	{
-		case Keycode::PS3::CROSS:
+		case PS3Key::CROSS:
 			return UI_TEXT("交叉键");
-		case Keycode::PS3::CIRCLE:
+		case PS3Key::CIRCLE:
 			return UI_TEXT("圆圈键");
-		case Keycode::PS3::SQUARE:
+		case PS3Key::SQUARE:
 			return UI_TEXT("正方键");
-		case Keycode::PS3::TRIANGLE:
+		case PS3Key::TRIANGLE:
 			 return UI_TEXT("三角键");
-		case Keycode::PS3::PS:
+		case PS3Key::PS:
 			return UI_TEXT("PS 键");
 		case Keycode::GAME_LEFT_THUMB:
 			return UI_TEXT("L3 键");
@@ -473,13 +473,13 @@ constexpr const char* xperiaPlayButtonName(Key b)
 {
 	switch(b)
 	{
-		case Keycode::XperiaPlay::CROSS:
+		case XperiaPlayKey::CROSS:
 			return UI_TEXT("交叉键");
-		case Keycode::XperiaPlay::CIRCLE:
+		case XperiaPlayKey::CIRCLE:
 			return UI_TEXT("圆圈键");
-		case Keycode::XperiaPlay::SQUARE:
+		case XperiaPlayKey::SQUARE:
 			return UI_TEXT("正方键");
-		case Keycode::XperiaPlay::TRIANGLE:
+		case XperiaPlayKey::TRIANGLE:
 			return UI_TEXT("三角键");
 	}
 	return nullptr;
@@ -489,17 +489,17 @@ constexpr const char* ouyaButtonName(Key b)
 {
 	switch(b)
 	{
-		case Keycode::Ouya::O:
+		case OuyaKey::O:
 			return UI_TEXT("O 键");
-		case Keycode::Ouya::U:
+		case OuyaKey::U:
 			return UI_TEXT("U 键");
-		case Keycode::Ouya::Y:
+		case OuyaKey::Y:
 			return UI_TEXT("Y 键");
-		case Keycode::Ouya::A:
+		case OuyaKey::A:
 			return UI_TEXT("A 键");
-		case Keycode::Ouya::L3:
+		case OuyaKey::L3:
 			return UI_TEXT("L3 键");
-		case Keycode::Ouya::R3:
+		case OuyaKey::R3:
 			return UI_TEXT("R3 键");
 		case Keycode::MENU:
 			return UI_TEXT("系统键");
@@ -513,23 +513,23 @@ constexpr const char* openPandoraButtonName(Key b)
 {
 	switch(b)
 	{
-		case Keycode::Pandora::L:
+		case PandoraKey::L:
 			return UI_TEXT("L 键");
-		case Keycode::Pandora::R:
+		case PandoraKey::R:
 			return UI_TEXT("R 键");
-		case Keycode::Pandora::A:
+		case PandoraKey::A:
 			return UI_TEXT("A 键");
-		case Keycode::Pandora::B:
+		case PandoraKey::B:
 			return UI_TEXT("B 键");
-		case Keycode::Pandora::Y:
+		case PandoraKey::Y:
 			return UI_TEXT("Y 键");
-		case Keycode::Pandora::X:
+		case PandoraKey::X:
 			return UI_TEXT("X 键");
-		case Keycode::Pandora::SELECT:
+		case PandoraKey::SELECT:
 			return UI_TEXT("选择键");
-		case Keycode::Pandora::START:
+		case PandoraKey::START:
 			return UI_TEXT("开始键");
-		case Keycode::Pandora::LOGO:
+		case PandoraKey::LOGO:
 			return UI_TEXT("Logo 键");
 	}
 	return nullptr;
@@ -629,17 +629,16 @@ std::string Device::keyString(Key k, KeyNameFlags flags) const
 	{
 		if(flags.basicModifiers)
 		{
-			using namespace Keycode;
 			switch(k)
 			{
-				case LALT:
-				case RALT:
+				case Keycode::LALT:
+				case Keycode::RALT:
 					return UI_TEXT("Alt 键");
-				case LSHIFT:
-				case RSHIFT:
+				case Keycode::LSHIFT:
+				case Keycode::RSHIFT:
 					return UI_TEXT("Shift 键");
-				case LCTRL:
-				case RCTRL:
+				case Keycode::LCTRL:
+				case Keycode::RCTRL:
 					return UI_TEXT("Ctrl 键");
 			}
 		}

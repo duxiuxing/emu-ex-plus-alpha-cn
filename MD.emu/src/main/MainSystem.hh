@@ -30,7 +30,7 @@ namespace EmuEx
 
 class EmuApp;
 
-enum
+enum MdConfigKey
 {
 	CFGKEY_BIG_ENDIAN_SRAM = 278, CFGKEY_SMS_FM = 279,
 	CFGKEY_6_BTN_PAD = 280, CFGKEY_MD_CD_BIOS_USA_PATH = 281,
@@ -64,8 +64,8 @@ public:
 	FS::PathString cdBiosUSAPath{}, cdBiosJpnPath{}, cdBiosEurPath{};
 	#endif
 	static constexpr size_t maxSaveStateSize = STATE_SIZE + 4;
-	static constexpr auto ntscFrameTime{fromSeconds<FrameTime>(262. * MCYCLES_PER_LINE / 53693175.)}; // ~59.92Hz
-	static constexpr auto palFrameTime{fromSeconds<FrameTime>(313. * MCYCLES_PER_LINE / 53203424.)}; // ~49.70Hz
+	static constexpr FrameRate ntscFrameRate{53693175. / (262. * MCYCLES_PER_LINE)}; // ~59.92Hz
+	static constexpr FrameRate palFrameRate{53203424. / (313. * MCYCLES_PER_LINE)}; // ~49.70Hz
 	std::vector<Cheat> cheatList;
 	std::vector<CheatCode*> romCheatList;
 	std::vector<CheatCode*> ramCheatList;
@@ -96,8 +96,8 @@ public:
 	void clearInputBuffers(EmuInputView &view);
 	void handleInputAction(EmuApp *, InputAction);
 	SystemInputDeviceDesc inputDeviceDesc(int idx) const;
-	FrameTime frameTime() const { return videoSystem() == VideoSystem::PAL ? palFrameTime : ntscFrameTime; }
-	void configAudioRate(FrameTime outputFrameTime, int outputRate);
+	FrameRate frameRate() const { return videoSystem() == VideoSystem::PAL ? palFrameRate : ntscFrameRate; }
+	void configAudioRate(FrameRate outputFrameRate, int outputRate);
 	static std::span<const AspectRatioInfo> aspectRatioInfos();
 
 	// optional API functions

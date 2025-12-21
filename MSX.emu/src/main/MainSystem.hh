@@ -28,7 +28,7 @@ extern "C"
 	#include <blueMSX/Language/Language.h>
 }
 
-enum
+enum MsxConfigKey
 {
 	CFGKEY_DEFAULT_MACHINE_NAME = 256, CFGKEY_SKIP_FDC_ACCESS = 257,
 	CFGKEY_MACHINE_FILE_PATH = 258, CFGKEY_SESSION_MACHINE_NAME = 259,
@@ -215,8 +215,8 @@ public:
 	void clearInputBuffers(EmuInputView &view);
 	void handleInputAction(EmuApp *, InputAction);
 	SystemInputDeviceDesc inputDeviceDesc(int idx) const;
-	FrameTime frameTime() const { return fromHz<FrameTime>(59.924); }
-	void configAudioRate(FrameTime outputFrameTime, int outputRate);
+	FrameRate frameRate() const { return 59.924; }
+	void configAudioRate(FrameRate outputFrameRate, int outputRate);
 	static std::span<const AspectRatioInfo> aspectRatioInfos();
 
 	// optional API functions

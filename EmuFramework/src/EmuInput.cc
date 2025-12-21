@@ -22,7 +22,7 @@
 #include "InputDeviceData.hh"
 #include "gui/ResetAlertView.hh"
 #include <emuframework/EmuOptions.hh>
-#include <imagine/logger/logger.h>
+import imagine;
 
 namespace EmuEx
 {
@@ -192,17 +192,7 @@ bool InputManager::handleAppActionKeyInput(EmuApp& app, InputAction action, cons
 		{
 			if(!isPushed)
 				break;
-			if(app.rewindManager.maxStates)
-			{
-				app.rewindManager.rewindState(app);
-			}
-			else
-			{
-				auto suspendCtx = app.suspendEmulationThread();
-				app.postMessage(3, false,
-					UI_TEXT("请在“选项➔系统”中开启倒带操作")
-				);
-			}
+			app.rewindManager.rewindState(app);
 		}
 		break;
 		case softReset:
@@ -411,7 +401,7 @@ bool InputManager::readCustomKeyConfig(MapIO &io)
 bool InputManager::readSavedInputDevices(MapIO &io)
 {
 	auto confs = io.get<uint8_t>();
-	for([[maybe_unused]] auto confIdx : iotaCount(confs))
+	for(auto _ : iotaCount(confs))
 	{
 		InputDeviceSavedConfig devConf;
 		auto enumIdWithFlags = io.get<uint8_t>();
@@ -435,11 +425,16 @@ bool InputManager::readSavedInputDevices(MapIO &io)
 			log.error("unexpected 0 length device name");
 			return false;
 		}
-		[[maybe_unused]] auto keyConfMap = Input::validateMap(io.get<uint8_t>());
+		auto _ = Input::validateMap(io.get<uint8_t>());
 		readSizedData<uint8_t>(io, devConf.keyConfName);
 		if(!find(savedDevConfigs, [&](const auto &confPtr){ return *confPtr == devConf;}))
 		{
-			log.info("read input device config:{}, id:{}", devConf.name, devConf.enumId);
+			log.info("read input device config:{}, id:{} key conf:{}", devConf.name, devConf.enumId, devConf.keyConfName);
+			if(!std::ranges::contains(customKeyConfigs, devConf.keyConfName, [](const auto& p) -> std::string_view { return p->name; }))
+			{
+				log.warn("key conf:{} doesn't exist, resetting to default", devConf.keyConfName);
+				devConf.keyConfName.clear();
+			}
 			savedDevConfigs.emplace_back(std::make_unique<InputDeviceSavedConfig>(std::move(devConf)));
 		}
 		else
@@ -513,7 +508,7 @@ bool InputManager::readInputDeviceSessionConfigs(ApplicationContext ctx, MapIO &
 {
 	savedSessionDevConfigs.clear();
 	auto confs = io.get<uint8_t>();
-	for([[maybe_unused]] auto confIdx : iotaCount(confs))
+	for(auto _ : iotaCount(confs))
 	{
 		InputDeviceSavedSessionConfig devConf;
 		devConf.enumId = io.get<uint8_t>();

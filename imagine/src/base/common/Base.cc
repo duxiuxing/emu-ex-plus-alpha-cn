@@ -13,16 +13,8 @@
 	You should have received a copy of the GNU General Public License
 	along with Imagine.  If not, see <http://www.gnu.org/licenses/> */
 
-#include <imagine/base/Window.hh>
-#include <imagine/base/GLContext.hh>
-#include <imagine/base/sharedLibrary.hh>
-#include <imagine/time/Time.hh>
-#include <imagine/thread/Thread.hh>
-#include <imagine/util/math/Point2D.hh>
-#include <imagine/util/ranges.hh>
+#include <imagine/util/macros.h>
 #include <imagine/logger/logger.h>
-#include <cstdlib>
-#include <cstring>
 #include <dlfcn.h>
 #if defined __unix__ || defined __APPLE__
 #include <unistd.h>
@@ -35,9 +27,12 @@
 #if defined __APPLE__
 #include <pthread.h>
 #endif
+import imagine;
 
 namespace IG
 {
+
+constexpr SystemLogger log{"App"};
 
 std::string_view asString(Orientations o)
 {
@@ -62,7 +57,7 @@ SharedLibraryRef openSharedLibrary(const char *name, OpenSharedLibraryFlags flag
 	auto lib = dlopen(name, mode);
 	if(Config::DEBUG_BUILD && !lib)
 	{
-		logErr("dlopen(%s) error:%s", name, dlerror());
+		log.error("dlopen({}) error:{}", name, dlerror());
 	}
 	return lib;
 }
@@ -110,27 +105,11 @@ GLBufferConfig GLManager::makeBufferConfig(ApplicationContext ctx, std::span<con
 	throw std::runtime_error("Error finding a GL configuration");
 }
 
-SteadyClockTimePoint FrameParams::presentTime(int frames) const
+int FrameParams::elapsedFrames(SteadyClockDuration delta, SteadyClockDuration frameDuration)
 {
-	if(frames <= 0)
-		return {};
-	return frameTime * frames + timestamp;
-}
-
-int FrameParams::elapsedFrames(SteadyClockTimePoint lastTimestamp) const
-{
-	return elapsedFrames(timestamp, lastTimestamp, frameTime);
-}
-
-int FrameParams::elapsedFrames(SteadyClockTimePoint timestamp, SteadyClockTimePoint lastTimestamp, SteadyClockTime frameTime)
-{
-	if(!hasTime(lastTimestamp))
-		return 1;
-	assumeExpr(timestamp >= lastTimestamp);
-	assumeExpr(frameTime.count() > 0);
-	auto diff = timestamp - lastTimestamp;
-	auto elapsed = divRoundClosestPositive(diff.count(), frameTime.count());
-	return std::max(elapsed, decltype(elapsed){1});
+	assumeExpr(frameDuration.count() > 0);
+	auto elapsed = divRoundClosestPositive(delta.count(), frameDuration.count());
+	return elapsed;
 }
 
 WRect Viewport::relRect(WPt pos, WSize size, _2DOrigin posOrigin, _2DOrigin screenOrigin) const
@@ -158,7 +137,7 @@ inline void logBacktrace()
 	auto size = backtrace(arr, 10);
 	char **backtraceStrings = backtrace_symbols(arr, size);
 	for(auto i : IG::iotaCount(size))
-		logger_printf(LOG_E, "%s\n", backtraceStrings[i]);
+		IG::log.error("{}", backtraceStrings[i]);
 }
 #endif
 
@@ -168,7 +147,7 @@ CLINK void bug_doExit(const char *msg, ...)
 	va_list args;
 	va_start(args, msg);
 	char str[256];
-	vsnprintf(str, sizeof(str), msg, args);
+	std::vsnprintf(str, sizeof(str), msg, args);
 	logErr("%s", str);
 	__android_log_assert("", "imagine", "%s", str);
 	#else
@@ -178,6 +157,6 @@ CLINK void bug_doExit(const char *msg, ...)
 	va_end(args);
 	logger_printf(LOG_E, "\n");
 	usleep(500000); // TODO: need a way to flush every type of log output
-	abort();
+	std::abort();
 	#endif
 }

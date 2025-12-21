@@ -51,8 +51,8 @@ public:
 	// Capacity (STL API)
 	constexpr size_t size() const { return size_; }
 	constexpr bool empty() const { return !size(); };
-	constexpr size_t capacity() const { return SIZE; }
-	constexpr size_t max_size() const { return SIZE; }
+	static constexpr size_t capacity() { return SIZE; }
+	static constexpr size_t max_size() { return SIZE; }
 
 	constexpr void resize(size_t size)
 	{
@@ -170,7 +170,7 @@ private:
 };
 
 template<class T, size_t SIZE>
-static constexpr typename StaticArrayList<T,SIZE>::size_type
+inline constexpr typename StaticArrayList<T,SIZE>::size_type
 	erase(StaticArrayList<T,SIZE>& c, const auto &val)
 {
 	auto it = std::remove(c.begin(), c.end(), val);
@@ -180,7 +180,7 @@ static constexpr typename StaticArrayList<T,SIZE>::size_type
 }
 
 template<class T, size_t SIZE>
-static constexpr typename StaticArrayList<T,SIZE>::size_type
+inline constexpr typename StaticArrayList<T,SIZE>::size_type
 	erase_if(StaticArrayList<T,SIZE>& c, auto pred)
 {
 	auto it = std::remove_if(c.begin(), c.end(), pred);

@@ -23,12 +23,7 @@
 #include <imagine/util/variant.hh>
 #include "PlaceVideoView.hh"
 #include "PlaceVControlsView.hh"
-#include <utility>
-#include <vector>
-#include <array>
-#include <span>
-#include <ranges>
-#include <format>
+import std;
 
 namespace EmuEx
 {
@@ -874,9 +869,6 @@ public:
 		buttons.emplace_back(
 			leftUIComponents.name, attach,
 			[this]{ add(leftUIComponents); });
-		buttons.emplace_back(
-			rewindUIComponents.name, attach,
-			[this]{ add(rewindUIComponents); });
 	}
 
 private:

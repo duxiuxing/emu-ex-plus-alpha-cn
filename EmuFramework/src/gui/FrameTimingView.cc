@@ -22,170 +22,22 @@
 #include <imagine/base/ApplicationContext.hh>
 #include <imagine/gfx/Renderer.hh>
 #include <imagine/gfx/RendererCommands.hh>
-#include <format>
-#include <imagine/logger/logger.h>
+import std;
 
 namespace EmuEx
 {
 
-constexpr SystemLogger log{"FrameTimingView"};
-
-class DetectFrameRateView final: public View, public EmuAppHelper
+static std::string makeFrameRateStr(VideoSystem vidSys, const OutputTimingManager& mgr)
 {
-public:
-	using DetectFrameRateDelegate = DelegateFunc<void (SteadyClockTime frameTime)>;
-	DetectFrameRateDelegate onDetectFrameTime;
-	IG::OnFrameDelegate detectFrameRate;
-	SteadyClockTime totalFrameTime{};
-	SteadyClockTimePoint lastFrameTimestamp{};
-	Gfx::Text fpsText;
-	int allTotalFrames{};
-	int callbacks{};
-	std::vector<SteadyClockTime> frameTimeSample{};
-	bool useRenderTaskTime = false;
-
-	DetectFrameRateView(ViewAttachParams attach): View(attach),
-		fpsText{attach.rendererTask, &defaultFace()}
-	{
-		defaultFace().precacheAlphaNum(attach.renderer());
-		defaultFace().precache(attach.renderer(), ".");
-		fpsText.resetString(
-			UI_TEXT("正在准备帧率检测...")
-		);
-		useRenderTaskTime = !screen()->supportsTimestamps();
-		frameTimeSample.reserve(std::round(screen()->frameRate() * 2.));
-	}
-
-	~DetectFrameRateView() final
-	{
-		window().setIntendedFrameRate(0);
-		app().setCPUNeedsLowLatency(appContext(), false);
-		window().removeOnFrame(detectFrameRate);
-	}
-
-	void place() final
-	{
-		fpsText.compile();
-	}
-
-	bool inputEvent(const Input::Event& e, ViewInputEventParams) final
-	{
-		if(e.keyEvent() && e.keyEvent()->pushed(Input::DefaultKey::CANCEL))
-		{
-			log.info("aborted detection");
-			dismiss();
-			return true;
-		}
-		return false;
-	}
-
-	void draw(Gfx::RendererCommands&__restrict__ cmds, ViewDrawParams) const final
-	{
-		using namespace IG::Gfx;
-		cmds.basicEffect().enableAlphaTexture(cmds);
-		fpsText.draw(cmds, viewRect().center(), C2DO, ColorName::WHITE);
-	}
-
-	bool runFrameTimeDetection(SteadyClockTime timestampDiff, double slack)
-	{
-		const int framesToTime = frameTimeSample.capacity() * 10;
-		allTotalFrames++;
-		frameTimeSample.emplace_back(timestampDiff);
-		if(frameTimeSample.size() == frameTimeSample.capacity())
-		{
-			bool stableFrameTime = true;
-			SteadyClockTime frameTimeTotal{};
-			{
-				SteadyClockTime lastFrameTime{};
-				for(auto frameTime : frameTimeSample)
-				{
-					frameTimeTotal += frameTime;
-					if(!stableFrameTime)
-						continue;
-					double frameTimeDiffSecs =
-						std::abs(IG::FloatSeconds(lastFrameTime - frameTime).count());
-					if(lastFrameTime.count() && frameTimeDiffSecs > slack)
-					{
-						log.info("frame times differed by:{}", frameTimeDiffSecs);
-						stableFrameTime = false;
-					}
-					lastFrameTime = frameTime;
-				}
-			}
-			auto frameTimeTotalSecs = FloatSeconds(frameTimeTotal);
-			auto detectedFrameTimeSecs = frameTimeTotalSecs / (double)frameTimeSample.size();
-			auto detectedFrameTime = round<SteadyClockTime>(detectedFrameTimeSecs);
-			{
-				if(detectedFrameTime.count())
-					fpsText.resetString(std::format(
-						UI_TEXT("{:g}fps"),
-						toHz(detectedFrameTimeSecs)));
-				else
-					fpsText.resetString(
-						UI_TEXT("0fps")
-					);
-				fpsText.compile();
-			}
-			if(stableFrameTime)
-			{
-				log.info("found frame time:{}", detectedFrameTimeSecs);
-				onDetectFrameTime(detectedFrameTime);
-				dismiss();
-				return false;
-			}
-			frameTimeSample.erase(frameTimeSample.cbegin());
-			postDraw();
-		}
-		else
-		{
-			//log.info("waiting for capacity:{}/{}", frameTimeSample.size(), frameTimeSample.capacity());
-		}
-		if(allTotalFrames >= framesToTime)
-		{
-			onDetectFrameTime(SteadyClockTime{});
-			dismiss();
-			return false;
-		}
-		else
-		{
-			if(useRenderTaskTime)
-				postDraw();
-			return true;
-		}
-	}
-
-	void onAddedToController(ViewController*, const Input::Event&) final
-	{
-		lastFrameTimestamp = SteadyClock::now();
-		detectFrameRate =
-			[this](IG::FrameParams params)
-			{
-				const int callbacksToSkip = 10;
-				callbacks++;
-				if(callbacks < callbacksToSkip)
-				{
-					if(useRenderTaskTime)
-						postDraw();
-					return true;
-				}
-				return runFrameTimeDetection(params.timestamp - std::exchange(lastFrameTimestamp, params.timestamp), 0.00175);
-			};
-		window().addOnFrame(detectFrameRate);
-		app().setCPUNeedsLowLatency(appContext(), true);
-	}
-};
-
-static std::string makeFrameRateStr(VideoSystem vidSys, const OutputTimingManager &mgr)
-{
-	auto frameTimeOpt = mgr.frameTimeOption(vidSys);
-	if(frameTimeOpt == OutputTimingManager::autoOption)
+	auto opt = mgr.frameRateOption(vidSys);
+	if(opt == OutputTimingManager::autoOption)
 		return UI_TEXT("自动");
-	else if(frameTimeOpt == OutputTimingManager::originalOption)
+	else if(opt == OutputTimingManager::originalOption)
 		return UI_TEXT("原始");
 	else
 		return std::format(
 			UI_TEXT("{:g}Hz"),
-			toHz(frameTimeOpt));
+			toHz(opt));
 }
 
 FrameTimingView::FrameTimingView(ViewAttachParams attach):
@@ -235,13 +87,7 @@ FrameTimingView::FrameTimingView(ViewAttachParams attach):
 			attach,
 			[this]
 			{
-				if(!app().viewController().emuWindowScreen()->frameRateIsReliable())
-				{
-					app().postErrorMessage(
-						UI_TEXT("根据屏幕刷新率推算出的帧率不一定准确，")
-						UI_TEXT("使用帧率检测可以获得更准确的结果"));
-				}
-				onFrameTimeChange(activeVideoSystem, OutputTimingManager::autoOption);
+				onFrameRateChange(activeVideoSystem, OutputTimingManager::autoOption);
 			}, {.id = OutputTimingManager::autoOption.count()}
 		},
 		{
@@ -249,34 +95,8 @@ FrameTimingView::FrameTimingView(ViewAttachParams attach):
 			attach,
 			[this]
 			{
-				onFrameTimeChange(activeVideoSystem, OutputTimingManager::originalOption);
+				onFrameRateChange(activeVideoSystem, OutputTimingManager::originalOption);
 			}, {.id = OutputTimingManager::originalOption.count()}
-		},
-		{
-			UI_TEXT("帧率检测"),
-			attach,
-			[this](const Input::Event &e)
-			{
-				window().setIntendedFrameRate(system().frameRate());
-				auto frView = makeView<DetectFrameRateView>();
-				frView->onDetectFrameTime =
-					[this](SteadyClockTime frameTime)
-					{
-						if(frameTime.count())
-						{
-							if(onFrameTimeChange(activeVideoSystem, frameTime))
-								dismissPrevious();
-						}
-						else
-						{
-							app().postErrorMessage(
-								UI_TEXT("帧率检测结果异常")
-							);
-						}
-					};
-				pushAndShowModal(std::move(frView), e);
-				return false;
-			}
 		},
 		{
 			UI_TEXT("自定义"),
@@ -288,7 +108,7 @@ FrameTimingView::FrameTimingView(ViewAttachParams attach):
 					"",
 					[this](CollectTextInputView&, auto val)
 					{
-						if(onFrameTimeChange(activeVideoSystem, fromSeconds<SteadyClockTime>(val.second / val.first)))
+						if(onFrameRateChange(activeVideoSystem, fromSeconds<SteadyClockDuration>(val.second / val.first)))
 						{
 							if(activeVideoSystem == VideoSystem::NATIVE_NTSC)
 								frameRate.setSelected(defaultMenuId, *this);
@@ -306,9 +126,9 @@ FrameTimingView::FrameTimingView(ViewAttachParams attach):
 	},
 	frameRate
 	{
-		UI_TEXT("帧率"),
+		UI_TEXT("请输入帧率"),
 		attach,
-		app().outputTimingManager.frameTimeOptionAsMenuId(VideoSystem::NATIVE_NTSC),
+		app().outputTimingManager.frameRateOptionAsMenuId(VideoSystem::NATIVE_NTSC),
 		frameRateItems,
 		{
 			.onSetDisplayString = [this](auto, Gfx::Text& t)
@@ -325,9 +145,9 @@ FrameTimingView::FrameTimingView(ViewAttachParams attach):
 	},
 	frameRatePAL
 	{
-		UI_TEXT("帧率 (PAL)"),
+		UI_TEXT("请输入帧率 (PAL)"),
 		attach,
-		app().outputTimingManager.frameTimeOptionAsMenuId(VideoSystem::PAL),
+		app().outputTimingManager.frameRateOptionAsMenuId(VideoSystem::PAL),
 		frameRateItems,
 		{
 			.onSetDisplayString = [this](auto, Gfx::Text& t)
@@ -342,49 +162,93 @@ FrameTimingView::FrameTimingView(ViewAttachParams attach):
 			},
 		},
 	},
-	frameTimeStats
+	frameTimingStats
 	{
 		UI_TEXT("显示渲染耗时信息"),
 		attach,
-		app().showFrameTimeStats,
-		[this](BoolMenuItem &item) { app().showFrameTimeStats = item.flipBoolValue(*this); }
+		app().showFrameTimingStats,
+		[this](BoolMenuItem &item) { app().showFrameTimingStats = item.flipBoolValue(*this); }
+	},
+	lowLatencyVideo
+	{
+		UI_TEXT("低延迟模式"),
+		attach,
+		app().lowLatencyVideo,
+		[this](BoolMenuItem& item) { app().setLowLatencyVideo(item.flipBoolValue(*this)); }
 	},
 	frameClockItems
 	{
+		[&]()
 		{
+			StaticArrayList<TextMenuItem, maxFrameClockItems> frameClockItems;
+			frameClockItems.emplace_back(
 			UI_TEXT("自动"),
-			attach, MenuItem::Config{.id = FrameTimeSource::Unset}
-		},
-		{
-			UI_TEXT("Screen (减少延迟和耗电量)"),
-			attach, MenuItem::Config{.id = FrameTimeSource::Screen}
-		},
-		{
-			UI_TEXT("Timer (最适用于支持 VRR 的显示器)"),
-			attach, MenuItem::Config{.id = FrameTimeSource::Timer}
-		},
-		{
-			UI_TEXT("Renderer (需要更多的内存空间)"),
-			attach, MenuItem::Config{.id = FrameTimeSource::Renderer}
-		},
+				attach, MenuItem::Config{.id = FrameClockSource::Unset});
+			if(app().emuWindow().supportsFrameClockSource(FrameClockSource::Screen))
+				frameClockItems.emplace_back(
+					UI_TEXT("屏幕（适用于标准显示设备）"),
+					attach, MenuItem::Config{.id = FrameClockSource::Screen});
+			if(app().emuWindow().supportsFrameClockSource(FrameClockSource::Renderer))
+				frameClockItems.emplace_back(
+					UI_TEXT("渲染器（适用于支持双缓冲驱动的显示设备）"),
+					attach, MenuItem::Config{.id = FrameClockSource::Renderer});
+			frameClockItems.emplace_back(
+				UI_TEXT("计时器 (适用于支持可变刷新率的显示设备)"),
+				attach, MenuItem::Config{.id = FrameClockSource::Timer});
+			return frameClockItems;
+		}()
 	},
 	frameClock
 	{
 		UI_TEXT("帧时钟"),
 		attach,
-		MenuId{FrameTimeSource(app().frameTimeSource)},
+		MenuId{FrameClockSource(app().frameClockSource)},
 		frameClockItems,
 		MultiChoiceMenuItem::Config
 		{
 			.onSetDisplayString = [this](auto, Gfx::Text& t)
 			{
-				t.resetString(wise_enum::to_string(app().effectiveFrameTimeSource()));
+				t.resetString(wise_enum::to_string(app().effectiveFrameClockSource()));
 				return true;
 			},
 			.defaultItemOnSelect = [this](TextMenuItem &item)
 			{
-				app().frameTimeSource = FrameTimeSource(item.id.val);
+				app().frameClockSource = FrameClockSource(item.id.val);
 				app().video.resetImage(); // texture can switch between single/double buffered
+			}
+		},
+	},
+	outputRateModeItems
+	{
+		{
+			UI_TEXT("屏幕 (低延迟 & 低功耗)"),
+			attach, MenuItem::Config{.id = OutputFrameRateMode::Auto}
+		},
+		{
+			UI_TEXT("计时器 (最适合支持可变刷新率的显示设备)"),
+			attach, MenuItem::Config{.id = OutputFrameRateMode::Detect}
+		},
+		{
+			UI_TEXT("渲染器 (可能需要占用更多的内存)"),
+			attach, MenuItem::Config{.id = OutputFrameRateMode::Screen}
+		},
+	},
+	outputRateMode
+	{
+		UI_TEXT("帧时钟"),
+		attach,
+		MenuId{OutputFrameRateMode(app().outputFrameRateMode)},
+		outputRateModeItems,
+		MultiChoiceMenuItem::Config
+		{
+			.onSetDisplayString = [this](auto, Gfx::Text& t)
+			{
+				t.resetString(wise_enum::to_string(app().effectiveOutputFrameRateMode()));
+				return true;
+			},
+			.defaultItemOnSelect = [this](TextMenuItem &item)
+			{
+				app().outputFrameRateMode = OutputFrameRateMode(item.id.val);
 			}
 		},
 	},
@@ -395,11 +259,11 @@ FrameTimingView::FrameTimingView(ViewAttachParams attach):
 			attach, MenuItem::Config{.id = Gfx::PresentMode::Auto}
 		},
 		{
-			UI_TEXT("即时 (较少的延迟，但可能会掉帧)"),
+			UI_TEXT("即时 (降低合成器延迟，可能会掉帧)"),
 			attach,	MenuItem::Config{.id = Gfx::PresentMode::Immediate}
 		},
 		{
-			UI_TEXT("队列 (更稳定的帧率)"),
+			UI_TEXT("队列 (更好的帧率稳定性)"),
 			attach, MenuItem::Config{.id = Gfx::PresentMode::FIFO}
 		},
 	},
@@ -430,14 +294,25 @@ FrameTimingView::FrameTimingView(ViewAttachParams attach):
 		[&]
 		{
 			std::vector<TextMenuItem> items;
-			auto setRateDel = [this](TextMenuItem &item) { app().overrideScreenFrameRate = std::bit_cast<FrameRate>(item.id); };
 			items.emplace_back(
 				UI_TEXT("关"),
-				attach, setRateDel, MenuItem::Config{.id = 0});
+				attach, [this]() { app().overrideScreenFrameRate = 0; }, MenuItem::Config{.id = 0});
 			for(auto rate : app().emuScreen().supportedFrameRates())
-				items.emplace_back(std::format(
-					UI_TEXT("{:g}Hz"),
-					rate), attach, setRateDel, MenuItem::Config{.id = std::bit_cast<MenuId>(rate)});
+			{
+				doIfUsed(screenFrameRateItems, [&]([[maybe_unused]] auto& _)
+				{
+					items.emplace_back(
+						std::format(
+							UI_TEXT("{:g}Hz"),
+							rate.hz()),
+						attach,
+						[this, hz = rate.hz()]()
+						{
+							app().overrideScreenFrameRate = hz;
+						},
+						MenuItem::Config{.id = std::bit_cast<MenuId>(float(rate.hz()))});
+				});
+			}
 			return items;
 		}()
 	},
@@ -445,47 +320,8 @@ FrameTimingView::FrameTimingView(ViewAttachParams attach):
 	{
 		UI_TEXT("优先于屏幕帧率"),
 		attach,
-		std::bit_cast<MenuId>(FrameRate(app().overrideScreenFrameRate)),
+		std::bit_cast<MenuId>(float(app().overrideScreenFrameRate)),
 		screenFrameRateItems
-	},
-	presentationTimeItems
-	{
-		{
-			UI_TEXT("速度优先 (采用尽可能高的渲染速度)"),
-			attach, MenuItem::Config{.id = PresentationTimeMode::full}
-		},
-		{
-			UI_TEXT("平滑优先 (保持尽可能稳定的渲染速度)"),
-			attach, MenuItem::Config{.id = PresentationTimeMode::basic}
-		},
-		{
-			UI_TEXT("关"),
-			attach, MenuItem::Config{.id = PresentationTimeMode::off}
-		},
-	},
-	presentationTime
-	{
-		UI_TEXT("帧率调节"),
-		attach,
-		MenuId{PresentationTimeMode(app().presentationTimeMode)},
-		presentationTimeItems,
-		MultiChoiceMenuItem::Config
-		{
-			.onSetDisplayString = [this](auto, Gfx::Text& t)
-			{
-				if(app().presentationTimeMode == PresentationTimeMode::off)
-					return false;
-				t.resetString(app().presentationTimeMode == PresentationTimeMode::full
-					? UI_TEXT("速度优先")
-					: UI_TEXT("平滑优先")
-				);
-				return true;
-			},
-			.defaultItemOnSelect = [this](TextMenuItem &item)
-			{
-				app().presentationTimeMode = PresentationTimeMode(item.id.val);
-			}
-		},
 	},
 	blankFrameInsertion
 	{
@@ -511,26 +347,26 @@ void FrameTimingView::loadStockItems()
 	{
 		item.emplace_back(&frameRatePAL);
 	}
-	if(used(frameTimeStats))
-		item.emplace_back(&frameTimeStats);
+	if(app().emuWindow().supportsFrameClockSource(FrameClockSource::Screen))
+		item.emplace_back(&outputRateMode);
+	item.emplace_back(&frameTimingStats);
 	item.emplace_back(&advancedHeading);
 	item.emplace_back(&frameClock);
 	if(used(presentMode))
 		item.emplace_back(&presentMode);
-	if(used(presentationTime) && renderer().supportsPresentationTime())
-		item.emplace_back(&presentationTime);
 	item.emplace_back(&blankFrameInsertion);
 	if(used(screenFrameRate) && app().emuScreen().supportedFrameRates().size() > 1)
 		item.emplace_back(&screenFrameRate);
+	item.emplace_back(&lowLatencyVideo);
 }
 
-bool FrameTimingView::onFrameTimeChange(VideoSystem vidSys, SteadyClockTime time)
+bool FrameTimingView::onFrameRateChange(VideoSystem vidSys, SteadyClockDuration d)
 {
-	if(!app().outputTimingManager.setFrameTimeOption(vidSys, time))
+	if(!app().outputTimingManager.setFrameRateOption(vidSys, d))
 	{
 		app().postMessage(4, true, std::format(
 			UI_TEXT("{:g}Hz 不在有效的取值范围"),
-			toHz(time)));
+			toHz(d)));
 		return false;
 	}
 	return true;

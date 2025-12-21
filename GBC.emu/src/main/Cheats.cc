@@ -161,7 +161,7 @@ Cheat* GbcSystem::newCheat(EmuApp& app, const char* name, CheatCodeDesc desc)
 	if(!strIsCode(desc.str))
 	{
 		app.postMessage(true,
-			UI_TEXT("ÎŞĞ§µÄ¸ñÊ½")
+			UI_TEXT("æ— æ•ˆçš„æ ¼å¼")
 		);
 		return {};
 	}
@@ -196,7 +196,7 @@ bool GbcSystem::addCheatCode(EmuApp& app, Cheat*& cheatPtr, CheatCodeDesc desc)
 	if(!strIsCode(desc.str))
 	{
 		app.postMessage(true,
-			UI_TEXT("ÎŞĞ§µÄ¸ñÊ½")
+			UI_TEXT("æ— æ•ˆçš„æ ¼å¼")
 		);
 		return false;
 	}
@@ -211,7 +211,7 @@ bool GbcSystem::modifyCheatCode(EmuApp& app, Cheat&, CheatCode& code, CheatCodeD
 	if(!strIsCode(desc.str))
 	{
 		app.postMessage(true,
-			UI_TEXT("ÎŞĞ§µÄ¸ñÊ½")
+			UI_TEXT("æ— æ•ˆçš„æ ¼å¼")
 		);
 		return false;
 	}
@@ -261,20 +261,19 @@ void GbcSystem::forEachCheatCode(Cheat& cheat, DelegateFunc<bool(CheatCode&, std
 EditCheatView::EditCheatView(ViewAttachParams attach, Cheat& cheat, BaseEditCheatsView& editCheatsView):
 	BaseEditCheatView
 	{
-		UI_TEXT("±à¼­½ğÊÖÖ¸"),
+		UI_TEXT("ç¼–è¾‘é‡‘æ‰‹æŒ‡"),
 		attach,
 		cheat,
-		editCheatsView,
-		items
+		editCheatsView
 	},
 	addGGGS
 	{
-		UI_TEXT("Ìí¼ÓÁíÒ»¸ö GG/GS Âë"),
+		UI_TEXT("æ·»åŠ å¦ä¸€ä¸ª GS/GG ç "),
 		attach,
 		[this](const Input::Event& e)
 		{
 			addNewCheatCode(
-				UI_TEXT("ÇëÊäÈë GG Âë (xxx-xxx-xxx) »ò GS Âë (xxxxxxxx)"),
+				UI_TEXT("è¯·è¾“å…¥ GS ç  (xxxxxxxx) æˆ– GG ç  (xxx-xxx-xxx)"),
 				e);
 		}
 	}
@@ -288,12 +287,12 @@ void EditCheatView::loadItems()
 	for(auto& c: cheatPtr->codes)
 	{
 		codes.emplace_back(
-			UI_TEXT("½ğÊÖÖ¸´úÂë"),
+			UI_TEXT("é‡‘æ‰‹æŒ‡ä»£ç "),
 			c, attachParams(),
 			[this, &c](const Input::Event& e)
 			{
 				pushAndShowNewCollectValueInputView<const char*, ScanValueMode::AllowBlank>(attachParams(), e,
-					UI_TEXT("ÇëÊäÈë GG Âë (xxx-xxx-xxx) »ò GS Âë (xxxxxxxx)£¬Áô¿Õ±íÊ¾É¾³ı"),
+					UI_TEXT("è¯·è¾“å…¥ GG ç  (xxx-xxx-xxx) æˆ– GS ç  (xxxxxxxx)ï¼Œç•™ç©ºè¡¨ç¤ºåˆ é™¤"),
 					c, [this, &c](CollectTextInputView&, auto str) { return modifyCheatCode(c, {str}); });
 			}
 		);
@@ -331,12 +330,12 @@ EditCheatsView::EditCheatsView(ViewAttachParams attach, CheatsView& cheatsView):
 	},
 	addGGGS
 	{
-		UI_TEXT("Ìí¼Ó GG/GS Âë"),
+		UI_TEXT("æ·»åŠ  GG/GS ç "),
 		attach,
 		[this](const Input::Event& e)
 		{
 			addNewCheat(
-				UI_TEXT("ÇëÊäÈë GG Âë (xxx-xxx-xxx) »ò GS Âë (xxxxxxxx)"),
+				UI_TEXT("è¯·è¾“å…¥ GG ç  (xxx-xxx-xxx) æˆ– GS ç  (xxxxxxxx)"),
 				e);
 		}
 	} {}

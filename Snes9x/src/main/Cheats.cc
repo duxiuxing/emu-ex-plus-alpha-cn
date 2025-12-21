@@ -256,7 +256,7 @@ void Snes9xSystem::forEachCheatCode(Cheat& cheat, DelegateFunc<bool(CheatCode&, 
 	#endif
 }
 
-EditRamCheatView::EditRamCheatView(ViewAttachParams attach, Cheat& cheat_, CheatCode& code_, EditCheatView& editCheatView_):
+EditRamCheatView::EditRamCheatView(ViewAttachParams attach, CheatCode& code_, EditCheatView& editCheatView_):
 	TableView
 	{
 		UI_TEXT("编辑内存补丁"),
@@ -280,7 +280,6 @@ EditRamCheatView::EditRamCheatView(ViewAttachParams attach, Cheat& cheat_, Cheat
 			});
 		}
 	},
-	cheat{cheat_},
 	code{code_},
 	editCheatView{editCheatView_},
 	addr
@@ -393,13 +392,12 @@ EditCheatView::EditCheatView(ViewAttachParams attach, Cheat& cheat, BaseEditChea
 		UI_TEXT("编辑金手指"),
 		attach,
 		cheat,
-		editCheatsView,
-		items
+		editCheatsView
 	}
 	#ifndef SNES9X_VERSION_1_4
 	,addCode
 	{
-		UI_TEXT("添加另一个 GG/AR/GF 代码"),
+		UI_TEXT("添加另一个作弊码"),
 		attach,
 		[this](const Input::Event& e)
 		{
@@ -423,7 +421,7 @@ void EditCheatView::loadItems()
 			code, attachParams(),
 			[this, &c](const Input::Event& e)
 			{
-				pushAndShow(makeView<EditRamCheatView>(*cheatPtr, c, *this), e);
+				pushAndShow(makeView<EditRamCheatView>(c, *this), e);
 			}
 		);
 		return true;

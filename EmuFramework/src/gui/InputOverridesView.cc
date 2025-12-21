@@ -129,7 +129,7 @@ void InputOverridesView::loadItems()
 
 void InputOverridesView::pushAndShowDeviceView(const Input::Device &dev, const Input::Event &e)
 {
-	pushAndShow(makeViewWithName<InputOverridesDeviceView>(inputDevData(dev).displayName, *this, dev, inputManager), e);
+	pushAndShow(makeViewWithName<InputOverridesDeviceView>(inputDevData(dev).displayName, dev, inputManager), e);
 }
 
 constexpr std::string_view playerAsString(int p)
@@ -141,10 +141,9 @@ constexpr std::string_view playerAsString(int p)
 }
 
 InputOverridesDeviceView::InputOverridesDeviceView(UTF16String name, ViewAttachParams attach,
-	InputOverridesView& rootIMView_, const Input::Device& dev, InputManager& inputManager_):
+	const Input::Device& dev, InputManager& inputManager_):
 	TableView{std::move(name), attach, items},
 	inputManager{inputManager_},
-	rootIMView{rootIMView_},
 	playerItems
 	{
 		[&]

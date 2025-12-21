@@ -25,7 +25,7 @@
 namespace IG
 {
 
-constexpr int pollEventInput = kCFFileDescriptorReadCallBack, pollEventOutput = kCFFileDescriptorWriteCallBack,
+inline constexpr int pollEventInput = kCFFileDescriptorReadCallBack, pollEventOutput = kCFFileDescriptorWriteCallBack,
 	pollEventError = 0, pollEventHangUp = 0;
 
 struct CFFDEventSourceInfo
@@ -41,6 +41,7 @@ struct CFFDEventSourceInfo
 class CFFDEventSource
 {
 public:
+	constexpr CFFDEventSource() = default;
 	CFFDEventSource(MaybeUniqueFileDescriptor, FDEventSourceDesc, PollEventDelegate);
 	CFFDEventSource(CFFDEventSource&&) noexcept;
 	CFFDEventSource &operator=(CFFDEventSource&&) noexcept;

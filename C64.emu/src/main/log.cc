@@ -23,9 +23,9 @@ extern "C"
 	#include "archdep.h"
 }
 
-int log_message(log_t log, const char *format, ...)
+int log_message(log_t, const char *format, ...)
 {
-	if(!logger_isEnabled())
+	if(!IG::Log::isEnabled())
 		return 0;
 	va_list ap;
 	va_start(ap, format);
@@ -35,9 +35,9 @@ int log_message(log_t log, const char *format, ...)
 	return 0;
 }
 
-int log_warning(log_t log, const char *format, ...)
+int log_warning(log_t, const char *format, ...)
 {
-	if(!logger_isEnabled())
+	if(!IG::Log::isEnabled())
 		return 0;
 	va_list ap;
 	va_start(ap, format);
@@ -47,9 +47,9 @@ int log_warning(log_t log, const char *format, ...)
 	return 0;
 }
 
-int log_error(log_t log, const char *format, ...)
+int log_error(log_t, const char *format, ...)
 {
-	if(!logger_isEnabled())
+	if(!IG::Log::isEnabled())
 		return 0;
 	va_list ap;
 	va_start(ap, format);
@@ -59,9 +59,9 @@ int log_error(log_t log, const char *format, ...)
 	return 0;
 }
 
-int log_debug(const char *format, ...)
+int log_debug(log_t, const char *format, ...)
 {
-	if(!logger_isEnabled())
+	if(!IG::Log::isEnabled())
 		return 0;
 	va_list ap;
 	va_start(ap, format);
@@ -71,13 +71,25 @@ int log_debug(const char *format, ...)
 	return 0;
 }
 
-int log_verbose(const char *format, ...)
+int log_verbose(log_t, const char *format, ...)
 {
-	if(!logger_isEnabled())
+	if(!IG::Log::isEnabled())
 		return 0;
 	va_list ap;
 	va_start(ap, format);
 	logger_vprintf(LOG_D, format, ap);
+	logger_printf(LOG_M, "\n");
+	va_end(ap);
+	return 0;
+}
+
+int log_printf(const char *format, ...)
+{
+	if(!IG::Log::isEnabled())
+		return 0;
+	va_list ap;
+	va_start(ap, format);
+	logger_vprintf(LOG_M, format, ap);
 	logger_printf(LOG_M, "\n");
 	va_end(ap);
 	return 0;
@@ -85,7 +97,7 @@ int log_verbose(const char *format, ...)
 
 CLINK void archdep_startup_log_error(const char *format, ...)
 {
-	if(!logger_isEnabled())
+	if(!IG::Log::isEnabled())
 		return;
 	va_list ap;
 	va_start(ap, format);
@@ -95,7 +107,7 @@ CLINK void archdep_startup_log_error(const char *format, ...)
 
 CLINK void ui_error(const char *format,...)
 {
-	if(!logger_isEnabled())
+	if(!IG::Log::isEnabled())
 		return;
   va_list ap;
   va_start(ap, format);
@@ -106,5 +118,29 @@ CLINK void ui_error(const char *format,...)
 CLINK int uimon_out(const char *buffer)
 {
 	logger_printf(0, "uimon_out: %s", buffer);
+	return 0;
+}
+
+CLINK int uimon_petscii_out(const char *buffer, int len)
+{
+	logger_printf(0, "uimon_petscii_out: %s", buffer);
+	return 0;
+}
+
+CLINK int uimon_petscii_upper_out(const char *buffer, int len)
+{
+	logger_printf(0, "uimon_petscii_upper_out: %s", buffer);
+	return 0;
+}
+
+CLINK int uimon_scrcode_out(const char *buffer, int len)
+{
+	logger_printf(0, "uimon_scrcode_out: %s", buffer);
+	return 0;
+}
+
+CLINK int uimon_scrcode_upper_out(const char *buffer, int len)
+{
+	logger_printf(0, "uimon_scrcode_upper_out: %s", buffer);
 	return 0;
 }

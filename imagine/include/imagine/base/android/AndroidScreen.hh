@@ -22,8 +22,9 @@
 #include <imagine/base/android/Choreographer.hh>
 #include <imagine/base/FrameTimerInterface.hh>
 #include <imagine/util/jni.hh>
+#include <imagine/util/used.hh>
 #include <variant>
-#include <vector>
+#include <flat_set>
 
 namespace IG
 {
@@ -45,7 +46,7 @@ class AndroidScreen
 public:
 	struct InitParams
 	{
-		JNIEnv *env;
+		JNIEnv* env;
 		jobject aDisplay;
 		jobject metrics;
 		int id;
@@ -62,21 +63,19 @@ public:
 	bool operator==(AndroidScreen const &rhs) const { return id_ == rhs.id_; }
 	bool operator==(ScreenId id) const { return id_ == id; }
 	explicit operator bool() const { return aDisplay; }
-	void updateFrameRate(float rate);
-	void updateSupportedFrameRates(ApplicationContext, JNIEnv *);
+	bool updateFrameRate(float rate, Nanoseconds presentationDeadline);
+	void updateSupportedFrameRates(ApplicationContext, JNIEnv*);
 
 protected:
 	JNI::UniqueGlobalRef aDisplay;
-	FrameTimer frameTimer;
-	SteadyClockTime frameTime_{};
-	SteadyClockTime presentationDeadline_{};
-	std::vector<float> supportedFrameRates_;
+	FrameRate frameRate_{};
+	SteadyClockDuration targetFrameDuration_{};
+	ConditionalMember<Config::multipleScreenFrameRates, std::flat_set<FrameRate>> supportedFrameRates_;
 	float densityDPI_{};
 	float scaledDensityDPI_{};
-	float frameRate_{};
 	int width_{}, height_{};
 	int id_{};
-	bool reliableFrameRate{true};
+	ConditionalMember<Config::multipleScreenFrameRates, bool> reliableFrameRate{};
 };
 
 using ScreenImpl = AndroidScreen;

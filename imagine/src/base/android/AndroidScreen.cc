@@ -13,16 +13,10 @@
 	You should have received a copy of the GNU General Public License
 	along with Imagine.  If not, see <http://www.gnu.org/licenses/> */
 
+#include <imagine/util/macros.h>
 #include <unistd.h>
-#include <cerrno>
-#include <imagine/base/Screen.hh>
-#include <imagine/base/ApplicationContext.hh>
-#include <imagine/base/Application.hh>
-#include <imagine/time/Time.hh>
-#include <imagine/util/algorithm.h>
-#include <imagine/logger/logger.h>
-#include "android.hh"
-#include <imagine/base/SimpleFrameTimer.hh>
+#include <android/native_activity.h>
+import imagine.internal.android;
 
 namespace IG
 {
@@ -58,9 +52,9 @@ void AndroidApplication::initScreens(JNIEnv *env, jobject baseActivity, jclass b
 				}
 			},
 			{
-				"displayChange", "(JIF)V",
+				"displayChange", "(JIFJ)V",
 				(void*)
-				+[](JNIEnv*, jobject, jlong nActivityAddr, jint id, jfloat refreshRate)
+				+[](JNIEnv*, jobject, jlong nActivityAddr, jint id, jfloat refreshRate, jlong presentationDeadline)
 				{
 					ApplicationContext ctx{(ANativeActivity*)nActivityAddr};
 					auto &app = ctx.application();
@@ -70,8 +64,8 @@ void AndroidApplication::initScreens(JNIEnv *env, jobject baseActivity, jclass b
 						log.warn("screen id:{} changed but isn't in device list", id);
 						return;
 					}
-					screen->updateFrameRate(refreshRate);
-					app.dispatchOnScreenChange(ctx, *screen, ScreenChange::frameRate);
+					if(screen->updateFrameRate(refreshRate, Nanoseconds{presentationDeadline}))
+						app.dispatchOnScreenChange(ctx, *screen, ScreenChange::frameRate);
 				}
 			},
 			{
@@ -130,8 +124,7 @@ AndroidScreen::AndroidScreen(ApplicationContext ctx, InitParams params)
 		id_ = id;
 		log.info("init display with id:{}", id_);
 	}
-	presentationDeadline_ = presentationDeadline;
-	updateFrameRate(refreshRate);
+	updateFrameRate(refreshRate, presentationDeadline);
 	if(ctx.androidSDK() <= 10)
 	{
 		// corrections for devices known to report wrong refresh rates
@@ -139,17 +132,12 @@ AndroidScreen::AndroidScreen(ApplicationContext ctx, InitParams params)
 		if(Config::MACHINE_IS_GENERIC_ARMV7 && buildDevice == "R800at")
 		{
 			frameRate_ = 61.5;
-			frameTime_ = fromHz<SteadyClockTime>(frameRate_);
 		}
 		else if(Config::MACHINE_IS_GENERIC_ARMV7 && buildDevice == "sholes")
 		{
 			frameRate_ = 60;
-			frameTime_ = fromHz<SteadyClockTime>(frameRate_);
 		}
-		else
-			reliableFrameRate = false;
 	}
-	ctx.application().emplaceFrameTimer(frameTimer, *static_cast<Screen*>(this));
 	updateSupportedFrameRates(ctx, env);
 
 	// DisplayMetrics
@@ -178,7 +166,7 @@ AndroidScreen::AndroidScreen(ApplicationContext ctx, InitParams params)
 		auto jDensityDPI = env->GetFieldID(jDisplayMetricsCls, "densityDpi", "I");
 		log.info("DPI:{}x{}, densityDPI:{}, refresh rate:{}Hz",
 			metricsXDPI, metricsYDPI, env->GetIntField(metrics, jDensityDPI),
-			frameRate_);
+			frameRate_.hz());
 	}
 	if(!isStraightRotation)
 		std::swap(widthPixels, heightPixels);
@@ -186,87 +174,45 @@ AndroidScreen::AndroidScreen(ApplicationContext ctx, InitParams params)
 	height_ = heightPixels;
 }
 
-void AndroidScreen::updateFrameRate(float rate)
+bool AndroidScreen::updateFrameRate(float rate, Nanoseconds presentationDeadline)
 {
-	if(frameRate_ && rate != frameRate_)
-	{
-		log.info("refresh rate updated to:{} on screen:{}", rate, id());
-	}
-	if(rate < 20.f || rate > 250.f) // sanity check in case device has a junk value
+	if(frameRate_ && rate == frameRate_.hz())
+		return false;
+	log.info("refresh rate updated to:{} deadline:{} on screen:{}", rate, presentationDeadline, id());
+	if(rate < 1.f || rate > 700.f) // sanity check in case device has a junk value
 	{
 		log.warn("ignoring unusual refresh rate:{}", rate);
 		rate = 60;
 		reliableFrameRate = false;
 	}
 	frameRate_ = rate;
-	frameTime_ = fromHz<SteadyClockTime>(rate);
+	targetFrameDuration_ = presentationDeadline >= frameRate_.duration() ? Milliseconds{4} : frameRate_.duration() - presentationDeadline;
+	return true;
 }
 
 void AndroidScreen::updateSupportedFrameRates(ApplicationContext ctx, JNIEnv *env)
 {
 	if(ctx.androidSDK() < 21)
 	{
-		supportedFrameRates_ = {frameRate_};
 		return;
 	}
-	JNI::InstMethod<jobject()> jGetSupportedRefreshRates{env, (jobject)aDisplay, "getSupportedRefreshRates", "()[F"};
-	auto jRates = (jfloatArray)jGetSupportedRefreshRates(env, aDisplay);
-	std::span<jfloat> rates{env->GetFloatArrayElements(jRates, 0), (size_t)env->GetArrayLength(jRates)};
-	supportedFrameRates_.assign(rates.begin(), rates.end());
-	if constexpr(Config::DEBUG_BUILD)
+	doIfUsed(supportedFrameRates_, [&](auto& supportedRates)
 	{
-		log.debug("screen {} supports {} rate(s):", id_, rates.size());
-		for(auto r : rates) { log.debug("{}", r); }
-	}
-	env->ReleaseFloatArrayElements(jRates, rates.data(), 0);
+		JNI::InstMethod<jobject()> jGetSupportedRefreshRates{env, (jobject)aDisplay, "getSupportedRefreshRates", "()[F"};
+		auto jRates = (jfloatArray)jGetSupportedRefreshRates(env, aDisplay);
+		std::span rates{env->GetFloatArrayElements(jRates, 0), size_t(env->GetArrayLength(jRates))};
+		log.debug("screen {} supports {} rate(s):{}", id_, rates.size(), rates);
+		reliableFrameRate = rates.size() > 1; // assume rate is reliable on devices with multiple rates
+		supportedRates.insert_range(rates);
+		env->ReleaseFloatArrayElements(jRates, rates.data(), 0);
+	});
 }
 
 int Screen::width() const { return width_; }
 int Screen::height() const { return height_; }
 FrameRate Screen::frameRate() const { return frameRate_; }
-SteadyClockTime Screen::frameTime() const { return frameTime_; }
-SteadyClockTime Screen::presentationDeadline() const { return presentationDeadline_; }
+SteadyClockDuration Screen::targetFrameDuration() const { return targetFrameDuration_; }
 bool Screen::frameRateIsReliable() const { return reliableFrameRate; }
-
-void Screen::postFrameTimer()
-{
-	frameTimer.scheduleVSync();
-}
-
-void Screen::unpostFrameTimer()
-{
-	frameTimer.cancel();
-}
-
-void Screen::setVariableFrameTime(bool useVariableTime)
-{
-	if(!shouldUpdateFrameTimer(frameTimer, useVariableTime))
-		return;
-	application().emplaceFrameTimer(frameTimer, *static_cast<Screen*>(this), useVariableTime);
-}
-
-void Screen::setFrameEventsOnThisThread()
-{
-	unpostFrame();
-	frameTimer.setEventsOnThisThread(appContext());
-}
-
-void Screen::removeFrameEvents()
-{
-	unpostFrame();
-}
-
-void Screen::setFrameInterval([[maybe_unused]] int interval)
-{
-	// TODO
-	//log,info("setting frame interval:{}", interval);
-	assert(interval >= 1);
-}
-
-bool Screen::supportsFrameInterval()
-{
-	return false;
-}
 
 bool Screen::supportsTimestamps() const
 {
@@ -280,7 +226,9 @@ void Screen::setFrameRate(FrameRate rate)
 
 std::span<const FrameRate> Screen::supportedFrameRates() const
 {
-	return supportedFrameRates_;
+	return doIfUsedOr(supportedFrameRates_,
+		[&](auto& rates){ return std::span{std::addressof(*rates.begin()), rates.size()}; },
+		[&](){ return std::span{&frameRate_, 1}; });
 }
 
 }

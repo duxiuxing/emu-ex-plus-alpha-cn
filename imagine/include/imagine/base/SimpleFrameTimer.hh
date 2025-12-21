@@ -24,23 +24,17 @@ namespace IG
 
 class Screen;
 
-class NullFrameTimer
-{
-public:
-	void scheduleVSync() {}
-	void cancel() {}
-	void setFrameRate(FrameRate) {}
-	void setEventsOnThisThread(ApplicationContext);
-};
-
 class SimpleFrameTimer final
 {
 public:
+	constexpr SimpleFrameTimer() = default;
 	SimpleFrameTimer(Screen &screen, EventLoop loop = {});
 	void scheduleVSync();
 	void cancel();
 	void setFrameRate(FrameRate);
+	FrameRate frameRate() const { return rate; }
 	void setEventsOnThisThread(ApplicationContext);
+	void removeEvents(ApplicationContext);
 
 	explicit operator bool() const
 	{
@@ -49,9 +43,8 @@ public:
 
 protected:
 	Timer timer;
-	Nanoseconds interval{};
+	FrameRate rate{};
 	bool requested{};
-	bool keepTimer{};
 };
 
 }

@@ -42,7 +42,7 @@ public:
 		const EmuApp& app, ProfileSelectViewDesc desc = {}):
 		TextTableView
 		{
-			UI_TEXT("Key Profile"),
+			UI_TEXT("按键配置"),
 			attach,
 			app.inputManager.customKeyConfigs.size() + 8 // reserve space for built-in configs
 		}
@@ -51,7 +51,7 @@ public:
 		{
 			activeItem = 0;
 			textItem.emplace_back(
-				UI_TEXT("Default"),
+				UI_TEXT("默认"),
 				attach, [this]()
 				{
 					auto del = onProfileChange;

@@ -50,7 +50,7 @@ static std::string saveAutosaveName(EmuApp &app)
 		return UI_TEXT("保存进度到自动存档");
 	return std::format(
 		UI_TEXT("保存进度到自动存档 (倒计时 {:%M:%S})"),
-		duration_cast<Seconds>(autosaveManager.saveTimer.nextFireTime()));
+		duration_cast<Seconds>(autosaveManager.saveTimer.nextFireDuration()));
 }
 
 SystemActionsView::SystemActionsView(ViewAttachParams attach, bool customMenu):

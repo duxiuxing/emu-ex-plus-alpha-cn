@@ -262,8 +262,7 @@ EditCheatView::EditCheatView(ViewAttachParams attach, Cheat& cheat, BaseEditChea
 		UI_TEXT("编辑金手指"),
 		attach,
 		cheat,
-		editCheatsView,
-		items
+		editCheatsView
 	},
 	addGS12CBCode
 	{

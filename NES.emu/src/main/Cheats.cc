@@ -189,7 +189,7 @@ static std::string codeCompareToString(int compare) { return compare != -1 ? std
 EditRamCheatView::EditRamCheatView(ViewAttachParams attach, Cheat& cheat_, CheatCode& code_, EditCheatView& editCheatView_):
 	TableView
 	{
-		"Edit RAM Patch",
+		"Edit Memory Patch",
 		attach,
 		[this](ItemMessage msg) -> ItemReply
 		{
@@ -326,12 +326,11 @@ EditCheatView::EditCheatView(ViewAttachParams attach, Cheat& cheat, BaseEditChea
 		UI_TEXT("编辑金手指"),
 		attach,
 		cheat,
-		editCheatsView,
-		items
+		editCheatsView
 	},
 	addGG
 	{
-		UI_TEXT("添加另一个 GG 码"),
+		UI_TEXT("添加另一个作弊码"),
 		attach,
 		[this](const Input::Event& e)
 		{
@@ -342,7 +341,7 @@ EditCheatView::EditCheatView(ViewAttachParams attach, Cheat& cheat, BaseEditChea
 	},
 	addRAM
 	{
-		UI_TEXT("添加另一个内存补丁"),
+		UI_TEXT("添加另一个作弊码"),
 		attach,
 		[this](const Input::Event& e)
 		{

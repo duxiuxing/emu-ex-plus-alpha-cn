@@ -71,7 +71,7 @@ namespace EmuEx
 
 class EmuAudio;
 
-enum
+enum C64ConfigKey
 {
 	CFGKEY_DRIVE_TRUE_EMULATION = 256, CFGKEY_AUTOSTART_WARP = 257,
 	CFGKEY_AUTOSTART_TDE = 258, CFGKEY_C64_MODEL = 259,
@@ -120,7 +120,7 @@ class C64System final: public EmuSystem
 {
 public:
 	double systemFrameRate{60.};
-	std::binary_semaphore execSem{0}, execDoneSem{0};
+	binary_semaphore execSem{0}, execDoneSem{0};
 	EmuAudio *audioPtr{};
 	struct video_canvas_s *activeCanvas{};
 	const char *sysFileDir{};
@@ -221,12 +221,11 @@ public:
 		return true;
 	}
 
-
 	// required API functions
 	void loadContent(IO &, EmuSystemCreateParams, OnLoadProgressDelegate);
 	[[gnu::hot]] void runFrame(EmuSystemTaskContext task, EmuVideo *video, EmuAudio *audio);
 	FS::FileString stateFilename(int slot, std::string_view name) const;
-	std::string_view stateFilenameExt() const { return ".vsf"; }
+	std::string_view stateFilenameExt() const { return plugin.stateExt; }
 	size_t stateSize();
 	void readState(EmuApp &, std::span<uint8_t> buff);
 	size_t writeState(std::span<uint8_t> buff, SaveStateFlags = {});
@@ -236,8 +235,8 @@ public:
 	void clearInputBuffers(EmuInputView &view);
 	void handleInputAction(EmuApp *, InputAction);
 	SystemInputDeviceDesc inputDeviceDesc(int idx) const;
-	FrameTime frameTime() const { return fromHz<FrameTime>(systemFrameRate); }
-	void configAudioRate(FrameTime outputFrameTime, int outputRate);
+	FrameRate frameRate() const { return systemFrameRate; }
+	void configAudioRate(FrameRate outputFrameRate, int outputRate);
 	static std::span<const AspectRatioInfo> aspectRatioInfos();
 
 	// optional API functions
@@ -255,7 +254,7 @@ public:
 	void addThreadGroupIds(std::vector<ThreadId> &ids) const { ids.emplace_back(emuThreadId); }
 
 protected:
-	void initC64(EmuApp &app);
+	bool initC64(EmuApp &app);
 	void setVirtualDeviceTraps(bool on);
 	bool virtualDeviceTraps() const;
 	void handleKeyboardInput(InputAction, bool positionalShift = {});

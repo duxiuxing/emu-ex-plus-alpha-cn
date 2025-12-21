@@ -667,7 +667,7 @@ SystemInputDeviceDesc Snes9xSystem::inputDeviceDesc(int) const
 
 	static constexpr SystemInputDeviceDesc gamepadDesc
 	{
-		UI_TEXT("Gamepad"),
+		UI_TEXT("游戏手柄"),
 		gamepadComponents
 	};
 

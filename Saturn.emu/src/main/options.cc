@@ -32,7 +32,7 @@ std::span<const AspectRatioInfo> SaturnSystem::aspectRatioInfos()
 	static constexpr AspectRatioInfo aspectRatioInfo[]
 	{
 		{
-			UI_TEXT("4:3 (Original)"),
+			UI_TEXT("4:3 (原画)"),
 			{4, 3}
 		},
 		EMU_SYSTEM_DEFAULT_ASPECT_RATIO_INFO_INIT
@@ -263,7 +263,7 @@ std::string MDFN_MakeFName(MakeFName_Type type, int id1, const char *cd1)
 			{
 				if(sys.kof95ROMPath.empty())
 					throw MDFN_Error(0,
-						_(UI_TEXT("Please set KoF '95 ROM in Options➔File Paths"))
+						_(UI_TEXT("请在“选项➔文件路径”中设置拳皇95的 ROM"))
 					);
 				return std::string{sys.kof95ROMPath};
 			}
@@ -271,7 +271,7 @@ std::string MDFN_MakeFName(MakeFName_Type type, int id1, const char *cd1)
 			{
 				if(sys.ultramanROMPath.empty())
 					throw MDFN_Error(0,
-						_(UI_TEXT("Please set Ultraman ROM in Options➔File Paths"))
+						_(UI_TEXT("请在“选项➔文件路径”中设置奥特曼的 ROM"))
 					);
 				return std::string{sys.ultramanROMPath};
 			}
@@ -279,7 +279,7 @@ std::string MDFN_MakeFName(MakeFName_Type type, int id1, const char *cd1)
 			{
 				if(sys.naBiosPath.empty())
 					throw MDFN_Error(0,
-						_(UI_TEXT("Please set NA/EU BIOS in Options➔File Paths"))
+						_(UI_TEXT("请在“选项➔文件路径”中设置 NA/EU BIOS"))
 					);
 				return std::string{sys.naBiosPath};
 			}
@@ -287,7 +287,7 @@ std::string MDFN_MakeFName(MakeFName_Type type, int id1, const char *cd1)
 			{
 				if(sys.jpBiosPath.empty())
 					throw MDFN_Error(0,
-						_(UI_TEXT("Please set JP BIOS in Options➔File Paths"))
+						_(UI_TEXT("请在“选项➔文件路径”中设置 JP BIOS"))
 					);
 				return std::string{sys.jpBiosPath};
 			}

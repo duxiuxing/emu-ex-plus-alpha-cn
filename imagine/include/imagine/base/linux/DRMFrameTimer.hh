@@ -29,8 +29,8 @@ public:
 	DRMFrameTimer(Screen &screen, EventLoop loop = {});
 	void scheduleVSync();
 	void cancel();
-	void setFrameRate(FrameRate) {}
 	void setEventsOnThisThread(ApplicationContext);
+	void removeEvents(ApplicationContext);
 	static bool testSupport();
 
 	explicit operator bool() const

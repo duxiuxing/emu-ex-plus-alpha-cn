@@ -13,13 +13,12 @@
 	You should have received a copy of the GNU General Public License
 	along with Imagine.  If not, see <http://www.gnu.org/licenses/> */
 
-#include <imagine/base/Screen.hh>
-#include <imagine/logger/logger.h>
-#include <imagine/base/linux/DRMFrameTimer.hh>
-#include <imagine/util/memory/UniqueFileDescriptor.hh>
+#include <imagine/util/macros.h>
 #include <xf86drm.h>
 #include <unistd.h>
 #include <fcntl.h>
+#include <errno.h>
+import imagine;
 
 namespace IG
 {
@@ -28,7 +27,7 @@ constexpr SystemLogger log{"DRMFrameTimer"};
 
 static UniqueFileDescriptor openDevice()
 {
-	const char *drmCardPath = getenv("KMSDEVICE");
+	const char *drmCardPath = std::getenv("KMSDEVICE");
 	if(!drmCardPath)
 		drmCardPath = "/dev/dri/card0";
 	log.info("opening device path:{}", drmCardPath);
@@ -40,7 +39,7 @@ DRMFrameTimer::DRMFrameTimer(Screen &screen, EventLoop loop)
 	auto fd = openDevice();
 	if(fd == -1)
 	{
-		logErr("error opening device:%s", std::system_category().message(errno).c_str());
+		log.error("error opening device:{}", std::system_category().message(errno));
 		return;
 	}
 	fdSrc = {std::move(fd), {.debugLabel = "DRMFrameTimer", .eventLoop = loop},
@@ -62,19 +61,18 @@ DRMFrameTimer::DRMFrameTimer(Screen &screen, EventLoop loop)
 					auto uSecs = ((uint64_t)sec * USEC_PER_SEC) + (uint64_t)usec;
 					frameTimer.timestamp = IG::Microseconds(uSecs);
 				};
-			auto err = drmHandleEvent(fd, &ctx);
-			if(err)
+			if(auto err = drmHandleEvent(fd, &ctx); err)
 			{
 				log.error("error in drmHandleEvent");
 			}
-			if(screen.isPosted())
+			if(screen.frameUpdate(SteadyClockTimePoint{timestamp}))
 			{
-				if(screen.frameUpdate(SteadyClockTimePoint{timestamp}))
-					scheduleVSync();
+				cancel();
 			}
 			return true;
 		}
 	};
+	log.info("created frame timer");
 }
 
 void DRMFrameTimer::scheduleVSync()
@@ -103,6 +101,12 @@ void DRMFrameTimer::cancel()
 void DRMFrameTimer::setEventsOnThisThread(ApplicationContext)
 {
 	fdSrc.attach(EventLoop::forThread(), {});
+}
+
+void DRMFrameTimer::removeEvents(ApplicationContext)
+{
+	cancel();
+	fdSrc.detach();
 }
 
 bool DRMFrameTimer::testSupport()

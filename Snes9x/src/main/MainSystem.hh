@@ -18,7 +18,7 @@ namespace EmuEx
 
 class VController;
 
-enum
+enum Snes9xConfigKey
 {
 	CFGKEY_MULTITAP = 276, CFGKEY_BLOCK_INVALID_VRAM_ACCESS = 277,
 	CFGKEY_VIDEO_SYSTEM = 278, CFGKEY_INPUT_PORT = 279,
@@ -91,10 +91,8 @@ public:
 	Property<uint8_t, CFGKEY_AUDIO_DSP_INTERPOLATON,
 		PropertyDesc<uint8_t>{.defaultValue = DSP_INTERPOLATION_GAUSSIAN, .isValid = isValidWithMax<4>}> optionAudioDSPInterpolation;
 	#endif
-	static constexpr FloatSeconds ntscFrameTimeSecs{357366. / 21477272.}; // ~60.098Hz
-	static constexpr FloatSeconds palFrameTimeSecs{425568. / 21281370.}; // ~50.00Hz
-	static constexpr auto ntscFrameTime{round<FrameTime>(ntscFrameTimeSecs)};
-	static constexpr auto palFrameTime{round<FrameTime>(palFrameTimeSecs)};
+	static constexpr FrameRate ntscFrameRate{21477272. / 357366.}; // ~60.098Hz
+	static constexpr FrameRate palFrameRate{21281370. / 425568.}; // ~50.00Hz
 
 	Snes9xSystem(ApplicationContext ctx):
 		EmuSystem{ctx}
@@ -119,7 +117,6 @@ public:
 	}
 	void setupSNESInput(VController &);
 	static bool hasBiosExtension(std::string_view name);
-	FloatSeconds frameTimeSecs() const { return videoSystem() == VideoSystem::PAL ? palFrameTimeSecs : ntscFrameTimeSecs; }
 	MutablePixmapView fbPixmapView(WSize size, bool useInterlaceFields);
 	void writeCheatFile();
 
@@ -137,8 +134,8 @@ public:
 	void clearInputBuffers(EmuInputView &view);
 	void handleInputAction(EmuApp *, InputAction);
 	SystemInputDeviceDesc inputDeviceDesc(int idx) const;
-	FrameTime frameTime() const { return videoSystem() == VideoSystem::PAL ? palFrameTime : ntscFrameTime; }
-	void configAudioRate(FrameTime outputFrameTime, int outputRate);
+	FrameRate frameRate() const { return videoSystem() == VideoSystem::PAL ? palFrameRate : ntscFrameRate; }
+	void configAudioRate(FrameRate outputFrameRate, int outputRate);
 	static std::span<const AspectRatioInfo> aspectRatioInfos();
 
 	// optional API functions

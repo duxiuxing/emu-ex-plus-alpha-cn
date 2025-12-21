@@ -35,7 +35,7 @@ namespace EmuEx
 
 enum class RtcMode : uint8_t {AUTO, OFF, ON};
 
-enum
+enum GbaConfigKey
 {
 	CFGKEY_RTC_EMULATION = 256, CFGKEY_SAVE_TYPE_OVERRIDE = 257,
 	CFGKEY_PCM_VOLUME = 258, CFGKEY_GB_APU_VOLUME = 259,
@@ -95,7 +95,7 @@ public:
 	Property<bool, CFGKEY_DEFAULT_USE_BIOS> defaultUseBios;
 	ConditionalMember<Config::SENSORS, GbaSensorType> sensorType{};
 	ConditionalMember<Config::SENSORS, GbaSensorType> detectedSensorType{};
-	static constexpr auto gbaFrameTime{fromSeconds<FrameTime>(280896. / 16777216.)}; // ~59.7275Hz
+	static constexpr FrameRate gbaFrameRate{16777216. / 280896.}; // ~59.7275Hz
 
 	GbaSystem(ApplicationContext ctx):
 		EmuSystem{ctx} {}
@@ -121,8 +121,8 @@ public:
 	void clearInputBuffers(EmuInputView &view);
 	void handleInputAction(EmuApp *, InputAction);
 	SystemInputDeviceDesc inputDeviceDesc(int idx) const;
-	FrameTime frameTime() const { return gbaFrameTime; }
-	void configAudioRate(FrameTime outputFrameTime, int outputRate);
+	FrameRate frameRate() const { return gbaFrameRate; }
+	void configAudioRate(FrameRate outputFrameRate, int outputRate);
 	static std::span<const AspectRatioInfo> aspectRatioInfos();
 
 	// optional API functions

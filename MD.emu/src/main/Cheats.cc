@@ -450,7 +450,9 @@ static Cheat& prepareCheat(auto& cheatList, std::string_view name)
 {
 	auto cheatIt = find(cheatList, [&](auto& c){ return name == c.name; });
 	if(cheatIt)
-		return **cheatIt;
+	{;
+		return std::ref(**cheatIt);
+	}
 	return cheatList.emplace_back(Cheat{.name = StaticString<MAX_CHEAT_NAME_CHARS>{name}});
 }
 
@@ -660,12 +662,11 @@ EditCheatView::EditCheatView(ViewAttachParams attach, Cheat& cheat, BaseEditChea
 		UI_TEXT("编辑金手指"),
 		attach,
 		cheat,
-		editCheatsView,
-		items
+		editCheatsView
 	},
 	addCode
 	{
-		UI_TEXT("添加另一个 GG/AR 码"),
+		UI_TEXT("添加另一个作弊码"),
 		attach,
 		[this](const Input::Event& e) { addNewCheatCode(codePromptString(), e); }
 	}
