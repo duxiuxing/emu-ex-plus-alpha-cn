@@ -13,13 +13,12 @@
 	You should have received a copy of the GNU General Public License
 	along with GBA.emu.  If not, see <http://www.gnu.org/licenses/> */
 
-#include <emuframework/EmuApp.hh>
-#include <emuframework/EmuInput.hh>
-#include <emuframework/keyRemappingUtils.hh>
 #include "MainSystem.hh"
 #include "MainApp.hh"
 #include <core/gba/gba.h>
 #include <core/gba/gbaGlobals.h>
+import emuex;
+import imagine;
 import std;
 
 namespace EmuEx
@@ -256,6 +255,7 @@ void GbaSystem::handleInputAction(EmuApp *app, InputAction a)
 			break;
 		}
 		default:
+			auto& P1 = gGba.mem.ioMem.P1;
 			P1 = setOrClearBits(P1, bit(a.code - 1), !a.isPushed());
 			break;
 	}
@@ -263,7 +263,7 @@ void GbaSystem::handleInputAction(EmuApp *app, InputAction a)
 
 void GbaSystem::clearInputBuffers(EmuInputView &)
 {
-	P1 = 0x03FF;
+	gGba.mem.ioMem.P1 = 0x03FF;
 	clearSensorValues();
 }
 

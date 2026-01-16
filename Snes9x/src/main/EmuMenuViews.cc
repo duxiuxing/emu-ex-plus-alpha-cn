@@ -1,25 +1,19 @@
-#include <emuframework/EmuApp.hh>
-#include <emuframework/AudioOptionView.hh>
-#include <emuframework/FilePathOptionView.hh>
-#include <emuframework/DataPathSelectView.hh>
-#include <emuframework/UserPathSelectView.hh>
-#include <emuframework/SystemActionsView.hh>
-#include <emuframework/viewUtils.hh>
 #include "EmuCheatViews.hh"
 #include "MainApp.hh"
-#include <imagine/util/format.hh>
 #ifndef SNES9X_VERSION_1_4
 #include <apu/apu.h>
 #include <apu/bapu/snes/snes.hpp>
 #include <ppu.h>
 #endif
-#include <imagine/logger/logger.h>
+import emuex;
+import imagine;
 
 namespace EmuEx
 {
 
 using MainAppHelper = EmuAppHelperBase<MainApp>;
 
+static SystemLogger log{"Snes9x"};
 constexpr bool HAS_NSRT = !IS_SNES9X_VERSION_1_4;
 
 #ifndef SNES9X_VERSION_1_4
@@ -29,7 +23,7 @@ class CustomAudioOptionView : public AudioOptionView, public MainAppHelper
 
 	void setDSPInterpolation(uint8_t val)
 	{
-		logMsg("set DSP interpolation:%u", val);
+		log.info("set DSP interpolation:{}", val);
 		system().optionAudioDSPInterpolation = val;
 		SNES::dsp.spc_dsp.interpolation = val;
 	}
@@ -381,7 +375,7 @@ class CustomFilePathOptionView : public FilePathOptionView, public MainAppHelper
 				system().userPath(system().cheatsDir),
 				[this](CStringView path)
 				{
-					logMsg("set cheats path:%s", path.data());
+					log.info("set cheats path:{}", path);
 					system().cheatsDir = path;
 					cheatsPath.compile(cheatsMenuName(appContext(), path));
 				}), e);
@@ -398,7 +392,7 @@ class CustomFilePathOptionView : public FilePathOptionView, public MainAppHelper
 				system().userPath(system().patchesDir),
 				[this](CStringView path)
 				{
-					logMsg("set patches path:%s", path.data());
+					log.info("set patches path:{}", path);
 					system().patchesDir = path;
 					patchesPath.compile(patchesMenuName(appContext(), path));
 				}), e);
@@ -422,7 +416,7 @@ class CustomFilePathOptionView : public FilePathOptionView, public MainAppHelper
 				system().userPath(system().satDir),
 				[this](CStringView path)
 				{
-					logMsg("set satellaview files path:%s", path.data());
+					log.info("set satellaview files path:{}", path);
 					system().satDir = path;
 					satPath.compile(satMenuName(appContext(), path));
 				}), e);
@@ -440,7 +434,7 @@ class CustomFilePathOptionView : public FilePathOptionView, public MainAppHelper
 				[this](CStringView path, FS::file_type)
 				{
 					system().bsxBiosPath = path;
-					logMsg("set BS-X bios:%s", path.data());
+					log.info("set BS-X bios:{}", path);
 					bsxBios.compile(bsxMenuName(path));
 					return true;
 				}, Snes9xSystem::hasBiosExtension), e);
@@ -465,7 +459,7 @@ class CustomFilePathOptionView : public FilePathOptionView, public MainAppHelper
 				[this](CStringView path, FS::file_type)
 				{
 					system().sufamiBiosPath = path;
-					logMsg("set Sufami Turbo bios:%s", path.data());
+					log.info("set Sufami Turbo bios:{}", path);
 					sufamiBios.compile(sufamiMenuName(path));
 					return true;
 				}, Snes9xSystem::hasBiosExtension), e);

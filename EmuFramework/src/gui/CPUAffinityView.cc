@@ -15,10 +15,23 @@
 
 #include "CPUAffinityView.hh"
 #include <emuframework/EmuApp.hh>
-import std;
+import imagine;
 
 namespace EmuEx
 {
+
+static std::string makeAffinityModeStr(CPUAffinityMode opt)
+{
+	switch (opt)
+	{
+	default:
+		return UI_TEXT("自动");
+	case CPUAffinityMode::Any:
+		return UI_TEXT("任意");
+	case CPUAffinityMode::Manual:
+		return UI_TEXT("手动");
+	}
+}
 
 CPUAffinityView::CPUAffinityView(ViewAttachParams attach, int cpuCount):
 	TableView
@@ -29,15 +42,15 @@ CPUAffinityView::CPUAffinityView(ViewAttachParams attach, int cpuCount):
 	affinityModeItems
 	{
 		{
-			UI_TEXT("Auto (仅使用性能核心或提示实现低延迟)"),
+			UI_TEXT("自动 (仅使用性能核心或提示实现低延迟)"),
 			attach,	{.id = CPUAffinityMode::Auto}
 		},
 		{
-			UI_TEXT("Any (使用任何核心，即使它增加了延迟)"),
+			UI_TEXT("任意 (使用任何核心，即使它增加了延迟)"),
 			attach,	{.id = CPUAffinityMode::Any}
 		},
 		{
-			UI_TEXT("Manual (使用上一界面中开启的核心)"),
+			UI_TEXT("手动 (使用上一界面中开启的核心)"),
 			attach,	{.id = CPUAffinityMode::Manual}
 		},
 	},
@@ -50,7 +63,7 @@ CPUAffinityView::CPUAffinityView(ViewAttachParams attach, int cpuCount):
 		{
 			.onSetDisplayString = [this](auto idx, Gfx::Text &t)
 			{
-				t.resetString(wise_enum::to_string(CPUAffinityMode(affinityModeItems[idx].id.val)));
+				t.resetString(makeAffinityModeStr(CPUAffinityMode(affinityModeItems[idx].id.val)));
 				return true;
 			},
 			.defaultItemOnSelect = [this](TextMenuItem &item) { app().cpuAffinityMode = CPUAffinityMode(item.id.val); }

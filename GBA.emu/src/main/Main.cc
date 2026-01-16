@@ -13,15 +13,8 @@
 	You should have received a copy of the GNU General Public License
 	along with GBA.emu.  If not, see <http://www.gnu.org/licenses/> */
 
-#define LOGTAG "main"
 #include <emuframework/EmuAppInlines.hh>
 #include <emuframework/EmuSystemInlines.hh>
-#include <imagine/fs/FS.hh>
-#include <imagine/io/FileIO.hh>
-#include <imagine/util/format.hh>
-#include <imagine/util/string.h>
-#include <imagine/util/zlib.hh>
-#include <imagine/logger/logger.h>
 #include <core/gba/gba.h>
 #include <core/gba/gbaGfx.h>
 #include <core/gba/gbaSound.h>
@@ -33,21 +26,28 @@
 #include <core/base/patch.h>
 #include <core/base/file_util.h>
 #include <sys/mman.h>
+import imagine;
 
 bool patchApplyIPS(FILE* f, uint8_t** rom, int *size);
 bool patchApplyUPS(FILE* f, uint8_t** rom, int *size);
 bool patchApplyPPF(FILE* f, uint8_t** rom, int *size);
 
+GBASys gGba;
+
 namespace EmuEx
 {
 
-constexpr SystemLogger log{"GBA.emu"};
+static SystemLogger log{"GBA.emu"};
 const char *EmuSystem::creditsViewStr =
 	UI_TEXT(CREDITS_INFO_STRING "(c) 2012-2025\nRobert Broglia\nwww.explusalpha.com\n\nPortions (c) the\nVBA-m Team\nvba-m.com\n\n中文翻译：R-Sam\nGitHub\nduxiuxing/emu-ex-plus-alpha-cn");
 bool EmuSystem::hasBundledGames = true;
 bool EmuSystem::hasCheats = true;
 bool EmuApp::needsGlobalInstance = true;
 constexpr WSize lcdSize{240, 160};
+
+constexpr size_t stateSizeVer10 = 734424;
+constexpr std::array validStateSizes{stateSizeVer10, stateSizeVer11};
+static_assert(SAVE_GAME_VERSION == 11, "Update valid state sizes for new state version");
 
 EmuSystem::NameFilterFunc EmuSystem::defaultFsFilter =
 	[](std::string_view name)
@@ -83,7 +83,7 @@ const char *EmuSystem::systemName() const
 
 void GbaSystem::reset(EmuApp &, ResetMode mode)
 {
-	assert(hasContent());
+	assume(hasContent());
 	CPUReset(gGba);
 }
 
@@ -99,9 +99,13 @@ void GbaSystem::readState(EmuApp &app, std::span<uint8_t> buff)
 	DynArray<uint8_t> uncompArr;
 	if(hasGzipHeader(buff))
 	{
-		uncompArr = uncompressGzipState(buff, saveStateSize);
+		uncompArr = uncompressGzipState(buff);
 		buff = uncompArr;
 	}
+	if(!std::ranges::contains(validStateSizes, buff.size()))
+		throw std::runtime_error(
+			UI_TEXT("无效的进度长度信息")
+		);
 	if(!CPUReadState(gGba, buff.data()))
 		throw std::runtime_error(
 			UI_TEXT("无效的进度数据")
@@ -110,14 +114,13 @@ void GbaSystem::readState(EmuApp &app, std::span<uint8_t> buff)
 
 size_t GbaSystem::writeState(std::span<uint8_t> buff, SaveStateFlags flags)
 {
-	assert(buff.size() >= saveStateSize);
+	assume(buff.size() >= saveStateSize);
 	if(flags.uncompressed)
 	{
 		return CPUWriteState(gGba, buff.data());
 	}
 	else
 	{
-		assert(saveStateSize);
 		auto stateArr = DynArray<uint8_t>(saveStateSize);
 		CPUWriteState(gGba, stateArr.data());
 		return compressGzip(buff, stateArr, Z_DEFAULT_COMPRESSION);
@@ -160,7 +163,7 @@ WallClockTimePoint GbaSystem::backupMemoryLastWriteTime(const EmuApp &app) const
 
 void GbaSystem::closeSystem()
 {
-	assert(hasContent());
+	assume(hasContent());
 	CPUCleanUp();
 	saveFileIO = {};
 	coreOptions.saveType = GBA_SAVE_NONE;
@@ -233,7 +236,6 @@ void GbaSystem::loadContent(IO &io, EmuSystemCreateParams, OnLoadProgressDelegat
 	}
 	CPUInit(gGba, biosRom);
 	CPUReset(gGba);
-	saveStateSize = CPUWriteState(gGba, DynArray<uint8_t>{maxStateSize}.data());
 	readCheatFile();
 }
 
@@ -253,15 +255,15 @@ bool GbaSystem::onVideoRenderFormatChange(EmuVideo &video, IG::PixelFormat fmt)
 	log.info("updating system color maps");
 	video.setFormat({lcdSize, fmt});
 	if(fmt == PixelFmtRGB565)
-		updateColorMap(systemColorMap.map16, PixelDescRGB565);
+		updateColorMap(gGba.lcd.systemColorMap.map16, PixelDescRGB565);
 	else
-		updateColorMap(systemColorMap.map32, fmt.desc().nativeOrder());
+		updateColorMap(gGba.lcd.systemColorMap.map32, fmt.desc().nativeOrder());
 	return true;
 }
 
 void GbaSystem::renderFramebuffer(EmuVideo &video)
 {
-	systemDrawScreen({}, video);
+	systemDrawScreen(gGba.lcd, {}, video);
 }
 
 void GbaSystem::runFrame(EmuSystemTaskContext taskCtx, EmuVideo *video, EmuAudio *audio)
@@ -300,20 +302,20 @@ void EmuApp::onCustomizeNavView(EmuApp::NavView &view)
 
 }
 
-void systemDrawScreen(EmuEx::EmuSystemTaskContext taskCtx, EmuEx::EmuVideo &video)
+void systemDrawScreen(const GBALCD& lcd, EmuEx::EmuSystemTaskContext taskCtx, EmuEx::EmuVideo &video)
 {
 	using namespace EmuEx;
 	auto img = video.startFrame(taskCtx);
-	IG::PixmapView framePix{{lcdSize, IG::PixelFmtRGB565}, gGba.lcd.pix};
-	assumeExpr(img.pixmap().size() == framePix.size());
+	IG::PixmapView framePix{{lcdSize, IG::PixelFmtRGB565}, lcd.pix};
+	assume(img.pixmap().size() == framePix.size());
 	if(img.pixmap().format() == IG::PixelFmtRGB565)
 	{
-		img.pixmap().writeTransformed([](uint16_t p){ return systemColorMap.map16[p]; }, framePix);
+		img.pixmap().writeTransformed([&](uint16_t p){ return lcd.systemColorMap.map16[p]; }, framePix);
 	}
 	else
 	{
-		assumeExpr(img.pixmap().format().bytesPerPixel() == 4);
-		img.pixmap().writeTransformed([](uint16_t p){ return systemColorMap.map32[p]; }, framePix);
+		assume(img.pixmap().format().bytesPerPixel() == 4);
+		img.pixmap().writeTransformed([&](uint16_t p){ return lcd.systemColorMap.map32[p]; }, framePix);
 	}
 	img.endFrame();
 }

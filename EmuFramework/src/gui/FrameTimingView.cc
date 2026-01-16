@@ -15,14 +15,7 @@
 
 #include "FrameTimingView.hh"
 #include <emuframework/EmuApp.hh>
-#include <emuframework/EmuAppHelper.hh>
-#include <emuframework/EmuViewController.hh>
 #include <emuframework/viewUtils.hh>
-#include <imagine/base/Screen.hh>
-#include <imagine/base/ApplicationContext.hh>
-#include <imagine/gfx/Renderer.hh>
-#include <imagine/gfx/RendererCommands.hh>
-import std;
 
 namespace EmuEx
 {
@@ -38,6 +31,34 @@ static std::string makeFrameRateStr(VideoSystem vidSys, const OutputTimingManage
 		return std::format(
 			UI_TEXT("{:g}Hz"),
 			toHz(opt));
+}
+
+static std::string makeFrameClockStr(FrameClockSource opt)
+{
+	switch(opt)
+	{
+	default:
+		return UI_TEXT("自动");	
+	case FrameClockSource::Renderer:
+		return UI_TEXT("渲染器");
+	case FrameClockSource::Screen:
+		return UI_TEXT("屏幕");
+	case FrameClockSource::Timer:
+		return UI_TEXT("计时器");
+	}
+}
+
+static std::string makeOutputRateModeStr(OutputFrameRateMode opt)
+{
+	switch (opt)
+	{
+	default:
+		return UI_TEXT("自动");
+	case OutputFrameRateMode::Detect:
+		return UI_TEXT("检测");
+	case OutputFrameRateMode::Screen:
+		return UI_TEXT("屏幕");
+	}
 }
 
 FrameTimingView::FrameTimingView(ViewAttachParams attach):
@@ -126,7 +147,7 @@ FrameTimingView::FrameTimingView(ViewAttachParams attach):
 	},
 	frameRate
 	{
-		UI_TEXT("请输入帧率"),
+		UI_TEXT("输入帧率"),
 		attach,
 		app().outputTimingManager.frameRateOptionAsMenuId(VideoSystem::NATIVE_NTSC),
 		frameRateItems,
@@ -145,7 +166,7 @@ FrameTimingView::FrameTimingView(ViewAttachParams attach):
 	},
 	frameRatePAL
 	{
-		UI_TEXT("请输入帧率 (PAL)"),
+		UI_TEXT("输入帧率 (PAL)"),
 		attach,
 		app().outputTimingManager.frameRateOptionAsMenuId(VideoSystem::PAL),
 		frameRateItems,
@@ -182,7 +203,7 @@ FrameTimingView::FrameTimingView(ViewAttachParams attach):
 		{
 			StaticArrayList<TextMenuItem, maxFrameClockItems> frameClockItems;
 			frameClockItems.emplace_back(
-			UI_TEXT("自动"),
+				UI_TEXT("自动"),
 				attach, MenuItem::Config{.id = FrameClockSource::Unset});
 			if(app().emuWindow().supportsFrameClockSource(FrameClockSource::Screen))
 				frameClockItems.emplace_back(
@@ -208,7 +229,7 @@ FrameTimingView::FrameTimingView(ViewAttachParams attach):
 		{
 			.onSetDisplayString = [this](auto, Gfx::Text& t)
 			{
-				t.resetString(wise_enum::to_string(app().effectiveFrameClockSource()));
+				t.resetString(makeFrameClockStr(app().effectiveFrameClockSource()));
 				return true;
 			},
 			.defaultItemOnSelect = [this](TextMenuItem &item)
@@ -221,21 +242,21 @@ FrameTimingView::FrameTimingView(ViewAttachParams attach):
 	outputRateModeItems
 	{
 		{
-			UI_TEXT("屏幕 (低延迟 & 低功耗)"),
+			UI_TEXT("自动"),
 			attach, MenuItem::Config{.id = OutputFrameRateMode::Auto}
 		},
 		{
-			UI_TEXT("计时器 (最适合支持可变刷新率的显示设备)"),
+			UI_TEXT("检测 (模拟期间计算帧率)"),
 			attach, MenuItem::Config{.id = OutputFrameRateMode::Detect}
 		},
 		{
-			UI_TEXT("渲染器 (可能需要占用更多的内存)"),
+			UI_TEXT("屏幕 (直接采用报告帧率)"),
 			attach, MenuItem::Config{.id = OutputFrameRateMode::Screen}
 		},
 	},
 	outputRateMode
 	{
-		UI_TEXT("帧时钟"),
+		UI_TEXT("输出帧率"),
 		attach,
 		MenuId{OutputFrameRateMode(app().outputFrameRateMode)},
 		outputRateModeItems,
@@ -243,7 +264,7 @@ FrameTimingView::FrameTimingView(ViewAttachParams attach):
 		{
 			.onSetDisplayString = [this](auto, Gfx::Text& t)
 			{
-				t.resetString(wise_enum::to_string(app().effectiveOutputFrameRateMode()));
+				t.resetString(makeOutputRateModeStr(app().effectiveOutputFrameRateMode()));
 				return true;
 			},
 			.defaultItemOnSelect = [this](TextMenuItem &item)
