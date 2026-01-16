@@ -22,12 +22,10 @@
 #include <core/gba/gbaGfx.h>
 #include <core/base/sound_driver.h>
 #include <core/base/file_util.h>
-#include <imagine/logger/logger.h>
-#include <imagine/util/algorithm.h>
-#include <imagine/util/math.hh>
-#include <imagine/io/IO.hh>
 #include "MainSystem.hh"
 #include "GBASys.hh"
+#include <imagine/logger/logger.h>
+import imagine;
 
 struct GameSettings
 {
@@ -50,15 +48,9 @@ int  oldreg[18];
 char oldbuffer[10];
 #endif
 
-// this is an optional hack to change the backdrop/background color:
-// -1: disabled
-// 0x0000 to 0x7FFF: set custom 15 bit color
-//int customBackdropColor = -1;
-
 extern int romSize;
 extern int pristineRomSize;
 int systemSaveUpdateCounter = SYSTEM_SAVE_NOT_UPDATED;
-SystemColorMap systemColorMap;
 int emulating{};
 CoreOptions coreOptions
 {
@@ -196,13 +188,13 @@ static void resetGameSettings()
 
 void setSaveType(int type, int size)
 {
-	assert(type != GBA_SAVE_AUTO);
+	IG::assume(type != GBA_SAVE_AUTO);
 	coreOptions.saveType = type;
 	switch(type)
 	{
 		case GBA_SAVE_EEPROM:
 		case GBA_SAVE_EEPROM_SENSOR:
-			eepromSize = size == SIZE_EEPROM_8K ? SIZE_EEPROM_8K : SIZE_EEPROM_512;
+			eepromSetSize(size == SIZE_EEPROM_8K ? SIZE_EEPROM_8K : SIZE_EEPROM_512);
 			break;
 		case GBA_SAVE_SRAM:
 			g_flashSize = SIZE_SRAM;
@@ -406,7 +398,7 @@ void setSaveMemory(IG::ByteBuffer buff)
 {
 	if(!coreOptions.saveType || coreOptions.saveType == GBA_SAVE_NONE)
 		return;
-	assert(buff.size() == saveMemorySize());
+	IG::assume(buff.size() == saveMemorySize());
 	if(coreOptions.saveType == GBA_SAVE_FLASH || coreOptions.saveType == GBA_SAVE_SRAM)
 	{
 		flashSaveMemory = std::move(buff);
@@ -475,7 +467,7 @@ void cheatsReadGame(const uint8_t*& data)
 {
   utilReadIntMem(data);
   CheatsData cheat{};
-	for([[maybe_unused]] auto i: IG::iotaCount(100))
+	for(auto _: IG::iotaCount(100))
 	{
 		utilReadMem(&cheat, data, sizeof(cheat));
 	}

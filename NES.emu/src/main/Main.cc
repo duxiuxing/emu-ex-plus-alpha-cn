@@ -16,10 +16,6 @@
 #include <emuframework/EmuAppInlines.hh>
 #include <emuframework/EmuSystemInlines.hh>
 #include "EmuFileIO.hh"
-#include <imagine/fs/FS.hh>
-#include <imagine/io/IO.hh>
-#include <imagine/util/format.hh>
-#include <imagine/util/string.h>
 #include <fceu/driver.h>
 #include <fceu/fceu.h>
 #include <fceu/ppu.h>
@@ -29,7 +25,7 @@
 #include <fceu/video.h>
 #include <fceu/sound.h>
 #include <fceu/x6502.h>
-#include <imagine/logger/logger.h>
+import imagine;
 
 void ApplyDeemphasisComplete(pal* pal512);
 void FCEU_setDefaultPalettePtr(pal *ptr);
@@ -111,7 +107,7 @@ NesSystem::NesSystem(ApplicationContext ctx):
 
 void NesSystem::reset(EmuApp &app, ResetMode mode)
 {
-	assert(hasContent());
+	assume(hasContent());
 	if(mode == ResetMode::HARD)
 		FCEUI_PowerNES();
 	else
@@ -124,7 +120,7 @@ static char saveSlotCharNES(int slot)
 	{
 		case -1: return 's';
 		case 0 ... 9: return '0' + slot;
-		default: bug_unreachable("slot == %d", slot); return 0;
+		default: unreachable();
 	}
 }
 
@@ -145,7 +141,7 @@ void NesSystem::readState(EmuApp &app, std::span<uint8_t> buff)
 
 size_t NesSystem::writeState(std::span<uint8_t> buff, SaveStateFlags flags)
 {
-	assert(buff.size() >= saveStateSize);
+	assume(buff.size() >= saveStateSize);
 	EmuFileIO memFile{buff};
 	FCEUSS_SaveMS(&memFile, -1);
 	return memFile.ftell();
@@ -232,7 +228,7 @@ void NesSystem::setDefaultPalette(ApplicationContext ctx, CStringView palPath)
 
 void NesSystem::cacheUsingZapper()
 {
-	assert(GameInfo);
+	assume(GameInfo);
 	for(const auto &p : joyports)
 	{
 		if(p.type == SI_ZAPPER)
@@ -256,7 +252,7 @@ static const char* fceuInputToStr(int input)
 			return UI_TEXT("Zapper");
 		case SI_NONE:
 			return UI_TEXT("None");
-		default: bug_unreachable("input == %d", input); return 0;
+		default: unreachable();
 	}
 }
 
@@ -283,7 +279,7 @@ double NesSystem::videoAspectRatioScale() const
 {
 	double horizontalCropScaler = 240. / 256.; // cropped width / full pixel width
 	double baseLines = 224.;
-	assumeExpr(optionVisibleVideoLines != 0);
+	assume(optionVisibleVideoLines != 0);
 	double lineAspectScaler = baseLines / optionVisibleVideoLines;
 	return (optionCorrectLineAspect ? lineAspectScaler : 1.)
 		* (optionHorizontalVideoCrop ? horizontalCropScaler : 1.);
@@ -419,7 +415,7 @@ void emulateSound(EmuAudio *audio)
 	auto frames = FlushEmulateSound(sound);
 	soundtimestamp = 0;
 	//log.debug("{} frames", frames);
-	assert(frames <= maxAudioFrames);
+	assume(frames <= maxAudioFrames);
 	if(audio)
 	{
 		int16 sound16[maxAudioFrames];
@@ -442,14 +438,14 @@ void NesSystem::renderVideo(EmuSystemTaskContext taskCtx, EmuVideo &video, uint8
 	int xStart = pix.w() == 256 ? 0 : 8;
 	int yStart = optionStartVideoLine;
 	auto ppuPixRegion = ppuPix.subView({xStart, yStart}, pix.size());
-	assumeExpr(pix.size() == ppuPixRegion.size());
+	assume(pix.size() == ppuPixRegion.size());
 	if(pix.format() == PixelFmtRGB565)
 	{
 		pix.writeTransformed([&](uint8 p){ return nativeCol.col16[p]; }, ppuPixRegion);
 	}
 	else
 	{
-		assumeExpr(pix.format().bytesPerPixel() == 4);
+		assume(pix.format().bytesPerPixel() == 4);
 		pix.writeTransformed([&](uint8 p){ return nativeCol.col32[p]; }, ppuPixRegion);
 	}
 	img.endFrame();
