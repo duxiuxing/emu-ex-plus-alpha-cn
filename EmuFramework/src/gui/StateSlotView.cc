@@ -122,7 +122,7 @@ void StateSlotView::refreshSlot(int slot)
 
 void StateSlotView::refreshSlots()
 {
-	for(auto i : iotaCount(stateSlots))
+	for(auto i: iotaCount(stateSlots))
 	{
 		refreshSlot(i);
 	}
