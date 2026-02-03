@@ -15,7 +15,6 @@
 
 extern "C"
 {
-	#include <imagine/config/defs.hh>
 	#include <gngeo/resfile.h>
 	#include <gngeo/conf.h>
 	#include <gngeo/emu.h>
@@ -27,6 +26,8 @@ import system;
 import emuex;
 import imagine;
 import std;
+
+#define UI_TEXT(x)	x
 
 namespace EmuEx
 {
