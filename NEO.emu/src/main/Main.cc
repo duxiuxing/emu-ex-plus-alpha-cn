@@ -29,6 +29,11 @@ extern "C"
 
 module system;
 
+#ifndef UI_TEXT_IMPL
+	#define UI_TEXT_IMPL
+	#define UI_TEXT(x)	x
+#endif
+
 extern "C"
 {
 	CONFIG conf{};
