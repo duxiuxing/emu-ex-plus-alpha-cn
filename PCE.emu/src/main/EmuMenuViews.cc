@@ -18,15 +18,29 @@ import emuex;
 import imagine;
 import std;
 
+#ifndef UI_TEXT_IMPL
+	#define UI_TEXT_IMPL
+	#define UI_TEXT(x)	x
+#endif
+
 namespace EmuEx
 {
 
 using namespace IG;
 using MainAppHelper = EmuAppHelperBase<MainApp>;
 
-constexpr std::string_view pceFastText{"pce_fast (Default for general use)"};
-constexpr std::string_view pceText{"pce (Better accuracy, higher power usage)"};
-constexpr std::string_view changeEmuCoreText{"Really change emulation core? Note that save states from different cores aren't compatible."};
+constexpr std::string_view pceFastText
+{
+	UI_TEXT("pce_fast (Default for general use)")
+};
+constexpr std::string_view pceText
+{
+	UI_TEXT("pce (Better accuracy, higher power usage)")
+};
+constexpr std::string_view changeEmuCoreText
+{
+	UI_TEXT("Really change emulation core? Note that save states from different cores aren't compatible.")
+};
 
 class ConsoleOptionView : public TableView, public MainAppHelper
 {
