@@ -17,8 +17,6 @@
 
 #include <imagine/config/macros.h>
 
-#define UI_TEXT(x)	x
-
 namespace Config
 {
 

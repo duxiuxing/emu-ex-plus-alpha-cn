@@ -27,8 +27,6 @@ import emuex;
 import imagine;
 import std;
 
-#define UI_TEXT(x)	x
-
 namespace EmuEx
 {
 

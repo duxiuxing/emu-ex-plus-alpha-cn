@@ -29,8 +29,6 @@ extern "C"
 
 module system;
 
-#define UI_TEXT(x)	x
-
 extern "C"
 {
 	CONFIG conf{};
