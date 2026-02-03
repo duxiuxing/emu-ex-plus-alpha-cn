@@ -18,6 +18,11 @@ module;
 
 module system;
 
+#ifndef UI_TEXT_IMPL
+	#define UI_TEXT_IMPL
+	#define UI_TEXT(x)	x
+#endif
+
 #ifdef SNES9X_VERSION_1_4
 extern "C++" bool8 S9xDeinitUpdate(int width, int height);
 extern "C" bool8 S9xDeinitUpdate(int width, int height, bool8) { return S9xDeinitUpdate(width, height); }

@@ -20,6 +20,11 @@ import emuex;
 import imagine;
 import std;
 
+#ifndef UI_TEXT_IMPL
+	#define UI_TEXT_IMPL
+	#define UI_TEXT(x)	x
+#endif
+
 using namespace IG;
 using namespace EmuEx;
 
