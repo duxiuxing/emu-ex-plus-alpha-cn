@@ -16,6 +16,7 @@
 module;
 extern "C"
 {
+	#include <imagine/config/defs.hh>
 	#include <gngeo/roms.h>
 	#include <gngeo/conf.h>
 	#include <gngeo/emu.h>
