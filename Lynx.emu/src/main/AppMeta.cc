@@ -23,10 +23,17 @@ import std;
 namespace EmuEx
 {
 
-const std::string_view AppMeta::creditsViewStr{CREDITS_INFO_STRING "(c) 2011-2026\nRobert Broglia\nwww.explusalpha.com\n\nPortions (c) the\nMednafen Team\nmednafen.github.io"};
+const std::string_view AppMeta::creditsViewStr
+{
+	UI_TEXT(CREDITS_INFO_STRING "(c) 2011-2026\nRobert Broglia\nwww.explusalpha.com\n\nPortions (c) the\nMednafen Team\nmednafen.github.io")
+};
 const std::string_view AppMeta::configFilename{"LynxEmu.config"};
 const bool AppMeta::needsGlobalInstance{true};
-const AspectRatioInfo AppMeta::aspectRatioInfo{"80:51 (Original)", {80, 51}};
+const AspectRatioInfo AppMeta::aspectRatioInfo
+{
+	UI_TEXT("80:51 (Original)"),
+	{80, 51}
+};
 const NameFilterFunc AppMeta::defaultFsFilter = [](std::string_view name) { return endsWithAnyCaseless(name, ".lnx", ".lyx", ".o"); };
 
 constexpr auto dpadKeyInfo = makeArray<KeyInfo>
@@ -59,7 +66,10 @@ std::span<const KeyCategory> AppMeta::keyCategories()
 {
 	static constexpr KeyCategory categories[]
 	{
-		{"Gamepad", gpKeyInfo},
+		{
+			UI_TEXT("Gamepad"),
+			gpKeyInfo
+		},
 	};
 	return categories;
 }
@@ -68,15 +78,24 @@ std::string_view AppMeta::systemKeyCodeToString(KeyCode c)
 {
 	switch(LynxKey(c))
 	{
-		case LynxKey::Up: return "Up";
-		case LynxKey::Right: return "Right";
-		case LynxKey::Down: return "Down";
-		case LynxKey::Left: return "Left";
-		case LynxKey::Option1: return "Option 1";
-		case LynxKey::Option2: return "Option 2";
-		case LynxKey::Pause: return "Pause";
-		case LynxKey::A: return "A";
-		case LynxKey::B: return "B";
+		case LynxKey::Up:
+			return UI_TEXT("Up");
+		case LynxKey::Right:
+			return UI_TEXT("Right");
+		case LynxKey::Down:
+			return UI_TEXT("Down");
+		case LynxKey::Left:
+			return UI_TEXT("Left");
+		case LynxKey::Option1:
+			return UI_TEXT("Option 1");
+		case LynxKey::Option2:
+			return UI_TEXT("Option 2");
+		case LynxKey::Pause:
+			return UI_TEXT("Pause");
+		case LynxKey::A:
+			return UI_TEXT("A");
+		case LynxKey::B:
+			return UI_TEXT("B");
 		default: return "";
 	}
 }
@@ -176,12 +195,32 @@ SystemInputDeviceDesc AppMeta::inputDeviceDesc(int idx)
 {
 	static constexpr std::array gamepadComponents
 	{
-		InputComponentDesc{"D-Pad", dpadKeyInfo, InputComponent::dPad, LB2DO},
-		InputComponentDesc{"Face Buttons", faceKeyInfo, InputComponent::button, RB2DO},
-		InputComponentDesc{"Option Buttons", optionKeyInfo, InputComponent::button, LB2DO},
-		InputComponentDesc{"Pause", pauseKeyInfo, InputComponent::button,RB2DO},
+		InputComponentDesc
+		{
+			UI_TEXT("D-Pad"),
+			dpadKeyInfo, InputComponent::dPad, LB2DO
+		},
+		InputComponentDesc
+		{
+			UI_TEXT("Face Buttons"),
+			faceKeyInfo, InputComponent::button, RB2DO
+		},
+		InputComponentDesc
+		{
+			UI_TEXT("Option Buttons"),
+			optionKeyInfo, InputComponent::button, LB2DO
+		},
+		InputComponentDesc
+		{
+			UI_TEXT("Pause"),
+			pauseKeyInfo, InputComponent::button,RB2DO
+		},
 	};
-	static constexpr SystemInputDeviceDesc gamepadDesc{"Gamepad", gamepadComponents};
+	static constexpr SystemInputDeviceDesc gamepadDesc
+	{
+		UI_TEXT("Gamepad"),
+		gamepadComponents
+	};
 	return gamepadDesc;
 }
 

@@ -24,11 +24,18 @@ import std;
 namespace EmuEx
 {
 
-const std::string_view AppMeta::creditsViewStr{CREDITS_INFO_STRING "(c) 2011-2026\nRobert Broglia\nwww.explusalpha.com\n\nPortions (c) the\nMednafen Team\nmednafen.github.io"};
+const std::string_view AppMeta::creditsViewStr
+{
+	UI_TEXT(CREDITS_INFO_STRING "(c) 2011-2026\nRobert Broglia\nwww.explusalpha.com\n\nPortions (c) the\nMednafen Team\nmednafen.github.io")
+};
 const std::string_view AppMeta::configFilename{"SwanEmu.config"};
 const bool AppMeta::needsGlobalInstance{true};
 const NameFilterFunc AppMeta::defaultFsFilter = [](std::string_view name) { return endsWithAnyCaseless(name, ".ws", ".wsc", ".bin"); };
-const AspectRatioInfo AppMeta::aspectRatioInfo{"14:9 (Original)", {14, 9}};
+const AspectRatioInfo AppMeta::aspectRatioInfo
+{
+	UI_TEXT("14:9 (Original)"),
+	{14, 9}
+};
 
 constexpr auto dpadKeyInfo = makeArray<KeyInfo>
 (
@@ -88,7 +95,10 @@ std::span<const KeyCategory> AppMeta::keyCategories()
 {
 	static constexpr KeyCategory categories[]
 	{
-		{"Gamepad", gpKeyInfo},
+		{
+			UI_TEXT("Gamepad"),
+			gpKeyInfo
+		},
 	};
 	return categories;
 }
@@ -97,23 +107,40 @@ std::string_view AppMeta::systemKeyCodeToString(KeyCode c)
 {
 	switch(SwanKey(c))
 	{
-		case SwanKey::Up: return "Up X1 ↷ Y2";
-		case SwanKey::Right: return "Right X2 ↷ Y3";
-		case SwanKey::Down: return "Down X3 ↷ Y4";
-		case SwanKey::Left: return "Left X4 ↷ Y1";
-		case SwanKey::Start: return "Start";
-		case SwanKey::A: return "A ↷ X4";
-		case SwanKey::B: return "B ↷ X1";
-		case SwanKey::Y1: return "Y1 ↷ B";
-		case SwanKey::Y2: return "Y2 ↷ A";
-		case SwanKey::Y3: return "Y3 ↷ X3";
-		case SwanKey::Y4: return "Y4 ↷ X2";
-		case SwanKey::ANoRotation: return "A";
-		case SwanKey::BNoRotation: return "B";
-		case SwanKey::Y1X1: return "Y1 ↷ X1";
-		case SwanKey::Y2X2: return "Y2 ↷ X2";
-		case SwanKey::Y3X3: return "Y3 ↷ X3";
-		case SwanKey::Y4X4: return "Y4 ↷ X4";
+		case SwanKey::Up:
+			return UI_TEXT("Up X1 ↷ Y2");
+		case SwanKey::Right:
+			return UI_TEXT("Right X2 ↷ Y3");
+		case SwanKey::Down:
+			return UI_TEXT("Down X3 ↷ Y4");
+		case SwanKey::Left:
+			return UI_TEXT("Left X4 ↷ Y1");
+		case SwanKey::Start:
+			return UI_TEXT("Start");
+		case SwanKey::A:
+			return UI_TEXT("A ↷ X4");
+		case SwanKey::B:
+			return UI_TEXT("B ↷ X1");
+		case SwanKey::Y1:
+			return UI_TEXT("Y1 ↷ B");
+		case SwanKey::Y2:
+			return UI_TEXT("Y2 ↷ A");
+		case SwanKey::Y3:
+			return UI_TEXT("Y3 ↷ X3");
+		case SwanKey::Y4:
+			return UI_TEXT("Y4 ↷ X2");
+		case SwanKey::ANoRotation:
+			return UI_TEXT("A");
+		case SwanKey::BNoRotation:
+			return UI_TEXT("B");
+		case SwanKey::Y1X1:
+			return UI_TEXT("Y1 ↷ X1");
+		case SwanKey::Y2X2:
+			return UI_TEXT("Y2 ↷ X2");
+		case SwanKey::Y3X3:
+			return UI_TEXT("Y3 ↷ X3");
+		case SwanKey::Y4X4:
+			return UI_TEXT("Y4 ↷ X4");
 		default: return "";
 	}
 }
@@ -225,13 +252,37 @@ SystemInputDeviceDesc AppMeta::inputDeviceDesc(int idx)
 {
 	static constexpr std::array gamepadComponents
 	{
-		InputComponentDesc{"D-Pad", dpadKeyInfo, InputComponent::dPad, LB2DO},
-		InputComponentDesc{"Face Buttons + Opposite D-Pad Buttons", faceButtonCombinedCodes, InputComponent::button, RB2DO, {.rowSize = 2}},
-		InputComponentDesc{"Face Buttons", faceKeyInfo, InputComponent::button, RB2DO, {.altConfig = true}},
-		InputComponentDesc{"Opposite D-Pad Buttons", oppositeDPadKeyInfo, InputComponent::button, RB2DO, {.altConfig = true, .staggeredLayout = true}},
-		InputComponentDesc{"Start", centerKeyInfo, InputComponent::button, RB2DO},
+		InputComponentDesc
+		{
+			UI_TEXT("D-Pad"),
+			dpadKeyInfo, InputComponent::dPad, LB2DO
+		},
+		InputComponentDesc
+		{
+			UI_TEXT("Face Buttons + Opposite D-Pad Buttons"),
+			faceButtonCombinedCodes, InputComponent::button, RB2DO, {.rowSize = 2}
+		},
+		InputComponentDesc
+		{
+			UI_TEXT("Face Buttons"),
+			faceKeyInfo, InputComponent::button, RB2DO, {.altConfig = true}
+		},
+		InputComponentDesc
+		{
+			UI_TEXT("Opposite D-Pad Buttons"),
+			oppositeDPadKeyInfo, InputComponent::button, RB2DO, {.altConfig = true, .staggeredLayout = true}
+		},
+		InputComponentDesc
+		{
+			UI_TEXT("Start"),
+			centerKeyInfo, InputComponent::button, RB2DO
+		},
 	};
-	static constexpr SystemInputDeviceDesc gamepadDesc{"Gamepad", gamepadComponents};
+	static constexpr SystemInputDeviceDesc gamepadDesc
+	{
+		UI_TEXT("Gamepad"),
+		gamepadComponents
+	};
 	return gamepadDesc;
 }
 
