@@ -35,7 +35,7 @@ namespace EmuEx
 
 using namespace IG;
 
-const std::u16string_view AppMeta::mainViewName = UI_TEXT(u"" CONFIG_APP_NAME " " IMAGINE_VERSION);
+const std::u16string_view AppMeta::mainViewName = UI_TEXT(u"认真玩 " CONFIG_APP_NAME " v" IMAGINE_VERSION);
 
 const bool AppMeta::hasGooglePlayStoreFeatures =
 	#if defined __ANDROID__ && defined CONFIG_GOOGLE_PLAY_STORE

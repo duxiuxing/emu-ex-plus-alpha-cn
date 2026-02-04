@@ -261,22 +261,6 @@ void Snes9xSystem::forEachCheatCode(Cheat& cheat, DelegateFunc<bool(CheatCode&, 
 	#endif
 }
 
-		UI_TEXT("Edit Memory Patch"),
-		UI_TEXT("Address"),
-				UI_TEXT("Input 6-digit hex"),
-							UI_TEXT("value must be <= FFFFFF")
-		UI_TEXT("Value"),
-				UI_TEXT("Input 2-digit hex"),
-							UI_TEXT("value must be <= FF")
-		UI_TEXT("Conditional Value"),
-		UI_TEXT("Saved Value"),
-				UI_TEXT("Input 2-digit hex or blank"),
-								UI_TEXT("value must be <= FF")
-		UI_TEXT("Delete"),
-				UI_TEXT("Really delete this patch?"),
-		UI_TEXT("Edit Cheat"),
-		UI_TEXT("Add Another Code"),
-				UI_TEXT("Input xxxx-xxxx (GG), xxxxxxxx (AR), GF code, or blank"),
 }
 			UI_TEXT("Code"),
 		UI_TEXT("Add Game Genie/Action Replay/Gold Finger Code"),
