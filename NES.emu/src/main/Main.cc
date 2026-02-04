@@ -30,6 +30,11 @@ module;
 module system;
 import io;
 
+#ifndef UI_TEXT_IMPL
+	#define UI_TEXT_IMPL
+	#define UI_TEXT(x)	x
+#endif
+
 extern "C++"
 {
 	void ApplyDeemphasisComplete(pal* pal512);

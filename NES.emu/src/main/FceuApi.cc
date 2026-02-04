@@ -28,6 +28,11 @@ import emuex;
 import imagine;
 import std;
 
+#ifndef UI_TEXT_IMPL
+	#define UI_TEXT_IMPL
+	#define UI_TEXT(x)	x
+#endif
+
 // Separate front & back buffers not needed for our video implementation
 uint8 *XBuf{};
 uint8 *XBackBuf{};
