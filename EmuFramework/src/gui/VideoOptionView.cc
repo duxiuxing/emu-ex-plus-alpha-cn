@@ -125,7 +125,7 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, EmuVideoLayer &videoLa
 					pushAndShowNewCollectValueInputView<std::pair<float, float>>(attachParams(), e,
 						UI_TEXT("Input decimal or fraction"),
 						"",
-					[this](CollectTextInputView&, auto val)
+						[this](CollectTextInputView&, auto val)
 						{
 							float ratio = val.first / val.second;
 							if(app().setVideoAspectRatio(ratio))

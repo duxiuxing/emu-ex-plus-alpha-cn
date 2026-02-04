@@ -80,7 +80,7 @@ class ConsoleOptionView : public TableView, public MainAppHelper
 					t.resetString(conf.raster
 						? UI_TEXT("On")
 						: UI_TEXT("Off")
-                    );
+					);
 					return true;
 				}
 				else
@@ -135,7 +135,7 @@ class CustomSystemOptionView : public SystemOptionView, public MainAppHelper
 		{
 			UI_TEXT("Asia"),
 			attachParams(), setRegionDel(), {.id = CTY_ASIA}
-        },
+		},
 	};
 
 	MultiChoiceMenuItem region
