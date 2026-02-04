@@ -14,17 +14,6 @@ module system;
 
 namespace EmuEx
 {
-			UI_TEXT("Gamepad"),
-			UI_TEXT("Gamepad 2"),
-			UI_TEXT("Gamepad 3"),
-			UI_TEXT("Gamepad 4"),
-			UI_TEXT("Gamepad 5"),
-			return UI_TEXT("Up");
-			return UI_TEXT("Right");
-			return UI_TEXT("Down");
-			return UI_TEXT("Left");
-			return UI_TEXT("Select");
-			return UI_TEXT("Start");
 
 // from controls.cpp
 #define SUPERSCOPE_FIRE			0x80
