@@ -262,6 +262,3 @@ void Snes9xSystem::forEachCheatCode(Cheat& cheat, DelegateFunc<bool(CheatCode&, 
 }
 
 }
-			UI_TEXT("Code"),
-		UI_TEXT("Add Game Genie/Action Replay/Gold Finger Code"),
-				UI_TEXT("Input xxxx-xxxx (GG), xxxxxxxx (AR), or GF code"),
