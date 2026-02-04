@@ -32,7 +32,6 @@ import io;
 
 #ifndef UI_TEXT_IMPL
 	#define UI_TEXT_IMPL
-	UI_TEXT(CREDITS_INFO_STRING "(c) 2011-2025\nRobert Broglia\nwww.explusalpha.com\n\nPortions (c) the\nFCEUX Team\nfceux.com");
 	#define UI_TEXT(x)	x
 #endif
 
