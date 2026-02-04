@@ -407,7 +407,7 @@ void GUIOptionView::loadStockItems()
 	{
 		item.emplace_back(&layoutBehindSystemUI);
 	}
-	if(EmuSystem::hasBundledGames)
+	if(AppMeta::hasBundledGames())
 	{
 		item.emplace_back(&showBundledGames);
 	}

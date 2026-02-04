@@ -13,21 +13,23 @@
 	You should have received a copy of the GNU General Public License
 	along with GBC.emu.  If not, see <http://www.gnu.org/licenses/> */
 
-#include "EmuCheatViews.hh"
-#include "MainSystem.hh"
+module;
 #include <gambatte.h>
-import emuex;
-import imagine;
+
+module system;
+
+#ifndef UI_TEXT_IMPL
+	#define UI_TEXT_IMPL
+	#define UI_TEXT(x)	x
+#endif
 
 namespace EmuEx
 {
 
-static SystemLogger log{"GBC.emu"};
-
 static bool strIsGGCode(const char *str)
 {
 	int hex;
-	return strlen(str) == 11 &&
+	return std::strlen(str) == 11 &&
 		sscanf(str, "%1x%1x%1x-%1x%1x%1x-%1x%1x%1x",
 			&hex, &hex, &hex, &hex, &hex, &hex, &hex, &hex, &hex) == 9;
 }
@@ -35,7 +37,7 @@ static bool strIsGGCode(const char *str)
 static bool strIsGSCode(const char *str)
 {
 	int hex;
-	return strlen(str) == 8 &&
+	return std::strlen(str) == 8 &&
 		sscanf(str, "%1x%1x%1x%1x%1x%1x%1x%1x",
 			&hex, &hex, &hex, &hex, &hex, &hex, &hex, &hex) == 8;
 }
@@ -250,87 +252,5 @@ void GbcSystem::forEachCheatCode(Cheat& cheat, DelegateFunc<bool(CheatCode&, std
 			break;
 	}
 }
-
-EditCheatView::EditCheatView(ViewAttachParams attach, Cheat& cheat, BaseEditCheatsView& editCheatsView):
-	BaseEditCheatView
-	{
-		UI_TEXT("编辑金手指"),
-		attach,
-		cheat,
-		editCheatsView
-	},
-	addGGGS
-	{
-		UI_TEXT("添加另一个 GS/GG 码"),
-		attach,
-		[this](const Input::Event& e)
-		{
-			addNewCheatCode(
-				UI_TEXT("请输入 GS 码 (xxxxxxxx) 或 GG 码 (xxx-xxx-xxx)"),
-				e);
-		}
-	}
-{
-	loadItems();
-}
-
-void EditCheatView::loadItems()
-{
-	codes.clear();
-	for(auto& c: cheatPtr->codes)
-	{
-		codes.emplace_back(
-			UI_TEXT("金手指代码"),
-			c, attachParams(),
-			[this, &c](const Input::Event& e)
-			{
-				pushAndShowNewCollectValueInputView<const char*, ScanValueMode::AllowBlank>(attachParams(), e,
-					UI_TEXT("请输入 GG 码 (xxx-xxx-xxx) 或 GS 码 (xxxxxxxx)，留空表示删除"),
-					c, [this, &c](CollectTextInputView&, auto str) { return modifyCheatCode(c, {str}); });
-			}
-		);
-	};
-	items.clear();
-	items.emplace_back(&name);
-	for(auto& c: codes)
-	{
-		items.emplace_back(&c);
-	}
-	items.emplace_back(&addGGGS);
-	items.emplace_back(&remove);
-}
-
-EditCheatsView::EditCheatsView(ViewAttachParams attach, CheatsView& cheatsView):
-	BaseEditCheatsView
-	{
-		attach,
-		cheatsView,
-		[this](ItemMessage msg) -> ItemReply
-		{
-			return msg.visit(overloaded
-			{
-				[&](const ItemsMessage&) -> ItemReply { return 1 + cheats.size(); },
-				[&](const GetItemMessage& m) -> ItemReply
-				{
-					switch(m.idx)
-					{
-						case 0: return &addGGGS;
-						default: return &cheats[m.idx - 1];
-					}
-				},
-			});
-		}
-	},
-	addGGGS
-	{
-		UI_TEXT("添加 GG/GS 码"),
-		attach,
-		[this](const Input::Event& e)
-		{
-			addNewCheat(
-				UI_TEXT("请输入 GG 码 (xxx-xxx-xxx) 或 GS 码 (xxxxxxxx)"),
-				e);
-		}
-	} {}
 
 }

@@ -13,13 +13,20 @@
 	You should have received a copy of the GNU General Public License
 	along with NGP.emu.  If not, see <http://www.gnu.org/licenses/> */
 
-#include <mednafen-emuex/MDFNUtils.hh>
-#include "MainApp.hh"
+import system;
 import emuex;
+import imagine;
+import std;
+
+#ifndef UI_TEXT_IMPL
+	#define UI_TEXT_IMPL
+	#define UI_TEXT(x)	x
+#endif
 
 namespace EmuEx
 {
 
+using namespace IG;
 using MainAppHelper = EmuAppHelperBase<MainApp>;
 
 class CustomSystemOptionView : public SystemOptionView, public MainAppHelper

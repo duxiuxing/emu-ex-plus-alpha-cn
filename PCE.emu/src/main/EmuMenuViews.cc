@@ -13,17 +13,22 @@
 	You should have received a copy of the GNU General Public License
 	along with PCE.emu.  If not, see <http://www.gnu.org/licenses/> */
 
-#include <mednafen-emuex/MDFNUtils.hh>
-#include "MainApp.hh"
+import system;
 import emuex;
 import imagine;
+import std;
+
+#ifndef UI_TEXT_IMPL
+	#define UI_TEXT_IMPL
+	#define UI_TEXT(x)	x
+#endif
 
 namespace EmuEx
 {
 
+using namespace IG;
 using MainAppHelper = EmuAppHelperBase<MainApp>;
 
-static SystemLogger log{"PCE.emu"};
 constexpr std::string_view pceFastText
 {
 	UI_TEXT("pce_fast (推荐使用的默认值)")
@@ -221,7 +226,7 @@ class CustomFilePathOptionView : public FilePathOptionView, public MainAppHelper
 				[this](CStringView path, FS::file_type type)
 				{
 					system().sysCardPath = path;
-					log.info("set system card:{}", system().sysCardPath);
+					PceSystem::log.info("set system card:{}", system().sysCardPath);
 					sysCardPath.compile(biosMenuEntryStr(path));
 					return true;
 				}, hasHuCardExtension), e);
@@ -245,8 +250,8 @@ public:
 
 class CustomVideoOptionView : public VideoOptionView, public MainAppHelper
 {
-	using  MainAppHelper::app;
-	using  MainAppHelper::system;
+	using MainAppHelper::app;
+	using MainAppHelper::system;
 
 	BoolMenuItem spriteLimit
 	{

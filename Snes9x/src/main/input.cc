@@ -1,244 +1,30 @@
-#include "MainSystem.hh"
-#include "MainApp.hh"
+/*  This file is part of Snes9x EX.
+
+	Please see COPYING file in root directory for license information. */
+
+module;
+#include <snes9x.h>
 #include <memmap.h>
 #include <display.h>
-import emuex;
-import imagine;
+#ifndef SNES9X_VERSION_1_4
+#include <controls.h>
+#endif
+
+module system;
 
 namespace EmuEx
 {
-
-static SystemLogger log{"Snes9x"};
-const int EmuSystem::maxPlayers = 5;
-
-enum class SnesKey : KeyCode
-{
-	Up = 11,
-	Right = 8,
-	Down = 10,
-	Left = 9,
-	Select = 13,
-	Start = 12,
-	A = 7,
-	B = 15,
-	X = 6,
-	Y = 14,
-	L = 5,
-	R = 4,
-};
-
-constexpr auto dpadKeyInfo = makeArray<KeyInfo>
-(
-	SnesKey::Up,
-	SnesKey::Right,
-	SnesKey::Down,
-	SnesKey::Left
-);
-
-constexpr auto centerKeyInfo = makeArray<KeyInfo>
-(
-	SnesKey::Select,
-	SnesKey::Start
-);
-
-constexpr auto faceKeyInfo = makeArray<KeyInfo>
-(
-	SnesKey::B,
-	SnesKey::A,
-	SnesKey::Y,
-	SnesKey::X
-);
-
-constexpr auto turboFaceKeyInfo = turbo(faceKeyInfo);
-
-constexpr auto faceLRKeyInfo = makeArray<KeyInfo>
-(
-	SnesKey::B,
-	SnesKey::A,
-	SnesKey::R,
-	SnesKey::Y,
-	SnesKey::X,
-	SnesKey::L
-);
-
-constexpr auto lKeyInfo = makeArray<KeyInfo>(SnesKey::L);
-constexpr auto rKeyInfo = makeArray<KeyInfo>(SnesKey::R);
-
-constexpr auto gpKeyInfo = concatToArrayNow<dpadKeyInfo, centerKeyInfo, faceLRKeyInfo, turboFaceKeyInfo>;
-constexpr auto gp2KeyInfo = transpose(gpKeyInfo, 1);
-constexpr auto gp3KeyInfo = transpose(gpKeyInfo, 2);
-constexpr auto gp4KeyInfo = transpose(gpKeyInfo, 3);
-constexpr auto gp5KeyInfo = transpose(gpKeyInfo, 4);
-
-std::span<const KeyCategory> Snes9xApp::keyCategories()
-{
-	static constexpr std::array categories
-	{
-		KeyCategory
-		{
-			UI_TEXT("游戏按键"),
-			gpKeyInfo
-		},
-		KeyCategory
-		{
-			UI_TEXT("游戏按键 (2号手柄)"),
-			gp2KeyInfo, 1
-		},
-		KeyCategory
-		{
-			UI_TEXT("游戏按键 (3号手柄)"),
-			gp3KeyInfo, 2
-		},
-		KeyCategory
-		{
-			UI_TEXT("游戏按键 (4号手柄)"),
-			gp4KeyInfo, 3
-		},
-		KeyCategory
-		{
-			UI_TEXT("游戏按键 (5号手柄)"),
-			gp4KeyInfo, 4
-		},
-	};
-	return categories;
-}
-
-std::string_view Snes9xApp::systemKeyCodeToString(KeyCode c)
-{
-	switch(SnesKey(c))
-	{
-		case SnesKey::Up:
-			return UI_TEXT("上");
-		case SnesKey::Right:
-			return UI_TEXT("右");
-		case SnesKey::Down:
-			return UI_TEXT("下");
-		case SnesKey::Left:
-			return UI_TEXT("左");
-		case SnesKey::Select:
-			return UI_TEXT("选择");
-		case SnesKey::Start:
-			return UI_TEXT("开始");
-		case SnesKey::A:
-			return UI_TEXT("A");
-		case SnesKey::B:
-			return UI_TEXT("B");
-		case SnesKey::X:
-			return UI_TEXT("X");
-		case SnesKey::Y:
-			return UI_TEXT("Y");
-		case SnesKey::L:
-			return UI_TEXT("L");
-		case SnesKey::R:
-			return UI_TEXT("R");
-		default: return "";
-	}
-}
-
-std::span<const KeyConfigDesc> Snes9xApp::defaultKeyConfigs()
-{
-	using namespace IG::Input;
-
-	static constexpr std::array pcKeyboardMap
-	{
-		KeyMapping{SnesKey::Up, Keycode::UP},
-		KeyMapping{SnesKey::Right, Keycode::RIGHT},
-		KeyMapping{SnesKey::Down, Keycode::DOWN},
-		KeyMapping{SnesKey::Left, Keycode::LEFT},
-		KeyMapping{SnesKey::Select, Keycode::SPACE},
-		KeyMapping{SnesKey::Start, Keycode::ENTER},
-		KeyMapping{SnesKey::B, Keycode::Z},
-		KeyMapping{SnesKey::A, Keycode::X},
-		KeyMapping{SnesKey::Y, Keycode::A},
-		KeyMapping{SnesKey::X, Keycode::S},
-		KeyMapping{SnesKey::L, Keycode::Q},
-		KeyMapping{SnesKey::R, Keycode::W},
-	};
-
-	static constexpr std::array genericGamepadMap
-	{
-		KeyMapping{SnesKey::Up, Keycode::UP},
-		KeyMapping{SnesKey::Right, Keycode::RIGHT},
-		KeyMapping{SnesKey::Down, Keycode::DOWN},
-		KeyMapping{SnesKey::Left, Keycode::LEFT},
-		KeyMapping{SnesKey::Select, Keycode::GAME_SELECT},
-		KeyMapping{SnesKey::Start, Keycode::GAME_START},
-		KeyMapping{SnesKey::B, Keycode::GAME_A},
-		KeyMapping{SnesKey::A, Keycode::GAME_B},
-		KeyMapping{SnesKey::Y, Keycode::GAME_X},
-		KeyMapping{SnesKey::X, Keycode::GAME_Y},
-		KeyMapping{SnesKey::L, Keycode::GAME_L1},
-		KeyMapping{SnesKey::R, Keycode::GAME_R1},
-	};
-
-	static constexpr std::array wiimoteMap
-	{
-		KeyMapping{SnesKey::Up, WiimoteKey::UP},
-		KeyMapping{SnesKey::Right, WiimoteKey::RIGHT},
-		KeyMapping{SnesKey::Down, WiimoteKey::DOWN},
-		KeyMapping{SnesKey::Left, WiimoteKey::LEFT},
-		KeyMapping{SnesKey::B, WiimoteKey::_1},
-		KeyMapping{SnesKey::A, WiimoteKey::_2},
-		KeyMapping{SnesKey::Y, WiimoteKey::A},
-		KeyMapping{SnesKey::X, WiimoteKey::B},
-		KeyMapping{SnesKey::Select, WiimoteKey::MINUS},
-		KeyMapping{SnesKey::Start, WiimoteKey::PLUS},
-	};
-
-	return genericKeyConfigs<pcKeyboardMap, genericGamepadMap, wiimoteMap>();
-}
-
-bool Snes9xApp::allowsTurboModifier(KeyCode c)
-{
-	switch(SnesKey(c))
-	{
-		case SnesKey::R ... SnesKey::A:
-		case SnesKey::Y ... SnesKey::B:
-			return true;
-		default: return false;
-	}
-}
-
-constexpr FRect gpImageCoords(IRect cellRelBounds)
-{
-	constexpr F2Size imageSize{256, 256};
-	constexpr int cellSize = 32;
-	return (cellRelBounds.relToAbs() * cellSize).as<float>() / imageSize;
-}
-
-AssetDesc Snes9xApp::vControllerAssetDesc(KeyInfo key) const
-{
-	static constexpr struct VirtualControllerAssets
-	{
-		AssetDesc dpad{AssetFileID::gamepadOverlay, gpImageCoords({{}, {4, 4}})},
-
-		a{AssetFileID::gamepadOverlay,      gpImageCoords({{4, 0}, {2, 2}})},
-		b{AssetFileID::gamepadOverlay,      gpImageCoords({{6, 0}, {2, 2}})},
-		x{AssetFileID::gamepadOverlay,      gpImageCoords({{4, 2}, {2, 2}})},
-		y{AssetFileID::gamepadOverlay,      gpImageCoords({{6, 2}, {2, 2}})},
-		l{AssetFileID::gamepadOverlay,      gpImageCoords({{4, 4}, {2, 2}})},
-		r{AssetFileID::gamepadOverlay,      gpImageCoords({{6, 4}, {2, 2}})},
-		select{AssetFileID::gamepadOverlay, gpImageCoords({{0, 6}, {2, 1}}), {1, 2}},
-		start{AssetFileID::gamepadOverlay,  gpImageCoords({{0, 7}, {2, 1}}), {1, 2}},
-
-		blank{AssetFileID::gamepadOverlay, gpImageCoords({{0, 4}, {2, 2}})};
-	} virtualControllerAssets;
-
-	if(key[0] == 0)
-		return virtualControllerAssets.dpad;
-	switch(SnesKey(key[0]))
-	{
-		case SnesKey::A: return virtualControllerAssets.a;
-		case SnesKey::B: return virtualControllerAssets.b;
-		case SnesKey::X: return virtualControllerAssets.x;
-		case SnesKey::Y: return virtualControllerAssets.y;
-		case SnesKey::L: return virtualControllerAssets.l;
-		case SnesKey::R: return virtualControllerAssets.r;
-		case SnesKey::Select: return virtualControllerAssets.select;
-		case SnesKey::Start: return virtualControllerAssets.start;
-		default: return virtualControllerAssets.blank;
-	}
-}
+			UI_TEXT("Gamepad"),
+			UI_TEXT("Gamepad 2"),
+			UI_TEXT("Gamepad 3"),
+			UI_TEXT("Gamepad 4"),
+			UI_TEXT("Gamepad 5"),
+			return UI_TEXT("Up");
+			return UI_TEXT("Right");
+			return UI_TEXT("Down");
+			return UI_TEXT("Left");
+			return UI_TEXT("Select");
+			return UI_TEXT("Start");
 
 // from controls.cpp
 #define SUPERSCOPE_FIRE			0x80
@@ -258,17 +44,17 @@ static uint16 *S9xGetJoypadBits(unsigned idx)
 }
 #endif
 
-void Snes9xSystem::handleInputAction(EmuApp *, InputAction a)
+void Snes9xSystem::handleInputAction(EmuApp*, InputAction a)
 {
 	auto player = a.flags.deviceId;
-	assume(player < maxPlayers);
+	assume(player < AppMeta::maxPlayers);
 	auto &padData = *S9xGetJoypadBits(player);
 	padData = setOrClearBits(padData, bit(a.code), a.isPushed());
 }
 
-void Snes9xSystem::clearInputBuffers(EmuInputView&)
+void Snes9xSystem::clearInputBuffers()
 {
-	for(auto p : iotaCount(maxPlayers))
+	for(auto p: iotaCount(AppMeta::maxPlayers))
 	{
 		*S9xGetJoypadBits(p) = 0;
 	}
@@ -279,7 +65,7 @@ void Snes9xSystem::clearInputBuffers(EmuInputView&)
 	mousePointerId = Input::NULL_POINTER_ID;
 }
 
-void Snes9xSystem::setupSNESInput(VController &vCtrl)
+void Snes9xSystem::setupSNESInput(VController& vCtrl)
 {
 	#ifndef SNES9X_VERSION_1_4
 	int inputSetup = snesInputPort;
@@ -433,13 +219,13 @@ void Snes9xSystem::setupSNESInput(VController &vCtrl)
 WPt Snes9xSystem::updateAbsolutePointerPosition(WRect gameRect, WPt pos)
 {
 	int xRel = pos.x - gameRect.x, yRel = pos.y - gameRect.y;
-	snesPointerX = IG::remap(xRel, 0, gameRect.xSize(), 0, 256);
-	snesPointerY = IG::remap(yRel, 0, gameRect.ySize(), 0, 224);
+	snesPointerX = remap(xRel, 0, gameRect.xSize(), 0, 256);
+	snesPointerY = remap(yRel, 0, gameRect.ySize(), 0, 224);
 	//logMsg("updated pointer position:%d,%d (%d,%d in window)", snesPointerX, snesPointerY, pos.x, pos.y);
 	return {snesPointerX, snesPointerY};
 }
 
-bool Snes9xSystem::onPointerInputStart(const Input::MotionEvent &e, Input::DragTrackerState, IG::WindowRect gameRect)
+bool Snes9xSystem::onPointerInputStart(const Input::MotionEvent& e, Input::DragTrackerState, WindowRect gameRect)
 {
 	switch(snesActiveInputPort)
 	{
@@ -514,8 +300,8 @@ bool Snes9xSystem::onPointerInputStart(const Input::MotionEvent &e, Input::DragT
 	return false;
 }
 
-bool Snes9xSystem::onPointerInputUpdate(const Input::MotionEvent &e, Input::DragTrackerState dragState,
-	Input::DragTrackerState prevDragState, IG::WindowRect gameRect)
+bool Snes9xSystem::onPointerInputUpdate(const Input::MotionEvent& e, Input::DragTrackerState dragState,
+	Input::DragTrackerState prevDragState, WindowRect gameRect)
 {
 	switch(snesActiveInputPort)
 	{
@@ -551,15 +337,15 @@ bool Snes9xSystem::onPointerInputUpdate(const Input::MotionEvent &e, Input::Drag
 				snesPointerX += relPos.x;
 				snesPointerY += relPos.y;
 			}
-			snesMouseX = IG::remap(snesPointerX, 0, gameRect.xSize(), 0, 256);
-			snesMouseY = IG::remap(snesPointerY, 0, gameRect.ySize(), 0, 224);
+			snesMouseX = remap(snesPointerX, 0, gameRect.xSize(), 0, 256);
+			snesMouseY = remap(snesPointerY, 0, gameRect.ySize(), 0, 224);
 			return true;
 		}
 	}
 	return false;
 }
 
-bool Snes9xSystem::onPointerInputEnd(const Input::MotionEvent &e, Input::DragTrackerState dragState, IG::WindowRect)
+bool Snes9xSystem::onPointerInputEnd(const Input::MotionEvent& e, Input::DragTrackerState dragState, WindowRect)
 {
 	switch(snesActiveInputPort)
 	{
@@ -614,66 +400,16 @@ bool Snes9xSystem::onPointerInputEnd(const Input::MotionEvent &e, Input::DragTra
 	return false;
 }
 
-SystemInputDeviceDesc Snes9xSystem::inputDeviceDesc(int) const
-{
-	static constexpr std::array gamepadComponents
-	{
-		InputComponentDesc
-		{
-			UI_TEXT("方向键"),
-			dpadKeyInfo, InputComponent::dPad, LB2DO
-		},
-		InputComponentDesc
-		{
-			UI_TEXT("动作键"),
-			faceKeyInfo, InputComponent::button, RB2DO, {.staggeredLayout = true}
-		},
-		InputComponentDesc
-		{
-			UI_TEXT("动作键 + L/R 键"),
-			faceLRKeyInfo, InputComponent::button, RB2DO, {.altConfig = true, .staggeredLayout = true}
-		},
-		InputComponentDesc
-		{
-			UI_TEXT("L 键"),
-			lKeyInfo, InputComponent::trigger, LB2DO
-		},
-		InputComponentDesc
-		{
-			UI_TEXT("R 键"),
-			rKeyInfo, InputComponent::trigger, RB2DO
-		},
-		InputComponentDesc
-		{
-			UI_TEXT("选择键"),
-			{&centerKeyInfo[0], 1}, InputComponent::button, LB2DO
-		},
-		InputComponentDesc
-		{
-			UI_TEXT("开始键"),
-			{&centerKeyInfo[1], 1}, InputComponent::button, RB2DO
-		},
-		InputComponentDesc
-		{
-			UI_TEXT("选择/开始键"),
-			centerKeyInfo, InputComponent::button, CB2DO, {.altConfig = true}
-		},
-	};
-
-	static constexpr SystemInputDeviceDesc gamepadDesc
-	{
-		UI_TEXT("游戏手柄"),
-		gamepadComponents
-	};
-
-	return gamepadDesc;
-}
-
 }
 
 using namespace EmuEx;
 
-CLINK bool8 S9xReadMousePosition(int which, int &x, int &y, uint32 &buttons)
+#ifdef SNES9X_VERSION_1_4
+extern "C"
+#else
+extern "C++"
+#endif
+bool8 S9xReadMousePosition(int which, int& x, int& y, uint32& buttons)
 {
     if (which == 1)
     	return 0;
@@ -695,7 +431,7 @@ CLINK bool8 S9xReadMousePosition(int which, int &x, int &y, uint32 &buttons)
 }
 
 #ifdef SNES9X_VERSION_1_4
-CLINK bool8 S9xReadSuperScopePosition(int &x, int &y, uint32 &buttons)
+extern "C" bool8 S9xReadSuperScopePosition(int& x, int& y, uint32& buttons)
 {
 	//logMsg("reading super scope: %d %d %d", snesPointerX, snesPointerY, snesPointerBtns);
 	auto &sys = gSnes9xSystem();
@@ -705,19 +441,19 @@ CLINK bool8 S9xReadSuperScopePosition(int &x, int &y, uint32 &buttons)
 	return 1;
 }
 
-CLINK uint32 S9xReadJoypad(int which)
+extern "C" uint32 S9xReadJoypad(int which)
 {
 	assume(which < 5);
 	//logMsg("reading joypad %d", which);
 	return 0x80000000 | gSnes9xSystem().joypadData[which];
 }
 
-bool JustifierOffscreen()
+extern "C++" bool JustifierOffscreen()
 {
 	return !gSnes9xSystem().snesMouseClick;
 }
 
-void JustifierButtons(uint32& justifiers)
+extern "C++" void JustifierButtons(uint32& justifiers)
 {
 	if(gSnes9xSystem().snesPointerBtns)
 		justifiers |= 0x00100;
