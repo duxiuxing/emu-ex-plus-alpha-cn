@@ -125,7 +125,7 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, EmuVideoLayer &videoLa
 					pushAndShowNewCollectValueInputView<std::pair<float, float>>(attachParams(), e,
 						UI_TEXT("请输入小数或分数"),
 						"",
-					[this](CollectTextInputView&, auto val)
+						[this](CollectTextInputView&, auto val)
 						{
 							float ratio = val.first / val.second;
 							if(app().setVideoAspectRatio(ratio))
