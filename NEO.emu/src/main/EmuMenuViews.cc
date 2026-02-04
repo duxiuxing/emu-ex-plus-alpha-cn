@@ -632,13 +632,13 @@ class UnibiosSwitchesView : public TableView
 		},
 	};
 
-        MultiChoiceMenuItem region
-        {
-            UI_TEXT("Region"),
-            attachParams(),
-            (int)memory.memcard[3] & 0x3,
-            regionItem
-        };
+	MultiChoiceMenuItem region
+	{
+		UI_TEXT("Region"),
+		attachParams(),
+		(int)memory.memcard[3] & 0x3,
+		regionItem
+	};
 
 	BoolMenuItem system
 	{
