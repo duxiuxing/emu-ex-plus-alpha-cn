@@ -26,7 +26,10 @@ namespace EmuEx
 
 using namespace IG;
 
-const std::string_view AppMeta::creditsViewStr{CREDITS_INFO_STRING "(c) 2011-2026\nRobert Broglia\nwww.explusalpha.com\n\nPortions (c) the\nStella Team\nstella-emu.github.io"};
+const std::string_view AppMeta::creditsViewStr
+{
+	UI_TEXT(CREDITS_INFO_STRING "(c) 2011-2026\nRobert Broglia 保留所有权利\nwww.explusalpha.com\n\n部分代码版权属于\nStella Team\nstella-emu.github.io\n\n中文翻译：R-Sam@github\nduxiuxing/emu-ex-plus-alpha-cn")
+};
 const std::string_view AppMeta::configFilename{"2600emu.config"};
 const bool AppMeta::hasPALVideoSystem{true};
 const bool AppMeta::hasResetModes{true};
@@ -86,11 +89,31 @@ std::span<const KeyCategory> AppMeta::keyCategories()
 {
 	static constexpr std::array categories
 	{
-		KeyCategory{"Joystick", jsKeyInfo},
-		KeyCategory{"Joystick 2", js2KeyInfo, 1},
-		KeyCategory{"Console Switches", consoleKeyInfo},
-		KeyCategory{"Keyboard", kbKeyInfo},
-		KeyCategory{"Keyboard 2", kb2KeyInfo, 1},
+		KeyCategory
+		{
+			UI_TEXT("Joystick"),
+			jsKeyInfo
+		},
+		KeyCategory
+		{
+			UI_TEXT("Joystick 2"),
+			js2KeyInfo, 1
+		},
+		KeyCategory
+		{
+			UI_TEXT("Console Switches"),
+			consoleKeyInfo
+		},
+		KeyCategory
+		{
+			UI_TEXT("Keyboard"),
+			kbKeyInfo
+		},
+		KeyCategory
+		{
+			UI_TEXT("Keyboard 2"),
+			kb2KeyInfo, 1
+		},
 	};
 	return categories;
 }
@@ -99,30 +122,54 @@ std::string_view AppMeta::systemKeyCodeToString(KeyCode c)
 {
 	switch(c)
 	{
-		case Event::LeftJoystickUp: return "Up";
-		case Event::LeftJoystickRight: return "Right";
-		case Event::LeftJoystickDown: return "Down";
-		case Event::LeftJoystickLeft: return "Left";
-		case Event::LeftJoystickFire: return "Button 1";
-		case Event::LeftJoystickFire5: return "Button 2";
-		case Event::LeftJoystickFire9: return "Button 3";
-		case Event::ConsoleSelect: return "Select";
-		case Event::ConsoleReset: return "Reset";
-		case Event::ConsoleLeftDiffToggle: return "Left (P1) Difficulty";
-		case Event::ConsoleRightDiffToggle: return "Right (P2) Difficulty";
-		case Event::ConsoleColorToggle: return "Color/B&W";
-		case Event::LeftKeyboard1: return "1";
-		case Event::LeftKeyboard2: return "2";
-		case Event::LeftKeyboard3: return "3";
-		case Event::LeftKeyboard4: return "4";
-		case Event::LeftKeyboard5: return "5";
-		case Event::LeftKeyboard6: return "6";
-		case Event::LeftKeyboard7: return "7";
-		case Event::LeftKeyboard8: return "8";
-		case Event::LeftKeyboard9: return "9";
-		case Event::LeftKeyboardStar: return "*";
-		case Event::LeftKeyboard0: return "0";
-		case Event::LeftKeyboardPound: return "#";
+		case Event::LeftJoystickUp:
+			return UI_TEXT("Up");
+		case Event::LeftJoystickRight:
+			return UI_TEXT("Right");
+		case Event::LeftJoystickDown:
+			return UI_TEXT("Down");
+		case Event::LeftJoystickLeft:
+			return UI_TEXT("Left");
+		case Event::LeftJoystickFire:
+			return UI_TEXT("Button 1");
+		case Event::LeftJoystickFire5:
+			return UI_TEXT("Button 2");
+		case Event::LeftJoystickFire9:
+			return UI_TEXT("Button 3");
+		case Event::ConsoleSelect:
+			return UI_TEXT("Select");
+		case Event::ConsoleReset:
+			return UI_TEXT("Reset");
+		case Event::ConsoleLeftDiffToggle:
+			return UI_TEXT("Left (P1) Difficulty");
+		case Event::ConsoleRightDiffToggle:
+			return UI_TEXT("Right (P2) Difficulty");
+		case Event::ConsoleColorToggle:
+			return UI_TEXT("Color/B&W");
+		case Event::LeftKeyboard1:
+			return UI_TEXT("1");
+		case Event::LeftKeyboard2:
+			return UI_TEXT("2");
+		case Event::LeftKeyboard3:
+			return UI_TEXT("3");
+		case Event::LeftKeyboard4:
+			return UI_TEXT("4");
+		case Event::LeftKeyboard5:
+			return UI_TEXT("5");
+		case Event::LeftKeyboard6:
+			return UI_TEXT("6");
+		case Event::LeftKeyboard7:
+			return UI_TEXT("7");
+		case Event::LeftKeyboard8:
+			return UI_TEXT("8");
+		case Event::LeftKeyboard9:
+			return UI_TEXT("9");
+		case Event::LeftKeyboardStar:
+			return UI_TEXT("*");
+		case Event::LeftKeyboard0:
+			return UI_TEXT("0");
+		case Event::LeftKeyboardPound:
+			return UI_TEXT("#");
 		default: return "";
 	}
 }
@@ -276,14 +323,42 @@ SystemInputDeviceDesc AppMeta::inputDeviceDesc(int idx)
 {
 	static constexpr std::array jsComponents
 	{
-		InputComponentDesc{"D-Pad", dpadKeyInfo, InputComponent::dPad, LB2DO},
-		InputComponentDesc{"Joystick Buttons", triggerKeyInfo, InputComponent::button, RB2DO},
-		InputComponentDesc{"Keyboard Buttons", kbKeyInfo, InputComponent::button, RB2DO, {.altConfig = true, .rowSize = 3}},
-		InputComponentDesc{"Select", {&consoleKeyInfo[0], 1}, InputComponent::button, LB2DO},
-		InputComponentDesc{"Reset", {&consoleKeyInfo[1], 1}, InputComponent::button, RB2DO},
-		InputComponentDesc{"Console Buttons", consoleKeyInfo, InputComponent::button, RB2DO, {.altConfig = true}},
+		InputComponentDesc
+		{
+			UI_TEXT("D-Pad"),
+			dpadKeyInfo, InputComponent::dPad, LB2DO
+		},
+		InputComponentDesc
+		{
+			UI_TEXT("Joystick Buttons"),
+			triggerKeyInfo, InputComponent::button, RB2DO
+		},
+		InputComponentDesc
+		{
+			UI_TEXT("Keyboard Buttons"),
+			kbKeyInfo, InputComponent::button, RB2DO, {.altConfig = true, .rowSize = 3}
+		},
+		InputComponentDesc
+		{
+			UI_TEXT("Select"),
+			{&consoleKeyInfo[0], 1}, InputComponent::button, LB2DO
+		},
+		InputComponentDesc
+		{
+			UI_TEXT("Reset"),
+			{&consoleKeyInfo[1], 1}, InputComponent::button, RB2DO
+		},
+		InputComponentDesc
+		{
+			UI_TEXT("Console Buttons"),
+			consoleKeyInfo, InputComponent::button, RB2DO, {.altConfig = true}
+		},
 	};
-	static constexpr SystemInputDeviceDesc jsDesc{"Joystick", jsComponents};
+	static constexpr SystemInputDeviceDesc jsDesc
+	{
+		UI_TEXT("Joystick"),
+		jsComponents
+	};
 	return jsDesc;
 }
 

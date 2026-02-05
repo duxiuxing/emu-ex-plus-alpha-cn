@@ -23,13 +23,26 @@ import std;
 namespace EmuEx
 {
 
-const std::string_view AppMeta::creditsViewStr{CREDITS_INFO_STRING "(c) 2012-2026\nRobert Broglia\nwww.explusalpha.com\n\nPortions (c) the\nVBA-m Team\nvba-m.com"};
+const std::string_view AppMeta::creditsViewStr
+{
+	UI_TEXT(CREDITS_INFO_STRING "(c) 2012-2026\nRobert Broglia 保留所有权利\nwww.explusalpha.com\n\n部分代码版权属于\nVBA-m Team\nvba-m.com\n\n中文翻译：R-Sam@github\nduxiuxing/emu-ex-plus-alpha-cn")
+};
 const std::string_view AppMeta::configFilename{"GbaEmu.config"};
 const bool AppMeta::hasCheats{true};
 const bool AppMeta::needsGlobalInstance{true};
-const AspectRatioInfo AppMeta::aspectRatioInfo{"3:2 (Original)", {3, 2}};
+const AspectRatioInfo AppMeta::aspectRatioInfo
+{
+	UI_TEXT("3:2 (原画)"),
+	{3, 2}
+};
 const NameFilterFunc AppMeta::defaultFsFilter = [](std::string_view name) { return endsWithAnyCaseless(name, ".gba", ".mb"); };
-constexpr BundledGameInfo gameInfo{"Motocross Challenge", Config::envIsLinux ? "MotocrossChallenge.7z" : "Motocross Challenge.7z"};
+constexpr BundledGameInfo gameInfo
+{
+	UI_TEXT("Motocross Challenge"),
+	Config::envIsLinux
+		? UI_TEXT("MotocrossChallenge.7z")
+		: UI_TEXT("Motocross Challenge.7z")
+};
 const std::span<const BundledGameInfo> AppMeta::bundledGameInfo{&gameInfo, 1};
 
 constexpr auto dpadKeyInfo = makeArray<KeyInfo>
@@ -77,7 +90,11 @@ std::span<const KeyCategory> AppMeta::keyCategories()
 {
 	static constexpr std::array categories
 	{
-		KeyCategory{"Gamepad", gpKeyInfo},
+		KeyCategory
+		{
+			UI_TEXT("Gamepad"),
+			gpKeyInfo
+		},
 	};
 	return categories;
 }
@@ -86,18 +103,30 @@ std::string_view AppMeta::systemKeyCodeToString(KeyCode c)
 {
 	switch(GbaKey(c))
 	{
-		case GbaKey::Up: return "Up";
-		case GbaKey::Right: return "Right";
-		case GbaKey::Down: return "Down";
-		case GbaKey::Left: return "Left";
-		case GbaKey::Select: return "Select";
-		case GbaKey::Start: return "Start";
-		case GbaKey::A: return "A";
-		case GbaKey::B: return "B";
-		case GbaKey::L: return "L";
-		case GbaKey::R: return "R";
-		case GbaKey::LightInc: return "Light Sensor Level +";
-		case GbaKey::LightDec: return "Light Sensor Level -";
+		case GbaKey::Up:
+			return UI_TEXT("Up");
+		case GbaKey::Right:
+			return UI_TEXT("Right");
+		case GbaKey::Down:
+			return UI_TEXT("Down");
+		case GbaKey::Left:
+			return UI_TEXT("Left");
+		case GbaKey::Select:
+			return UI_TEXT("Select");
+		case GbaKey::Start:
+			return UI_TEXT("Start");
+		case GbaKey::A:
+			return UI_TEXT("A");
+		case GbaKey::B:
+			return UI_TEXT("B");
+		case GbaKey::L:
+			return UI_TEXT("L");
+		case GbaKey::R:
+			return UI_TEXT("R");
+		case GbaKey::LightInc:
+			return UI_TEXT("Light Sensor Level +");
+		case GbaKey::LightDec:
+			return UI_TEXT("Light Sensor Level -");
 		default: return "";
 	}
 }
@@ -209,16 +238,52 @@ SystemInputDeviceDesc AppMeta::inputDeviceDesc(int idx)
 {
 	static constexpr std::array gamepadComponents
 	{
-		InputComponentDesc{"D-Pad", dpadKeyInfo, InputComponent::dPad, LB2DO},
-		InputComponentDesc{"Face Buttons", faceKeyInfo, InputComponent::button, RB2DO},
-		InputComponentDesc{"Face Buttons + Inline L/R", faceLRKeyInfo, InputComponent::button, RB2DO, {.altConfig = true}},
-		InputComponentDesc{"L", lKeyInfo, InputComponent::trigger, LB2DO},
-		InputComponentDesc{"R", rKeyInfo, InputComponent::trigger, RB2DO},
-		InputComponentDesc{"Select", {&centerKeyInfo[0], 1}, InputComponent::button, LB2DO},
-		InputComponentDesc{"Start", {&centerKeyInfo[1], 1}, InputComponent::button, RB2DO},
-		InputComponentDesc{"Select/Start", centerKeyInfo, InputComponent::button, CB2DO, {.altConfig = true}},
+		InputComponentDesc
+		{
+			UI_TEXT("D-Pad"),
+			dpadKeyInfo, InputComponent::dPad, LB2DO
+		},
+		InputComponentDesc
+		{
+			UI_TEXT("Face Buttons"),
+			faceKeyInfo, InputComponent::button, RB2DO
+		},
+		InputComponentDesc
+		{
+			UI_TEXT("Face Buttons + Inline L/R"),
+			faceLRKeyInfo, InputComponent::button, RB2DO, {.altConfig = true}
+		},
+		InputComponentDesc
+		{
+			UI_TEXT("L"),
+			lKeyInfo, InputComponent::trigger, LB2DO
+		},
+		InputComponentDesc
+		{
+			UI_TEXT("R"),
+			rKeyInfo, InputComponent::trigger, RB2DO
+		},
+		InputComponentDesc
+		{
+			UI_TEXT("Select"),
+			{&centerKeyInfo[0], 1}, InputComponent::button, LB2DO
+		},
+		InputComponentDesc
+		{
+			UI_TEXT("Start"),
+			{&centerKeyInfo[1], 1}, InputComponent::button, RB2DO
+		},
+		InputComponentDesc
+		{
+			UI_TEXT("Select/Start"),
+			centerKeyInfo, InputComponent::button, CB2DO, {.altConfig = true}
+		},
 	};
-	static constexpr SystemInputDeviceDesc gamepadDesc{"Gamepad", gamepadComponents};
+	static constexpr SystemInputDeviceDesc gamepadDesc
+	{
+		UI_TEXT("Gamepad"),
+		gamepadComponents
+	};
 	return gamepadDesc;
 }
 

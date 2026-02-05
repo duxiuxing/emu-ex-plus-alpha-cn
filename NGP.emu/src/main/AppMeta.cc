@@ -24,10 +24,17 @@ import std;
 namespace EmuEx
 {
 
-const std::string_view AppMeta::creditsViewStr{CREDITS_INFO_STRING "(c) 2011-2026\nRobert Broglia\nwww.explusalpha.com\n\nPortions (c) the\nMednafen Team\nmednafen.github.io"};
+const std::string_view AppMeta::creditsViewStr
+{
+	UI_TEXT(CREDITS_INFO_STRING "(c) 2011-2026\nRobert Broglia 保留所有权利\nwww.explusalpha.com\n\n部分代码版权属于\nMednafen Team\nmednafen.github.io\n\n中文翻译：R-Sam@github\nduxiuxing/emu-ex-plus-alpha-cn")
+};
 const std::string_view AppMeta::configFilename{"NgpEmu.config"};
 const bool AppMeta::needsGlobalInstance{true};
-const AspectRatioInfo AppMeta::aspectRatioInfo{"20:19 (Original)", {20, 19}};
+const AspectRatioInfo AppMeta::aspectRatioInfo
+{
+	UI_TEXT("20:19 (原画)"),
+	{20, 19}
+};
 const NameFilterFunc AppMeta::defaultFsFilter = [](std::string_view name)
 {
 	return endsWithAnyCaseless(name, ".ngc", ".ngp", ".npc", ".ngpc");

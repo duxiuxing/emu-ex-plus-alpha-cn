@@ -22,5 +22,4 @@
 #else
 #define PLATFORM_INFO_STR "(" CONFIG_ARCH_STR ")"
 #endif
-// #define CREDITS_INFO_STRING "Built : " __DATE__ "\n" PLATFORM_INFO_STR "\n\n"
-#define CREDITS_INFO_STRING "编译：" __DATE__ "\n" PLATFORM_INFO_STR "\n\n"
+#define CREDITS_INFO_STRING UI_TEXT("生成日期：" __DATE__ "\n" PLATFORM_INFO_STR "\n\n")

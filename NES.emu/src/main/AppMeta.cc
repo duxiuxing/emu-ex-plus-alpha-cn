@@ -23,7 +23,10 @@ import std;
 namespace EmuEx
 {
 
-const std::string_view AppMeta::creditsViewStr{CREDITS_INFO_STRING "(c) 2011-2026\nRobert Broglia\nwww.explusalpha.com\n\nPortions (c) the\nFCEUX Team\nfceux.com"};
+const std::string_view AppMeta::creditsViewStr
+{
+	UI_TEXT(CREDITS_INFO_STRING "(c) 2011-2026\nRobert Broglia 保留所有权利\nwww.explusalpha.com\n\n部分代码版权属于\nFCEUX Team\nfceux.com\n\n中文翻译：R-Sam@github\nduxiuxing/emu-ex-plus-alpha-cn")
+};
 const std::string_view AppMeta::configFilename{"NesEmu.config"};
 const bool AppMeta::hasCheats{true};
 const bool AppMeta::hasPALVideoSystem{true};
@@ -76,11 +79,31 @@ std::span<const KeyCategory> AppMeta::keyCategories()
 {
 	static constexpr std::array categories
 	{
-		KeyCategory{"Gamepad", gpKeyInfo},
-		KeyCategory{"Gamepad 2", gp2KeyInfo, 1},
-		KeyCategory{"Gamepad 3", gp3KeyInfo, 2},
-		KeyCategory{"Gamepad 4", gp4KeyInfo, 3},
-		KeyCategory{"Extra Functions", exKeyInfo},
+		KeyCategory
+		{
+			UI_TEXT("Gamepad"),
+			gpKeyInfo
+		},
+		KeyCategory
+		{
+			UI_TEXT("Gamepad 2"),
+			gp2KeyInfo, 1
+		},
+		KeyCategory
+		{
+			UI_TEXT("Gamepad 3"),
+			gp3KeyInfo, 2
+		},
+		KeyCategory
+		{
+			UI_TEXT("Gamepad 4"),
+			gp4KeyInfo, 3
+		},
+		KeyCategory
+		{
+			UI_TEXT("Extra Functions"),
+			exKeyInfo
+		},
 	};
 	return categories;
 }
@@ -89,15 +112,24 @@ std::string_view AppMeta::systemKeyCodeToString(KeyCode c)
 {
 	switch(NesKey(c))
 	{
-		case NesKey::Up: return "Up";
-		case NesKey::Right: return "Right";
-		case NesKey::Down: return "Down";
-		case NesKey::Left: return "Left";
-		case NesKey::Select: return "Select";
-		case NesKey::Start: return "Start";
-		case NesKey::A: return "A";
-		case NesKey::B: return "B";
-		case NesKey::toggleDiskSide: return "Eject Disk/Switch Side";
+		case NesKey::Up:
+			return UI_TEXT("Up");
+		case NesKey::Right:
+			return UI_TEXT("Right");
+		case NesKey::Down:
+			return UI_TEXT("Down");
+		case NesKey::Left:
+			return UI_TEXT("Left");
+		case NesKey::Select:
+			return UI_TEXT("Select");
+		case NesKey::Start:
+			return UI_TEXT("Start");
+		case NesKey::A:
+			return UI_TEXT("A");
+		case NesKey::B:
+			return UI_TEXT("B");
+		case NesKey::toggleDiskSide:
+			return UI_TEXT("Eject Disk/Switch Side");
 		default: return "";
 	}
 }
@@ -193,14 +225,42 @@ SystemInputDeviceDesc AppMeta::inputDeviceDesc(int idx)
 {
 	static constexpr std::array gamepadComponents
 	{
-		InputComponentDesc{"D-Pad", dpadKeyInfo, InputComponent::dPad, LB2DO},
-		InputComponentDesc{"Face Buttons", faceKeyInfo, InputComponent::button, RB2DO},
-		InputComponentDesc{"Select", {&centerKeyInfo[0], 1}, InputComponent::button, LB2DO},
-		InputComponentDesc{"Start", {&centerKeyInfo[1], 1}, InputComponent::button, RB2DO},
-		InputComponentDesc{"Select/Start", centerKeyInfo, InputComponent::button, CB2DO, {.altConfig = true}},
-		InputComponentDesc{"P2 Start (Famicom Microphone)", p2StartKeyInfo, InputComponent::button, RB2DO, {.altConfig = true}},
+		InputComponentDesc
+		{
+			UI_TEXT("D-Pad"),
+			dpadKeyInfo, InputComponent::dPad, LB2DO
+		},
+		InputComponentDesc
+		{
+			UI_TEXT("Face Buttons"),
+			faceKeyInfo, InputComponent::button, RB2DO
+		},
+		InputComponentDesc
+		{
+			UI_TEXT("Select"),
+			{&centerKeyInfo[0], 1}, InputComponent::button, LB2DO
+		},
+		InputComponentDesc
+		{
+			UI_TEXT("Start"),
+			{&centerKeyInfo[1], 1}, InputComponent::button, RB2DO
+		},
+		InputComponentDesc
+		{
+			UI_TEXT("Select/Start"),
+			centerKeyInfo, InputComponent::button, CB2DO, {.altConfig = true}
+		},
+		InputComponentDesc
+		{
+			UI_TEXT("P2 Start (Famicom Microphone)"),
+			p2StartKeyInfo, InputComponent::button, RB2DO, {.altConfig = true}
+		},
 	};
-	static constexpr SystemInputDeviceDesc gamepadDesc{"Gamepad", gamepadComponents};
+	static constexpr SystemInputDeviceDesc gamepadDesc
+	{
+		UI_TEXT("Gamepad"),
+		gamepadComponents
+	};
 	return gamepadDesc;
 }
 

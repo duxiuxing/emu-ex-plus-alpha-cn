@@ -28,7 +28,10 @@ import std;
 namespace EmuEx
 {
 
-const std::string_view AppMeta::creditsViewStr{CREDITS_INFO_STRING "(c) 2011-2026\nRobert Broglia\nwww.explusalpha.com\n\nPortions (c) the\nBlueMSX Team\nbluemsx.com"};
+const std::string_view AppMeta::creditsViewStr
+{
+	UI_TEXT(CREDITS_INFO_STRING "(c) 2011-2026\nRobert Broglia 保留所有权利\nwww.explusalpha.com\n\n部分代码版权属于\nBlueMSX Team\nbluemsx.com\n\n中文翻译：R-Sam@github\nduxiuxing/emu-ex-plus-alpha-cn")
+};
 const std::string_view AppMeta::configFilename{"MsxEmu.config"};
 const int AppMeta::forcedSoundRate{44100};
 const bool AppMeta::handlesGenericIO{}; // TODO: need to re-factor BlueMSX file loading code
@@ -205,11 +208,31 @@ std::span<const KeyCategory> AppMeta::keyCategories()
 {
 	static constexpr std::array categories
 	{
-		KeyCategory{"Joystick", jsKeyInfo},
-		KeyCategory{"Joystick 2", js2KeyInfo, 1},
-		KeyCategory{"Coleco Numpad", colecoNumpadKeyInfo},
-		KeyCategory{"Coleco Numpad 2", colecoNumpad2KeyInfo, 1},
-		KeyCategory{"Keyboard", keyboardKeyInfo},
+		KeyCategory
+		{
+			UI_TEXT("Joystick"),
+			jsKeyInfo
+		},
+		KeyCategory
+		{
+			UI_TEXT("Joystick 2"),
+			js2KeyInfo, 1
+		},
+		KeyCategory
+		{
+			UI_TEXT("Coleco Numpad"),
+			colecoNumpadKeyInfo
+		},
+		KeyCategory
+		{
+			UI_TEXT("Coleco Numpad 2"),
+			colecoNumpad2KeyInfo, 1
+		},
+		KeyCategory
+		{
+			UI_TEXT("Keyboard"),
+			keyboardKeyInfo
+		},
 	};
 	return categories;
 }
@@ -218,119 +241,231 @@ std::string_view AppMeta::systemKeyCodeToString(KeyCode c)
 {
 	switch(c)
 	{
-		case EC_JOY1_UP: return "Up";
-		case EC_JOY1_RIGHT: return "Right";
-		case EC_JOY1_DOWN: return "Down";
-		case EC_JOY1_LEFT: return "Left";
-		case EC_JOY1_BUTTON1: return "Button 1";
-		case EC_JOY1_BUTTON2: return "Button 2";
-		case EC_COLECO1_0: return "Coleco 0";
-		case EC_COLECO1_1: return "Coleco 1";
-		case EC_COLECO1_2: return "Coleco 2";
-		case EC_COLECO1_3: return "Coleco 3";
-		case EC_COLECO1_4: return "Coleco 4";
-		case EC_COLECO1_5: return "Coleco 5";
-		case EC_COLECO1_6: return "Coleco 6";
-		case EC_COLECO1_7: return "Coleco 7";
-		case EC_COLECO1_8: return "Coleco 8";
-		case EC_COLECO1_9: return "Coleco 9";
-		case EC_COLECO1_STAR: return "Coleco *";
-		case EC_COLECO1_HASH: return "Coleco #";
-		case EC_TOGGLE_KB: return "Toggle Keyboard";
-		case EC_F1: return "F1";
-		case EC_F2: return "F2";
-		case EC_F3: return "F3";
-		case EC_F4: return "F4";
-		case EC_F5: return "F5";
-		case EC_STOP: return "Stop";
-		case EC_CLS: return "Cls";
-		case EC_SELECT: return "Select";
-		case EC_INS: return "Ins";
-		case EC_DEL: return "Del";
-		case EC_ESC: return "Esc";
-		case EC_1: return "1 ⇧!";
-		case EC_2: return "2 ⇧\"";
-		case EC_3: return "3 ⇧#";
-		case EC_4: return "4 ⇧$";
-		case EC_5: return "5 ⇧%";
-		case EC_6: return "6 ⇧&";
-		case EC_7: return "7 ⇧'";
-		case EC_8: return "8 ⇧(";
-		case EC_9: return "9 ⇧)";
-		case EC_0: return "0";
-		case EC_NEG: return "- ⇧=";
-		case EC_CIRCFLX: return "^ ⇧~";
-		case EC_BKSLASH: return "\\ ⇧|";
-		case EC_BKSPACE: return "Backspace";
-		case EC_TAB: return "Tab";
-		case EC_Q: return "Q";
-		case EC_W: return "W";
-		case EC_E: return "E";
-		case EC_R: return "R";
-		case EC_T: return "T";
-		case EC_Y: return "Y";
-		case EC_U: return "U";
-		case EC_I: return "I";
-		case EC_O: return "O";
-		case EC_P: return "P";
-		case EC_AT: return "@ ⇧`";
-		case EC_LBRACK: return "[ ⇧{";
-		case EC_RETURN: return "Return";
-		case EC_CTRL: return "Ctrl";
-		case EC_A: return "A";
-		case EC_S: return "S";
-		case EC_D: return "D";
-		case EC_F: return "F";
-		case EC_G: return "G";
-		case EC_H: return "H";
-		case EC_J: return "J";
-		case EC_K: return "K";
-		case EC_L: return "L";
-		case EC_SEMICOL: return "; ⇧+";
-		case EC_COLON: return ": ⇧*";
-		case EC_RBRACK: return "] ⇧}";
-		case EC_LSHIFT: return "Left Shift";
-		case EC_Z: return "Z";
-		case EC_X: return "X";
-		case EC_C: return "C";
-		case EC_V: return "V";
-		case EC_B: return "B";
-		case EC_N: return "N";
-		case EC_M: return "M";
-		case EC_COMMA: return ", ⇧<";
-		case EC_PERIOD: return ". ⇧>";
-		case EC_DIV: return "/ ⇧?";
-		case EC_UNDSCRE: return "_";
-		case EC_RSHIFT: return "Right Shift";
-		case EC_CAPS: return "Caps";
-		case EC_GRAPH: return "Graph";
-		case EC_TORIKE: return "Cancel";
-		case EC_SPACE: return "Space";
-		case EC_JIKKOU: return "Execute";
-		case EC_CODE: return "Code";
-		case EC_PAUSE: return "Pause";
-		case EC_UP: return "Up Arrow";
-		case EC_RIGHT: return "Right Arrow";
-		case EC_DOWN: return "Down Arrow";
-		case EC_LEFT: return "Left Arrow";
-		case EC_NUM0: return "Num 0";
-		case EC_NUM1: return "Num 1";
-		case EC_NUM2: return "Num 2";
-		case EC_NUM3: return "Num 3";
-		case EC_NUM4: return "Num 4";
-		case EC_NUM5: return "Num 5";
-		case EC_NUM6: return "Num 6";
-		case EC_NUM7: return "Num 7";
-		case EC_NUM8: return "Num 8";
-		case EC_NUM9: return "Num 9";
-		case EC_NUMDIV: return "Num Div";
-		case EC_NUMMUL: return "Num Mult";
-		case EC_NUMSUB: return "Num Sub";
-		case EC_NUMPER: return "Num Period";
-		case EC_NUMCOM: return "Num Comma";
-		case EC_NUMADD: return "Num Add";
-		case EC_PRINT: return "Print";
-		default: return "";
+		case EC_JOY1_UP:
+			return UI_TEXT("Up");
+		case EC_JOY1_RIGHT:
+			return UI_TEXT("Right");
+		case EC_JOY1_DOWN:
+			return UI_TEXT("Down");
+		case EC_JOY1_LEFT:
+			return UI_TEXT("Left");
+		case EC_JOY1_BUTTON1:
+			return UI_TEXT("Button 1");
+		case EC_JOY1_BUTTON2:
+			return UI_TEXT("Button 2");
+		case EC_COLECO1_0:
+			return UI_TEXT("Coleco 0");
+		case EC_COLECO1_1:
+			return UI_TEXT("Coleco 1");
+		case EC_COLECO1_2:
+			return UI_TEXT("Coleco 2");
+		case EC_COLECO1_3:
+			return UI_TEXT("Coleco 3");
+		case EC_COLECO1_4:
+			return UI_TEXT("Coleco 4");
+		case EC_COLECO1_5:
+			return UI_TEXT("Coleco 5");
+		case EC_COLECO1_6:
+			return UI_TEXT("Coleco 6");
+		case EC_COLECO1_7:
+			return UI_TEXT("Coleco 7");
+		case EC_COLECO1_8:
+			return UI_TEXT("Coleco 8");
+		case EC_COLECO1_9:
+			return UI_TEXT("Coleco 9");
+		case EC_COLECO1_STAR:
+			return UI_TEXT("Coleco *");
+		case EC_COLECO1_HASH:
+			return UI_TEXT("Coleco #");
+		case EC_TOGGLE_KB:
+			return UI_TEXT("Toggle Keyboard");
+		case EC_F1:
+			return UI_TEXT("F1");
+		case EC_F2:
+			return UI_TEXT("F2");
+		case EC_F3:
+			return UI_TEXT("F3");
+		case EC_F4:
+			return UI_TEXT("F4");
+		case EC_F5:
+			return UI_TEXT("F5");
+		case EC_STOP:
+			return UI_TEXT("Stop");
+		case EC_CLS:
+			return UI_TEXT("Cls");
+		case EC_SELECT:
+			return UI_TEXT("Select");
+		case EC_INS:
+			return UI_TEXT("Ins");
+		case EC_DEL:
+			return UI_TEXT("Del");
+		case EC_ESC:
+			return UI_TEXT("Esc");
+		case EC_1:
+			return UI_TEXT("1 ⇧!");
+		case EC_2:
+			return UI_TEXT("2 ⇧\"");
+		case EC_3:
+			return UI_TEXT("3 ⇧#");
+		case EC_4:
+			return UI_TEXT("4 ⇧$");
+		case EC_5:
+			return UI_TEXT("5 ⇧%");
+		case EC_6:
+			return UI_TEXT("6 ⇧&");
+		case EC_7:
+			return UI_TEXT("7 ⇧'");
+		case EC_8:
+			return UI_TEXT("8 ⇧(");
+		case EC_9:
+			return UI_TEXT("9 ⇧)");
+		case EC_0:
+			return UI_TEXT("0");
+		case EC_NEG:
+			return UI_TEXT("- ⇧=");
+		case EC_CIRCFLX:
+			return UI_TEXT("^ ⇧~");
+		case EC_BKSLASH:
+			return UI_TEXT("\\ ⇧|");
+		case EC_BKSPACE:
+			return UI_TEXT("Backspace");
+		case EC_TAB:
+			return UI_TEXT("Tab");
+		case EC_Q:
+			return UI_TEXT("Q");
+		case EC_W:
+			return UI_TEXT("W");
+		case EC_E:
+			return UI_TEXT("E");
+		case EC_R:
+			return UI_TEXT("R");
+		case EC_T:
+			return UI_TEXT("T");
+		case EC_Y:
+			return UI_TEXT("Y");
+		case EC_U:
+			return UI_TEXT("U");
+		case EC_I:
+			return UI_TEXT("I");
+		case EC_O:
+			return UI_TEXT("O");
+		case EC_P:
+			return UI_TEXT("P");
+		case EC_AT:
+			return UI_TEXT("@ ⇧`");
+		case EC_LBRACK:
+			return UI_TEXT("[ ⇧{");
+		case EC_RETURN:
+			return UI_TEXT("Return");
+		case EC_CTRL:
+			return UI_TEXT("Ctrl");
+		case EC_A:
+			return UI_TEXT("A");
+		case EC_S:
+			return UI_TEXT("S");
+		case EC_D:
+			return UI_TEXT("D");
+		case EC_F:
+			return UI_TEXT("F");
+		case EC_G:
+			return UI_TEXT("G");
+		case EC_H:
+			return UI_TEXT("H");
+		case EC_J:
+			return UI_TEXT("J");
+		case EC_K:
+			return UI_TEXT("K");
+		case EC_L:
+			return UI_TEXT("L");
+		case EC_SEMICOL:
+			return UI_TEXT("); ⇧+");
+		case EC_COLON:
+			return UI_TEXT(": ⇧*");
+		case EC_RBRACK:
+			return UI_TEXT("] ⇧}");
+		case EC_LSHIFT:
+			return UI_TEXT("Left Shift");
+		case EC_Z:
+			return UI_TEXT("Z");
+		case EC_X:
+			return UI_TEXT("X");
+		case EC_C:
+			return UI_TEXT("C");
+		case EC_V:
+			return UI_TEXT("V");
+		case EC_B:
+			return UI_TEXT("B");
+		case EC_N:
+			return UI_TEXT("N");
+		case EC_M:
+			return UI_TEXT("M");
+		case EC_COMMA:
+			return UI_TEXT(", ⇧<");
+		case EC_PERIOD:
+			return UI_TEXT(". ⇧>");
+		case EC_DIV:
+			return UI_TEXT("/ ⇧?");
+		case EC_UNDSCRE:
+			return UI_TEXT("_");
+		case EC_RSHIFT:
+			return UI_TEXT("Right Shift");
+		case EC_CAPS:
+			return UI_TEXT("Caps");
+		case EC_GRAPH:
+			return UI_TEXT("Graph");
+		case EC_TORIKE:
+			return UI_TEXT("Cancel");
+		case EC_SPACE:
+			return UI_TEXT("Space");
+		case EC_JIKKOU:
+			return UI_TEXT("Execute");
+		case EC_CODE:
+			return UI_TEXT("Code");
+		case EC_PAUSE:
+			return UI_TEXT("Pause");
+		case EC_UP:
+			return UI_TEXT("Up Arrow");
+		case EC_RIGHT:
+			return UI_TEXT("Right Arrow");
+		case EC_DOWN:
+			return UI_TEXT("Down Arrow");
+		case EC_LEFT:
+			return UI_TEXT("Left Arrow");
+		case EC_NUM0:
+			return UI_TEXT("Num 0");
+		case EC_NUM1:
+			return UI_TEXT("Num 1");
+		case EC_NUM2:
+			return UI_TEXT("Num 2");
+		case EC_NUM3:
+			return UI_TEXT("Num 3");
+		case EC_NUM4:
+			return UI_TEXT("Num 4");
+		case EC_NUM5:
+			return UI_TEXT("Num 5");
+		case EC_NUM6:
+			return UI_TEXT("Num 6");
+		case EC_NUM7:
+			return UI_TEXT("Num 7");
+		case EC_NUM8:
+			return UI_TEXT("Num 8");
+		case EC_NUM9:
+			return UI_TEXT("Num 9");
+		case EC_NUMDIV:
+			return UI_TEXT("Num Div");
+		case EC_NUMMUL:
+			return UI_TEXT("Num Mult");
+		case EC_NUMSUB:
+			return UI_TEXT("Num Sub");
+		case EC_NUMPER:
+			return UI_TEXT("Num Period");
+		case EC_NUMCOM:
+			return UI_TEXT("Num Comma");
+		case EC_NUMADD:
+			return UI_TEXT("Num Add");
+		case EC_PRINT:
+			return UI_TEXT("Print");
+		default: return UI_TEXT("");
 	}
 }
 
@@ -503,11 +638,26 @@ SystemInputDeviceDesc AppMeta::inputDeviceDesc(int idx)
 {
 	static constexpr std::array jsComponents
 	{
-		InputComponentDesc{"D-Pad", dpadKeyInfo, InputComponent::dPad, LB2DO},
-		InputComponentDesc{"Joystick Buttons", faceKeyInfo, InputComponent::button, RB2DO},
-		InputComponentDesc{"Space & Keyboard Toggle", shortcutKeyInfo, InputComponent::button, RB2DO, {.rowSize = 1}},
+		InputComponentDesc
+		{
+			UI_TEXT("D-Pad"),
+			dpadKeyInfo, InputComponent::dPad, LB2DO
+		},
+		InputComponentDesc
+		{
+			UI_TEXT("Joystick Buttons"),
+			faceKeyInfo, InputComponent::button, RB2DO
+		},
+		InputComponentDesc
+		{
+			UI_TEXT("Space & Keyboard Toggle"),
+			shortcutKeyInfo, InputComponent::button, RB2DO, {.rowSize = 1}
+		},
 	};
-	static constexpr SystemInputDeviceDesc jsDesc{"Joystick", jsComponents};
+	static constexpr SystemInputDeviceDesc jsDesc
+	{
+		UI_TEXT("Joystick"), jsComponents
+	};
 	return jsDesc;
 }
 
