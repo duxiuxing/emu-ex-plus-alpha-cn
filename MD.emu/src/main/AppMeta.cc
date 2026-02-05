@@ -117,7 +117,7 @@ std::string_view AppMeta::systemKeyCodeToString(KeyCode c)
 	switch(MdKey(c))
 	{
 		case MdKey::Up:
-			return UI_TEXT("Up)";
+			return UI_TEXT("Up");
 		case MdKey::Right:
 			return UI_TEXT("Right");
 		case MdKey::Down:

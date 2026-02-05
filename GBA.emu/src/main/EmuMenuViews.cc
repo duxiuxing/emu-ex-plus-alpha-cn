@@ -644,7 +644,9 @@ public:
 
 static auto cheatInputString(bool isGSv3)
 {
-	return isGSv3 ? "Input xxxxxxxx yyyyyyyy" : "Input xxxxxxxx yyyyyyyy (GS) or xxxxxxxx yyyy (AR)";
+	return isGSv3
+		? UI_TEXT("Input xxxxxxxx yyyyyyyy")
+		: UI_TEXT("Input xxxxxxxx yyyyyyyy (GS) or xxxxxxxx yyyy (AR)");
 }
 
 class EditCheatView : public BaseEditCheatView
