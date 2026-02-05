@@ -555,7 +555,7 @@ SystemInputDeviceDesc AppMeta::inputDeviceDesc(int idx)
 		},
 		InputComponentDesc
 		{
-			I_TEXT("Joystick Button"),
+			UI_TEXT("Joystick Button"),
 			triggerKeyInfo, InputComponent::button, RB2DO
 		},
 		InputComponentDesc
