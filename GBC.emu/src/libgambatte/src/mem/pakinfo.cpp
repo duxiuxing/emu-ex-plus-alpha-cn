@@ -83,7 +83,7 @@ std::string const PakInfo::mbc() const {
 	std::string h147str = h147ToCstr(h144x_[3]);
 
 	if (flags_ & flag_multipak)
-		h147str += " (Custom MultiPak)";
+		h147str += UI_TEXT(" (Custom MultiPak)");
 
 	return h147str;
 }
