@@ -232,7 +232,7 @@ SystemInputDeviceDesc AppMeta::inputDeviceDesc(int idx)
 		},
 		InputComponentDesc
 		{
-			I_TEXT("Start"),
+			UI_TEXT("Start"),
 			{&centerKeyInfo[1], 1}, InputComponent::button, RB2DO
 		},
 		InputComponentDesc
