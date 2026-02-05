@@ -24,7 +24,10 @@ import std;
 namespace EmuEx
 {
 
-const std::string_view AppMeta::creditsViewStr{CREDITS_INFO_STRING "(c) 2011-2026\nRobert Broglia\nwww.explusalpha.com\n\nPortions (c) the\nMednafen Team\nmednafen.github.io"};
+const std::string_view AppMeta::creditsViewStr
+{
+	UI_TEXT(CREDITS_INFO_STRING "(c) 2011-2026\nRobert Broglia\nwww.explusalpha.com\n\nPortions (c) the\nMednafen Team\nmednafen.github.io")
+};
 const std::string_view AppMeta::configFilename{"PceEmu.config"};
 const bool AppMeta::hasRectangularPixels{true};
 const bool AppMeta::stateSizeChangesAtRuntime{true};
@@ -68,11 +71,31 @@ std::span<const KeyCategory> AppMeta::keyCategories()
 {
 	static constexpr std::array categories
 	{
-		KeyCategory{"Gamepad", gpKeyInfo},
-		KeyCategory{"Gamepad 2", gp2KeyInfo, 1},
-		KeyCategory{"Gamepad 3", gp3KeyInfo, 2},
-		KeyCategory{"Gamepad 4", gp4KeyInfo, 3},
-		KeyCategory{"Gamepad 5", gp5KeyInfo, 4},
+		KeyCategory
+		{
+			UI_TEXT("Gamepad"),
+			gpKeyInfo
+		},
+		KeyCategory
+		{
+			UI_TEXT("Gamepad 2"),
+			gp2KeyInfo, 1
+		},
+		KeyCategory
+		{
+			UI_TEXT("Gamepad 3"),
+			gp3KeyInfo, 2
+		},
+		KeyCategory
+		{
+			UI_TEXT("Gamepad 4"),
+			gp4KeyInfo, 3
+		},
+		KeyCategory
+		{
+			UI_TEXT("Gamepad 5"),
+			gp5KeyInfo, 4
+		},
 	};
 	return categories;
 }
@@ -81,18 +104,30 @@ std::string_view AppMeta::systemKeyCodeToString(KeyCode c)
 {
 	switch(PceKey(c))
 	{
-		case PceKey::Up: return "Up";
-		case PceKey::Right: return "Right";
-		case PceKey::Down: return "Down";
-		case PceKey::Left: return "Left";
-		case PceKey::Select: return "Select";
-		case PceKey::Run: return "Run";
-		case PceKey::I: return "I";
-		case PceKey::II: return "II";
-		case PceKey::III: return "III";
-		case PceKey::IV: return "IV";
-		case PceKey::V: return "V";
-		case PceKey::VI: return "VI";
+		case PceKey::Up:
+			return UI_TEXT("Up");
+		case PceKey::Right:
+			return UI_TEXT("Right");
+		case PceKey::Down:
+			return UI_TEXT("Down");
+		case PceKey::Left:
+			return UI_TEXT("Left");
+		case PceKey::Select:
+			return UI_TEXT("Select");
+		case PceKey::Run:
+			return UI_TEXT("Run");
+		case PceKey::I:
+			return UI_TEXT("I");
+		case PceKey::II:
+			return UI_TEXT("II");
+		case PceKey::III:
+			return UI_TEXT("III");
+		case PceKey::IV:
+			return UI_TEXT("IV");
+		case PceKey::V:
+			return UI_TEXT("V");
+		case PceKey::VI:
+			return UI_TEXT("VI");
 		default: return "";
 	}
 }
@@ -204,13 +239,37 @@ SystemInputDeviceDesc AppMeta::inputDeviceDesc(int idx)
 {
 	static constexpr std::array gamepadComponents
 	{
-		InputComponentDesc{"D-Pad", dpadKeyInfo, InputComponent::dPad, LB2DO},
-		InputComponentDesc{"Face Buttons", faceKeyInfo, InputComponent::button, RB2DO},
-		InputComponentDesc{"Select", {&centerKeyInfo[0], 1}, InputComponent::button, LB2DO},
-		InputComponentDesc{"Run", {&centerKeyInfo[1], 1}, InputComponent::button, RB2DO},
-		InputComponentDesc{"Select/Run", centerKeyInfo, InputComponent::button, CB2DO, {.altConfig = true}},
+		InputComponentDesc
+		{
+			UI_TEXT("D-Pad"),
+			dpadKeyInfo, InputComponent::dPad, LB2DO
+		},
+		InputComponentDesc
+		{
+			UI_TEXT("Face Buttons"),
+			faceKeyInfo, InputComponent::button, RB2DO
+		},
+		InputComponentDesc
+		{
+			UI_TEXT("Select"),
+			{&centerKeyInfo[0], 1}, InputComponent::button, LB2DO
+		},
+		InputComponentDesc
+		{
+			UI_TEXT("Run"),
+			{&centerKeyInfo[1], 1}, InputComponent::button, RB2DO
+		},
+		InputComponentDesc
+		{
+			UI_TEXT("Select/Run"),
+			centerKeyInfo, InputComponent::button, CB2DO, {.altConfig = true}
+		},
 	};
-	static constexpr SystemInputDeviceDesc gamepadDesc{"Gamepad", gamepadComponents};
+	static constexpr SystemInputDeviceDesc gamepadDesc
+	{
+		UI_TEXT("Gamepad"),
+		gamepadComponents
+	};
 	return gamepadDesc;
 }
 

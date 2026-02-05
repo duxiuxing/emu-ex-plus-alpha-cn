@@ -23,7 +23,10 @@ import std;
 namespace EmuEx
 {
 
-const std::string_view AppMeta::creditsViewStr{CREDITS_INFO_STRING "(c) 2013-2026\nRobert Broglia\nwww.explusalpha.com\n\nPortions (c) the\nVice Team\nvice-emu.sourceforge.io"};
+const std::string_view AppMeta::creditsViewStr
+{
+	UI_TEXT(CREDITS_INFO_STRING "(c) 2013-2026\nRobert Broglia\nwww.explusalpha.com\n\nPortions (c) the\nVice Team\nvice-emu.sourceforge.io")
+};
 const std::string_view AppMeta::configFilename{"C64Emu.config"};
 const bool AppMeta::hasPALVideoSystem{true};
 const bool AppMeta::hasResetModes{true};
@@ -157,10 +160,22 @@ std::span<const KeyCategory> AppMeta::keyCategories()
 {
 	static constexpr KeyCategory categories[]
 	{
-		{"Joystick", jsKeyInfo},
-		{"Joystick 2", js2KeyInfo, 1},
-		{"Special Functions", specialFunctionKeyInfo},
-		{"Keyboard", kbKeyInfo},
+		{
+			UI_TEXT("Joystick"),
+			jsKeyInfo
+		},
+		{
+			UI_TEXT("Joystick 2"),
+			js2KeyInfo, 1
+		},
+		{
+			UI_TEXT("Special Functions"),
+			specialFunctionKeyInfo
+		},
+		{
+			UI_TEXT("Keyboard"),
+			kbKeyInfo
+		},
 	};
 	return categories;
 }
@@ -169,100 +184,194 @@ std::string_view AppMeta::systemKeyCodeToString(KeyCode c)
 {
 	switch(C64Key(c))
 	{
-		case C64Key::Up: return "Up";
-		case C64Key::Right: return "Right";
-		case C64Key::Down: return "Down";
-		case C64Key::Left: return "Left";
-		case C64Key::JSTrigger: return "Trigger";
-		case C64Key::SwapJSPorts: return "Swap Ports";
-		case C64Key::ToggleKB: return "Toggle Keyboard";
-		case C64Key::KeyboardF1: return "F1";
-		case C64Key::KeyboardF2: return "F2";
-		case C64Key::KeyboardF3: return "F3";
-		case C64Key::KeyboardF4: return "F4";
-		case C64Key::KeyboardF5: return "F5";
-		case C64Key::KeyboardF6: return "F6";
-		case C64Key::KeyboardF7: return "F7";
-		case C64Key::KeyboardF8: return "F8";
-		case C64Key::KeyboardLeftArrow: return "←";
-		case C64Key::Keyboard1: return "1";
-		case C64Key::Keyboard2: return "2";
-		case C64Key::Keyboard3: return "3";
-		case C64Key::Keyboard4: return "4";
-		case C64Key::Keyboard5: return "5";
-		case C64Key::Keyboard6: return "6";
-		case C64Key::Keyboard7: return "7";
-		case C64Key::Keyboard8: return "8";
-		case C64Key::Keyboard9: return "9";
-		case C64Key::Keyboard0: return "0";
-		case C64Key::KeyboardPlus: return "+";
-		case C64Key::KeyboardMinus: return "-";
-		case C64Key::KeyboardPound: return "£";
-		case C64Key::KeyboardClrHome: return "Clr Home";
-		case C64Key::KeyboardInstDel: return "Inst Del";
-		case C64Key::KeyboardCtrl: return "Ctrl";
-		case C64Key::KeyboardQ: return "Q";
-		case C64Key::KeyboardW: return "W";
-		case C64Key::KeyboardE: return "E";
-		case C64Key::KeyboardR: return "R";
-		case C64Key::KeyboardT: return "T";
-		case C64Key::KeyboardY: return "Y";
-		case C64Key::KeyboardU: return "U";
-		case C64Key::KeyboardI: return "I";
-		case C64Key::KeyboardO: return "O";
-		case C64Key::KeyboardP: return "P";
-		case C64Key::KeyboardAt: return "@";
-		case C64Key::KeyboardAsterisk: return "*";
-		case C64Key::KeyboardUpArrow: return "↑";
-		case C64Key::KeyboardRestore: return "Restore";
-		case C64Key::KeyboardRunStop: return "Run Stop";
-		case C64Key::KeyboardShiftLock: return "Shift Lock";
-		case C64Key::KeyboardA: return "A";
-		case C64Key::KeyboardS: return "S";
-		case C64Key::KeyboardD: return "D";
-		case C64Key::KeyboardF: return "F";
-		case C64Key::KeyboardG: return "G";
-		case C64Key::KeyboardH: return "H";
-		case C64Key::KeyboardJ: return "J";
-		case C64Key::KeyboardK: return "K";
-		case C64Key::KeyboardL: return "L";
-		case C64Key::KeyboardColon: return ":";
-		case C64Key::KeyboardSemiColon: return ";";
-		case C64Key::KeyboardEquals: return "=";
-		case C64Key::KeyboardReturn: return "Return";
-		case C64Key::KeyboardCommodore: return "Commodore Logo";
-		case C64Key::KeyboardLeftShift: return "Left Shift";
-		case C64Key::KeyboardZ: return "Z";
-		case C64Key::KeyboardX: return "X";
-		case C64Key::KeyboardC: return "C";
-		case C64Key::KeyboardV: return "V";
-		case C64Key::KeyboardB: return "B";
-		case C64Key::KeyboardN: return "N";
-		case C64Key::KeyboardM: return "M";
-		case C64Key::KeyboardComma: return ",";
-		case C64Key::KeyboardPeriod: return ".";
-		case C64Key::KeyboardSlash: return "/";
-		case C64Key::KeyboardRightShift: return "Right Shift";
-		case C64Key::KeyboardUp: return "Up";
-		case C64Key::KeyboardRight: return "Right";
-		case C64Key::KeyboardDown: return "Down";
-		case C64Key::KeyboardLeft: return "Left";
-		case C64Key::KeyboardSpace: return "Space";
-		case C64Key::KeyboardCtrlLock: return "Ctrl Lock";
-		case C64Key::KeyboardExclam: return "!";
-		case C64Key::KeyboardQuoteDbl: return "\"";
-		case C64Key::KeyboardNumberSign: return "#";
-		case C64Key::KeyboardDollar: return "$";
-		case C64Key::KeyboardPercent: return "%";
-		case C64Key::KeyboardAmpersand: return "&";
-		case C64Key::KeyboardParenLeft: return "(";
-		case C64Key::KeyboardParenRight: return ")";
-		case C64Key::KeyboardBracketLeft: return "[";
-		case C64Key::KeyboardBracketRight: return "]";
-		case C64Key::KeyboardLess: return "<";
-		case C64Key::KeyboardGreater: return ">";
-		case C64Key::KeyboardQuestion: return "?";
-		case C64Key::KeyboardApostrophe: return "'";
+		case C64Key::Up:
+			return UI_TEXT("Up");
+		case C64Key::Right:
+			return UI_TEXT("Right");
+		case C64Key::Down:
+			return UI_TEXT("Down");
+		case C64Key::Left:
+			return UI_TEXT("Left");
+		case C64Key::JSTrigger:
+			return UI_TEXT("Trigger");
+		case C64Key::SwapJSPorts:
+			return UI_TEXT("Swap Ports");
+		case C64Key::ToggleKB:
+			return UI_TEXT("Toggle Keyboard");
+		case C64Key::KeyboardF1:
+			return UI_TEXT("F1");
+		case C64Key::KeyboardF2:
+			return UI_TEXT("F2");
+		case C64Key::KeyboardF3:
+			return UI_TEXT("F3");
+		case C64Key::KeyboardF4:
+			return UI_TEXT("F4");
+		case C64Key::KeyboardF5:
+			return UI_TEXT("F5");
+		case C64Key::KeyboardF6:
+			return UI_TEXT("F6");
+		case C64Key::KeyboardF7:
+			return UI_TEXT("F7");
+		case C64Key::KeyboardF8:
+			return UI_TEXT("F8");
+		case C64Key::KeyboardLeftArrow:
+			return UI_TEXT("←");
+		case C64Key::Keyboard1:
+			return UI_TEXT("1");
+		case C64Key::Keyboard2:
+			return UI_TEXT("2");
+		case C64Key::Keyboard3:
+			return UI_TEXT("3");
+		case C64Key::Keyboard4:
+			return UI_TEXT("4");
+		case C64Key::Keyboard5:
+			return UI_TEXT("5");
+		case C64Key::Keyboard6:
+			return UI_TEXT("6");
+		case C64Key::Keyboard7:
+			return UI_TEXT("7");
+		case C64Key::Keyboard8:
+			return UI_TEXT("8");
+		case C64Key::Keyboard9:
+			return UI_TEXT("9");
+		case C64Key::Keyboard0:
+			return UI_TEXT("0");
+		case C64Key::KeyboardPlus:
+			return UI_TEXT("+");
+		case C64Key::KeyboardMinus:
+			return UI_TEXT("-");
+		case C64Key::KeyboardPound:
+			return UI_TEXT("£");
+		case C64Key::KeyboardClrHome:
+			return UI_TEXT("Clr Home");
+		case C64Key::KeyboardInstDel:
+			return UI_TEXT("Inst Del");
+		case C64Key::KeyboardCtrl:
+			return UI_TEXT("Ctrl");
+		case C64Key::KeyboardQ:
+			return UI_TEXT("Q");
+		case C64Key::KeyboardW:
+			return UI_TEXT("W");
+		case C64Key::KeyboardE:
+			return UI_TEXT("E");
+		case C64Key::KeyboardR:
+			return UI_TEXT("R");
+		case C64Key::KeyboardT:
+			return UI_TEXT("T");
+		case C64Key::KeyboardY:
+			return UI_TEXT("Y");
+		case C64Key::KeyboardU:
+			return UI_TEXT("U");
+		case C64Key::KeyboardI:
+			return UI_TEXT("I");
+		case C64Key::KeyboardO:
+			return UI_TEXT("O");
+		case C64Key::KeyboardP:
+			return UI_TEXT("P");
+		case C64Key::KeyboardAt:
+			return UI_TEXT("@");
+		case C64Key::KeyboardAsterisk:
+			return UI_TEXT("*");
+		case C64Key::KeyboardUpArrow:
+			return UI_TEXT("↑");
+		case C64Key::KeyboardRestore:
+			return UI_TEXT("Restore");
+		case C64Key::KeyboardRunStop:
+			return UI_TEXT("Run Stop");
+		case C64Key::KeyboardShiftLock:
+			return UI_TEXT("Shift Lock");
+		case C64Key::KeyboardA:
+			return UI_TEXT("A");
+		case C64Key::KeyboardS:
+			return UI_TEXT("S");
+		case C64Key::KeyboardD:
+			return UI_TEXT("D");
+		case C64Key::KeyboardF:
+			return UI_TEXT("F");
+		case C64Key::KeyboardG:
+			return UI_TEXT("G");
+		case C64Key::KeyboardH:
+			return UI_TEXT("H");
+		case C64Key::KeyboardJ:
+			return UI_TEXT("J");
+		case C64Key::KeyboardK:
+			return UI_TEXT("K");
+		case C64Key::KeyboardL:
+			return UI_TEXT("L");
+		case C64Key::KeyboardColon:
+			return UI_TEXT(":");
+		case C64Key::KeyboardSemiColon:
+			return UI_TEXT(";");
+		case C64Key::KeyboardEquals:
+			return UI_TEXT("=");
+		case C64Key::KeyboardReturn:
+			return UI_TEXT("Return");
+		case C64Key::KeyboardCommodore:
+			return UI_TEXT("Commodore Logo");
+		case C64Key::KeyboardLeftShift:
+			return UI_TEXT("Left Shift");
+		case C64Key::KeyboardZ:
+			return UI_TEXT("Z");
+		case C64Key::KeyboardX:
+			return UI_TEXT("X");
+		case C64Key::KeyboardC:
+			return UI_TEXT("C");
+		case C64Key::KeyboardV:
+			return UI_TEXT("V");
+		case C64Key::KeyboardB:
+			return UI_TEXT("B");
+		case C64Key::KeyboardN:
+			return UI_TEXT("N");
+		case C64Key::KeyboardM:
+			return UI_TEXT("M");
+		case C64Key::KeyboardComma:
+			return UI_TEXT(",");
+		case C64Key::KeyboardPeriod:
+			return UI_TEXT(".");
+		case C64Key::KeyboardSlash:
+			return UI_TEXT("/");
+		case C64Key::KeyboardRightShift:
+			return UI_TEXT("Right Shift");
+		case C64Key::KeyboardUp:
+			return UI_TEXT("Up");
+		case C64Key::KeyboardRight:
+			return UI_TEXT("Right");
+		case C64Key::KeyboardDown:
+			return UI_TEXT("Down");
+		case C64Key::KeyboardLeft:
+			return UI_TEXT("Left");
+		case C64Key::KeyboardSpace:
+			return UI_TEXT("Space");
+		case C64Key::KeyboardCtrlLock:
+			return UI_TEXT("Ctrl Lock");
+		case C64Key::KeyboardExclam:
+			return UI_TEXT("!");
+		case C64Key::KeyboardQuoteDbl:
+			return UI_TEXT("\"");
+		case C64Key::KeyboardNumberSign:
+			return UI_TEXT("#");
+		case C64Key::KeyboardDollar:
+			return UI_TEXT("$");
+		case C64Key::KeyboardPercent:
+			return UI_TEXT("%");
+		case C64Key::KeyboardAmpersand:
+			return UI_TEXT("&");
+		case C64Key::KeyboardParenLeft:
+			return UI_TEXT("(");
+		case C64Key::KeyboardParenRight:
+			return UI_TEXT(")");
+		case C64Key::KeyboardBracketLeft:
+			return UI_TEXT("[");
+		case C64Key::KeyboardBracketRight:
+			return UI_TEXT("]");
+		case C64Key::KeyboardLess:
+			return UI_TEXT("<");
+		case C64Key::KeyboardGreater:
+			return UI_TEXT(">");
+		case C64Key::KeyboardQuestion:
+			return UI_TEXT("?");
+		case C64Key::KeyboardApostrophe:
+			return UI_TEXT("'");
 		default: return "";
 	}
 }
@@ -439,12 +548,28 @@ SystemInputDeviceDesc AppMeta::inputDeviceDesc(int idx)
 {
 	static constexpr std::array jsComponents
 	{
-		InputComponentDesc{"D-Pad", dpadKeyInfo, InputComponent::dPad, LB2DO},
-		InputComponentDesc{"Joystick Button", triggerKeyInfo, InputComponent::button, RB2DO},
-		InputComponentDesc{"F1 & Keyboard Toggle", shortcutKeyInfo, InputComponent::button, RB2DO, {.rowSize = 1}},
+		InputComponentDesc
+		{
+			UI_TEXT("D-Pad"),
+			dpadKeyInfo, InputComponent::dPad, LB2DO
+		},
+		InputComponentDesc
+		{
+			I_TEXT("Joystick Button"),
+			triggerKeyInfo, InputComponent::button, RB2DO
+		},
+		InputComponentDesc
+		{
+			UI_TEXT("F1 & Keyboard Toggle"),
+			shortcutKeyInfo, InputComponent::button, RB2DO, {.rowSize = 1}
+		},
 	};
 
-	static constexpr SystemInputDeviceDesc jsDesc{"Joystick", jsComponents};
+	static constexpr SystemInputDeviceDesc jsDesc
+	{
+		UI_TEXT("Joystick"),
+		jsComponents
+	};
 
 	return jsDesc;
 }
