@@ -2,6 +2,11 @@
 
 #include <cstring>
 
+#ifndef UI_TEXT_IMPL
+	#define UI_TEXT_IMPL
+	#define UI_TEXT(x)	x
+#endif
+
 namespace gambatte {
 
 enum { flag_multipak = 1, flag_header_checksum_ok = 2, };
