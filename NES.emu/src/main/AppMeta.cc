@@ -81,27 +81,27 @@ std::span<const KeyCategory> AppMeta::keyCategories()
 	{
 		KeyCategory
 		{
-			UI_TEXT("Gamepad"),
+			UI_TEXT("游戏按键"),
 			gpKeyInfo
 		},
 		KeyCategory
 		{
-			UI_TEXT("Gamepad 2"),
+			UI_TEXT("游戏按键 (2号手柄)"),
 			gp2KeyInfo, 1
 		},
 		KeyCategory
 		{
-			UI_TEXT("Gamepad 3"),
+			UI_TEXT("游戏按键 (3号手柄)"),
 			gp3KeyInfo, 2
 		},
 		KeyCategory
 		{
-			UI_TEXT("Gamepad 4"),
+			UI_TEXT("游戏按键 (4号手柄)"),
 			gp4KeyInfo, 3
 		},
 		KeyCategory
 		{
-			UI_TEXT("Extra Functions"),
+			UI_TEXT("其他操作"),
 			exKeyInfo
 		},
 	};
@@ -113,23 +113,23 @@ std::string_view AppMeta::systemKeyCodeToString(KeyCode c)
 	switch(NesKey(c))
 	{
 		case NesKey::Up:
-			return UI_TEXT("Up");
+			return UI_TEXT("方向键上");
 		case NesKey::Right:
-			return UI_TEXT("Right");
+			return UI_TEXT("方向键右");
 		case NesKey::Down:
-			return UI_TEXT("Down");
+			return UI_TEXT("方向键下");
 		case NesKey::Left:
-			return UI_TEXT("Left");
+			return UI_TEXT("方向键左");
 		case NesKey::Select:
-			return UI_TEXT("Select");
+			return UI_TEXT("选择键");
 		case NesKey::Start:
-			return UI_TEXT("Start");
+			return UI_TEXT("开始键");
 		case NesKey::A:
-			return UI_TEXT("A");
+			return UI_TEXT("A 键");
 		case NesKey::B:
-			return UI_TEXT("B");
+			return UI_TEXT("B 键");
 		case NesKey::toggleDiskSide:
-			return UI_TEXT("Eject Disk/Switch Side");
+			return UI_TEXT("弹出磁碟/磁碟翻面");
 		default: return "";
 	}
 }
@@ -227,38 +227,38 @@ SystemInputDeviceDesc AppMeta::inputDeviceDesc(int idx)
 	{
 		InputComponentDesc
 		{
-			UI_TEXT("D-Pad"),
+			UI_TEXT("方向键"),
 			dpadKeyInfo, InputComponent::dPad, LB2DO
 		},
 		InputComponentDesc
 		{
-			UI_TEXT("Face Buttons"),
+			UI_TEXT("动作键"),
 			faceKeyInfo, InputComponent::button, RB2DO
 		},
 		InputComponentDesc
 		{
-			UI_TEXT("Select"),
+			UI_TEXT("选择键"),
 			{&centerKeyInfo[0], 1}, InputComponent::button, LB2DO
 		},
 		InputComponentDesc
 		{
-			UI_TEXT("Start"),
+			UI_TEXT("开始键"),
 			{&centerKeyInfo[1], 1}, InputComponent::button, RB2DO
 		},
 		InputComponentDesc
 		{
-			UI_TEXT("Select/Start"),
+			UI_TEXT("选择/开始键"),
 			centerKeyInfo, InputComponent::button, CB2DO, {.altConfig = true}
 		},
 		InputComponentDesc
 		{
-			UI_TEXT("P2 Start (Famicom Microphone)"),
+			UI_TEXT("开始键 (2号玩家)"),
 			p2StartKeyInfo, InputComponent::button, RB2DO, {.altConfig = true}
 		},
 	};
 	static constexpr SystemInputDeviceDesc gamepadDesc
 	{
-		UI_TEXT("Gamepad"),
+		UI_TEXT("游戏按键"),
 		gamepadComponents
 	};
 	return gamepadDesc;
