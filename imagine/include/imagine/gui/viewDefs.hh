@@ -26,7 +26,7 @@
 namespace IG::ViewDefs
 {
 
-inline constexpr bool needsBackControlDefault = !Config::envIsAndroid;
+inline constexpr bool needsBackControlDefault = true;
 inline constexpr bool needsBackControlIsMutable = !Config::envIsIOS;
 inline constexpr auto imageSamplerConfig = Gfx::SamplerConfigs::nearestMipClamp;
 
