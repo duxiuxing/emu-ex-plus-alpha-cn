@@ -113,13 +113,13 @@ std::string_view AppMeta::systemKeyCodeToString(KeyCode c)
 	switch(NesKey(c))
 	{
 		case NesKey::Up:
-			return UI_TEXT("方向键上");
+			return UI_TEXT("方向键的上");
 		case NesKey::Right:
-			return UI_TEXT("方向键右");
+			return UI_TEXT("方向键的右");
 		case NesKey::Down:
-			return UI_TEXT("方向键下");
+			return UI_TEXT("方向键的下");
 		case NesKey::Left:
-			return UI_TEXT("方向键左");
+			return UI_TEXT("方向键的左");
 		case NesKey::Select:
 			return UI_TEXT("选择键");
 		case NesKey::Start:

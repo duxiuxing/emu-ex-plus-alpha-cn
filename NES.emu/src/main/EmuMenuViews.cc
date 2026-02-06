@@ -763,7 +763,7 @@ class CustomFilePathOptionView : public FilePathOptionView, public MainAppHelper
 		[this](TextMenuItem &, View &, Input::Event e)
 		{
 			pushAndShow(makeViewWithName<DataFileSelectView<>>(
-				UI_TEXT("磁碟机 BIOS"),
+				UI_TEXT("磁碟机的 BIOS 文件"),
 				app().validSearchPath(FS::dirnameUri(system().fdsBiosPath)),
 				[this](CStringView path, FS::file_type type)
 				{
