@@ -36,7 +36,11 @@ import std;
 namespace EmuEx
 {
 
-inline constexpr KeyCategory appKeyCategory{"In-Emulation Actions", appKeys};
+inline constexpr KeyCategory appKeyCategory
+{
+	UI_TEXT("In-Emulation Actions"),
+	appKeys
+};
 
 class InputManager
 {
