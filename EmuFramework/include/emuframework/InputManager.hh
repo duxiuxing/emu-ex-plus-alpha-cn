@@ -38,7 +38,7 @@ namespace EmuEx
 
 inline constexpr KeyCategory appKeyCategory
 {
-	UI_TEXT("In-Emulation Actions"),
+	UI_TEXT("快捷按键"),
 	appKeys
 };
 

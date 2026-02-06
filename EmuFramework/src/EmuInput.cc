@@ -679,17 +679,17 @@ std::string_view toString(AppKeyCode code)
 		case AppKeyCode::openMenu:
 			return UI_TEXT("打开菜单");
 		case AppKeyCode::toggleFastForward:
-			return UI_TEXT("快进切换");
+			return UI_TEXT("切换快进");
 		case AppKeyCode::turboModifier:
-			return UI_TEXT("连发调节");
+			return UI_TEXT("调节连发");
 		case AppKeyCode::exitApp:
 			return UI_TEXT("退出应用程序");
 		case AppKeyCode::slowMotion:
 			return UI_TEXT("慢动作");
 		case AppKeyCode::toggleSlowMotion:
-			return UI_TEXT("慢动作切换");
+			return UI_TEXT("切换慢动作");
 		case AppKeyCode::rewind:
-			return UI_TEXT("倒退一个进度点");
+			return UI_TEXT("倒带");
 		case AppKeyCode::softReset:
 			return UI_TEXT("软重启");
 		case AppKeyCode::hardReset:

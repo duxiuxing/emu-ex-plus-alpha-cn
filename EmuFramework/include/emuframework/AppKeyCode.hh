@@ -121,7 +121,7 @@ inline constexpr InputComponentDesc rightUIComponents
 };
 inline constexpr InputComponentDesc leftUIComponents
 {
-	UI_TEXT("快进/倒退"),
+	UI_TEXT("快进/倒带"),
 	leftUIKeys, InputComponent::ui, LT2DO
 };
 
