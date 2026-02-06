@@ -102,7 +102,7 @@ public:
 	int16_t portraitOffset{};
 private:
 	ImageEffectId userEffectId{};
-	ImageOverlayId userOverlayEffectId{};
+	ImageOverlayId userOverlayEffectId{ ImageOverlayId::LCD };
 	Gfx::ColorSpace colSpace{};
 public:
 	Property<uint8_t, CFGKEY_CONTENT_SCALE,
