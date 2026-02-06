@@ -37,8 +37,10 @@
 #include "cartridge.h"
 #include "cmdline.h"
 #include "crt.h"
+#include "export.h"
 #include "plus4cart.h"
 #include "plus4mem.h"
+#include "plus4memrom.h"
 #include "lib.h"
 #include "log.h"
 #include "util.h"
@@ -53,15 +55,16 @@
 #include "magiccart.h"
 #include "multicart.h"
 #include "plus4-generic.h"
+#include "speedy.h"
 
 #ifdef DEBUGCART
-#define DBG(x)  log_debug x
+#define DBG(x) log_printf  x
 #else
 #define DBG(x)
 #endif
 
 #ifdef DEBUGCARTRW
-#define DBGRW(x)  log_debug x
+#define DBGRW(x) log_printf  x
 #else
 #define DBGRW(x)
 #endif
@@ -105,16 +108,18 @@ static int mem_cartridge_type = CARTRIDGE_NONE;  /* Type of the cartridge attach
 
 static cartridge_info_t cartlist[] = {
     /* standard cartridges with CRT ID = 0 */
-/*
     { "Raw 16KiB C1LO",                       CARTRIDGE_PLUS4_GENERIC_C1LO,      CARTRIDGE_GROUP_GENERIC },
     { "Raw 16KiB C1HI",                       CARTRIDGE_PLUS4_GENERIC_C1HI,      CARTRIDGE_GROUP_GENERIC },
     { "Raw 16KiB C2LO",                       CARTRIDGE_PLUS4_GENERIC_C2LO,      CARTRIDGE_GROUP_GENERIC },
     { "Raw 16KiB C2HI",                       CARTRIDGE_PLUS4_GENERIC_C2HI,      CARTRIDGE_GROUP_GENERIC },
-*/
+    { "Raw 32KiB C1",                         CARTRIDGE_PLUS4_GENERIC_C1,        CARTRIDGE_GROUP_GENERIC },
+    { "Raw 32KiB C2",                         CARTRIDGE_PLUS4_GENERIC_C2,        CARTRIDGE_GROUP_GENERIC },
+
     /* all cartridges with a CRT ID > 0, alphabetically sorted */
     { CARTRIDGE_PLUS4_NAME_JACINT1MB,         CARTRIDGE_PLUS4_JACINT1MB,         CARTRIDGE_GROUP_UTIL },
     { CARTRIDGE_PLUS4_NAME_MAGIC,             CARTRIDGE_PLUS4_MAGIC,             CARTRIDGE_GROUP_UTIL },
     { CARTRIDGE_PLUS4_NAME_MULTI,             CARTRIDGE_PLUS4_MULTI,             CARTRIDGE_GROUP_UTIL },
+    { CARTRIDGE_PLUS4_NAME_SPEEDY,            CARTRIDGE_PLUS4_SPEEDY,            CARTRIDGE_GROUP_FREEZER },
 
     { NULL, 0, 0 }
 };
@@ -124,8 +129,10 @@ cartridge_info_t *cartridge_get_info_list(void)
     return &cartlist[0];
 }
 
-/* return cartridge type of main slot
-   returns 0 (CARTRIDGE_CRT) if crt file */
+/* FIXME: slot arg is ignored right now.
+   this should return a valid cartridge ID for a given slot, or CARTRIDGE_NONE
+   (it does NOT return CARTRIDGE_CRT)
+*/
 int cartridge_get_id(int slot)
 {
     int type = plus4cart_type;
@@ -181,6 +188,7 @@ static const cmdline_option_t cmdline_options[] =
     { "-cartcrt", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
       cart_attach_cmdline, (void *)CARTRIDGE_CRT, NULL, NULL,
       "<Name>", "Attach CRT cartridge image" },
+
     /* seperate cartridge types */
     { "-cartjacint", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
       cart_attach_cmdline, (void*)CARTRIDGE_PLUS4_JACINT1MB, NULL, NULL,
@@ -191,6 +199,10 @@ static const cmdline_option_t cmdline_options[] =
     { "-cartmulti", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
       cart_attach_cmdline, (void*)CARTRIDGE_PLUS4_MULTI, NULL, NULL,
       "<Name>", "Attach 1MiB/2MiB " CARTRIDGE_PLUS4_NAME_MULTI " image" },
+    { "-cartspeedy", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
+      cart_attach_cmdline, (void*)CARTRIDGE_PLUS4_SPEEDY, NULL, NULL,
+      "<Name>", "Attach 8KiB " CARTRIDGE_PLUS4_NAME_SPEEDY " image" },
+
     /* no cartridge */
     { "+cart", CALL_FUNCTION, CMDLINE_ATTRIB_NONE,
       cart_attach_cmdline, NULL, NULL, NULL,
@@ -205,8 +217,8 @@ int cartridge_cmdline_options_init(void)
     mon_cart_cmd.cartridge_trigger_freeze = cartridge_trigger_freeze;
 #if 0
     mon_cart_cmd.cartridge_trigger_freeze_nmi_only = cartridge_trigger_freeze_nmi_only;
-    mon_cart_cmd.export_dump = plus4export_dump;
 #endif
+    mon_cart_cmd.export_dump = export_dump;
     if (generic_cmdline_options_init() < 0) {
         return -1;
     }
@@ -259,6 +271,7 @@ static int set_cartridge_type(int val, void *param)
         case CARTRIDGE_PLUS4_JACINT1MB:
         case CARTRIDGE_PLUS4_MAGIC:
         case CARTRIDGE_PLUS4_MULTI:
+        case CARTRIDGE_PLUS4_SPEEDY:
             break;
         default:
             return -1;
@@ -357,6 +370,79 @@ void cartridge_resources_shutdown(void)
 
 /* ---------------------------------------------------------------------*/
 /* expansion port memory read/write hooks */
+
+/* c000 - ffff */
+/* a cartridge may "force" data on the bus when the regular kernal should
+   be selected instead */
+uint8_t plus4cart_kernal_read(uint16_t addr)
+{
+    uint8_t value = 0xff;
+    int ret = CART_READ_THROUGH;
+    DBGRW(("plus4cart_kernal_read mem_cartridge_type: %04x addr: %04x", (unsigned)mem_cartridge_type, addr));
+    switch (mem_cartridge_type) {
+        case CARTRIDGE_PLUS4_SPEEDY:
+            ret = speedy_kernal_read(addr, &value);
+            break;
+    }
+    if (ret == CART_READ_THROUGH) {
+        return plus4memrom_kernal_read(addr);
+    }
+    return value;
+}
+
+/* fd00 - fdff */
+/* a cartridge may "force" data on the bus when the (internal) I/O should
+   be selected instead */
+int plus4cart_fd00_read(uint16_t addr, uint8_t *value)
+{
+    int ret = CART_READ_THROUGH;
+    switch (mem_cartridge_type) {
+        case CARTRIDGE_PLUS4_SPEEDY:
+            ret = speedy_fd00_read(addr, value);
+            break;
+    }
+    return ret;
+}
+
+/* same as above, but without side-effects (for the monitor) */
+int plus4cart_fd00_peek(uint16_t addr, uint8_t *value)
+{
+    int ret = CART_READ_THROUGH;
+    switch (mem_cartridge_type) {
+        case CARTRIDGE_PLUS4_SPEEDY:
+            ret = speedy_fd00_read(addr, value);
+            break;
+    }
+    return ret;
+}
+
+/* fe00 - feff */
+/* a cartridge may "force" data on the bus when the (internal) I/O should
+   be selected instead */
+int plus4cart_fe00_read(uint16_t addr, uint8_t *value)
+{
+    int ret = CART_READ_THROUGH;
+    switch (mem_cartridge_type) {
+        case CARTRIDGE_PLUS4_SPEEDY:
+            ret = speedy_fe00_read(addr, value);
+            break;
+    }
+    return ret;
+}
+
+/* same as above, but without side-effects (for the monitor) */
+int plus4cart_fe00_peek(uint16_t addr, uint8_t *value)
+{
+    int ret = CART_READ_THROUGH;
+    switch (mem_cartridge_type) {
+        case CARTRIDGE_PLUS4_SPEEDY:
+            ret = speedy_fe00_read(addr, value);
+            break;
+    }
+    return ret;
+}
+
+/* 8000 - bfff */
 uint8_t plus4cart_c1lo_read(uint16_t addr)
 {
     DBGRW(("plus4cart_c1lo_read mem_cartridge_type: %04x addr: %04x", (unsigned)mem_cartridge_type, addr));
@@ -375,11 +461,14 @@ uint8_t plus4cart_c1lo_read(uint16_t addr)
             return magiccart_c1lo_read(addr);
         case CARTRIDGE_PLUS4_MULTI:
             return multicart_c1lo_read(addr);
+        case CARTRIDGE_PLUS4_SPEEDY:
+            return speedy_c1lo_read(addr);
     }
     /* FIXME: when no cartridge is attached, we will probably read open i/o */
     return 0xff;
 }
 
+/* c000 - ffff */
 uint8_t plus4cart_c1hi_read(uint16_t addr)
 {
     DBGRW(("plus4cart_c1hi_read mem_cartridge_type: %04x addr: %04x", (unsigned)mem_cartridge_type, addr));
@@ -397,6 +486,22 @@ uint8_t plus4cart_c1hi_read(uint16_t addr)
     }
     /* FIXME: when no cartridge is attached, we will probably read open i/o */
     return 0xff;
+}
+
+/*
+  segment:
+    bit 0-1:    2 upper bits of address
+    bit 2:      ROM select (0: RAM, 1: ROM)
+*/
+uint8_t *plus4cart_get_tedmem_base(unsigned int segment)
+{
+    uint8_t *base = NULL;
+    switch (mem_cartridge_type) {
+        case CARTRIDGE_PLUS4_SPEEDY:
+            base = speedy_get_tedmem_base(segment);
+            break;
+    }
+    return base;
 }
 
 void cartridge_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *limit)
@@ -421,6 +526,8 @@ void cartridge_reset(void)
             return magiccart_reset();
         case CARTRIDGE_PLUS4_MULTI:
             return multicart_reset();
+        case CARTRIDGE_PLUS4_SPEEDY:
+            return speedy_reset();
     }
 }
 
@@ -464,6 +571,7 @@ static void plus4cart_detach_cartridges(void)
     jacint1mb_detach();
     magiccart_detach();
     multicart_detach();
+    speedy_detach();
 #endif
     mem_cartridge_type = CARTRIDGE_NONE;
 
@@ -488,6 +596,9 @@ void cartridge_detach_image(int type)
                     break;
                 case CARTRIDGE_PLUS4_MULTI:
                     multicart_detach();
+                    break;
+                case CARTRIDGE_PLUS4_SPEEDY:
+                    speedy_detach();
                     break;
             }
         }
@@ -582,6 +693,8 @@ static int cart_bin_attach(int type, const char *filename, uint8_t *rawcart)
             return magiccart_bin_attach(filename, rawcart);
         case CARTRIDGE_PLUS4_MULTI:
             return multicart_bin_attach(filename, rawcart);
+        case CARTRIDGE_PLUS4_SPEEDY:
+            return speedy_bin_attach(filename, rawcart);
     }
     log_error(LOG_DEFAULT,
               "cartridge_bin_attach: unsupported type (%04x)", (unsigned int)type);
@@ -608,6 +721,9 @@ static void cart_attach(int type, uint8_t *rawcart)
                 break;
             case CARTRIDGE_PLUS4_MULTI:
                 multicart_config_setup(rawcart);
+                break;
+            case CARTRIDGE_PLUS4_SPEEDY:
+                speedy_config_setup(rawcart);
                 break;
         }
     }
@@ -665,6 +781,9 @@ static int crt_attach(const char *filename, uint8_t *rawcart)
             break;
         case CARTRIDGE_PLUS4_MULTI:
             rc = multicart_crt_attach(fd, rawcart);
+            break;
+        case CARTRIDGE_PLUS4_SPEEDY:
+            rc = speedy_crt_attach(fd, rawcart);
             break;
         default:
             archdep_startup_log_error("unknown CRT ID: %d", new_crttype);
@@ -787,9 +906,28 @@ void cartridge_trigger_freeze(void)
     cart_freeze_alarm_time = maincpu_clk + delay;
     alarm_set(cartridge_freeze_alarm, cart_freeze_alarm_time);
 #endif
-    DBG(("cartridge_trigger_freeze delay %d cycles", delay));
+    DBG(("cartridge_trigger_freeze type:%d delay %d cycles", mem_cartridge_type, delay));
+
+    /* main slot */
+    switch (mem_cartridge_type) {
+        case CARTRIDGE_PLUS4_JACINT1MB:
+        case CARTRIDGE_PLUS4_MAGIC:
+        case CARTRIDGE_PLUS4_MULTI:
+            break;
+        case CARTRIDGE_PLUS4_SPEEDY:
+            speedy_freeze();
+            break;
+        default:
+            archdep_startup_log_error("unknown CRT ID: %d", plus4cart_type);
+            break;
+    }
 }
 
+/* FIXME: add additional image to standard cartridge */
+int cartridge_attach_add_image(int type, const char *filename)
+{
+    return -1;
+}
 
 int cartridge_save_image(int type, const char *filename)
 {
@@ -852,7 +990,7 @@ int cartridge_type_enabled(int crtid)
     Snapshot reading and writing
 */
 
-/* FIXME: due to the snapshots being generally broken as a while, none of this
+/* FIXME: due to the snapshots being generally broken as a whole, none of this
           could be tested */
 
 #define PLUS4CART_DUMP_MAX_CARTS  1
@@ -932,6 +1070,11 @@ int cartridge_snapshot_write_modules(struct snapshot_s *s)
                 break;
             case CARTRIDGE_PLUS4_MULTI:
                 if (multicart_snapshot_write_module(s) < 0) {
+                    return -1;
+                }
+                break;
+            case CARTRIDGE_PLUS4_SPEEDY:
+                if (speedy_snapshot_write_module(s) < 0) {
                     return -1;
                 }
                 break;
@@ -1035,6 +1178,11 @@ int cartridge_snapshot_read_modules(struct snapshot_s *s)
                 break;
             case CARTRIDGE_PLUS4_MULTI:
                 if (multicart_snapshot_read_module(s) < 0) {
+                    goto fail2;
+                }
+                break;
+            case CARTRIDGE_PLUS4_SPEEDY:
+                if (speedy_snapshot_read_module(s) < 0) {
                     goto fail2;
                 }
                 break;

@@ -75,7 +75,7 @@ void plus4tcbm_update_pc(uint8_t byte, unsigned int dnr)
 inline static uint8_t dataa_read(unsigned int dnr)
 {
 #ifdef TCBM_DEBUG
-    log_debug("TCBM PA READ DATA %02x DDR %02x TIPD %02x",
+    log_debug(LOG_DEFAULT, "TCBM PA READ DATA %02x DDR %02x TIPD %02x",
               tiatcbm[dnr].dataa, tiatcbm[dnr].ddra, tpid_outputa[dnr]);
 #endif
     return (tiatcbm[dnr].dataa | ~tiatcbm[dnr].ddra) & tpid_outputa[dnr];
@@ -84,28 +84,38 @@ inline static uint8_t dataa_read(unsigned int dnr)
 inline static uint8_t datab_read(unsigned int dnr)
 {
 #ifdef TCBM_DEBUG
-    log_debug("TCBM PB READ DATA %02x DDR %02x",
+    log_debug(LOG_DEFAULT, "TCBM PB READ DATA %02x DDR %02x",
               tiatcbm[dnr].datab, tiatcbm[dnr].ddrb);
 #endif
+
+#if 0 /* FIXME: remove when we can confirm the code below is correct, see #2160 */
     return (tiatcbm[dnr].datab | ~tiatcbm[dnr].ddrb)
            & (tpid_outputc[dnr] | 0xfc);
+#endif
+    return ((tiatcbm[dnr].datab & tiatcbm[dnr].ddrb) |
+            (tpid_outputc[dnr] & (~tiatcbm[dnr].ddrb & 0x03)));
 }
 
 inline static uint8_t datac_read(unsigned int dnr)
 {
 #ifdef TCBM_DEBUG
-    log_debug("TCBM PC READ DATA %02x DDR %02x",
+    log_debug(LOG_DEFAULT, "TCBM PC READ DATA %02x DDR %02x",
               tiatcbm[dnr].datac, tiatcbm[dnr].ddrc);
 #endif
+#if 0 /* FIXME: remove when we can confirm the code below is correct, see #2160 */
     return (tiatcbm[dnr].datac | ~tiatcbm[dnr].ddrc)
            & ((tpid_outputc[dnr] << 4) | 0x7f)
            & ((tpid_outputc[dnr] >> 1) | 0xbf);
+#endif
+    return ((tiatcbm[dnr].datac & tiatcbm[dnr].ddrc) |
+            ((tpid_outputc[dnr] << 4) & (~tiatcbm[dnr].ddrc) & 0x80) |
+            ((tpid_outputc[dnr] >> 1) & (~tiatcbm[dnr].ddrc) & 0x40));
 }
 
 inline static void store_pa(unsigned int dnr)
 {
 #ifdef TCBM_DEBUG
-    log_debug("TCBM PA STORE DATA %02x DDR %02x",
+    log_debug(LOG_DEFAULT, "TCBM PA STORE DATA %02x DDR %02x",
               tiatcbm[dnr].dataa, tiatcbm[dnr].ddra);
 #endif
     plus4tcbm_outputa[dnr] = tiatcbm[dnr].dataa | ~tiatcbm[dnr].ddra;
@@ -114,7 +124,7 @@ inline static void store_pa(unsigned int dnr)
 inline static void store_pb(unsigned int dnr)
 {
 #ifdef TCBM_DEBUG
-    log_debug("TCBM PB STORE DATA %02x DDR %02x",
+    log_debug(LOG_DEFAULT, "TCBM PB STORE DATA %02x DDR %02x",
               tiatcbm[dnr].datab, tiatcbm[dnr].ddrb);
 #endif
     plus4tcbm_outputb[dnr] = tiatcbm[dnr].datab | ~tiatcbm[dnr].ddrb;
@@ -123,7 +133,7 @@ inline static void store_pb(unsigned int dnr)
 inline static void store_pc(unsigned int dnr)
 {
 #ifdef TCBM_DEBUG
-    log_debug("TCBM PC STORE DATA %02x DDR %02x",
+    log_debug(LOG_DEFAULT, "TCBM PC STORE DATA %02x DDR %02x",
               tiatcbm[dnr].datac, tiatcbm[dnr].ddrc);
 #endif
 

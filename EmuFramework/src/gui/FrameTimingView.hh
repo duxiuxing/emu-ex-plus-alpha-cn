@@ -15,19 +15,17 @@
 	You should have received a copy of the GNU General Public License
 	along with EmuFramework.  If not, see <http://www.gnu.org/licenses/> */
 
-#include <emuframework/config.hh>
 #include <emuframework/EmuAppHelper.hh>
+#include <emuframework/EmuSystem.hh>
+#ifndef IG_USE_MODULE_IMAGINE
 #include <imagine/gui/TableView.hh>
 #include <imagine/gui/MenuItem.hh>
-#include <imagine/util/container/ArrayList.hh>
+#endif
 
 namespace EmuEx
 {
 
 using namespace IG;
-class EmuVideoLayer;
-class EmuVideo;
-enum class VideoSystem: uint8_t;
 
 class FrameTimingView : public TableView, public EmuAppHelper
 {
@@ -36,27 +34,28 @@ public:
 	void loadStockItems();
 
 protected:
-	static constexpr int MAX_ASPECT_RATIO_ITEMS = 5;
+	static constexpr size_t maxFrameClockItems = 4;
 	TextMenuItem frameIntervalItem[5];
 	MultiChoiceMenuItem frameInterval;
-	TextMenuItem frameRateItems[4];
+	TextMenuItem frameRateItems[3];
 	VideoSystem activeVideoSystem{};
 	MultiChoiceMenuItem frameRate;
 	MultiChoiceMenuItem frameRatePAL;
-	ConditionalMember<enableFrameTimeStats, BoolMenuItem> frameTimeStats;
-	TextMenuItem frameClockItems[4];
+	BoolMenuItem frameTimingStats;
+	BoolMenuItem lowLatencyVideo;
+	StaticArrayList<TextMenuItem, maxFrameClockItems> frameClockItems;
 	MultiChoiceMenuItem frameClock;
+	TextMenuItem outputRateModeItems[3];
+	MultiChoiceMenuItem outputRateMode;
 	ConditionalMember<Gfx::supportsPresentModes, TextMenuItem> presentModeItems[3];
 	ConditionalMember<Gfx::supportsPresentModes, MultiChoiceMenuItem> presentMode;
 	ConditionalMember<Config::multipleScreenFrameRates, std::vector<TextMenuItem>> screenFrameRateItems;
 	ConditionalMember<Config::multipleScreenFrameRates, MultiChoiceMenuItem> screenFrameRate;
-	ConditionalMember<Gfx::supportsPresentationTime, TextMenuItem> presentationTimeItems[3];
-	ConditionalMember<Gfx::supportsPresentationTime, MultiChoiceMenuItem> presentationTime;
 	BoolMenuItem blankFrameInsertion;
 	TextHeadingMenuItem advancedHeading;
-	StaticArrayList<MenuItem*, 10> item;
+	StaticArrayList<MenuItem*, 11> item;
 
-	bool onFrameTimeChange(VideoSystem vidSys, SteadyClockTime time);
+	bool onFrameRateChange(VideoSystem, SteadyClockDuration);
 };
 
 }

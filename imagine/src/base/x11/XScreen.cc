@@ -13,23 +13,19 @@
 	You should have received a copy of the GNU General Public License
 	along with Imagine.  If not, see <http://www.gnu.org/licenses/> */
 
-#define LOGTAG "Screen"
 #include <imagine/base/Screen.hh>
-#include <imagine/base/ApplicationContext.hh>
 #include <imagine/base/Application.hh>
-#include <imagine/util/algorithm.h>
-#include <imagine/logger/logger.h>
-#include "xlibutils.h"
+#include <imagine/logger/SystemLogger.hh>
 #include <xcb/randr.h>
-#include <cmath>
-#include <format>
+#include "macros.h"
+import xutils;
 
 namespace IG
 {
 
-constexpr SystemLogger log{"X11Screen"};
+static SystemLogger log{"X11Screen"};
 
-XScreen::XScreen(ApplicationContext ctx, InitParams params)
+XScreen::XScreen(ApplicationContext, InitParams params)
 {
 	auto &screen = params.screen;
 	xScreen = &screen;
@@ -39,13 +35,11 @@ XScreen::XScreen(ApplicationContext ctx, InitParams params)
 	if(Config::MACHINE_IS_PANDORA)
 	{
 		// TODO: read actual frame rate value
-		frameRate_ = 60;
-		frameTime_ = fromHz<SteadyClockTime>(60.);
+		frameRate_ = 60.;
 	}
 	else
 	{
-		frameRate_ = 60;
-		frameTime_ = fromHz<SteadyClockTime>(60.);
+		frameRate_ = 60.;
 		reliableFrameTime = false;
 		xcb_randr_output_t primaryOutput{};
 		auto resReply = XCB_REPLY(xcb_randr_get_screen_resources, &conn, screen.root);
@@ -80,8 +74,8 @@ XScreen::XScreen(ApplicationContext ctx, InitParams params)
 					{
 						if(modeInfo.id == crtcInfoReply->mode && modeInfo.htotal && modeInfo.vtotal)
 						{
-							frameRate_ = float(modeInfo.dot_clock) / (modeInfo.htotal * modeInfo.vtotal);
-							frameTime_ = fromSeconds<SteadyClockTime>(modeInfo.htotal * modeInfo.vtotal / double(modeInfo.dot_clock));
+							frameRate_ = {double(modeInfo.dot_clock) / (modeInfo.htotal * modeInfo.vtotal),
+								fromSeconds<SteadyClockDuration>(modeInfo.htotal * modeInfo.vtotal / double(modeInfo.dot_clock))};
 							reliableFrameTime = true;
 							break;
 						}
@@ -89,11 +83,10 @@ XScreen::XScreen(ApplicationContext ctx, InitParams params)
 				}
 			}
 		}
-		assert(frameTime_.count());
+		assume(frameRate_.hz());
 	}
 	log.info("screen:{} {}x{} ({}x{}mm) {}Hz", (void*)&screen,
-		screen.width_in_pixels, screen.height_in_pixels, (int)xMM, (int)yMM, frameRate_);
-	ctx.application().emplaceFrameTimer(frameTimer, *static_cast<Screen*>(this));
+		screen.width_in_pixels, screen.height_in_pixels, (int)xMM, (int)yMM, frameRate_.hz());
 }
 
 xcb_screen_t* XScreen::nativeObject() const
@@ -127,7 +120,6 @@ int Screen::height() const
 }
 
 FrameRate Screen::frameRate() const { return frameRate_; }
-SteadyClockTime Screen::frameTime() const { return frameTime_; }
 
 bool Screen::frameRateIsReliable() const
 {
@@ -141,49 +133,26 @@ void Screen::setFrameRate(FrameRate rate)
 		if(!rate)
 			rate = 60;
 		else
-			rate = std::round(rate);
-		if(rate != 50 && rate != 60)
+			rate = std::round(rate.hz());
+		if(rate.hz() != 50 && rate.hz() != 60)
 		{
-			log.warn("tried to set unsupported frame rate:{}", rate);
+			log.warn("tried to set unsupported frame rate:{}", rate.hz());
 			return;
 		}
-		auto cmd = std::format("sudo /usr/pandora/scripts/op_lcdrate.sh {}", (unsigned int)rate);
-		int err = system(cmd.data());
+		auto cmd = std::format("sudo /usr/pandora/scripts/op_lcdrate.sh {}", (unsigned int)rate.hz());
+		int err = std::system(cmd.data());
 		if(err)
 		{
 			log.error("error:{} setting frame rate", err);
 			return;
 		}
 		frameRate_ = rate;
-		frameTime_ = fromHz<SteadyClockTime>(rate);
 		frameTimer.setFrameRate(rate);
 	}
 	else
 	{
 		frameTimer.setFrameRate(rate ?: frameRate());
 	}
-}
-
-void Screen::postFrameTimer()
-{
-	frameTimer.scheduleVSync();
-}
-
-void Screen::unpostFrameTimer()
-{
-	frameTimer.cancel();
-}
-
-void Screen::setFrameInterval(int interval)
-{
-	// TODO
-	//log.info("setting frame interval:{}", interval);
-	assert(interval >= 1);
-}
-
-bool Screen::supportsFrameInterval()
-{
-	return false;
 }
 
 bool Screen::supportsTimestamps() const
@@ -193,26 +162,15 @@ bool Screen::supportsTimestamps() const
 
 std::span<const FrameRate> Screen::supportedFrameRates() const
 {
-	// TODO
-	return {&frameRate_, 1};
-}
-
-void Screen::setVariableFrameTime(bool useVariableTime)
-{
-	if(!shouldUpdateFrameTimer(frameTimer, useVariableTime))
-		return;
-	application().emplaceFrameTimer(frameTimer, *static_cast<Screen*>(this), useVariableTime);
-}
-
-void Screen::setFrameEventsOnThisThread()
-{
-	unpostFrame();
-	frameTimer.setEventsOnThisThread(appContext());
-}
-
-void Screen::removeFrameEvents()
-{
-	unpostFrame();
+	if constexpr(Config::MACHINE_IS_PANDORA)
+	{
+		static constexpr std::array<FrameRate, 2> rates{50, 60};
+		return rates;
+	}
+	else
+	{
+		return {&frameRate_, 1};
+	}
 }
 
 }

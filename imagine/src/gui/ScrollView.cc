@@ -13,23 +13,17 @@
 	You should have received a copy of the GNU General Public License
 	along with Imagine.  If not, see <http://www.gnu.org/licenses/> */
 
-#define LOGTAG "ScrollView"
-
 #include <imagine/gui/ScrollView.hh>
-#include <imagine/logger/logger.h>
-#include <imagine/input/DragTracker.hh>
-#include <imagine/gfx/RendererCommands.hh>
-#include <imagine/gfx/Renderer.hh>
-#include <imagine/gfx/BasicEffect.hh>
 #include <imagine/gfx/Mat4.hh>
-#include <imagine/base/Window.hh>
+#include <imagine/gfx/BasicEffect.hh>
 #include <imagine/base/Screen.hh>
-#include <imagine/util/math.hh>
-#include <algorithm>
-#include <cmath>
+#include <imagine/base/Window.hh>
+#include <imagine/logger/SystemLogger.hh>
 
 namespace IG
 {
+
+[[maybe_unused]] static SystemLogger log{"ScrollView"};
 
 // minimum velocity before releasing a drag causes a scroll animation
 static constexpr float SCROLL_MIN_START_VEL = 1.;
@@ -44,7 +38,7 @@ ScrollView::ScrollView(ViewAttachParams attach):
 	{
 		[this](IG::FrameParams params)
 		{
-			auto frames = params.elapsedFrames(std::exchange(lastFrameTimestamp, params.timestamp));
+			auto frames = params.elapsedFrames();
 			auto prevOffset = offset;
 			if(scrollVel) // scrolling deceleration
 			{
@@ -69,7 +63,7 @@ ScrollView::ScrollView(ViewAttachParams attach):
 				//logMsg("animating over-scroll");
 				int clip = offset < 0 ? 0 : offsetMax;
 				int sign = offset < 0 ? 1 : -1;
-				for([[maybe_unused]] auto i : iotaCount(frames))
+				for([[maybe_unused]] auto i: iotaCount(frames))
 				{
 					int vel = std::abs((clip - offset) * overScrollVelScale);
 					offset += sign * std::max(1, vel);
@@ -89,7 +83,6 @@ ScrollView::ScrollView(ViewAttachParams attach):
 			}
 			if(offset != prevOffset)
 				postDraw();
-			lastFrameTimestamp = {};
 			return false;
 		}
 	},
@@ -126,7 +119,7 @@ int ScrollView::overScroll() const
 
 void ScrollView::setContentSize(WSize contentSize)
 {
-	overScrollVelScale = OVER_SCROLL_VEL_SCALE / screen()->frameRate();
+	overScrollVelScale = OVER_SCROLL_VEL_SCALE / screen()->frameRate().hz();
 	dragTracker.setDragStartPixels(std::max(1, Config::envIsAndroid ? window().heightMMInPixels(1.5) : window().heightMMInPixels(1.)));
 	const auto viewFrame = viewRect();
 	offsetMax = std::max(0, contentSize.y - viewFrame.ySize());
@@ -198,7 +191,7 @@ bool ScrollView::scrollInputEvent(const Input::MotionEvent &e)
 			const auto viewFrame = viewRect();
 			if(allowScrollWholeArea_ && (e.pos().x > viewFrame.xSize() - window().widthMMInPixels(7.5)))
 			{
-				logMsg("will scroll all content");
+				log.info("will scroll all content");
 				scrollWholeArea_ = true;
 			}
 			else
@@ -236,8 +229,8 @@ bool ScrollView::scrollInputEvent(const Input::MotionEvent &e)
 			if(state.isDragging() && !isOverScrolled())
 			{
 				//logMsg("release velocity %f", (double)velTracker.velocity(0));
-				scrollVel = -velTracker.velocity(0) / screen()->frameRate();
-				float decelAmount = SCROLL_DECEL / screen()->frameRate();
+				scrollVel = -velTracker.velocity(0) / screen()->frameRate().hz();
+				float decelAmount = SCROLL_DECEL / screen()->frameRate().hz();
 				scrollAccel = scrollVel > 0 ? -decelAmount : decelAmount;
 				offsetAsDec = offset;
 				if(std::abs(scrollVel) <= SCROLL_MIN_START_VEL)
@@ -245,7 +238,7 @@ bool ScrollView::scrollInputEvent(const Input::MotionEvent &e)
 			}
 			if(scrollVel || isOverScrolled())
 			{
-				overScrollVelScale = OVER_SCROLL_VEL_SCALE / screen()->frameRate();
+				overScrollVelScale = OVER_SCROLL_VEL_SCALE / screen()->frameRate().hz();
 				window().addOnFrame(animate);
 			}
 			else
@@ -265,7 +258,6 @@ void ScrollView::setScrollOffset(int o)
 
 void ScrollView::stopScrollAnimation()
 {
-	lastFrameTimestamp = {};
 	window().removeOnFrame(animate);
 }
 

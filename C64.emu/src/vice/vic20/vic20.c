@@ -105,6 +105,7 @@
 #include "userport_spt_joystick.h"
 #include "userport_synergy_joystick.h"
 #include "userport_wic64.h"
+#include "userport_funmp3.h"
 #include "userport_woj_joystick.h"
 #include "via.h"
 #include "vic.h"
@@ -282,28 +283,28 @@ static const tape_init_t tapeinit = {
     100 * 8
 };
 
-static log_t vic20_log = LOG_ERR;
+static log_t vic20_log = LOG_DEFAULT;
 static machine_timing_t machine_timing;
 
 /* ------------------------------------------------------------------------ */
-
-static int via2_dump(void)
-{
-    return viacore_dump(machine_context.via2);
-}
 
 static int via1_dump(void)
 {
     return viacore_dump(machine_context.via1);
 }
 
+static int via2_dump(void)
+{
+    return viacore_dump(machine_context.via2);
+}
+
 static void vic_via1_via2_store(uint16_t addr, uint8_t data)
 {
     if (addr & 0x10) {
-        via2_store(addr, data);
+        via1_store(addr, data);
     }
     if (addr & 0x20) {
-        via1_store(addr, data);
+        via2_store(addr, data);
     }
     vic_store(addr, data);
 }
@@ -313,11 +314,11 @@ static uint8_t vic_via1_via2_read(uint16_t addr)
     uint8_t retval = vic_read(addr);
 
     if (addr & 0x10) {
-        retval &= via2_read(addr);
+        retval &= via1_read(addr);
     }
 
     if (addr & 0x20) {
-        retval &= via1_read(addr);
+        retval &= via2_read(addr);
     }
 
     return retval;
@@ -328,11 +329,11 @@ static uint8_t vic_via1_via2_peek(uint16_t addr)
     uint8_t retval = vic_peek(addr);
 
     if (addr & 0x10) {
-        retval &= via2_peek(addr);
+        retval &= via1_peek(addr);
     }
 
     if (addr & 0x20) {
-        retval &= via1_peek(addr);
+        retval &= via2_peek(addr);
     }
 
     return retval;
@@ -341,10 +342,10 @@ static uint8_t vic_via1_via2_peek(uint16_t addr)
 static void via1_via2_store(uint16_t addr, uint8_t data)
 {
     if (addr & 0x10) {
-        via2_store(addr, data);
+        via1_store(addr, data);
     }
     if (addr & 0x20) {
-        via1_store(addr, data);
+        via2_store(addr, data);
     }
 }
 
@@ -353,11 +354,11 @@ static uint8_t via1_via2_read(uint16_t addr)
     uint8_t retval = 0xff;
 
     if (addr & 0x10) {
-        retval &= via2_read(addr);
+        retval &= via1_read(addr);
     }
 
     if (addr & 0x20) {
-        retval &= via1_read(addr);
+        retval &= via2_read(addr);
     }
 
     return retval;
@@ -368,11 +369,11 @@ static uint8_t via1_via2_peek(uint16_t addr)
     uint8_t retval = 0xff;
 
     if (addr & 0x10) {
-        retval &= via2_peek(addr);
+        retval &= via1_peek(addr);
     }
 
     if (addr & 0x20) {
-        retval &= via1_peek(addr);
+        retval &= via2_peek(addr);
     }
 
     return retval;
@@ -404,8 +405,8 @@ static io_source_t vic_device = {
 /* FIXME: the upper 4 bits of the mask are used to indicate the register size if not equal to the mask,
           this is done as a temporary HACK to keep mirrors working and still get the correct register size,
           this needs to be fixed properly after the 3.6 release */
-static io_source_t via2_device = {
-    "VIA2",                /* name of the chip */
+static io_source_t via1_device = {
+    "VIA1",                /* name of the chip */
     IO_DETACH_NEVER,       /* chip is never involved in collisions, so no detach */
     IO_DETACH_NO_RESOURCE, /* does not use a resource for detach */
 #if 0
@@ -417,7 +418,7 @@ static io_source_t via2_device = {
     NULL,                  /* NO poke function */
     via1_via2_read,        /* read function */
     via1_via2_peek,        /* peek function */
-    via2_dump,             /* chip state information dump function */
+    via1_dump,             /* chip state information dump function */
     IO_CART_ID_NONE,       /* not a cartridge */
     IO_PRIO_HIGH,          /* high priority, chip and mirrors never involved in collisions */
     0,                     /* insertion order, gets filled in by the registration function */
@@ -427,8 +428,8 @@ static io_source_t via2_device = {
 /* FIXME: the upper 4 bits of the mask are used to indicate the register size if not equal to the mask,
           this is done as a temporary HACK to keep mirrors working and still get the correct register size,
           this needs to be fixed properly after the 3.6 release */
-static io_source_t via1_device = {
-    "VIA1",                /* name of the chip */
+static io_source_t via2_device = {
+    "VIA2",                /* name of the chip */
     IO_DETACH_NEVER,       /* chip is never involved in collisions, so no detach */
     IO_DETACH_NO_RESOURCE, /* does not use a resource for detach */
 #if 0
@@ -440,7 +441,7 @@ static io_source_t via1_device = {
     NULL,                  /* NO poke function */
     via1_via2_read,        /* read function */
     via1_via2_peek,        /* peek function */
-    via1_dump,             /* chip state information dump function */
+    via2_dump,             /* chip state information dump function */
     IO_CART_ID_NONE,       /* not a cartridge */
     IO_PRIO_HIGH,          /* high priority, chip and mirrors never involved in collisions */
     0,                     /* insertion order, gets filled in by the registration function */
@@ -587,6 +588,13 @@ int machine_resources_init(void)
         init_resource_fail("traps");
         return -1;
     }
+#if 0
+    /* FIXME: we might want to move this into machine.c or init.c */
+    if (maincpu_resources_init() < 0) {
+        init_resource_fail("maincpu");
+        return -1;
+    }
+#endif
     if (vic20_resources_init() < 0) {
         init_resource_fail("vic20");
         return -1;
@@ -607,28 +615,15 @@ int machine_resources_init(void)
         init_resource_fail("userport devices");
         return -1;
     }
-    if (rsuser_resources_init() < 0) {
-        init_resource_fail("rsuser");
-        return -1;
-    }
     if (serial_resources_init() < 0) {
         init_resource_fail("serial");
         return -1;
     }
+    /* CAUTION: must come after userport and serial */
     if (printer_resources_init() < 0) {
         init_resource_fail("printer");
         return -1;
     }
-    if (printer_userport_resources_init() < 0) {
-        init_resource_fail("userport printer");
-        return -1;
-    }
-#ifdef HAVE_LIBCURL
-    if (userport_wic64_resources_init() < 0) {
-        init_resource_fail("userport wic20");
-        return -1;
-    }
-#endif
     if (init_joyport_ports() < 0) {
         init_resource_fail("joyport ports");
         return -1;
@@ -710,54 +705,6 @@ int machine_resources_init(void)
         init_resource_fail("vic20 ieee488");
         return -1;
     }
-    if (userport_joystick_cga_resources_init() < 0) {
-        init_resource_fail("userport cga joystick");
-        return -1;
-    }
-    if (userport_joystick_pet_resources_init() < 0) {
-        init_resource_fail("userport pet joystick");
-        return -1;
-    }
-    if (userport_joystick_hummer_resources_init() < 0) {
-        init_resource_fail("userport hummer joystick");
-        return -1;
-    }
-    if (userport_joystick_oem_resources_init() < 0) {
-        init_resource_fail("userport oem joystick");
-        return -1;
-    }
-    if (userport_joystick_synergy_resources_init() < 0) {
-        init_resource_fail("userport synergy joystick");
-        return -1;
-    }
-    if (userport_joystick_woj_resources_init() < 0) {
-        init_resource_fail("userport woj joystick");
-        return -1;
-    }
-    if (userport_spt_joystick_resources_init() < 0) {
-        init_resource_fail("userport stupid pet tricks joystick");
-        return -1;
-    }
-    if (userport_dac_resources_init() < 0) {
-        init_resource_fail("userport dac");
-        return -1;
-    }
-    if (userport_rtc_58321a_resources_init() < 0) {
-        init_resource_fail("userport rtc (58321a)");
-        return -1;
-    }
-    if (userport_rtc_ds1307_resources_init() < 0) {
-        init_resource_fail("userport rtc (ds1307)");
-        return -1;
-    }
-    if (userport_petscii_snespad_resources_init() < 0) {
-        init_resource_fail("userport petscii snes pad");
-        return -1;
-    }
-    if (userport_io_sim_resources_init() < 0) {
-        init_resource_fail("userport I/O simulation");
-        return -1;
-    }
     if (cartio_resources_init() < 0) {
         init_resource_fail("cartio");
         return -1;
@@ -789,11 +736,7 @@ void machine_resources_shutdown(void)
     fsdevice_resources_shutdown();
     disk_image_resources_shutdown();
     sampler_resources_shutdown();
-    userport_rtc_58321a_resources_shutdown();
-    userport_rtc_ds1307_resources_shutdown();
-#ifdef HAVE_LIBCURL
-    userport_wic64_resources_shutdown();
-#endif
+    userport_resources_shutdown();
     tapeport_resources_shutdown();
     joyport_resources_shutdown();
 }
@@ -803,6 +746,11 @@ int machine_cmdline_options_init(void)
 {
     if (traps_cmdline_options_init() < 0) {
         init_cmdline_options_fail("traps");
+        return -1;
+    }
+    /* FIXME: we might want to move this into machine.c or init.c */
+    if (maincpu_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("maincpu");
         return -1;
     }
     if (vic20_cmdline_options_init() < 0) {
@@ -821,20 +769,12 @@ int machine_cmdline_options_init(void)
         init_cmdline_options_fail("rs232drv");
         return -1;
     }
-    if (rsuser_cmdline_options_init() < 0) {
-        init_cmdline_options_fail("rsuser");
-        return -1;
-    }
     if (serial_cmdline_options_init() < 0) {
         init_cmdline_options_fail("serial");
         return -1;
     }
     if (printer_cmdline_options_init() < 0) {
         init_cmdline_options_fail("printer");
-        return -1;
-    }
-    if (printer_userport_cmdline_options_init() < 0) {
-        init_cmdline_options_fail("userport printer");
         return -1;
     }
     if (joyport_cmdline_options_init() < 0) {
@@ -921,20 +861,6 @@ int machine_cmdline_options_init(void)
         init_cmdline_options_fail("vic20 ieee488");
         return -1;
     }
-    if (userport_rtc_58321a_cmdline_options_init() < 0) {
-        init_cmdline_options_fail("userport rtc (58321a)");
-        return -1;
-    }
-    if (userport_rtc_ds1307_cmdline_options_init() < 0) {
-        init_cmdline_options_fail("userport rtc (ds1307)");
-        return -1;
-    }
-#ifdef HAVE_LIBCURL
-    if (userport_wic64_cmdline_options_init() < 0) {
-        init_cmdline_options_fail("userport wic64");
-        return -1;
-    }
-#endif
     if (cartio_cmdline_options_init() < 0) {
         init_cmdline_options_fail("cartio");
         return -1;
@@ -1060,6 +986,11 @@ int machine_specific_init(void)
     /* Initialize userport based sound chips */
     userport_dac_sound_chip_init();
 
+    /* Initialize funmp3 */
+#if defined(USE_MPG123) && defined (HAVE_GLOB_H)
+    userport_funmp3_sound_chip_init();
+#endif
+
     drive_sound_init();
     datasette_sound_init();
     video_sound_init();
@@ -1103,7 +1034,7 @@ int machine_specific_init(void)
 #endif
 
     /* Register joystick callback (for lightpen triggering via fire button) */
-    joystick_register_machine(via2_check_lightpen);
+    joystick_register_machine(via1_check_lightpen);
 
 #ifdef HAVE_MIDI
     midi_init();
@@ -1196,7 +1127,7 @@ static void machine_vsync_hook(void)
 
 void machine_set_restore_key(int v)
 {
-    viacore_signal(machine_context.via2,
+    viacore_signal(machine_context.via1,
                    VIA_SIG_CA1, v ? VIA_SIG_FALL : VIA_SIG_RISE);
 }
 
@@ -1225,6 +1156,7 @@ void machine_get_line_cycle(unsigned int *line, unsigned int *cycle, int *half_c
     *half_cycle = (int)-1;
 }
 
+/* NOTE: power-grid freq is not used in the vic20 */
 void machine_change_timing(int timeval, int powerfreq, int border_mode)
 {
     switch (timeval) {
@@ -1327,7 +1259,7 @@ struct image_contents_s *machine_diskcontents_bus_read(unsigned int unit)
 
 uint8_t machine_tape_type_default(void)
 {
-    return TAPE_CAS_TYPE_BAS;
+    return TAPE_CAS_TYPE_PRG;
 }
 
 uint8_t machine_tape_behaviour(void)
@@ -1359,7 +1291,7 @@ const char *machine_get_name(void)
 
 static void vic20_userport_set_flag(uint8_t b)
 {
-    viacore_signal(machine_context.via2, VIA_SIG_CB1, b ? VIA_SIG_RISE : VIA_SIG_FALL);
+    viacore_signal(machine_context.via1, VIA_SIG_CB1, b ? VIA_SIG_RISE : VIA_SIG_FALL);
 }
 
 static userport_port_props_t userport_props = {

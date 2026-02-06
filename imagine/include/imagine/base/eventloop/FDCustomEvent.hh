@@ -17,16 +17,19 @@
 
 #include <imagine/base/EventLoop.hh>
 #include <imagine/util/used.hh>
-#include <imagine/util/utility.h>
+#ifndef IG_USE_MODULE_STD
 #include <concepts>
 #include <optional>
+#include <string_view>
+#include <utility>
+#endif
 
 namespace IG
 {
 
 struct FDCustomEventDesc
 {
-	const char* debugLabel{};
+	std::string_view debugLabel{};
 	std::optional<EventLoop> eventLoop;
 };
 
@@ -53,7 +56,7 @@ public:
 		fdSrc.setCallback(wrapDelegate(IG_forward(del)));
 	}
 
-	const char* debugLabel() const { return fdSrc.debugLabel(); }
+	auto debugLabel() const { return fdSrc.debugLabel(); }
 
 protected:
 	FDEventSource fdSrc;

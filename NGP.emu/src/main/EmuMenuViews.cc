@@ -13,13 +13,20 @@
 	You should have received a copy of the GNU General Public License
 	along with NGP.emu.  If not, see <http://www.gnu.org/licenses/> */
 
-#include <emuframework/SystemOptionView.hh>
-#include <mednafen-emuex/MDFNUtils.hh>
-#include "MainApp.hh"
+import system;
+import emuex;
+import imagine;
+import std;
+
+#ifndef UI_TEXT_IMPL
+	#define UI_TEXT_IMPL
+	#define UI_TEXT(x)	x
+#endif
 
 namespace EmuEx
 {
 
+using namespace IG;
 using MainAppHelper = EmuAppHelperBase<MainApp>;
 
 class CustomSystemOptionView : public SystemOptionView, public MainAppHelper
@@ -28,9 +35,11 @@ class CustomSystemOptionView : public SystemOptionView, public MainAppHelper
 
 	BoolMenuItem ngpLanguage
 	{
-		"NGP Language", attachParams(),
+		UI_TEXT("NGP 语言"),
+		attachParams(),
 		system().optionNGPLanguage,
-		"Japanese", "English",
+		UI_TEXT("日语"),
+		UI_TEXT("英语"),
 		[this](BoolMenuItem &item, View &, Input::Event e)
 		{
 			system().optionNGPLanguage = item.flipBoolValue(*this);

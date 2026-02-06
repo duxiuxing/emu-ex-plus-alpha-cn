@@ -3,9 +3,17 @@
 
 #include <cstdio>
 #include <cstdint>
+#include <cstring>
 
+#if defined(__LIBRETRO__)
 #include <cstdint>
+#ifdef WIIU
+extern int strcasecmp(const char *a, const char *b);
+extern char *strdup(const char *);
+#endif
+#else  // !defined(__LIBRETRO__)
 #include <zlib.h>
+#endif  // defined(__LIBRETRO__)
 
 #include "core/base/system.h"
 
@@ -23,6 +31,9 @@ uint8_t *utilLoad(const char *, bool (*)(const char *), uint8_t *, int &);
 IMAGE_TYPE utilFindType(const char *);
 bool utilIsGBAImage(const char *);
 bool utilIsGBImage(const char *);
+bool utilIsTARAchive(const char *);
+
+#if 1
 
 void utilWriteIntMem(uint8_t *&data, int);
 void utilWriteMem(uint8_t *&data, const void *in_data, unsigned size);
@@ -32,8 +43,10 @@ int utilReadIntMem(const uint8_t *&data);
 void utilReadMem(void *buf, const uint8_t *&data, unsigned size);
 void utilReadDataMem(const uint8_t *&data, const variable_desc *);
 
+#else  // !defined(__LIBRETRO__)
+
 // strip .gz or .z off end
-void utilStripDoubleExtension(const char *, char *);
+void utilStripDoubleExtension(const char *, char *, size_t);
 
 gzFile utilAutoGzOpen(const char *file, const char *mode);
 gzFile utilGzOpen(const char *file, const char *mode);
@@ -48,5 +61,7 @@ void utilReadData(gzFile, const variable_desc *);
 void utilReadDataSkip(gzFile, const variable_desc *);
 int utilReadInt(gzFile);
 void utilWriteInt(gzFile, int);
+
+#endif  // defined(__LIBRETRO__)
 
 #endif  // VBAM_CORE_BASE_FILE_UTIL_H_

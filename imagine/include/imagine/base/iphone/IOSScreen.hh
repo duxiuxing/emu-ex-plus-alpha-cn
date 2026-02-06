@@ -31,8 +31,28 @@ namespace IG
 
 class ApplicationContext;
 
-// TODO: add FrameTimer interface for CADisplayLink
-using FrameTimerVariant = std::variant<SimpleFrameTimer>;
+class DisplayLinkFrameTimer final
+{
+public:
+	constexpr DisplayLinkFrameTimer() = default;
+	DisplayLinkFrameTimer(Screen&);
+	~DisplayLinkFrameTimer();
+	void scheduleVSync();
+	void cancel();
+	void setEventsOnThisThread(ApplicationContext);
+	void removeEvents(ApplicationContext);
+
+	#ifdef __OBJC__
+	CADisplayLink* displayLink() const { return (__bridge CADisplayLink*)displayLink_; }
+	NSRunLoop* displayLinkRunLoop() const { return (__bridge NSRunLoop*)displayLinkRunLoop_; }
+	#endif
+
+protected:
+	void *displayLink_{}; // CADisplayLink in ObjC
+	void *displayLinkRunLoop_{}; // NSRunLoop in ObjC
+};
+
+using FrameTimerVariant = std::variant<DisplayLinkFrameTimer, SimpleFrameTimer>;
 
 class FrameTimer : public FrameTimerInterface<FrameTimerVariant>
 {
@@ -72,19 +92,11 @@ public:
 	#ifdef __OBJC__
 	IOSScreen(UIScreen*);
 	UIScreen* uiScreen() const { return (__bridge UIScreen*)uiScreen_; }
-	CADisplayLink* displayLink() const { return (__bridge CADisplayLink*)displayLink_; }
-	NSRunLoop* displayLinkRunLoop() const { return (__bridge NSRunLoop*)displayLinkRunLoop_; }
 	#endif
 
 protected:
 	void *uiScreen_{}; // UIScreen in ObjC
-	void *displayLink_{}; // CADisplayLink in ObjC
-	void *displayLinkRunLoop_{}; // NSRunLoop in ObjC
-	SteadyClockTime frameTime_{};
-	float frameRate_{};
-	bool displayLinkActive{};
-
-	void updateDisplayLinkRunLoop();
+	FrameRate frameRate_{};
 };
 
 using ScreenImpl = IOSScreen;

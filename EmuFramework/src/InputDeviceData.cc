@@ -14,11 +14,14 @@
 	along with EmuFramework.  If not, see <http://www.gnu.org/licenses/> */
 
 #include "InputDeviceData.hh"
-#include <emuframework/AppKeyCode.hh>
-#include <imagine/logger/logger.h>
+#include <emuframework/EmuInput.hh>
+#include <emuframework/InputManager.hh>
+import imagine;
 
 namespace EmuEx
 {
+
+using namespace IG;
 
 constexpr SystemLogger log{"InputDevData"};
 
@@ -89,7 +92,7 @@ void InputDeviceData::buildKeyMap(const InputManager &mgr, const Input::Device &
 		}
 		else
 		{
-			assert(mapKeys[0] < totalKeys);
+			assume(mapKeys[0] < totalKeys);
 			actionTable[mapKeys[0]].tryPushBack(key);
 		}
 	}
@@ -120,7 +123,7 @@ void InputDeviceData::updateInputKey(const Input::KeyEvent &keyEv)
 
 void InputDeviceData::addInputKey(Input::Key key)
 {
-	if(contains(pushedInputKeys, key))
+	if(std::ranges::contains(pushedInputKeys, key))
 		return;
 	pushedInputKeys.tryPushBack(key);
 }
@@ -134,7 +137,7 @@ bool InputDeviceData::keysArePushed(MappedKeys mapKeys)
 {
 	for(auto k : mapKeys)
 	{
-		if(!contains(pushedInputKeys, k))
+		if(!std::ranges::contains(pushedInputKeys, k))
 			return false;
 	}
 	return true;

@@ -56,6 +56,7 @@
 #include "drive-resources.h"
 #include "drive-sound.h"
 #include "drive.h"
+#include "export.h"
 #include "fliplist.h"
 #include "fsdevice.h"
 #include "gfxoutput.h"
@@ -125,7 +126,7 @@ static void machine_vsync_hook(void);
 
 #define C500_POWERLINE_CYCLES_PER_IRQ (C500_PAL_CYCLES_PER_RFSH)
 
-static log_t cbm2_log = LOG_ERR;
+static log_t cbm2_log = LOG_DEFAULT;
 static machine_timing_t machine_timing;
 
 /* FIXME: add different keyboard types */
@@ -307,12 +308,20 @@ static int init_joyport_ports(void)
    the machine itself with `machine_init()'.  */
 int machine_resources_init(void)
 {
+    if (parallel_resources_init() < 0) {
+        init_resource_fail("parallel");
+        return -1;
+    }
     if (traps_resources_init() < 0) {
         init_resource_fail("traps");
         return -1;
     }
     if (cbm2_resources_init() < 0) {
         init_resource_fail("cbm2");
+        return -1;
+    }
+    if (export_resources_init() < 0) {
+        init_resource_fail("cbm2export");
         return -1;
     }
     if (cartio_resources_init() < 0) {
@@ -352,12 +361,9 @@ int machine_resources_init(void)
         init_resource_fail("rs232drv");
         return -1;
     }
+    /* CAUTION: must come after userport and serial */
     if (printer_resources_init() < 0) {
         init_resource_fail("printer");
-        return -1;
-    }
-    if (printer_userport_resources_init() < 0) {
-        init_resource_fail("userport printer");
         return -1;
     }
     if (init_joyport_ports() < 0) {
@@ -449,6 +455,10 @@ void machine_resources_shutdown(void)
 /* CBM-II-specific command-line option initialization.  */
 int machine_cmdline_options_init(void)
 {
+    if (parallel_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("parallel");
+        return -1;
+    }
     if (traps_cmdline_options_init() < 0) {
         init_cmdline_options_fail("traps");
         return -1;
@@ -491,10 +501,6 @@ int machine_cmdline_options_init(void)
     }
     if (printer_cmdline_options_init() < 0) {
         init_cmdline_options_fail("printer");
-        return -1;
-    }
-    if (printer_userport_cmdline_options_init() < 0) {
-        init_cmdline_options_fail("userport printer");
         return -1;
     }
     if (joyport_cmdline_options_init() < 0) {

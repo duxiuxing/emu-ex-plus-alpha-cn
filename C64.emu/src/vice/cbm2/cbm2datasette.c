@@ -37,7 +37,7 @@
 #include "tapeport.h"
 
 #ifdef DEBUG_TAPE
-#define DBG(x)  log_debug x
+#define DBG(x) log_printf  x
 #else
 #define DBG(x)
 #endif
@@ -53,7 +53,7 @@ static void logit(int f, int n)
     };
     static int buf[4];
     buf[f] = n;
-    log_debug("%28s flux:%d sense:%d write:%d motor:%d",
+    log_debug(LOG_DEFAULT, "%28s flux:%d sense:%d write:%d motor:%d",
               names[f], buf[0], buf[1], buf[2], buf[3]);
 
 }
@@ -66,6 +66,16 @@ void machine_trigger_flux_change(int port, unsigned int on)
     if (port == TAPEPORT_PORT_1) {
         logit(0, on);
         ciacore_set_flag(machine_context.cia1);
+    }
+}
+
+void machine_set_tape_read_in(int port, unsigned int on)
+{
+    if (port == TAPEPORT_PORT_1) {
+        logit(0, on);
+        if (on) {
+            ciacore_set_flag(machine_context.cia1);
+        }
     }
 }
 

@@ -15,20 +15,25 @@
 	You should have received a copy of the GNU General Public License
 	along with EmuFramework.  If not, see <http://www.gnu.org/licenses/> */
 
+#include <emuframework/EmuTiming.hh>
+#include <emuframework/VController.hh>
+#include <emuframework/EmuInput.hh>
+#include <emuframework/AppMeta.hh>
+#ifndef IG_USE_MODULE_IMAGINE
 #include <imagine/fs/FSUtils.hh>
 #include <imagine/base/baseDefs.hh>
 #include <imagine/base/ApplicationContext.hh>
 #include <imagine/time/Time.hh>
-#include <imagine/audio/SampleFormat.hh>
+#include <imagine/audio/Format.hh>
 #include <imagine/util/rectangle2.h>
 #include <imagine/util/memory/DynArray.hh>
-#include <imagine/util/enum.hh>
-#include <emuframework/EmuTiming.hh>
-#include <emuframework/VController.hh>
-#include <emuframework/EmuInput.hh>
+#endif
+#ifndef IG_USE_MODULE_STD
 #include <string>
 #include <string_view>
+#endif
 
+#ifndef IG_USE_MODULE_IMAGINE
 namespace IG
 {
 class ApplicationContext;
@@ -45,6 +50,7 @@ class MotionEvent;
 class DragTrackerState;
 enum class Action : uint8_t;
 }
+#endif
 
 namespace EmuEx
 {
@@ -55,23 +61,15 @@ class EmuSystemTaskContext;
 class EmuAudio;
 class EmuVideo;
 class EmuApp;
-struct EmuFrameTimeInfo;
+struct EmuFrameDurationInfo;
 class VControllerKeyboard;
+class Cheat;
+class CheatCode;
 
-struct AspectRatioInfo
+struct CheatCodeDesc
 {
-	std::string_view name{};
-	IG::Point2D<int8_t> aspect{};
-
-	constexpr float asFloat() const { return aspect.ratio<float>(); }
-};
-
-#define EMU_SYSTEM_DEFAULT_ASPECT_RATIO_INFO_INIT {"1:1", {1, 1}}
-
-struct BundledGameInfo
-{
-	const char *displayName;
-	const char *assetName;
+	const char* str{};
+	unsigned flags{};
 };
 
 struct EmuSystemCreateParams
@@ -84,58 +82,19 @@ enum class ConfigType : uint8_t
 	MAIN, SESSION, CORE
 };
 
-struct InputAction
-{
-	KeyCode code{};
-	KeyFlags flags{};
-	Input::Action state{};
-	uint32_t metaState{};
-
-	constexpr bool isPushed() const { return state == Input::Action::PUSHED; }
-	constexpr operator KeyInfo() const { return {code, flags}; }
-};
-
-enum class InputComponent : uint8_t
-{
-	ui, dPad, button, trigger
-};
-
-struct InputComponentFlags
-{
-	uint8_t
-	altConfig:1{},
-	rowSize:2{},
-	staggeredLayout:1{};
-};
-
-struct InputComponentDesc
-{
-	const char *name{};
-	std::span<const KeyInfo> keyCodes{};
-	InputComponent type{};
-	_2DOrigin layoutOrigin{};
-	InputComponentFlags flags{};
-};
-
-struct SystemInputDeviceDesc
-{
-	const char *name;
-	std::span<const InputComponentDesc> components;
-};
-
 enum class VideoSystem: uint8_t
 {
 	NATIVE_NTSC, PAL
 };
 
-WISE_ENUM_CLASS((DeinterlaceMode, uint8_t),
-	Bob,
-	Weave
-);
+enum class DeinterlaceMode: uint8_t
+{
+	Bob, Weave
+};
 
-using FrameTime = Nanoseconds;
+using FrameDuration = Nanoseconds;
 
-constexpr const char *optionUserPathContentToken = ":CONTENT:";
+inline constexpr const char *optionUserPathContentToken = ":CONTENT:";
 
 struct SaveStateFlags
 {
@@ -174,33 +133,11 @@ public:
 			intArg{intArg}, intArg2{intArg2}, intArg3{intArg3}, progress{progress} {}
 	};
 
-	using OnLoadProgressDelegate = IG::DelegateFunc<bool(int pos, int max, const char *label)>;
-	using NameFilterFunc = bool(*)(std::string_view name);
+	using OnLoadProgressDelegate = DelegateFunc<bool(int pos, int max, const char *label)>;
 	using BackupMemoryDirtyFlags = uint8_t;
 	enum class ResetMode: uint8_t { HARD, SOFT };
 
-	// Static system configuration
-	static const int maxPlayers;
-	static const char *configFilename;
-	static bool inputHasKeyboard;
-	static bool hasBundledGames;
-	static bool hasPALVideoSystem;
-	static bool canRenderRGB565;
-	static bool canRenderRGBA8888;
-	static bool hasResetModes;
-	static bool handlesArchiveFiles;
-	static bool handlesGenericIO;
-	static bool hasCheats;
-	static bool hasSound;
-	static int forcedSoundRate;
-	static IG::Audio::SampleFormat audioSampleFormat;
-	static NameFilterFunc defaultFsFilter;
-	static const char *creditsViewStr;
-	static F2Size validFrameRateRange;
-	static bool hasRectangularPixels;
-	static bool stateSizeChangesAtRuntime;
-
-	EmuSystem(IG::ApplicationContext ctx): appCtx{ctx} {}
+	EmuSystem(ApplicationContext ctx): appCtx{ctx} {}
 
 	// required sub-class API functions
 	void loadContent(IO &, EmuSystemCreateParams, OnLoadProgressDelegate);
@@ -213,20 +150,18 @@ public:
 	bool readConfig(ConfigType, MapIO &io, unsigned key);
 	void writeConfig(ConfigType, FileIO &);
 	void reset(EmuApp &, ResetMode mode);
-	void clearInputBuffers(EmuInputView &view);
+	void clearInputBuffers();
 	void handleInputAction(EmuApp *, InputAction);
-	FrameTime frameTime() const;
-	void configAudioRate(FrameTime outputFrameTime, int outputRate);
-	static std::span<const AspectRatioInfo> aspectRatioInfos();
-	SystemInputDeviceDesc inputDeviceDesc(int idx) const;
+	FrameRate frameRate() const;
+	void configAudioRate(FrameDuration outputFrameDuration, int outputRate);
 
 	// optional sub-class API functions
 	void onStart();
 	void onStop();
 	void closeSystem();
-	bool onPointerInputStart(const Input::MotionEvent &, Input::DragTrackerState, WindowRect gameRect);
-	bool onPointerInputUpdate(const Input::MotionEvent &, Input::DragTrackerState current, Input::DragTrackerState previous, WindowRect gameRect);
-	bool onPointerInputEnd(const Input::MotionEvent &, Input::DragTrackerState, WindowRect gameRect);
+	bool onPointerInputStart(const Input::MotionEvent&, Input::DragTrackerState, WindowRect gameRect);
+	bool onPointerInputUpdate(const Input::MotionEvent&, Input::DragTrackerState current, Input::DragTrackerState previous, WindowRect gameRect);
+	bool onPointerInputEnd(const Input::MotionEvent&, Input::DragTrackerState, WindowRect gameRect);
 	void onVKeyboardShown(VControllerKeyboard &, bool shown);
 	VController::KbMap vControllerKeyboardMap(VControllerKbMode mode);
 	VideoSystem videoSystem() const;
@@ -234,7 +169,7 @@ public:
 	WSize multiresVideoBaseSize() const;
 	double videoAspectRatioScale() const;
 	bool onVideoRenderFormatChange(EmuVideo &, PixelFormat);
-	static bool canRenderMultipleFormats() {return canRenderRGBA8888 && canRenderRGB565;}
+	static bool canRenderMultipleFormats() {return AppMeta::canRenderRGBA8888 && AppMeta::canRenderRGB565;}
 	void loadBackupMemory(EmuApp &);
 	void onFlushBackupMemory(EmuApp &, BackupMemoryDirtyFlags);
 	WallClockTimePoint backupMemoryLastWriteTime(const EmuApp &) const;
@@ -245,8 +180,19 @@ public:
 	void savePathChanged();
 	bool shouldFastForward() const;
 	FS::FileString contentDisplayNameForPath(CStringView path) const;
-	IG::Rotation contentRotation() const;
+	Rotation contentRotation() const;
 	void addThreadGroupIds(std::vector<ThreadId> &) const;
+	Cheat* newCheat(EmuApp&, const char* name, CheatCodeDesc);
+	bool setCheatName(Cheat&, const char* name);
+	std::string_view cheatName(const Cheat&) const;
+	void setCheatEnabled(Cheat&, bool on);
+	bool isCheatEnabled(const Cheat&) const;
+	bool addCheatCode(EmuApp&, Cheat*&, CheatCodeDesc);
+	bool modifyCheatCode(EmuApp&, Cheat&, CheatCode&, CheatCodeDesc);
+	Cheat* removeCheatCode(Cheat&, CheatCode&);
+	bool removeCheat(Cheat&);
+	void forEachCheat(DelegateFunc<bool(Cheat&, std::string_view)>);
+	void forEachCheatCode(Cheat&, DelegateFunc<bool(CheatCode&, std::string_view)>);
 
 	ApplicationContext appContext() const { return appCtx; }
 	bool isActive() const { return state == State::ACTIVE; }
@@ -263,9 +209,8 @@ public:
 	void setStateSlot(int slot) { saveStateSlot = slot; }
 	void decStateSlot() { if(--saveStateSlot < 0) saveStateSlot = 9; }
 	void incStateSlot() { if(++saveStateSlot > 9) saveStateSlot = 0; }
-	const char *systemName() const;
-	const char *shortSystemName() const;
-	const BundledGameInfo &bundledGameInfo(int idx) const;
+	std::string_view systemName() const;
+	std::string_view shortSystemName() const;
 	const auto &contentDirectory() const { return contentDirectory_; }
 	FS::PathString contentDirectory(std::string_view name) const;
 	FS::PathString contentFilePath(std::string_view ext) const;
@@ -297,13 +242,13 @@ public:
 
 	FS::PathString contentLocalDirectory(std::string_view basePath, std::string_view name, auto &&...components) const
 	{
-		assert(!contentName_.empty());
+		assume(!contentName_.empty());
 		return FS::uriString(basePath, contentName_, name, IG_forward(components)...);
 	}
 
 	bool createContentLocalDirectory(std::string_view basePath, std::string_view name, auto &&...components)
 	{
-		assert(!contentName_.empty());
+		assume(!contentName_.empty());
 		try
 		{
 			FS::createDirectoryUriSegments(appContext(), basePath, contentName_, name, IG_forward(components)...);
@@ -340,40 +285,44 @@ public:
 	void sessionOptionSet();
 	void resetSessionOptionsSet() { sessionOptionsSet = false; }
 	bool sessionOptionsAreSet() const { return sessionOptionsSet; }
-	void createWithMedia(IG::IO, CStringView path,
+	void createWithMedia(IO, CStringView path,
 		std::string_view displayName, EmuSystemCreateParams, OnLoadProgressDelegate);
 	FS::PathString willLoadContentFromPath(std::string_view path, std::string_view displayName);
 	void loadContentFromPath(CStringView path, std::string_view displayName,
 		EmuSystemCreateParams, OnLoadProgressDelegate);
-	void loadContentFromFile(IG::IO, CStringView path, std::string_view displayName,
+	void loadContentFromFile(IO, CStringView path, std::string_view displayName,
 		EmuSystemCreateParams, OnLoadProgressDelegate);
 	int updateAudioFramesPerVideoFrame();
-	double frameRate() const { return toHz(frameTime()); }
-	FrameTime scaledFrameTime() const
+	FrameRate scaledFrameRate() const
 	{
-		auto t = std::chrono::duration_cast<FloatSeconds>(frameTime()) * frameTimeMultiplier;
-		return std::chrono::duration_cast<FrameTime>(t);
+		if(frameRateMultiplier == 1.)
+		{
+			return frameRate();
+		}
+		else
+		{
+			return frameRate().hz() * frameRateMultiplier;
+		}
 	}
-	double scaledFrameRate() const
-	{
-		return toHz(std::chrono::duration_cast<FloatSeconds>(frameTime()) * frameTimeMultiplier);
-	}
-	void onFrameTimeChanged();
-	static double audioMixRate(int outputRate, double inputFrameRate, FrameTime outputFrameTime);
-	double audioMixRate(int outputRate, FrameTime outputFrameTime) const { return audioMixRate(outputRate, frameRate(), outputFrameTime); }
-	void configFrameTime(int outputRate, FrameTime outputFrameTime);
-	SteadyClockTime benchmark(EmuVideo &video);
+	void onFrameRateChanged();
+	static double audioMixRate(int outputRate, FrameRate inputFrameRate, FrameRate outputFrameRate);
+	double audioMixRate(int outputRate, FrameRate outputFrameRate) const { return audioMixRate(outputRate, frameRate(), outputFrameRate); }
+	void configFrameRate(int outputRate, FrameDuration outputFrameDuration);
+	SteadyClockDuration benchmark(EmuVideo&);
 	bool hasContent() const;
-	void resetFrameTime();
+	void resetFrameTiming();
 	void pause(EmuApp &);
 	void start(EmuApp &);
 	void closeRuntimeSystem(EmuApp &);
+	void runFrames(EmuSystemTaskContext, EmuVideo*, EmuAudio*, int frames);
+	void skipFrames(EmuSystemTaskContext, int frames, EmuAudio*);
+	bool skipForwardFrames(EmuSystemTaskContext, int frames);
 	static void throwFileReadError();
 	static void throwFileWriteError();
 	static void throwMissingContentDirError();
 
 protected:
-	IG::ApplicationContext appCtx{};
+	ApplicationContext appCtx{};
 public:
 	EmuTiming timing;
 protected:
@@ -399,9 +348,7 @@ protected:
 	void closeAndSetupNew(CStringView path, std::string_view displayName);
 
 public:
-	IG::OnFrameDelegate onFrameUpdate;
-	double frameTimeMultiplier{1.};
-	static constexpr double minFrameRate = 48.;
+	double frameRateMultiplier{1.};
 };
 
 // Global instance access if required by the emulated system, valid if EmuApp::needsGlobalInstance initialized to true

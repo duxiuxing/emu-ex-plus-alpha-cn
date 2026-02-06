@@ -1,4 +1,4 @@
-/*  This file is part of NEO.emu.
+﻿/*  This file is part of NEO.emu.
 
 	NEO.emu is free software: you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
@@ -13,19 +13,6 @@
 	You should have received a copy of the GNU General Public License
 	along with NEO.emu.  If not, see <http://www.gnu.org/licenses/> */
 
-#include <emuframework/SystemOptionView.hh>
-#include <emuframework/GUIOptionView.hh>
-#include <emuframework/MainMenuView.hh>
-#include <emuframework/SystemActionsView.hh>
-#include <imagine/gui/AlertView.hh>
-#include <imagine/util/bit.hh>
-#include <imagine/util/ScopeGuard.hh>
-#include "MainApp.hh"
-#include <imagine/fs/FS.hh>
-#include <imagine/io/IO.hh>
-#include <imagine/util/string.h>
-#include <format>
-
 extern "C"
 {
 	#include <gngeo/resfile.h>
@@ -35,10 +22,20 @@ extern "C"
 	#include <gngeo/timer.h>
 	#include <gngeo/memory.h>
 }
+import system;
+import emuex;
+import imagine;
+import std;
+
+#ifndef UI_TEXT_IMPL
+	#define UI_TEXT_IMPL
+	#define UI_TEXT(x)	x
+#endif
 
 namespace EmuEx
 {
 
+using namespace IG;
 using MainAppHelper = EmuAppHelperBase<MainApp>;
 
 class ConsoleOptionView : public TableView, public MainAppHelper
@@ -179,7 +176,7 @@ class CustomSystemOptionView : public SystemOptionView, public MainAppHelper
 		{
 			UI_TEXT("Unibios 3.3"),
 			attachParams(), setBiosDel(), {.id = SYS_UNIBIOS_3_3}
-		},
+        },
 		{
 			UI_TEXT("Unibios 4.0"),
 			attachParams(), setBiosDel(), {.id = SYS_UNIBIOS_4_0}
@@ -521,7 +518,7 @@ static FS::PathString gameFilePath(EmuApp &app, std::string_view name)
 
 constexpr static bool gameFileExists(std::string_view name, std::string_view nameList)
 {
-	return IG::containsAny(nameList,
+	return containsAny(nameList,
 		FS::FileString{name}.append(".zip"),
 		FS::FileString{name}.append(".7z"),
 		FS::FileString{name}.append(".rar"));
@@ -577,7 +574,7 @@ public:
 			ROM_DEF *drv = res_load_drv(&ctx, entry.name);
 			if(!drv)
 				continue;
-			auto freeDrv = IG::scopeGuard([&](){ free(drv); });
+			auto freeDrv = scopeGuard([&](){ std::free(drv); });
 			bool fileExists = gameFileExists(drv->name, fileList);
 			if(!system().optionListAllGames && !fileExists)
 			{
@@ -623,15 +620,15 @@ class UnibiosSwitchesView : public TableView
 	{
 		{
 			UI_TEXT("日本"),
-			attachParams(), [](){ setRegion(0); }
+			attachParams(), []() { setRegion(0); }
 		},
 		{
 			UI_TEXT("美国"),
-			attachParams(), [](){ setRegion(1); }
+			attachParams(), []() { setRegion(1); }
 		},
 		{
 			UI_TEXT("欧洲"),
-			attachParams(), [](){ setRegion(2); }
+			attachParams(), []() { setRegion(2); }
 		},
 	};
 
@@ -653,7 +650,7 @@ class UnibiosSwitchesView : public TableView
 		[this](BoolMenuItem &item, View &, Input::Event e)
 		{
 			bool on = item.flipBoolValue(*this);
-			memory.memcard[2] = on ? IG::bit(7) : 0;
+			memory.memcard[2] = on ? bit(7) : 0;
 		}
 	};
 
@@ -688,7 +685,7 @@ private:
 	TextMenuItem unibiosSwitches
 	{
 		UI_TEXT("Unibios 设置"),
-		attachParams(),
+ 		attachParams(),
 		[this](TextMenuItem &item, View &, Input::Event e)
 		{
 			if(system().hasContent())

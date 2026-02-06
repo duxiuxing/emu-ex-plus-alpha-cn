@@ -207,6 +207,7 @@
 
 #define DRIVE_RPM_ONE                    100        /* 1 RPM */
 #define DRIVE_RPM_MAX                  32000        /* 320 RPM */
+#define DRIVE_RPM_MIN                  28000        /* 280 RPM */
 #define DRIVE_RPM_DEFAULT              30000        /* 300 RPM */
 
 #define DRIVE_WOBBLE_FREQ_ONE           1000        /* 1 Hz */
@@ -424,6 +425,7 @@ int drive_check_expansion8000(int drive_type);
 int drive_check_expansionA000(int drive_type);
 int drive_check_parallel_cable(int drive_type);
 int drive_check_extend_policy(int drive_type);
+int drive_check_dolphindos3(int drive_type);
 int drive_check_profdos(int drive_type);
 int drive_check_supercard(int drive_type);
 int drive_check_stardos(int drive_type);

@@ -18,7 +18,9 @@
 #include <imagine/config/defs.hh>
 #include <imagine/pixmap/PixelFormat.hh>
 #include <imagine/util/rectangle2.h>
+#ifndef IG_USE_MODULE_STD
 #include <array>
+#endif
 
 #ifndef CONFIG_GFX_OPENGL
 #define CONFIG_GFX_OPENGL 1
@@ -111,6 +113,11 @@ enum class TextureBufferMode : uint8_t
 	ANDROID_HARDWARE_BUFFER,
 	ANDROID_SURFACE_TEXTURE,
 	PBO,
+};
+
+enum class TextureBufferImageMode : uint8_t
+{
+	Single, Double
 };
 
 enum class DrawAsyncMode : uint8_t
@@ -232,8 +239,8 @@ struct AttribDesc
 	constexpr bool operator==(AttribDesc const&) const = default;
 };
 
-constexpr bool supportsPresentModes = Config::envIsLinux || Config::envIsAndroid;
-constexpr bool supportsPresentationTime = Config::envIsAndroid;
+inline constexpr bool supportsPresentModes = Config::envIsLinux || Config::envIsAndroid;
+inline constexpr bool supportsPresentationTime = Config::envIsAndroid;
 
 struct GlyphSetMetrics
 {

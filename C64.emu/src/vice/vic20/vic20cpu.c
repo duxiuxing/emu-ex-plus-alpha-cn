@@ -48,12 +48,6 @@ CLOCK maincpu_clk_limit = 0L;
 
 #define SKIP_CYCLE 0
 
-/* Route stack operations through read/write handlers */
-
-#define PUSH(val) (*_mem_write_tab_ptr[0x01])((uint16_t)(0x100 + (reg_sp--)), (uint8_t)(val))
-#define PULL()    (*_mem_read_tab_ptr[0x01])((uint16_t)(0x100 + (++reg_sp)))
-#define STACK_PEEK()  (*_mem_read_tab_ptr_dummy[0x01])((uint16_t)(0x100 + reg_sp))
-
 /* opcode_t etc */
 
 #if !defined WORDS_BIGENDIAN && defined ALLOW_UNALIGNED_ACCESS
@@ -109,7 +103,7 @@ CLOCK maincpu_clk_limit = 0L;
 
 /* HACK: memmap updates for the reg_pc < bank_limit case */
 #ifdef FEATURE_CPUMEMHISTORY
-#define MEMMAP_UPDATE(addr) memmap_mem_update(addr, 0)
+#define MEMMAP_UPDATE(addr) memmap_mem_update(addr, 0, 0)
 #else
 #define MEMMAP_UPDATE(addr)
 #endif
@@ -121,7 +115,7 @@ CLOCK maincpu_clk_limit = 0L;
 #define FETCH_OPCODE(o) \
     do { \
         if (((int)reg_pc) < bank_limit) {                       \
-            o = (*((uint32_t *)(bank_base + reg_pc)) & 0xffffff);  \
+            o = (*((uint32align1 *)(bank_base + reg_pc)) & 0xffffff);  \
             MEMMAP_UPDATE(reg_pc);                              \
             CLK_INC();                                          \
             CLK_INC();                                          \

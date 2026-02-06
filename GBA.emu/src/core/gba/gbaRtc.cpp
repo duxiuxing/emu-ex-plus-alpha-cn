@@ -9,6 +9,9 @@
 #include "core/gba/gba.h"
 #include "core/gba/gbaInline.h"
 
+#define g_rom gba.mem.rom
+
+
 enum RTCSTATE {
     IDLE = 0,
     COMMAND,
@@ -95,7 +98,7 @@ uint16_t rtcRead(GBASys &gba, uint32_t address)
         break;
     }
 
-    return READ16LE((&gba.mem.rom[address & 0x1FFFFFE]));
+    return READ16LE((&g_rom[address & 0x1FFFFFE]));
 }
 
 static uint8_t toBCD(uint8_t value)
@@ -110,7 +113,11 @@ void SetGBATime()
 {
     time_t long_time;
     time(&long_time); /* Get time as long integer. */
+#if __STDC_WANT_SECURE_LIB__
+    localtime_s(&gba_time, &long_time); /* Convert to local time. */
+#else
     gba_time = *localtime(&long_time); /* Convert to local time. */
+#endif
 }
 
 void rtcUpdateTime(int ticks)
@@ -306,7 +313,7 @@ void rtcReset()
     SetGBATime();
 }
 
-
+#if 1
 void rtcSaveGame(uint8_t*& data)
 {
     utilWriteMem(data, &rtcClockData, sizeof(rtcClockData));
@@ -316,7 +323,7 @@ void rtcReadGame(const uint8_t*& data)
 {
     utilReadMem(&rtcClockData, data, sizeof(rtcClockData));
 }
-
+#else
 void rtcSaveGame(gzFile gzFile)
 {
     utilGzWrite(gzFile, &rtcClockData, sizeof(rtcClockData));
@@ -326,3 +333,4 @@ void rtcReadGame(gzFile gzFile)
 {
     utilGzRead(gzFile, &rtcClockData, sizeof(rtcClockData));
 }
+#endif

@@ -42,10 +42,12 @@
 /* #define DBGSYSFILE */
 
 #ifdef DBGSYSFILE
-#define DBG(x)  printf x
+#define DBG(x)  log_printf x
 #else
 #define DBG(x)
 #endif
+
+static log_t sysfile_log = LOG_DEFAULT;
 
 /* Resources.  */
 
@@ -108,7 +110,7 @@ static int set_system_path(const char *val, void *param)
     lib_free(current_dir);
     lib_free(tmp_path_save);
 
-    DBG(("set_system_path -> expanded_system_path:'%s'\n", expanded_system_path));
+    DBG(("set_system_path -> expanded_system_path:'%s'", expanded_system_path));
 
     return 0;
 }
@@ -138,8 +140,11 @@ static const cmdline_option_t cmdline_options[] =
 
 int sysfile_init(const char *emu_id)
 {
+    if (sysfile_log == LOG_DEFAULT) {
+        sysfile_log = log_open("Sysfile");
+    }
     default_path = archdep_default_sysfile_pathlist(emu_id);
-    DBG(("sysfile_init(%s) -> default_path:'%s'\n", emu_id, default_path));
+    DBG(("sysfile_init(%s) -> default_path:'%s'", emu_id, default_path));
     /* HACK: set the default value early, so the systemfile locater also works
              in early startup */
     set_system_path("$$", NULL);
@@ -179,7 +184,7 @@ FILE *sysfile_open(const char *name, const char *subpath, char **complete_path_r
     FILE *f;
 
     if (name == NULL || *name == '\0') {
-        log_error(LOG_DEFAULT, "Missing name for system file.");
+        log_error(sysfile_log, "Missing name for system file.");
         return NULL;
     }
 
@@ -201,7 +206,7 @@ FILE *sysfile_open(const char *name, const char *subpath, char **complete_path_r
         /* make sure we're not opening a directory */
         archdep_stat(p, NULL, &isdir);
         if (isdir) {
-            log_error(LOG_ERR, "'%s' is a directory, not a file.", p);
+            log_error(sysfile_log, "'%s' is a directory, not a file.", p);
             if (complete_path_return != NULL) {
                 *complete_path_return = NULL;
             }
@@ -269,11 +274,11 @@ int sysfile_load(const char *name, const char *subpath, uint8_t *dest, int minsi
         }
     }
 
-    log_message(LOG_DEFAULT, "Loading system file `%s'.", complete_path);
+    log_message(sysfile_log, "Loading `%s'.", complete_path);
 
     tmpsize = archdep_file_size(fp);
     if (tmpsize < 0) {
-        log_message(LOG_DEFAULT, "Failed to determine size of '%s'.", complete_path);
+        log_message(sysfile_log, "Failed to determine size of '%s'.", complete_path);
         goto fail;
     }
     rsize = (size_t)tmpsize;
@@ -285,11 +290,11 @@ int sysfile_load(const char *name, const char *subpath, uint8_t *dest, int minsi
     }
 
     if (rsize < ((size_t)minsize)) {
-        log_error(LOG_DEFAULT, "ROM %s: short file.", complete_path);
+        log_error(sysfile_log, "ROM %s: short file.", complete_path);
         goto fail;
     }
     if (rsize == ((size_t)maxsize + 2)) {
-        log_warning(LOG_DEFAULT,
+        log_warning(sysfile_log,
                     "ROM `%s': two bytes too large - removing assumed "
                     "start address.", complete_path);
         if (fread((char *)dest, 1, 2, fp) < 2) {
@@ -300,7 +305,7 @@ int sysfile_load(const char *name, const char *subpath, uint8_t *dest, int minsi
     if (load_at_end && rsize < ((size_t)maxsize)) {
         dest += maxsize - rsize;
     } else if (rsize > ((size_t)maxsize)) {
-        log_warning(LOG_DEFAULT,
+        log_warning(sysfile_log,
                     "ROM `%s': long file (%"PRI_SIZE_T"), discarding end (%"PRI_SIZE_T" bytes).",
                     complete_path, rsize, rsize - maxsize);
         rsize = maxsize;

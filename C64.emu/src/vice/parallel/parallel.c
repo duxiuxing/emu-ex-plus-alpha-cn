@@ -47,6 +47,7 @@
 #include "cmdline.h"
 #include "drive.h"
 #include "drivetypes.h"
+#include "serial/iec-ieee488-shared.h"
 #include "iecbus.h"
 #include "ieee.h"
 #include "log.h"
@@ -56,26 +57,41 @@
 #include "resources.h"
 #include "types.h"
 
+#define DEBUG_PARALLEL  1
 #ifdef DEBUG_PARALLEL
-#define DBG(x)  log_debug x
+#define DBG(x) log_printf  x
 #else
 #define DBG(x)
 #endif
 
 #define PARALLEL_DEBUG_VERBOSE
 static int parallel_emu = 0;
-static int parallel_unit_enabled[IECBUS_NUM];
 
 void parallel_bus_enable(unsigned int unit, unsigned int enable)
 {
     int n;
     DBG(("parallel_bus_enable unit: %u enable: %u", unit, enable));
-    parallel_unit_enabled[unit] = enable ? 1 : 0;
     parallel_emu = 0;
     for (n = 0; n < IECBUS_NUM; n++) {
-        parallel_emu |= parallel_unit_enabled[unit];
+        parallel_emu |= iec_ieee_device_enabled[unit];
     }
     DBG(("parallel_bus_enable parallel_emu: %d", parallel_emu));
+}
+
+/* Called from indirect_callback() in iec-ieee488-shared.c */
+static int set_ieee_device_enable(int enable, void *param)
+{
+    unsigned int unit;
+
+    unit = vice_ptr_to_uint(param);
+    DBG(("set_ieee_device_enable: enable: %d, unit: %u", enable, unit));
+
+    if ((unit < 4 || unit >= IECBUS_NUM)) {
+        return -1;
+    }
+    parallel_bus_enable(unit, enable);
+
+    return 0;
 }
 
 /***************************************************************************
@@ -184,11 +200,11 @@ static int state = WaitATN;
 static void DoTrans(int tr)
 {
     if (debug.ieee) {
-        log_debug("DoTrans(%s).%s", State[state].name, Trans[tr]);
+        log_debug(LOG_DEFAULT, "DoTrans(%s).%s", State[state].name, Trans[tr]);
     }
     State[state].m[tr](tr);
     if (debug.ieee) {
-        log_debug(" -> %s", State[state].name);
+        log_debug(LOG_DEFAULT, " -> %s", State[state].name);
     }
 }
 #else
@@ -223,7 +239,7 @@ static void unexpected(int trans)
 {
 #ifdef DEBUG
     if (debug.ieee) {
-        log_debug("IEEE488: unexpected line transition in state %s: %s.",
+        log_debug(LOG_DEFAULT, "IEEE488: unexpected line transition in state %s: %s.",
                     State[state].name, Trans[trans]);
     }
 #endif
@@ -261,7 +277,7 @@ static void In1_ATN_false(int tr)
             } else {
 #ifdef DEBUG
                 if (debug.ieee) {
-                    log_debug("IEEE488: Ouch, something weird happened: %s got %s",
+                    log_debug(LOG_DEFAULT, "IEEE488: Ouch, something weird happened: %s got %s",
                                 State[In1].name, Trans[tr]);
                 }
 #endif
@@ -287,7 +303,7 @@ static void In1_DAV_true(int tr)
     }
 #ifdef DEBUG
     if (debug.ieee) {
-        log_debug("IEEE488: sendbyte returns %04x",
+        log_debug(LOG_DEFAULT, "IEEE488: sendbyte returns %04x",
                 (unsigned int)par_status);
     }
 #endif
@@ -360,7 +376,7 @@ static void OPet_NRFD_true(int tr)
 {
 #ifdef DEBUG
     if (debug.ieee) {
-        log_debug("OPet_NRFD_true()");
+        log_debug(LOG_DEFAULT, "OPet_NRFD_true()");
     }
 #endif
     State[Out1].m[NRFD_false](tr);
@@ -456,21 +472,21 @@ static const State_t State[NSTATE] = {
 #define PARALLEL_LINE_DEBUG_CLR(line, linecap)                          \
     if (debug.ieee) {                                                   \
         if (old && !parallel_ ## line) {                                \
-            log_debug("clr_" # line "(%02x) -> " # linecap "_false",    \
+            log_debug(LOG_DEFAULT, "clr_" # line "(%02x) -> " # linecap "_false",    \
                         ~mask & 0xffU); }                               \
         else                                                            \
         if (old & ~mask) {                                              \
-            log_debug("clr_" # line "(%02x) -> %02x",                   \
+            log_debug(LOG_DEFAULT, "clr_" # line "(%02x) -> %02x",                   \
                         ~mask & 0xffU, parallel_ ## line); }            \
     }
 
 #define PARALLEL_LINE_DEBUG_SET(line, linecap)                          \
     if (debug.ieee) {                                                   \
         if (!old) {                                                     \
-            log_debug("set_" # line "(%02x) -> " # linecap "_true", mask); } \
+            log_debug(LOG_DEFAULT, "set_" # line "(%02x) -> " # linecap "_true", mask); } \
         else                                                            \
         if (!(old & mask)) {                                            \
-            log_debug("set_" # line "(%02x) -> %02x",                   \
+            log_debug(LOG_DEFAULT, "set_" # line "(%02x) -> %02x",                   \
                         mask, parallel_ ## line); }                     \
     }
 #else
@@ -550,7 +566,7 @@ void parallel_restore_set_atn(uint8_t mask)
 
 #ifdef DEBUG
     if (debug.ieee && !old) {
-        log_debug("set_atn(%02x) -> ATN_true", mask);
+        log_debug(LOG_DEFAULT, "set_atn(%02x) -> ATN_true", mask);
     }
 #endif
 
@@ -566,7 +582,7 @@ void parallel_restore_clr_atn(uint8_t mask)
 
 #ifdef DEBUG
     if (debug.ieee && old && !parallel_atn) {
-        log_debug("clr_atn(%02x) -> ATN_false",
+        log_debug(LOG_DEFAULT, "clr_atn(%02x) -> ATN_false",
                 (unsigned int)(~mask & 0xff));
     }
 #endif
@@ -653,7 +669,7 @@ void parallel_clr_ndac(uint8_t mask)
 #ifdef DEBUG
 #define PARALLEL_DEBUG_SET_BUS(type)                                    \
     if (debug.ieee) {                                               \
-        log_debug(# type "_set_bus(%02x) -> %02x (%02x)", \
+        log_debug(LOG_DEFAULT, # type "_set_bus(%02x) -> %02x (%02x)", \
                     (unsigned int)b, parallel_bus, ~parallel_bus & 0xffu);             \
     }
 #else
@@ -763,3 +779,15 @@ const drivefunc_context_t drive_funcs[NUM_DISK_UNITS] = {
     }
 
 PARALLEL_CPU_SET_LINE(atn, cpu, CPU)
+
+
+int parallel_resources_init(void)
+{
+    return iec_ieee_device_resources_init(set_ieee_device_enable);
+}
+
+int parallel_cmdline_options_init(void)
+{
+    return iec_ieee_device_cmdline_options_init();
+}
+

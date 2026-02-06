@@ -15,11 +15,14 @@
 	You should have received a copy of the GNU General Public License
 	along with EmuFramework.  If not, see <http://www.gnu.org/licenses/> */
 
-#include <emuframework/config.hh>
+#include <emuframework/defs.hh>
+#include <emuframework/EmuTiming.hh>
+#ifndef IG_USE_MODULE_IMAGINE
 #include <imagine/gui/View.hh>
 #include <imagine/time/Time.hh>
 #include <imagine/gfx/GfxText.hh>
 #include <imagine/gfx/Quads.hh>
+#endif
 
 namespace EmuEx
 {
@@ -28,7 +31,16 @@ using namespace IG;
 class EmuInputView;
 class EmuVideoLayer;
 class EmuSystem;
-struct FrameTimeStats;
+struct FrameTimingStats;
+struct FrameRateConfig;
+struct AudioStats;
+
+struct FrameTimingViewStats
+{
+	FrameTimingStats stats;
+	SteadyClockTimePoint lastFrameTime;
+	FrameRate inputRate, outputRate;
+};
 
 class EmuView : public View
 {
@@ -37,32 +49,49 @@ public:
 	void place() final;
 	void prepareDraw() final;
 	void draw(Gfx::RendererCommands &__restrict__, ViewDrawParams p = {}) const final;
-	void drawframeTimeStatsText(Gfx::RendererCommands &__restrict__);
+	void drawStatsText(Gfx::RendererCommands& __restrict__);
 	bool hasLayer() const { return layer; }
 	void setLayoutInputView(EmuInputView *view) { inputView = view; }
-	void updateFrameTimeStats(FrameTimeStats, SteadyClockTimePoint currentFrameTimestamp);
-	void updateAudioStats(int underruns, int overruns, int callbacks, double avgCallbackFrames, int frames);
-	void clearAudioStats();
+	void setShowFrameTimingStats(bool);
+	void setShowAudioStats(bool);
+	bool showingFrameTimingStats() const { return showFrameTimingStats; }
+	bool showingAudioStats() const { return showAudioStats; }
+	void setFrameTimingStats(FrameTimingViewStats);
+	void setAudioStats(AudioStats);
 	EmuVideoLayer *videoLayer() const { return layer; }
 	auto& system(this auto&& self) { return *self.sysPtr; }
 
 private:
-	EmuVideoLayer *layer{};
-	EmuInputView *inputView{};
-	EmuSystem *sysPtr{};
-	struct FrameTimeStatsUI
+	struct StatsDisplay
 	{
 		Gfx::Text text;
 		Gfx::IQuads bgQuads;
 		WRect rect{};
 	};
-	ConditionalMember<enableFrameTimeStats, FrameTimeStatsUI> frameTimeStats;
-	#ifdef CONFIG_EMUFRAMEWORK_AUDIO_STATS
-	Gfx::Text audioStatsText{};
-	WRect audioStatsRect{};
-	#endif
 
-	void placeFrameTimeStats();
+	EmuVideoLayer *layer{};
+	EmuInputView *inputView{};
+	EmuSystem *sysPtr{};
+	std::string frameTimingStatsStr;
+	std::string audioStatsStr;
+	std::string statsStr;
+	StatsDisplay statsDisplay;
+	bool showStats{};
+	bool showFrameTimingStats{};
+	bool showAudioStats{};
+
+	void updateShowStats()
+	{
+		showStats = showFrameTimingStats || showAudioStats;
+		if(!showStats)
+		{
+			statsStr = {};
+			statsDisplay.text.resetString();
+		}
+	}
+
+	void updateStatsDisplay();
+	void placeStats();
 };
 
 }

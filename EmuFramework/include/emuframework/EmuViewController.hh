@@ -18,6 +18,7 @@
 #include <emuframework/EmuInputView.hh>
 #include <emuframework/EmuView.hh>
 #include <emuframework/EmuAppHelper.hh>
+#ifndef IG_USE_MODULE_IMAGINE
 #include <imagine/gui/ViewStack.hh>
 #include <imagine/gui/ToastView.hh>
 
@@ -35,6 +36,7 @@ namespace IG::Input
 class Event;
 class KeyEvent;
 }
+#endif
 
 namespace EmuEx
 {
@@ -44,7 +46,7 @@ class EmuApp;
 class EmuAudio;
 class EmuSystem;
 struct WindowData;
-struct FrameTimeConfig;
+struct FrameRateConfig;
 class MainMenuView;
 
 class EmuMenuViewStack : public ViewStack
@@ -72,18 +74,18 @@ public:
 	void dismissView(int idx, bool refreshLayout) final;
 	bool inputEvent(const Input::Event&) final;
 	bool extraWindowInputEvent(const Input::Event &e);
-	void showEmulationView(FrameTimeConfig);
+	void showEmulationView();
 	void showMenuView(bool updateTopView);
 	void placeEmuViews();
 	void placeElements();
-	void updateMainWindowViewport(IG::Window &, IG::Viewport, Gfx::RendererTask &);
-	void updateExtraWindowViewport(IG::Window &, IG::Viewport, Gfx::RendererTask &);
-	bool drawMainWindow(IG::Window &win, IG::WindowDrawParams, Gfx::RendererTask &);
-	bool drawExtraWindow(IG::Window &win, IG::WindowDrawParams, Gfx::RendererTask &);
+	void updateMainWindowViewport(Window &, Viewport, Gfx::RendererTask &);
+	void updateExtraWindowViewport(Window &, Viewport, Gfx::RendererTask &);
+	bool drawMainWindow(Window &win, WindowDrawParams, Gfx::RendererTask &);
+	bool drawExtraWindow(Window &win, WindowDrawParams, Gfx::RendererTask &);
 	void popToSystemActionsMenu();
 	void postDrawToEmuWindows();
-	IG::Screen *emuWindowScreen() const;
-	IG::Window &emuWindow() const;
+	Screen *emuWindowScreen() const;
+	Window &emuWindow() const;
 	WindowData &emuWindowData();
 	bool hasModalView() const;
 	void popModalViews();
@@ -97,11 +99,11 @@ public:
 	void onSystemClosed();
 	MainMenuView &mainMenu();
 	bool isMenuDismissKey(const Input::KeyEvent &) const;
-	IG::ApplicationContext appContext() const;
+	ApplicationContext appContext() const;
 	bool isShowingEmulation() const { return showingEmulation; }
 	void onHide();
-	void movePopupToWindow(IG::Window &win);
-	void moveEmuViewToWindow(IG::Window &win);
+	void movePopupToWindow(Window &win);
+	void moveEmuViewToWindow(Window &win);
 	View &top() const { return viewStack.top(); }
 
 public:
@@ -118,7 +120,7 @@ public:
 	static constexpr bool HAS_USE_RENDER_TIME = Config::envIsLinux
 		|| (Config::envIsAndroid && Config::ENV_ANDROID_MIN_SDK < 16);
 
-	void configureWindowForEmulation(Window &, FrameTimeConfig, bool running);
+	void configureWindowForEmulation(Window&, bool running);
 	EmuVideoLayer &videoLayer() const;
 };
 

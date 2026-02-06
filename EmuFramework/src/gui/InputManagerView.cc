@@ -13,26 +13,14 @@
 	You should have received a copy of the GNU General Public License
 	along with EmuFramework.  If not, see <http://www.gnu.org/licenses/> */
 
-#include <emuframework/ButtonConfigView.hh>
-#include <emuframework/EmuApp.hh>
-#include <emuframework/EmuViewController.hh>
-#include <emuframework/AppKeyCode.hh>
-#include <emuframework/EmuOptions.hh>
-#include <emuframework/viewUtils.hh>
 #include "InputManagerView.hh"
 #include "ProfileSelectView.hh"
 #include "../InputDeviceData.hh"
-#include <imagine/gui/TextEntry.hh>
-#include <imagine/gui/TextTableView.hh>
-#include <imagine/gui/AlertView.hh>
-#include <imagine/base/ApplicationContext.hh>
-#include <imagine/gfx/RendererCommands.hh>
-#include <imagine/bluetooth/BluetoothAdapter.hh>
-#include <imagine/util/ScopeGuard.hh>
-#include <imagine/util/format.hh>
-#include <imagine/util/variant.hh>
-#include <imagine/util/bit.hh>
-#include <imagine/logger/logger.h>
+#include <emuframework/EmuApp.hh>
+#include <emuframework/AppKeyCode.hh>
+#include <emuframework/viewUtils.hh>
+#include <emuframework/ButtonConfigView.hh>
+import imagine;
 
 namespace EmuEx
 {
@@ -88,7 +76,7 @@ bool IdentInputDeviceView::inputEvent(const Input::Event& e, ViewInputEventParam
 
 void IdentInputDeviceView::draw(Gfx::RendererCommands&__restrict__ cmds, ViewDrawParams) const
 {
-	using namespace IG::Gfx;
+	using namespace Gfx;
 	auto &basicEffect = cmds.basicEffect();
 	cmds.set(BlendMode::OFF);
 	basicEffect.disableTexture(cmds);
@@ -219,7 +207,7 @@ InputManagerView::InputManagerView(ViewAttachParams attach,
 		attach,
 		[this](const Input::Event &e)
 		{
-			pushAndShow(makeView<InputManagerOptionsView>(app().viewController().inputView), e);
+			pushAndShow(makeView<InputManagerOptionsView>(), e);
 		}
 	},
 	deviceListHeading
@@ -294,7 +282,7 @@ void InputManagerView::pushAndShowDeviceView(const Input::Device &dev, const Inp
 	pushAndShow(makeViewWithName<InputManagerDeviceView>(inputDevData(dev).displayName, *this, dev, inputManager), e);
 }
 
-InputManagerOptionsView::InputManagerOptionsView(ViewAttachParams attach, EmuInputView& emuInputView_):
+InputManagerOptionsView::InputManagerOptionsView(ViewAttachParams attach):
 	TableView
 	{
 		UI_TEXT("常规选项"),
@@ -381,8 +369,7 @@ InputManagerOptionsView::InputManagerOptionsView(ViewAttachParams attach, EmuInp
 		{
 			app().setSwappedConfirmKeys(item.flipBoolValue(*this));
 		}
-	},
-	emuInputView{emuInputView_}
+	}
 {
 	if constexpr(MOGA_INPUT)
 	{
@@ -431,13 +418,13 @@ InputManagerDeviceView::InputManagerDeviceView(UTF16String name, ViewAttachParam
 	{
 		[&]
 		{
-			DynArray<TextMenuItem> items{EmuSystem::maxPlayers + 1uz};
+			DynArray<TextMenuItem> items{AppMeta::maxPlayers + 1uz};
 			items[0] =
 				{
 					UI_TEXT("多人合作"),
 					attach, {.id = playerIndexMulti}
 				};
-			for(auto i : iotaCount(EmuSystem::maxPlayers))
+			for(auto i: iotaCount(AppMeta::maxPlayers))
 			{
 				items[i + 1] = {playerNumStrings[i], attach, {.id = i}};
 			}
@@ -573,7 +560,8 @@ InputManagerDeviceView::InputManagerDeviceView(UTF16String name, ViewAttachParam
 						auto conf = devConf.mutableKeyConf(inputManager);
 						if(!conf)
 						{
-							bug_unreachable("confirmed deletion of a read-only key config, should never happen");
+							log.error("confirmed deletion of a read-only key config, should never happen");
+							unreachable();
 						}
 						log.info("deleting profile:{}", conf->name);
 						inputManager.deleteKeyProfile(appContext(), conf);
@@ -712,20 +700,20 @@ void InputManagerDeviceView::loadItems()
 {
 	auto &dev = devConf.device();
 	item.clear();
-	auto categoryCount = EmuApp::keyCategories().size();
+	auto categoryCount = AppMeta::keyCategories().size();
 	bool hasJoystick = dev.motionAxes().size();
 	auto joystickItemCount = hasJoystick ? 9 : 0;
 	item.reserve(categoryCount + joystickItemCount + 12);
 	inputCategory.clear();
 	inputCategory.reserve(categoryCount + 1);
-	if(EmuSystem::maxPlayers > 1)
+	if(AppMeta::maxPlayers > 1)
 	{
 		item.emplace_back(&player);
 	}
 	item.emplace_back(&loadProfile);
 	item.emplace_back(&categories);
 	addCategoryItem(appKeyCategory);
-	for(auto &cat : EmuApp::keyCategories())
+	for(auto &cat : AppMeta::keyCategories())
 	{
 		if(cat.multiplayerIndex && devConf.savedPlayer() != playerIndexMulti)
 			continue;

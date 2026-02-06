@@ -22,11 +22,11 @@
 #include <imagine/base/linux/DRMFrameTimer.hh>
 #include <imagine/base/linux/FBDevFrameTimer.hh>
 #include <imagine/base/FrameTimerInterface.hh>
+#include <xcb/xproto.h>
+#ifndef IG_USE_MODULE_STD
 #include <utility>
 #include <variant>
-
-struct xcb_connection_t;
-struct xcb_screen_t;
+#endif
 
 namespace IG
 {
@@ -34,7 +34,6 @@ namespace IG
 class ApplicationContext;
 
 using FrameTimerVariant = std::variant<
-	NullFrameTimer,
 	SimpleFrameTimer,
 	#if CONFIG_PACKAGE_LIBDRM
 	DRMFrameTimer,
@@ -71,10 +70,8 @@ public:
 
 protected:
 	xcb_screen_t* xScreen{};
-	FrameTimer frameTimer;
-	SteadyClockTime frameTime_{};
+	FrameRate frameRate_{};
 	float xMM{}, yMM{};
-	float frameRate_{};
 	bool reliableFrameTime = true;
 };
 

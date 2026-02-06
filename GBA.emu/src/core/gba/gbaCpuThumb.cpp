@@ -20,7 +20,11 @@
 #endif
 
 #ifdef _MSC_VER
+#if __STDC_WANT_SECURE_LIB__
+#define snprintf sprintf_s
+#else
 #define snprintf _snprintf
+#endif
 #endif
 
 ///////////////////////////////////////////////////////////////////////////
@@ -39,7 +43,6 @@
 #define busPrefetch cpu.busPrefetch
 #define busPrefetchEnable cpu.busPrefetchEnable
 #define CPUReadMemory(address) CPUReadMemory(cpu, address)
-#define CPUReadHalfWord(address) CPUReadHalfWord(cpu, address)
 #define CPUReadHalfWordSigned(address) CPUReadHalfWordSigned(cpu, address)
 #define CPUReadByte(address) CPUReadByte(cpu, address)
 #define CPUWriteMemory(address, value) CPUWriteMemory(cpu, address, value)
@@ -52,6 +55,8 @@
 #define dataTicksAccess16(address) dataTicksAccess16(cpu, address)
 #define codeTicksAccessSeq16(address) codeTicksAccessSeq16(cpu, address)
 #define codeTicksAccess16(address) codeTicksAccess16(cpu, address)
+#undef INSN_REGPARM
+#define INSN_REGPARM
 
 static inline __attribute__((always_inline)) int calcTicksFromOldPC(ARM7TDMI &cpu, uint32_t oldArmNextPC)
 {
@@ -1439,7 +1444,7 @@ static INSN_REGPARM int thumb5E(ARM7TDMI &cpu, uint32_t opcode, uint32_t oldArmN
   if (busPrefetchCount == 0)
     busPrefetch = busPrefetchEnable;
   uint32_t address = reg[(opcode >> 3) & 7].I + reg[(opcode >> 6) & 7].I;
-  reg[opcode & 7].I = (uint32_t)CPUReadHalfWordSigned(address);
+  reg[opcode & 7].I = CPUReadHalfWordSigned(address);
   return 3 + dataTicksAccess16(address) + codeTicksAccess16(armNextPC);
 }
 
@@ -1920,6 +1925,17 @@ static INSN_REGPARM int thumbE0(ARM7TDMI &cpu, uint32_t opcode, uint32_t oldArmN
   return clockTicks;
 }
 
+static INSN_REGPARM int thumbE8(ARM7TDMI &cpu, uint32_t opcode, uint32_t oldArmNextPC)
+{
+#ifdef GBA_LOGGING
+    // TODO: This is (erroneously) used by some Wii U VC ROMs. We should have a configuration
+    // toggle to enable the correct hardware behavior, which would be to call CPUUndefinedException.
+    if (systemVerbose & VERBOSE_UNDEFINED)
+        log("Undefined Wii U THUMB instruction %04x at %08x (ignored)\n", opcode, armNextPC - 2);
+#endif
+    return 0;
+}
+
 // BLL #offset (forward)
 static INSN_REGPARM int thumbF0(ARM7TDMI &cpu, uint32_t opcode, uint32_t oldArmNextPC)
 {
@@ -2078,7 +2094,7 @@ constexpr insnfunc_t thumbInsnTable[1024] = {
     thumbE0, thumbE0, thumbE0, thumbE0, thumbE0, thumbE0, thumbE0, thumbE0,
     thumbE0, thumbE0, thumbE0, thumbE0, thumbE0, thumbE0, thumbE0, thumbE0,
     thumbE0, thumbE0, thumbE0, thumbE0, thumbE0, thumbE0, thumbE0, thumbE0,
-    thumbUI, thumbUI, thumbUI, thumbUI, thumbUI, thumbUI, thumbUI, thumbUI, // E8
+		thumbE8, thumbUI, thumbUI, thumbUI, thumbUI, thumbUI, thumbUI, thumbUI, // E8
     thumbUI, thumbUI, thumbUI, thumbUI, thumbUI, thumbUI, thumbUI, thumbUI,
     thumbUI, thumbUI, thumbUI, thumbUI, thumbUI, thumbUI, thumbUI, thumbUI,
     thumbUI, thumbUI, thumbUI, thumbUI, thumbUI, thumbUI, thumbUI, thumbUI,
@@ -2100,7 +2116,7 @@ int thumbExecute(ARM7TDMI &cpu)
 	int &cpuTotalTicks = cpu.cpuTotalTicks;
   do {
 	  if (coreOptions.cheatsEnabled) {
-		  cpuMasterCodeCheck(cpu);
+		  cpuMasterCodeCheck();
 	  }
 
     //if ((armNextPC & 0x0803FFFF) == 0x08020000)

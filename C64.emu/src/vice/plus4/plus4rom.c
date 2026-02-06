@@ -42,7 +42,7 @@
 #include "types.h"
 
 
-static log_t plus4rom_log = LOG_ERR;
+static log_t plus4rom_log = LOG_DEFAULT;
 
 /* Flag: nonzero if the Kernal and BASIC ROMs have been loaded.  */
 int plus4_rom_loaded = 0;
@@ -55,7 +55,7 @@ static void get_trapflags(void)
 {
     int i;
     for(i = 0; trapdevices[i] != -1; i++) {
-        resources_get_int_sprintf("VirtualDevice%d", &trapfl[i], trapdevices[i]);
+        resources_get_int_sprintf("TrapDevice%d", &trapfl[i], trapdevices[i]);
     }
 }
 
@@ -63,7 +63,7 @@ static void clear_trapflags(void)
 {
     int i;
     for(i = 0; trapdevices[i] != -1; i++) {
-        resources_set_int_sprintf("VirtualDevice%d", 0, trapdevices[i]);
+        resources_set_int_sprintf("TrapDevice%d", 0, trapdevices[i]);
     }
 }
 
@@ -71,7 +71,7 @@ static void restore_trapflags(void)
 {
     int i;
     for(i = 0; trapdevices[i] != -1; i++) {
-        resources_set_int_sprintf("VirtualDevice%d", trapfl[i], trapdevices[i]);
+        resources_set_int_sprintf("TrapDevice%d", trapfl[i], trapdevices[i]);
     }
 }
 
@@ -122,7 +122,7 @@ int mem_load(void)
 {
     const char *rom_name = NULL;
 
-    if (plus4rom_log == LOG_ERR) {
+    if (plus4rom_log == LOG_DEFAULT) {
         plus4rom_log = log_open("PLUS4MEM");
     }
 

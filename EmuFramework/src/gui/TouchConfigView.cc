@@ -14,21 +14,13 @@
 	along with EmuFramework.  If not, see <http://www.gnu.org/licenses/> */
 
 #include <emuframework/TouchConfigView.hh>
+#include <emuframework/VController.hh>
 #include <emuframework/EmuApp.hh>
 #include <emuframework/AppKeyCode.hh>
 #include <emuframework/viewUtils.hh>
-#include <imagine/gui/AlertView.hh>
-#include <imagine/gui/TextTableView.hh>
-#include <imagine/gfx/RendererCommands.hh>
-#include <imagine/util/variant.hh>
-#include "PlaceVideoView.hh"
 #include "PlaceVControlsView.hh"
-#include <utility>
-#include <vector>
-#include <array>
-#include <span>
-#include <ranges>
-#include <format>
+#include "PlaceVideoView.hh"
+import imagine;
 
 namespace EmuEx
 {
@@ -61,7 +53,7 @@ static void addCategories(EmuApp&, VControllerElement &elem, auto &&addCategory)
 	}
 	else
 	{
-		for(auto &cat : EmuApp::keyCategories() | std::views::filter([](auto &c){return !c.multiplayerIndex;}))
+		for(auto &cat : AppMeta::keyCategories() | std::views::filter([](auto &c){return !c.multiplayerIndex;}))
 		{
 			addCategory(cat);
 		}
@@ -862,7 +854,7 @@ public:
 		vCtrl{vCtrl_},
 		confView{confView_}
 	{
-		for(const auto &c : system().inputDeviceDesc(0).components)
+		for(const auto &c : AppMeta::inputDeviceDesc(0).components)
 		{
 			buttons.emplace_back(
 				c.name, attach,
@@ -874,9 +866,6 @@ public:
 		buttons.emplace_back(
 			leftUIComponents.name, attach,
 			[this]{ add(leftUIComponents); });
-		buttons.emplace_back(
-			rewindUIComponents.name, attach,
-			[this]{ add(rewindUIComponents); });
 	}
 
 private:
@@ -909,7 +898,7 @@ void TouchConfigView::refreshTouchConfigMenu()
 {
 	alpha.setSelected(MenuId{vController.buttonAlpha()}, *this);
 	touchCtrl.setSelected((int)vController.gamepadControlsVisibility(), *this);
-	if(EmuSystem::maxPlayers > 1)
+	if(AppMeta::maxPlayers > 1)
 		player.setSelected((int)vController.inputPlayer(), *this);
 	size.setSelected(MenuId{vController.buttonSize()}, *this);
 	if(app().vibrationManager.hasVibrator())
@@ -955,10 +944,10 @@ TouchConfigView::TouchConfigView(ViewAttachParams attach, VController &vCtrl):
 	{
 		[&] -> DynArray<TextMenuItem>
 		{
-			if(EmuSystem::maxPlayers == 1)
+			if(AppMeta::maxPlayers == 1)
 				return {};
-			DynArray<TextMenuItem> items{size_t(EmuSystem::maxPlayers)};
-			for(auto i : iotaCount(EmuSystem::maxPlayers))
+			DynArray<TextMenuItem> items{size_t(AppMeta::maxPlayers)};
+			for(auto i: iotaCount(AppMeta::maxPlayers))
 			{
 				items[i] = {playerNumStrings[i], attach, {.id = i}};
 			}
@@ -1259,7 +1248,7 @@ void TouchConfigView::reloadItems()
 	elementItems.clear();
 	item.clear();
 	item.emplace_back(&touchCtrl);
-	if(EmuSystem::maxPlayers > 1)
+	if(AppMeta::maxPlayers > 1)
 	{
 		item.emplace_back(&player);
 	}

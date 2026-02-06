@@ -1154,7 +1154,7 @@ bool vhk_parser_parse(const char *path)
                 char *trimmed  = vhk_parser_strtrim(line);
 
                 if (vhk_debug) {
-                    log_debug("(%s) LINE %3ld: '%s'",
+                    log_debug(LOG_DEFAULT, "(%s) LINE %3ld: '%s'",
                               ifstack_true() ? "TRUE " : "FALSE",
                               textfile_reader_linenum(&reader),
                               line);
@@ -1246,13 +1246,6 @@ static const predef_symbol_t predef_symbols[] = {
         false
 #endif
     },
-    {   "HAVE_FFMPEG",
-#ifdef HAVE_FFMPEG
-        true
-#else
-        false
-#endif
-    },
     {   "UNIX",
 #if defined(UNIX_COMPILE) && !defined(MACOS_COMPILE)
         true
@@ -1283,7 +1276,7 @@ static void add_predef_symbols(void)
 
     for (i = 0; i < ARRAY_LEN(predef_symbols); i++) {
         if (!symbol_add(predef_symbols[i].name, predef_symbols[i].value)) {
-            log_error(LOG_ERR,
+            log_error(LOG_DEFAULT,
                       "Predefined symbol '%s' already in table.",
                       predef_symbols[i].name);
             return;

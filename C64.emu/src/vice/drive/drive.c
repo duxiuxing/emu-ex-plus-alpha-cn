@@ -80,7 +80,7 @@
 #include "vsync.h"
 
 #ifdef DEBUG_DRIVE
-#define DBG(x) log_debug x
+#define DBG(x) log_printf  x
 #else
 #define DBG(x)
 #endif
@@ -90,7 +90,7 @@ static int drive_init_was_called = 0;
 diskunit_context_t *diskunit_context[NUM_DISK_UNITS];
 
 /* Generic drive logging goes here.  */
-static log_t drive_log = LOG_ERR;
+static log_t drive_log = LOG_DEFAULT;
 
 /* If nonzero, at least one vaild drive ROM has already been loaded.  */
 int rom_loaded = 0;
@@ -195,6 +195,7 @@ int drive_init(void)
 
     }
 
+    /* NOTE: this will not actually load the images yet, only check of the ROMs exist */
     driverom_load_images();
     /* Do not error out if _SOME_ images are not found, ie. FD2K/4K, CMDHD */
 #if 0
@@ -207,8 +208,7 @@ int drive_init(void)
     }
 #endif
 
-    log_message(drive_log, "Finished loading ROM images.");
-    rom_loaded = 1;
+    rom_loaded = 1; /* mark drive ROMs being tested OK */
 
     for (unit = 0; unit < NUM_DISK_UNITS; unit++) {
         diskunit_context_t *diskunit = diskunit_context[unit];
@@ -220,8 +220,11 @@ int drive_init(void)
             resources_set_int_sprintf("Drive%uType", DRIVE_TYPE_NONE, unit + 8);
         }
 
+        /* This will trigger loading the ROM if needed */
         machine_drive_rom_setup_image(unit);
     }
+
+    log_verbose(drive_log, "Finished loading ROM images.");
 
     for (unit = 0; unit < NUM_DISK_UNITS; unit++) {
         diskunit_context_t *diskunit = diskunit_context[unit];
@@ -570,43 +573,38 @@ void drive_cpu_early_init_all(void)
     }
 }
 
+/* reset one drive only */
 void drive_cpu_trigger_reset(unsigned int dnr)
 {
+    unsigned int d;
     diskunit_context_t *unit = diskunit_context[dnr];
 
-    if (unit->type == DRIVE_TYPE_2000 || unit->type == DRIVE_TYPE_4000 ||
+    if (unit->type == DRIVE_TYPE_2000 ||
+        unit->type == DRIVE_TYPE_4000 ||
         unit->type == DRIVE_TYPE_CMDHD) {
-        drivecpu65c02_trigger_reset(dnr);
+        drivecpu65c02_reset(diskunit_context[dnr]);
     } else {
-        drivecpu_trigger_reset(dnr);
+        drivecpu_reset(diskunit_context[dnr]);
     }
+
+    for (d = 0; d < NUM_DRIVES; d++) {
+        drive_t *drive = unit->drives[d];
+
+        drive->led_last_change_clk = *(unit->clk_ptr);
+        drive->led_last_uiupdate_clk = *(unit->clk_ptr);
+        drive->led_active_ticks = 0;
+    }
+
     is_jammed[dnr] = false;
 }
 
 /* called by machine_specific_reset() */
+/* reset all drives */
 void drive_reset(void)
 {
     unsigned int dnr;
-    unsigned int d;
-
     for (dnr = 0; dnr < NUM_DISK_UNITS; dnr++) {
-        diskunit_context_t *unit = diskunit_context[dnr];
-
-        if (unit->type == DRIVE_TYPE_2000 || unit->type == DRIVE_TYPE_4000 ||
-            unit->type == DRIVE_TYPE_CMDHD) {
-            drivecpu65c02_reset(diskunit_context[dnr]);
-        } else {
-            drivecpu_reset(diskunit_context[dnr]);
-        }
-
-        for (d = 0; d < NUM_DRIVES; d++) {
-            drive_t *drive = unit->drives[d];
-
-            drive->led_last_change_clk = *(unit->clk_ptr);
-            drive->led_last_uiupdate_clk = *(unit->clk_ptr);
-            drive->led_active_ticks = 0;
-        }
-        is_jammed[dnr] = false;
+        drive_cpu_trigger_reset(dnr);
     }
 }
 
@@ -908,7 +906,13 @@ static void drive_led_update(diskunit_context_t *unit, drive_t *drive, int base)
            and the LED was on */
         led_pwm1 = 1000;
     } else {
-        led_pwm1 = (int)(drive->led_active_ticks / led_period * 1000);
+        led_pwm1 = (int)((drive->led_active_ticks * 1000) / led_period);
+        /* With the 1541's real LED, the human eye perceives brightness much earlier in the PWM
+        * duty cycle range; the blog post at
+        * https://blog.mbedded.ninja/programming/firmware/controlling-led-brightness-using-pwm/
+        * describes this. so adjust our output intensity level to compensate, using a square
+        * root power function to produce higher RGB outputs at lower PWM duty cycle levels. */
+        led_pwm1 = 1000 * sqrt((float) led_pwm1 / 1000.0);
     }
     assert(led_pwm1 <= MAX_PWM);
     if (led_pwm1 > MAX_PWM) {

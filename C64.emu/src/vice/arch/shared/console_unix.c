@@ -46,6 +46,13 @@
 
 #include "lib/linenoise-ng/linenoise.h"
 
+/*#define DEBUG_CONSOLE*/
+
+#ifdef DEBUG_CONSOLE
+#define DBG(x)  log_printf x
+#else
+#define DBG(x)
+#endif
 
 typedef struct console_private_s {
     FILE *input;
@@ -98,6 +105,9 @@ console_t *native_console_open(const char *id)
     console->console_can_stay_open = 1;
     console->console_cannot_output = 0;
 
+    DBG(("native_console_open console:%p console_can_stay_open:%d console_cannot_output:%d",
+        console, console->console_can_stay_open, console->console_cannot_output));
+
     return console;
 
 exitnull:
@@ -108,12 +118,15 @@ exitnull:
 
 int native_console_close(console_t *log)
 {
-    lib_free(log->private);
-    lib_free(log);
+    if(log != NULL) {
+        lib_free(log->private);
+        lib_free(log);
+    }
     linenoiseHistoryFree();
     return 0;
 }
 
+/* output to console, no translation (ASCII) */
 int native_console_out(console_t *log, const char *format, ...)
 {
     va_list ap;
@@ -134,7 +147,7 @@ int native_console_out(console_t *log, const char *format, ...)
     return 0;
 }
 
-int native_console_petscii_out(console_t *log, const char *format, ...)
+int native_console_petscii_out(int maxlen, console_t *log, const char *format, ...)
 {
     va_list ap;
     char *buf;
@@ -146,18 +159,85 @@ int native_console_petscii_out(console_t *log, const char *format, ...)
     va_end(ap);
 
     if (buf) {
-        for (i = 0; (c = buf[i]) != 0; i++) {
-            if (c == '\t') {
-                buf[i] = ' ';
-            } else if (((c < 32) || (c > 126)) && (c != '\n')) {
-                buf[i] = charset_p_toascii(c, CONVERT_WITH_CTRLCODES);
+        for (i = 0; i < maxlen; i++) {
+            c = buf[i];
+            if ((c == '\t') || (c == '\r') || (c == '\n')){
+                c = '.';
+            } else if (c == 0) {
+                c = '@';
+            } else if ((c < 32) || (c > 126)) {
+                c = charset_p_toascii(c, CONVERT_WITH_CTRLCODES);
+            }
+            if (log && (log->private->output)) {
+                fprintf(log->private->output, "%c", c);
+            } else {
+                fprintf(stdout, "%c", c);
             }
         }
+        lib_free(buf);
+    }
+    return 0;
+}
 
-        if (log && (log->private->output)) {
-            fprintf(log->private->output, "%s", buf);
-        } else {
-            fprintf(stdout, "%s", buf);
+int native_console_petscii_upper_out(int maxlen, console_t *log, const char *format, ...)
+{
+    va_list ap;
+    char *buf;
+    unsigned char c;
+    int i;
+
+    va_start(ap, format);
+    buf = lib_mvsprintf(format, ap);
+    va_end(ap);
+
+    if (buf) {
+        for (i = 0; i < maxlen; i++) {
+            c = buf[i];
+            if ((c == '\t') || (c == '\r') || (c == '\n')){
+                c = '.';
+            } else if (c == 0) {
+                c = '@';
+            } else if ((c < 32) || (c > 126)) {
+                c = charset_p_toascii(c, CONVERT_WITH_CTRLCODES);
+            }
+            if (log && (log->private->output)) {
+                fprintf(log->private->output, "%c", c);
+            } else {
+                fprintf(stdout, "%c", c);
+            }
+        }
+        lib_free(buf);
+    }
+    return 0;
+}
+
+int native_console_scrcode_out(int maxlen, console_t *log, const char *format, ...)
+{
+    va_list ap;
+    char *buf;
+    unsigned char c;
+    int i;
+
+    va_start(ap, format);
+    buf = lib_mvsprintf(format, ap);
+    va_end(ap);
+
+    if (buf) {
+        for (i = 0; i < maxlen; i++) {
+            c = buf[i];
+            c = charset_screencode_to_petscii(c);
+            if ((c == '\t') || (c == '\r') || (c == '\n')){
+                c = '.';
+            } else if (c == 0) {
+                c = '@';
+            } else if ((c < 32) || (c > 126)) {
+                c = charset_p_toascii(c, CONVERT_WITH_CTRLCODES);
+            }
+            if (log && (log->private->output)) {
+                fprintf(log->private->output, "%c", c);
+            } else {
+                fprintf(stdout, "%c", c);
+            }
         }
         lib_free(buf);
     }

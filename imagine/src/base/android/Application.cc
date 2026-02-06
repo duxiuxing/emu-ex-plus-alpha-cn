@@ -13,39 +13,32 @@
 	You should have received a copy of the GNU General Public License
 	along with Imagine.  If not, see <http://www.gnu.org/licenses/> */
 
-#include <cstdlib>
+#include <imagine/base/Application.hh>
+#include <imagine/fs/FS.hh>
+#include <imagine/util/ScopeGuard.hh>
+#include <imagine/util/utility.hh>
+#include <imagine/util/format.hh>
+#include <imagine/logger/SystemLogger.hh>
 #include <android/window.h>
 #include <android/configuration.h>
 #include <android/looper.h>
 #include <android/native_activity.h>
 #include <android/api-level.h>
-#include <android/bitmap.h>
+#include <android/log.h>
 #include <dlfcn.h>
-#include <imagine/base/ApplicationContext.hh>
-#include <imagine/base/Application.hh>
-#include <imagine/base/Window.hh>
-#include <imagine/base/Screen.hh>
-#include <imagine/base/Timer.hh>
-#include <imagine/fs/FS.hh>
-#include <imagine/thread/Thread.hh>
-#include <imagine/pixmap/Pixmap.hh>
-#include <imagine/io/FileIO.hh>
-#include <imagine/util/utility.h>
-#include <imagine/util/algorithm.h>
-#include <imagine/util/ScopeGuard.hh>
-#include <imagine/util/format.hh>
-#include "android.hh"
-#include <imagine/base/android/AndroidInputDevice.hh>
-#include <imagine/logger/logger.h>
+#include <unistd.h>
+#include <pthread.h>
+#include <errno.h>
+#include <string.h>
+import imagine.internal.android;
 
 namespace IG
 {
 
-constexpr SystemLogger log{"App"};
+static SystemLogger log{"App"};
 static JavaVM* jVM{};
 static void *mainLibHandle{};
 [[maybe_unused]] constexpr bool unloadNativeLibOnDestroy{};
-pid_t mainThreadId{};
 pthread_key_t jEnvPThreadKey{};
 
 static void setNativeActivityCallbacks(ANativeActivity *nActivity);
@@ -72,7 +65,7 @@ AndroidApplication::AndroidApplication(ApplicationInitParams initParams):
 	if(Config::DEBUG_BUILD)
 	{
 		auto extPath = sharedStoragePath(env, baseActivityClass);
-		logger_setLogDirectoryPrefix(extPath.data());
+		Log::setLogDirectoryPrefix(extPath.data());
 		log.info("SDK API Level:{}", androidSDK);
 		log.info("internal storage path:{}", ctx.supportPath({}));
 		log.info("external storage path:{}", extPath);
@@ -88,41 +81,6 @@ AndroidApplication::AndroidApplication(ApplicationInitParams initParams):
 		AConfiguration_fromAssetManager(aConfig, ctx.aAssetManager());
 		initInputConfig(aConfig);
 	}
-}
-
-PixelFormat makePixelFormatFromAndroidFormat(int32_t androidFormat)
-{
-	switch(androidFormat)
-	{
-		case AHARDWAREBUFFER_FORMAT_R8G8B8X8_UNORM:
-		case AHARDWAREBUFFER_FORMAT_R8G8B8A8_UNORM: return PixelFmtRGBA8888;
-		case AHARDWAREBUFFER_FORMAT_R5G6B5_UNORM: return PixelFmtRGB565;
-		case ANDROID_BITMAP_FORMAT_RGBA_4444: return PixelFmtRGBA4444;
-		case ANDROID_BITMAP_FORMAT_A_8: return PixelFmtI8;
-		default:
-		{
-			log.error("unhandled format");
-			return PixelFmtI8;
-		}
-	}
-}
-
-MutablePixmapView makePixmapView(JNIEnv *env, jobject bitmap, void *pixels, PixelFormat format)
-{
-	AndroidBitmapInfo info;
-	auto res = AndroidBitmap_getInfo(env, bitmap, &info);
-	if(res != ANDROID_BITMAP_RESULT_SUCCESS) [[unlikely]]
-	{
-		log.info("error getting bitmap info");
-		return {};
-	}
-	//log.info("android bitmap info:size {}x{}, stride:{}", info.width, info.height, info.stride);
-	if(format == PixelFmtUnset)
-	{
-		// use format from bitmap info
-		format = makePixelFormatFromAndroidFormat(info.format);
-	}
-	return {{{(int)info.width, (int)info.height}, format}, pixels, {(int)info.stride, MutablePixmapView::Units::BYTE}};
 }
 
 void ApplicationContext::exit(int)
@@ -294,29 +252,6 @@ jobject AndroidApplication::makeFontRenderer(JNIEnv *env, jobject baseActivity)
 	return jNewFontRenderer(env, baseActivity);
 }
 
-uint32_t toAHardwareBufferFormat(PixelFormatId format)
-{
-	switch(format)
-	{
-		case PixelFormatId::RGBA8888: return AHARDWAREBUFFER_FORMAT_R8G8B8A8_UNORM;
-		case PixelFormatId::RGB565: return AHARDWAREBUFFER_FORMAT_R5G6B5_UNORM;
-		default: return 0;
-	}
-}
-
-const char *aHardwareBufferFormatStr(uint32_t format)
-{
-	switch(format)
-	{
-		case 0: return "Unset";
-		case AHARDWAREBUFFER_FORMAT_R8G8B8A8_UNORM: return "RGBA8888";
-		case AHARDWAREBUFFER_FORMAT_R8G8B8X8_UNORM: return "RGBX8888";
-		case AHARDWAREBUFFER_FORMAT_R8G8B8_UNORM: return "RGB888";
-		case AHARDWAREBUFFER_FORMAT_R5G6B5_UNORM: return "RGB565";
-	}
-	return "Unknown";
-}
-
 void AndroidApplication::initActivity(JNIEnv *env, jobject baseActivity, jclass baseActivityClass, int32_t androidSDK)
 {
 	pthread_key_create(&jEnvPThreadKey,
@@ -370,7 +305,6 @@ void AndroidApplication::initActivity(JNIEnv *env, jobject baseActivity, jclass 
 				(void*)
 				+[](JNIEnv*, jobject, jlong windowAddr, jint x, jint y, jint x2, jint y2, jint winWidth, jint winHeight)
 				{
-					assumeExpr(windowAddr);
 					auto win = (Window*)windowAddr;
 					win->setContentRect({{x, y}, {x2, y2}}, {winWidth, winHeight});
 				}
@@ -392,7 +326,7 @@ void AndroidApplication::initActivity(JNIEnv *env, jobject baseActivity, jclass 
 					else
 					{
 						// already in list, update existing
-						screen->updateFrameRate(refreshRate);
+						screen->updateFrameRate(refreshRate, Nanoseconds{presentationDeadline});
 					}
 				}
 			},
@@ -469,12 +403,15 @@ void AndroidApplication::initActivity(JNIEnv *env, jobject baseActivity, jclass 
 	/*if(unloadNativeLibOnDestroy)
 	{
 		auto soPath = mainSOPath(appCtx);
-		#if ANDROID_MIN_API >= 21
-		mainLibHandle = dlopen(soPath.data(), RTLD_LAZY | RTLD_NOLOAD);
-		#else
-		mainLibHandle = dlopen(soPath.data(), RTLD_LAZY);
-		dlclose(mainLibHandle);
-		#endif
+		if constexpr(ENV_ANDROID_MIN_SDK >= 21)
+		{
+			mainLibHandle = dlopen(soPath.data(), RTLD_LAZY | RTLD_NOLOAD);
+		}
+		else
+		{
+			mainLibHandle = dlopen(soPath.data(), RTLD_LAZY);
+			dlclose(mainLibHandle);
+		}
 		if(!mainLibHandle)
 			log.warn("unable to get native lib handle");
 	}*/
@@ -489,7 +426,6 @@ JNIEnv* AndroidApplication::thisThreadJniEnv() const
 		{
 			log.debug("attaching JNI thread:{}", thisThreadId());
 		}
-		assumeExpr(jVM);
 		if(jVM->AttachCurrentThread(&env, nullptr) != 0)
 		{
 			log.error("error attaching JNI thread");
@@ -590,7 +526,7 @@ void AndroidApplication::onWindowFocusChanged(ApplicationContext ctx, int focuse
 
 void AndroidApplication::onInputQueueCreated(ApplicationContext, AInputQueue* queue)
 {
-	assert(!inputQueue);
+	assume(!inputQueue);
 	inputQueue = queue;
 	log.info("made & attached input queue");
 	AInputQueue_attachLooper(queue, EventLoop::forThread().nativeObject(), ALOOPER_POLL_CALLBACK,
@@ -684,8 +620,8 @@ void AndroidApplication::handleDocumentIntentResult(ApplicationContext ctx, cons
 			[uriCopy = strdup(uri), nameCopy = strdup(name)](ApplicationContext ctx, [[maybe_unused]] bool focused)
 			{
 				ctx.application().onEvent(ctx, DocumentPickerEvent{uriCopy, nameCopy});
-				::free(nameCopy);
-				::free(uriCopy);
+				std::free(nameCopy);
+				std::free(uriCopy);
 				return false;
 			}, APP_ON_RESUME_PRIORITY + 100);
 	}
@@ -708,7 +644,7 @@ static void setNativeActivityCallbacks(ANativeActivity *nActivity)
 			{
 				log.info("exiting process");
 				delete static_cast<BaseApplication*>(nActivity->instance);
-				::exit(0);
+				std::exit(0);
 			}
 		};
 	nActivity->callbacks->onStart =
@@ -843,9 +779,15 @@ static void setNativeActivityCallbacks(ANativeActivity *nActivity)
 	//nActivity->callbacks->onContentRectChanged = nullptr;
 }
 
+void abort(const char* msg)
+{
+	log.error("{}", msg);
+	__android_log_assert("", "imagine", "%s", msg);
 }
 
-CLINK void LVISIBLE ANativeActivity_onCreate(ANativeActivity* nActivity, [[maybe_unused]] void* savedState, [[maybe_unused]] size_t savedStateSize)
+}
+
+extern "C" void LVISIBLE ANativeActivity_onCreate(ANativeActivity* nActivity, [[maybe_unused]] void* savedState, [[maybe_unused]] size_t savedStateSize)
 {
 	using namespace IG;
 	if(Config::DEBUG_BUILD)

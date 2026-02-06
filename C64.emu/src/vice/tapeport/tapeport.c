@@ -47,6 +47,7 @@
 #endif
 #include "uiapi.h"
 #include "util.h"
+#include "wordcraft-dongle.h"
 
 /* flag indicating if the tapeport exists on the current emulated model */
 static int tapeport_active = 1;
@@ -300,6 +301,11 @@ void tapeport_trigger_flux_change(unsigned int on, int port)
     machine_trigger_flux_change(port, on);
 }
 
+void tapeport_set_read_in(unsigned int on, int port)
+{
+    machine_set_tape_read_in(port, on);
+}
+
 void tapeport_set_tape_sense(int sense, int port)
 {
     machine_set_tape_sense(port, sense);
@@ -346,6 +352,13 @@ static int tapeport_device_resources_init(int amount)
 
     if (sense_dongle_resources_init(amount) < 0) {
         return -1;
+    }
+
+    /* The WordCraft dongle is only for PETs */
+    if (machine_class == VICE_MACHINE_PET) {
+        if (wordcraft_dongle_resources_init(amount) < 0) {
+            return -1;
+        }
     }
 
     /* Only use tapecart device and dtl basic dongle on c64/c128 */
@@ -470,7 +483,7 @@ static int set_tapeport_cmdline_device(const char *param, void *extra_param)
         temp = atoi(param);
     }
 
-    return set_tapeport_device(temp, int_to_void_ptr(port));
+    return set_tapeport_device(temp, vice_int_to_ptr(port));
 }
 
 /* ------------------------------------------------------------------------- */

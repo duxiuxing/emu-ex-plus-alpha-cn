@@ -13,495 +13,169 @@
 	You should have received a copy of the GNU General Public License
 	along with NES.emu.  If not, see <http://www.gnu.org/licenses/> */
 
-#include <imagine/gui/TextEntry.hh>
-#include <imagine/util/string.h>
-#include <imagine/util/format.hh>
-#include <imagine/logger/logger.h>
-#include <emuframework/Cheats.hh>
-#include <emuframework/EmuApp.hh>
-#include <emuframework/viewUtils.hh>
-#include "EmuCheatViews.hh"
+module;
 #include <fceu/driver.h>
 #include <fceu/cheat.h>
 
-void EncodeGG(char *str, int a, int v, int c);
+module system;
+
+extern "C++"
+{
+void EncodeGG(char* str, int a, int v, int c);
+void RebuildSubCheats();
+}
 
 namespace EmuEx
 {
 
-extern unsigned fceuCheats;
-static const int UNCHANGED_VAL = -2;
+unsigned parseHex(const char* str) { return strtoul(str, nullptr, 16); }
 
-static bool isValidGGCodeLen(const char *str)
+std::string toGGString(const CheatCode& c)
 {
-	return strlen(str) == 6 || strlen(str) == 8;
+	std::string code;
+	code.resize(9);
+	EncodeGG(code.data(), c.addr, c.val, c.compare);
+	code.resize(8);
+	return code;
 }
 
-static auto cheatName(unsigned idx)
+void saveCheats()
 {
-	std::string name;
-	if(!FCEUI_GetCheat(idx, &name, 0, 0, 0, 0, 0)) [[unlikely]]
-	{
-		return std::string
-			{
-				UI_TEXT("损坏的金手指")
-			};
-	}
-	return name;
-}
-
-EmuEditCheatView::EmuEditCheatView(ViewAttachParams attach, unsigned cheatIdx, RefreshCheatsDelegate onCheatListChanged_):
-	BaseEditCheatView
-	{
-		u"",
-		attach,
-		u"",
-		[this](ItemMessage msg) -> ItemReply
-		{
-			return msg.visit(overloaded
-			{
-				[&](const ItemsMessage &m) -> ItemReply { return type ? 3uz : 5uz; },
-				[&](const GetItemMessage &m) -> ItemReply
-				{
-					if(type)
-					{
-						switch(m.idx)
-						{
-							case 0: return &name;
-							case 1: return &ggCode;
-							default: return &remove;
-						}
-					}
-					else
-					{
-						switch(m.idx)
-						{
-							case 0: return &name;
-							case 1: return &addr;
-							case 2: return &value;
-							case 3: return &comp;
-							default: return &remove;
-						}
-					}
-				},
-			});
-		},
-		[this](TextMenuItem &, View &, Input::Event)
-		{
-			assert(fceuCheats != 0);
-			FCEUI_DelCheat(idx);
-			fceuCheats--;
-			onCheatListChanged();
-			FCEU_FlushGameCheats(nullptr, 0, false);
-			dismiss();
-			return true;
-		},
-		onCheatListChanged_
-	},
-	addr
-	{
-		UI_TEXT("地址"),
-		u"",
-		attachParams(),
-		[this](DualTextMenuItem &item, View &, Input::Event e)
-		{
-			pushAndShowNewCollectValueInputView<const char*>(attachParams(), e,
-				UI_TEXT("请输入四位十六进制数字"),
-				addrStr,
-				[this](CollectTextInputView&, auto str)
-				{
-					unsigned a = strtoul(str, nullptr, 16);
-					if(a > 0xFFFF)
-					{
-						logMsg("addr 0x%X too large", a);
-						app().postMessage(true,
-							UI_TEXT("无效的输入")
-						);
-						postDraw();
-						return false;
-					}
-					addrStr = a ? str : "0";
-					syncCheat();
-					addr.set2ndName(addrStr);
-					addr.place();
-					postDraw();
-					return true;
-				});
-		}
-	},
-	value
-	{
-		UI_TEXT("数值"),
-		u"",
-		attachParams(),
-		[this](DualTextMenuItem &item, View &, Input::Event e)
-		{
-			pushAndShowNewCollectValueInputView<const char*>(attachParams(), e,
-				UI_TEXT("请输入两位十六进制数字"),
-				valueStr,
-				[this](CollectTextInputView&, auto str)
-				{
-					unsigned a = strtoul(str, nullptr, 16);
-					if(a > 0xFF)
-					{
-						logMsg("val 0x%X too large", a);
-						app().postMessage(true,
-							UI_TEXT("无效的输入")
-						);
-						postDraw();
-						return false;
-					}
-					valueStr = a ? str : "0";
-					syncCheat();
-					value.set2ndName(valueStr);
-					value.place();
-					postDraw();
-					return true;
-				});
-		}
-	},
-	comp
-	{
-		UI_TEXT("比较"),
-		u"",
-		attachParams(),
-		[this](DualTextMenuItem &item, View &, Input::Event e)
-		{
-			pushAndShowNewCollectTextInputView(attachParams(), e,
-				UI_TEXT("请输入两位十六进制数字或留空"),
-				compStr.data(),
-				[this](CollectTextInputView &view, const char *str)
-				{
-					if(str)
-					{
-						if(strlen(str))
-						{
-							unsigned a = strtoul(str, nullptr, 16);
-							if(a > 0xFF)
-							{
-								logMsg("val 0x%X too large", a);
-								app().postMessage(true,
-									UI_TEXT("无效的输入")
-								);
-								return true;
-							}
-							compStr = str;
-							comp.set2ndName(str);
-						}
-						else
-						{
-							compStr.clear();
-							comp.set2ndName();
-						}
-						syncCheat();
-						comp.place();
-						postDraw();
-					}
-					view.dismiss();
-					return false;
-				});
-		}
-	},
-	ggCode
-	{
-		UI_TEXT("金手指代码"),
-		u"",
-		attachParams(),
-		[this](DualTextMenuItem &item, View &, Input::Event e)
-		{
-			pushAndShowNewCollectValueInputView<const char*>(attachParams(), e,
-				UI_TEXT("请输入金手指代码"),
-				ggCodeStr,
-				[this](CollectTextInputView&, auto str)
-				{
-					if(!isValidGGCodeLen(str))
-					{
-						app().postMessage(true,
-							UI_TEXT("金手指代码必须是六位或八位的数字")
-						);
-						return false;
-					}
-					ggCodeStr = str;
-					syncCheat();
-					ggCode.set2ndName(str);
-					ggCode.place();
-					postDraw();
-					return true;
-				});
-		}
-	},
-	idx{cheatIdx}
-{
-	uint32 a;
-	uint8 v;
-	int compare;
-	{
-		std::string nameStr{};
-		FCEUI_GetCheat(cheatIdx, &nameStr, &a, &v, &compare, 0, &type);
-		logMsg("got cheat with addr 0x%.4x val 0x%.2x comp %d", a, v, compare);
-		name.setName(std::move(nameStr));
-	}
-	if(type)
-	{
-		resetName(
-			UI_TEXT("编辑金手指代码")
-		);
-		if(a == 0 && v == 0 && compare == -1)
-			ggCodeStr.clear();
-		else
-		{
-			std::array<char, 9> str;
-			EncodeGG(str.data(), a, v, compare);
-			ggCodeStr = str.data();
-		}
-		ggCode.set2ndName(ggCodeStr);
-	}
-	else
-	{
-		resetName(
-			UI_TEXT("编辑内存补丁")
-		);
-		IG::formatTo(addrStr, "{:x}", a);
-		addr.set2ndName(addrStr);
-		IG::formatTo(valueStr, "{:x}", v);
-		value.set2ndName(valueStr);
-		if(compare == -1)
-			compStr.clear();
-		else
-		{
-			IG::formatTo(compStr,
-				UI_TEXT("{:x}"),
-				compare);
-			comp.set2ndName(compStr);
-		}
-	}
-}
-
-void EmuEditCheatView::syncCheat(std::string_view newName)
-{
-	if(type)
-	{
-		int a, v, c;
-		if(!FCEUI_DecodeGG(ggCodeStr.data(), &a, &v, &c))
-		{
-			logWarn("error decoding GG code %s", ggCodeStr.data());
-			a = 0; v = 0; c = -1;
-		}
-		if(!FCEUI_SetCheat(idx, newName, a, v, c, -1, 1))
-		{
-			logWarn("error setting cheat %d", idx);
-		}
-	}
-	else
-	{
-		int comp = compStr.size() ? strtoul(compStr.data(), nullptr, 16) : -1;
-		logMsg("setting comp %d", comp);
-		if(!FCEUI_SetCheat(idx,
-				newName, strtoul(addrStr.data(), nullptr, 16), strtoul(valueStr.data(), nullptr, 16),
-				comp, -1, 0))
-		{
-			logWarn("error setting cheat %d", idx);
-		}
-	}
+	savecheats = 1;
 	FCEU_FlushGameCheats(nullptr, 0, false);
 }
 
-std::string EmuEditCheatView::cheatNameString() const
+void syncCheats()
 {
-	return cheatName(idx);
+	saveCheats();
+	RebuildSubCheats();
 }
 
-void EmuEditCheatView::renamed(std::string_view str)
+constexpr bool isValidGGCodeLen(const char* str)
 {
-	syncCheat(str);
+	return std::string_view{str}.size() == 6 || std::string_view{str}.size() == 8;
 }
 
-void EmuEditCheatListView::loadCheatItems()
+Cheat* NesSystem::newCheat(EmuApp& app, const char* name, CheatCodeDesc desc)
 {
-	auto cheats = fceuCheats;
-	cheat.clear();
-	cheat.reserve(cheats);
-	for(auto c : iotaCount(cheats))
+	auto cPtr = &static_cast<Cheat&>(cheats.emplace_back(name));
+	if(!addCheatCode(app, cPtr, desc))
 	{
-		cheat.emplace_back(cheatName(c), attachParams(),
-			[this, c](TextMenuItem &, View &, Input::Event e)
-			{
-				pushAndShow(makeView<EmuEditCheatView>(c, [this](){ onCheatListChanged(); }), e);
-			});
+		cheats.pop_back();
+		return {};
+	}
+	log.info("added new cheat, {} total", cheats.size());
+	return cPtr;
+}
+
+bool NesSystem::setCheatName(Cheat& c, const char* name)
+{
+	c.name = name;
+	saveCheats();
+	return true;
+}
+
+std::string_view NesSystem::cheatName(const Cheat& c) const { return c.name; }
+
+void NesSystem::setCheatEnabled(Cheat& c, bool on)
+{
+	c.status = on;
+	syncCheats();
+}
+
+bool NesSystem::isCheatEnabled(const Cheat& c) const { return c.status; }
+
+bool NesSystem::addCheatCode(EmuApp& app, Cheat*& cheatPtr, CheatCodeDesc desc)
+{
+	if(desc.flags)
+	{
+		if(!isValidGGCodeLen(desc.str))
+		{
+			app.postMessage(true, "Invalid, must be 6 or 8 digits");
+			return false;
+		}
+		uint16 a; uint8 v; int c;
+		if(!FCEUI_DecodeGG(desc.str, &a, &v, &c))
+		{
+			app.postMessage(true, "Error decoding code");
+			return false;
+		}
+		cheatPtr->codes.emplace_back(a, v, c, 1);
+	}
+	else
+	{
+		auto a = parseHex(desc.str);
+		if(a > 0xFFFF)
+		{
+			app.postMessage(true, "Invalid address");
+			return false;
+		}
+		cheatPtr->codes.emplace_back(a, 0, -1, 0);
+	}
+	syncCheats();
+	return true;
+}
+
+bool NesSystem::modifyCheatCode(EmuApp& app, Cheat&, CheatCode& c, CheatCodeDesc desc)
+{
+	assume(desc.flags);
+	if(!isValidGGCodeLen(desc.str))
+	{
+		app.postMessage(true, "Invalid, must be 6 or 8 digits");
+		return false;
+	}
+	if(!FCEUI_DecodeGG(desc.str, &c.addr, &c.val, &c.compare))
+	{
+		app.postMessage(true, "Error decoding code");
+		return false;
+	}
+	syncCheats();
+	return true;
+}
+
+Cheat* NesSystem::removeCheatCode(Cheat& c, CheatCode& code)
+{
+	c.codes.erase(toIterator(c.codes, static_cast<CHEATCODE&>(code)));
+	bool removedAllCodes = c.codes.empty();
+	if(removedAllCodes)
+		cheats.erase(toIterator(cheats, static_cast<CHEATF&>(c)));
+	syncCheats();
+	return removedAllCodes ? nullptr : &c;
+}
+
+bool NesSystem::removeCheat(Cheat& c)
+{
+	cheats.erase(toIterator(cheats, static_cast<CHEATF&>(c)));
+	syncCheats();
+	return true;
+}
+
+void NesSystem::forEachCheat(DelegateFunc<bool(Cheat&, std::string_view)> del)
+{
+	for(auto& c: cheats)
+	{
+		if(!del(static_cast<Cheat&>(c), std::string_view{c.name}))
+			break;
 	}
 }
 
-EmuEditCheatListView::EmuEditCheatListView(ViewAttachParams attach):
-	BaseEditCheatListView
-	{
-		attach,
-		[this](ItemMessage msg) -> ItemReply
-		{
-			return msg.visit(overloaded
-			{
-				[&](const ItemsMessage &m) -> ItemReply { return 2 + cheat.size(); },
-				[&](const GetItemMessage &m) -> ItemReply
-				{
-					switch(m.idx)
-					{
-						case 0: return &addGG;
-						case 1: return &addRAM;
-						default: return &cheat[m.idx - 2];
-					}
-				},
-			});
-		}
-	},
-	addGG
-	{
-		UI_TEXT("添加金手指代码"),
-		attachParams(),
-		[this](TextMenuItem &item, View &, Input::Event e)
-		{
-			pushAndShowNewCollectTextInputView(attachParams(), e,
-				UI_TEXT("请输入金手指代码"),
-				"",
-				[this](CollectTextInputView &view, const char *str)
-				{
-					if(str)
-					{
-						if(!isValidGGCodeLen(str))
-						{
-							app().postMessage(true,
-								UI_TEXT("金手指代码必须是六位或八位的数字")
-							);
-							return true;
-						}
-						{
-							int a, v, c;
-							if(!FCEUI_DecodeGG(str, &a, &v, &c))
-							{
-								app().postMessage(true,
-									UI_TEXT("无效的代码")
-								);
-								return true;
-							}
-							if(!FCEUI_AddCheat(UNNAMED_CHEAT, a, v, c, 1))
-							{
-								app().postMessage(true,
-									UI_TEXT("添加金手指时出错")
-								);
-								view.dismiss();
-								return false;
-							}
-						}
-						fceuCheats++;
-						FCEUI_ToggleCheat(fceuCheats-1);
-						logMsg("added new cheat, %d total", fceuCheats);
-						FCEU_FlushGameCheats(nullptr, 0, false);
-						view.dismiss();
-						pushAndShowNewCollectTextInputView(attachParams(), {},
-							UI_TEXT("请输入描述说明"),
-							"",
-							[this](CollectTextInputView &view, const char *str)
-							{
-								if(str)
-								{
-									FCEUI_SetCheat(fceuCheats-1, str, UNCHANGED_VAL, UNCHANGED_VAL, UNCHANGED_VAL, -1, 1);
-									onCheatListChanged();
-									FCEU_FlushGameCheats(nullptr, 0, false);
-									view.dismiss();
-								}
-								else
-								{
-									view.dismiss();
-								}
-								return false;
-							});
-					}
-					else
-					{
-						view.dismiss();
-					}
-					return false;
-				});
-		}
-	},
-	addRAM
-	{
-		UI_TEXT("添加内存补丁"),
-		attachParams(),
-		[this](TextMenuItem &item, View &, Input::Event e)
-		{
-			pushAndShowNewCollectTextInputView(attachParams(), e,
-				UI_TEXT("请输入描述说明"),
-				"",
-				[this](CollectTextInputView &view, const char *str)
-				{
-					if(str)
-					{
-						if(!FCEUI_AddCheat(str, 0, 0, -1, 0))
-						{
-							logErr("error adding new cheat");
-							view.dismiss();
-							return false;
-						}
-						fceuCheats++;
-						FCEUI_ToggleCheat(fceuCheats-1);
-						logMsg("added new cheat, %d total", fceuCheats);
-						onCheatListChanged();
-						FCEU_FlushGameCheats(nullptr, 0, false);
-						auto editCheatView = makeView<EmuEditCheatView>(fceuCheats-1, [this](){ onCheatListChanged(); });
-						view.dismiss();
-						pushAndShow(std::move(editCheatView), {});
-					}
-					else
-					{
-						view.dismiss();
-					}
-					return false;
-				});
-		}
-	}
+void NesSystem::forEachCheatCode(Cheat& cheat, DelegateFunc<bool(CheatCode&, std::string_view)> del)
 {
-	loadCheatItems();
-}
-
-EmuCheatsView::EmuCheatsView(ViewAttachParams attach): BaseCheatsView{attach}
-{
-	loadCheatItems();
-}
-
-void EmuCheatsView::loadCheatItems()
-{
-	auto cheats = fceuCheats;
-	cheat.clear();
-	cheat.reserve(cheats);
-	for(auto c : iotaCount(cheats))
+	for(auto& c_: cheat.codes)
 	{
-		std::string name;
-		int status = 0;
-		if(!FCEUI_GetCheat(c, &name, 0, 0, 0, &status, 0)) [[unlikely]]
+		auto& c = static_cast<CheatCode&>(c_);
+		std::string code;
+		if(c.type)
 		{
-			name =
-				UI_TEXT("损坏的金手指");
+			code = toGGString(c);
 		}
-		cheat.emplace_back(std::move(name), attachParams(), status,
-			[this, c](BoolMenuItem &item)
-			{
-				uint32 a;
-				uint8 v;
-				int compare, type;
-				int gotCheat = FCEUI_GetCheat(c, nullptr, &a, &v, &compare, 0, &type);
-				if(!gotCheat)
-					return;
-				if(!item.boolValue() && type && a == 0 && v == 0 && compare == -1)
-				{
-					// Don't turn on null Game Genie codes
-					app().postMessage(true,
-						UI_TEXT("没有设置金手指代码")
-					);
-					return;
-				}
-				item.flipBoolValue(*this);
-				FCEUI_ToggleCheat(c);
-				FCEU_FlushGameCheats(nullptr, 0, false);
-			});
+		else
+		{
+			code = std::format("{:x}:{:x}", c.addr, c.val);
+			if(c.compare != -1)
+				code += std::format(":{:x}", c.compare);
+		}
+		del(c, std::string_view{code});
 	}
 }
 

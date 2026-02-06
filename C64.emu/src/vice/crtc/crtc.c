@@ -32,7 +32,7 @@
 /* #define DEBUG_CRTC */
 
 #ifdef DEBUG_CRTC
-#define DBG(_x_)        log_debug _x_
+#define DBG(_x_) log_printf  _x_
 #else
 #define DBG(_x_)
 #endif
@@ -41,6 +41,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 #include "alarm.h"
 #include "crtc-cmdline-options.h"
@@ -88,6 +89,7 @@ crtc_t crtc = {
 
     .screen_width =     340,
     .screen_height =    270,
+    .delayed_resize =   false,
 
     .hw_cursor =        0,
     .hw_cols =          1,
@@ -135,6 +137,7 @@ crtc_t crtc = {
     .current_charline = 0,
 
     .blank =            0,
+    .vadj_counter =     0,
 
     .frame_start =      0,
     .cycles_per_frame = 0,
@@ -217,7 +220,7 @@ crtc_t crtc = {
  *
  *    crtc_set_screen_options(int num_cols, int rasterlines);
  *      num_cols   -> 40 or 80
- *      rasterlines-> number of (text data) rasterlines (25*8, 25*14)
+ *      rasterlines-> number of (text data) rasterlines (25*10, 25*14)
  *
  *
  * The CRTC memory and charset can be changed by the CPU. Those
@@ -343,33 +346,74 @@ static int crtc_get_crt_type(void)
 /* update screen window */
 void crtc_update_window(void)
 {
+    bool do_resize = false;
+
     if (!crtc.initialized) {
         return;
     }
 
+    /* expression copied from crtc_set_screen_options() */
+    unsigned int screen_height = crtc.framelines + CRTC_EXTRA_RASTERLINES + 2 * CRTC_SCREEN_BORDERHEIGHT;
+    unsigned int max_drawn_lines = crtc.regs[CRTC_REG_VTOTAL] * (crtc.regs[CRTC_REG_SCANLINE] + 1) +
+                                   crtc.regs[CRTC_REG_VTOTALADJ] +
+                                   2 * CRTC_SCREEN_BORDERHEIGHT;
+
+    if (screen_height > crtc.screen_height ||
+            (max_drawn_lines > screen_height && max_drawn_lines < crtc.screen_height)) {
+        /*
+         * We only increase the screen height here, but it would also
+         * work if we acted on all size changes.  However that already
+         * triggers on the switch between upper- and lower case modes
+         * with its change in line spacing. If the underlying code would
+         * just change the vertical window size, this would be fine. But
+         * it often seems to adjust scaling of the bitmap inside the
+         * window, with the result that the vertical size remains the
+         * same, but the scale changes and with it the horizontal size.
+         * And that is just weird because it doesn't reflect what
+         * happens on the screen of the real thing.
+         *
+         * We decrease the height if there would not be enough lines drawn to
+         * cover the whole screen, which would probably result in old stuff
+         * remaining when it should be blanked out.
+         */
+        crtc.screen_height = screen_height;
+        do_resize = true;
+    }
+
     crtc.raster.display_ystart = CRTC_SCREEN_BORDERHEIGHT;
     crtc.raster.display_ystop = crtc.screen_height
-                                - 2 * CRTC_SCREEN_BORDERHEIGHT;
+                                - CRTC_SCREEN_BORDERHEIGHT;
     crtc.raster.display_xstart = CRTC_SCREEN_BORDERWIDTH;
     crtc.raster.display_xstop = crtc.screen_width
-                                - 2 * CRTC_SCREEN_BORDERWIDTH;
+                                - CRTC_SCREEN_BORDERWIDTH;
 
     crtc_update_renderer();
 
-    raster_set_geometry(&crtc.raster,
-                        crtc.screen_width, crtc.screen_height - 2 * CRTC_SCREEN_BORDERHEIGHT,
-                        crtc.screen_width, crtc.screen_height,
-                        crtc.screen_width - 2 * CRTC_SCREEN_BORDERWIDTH,
-                        crtc.screen_height - 2 * CRTC_SCREEN_BORDERHEIGHT,
-                        CRTC_SCREEN_TEXTCOLS(), CRTC_SCREEN_TEXTLINES(),
-                        CRTC_SCREEN_BORDERWIDTH, CRTC_SCREEN_BORDERHEIGHT,
-                        0,
-                        CRTC_FIRST_DISPLAYED_LINE,
-                        CRTC_LAST_DISPLAYED_LINE,
-                        0, 0);
+    raster_set_geometry(&crtc.raster, /*  */
+                        crtc.screen_width, /* canvas_width */
+                        crtc.screen_height, // - 2 * CRTC_SCREEN_BORDERHEIGHT, /* canvas_height */
+                        crtc.screen_width, /* screen_width */
+                        crtc.screen_height, /* screen_height */
+                        crtc.screen_width - 2 * CRTC_SCREEN_BORDERWIDTH, /* gfx_width */
+                        crtc.screen_height - 2 * CRTC_SCREEN_BORDERHEIGHT, /* gfx_height */
+                        CRTC_SCREEN_TEXTCOLS(), /* text_width */
+                        CRTC_SCREEN_TEXTLINES(), /* text_height */
+                        CRTC_SCREEN_BORDERWIDTH, /* gfx_position_x */
+                        CRTC_SCREEN_BORDERHEIGHT, /* gfx_position_y */
+                        0, /* gfx_area_moves */
+                        CRTC_FIRST_DISPLAYED_LINE, /* first_displayed_line */
+                        CRTC_LAST_DISPLAYED_LINE, /* last_displayed_line */
+                        0, /* extra_offscreen_border_left */
+                        0); /* extra_offscreen_border_right */
 
     crtc.raster.geometry->pixel_aspect_ratio = crtc_get_pixel_aspect();
     crtc.raster.viewport->crt_type = crtc_get_crt_type();
+
+    if (do_resize && crtc.raster.canvas != NULL) {
+        video_viewport_resize(crtc.raster.canvas, 1);
+    }
+
+    crtc.delayed_resize = false;
 }
 
 /*--------------------------------------------------------------------*/
@@ -400,13 +444,15 @@ void crtc_set_screen_options(int num_cols, int rasterlines)
 {
     crtc.screen_width = (num_cols + CRTC_EXTRA_COLS) * 8 + 2 * CRTC_SCREEN_BORDERWIDTH;
     crtc.screen_height = rasterlines + CRTC_EXTRA_RASTERLINES + 2 * CRTC_SCREEN_BORDERHEIGHT;
+    crtc.framelines = rasterlines;
 
-    DBG(("crtc_set_screen_options: cols=%d, rl=%d -> w=%d, h=%d",
+    DBG(("crtc_set_screen_options: cols=%d, rl=%d -> w=%u, h=%u",
          num_cols, rasterlines, crtc.screen_width, crtc.screen_height));
 
     crtc_update_window();
     resources_touch("CrtcDoubleSize");
 
+    /* Maybe already done in crtc_update_window(), but conditionally */
     if (crtc.raster.canvas != NULL) {
         video_viewport_resize(crtc.raster.canvas, 1);
     }
@@ -512,12 +558,12 @@ raster_t *crtc_init(void)
     crtc.hires_draw_callback = NULL;
 
 #if 0
-    log_debug("scr_width=%d, scr_height=%d",
+    log_debug(LOG_DEFAULT, "scr_width=%d, scr_height=%d",
               crtc.screen_width, crtc.screen_height);
-    log_debug("tcols=%d, tlines=%d, bwidth=%d, bheight=%d",
+    log_debug(LOG_DEFAULT, "tcols=%d, tlines=%d, bwidth=%d, bheight=%d",
               CRTC_SCREEN_TEXTCOLS(), CRTC_SCREEN_TEXTLINES(),
               CRTC_SCREEN_BORDERWIDTH, CRTC_SCREEN_BORDERHEIGHT);
-    log_debug("displayed lines: first=%d, last=%d",
+    log_debug(LOG_DEFAULT, "displayed lines: first=%d, last=%d",
               CRTC_FIRST_DISPLAYED_LINE, CRTC_LAST_DISPLAYED_LINE);
 #endif
 
@@ -574,9 +620,9 @@ void crtc_reset(void)
     crtc.raster.ycounter = 0;           /* scan line within a text line (0..7) */
     crtc.current_charline = 0;
     crtc.current_line = 0;              /* scan line */
-    /* expected number of rasterlines for next frame */
-    crtc.framelines = (crtc.regs[CRTC_REG_VTOTAL] + 1) * (crtc.regs[CRTC_REG_SCANLINE] + 1)
-                      + crtc.regs[CRTC_REG_VTOTALADJ];
+    crtc.vadj_counter = 0;
+    /* expected number of active rasterlines for next frame */
+    crtc.framelines = crtc.regs[CRTC_REG_VDISP] * (crtc.regs[CRTC_REG_SCANLINE] + 1);
 }
 
 /* Redraw the current raster line.  This happens at the last
@@ -640,8 +686,12 @@ static void crtc_raster_draw_alarm_handler(CLOCK offset, void *data)
 
     /* emulate the line */
     if (crtc.raster.current_line >=
-        crtc.screen_height - 2 * CRTC_SCREEN_BORDERHEIGHT) {
-        /* FIXFRAME: crtc.raster.current_line ++; */
+        crtc.screen_height - CRTC_SCREEN_BORDERHEIGHT) {
+        /*
+         * We omit the call to raster_line_emulate() here because we don't want to
+         * trigger its end-of-screen handling, which apparently conflicts with ours.
+         * if (raster->current_line == raster->geometry->screen_size.height) {
+         */
     } else {
         raster_line_emulate(&crtc.raster);
     }
@@ -704,132 +754,168 @@ static void crtc_raster_draw_alarm_handler(CLOCK offset, void *data)
 
     /* Did we create as many scan lines as the last time? */
     if ((crtc.framelines - crtc.current_line) == crtc.screen_yoffset) {
+        /*
+         * Restart at the top of the bitmap when there are still
+         * screen_yoffset lines to go in the frame, so that the actual
+         * first line ends up screen_yoffset lines from the top. THIS IS
+         * WEIRD!  It assumes (something like) that we are finished with
+         * drawing the text area (otherwise we would get bottom text
+         * lines at the top of the screen), and that the bottom border /
+         * vsync area is tall enough to fill the whole yoffset space.
+         */
         crtc.raster.current_line = 0;
         raster_canvas_handle_end_of_frame(&crtc.raster);
         vsync_do_vsync(crtc.raster.canvas);
+
+        if (crtc.delayed_resize) {
+            /* expected number of active rasterlines for next frame */
+            crtc.framelines = crtc.regs[CRTC_REG_VDISP] * (crtc.regs[CRTC_REG_SCANLINE] + 1);
+            crtc_update_window();
+        }
     }
 
-    {
-        /* FIXME: charheight */
-        /*
-         * The screen starts at the first scan line of the first char of the
-         * first character line.  In each scan line, the text part is followed
-         * by right border, horizontal sync/retrace, left border.
-         * The text lines are followed by a bottom border, vertical retrace
-         * (which includes vertical sync), and top border. This total number of
-         * scan lines is expressed in VTOTAL text lines + VTOTALADJ scan lines.
-         *
-         * Are we past the end of the screen, i.e. the top border?
-         */
-        if (crtc.current_charline >= crtc.regs[CRTC_REG_VTOTAL] + 1) {
+    /* FIXME: charheight */
+    /*
+     * The screen starts at the first scan line of the first char of the
+     * first character line.  In each scan line, the text part is followed
+     * by right border, horizontal sync/retrace, left border.
+     * The text lines are followed by a bottom border, vertical retrace
+     * (which includes vertical sync), and top border. This total number of
+     * scan lines is expressed in VTOTAL text lines + VTOTALADJ scan lines.
+     * TODO: maybe this condition below can just be "true".
+     */
+    if (crtc.current_charline <= crtc.regs[CRTC_REG_VTOTAL] ||
+        crtc.current_charline <= crtc.regs[CRTC_REG_VDISP]) {
+        /* Are we NOT at the bottom most scan line of a character,
+         * i.e still inside it? */
+        if (crtc.raster.ycounter != crtc.regs[CRTC_REG_SCANLINE]) {
 #if CRTC_BEAM_RACING
             if ((crtc.retrace_type & CRTC_RETRACE_TYPE_CRTC) == 0 && /* no CRTC */
-                crtc.current_line == 32*8 + 4 - 1) {
-                /* Set the retrace/vertical blank alarm, to end the IRQ,
-                 * at the rhs of the visible text area but 1 line above it.
+                /* crtc.current_charline + 1 == crtc.regs[CRTC_REG_VDISP] &&
+                crtc.raster.ycounter + 1 == crtc.regs[CRTC_REG_SCANLINE] */
+                crtc.current_line == 25*8 - 1) {
+                /* Set the retrace/vertical blank alarm, to cause an IRQ,
+                 * at the end/rhs of the visible text area.
                  * Non-crtc timings are fixed so we might as well use the
-                 * more efficient expression to check for the top line. */
+                 * more efficient expression to check for the bottom line.
+                 * The screen takes 200 lines, then 20 lines bottom border,
+                 * 20 lines retrace time, and 20 lines top border. */
                 alarm_set(crtc.adjusted_retrace_alarm,
                           crtc.rl_start + crtc.rl_visible);
             }
 #endif
-            /* The real end is VTOTALADJ scan lines futher down, for fine tuning */
-            if ((crtc.raster.ycounter + 1) >= crtc.regs[CRTC_REG_VTOTALADJ]) {
-                long cycles;
-
-                /* Do vsync stuff. Reset line counters to top (0). */
-                /* printf("new screen at clk=%d\n",crtc.rl_start); */
-                crtc_reset_screen_ptr();
-                crtc.raster.ycounter = 0;
-                crtc.current_charline = 0;
-                new_venable = 1;        /* Re-enable video */
-
-                /* expected number of rasterlines for next frame */
-                crtc.framelines = crtc.current_line;
-                crtc.current_line = 0;
-
-                /* hardware cursor handling */
-                if (crtc.crsrmode & 2) {
-                    crtc.crsrcnt--;
-                    if (!crtc.crsrcnt) {
-                        crtc.crsrcnt = (crtc.crsrmode & 1) ? 16 : 32;
-                        crtc.crsrstate ^= 1;
-                    }
-                }
-
-                /* cycles per frame, for speed adjustments */
-                cycles = crtc.rl_start - crtc.frame_start;
-                if (crtc.frame_start && (cycles != crtc.cycles_per_frame)) {
-                    machine_set_cycles_per_frame(cycles);
-                    crtc.cycles_per_frame = cycles;
-                }
-                crtc.frame_start = crtc.rl_start;
-            } else {
-                crtc.raster.ycounter++;
-                crtc.raster.ycounter &= 0x1f;
-            }
+            crtc.raster.ycounter++;
+            crtc.raster.ycounter &= 0x1f;
         } else {
-            /* Are we NOT at the bottom most scan line of a character,
-             * i.e still inside it? */
-            if (crtc.raster.ycounter != crtc.regs[CRTC_REG_SCANLINE]) {
-#if CRTC_BEAM_RACING
-                if ((crtc.retrace_type & CRTC_RETRACE_TYPE_CRTC) == 0 && /* no CRTC */
-                    /* crtc.current_charline + 1 == crtc.regs[CRTC_REG_VDISP] &&
-                    crtc.raster.ycounter + 1 == crtc.regs[CRTC_REG_SCANLINE] */
-                    crtc.current_line == 25*8 - 1) {
-                    /* Set the retrace/vertical blank alarm, to cause an IRQ,
-                     * at the end/rhs of the visible text area.
-                     * Non-crtc timings are fixed so we might as well use the
-                     * more efficient expression to check for the bottom line. */
-                    alarm_set(crtc.adjusted_retrace_alarm,
-                              crtc.rl_start + crtc.rl_visible);
-                }
-#endif
-                crtc.raster.ycounter++;
-                crtc.raster.ycounter &= 0x1f;
-            } else {
-                /* Start a new character line */
-                crtc.raster.ycounter = 0;
-                crtc.cursor_lines = 0;
-                crtc.current_charline++;
-                crtc.current_charline &= 0x7f;
+            /* Start a new character line */
+            crtc.raster.ycounter = 0;
+            crtc.cursor_lines = 0;
+            crtc.current_charline++;
+            crtc.current_charline &= 0x7f;
 
-                if (crtc.henable) {
-                    crtc.screen_rel += crtc.rl_visible * crtc.hw_cols;
-                }
-                /* Are we past the text area? */
-                if (crtc.current_charline == crtc.regs[CRTC_REG_VDISP]) {
-                    new_venable = 0;            /* disable video */
-                }
-                /* Should the vertical sync signal start? */
-                if (crtc.current_charline == crtc.regs[CRTC_REG_VSYNC]) {
-                    /* printf("vsync starts at clk=%d\n",crtc.rl_start); */
-                    new_vsync = (crtc.regs[CRTC_REG_SYNCWIDTH] >> 4) & 0x0f;
-                    if (!new_vsync) {
-                        new_vsync = 16;
-                    }
-                    new_vsync++;  /* compensate for the first decrease below */
-                }
+            if (crtc.henable) {
+                crtc.screen_rel += crtc.rl_visible * crtc.hw_cols;
             }
-            /* Enable or disable the cursor, if it is in the next character line */
-            if (crtc.raster.ycounter == (unsigned int)(crtc.regs[CRTC_REG_CURSORSTART] & 0x1f)) {
-                crtc.cursor_lines = 1;
-            } else if (crtc.raster.ycounter == (unsigned int)((crtc.regs[CRTC_REG_CURSOREND] + 1) & 0x1f)) {
-                crtc.cursor_lines = 0;
+            /* Are we past the text area? */
+            if (crtc.current_charline == crtc.regs[CRTC_REG_VDISP]) {
+                new_venable = 0;            /* disable video */
             }
+            /* Should the vertical sync signal start? */
+            if (crtc.current_charline == crtc.regs[CRTC_REG_VSYNC]) {
+                /* printf("vsync starts at clk=%d\n",crtc.rl_start); */
+                new_vsync = (crtc.regs[CRTC_REG_SYNCWIDTH] >> 4) & 0x0f;
+                if (!new_vsync) {
+                    new_vsync = 16;
+                }
+                new_vsync++;  /* compensate for the first decrease below */
+            }
+        }
+        /* Enable or disable the cursor, if it is in the next character line */
+        if (crtc.raster.ycounter == (unsigned int)(crtc.regs[CRTC_REG_CURSORSTART] & 0x1f)) {
+            crtc.cursor_lines = 1;
+        } else if (crtc.raster.ycounter == (unsigned int)((crtc.regs[CRTC_REG_CURSOREND] + 1) & 0x1f)) {
+            crtc.cursor_lines = 0;
+        }
 
-            crtc.henable = 1;
-        }
-        /* If we're in the vertical sync area, count down how many lines are left. */
-        if (new_vsync) {
-            new_vsync--;
-        }
-#if CRTC_BEAM_RACING
-        if (new_venable) {
-            crtc_fetch_prefetch();
-        }
-#endif /* CRTC_BEAM_RACING */
+        crtc.henable = 1;
     }
+    /*
+     * This is not structured as the else-part of the previous condition,
+     * because this condition can become true in the previous then-part.
+     *
+     * We may check the condition again, since one could set VDISP = 42,
+     * VTOTAL = 40, VTOTALADJ = 20 where the last one "adjusts" for more than 1
+     * line.
+     *
+     * Are we past the end of the screen, i.e. the top border?
+     */
+    if (crtc.current_charline > crtc.regs[CRTC_REG_VTOTAL]) {
+#if CRTC_BEAM_RACING
+        if ((crtc.retrace_type & CRTC_RETRACE_TYPE_CRTC) == 0 && /* no CRTC */
+            crtc.current_line == 32*8 + 4 - 1) {
+            /* Set the retrace/vertical blank alarm, to end the IRQ,
+             * at the rhs of the visible text area but 1 line above it.
+             * Non-crtc timings are fixed so we might as well use the
+             * more efficient expression to check for the top line.
+             * End the retrace time 60 line times after starting it,
+             * at the same horizontal position (40 chars). */
+            alarm_set(crtc.adjusted_retrace_alarm,
+                      crtc.rl_start + crtc.rl_visible);
+        }
+#endif
+        /* The real end is VTOTALADJ scan lines futher down, for fine tuning */
+        if (crtc.vadj_counter >= crtc.regs[CRTC_REG_VTOTALADJ]) {
+            long cycles;
+
+            /* Do vsync stuff. Reset line counters to top (0). */
+            /* printf("new screen at clk=%d\n",crtc.rl_start); */
+            crtc_reset_screen_ptr();
+            crtc.raster.ycounter = 0;
+            crtc.vadj_counter = 0;
+            crtc.current_charline = 0;
+            new_venable = 1;        /* Re-enable video */
+
+            /* expected number of rasterlines for next frame */
+            crtc.framelines = crtc.current_line;
+            crtc.current_line = 0;
+
+            /* hardware cursor handling */
+            if (crtc.crsrmode & 2) {
+                crtc.crsrcnt--;
+                if (!crtc.crsrcnt) {
+                    crtc.crsrcnt = (crtc.crsrmode & 1) ? 16 : 32;
+                    crtc.crsrstate ^= 1;
+                }
+            }
+
+            /* cycles per frame, for speed adjustments */
+            cycles = crtc.rl_start - crtc.frame_start;
+            if (crtc.frame_start && (cycles != crtc.cycles_per_frame)) {
+                machine_set_cycles_per_frame(cycles);
+                crtc.cycles_per_frame = cycles;
+            }
+            crtc.frame_start = crtc.rl_start;
+        } else {
+            /* It could be argued that because of this increment, which
+             * also happens if we just left the first VTOTAL text lines
+             * and ycounter has been made 0, that ycounter counts
+             * differently in this area (effectively starting at 1 when
+             * in the "top scanline" of the VTOTALADJust area).
+             * However, I think that effectively nothing cares about
+             * that since this is not a drawing part of the video.
+             */
+            crtc.vadj_counter++;
+        }
+    }
+    /* If we're in the vertical sync area, count down how many lines are left. */
+    if (new_vsync) {
+        new_vsync--;
+    }
+#if CRTC_BEAM_RACING
+    if (new_venable) {
+        crtc_fetch_prefetch();
+    }
+#endif /* CRTC_BEAM_RACING */
 
     /******************************************************************
      * signal retrace to CPU
@@ -852,39 +938,35 @@ static void crtc_raster_draw_alarm_handler(CLOCK offset, void *data)
         }
 #endif /* CRTC_BEAM_RACING */
     }
-/*
+#ifdef DEBUG_CRTC
     if (crtc.venable && !new_venable)
-        printf("disable ven, cl=%d, yc=%d, rl=%d\n",
+        printf("disable ven, cl=%d, yc=%u, rl=%u\n",
                 crtc.current_charline, crtc.raster.ycounter,
                 crtc.raster.current_line);
     if (new_venable && !crtc.venable)
-        printf("enable ven, cl=%d, yc=%d, rl=%d\n",
+        printf("enable ven, cl=%d, yc=%u, rl=%u\n",
                 crtc.current_charline, crtc.raster.ycounter,
                 crtc.raster.current_line);
-*/
-/*
     if (crtc.vsync && !new_vsync)
-        printf("disable vsync, cl=%d, yc=%d, rl=%d\n",
+        printf("disable vsync, cl=%d, yc=%u, rl=%u\n",
                 crtc.current_charline, crtc.raster.ycounter,
                 crtc.raster.current_line);
     if (new_vsync && !crtc.vsync)
-        printf("enable vsync, cl=%d, yc=%d, rl=%d\n",
+        printf("enable vsync, cl=%d, yc=%u, rl=%u\n",
                 crtc.current_charline, crtc.raster.ycounter,
                 crtc.raster.current_line);
-*/
+#endif /* DEBUG_CRTC */
+
     if (crtc.venable && !new_venable) {
         /* visible area ends here - try to compute vertical centering */
         /* FIXME: count actual number of rasterlines */
         int visible_height = crtc.current_line;
-        /* crtc.regs[CRTC_REG_VDISP] * (crtc.regs[CRTC_REG_SCANLINE] + 1); */
 
         crtc.screen_yoffset = ((int)crtc.screen_height - visible_height) / 2;
+
         if (crtc.screen_yoffset < CRTC_SCREEN_BORDERHEIGHT) {
             crtc.screen_yoffset = CRTC_SCREEN_BORDERHEIGHT;
         }
-
-/* printf("visible_height=%d -> yoffset=%d\n",
-                                visible_height, crtc.screen_height); */
     }
 
     crtc.venable = new_venable;
@@ -948,13 +1030,20 @@ static void crtc_adjusted_retrace_alarm_handler(CLOCK offset, void *data)
     crtc.retrace_callback(crtc.off_screen, offset);
 }
 
-/*
- * Experimental approximation of snow.
- * Real snow would be of lower intensity than normal pixels because it is
- * typically only displayed for one frame.
- * Also, read access to the screen memory should probably cause it too.
- */
-#define SNOW            0
+void crtc_update_snow(uint16_t addr, uint8_t value)
+{
+#if CRTC_SNOW
+    /* snow ... */
+    int beampos = (int)(maincpu_clk - CRTC_STORE_OFFSET + 1 - crtc.rl_start) *
+                       crtc.hw_cols
+                  - crtc.beam_offset;
+    int width =  crtc.rl_visible * crtc.hw_cols;
+
+    if (beampos >= 0 && beampos < width) {
+        crtc.prefetch[beampos] = value;
+    }
+#endif /* SNOW */
+}
 
 /*
  * The caller must mask the addr to an acceptable range for the screen size.
@@ -996,16 +1085,8 @@ void crtc_update_prefetch(uint16_t addr, uint8_t value)
             }
         }
     }
-#if SNOW
-    /* snow ... */
-    int beampos = (int)(maincpu_clk - CRTC_STORE_OFFSET + 1 - crtc.rl_start) *
-                       crtc.hw_cols
-                  - crtc.beam_offset;
-    int width =  crtc.rl_visible * crtc.hw_cols;
-
-    if (beampos >= 0 && beampos < width) {
-        crtc.prefetch[beampos] = value;
-    }
+#if CRTC_SNOW
+    crtc_update_snow(addr, value);
 #endif /* SNOW */
 }
 #endif /* CRTC_BEAM_RACING */
@@ -1049,6 +1130,10 @@ void crtc_screenshot(screenshot_t *screenshot)
 {
     raster_screenshot(&crtc.raster, screenshot);
 
+    /* use screen_size rather than first/last_displayed_line */
+    screenshot->first_displayed_line = 0;
+    screenshot->last_displayed_line = screenshot->max_height;
+
     screenshot->chipid = "CRTC";
     screenshot->video_regs = crtc.regs;
     screenshot->screen_ptr = crtc.screen_base;
@@ -1069,7 +1154,7 @@ void crtc_screenshot(screenshot_t *screenshot)
     }
 
     /* Use the bitmap_high_ptr as indicator for the height of the chars */
-    if (crtc.screen_height == 382) {
+    if (crtc.regs[CRTC_REG_SCANLINE] > 10) {
         screenshot->bitmap_high_ptr = charh14;
     } else {
         screenshot->bitmap_high_ptr = charh8;

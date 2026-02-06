@@ -15,7 +15,10 @@
 	You should have received a copy of the GNU General Public License
 	along with Imagine.  If not, see <http://www.gnu.org/licenses/> */
 
+#ifndef IG_USE_MODULE_STD
 #include <concepts>
+#include <cstddef>
+#endif
 
 namespace IG
 {
@@ -28,15 +31,20 @@ struct ConstantType
 
 	// accept dummy assignment from any value
 	constexpr ConstantType() = default;
-	constexpr ConstantType(auto && ...) {}
+	constexpr ConstantType(auto&& ...) {}
 
-	constexpr const T &value() const { return value_; }
+	constexpr const T& value() const { return value_; }
 	constexpr operator const T&() const { return value_; };
 
-	constexpr auto& operator +=(const auto &) { return *this; }
-	constexpr auto& operator -=(const auto &) { return *this; }
-	constexpr auto& operator *=(const auto &) { return *this; }
-	constexpr auto& operator /=(const auto &) { return *this; }
+	constexpr auto& operator +=(const auto&) { return *this; }
+	constexpr auto& operator -=(const auto&) { return *this; }
+	constexpr auto& operator *=(const auto&) { return *this; }
+	constexpr auto& operator /=(const auto&) { return *this; }
+	constexpr auto operator +(const auto& rhs) const { return value() + rhs; }
+	constexpr auto operator -(const auto& rhs) const { return value() - rhs; }
+	constexpr auto operator *(const auto& rhs) const { return value() * rhs; }
+	constexpr auto operator /(const auto& rhs) const { return value() / rhs; }
+	constexpr auto operator %(const auto& rhs) const { return value() % rhs; }
 	constexpr auto operator<=>(const T &o) const { return value() <=> o; };
 
 private:
@@ -51,7 +59,7 @@ struct UnusedType
 
 	// accept dummy assignment from any value
 	constexpr UnusedType() = default;
-	constexpr UnusedType(auto && ...) {}
+	constexpr UnusedType(auto&& ...) {}
 
 	constexpr T value() const { return {}; }
 	constexpr operator T() const { return {}; };
@@ -59,16 +67,27 @@ struct UnusedType
 
 	// can take address of object, but always returns nullptr
 	constexpr T* operator &() const { return nullptr; };
+	constexpr T* data() const { return nullptr; };
+	constexpr size_t size() const { return 0; };
 
-	constexpr auto& operator +=(const auto &) { return *this; }
-	constexpr auto& operator -=(const auto &) { return *this; }
-	constexpr auto& operator *=(const auto &) { return *this; }
-	constexpr auto& operator /=(const auto &) { return *this; }
-	constexpr auto operator<=>(const T &o) const { return T{} <=> o; };
+	constexpr auto& operator +=(const auto&) { return *this; }
+	constexpr auto& operator -=(const auto&) { return *this; }
+	constexpr auto& operator *=(const auto&) { return *this; }
+	constexpr auto& operator /=(const auto&) { return *this; }
+	constexpr auto operator +(const auto& rhs) const { return T{} + T{rhs}; }
+	constexpr auto operator -(const auto& rhs) const { return T{} - T{rhs}; }
+	constexpr auto operator *(const auto& rhs) const { return T{} * T{rhs}; }
+	constexpr auto operator /(const auto& rhs) const { return T{} / T{rhs}; }
+	constexpr auto operator %(const auto& rhs) const { return T{} % T{rhs}; }
+	constexpr auto& operator[](this auto&& self, [[maybe_unused]] const auto&) { return self; }
+	constexpr auto operator<=>(const T& o) const { return T{} <=> o; };
 };
 
 template <class T>
 concept Unused = requires {typename T::UnusedTypeTag;};
+
+template <class T>
+concept Used = !Unused<T>;
 
 // selects either type T and an empty type that converts to T and returns VALUE,
 // used in combination with [[no_unique_address]] and a unique Tag value to declare
@@ -80,10 +99,8 @@ template<int tag>
 struct UseIfOrConstantTagInjector // used to inject the line count as "tag" when used from a macro
 {
     template<bool condition, class T, T value>
-    using T = UseIfOrConstant<condition, T, value, tag>;
+    using Type = UseIfOrConstant<condition, T, value, tag>;
 };
-
-#define ConditionalMemberOr [[no_unique_address]] IG::UseIfOrConstantTagInjector<__LINE__>::T
 
 // same as above but always returns a default constructed value so class types can be used
 template<bool condition, class T, int tag = 0>
@@ -93,27 +110,25 @@ template<int tag>
 struct UseIfTagInjector
 {
     template<bool condition, class T>
-    using T = UseIf<condition, T, tag>;
+    using Type = UseIf<condition, T, tag>;
 };
 
-#define ConditionalMember [[no_unique_address]] IG::UseIfTagInjector<__LINE__>::T
-
 // test that a variable's type is used in UseIf and not the UnusedType case
-constexpr bool used(auto &&) { return true; }
-constexpr bool used(auto &) { return true; }
+constexpr bool used(auto&&) { return true; }
+constexpr bool used(auto&) { return true; }
 
-constexpr bool used(Unused auto &&) { return false; }
-constexpr bool used(Unused auto &) { return false; }
+constexpr bool used(Unused auto&&) { return false; }
+constexpr bool used(Unused auto&) { return false; }
 
 // invoke func if v's type doesn't satisfy the Unused concept
 template<class R = int>
-constexpr auto doIfUsed(auto& v, auto&& func, [[maybe_unused]] R &&defaultReturn = 0)
+constexpr auto doIfUsed(auto& v, auto&& func, [[maybe_unused]] R&& = R())
 {
 	return func(v);
 }
 
 template<class R = int>
-constexpr auto doIfUsed(Unused auto&, auto&&, R &&defaultReturn = 0)
+constexpr auto doIfUsed(Unused auto&, auto&&, R&& defaultReturn = R())
 {
 	return defaultReturn;
 }
@@ -124,20 +139,9 @@ constexpr auto doIfUsedOr(auto& v, auto&& func, auto&&)
 	return func(v);
 }
 
-constexpr auto doIfUsedOr(Unused auto&, auto&&, auto &&defaultFunc)
+constexpr auto doIfUsedOr(Unused auto&, auto&&, auto&& defaultFunc)
 {
 	return defaultFunc();
 }
-
-#define IG_GetDefaultValueOr(value, orValue) \
-[]() \
-{ \
-    if constexpr(requires {value;}) \
-        return decltype(value)(); \
-    else \
-        return orValue; \
-}()
-
-#define IG_GetValueTypeOr(value, OrType) decltype(IG_GetDefaultValueOr(value, OrType()))
 
 }

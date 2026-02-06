@@ -1,499 +1,264 @@
-#include <imagine/gui/TextEntry.hh>
-#include <imagine/util/string.h>
-#include <imagine/logger/logger.h>
-#include <emuframework/Cheats.hh>
-#include <emuframework/EmuApp.hh>
-#include <emuframework/viewUtils.hh>
-#include "EmuCheatViews.hh"
-#include "MainSystem.hh"
+/*  This file is part of Snes9x EX.
+
+	Please see COPYING file in root directory for license information. */
+
+module;
+#include <snes9x.h>
 #include <cheats.h>
-#include <imagine/util/format.hh>
+
+module system;
+
+#ifndef UI_TEXT_IMPL
+	#define UI_TEXT_IMPL
+	#define UI_TEXT(x)	x
+#endif
+
+extern "C++"
+{
+void S9xEnableCheat(SCheat&);
+void S9xDisableCheat(SCheat&);
+SCheat S9xTextToCheat(const std::string&);
+std::string S9xCheatToText(const SCheat&);
+}
 
 namespace EmuEx
 {
 
+unsigned parseHex(const char* str) { return strtoul(str, nullptr, 16); }
+
 int numCheats()
 {
 	#ifndef SNES9X_VERSION_1_4
-	return Cheat.group.size();
+	return ::Cheat.group.size();
 	#else
-	return Cheat.num_cheats;
+	return ::Cheat.num_cheats;
 	#endif
 }
 
-static void setCheatName(int idx, std::string_view name)
+static FS::PathString cheatsFilename(Snes9xSystem& sys)
 {
-	#ifndef SNES9X_VERSION_1_4
-	if(idx >= numCheats())
-		return;
-	Cheat.group[idx].name = name;
-	#else
-	strncpy(Cheat.c[idx].name, name.data(), sizeof(SCheat::name));
-	#endif
+	return sys.userFilePath(sys.cheatsDir, ".cht");
 }
 
-static const char *cheatName(int idx)
+void Snes9xSystem::writeCheatFile()
 {
-	#ifndef SNES9X_VERSION_1_4
-	return Cheat.group[idx].name.c_str();
-	#else
-	return Cheat.c[idx].name;
-	#endif
+	if(!numCheats())
+		Snes9xSystem::log.info("no cheats present, removing .cht file if present");
+	else
+		Snes9xSystem::log.info("saving {} cheat(s)", numCheats());
+	S9xSaveCheatFile(cheatsFilename(*this).data());
 }
 
-static void deleteCheat(int idx)
+static void setCheatCodeEnabled(CheatCode& c, bool on)
 {
-	#ifndef SNES9X_VERSION_1_4
-	S9xDeleteCheatGroup(idx);
-	#else
-	S9xDeleteCheat(idx);
-	#endif
+	if(on)
+		S9xEnableCheat(c);
+	else
+		S9xDisableCheat(c);
 }
 
-static bool cheatIsEnabled(int idx)
+static bool tryDisableCheatCode(CheatCode& c)
 {
-	#ifndef SNES9X_VERSION_1_4
-	return Cheat.group[idx].enabled;
-	#else
-	return Cheat.c[idx].enabled;
-	#endif
+	bool isEnabled = c.enabled;
+	S9xDisableCheat(c);
+	return isEnabled;
 }
 
-static void enableCheat(int idx)
+void setCheatAddress(CheatCode& cheat, uint32_t a)
 {
-	#ifndef SNES9X_VERSION_1_4
-	S9xEnableCheatGroup(idx);
-	#else
-	S9xEnableCheat(idx);
-	#endif
+	auto isEnabled = tryDisableCheatCode(cheat);
+	cheat.address = a;
+	setCheatCodeEnabled(cheat, isEnabled);
+	static_cast<Snes9xSystem&>(EmuEx::gSystem()).writeCheatFile();
 }
 
-static void disableCheat(int idx)
+void setCheatValue(CheatCode& cheat, uint8 v)
 {
-	#ifndef SNES9X_VERSION_1_4
-	S9xDisableCheatGroup(idx);
-	#else
-	S9xDisableCheat(idx);
-	#endif
+	auto isEnabled = tryDisableCheatCode(cheat);
+	cheat.byte = v;
+	setCheatCodeEnabled(cheat, isEnabled);
+	static_cast<Snes9xSystem&>(EmuEx::gSystem()).writeCheatFile();
 }
 
-static void setCheatAddress(int idx, uint32_t a)
+void setCheatConditionalValue(CheatCode& cheat, bool conditional, uint8 v)
 {
+	auto isEnabled = tryDisableCheatCode(cheat);
 	#ifndef SNES9X_VERSION_1_4
-	Cheat.group[idx].cheat[0].address = a;
+	cheat.conditional = conditional;
+	cheat.cond_byte = v;
 	#else
-	Cheat.c[idx].address = a;
+	cheat.saved = conditional;
+	cheat.saved_byte = v;
 	#endif
+	setCheatCodeEnabled(cheat, isEnabled);
+	static_cast<Snes9xSystem&>(EmuEx::gSystem()).writeCheatFile();
 }
 
-static uint32_t cheatAddress(int idx)
+void setCheatConditionalValue(CheatCode& cheat, int v)
 {
-	#ifndef SNES9X_VERSION_1_4
-	return Cheat.group[idx].cheat[0].address;
-	#else
-	return Cheat.c[idx].address;
-	#endif
-}
-
-static void setCheatValue(int idx, uint8 v)
-{
-	#ifndef SNES9X_VERSION_1_4
-	Cheat.group[idx].cheat[0].byte = v;
-	#else
-	Cheat.c[idx].byte = v;
-	#endif
-}
-
-static uint8 cheatValue(int idx)
-{
-	#ifndef SNES9X_VERSION_1_4
-	return Cheat.group[idx].cheat[0].byte;
-	#else
-	return Cheat.c[idx].byte;
-	#endif
-}
-
-static void setCheatConditionalValue(int idx, bool conditional, uint8 v)
-{
-	#ifndef SNES9X_VERSION_1_4
-	Cheat.group[idx].cheat[0].conditional = conditional;
-	Cheat.group[idx].cheat[0].cond_byte = v;
-	#else
-	Cheat.c[idx].saved = conditional;
-	Cheat.c[idx].saved_byte = v;
-	#endif
-}
-
-static std::pair<bool, uint8> cheatConditionalValue(int idx)
-{
-	#ifndef SNES9X_VERSION_1_4
-	return {Cheat.group[idx].cheat[0].conditional, Cheat.group[idx].cheat[0].cond_byte};
-	#else
-	return {Cheat.c[idx].saved, Cheat.c[idx].saved_byte};
-	#endif
-}
-
-static bool addCheat(const char *cheatStr)
-{
-	#ifndef SNES9X_VERSION_1_4
-	if(S9xAddCheatGroup("", cheatStr) == -1)
+	if(v >= 0 && v <= 0xFF)
 	{
-		return false;
+		setCheatConditionalValue(cheat, true, uint8(v));
 	}
-	return true;
+	else
+	{
+		setCheatConditionalValue(cheat, false, 0u);
+	}
+}
+
+static std::pair<bool, uint8> cheatConditionalValue(CheatCode& c)
+{
+	#ifndef SNES9X_VERSION_1_4
+	return {c.conditional, c.cond_byte};
+	#else
+	return {c.saved, c.saved_byte};
+	#endif
+}
+
+std::string codeConditionalToString(CheatCode& c)
+{
+	auto [cond, byte] = cheatConditionalValue(c);
+	return cond ? std::format("{:x}", byte) : std::string{};
+}
+
+Cheat* Snes9xSystem::newCheat(EmuApp& app, const char* name, CheatCodeDesc desc)
+{
+	#ifndef SNES9X_VERSION_1_4
+	if(S9xAddCheatGroup(name, desc.str) == -1)
+	{
+		app.postMessage(true,
+			UI_TEXT("无效的金手指代码")
+		);
+		return {};
+	}
+	Snes9xSystem::log.info("added new cheat, {} total", ::Cheat.group.size());
+	writeCheatFile();
+	return static_cast<Cheat*>(&::Cheat.group.back());
 	#else
 	uint8 byte;
 	uint32 address;
 	uint8 bytes[3];
 	bool8 sram;
 	uint8 numBytes;
-	if(!S9xGameGenieToRaw(cheatStr, address, byte))
+	if(!S9xGameGenieToRaw(desc.str, address, byte))
 	{
 		S9xAddCheat(false, true, address, byte);
-		return true;
+		return static_cast<Cheat*>(&::Cheat.c[numCheats() - 1]);
 	}
-	else if(!S9xProActionReplayToRaw (cheatStr, address, byte))
+	else if(!S9xProActionReplayToRaw (desc.str, address, byte))
 	{
 		S9xAddCheat(false, true, address, byte);
-		return true;
+		return static_cast<Cheat*>(&::Cheat.c[numCheats() - 1]);
 	}
-	else if(!S9xGoldFingerToRaw(cheatStr, address, sram, numBytes, bytes))
+	else if(!S9xGoldFingerToRaw(desc.str, address, sram, numBytes, bytes))
 	{
-		for(auto i : iotaCount(numBytes))
+		for(auto i: iotaCount(numBytes))
 			S9xAddCheat(false, true, address + i, bytes[i]);
 		// TODO: handle cheat names for multiple codes added at once
-		return true;
+		return static_cast<Cheat*>(&::Cheat.c[numCheats() - 1]);
 	}
+	return {};
+	#endif
+}
+
+bool Snes9xSystem::setCheatName(Cheat& c, const char* name)
+{
+	c.name = name;
+	writeCheatFile();
+	return true;
+}
+
+std::string_view Snes9xSystem::cheatName(const Cheat& c) const { return c.name; }
+
+void Snes9xSystem::setCheatEnabled(Cheat& c, bool on)
+{
+	#ifndef SNES9X_VERSION_1_4
+	c.enabled = on;
+  for(auto& c :c.cheat)
+  {
+  	setCheatCodeEnabled(static_cast<CheatCode&>(c), on);
+  }
+	#else
+  auto idx = std::distance(::Cheat.c, static_cast<SCheat*>(&c));
+	if(on)
+		S9xEnableCheat(idx);
+	else
+		S9xDisableCheat(idx);
+	#endif
+	writeCheatFile();
+}
+
+bool Snes9xSystem::isCheatEnabled(const Cheat& c) const { return c.enabled; }
+
+bool Snes9xSystem::addCheatCode(EmuApp& app, Cheat*& cheatPtr, CheatCodeDesc desc)
+{
+	#ifndef SNES9X_VERSION_1_4
+	SCheat newCheat = S9xTextToCheat(desc.str);
+	if(!newCheat.address)
+	{
+		app.postMessage(true,
+			UI_TEXT("无效的金手指代码")
+		);
+		return {};
+	}
+	newCheat.enabled = cheatPtr->enabled;
+	setCheatCodeEnabled(static_cast<CheatCode&>(newCheat), cheatPtr->enabled);
+	cheatPtr->cheat.emplace_back(newCheat);
+	writeCheatFile();
+	return true;
+	#else
 	return false;
 	#endif
 }
 
-static FS::PathString cheatsFilename(EmuSystem &sys_)
+Cheat* Snes9xSystem::removeCheatCode(Cheat& c, CheatCode& code)
 {
-	auto &sys = static_cast<Snes9xSystem&>(sys_);
-	return sys.userFilePath(sys.cheatsDir, ".cht");
+	#ifndef SNES9X_VERSION_1_4
+	S9xDisableCheat(code);
+	c.cheat.erase(toIterator(c.cheat, static_cast<SCheat&>(code)));
+	bool removedAllCodes = c.cheat.empty();
+	if(removedAllCodes)
+		::Cheat.group.erase(toIterator(::Cheat.group, static_cast<SCheatGroup&>(c)));
+	writeCheatFile();
+	return removedAllCodes ? nullptr : &c;
+	#else
+	return nullptr;
+	#endif
 }
 
-static void writeCheatsFile(EmuSystem &sys)
+bool Snes9xSystem::removeCheat(Cheat& c)
 {
-	if(!numCheats())
-		logMsg("no cheats present, removing .cht file if present");
-	else
-		logMsg("saving %u cheat(s)", numCheats());
-	S9xSaveCheatFile(cheatsFilename(sys).data());
+	#ifndef SNES9X_VERSION_1_4
+	S9xDeleteCheatGroup(std::distance(::Cheat.group.data(), static_cast<SCheatGroup*>(&c)));
+	#else
+	S9xDeleteCheat(std::distance(::Cheat.c, static_cast<SCheat*>(&c)));
+	#endif
+	writeCheatFile();
+	return true;
 }
 
-EmuEditCheatView::EmuEditCheatView(ViewAttachParams attach, int cheatIdx, RefreshCheatsDelegate onCheatListChanged_):
-	BaseEditCheatView
-	{
-		UI_TEXT("编辑地址/数值"),
-		attach,
-		cheatName(cheatIdx),
-		items,
-		[this](TextMenuItem &, View &, Input::Event)
-		{
-			deleteCheat(idx);
-			onCheatListChanged();
-			writeCheatsFile(system());
-			dismiss();
-			return true;
-		},
-		onCheatListChanged_
-	},
-	items{&name, &addr, &value, &saved, &remove},
-	addr
-	{
-		UI_TEXT("地址"),
-		u"",
-		attach,
-		[this](const Input::Event& e)
-		{
-			pushAndShowNewCollectValueInputView<const char*>(attachParams(), e,
-				UI_TEXT("请输入六位十六进制数字"),
-				addrStr.data(),
-				[this](CollectTextInputView&, auto str)
-				{
-					unsigned a = strtoul(str, nullptr, 16);
-					if(a > 0xFFFFFF)
-					{
-						logMsg("addr 0x%X too large", a);
-						app().postMessage(true,
-							UI_TEXT("无效的输入")
-						);
-						return false;
-					}
-					addrStr = a ? str : "0";
-					auto wasEnabled = cheatIsEnabled(idx);
-					if(wasEnabled)
-					{
-						disableCheat(idx);
-					}
-					setCheatAddress(idx, a);
-					if(wasEnabled)
-					{
-						enableCheat(idx);
-					}
-					writeCheatsFile(system());
-					addr.set2ndName(addrStr);
-					addr.place();
-					postDraw();
-					return true;
-				});
-		}
-	},
-	value
-	{
-		UI_TEXT("数值"),
-		u"",
-		attach,
-		[this](const Input::Event& e)
-		{
-			pushAndShowNewCollectValueInputView<const char*>(attachParams(), e,
-				UI_TEXT("请输入两位十六进制数字"),
-				valueStr.data(),
-				[this](CollectTextInputView&, const char *str)
-				{
-					unsigned a = strtoul(str, nullptr, 16);
-					if(a > 0xFF)
-					{
-						app().postMessage(true,
-							UI_TEXT("数值必须小于等于 FF")
-						);
-						return false;
-					}
-					valueStr = a ? str : "0";
-					auto wasEnabled = cheatIsEnabled(idx);
-					if(wasEnabled)
-					{
-						disableCheat(idx);
-					}
-					setCheatValue(idx, a);
-					if(wasEnabled)
-					{
-						enableCheat(idx);
-					}
-					writeCheatsFile(system());
-					value.set2ndName(valueStr);
-					value.place();
-					postDraw();
-					return true;
-				});
-		}
-	},
-	saved
-	{
-		#ifndef SNES9X_VERSION_1_4
-		UI_TEXT("条件值"),
-		#else
-		UI_TEXT("保存值"),
-		#endif
-		u"",
-		attach,
-		[this](const Input::Event& e)
-		{
-			pushAndShowNewCollectTextInputView(attachParams(), e,
-				UI_TEXT("请输入两位十六进制数字或留空"),
-				savedStr.data(),
-				[this](CollectTextInputView &view, const char *str)
-				{
-					if(str)
-					{
-						unsigned a = 0x100;
-						if(strlen(str))
-						{
-							unsigned a = strtoul(str, nullptr, 16);
-							if(a > 0xFF)
-							{
-								app().postMessage(true,
-									UI_TEXT("数值必须小于等于 FF")
-								);
-								return true;
-							}
-							savedStr = str;
-						}
-						else
-						{
-							savedStr.clear();
-						}
-						auto wasEnabled = cheatIsEnabled(idx);
-						if(wasEnabled)
-						{
-							disableCheat(idx);
-						}
-						if(a <= 0xFF)
-						{
-							setCheatConditionalValue(idx, true, a);
-						}
-						else
-						{
-							setCheatConditionalValue(idx, false, 0);
-						}
-						if(wasEnabled)
-						{
-							enableCheat(idx);
-						}
-						writeCheatsFile(system());
-						saved.set2ndName(savedStr);
-						saved.place();
-						postDraw();
-					}
-					view.dismiss();
-					return false;
-				});
-		}
-	},
-	idx{cheatIdx}
+void Snes9xSystem::forEachCheat(DelegateFunc<bool(Cheat&, std::string_view)> del)
 {
-	auto address = cheatAddress(idx);
-	auto value = cheatValue(idx);
-	auto [saved, savedVal] = cheatConditionalValue(idx);
-	logMsg("got cheat with addr 0x%.6x val 0x%.2x saved val 0x%.2x", address, value, savedVal);
-	IG::formatTo(addrStr, "{:x}", address);
-	addr.set2ndName(addrStr);
-	IG::formatTo(valueStr, "{:x}", value);
-	this->value.set2ndName(valueStr);
-	if(!saved)
-		savedStr.clear();
-	else
+	#ifndef SNES9X_VERSION_1_4
+	for(auto& c: ::Cheat.group)
+	#else
+	for(auto& c: ::Cheat.c | std::views::take(::Cheat.num_cheats))
+	#endif
 	{
-		IG::formatTo(savedStr, "{:x}", savedVal);
-		this->saved.set2ndName(savedStr);
+		if(!del(static_cast<Cheat&>(c), c.name))
+			break;
 	}
 }
 
-std::string_view EmuEditCheatView::cheatNameString() const
+void Snes9xSystem::forEachCheatCode(Cheat& cheat, DelegateFunc<bool(CheatCode&, std::string_view)> del)
 {
-	return cheatName(idx);
-}
-
-void EmuEditCheatView::renamed(std::string_view str)
-{
-	setCheatName(idx, str);
-	writeCheatsFile(system());
-}
-
-void EmuEditCheatListView::loadCheatItems()
-{
-	auto cheats = numCheats();
-	cheat.clear();
-	cheat.reserve(cheats);
-	for(auto c : iotaCount(cheats))
+	#ifndef SNES9X_VERSION_1_4
+	for(auto& c: cheat.cheat)
 	{
-		cheat.emplace_back(cheatName(c), attachParams(),
-			[this, c](TextMenuItem &, View &, Input::Event e)
-			{
-				pushAndShow(makeView<EmuEditCheatView>(c, [this](){ onCheatListChanged(); }), e);
-			});
+		if(!del(static_cast<CheatCode&>(c), S9xCheatToText(c)))
+			break;
 	}
-}
-
-EmuEditCheatListView::EmuEditCheatListView(ViewAttachParams attach):
-	BaseEditCheatListView
-	{
-		attach,
-		[this](ItemMessage msg) -> ItemReply
-		{
-			return msg.visit(overloaded
-			{
-				[&](const ItemsMessage&) -> ItemReply { return 1 + cheat.size(); },
-				[&](const GetItemMessage& m) -> ItemReply
-				{
-					switch(m.idx)
-					{
-						case 0: return &addCode;
-						default: return &cheat[m.idx - 1];
-					}
-				},
-			});
-		}
-	},
-	addCode
-	{
-		UI_TEXT("添加金手指代码"),
-		attach,
-		[this](const Input::Event& e)
-		{
-			if(numCheats() == EmuCheats::MAX)
-			{
-				app().postMessage(true,
-					UI_TEXT("已达个数上限，请先删除一些再添加")
-				);
-				return;
-			}
-			pushAndShowNewCollectTextInputView(attachParams(), e,
-				UI_TEXT("请输入 GG 码 (xxxx-xxxx)、AR 码 (xxxxxxxx) 或 GF 码"),
-				"",
-				[this](CollectTextInputView &view, const char *str)
-				{
-					if(str)
-					{
-						if(!addCheat(str))
-						{
-							app().postMessage(true,
-								UI_TEXT("无效的格式")
-							);
-							return true;
-						}
-						auto idx = numCheats() - 1;
-						setCheatName(idx, UNNAMED_CHEAT);
-						logMsg("added new cheat, %d total", numCheats());
-						onCheatListChanged();
-						writeCheatsFile(system());
-						view.dismiss();
-						pushAndShowNewCollectTextInputView(attachParams(), {},
-							UI_TEXT("请输入描述说明"),
-							"",
-							[this, idx](CollectTextInputView &view, const char *str)
-							{
-								if(str)
-								{
-									setCheatName(idx, str);
-									onCheatListChanged();
-									writeCheatsFile(system());
-									view.dismiss();
-								}
-								else
-								{
-									view.dismiss();
-								}
-								return false;
-							});
-					}
-					else
-					{
-						view.dismiss();
-					}
-					return false;
-				});
-		}
-	}
-{
-	loadCheatItems();
-}
-
-EmuCheatsView::EmuCheatsView(ViewAttachParams attach): BaseCheatsView{attach}
-{
-	loadCheatItems();
-}
-
-void EmuCheatsView::loadCheatItems()
-{
-	auto cheats = numCheats();
-	cheat.clear();
-	cheat.reserve(cheats);
-	for(auto c : iotaCount(cheats))
-	{
-		cheat.emplace_back(cheatName(c), attachParams(), cheatIsEnabled(c),
-			[this, c](BoolMenuItem &item)
-			{
-				bool on = item.flipBoolValue(*this);
-				if(on)
-					enableCheat(c);
-				else
-					disableCheat(c);
-				writeCheatsFile(system());
-			});
-	}
+	#endif
 }
 
 }

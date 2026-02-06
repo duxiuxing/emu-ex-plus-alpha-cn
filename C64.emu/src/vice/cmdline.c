@@ -77,6 +77,11 @@ static cmdline_option_ram_t *lookup_exact(const char *name)
     return NULL;
 }
 
+int cmdline_option_exists(const char *name)
+{
+    return lookup_exact(name) != NULL;
+}
+
 int cmdline_register_options(const cmdline_option_t *c)
 {
     cmdline_option_ram_t *p;
@@ -494,7 +499,7 @@ void cmdline_log_active(void)
             lib_free(cmd); /* free old pointer */
         }
     }
-    log_message(LOG_DEFAULT, "\nreconstructed commandline options (might be incomplete):");
+    log_message(LOG_DEFAULT, "\n" LOG_COL_LWHITE "reconstructed commandline options (might be incomplete)" LOG_COL_OFF ":");
     log_message(LOG_DEFAULT, "%s\n", cmdline);
     lib_free(cmdline);
 }

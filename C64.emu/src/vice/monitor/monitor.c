@@ -83,6 +83,7 @@
 #include "resources.h"
 #include "screenshot.h"
 #include "sysfile.h"
+#include "tape.h"
 #include "traps.h"
 #include "types.h"
 #include "ui.h"
@@ -92,6 +93,14 @@
 #include "video.h"
 #include "vsync.h"
 #include "sound.h"
+
+/*#define DEBUG_MONITOR*/
+
+#ifdef DEBUG_MONITOR
+#define DBG(x)  log_printf x
+#else
+#define DBG(x)
+#endif
 
 /*
    INITBREAK switched to a break point so that the first instruction doesn't
@@ -155,12 +164,13 @@ typedef struct symbol_table symbol_table_t;
 extern void set_yydebug(int debug);
 
 static char *last_cmd = NULL;
-int exit_mon = 0;
+enum exit_mon exit_mon = exit_mon_no;
 /* flag used by the single-stepping commands to prevent switching forth and back
  * to the emulator window when stepping a single instruction. note that this is
  * different from what keep_monitor_open does :)
  */
 static int mon_console_suspend_on_leaving = 1;
+
 /* flag used by the eXit command. it will force the monitor to close regardless
  * of keep_monitor_open.
  */
@@ -187,12 +197,12 @@ static unsigned int watch_load_count[NUM_MEMSPACES];
 static unsigned int watch_store_count[NUM_MEMSPACES];
 static symbol_table_t monitor_labels[NUM_MEMSPACES];
 static CLOCK stopwatch_start_time[NUM_MEMSPACES];
-bool force_array[NUM_MEMSPACES];
 monitor_interface_t *mon_interfaces[NUM_MEMSPACES];
 
 MON_ADDR dot_addr[NUM_MEMSPACES];
-unsigned char data_buf[256];
-unsigned char data_mask_buf[256];
+#define DATA_BUF_SIZE 256
+unsigned char data_buf[DATA_BUF_SIZE];
+unsigned char data_mask_buf[DATA_BUF_SIZE];
 unsigned int data_buf_len;
 bool asm_mode;
 MON_ADDR asm_mode_addr;
@@ -260,7 +270,7 @@ static const char * const cond_op_string[] = {
 
 const char * const mon_memspace_string[] = { "default", "C", "8", "9", "10", "11" };
 
-/* must match order in enum t_reg_id */
+/* CAUTION: must match order in enum t_reg_id, and contain all of its elements */
 static const char * const register_string[] = {
 /* 6502/65c02 */
     "A",
@@ -328,6 +338,8 @@ static const char * const register_string[] = {
 
     "RL",   /* Rasterline */
     "CY",   /* Cycle in line */
+    "P00",  /* CPU port DDR (6510) */
+    "P01"   /* CPU port Data (6510) */
 };
 
 bool monitor_is_inside_monitor(void)
@@ -400,17 +412,17 @@ void monitor_vsync_hook(void)
 /* Some local helper functions */
 static int find_cpu_type_from_string(const char *cpu_string)
 {
-    if ((strcasecmp(cpu_string, "6502") == 0) || (strcasecmp(cpu_string, "6510") == 0)) {
+    if ((util_strcasecmp(cpu_string, "6502") == 0) || (util_strcasecmp(cpu_string, "6510") == 0)) {
         return CPU_6502;
-    } else if (strcasecmp(cpu_string, "r65c02") == 0) {
+    } else if (util_strcasecmp(cpu_string, "r65c02") == 0) {
         return CPU_R65C02;
-    } else if (strcasecmp(cpu_string, "65816")==0) {
+    } else if (util_strcasecmp(cpu_string, "65816")==0) {
         return CPU_65816;
-    } else if (strcasecmp(cpu_string, "h6809") == 0 || strcmp(cpu_string, "6809") == 0) {
+    } else if (util_strcasecmp(cpu_string, "h6809") == 0 || strcmp(cpu_string, "6809") == 0) {
         return CPU_6809;
-    } else if (strcasecmp(cpu_string, "z80") == 0) {
+    } else if (util_strcasecmp(cpu_string, "z80") == 0) {
         return CPU_Z80;
-    } else if ((strcasecmp(cpu_string, "6502dtv") == 0) || (strcasecmp(cpu_string, "6510dtv") == 0)) {
+    } else if ((util_strcasecmp(cpu_string, "6502dtv") == 0) || (util_strcasecmp(cpu_string, "6510dtv") == 0)) {
         return CPU_6502DTV;
     } else {
         return -1;
@@ -584,11 +596,11 @@ long mon_evaluate_address_range(MON_ADDR *start_addr, MON_ADDR *end_addr,
             } else {
                 if (mem2 != e_invalid_space) {
                     if (!(mem1 == mem2)) {
-                        log_error(LOG_ERR, "Invalid memspace!");
+                        log_error(LOG_DEFAULT, "Invalid memspace!");
                         return 0;
                     }
                 } else {
-                    log_error(LOG_ERR, "Invalid memspace!");
+                    log_error(LOG_DEFAULT, "Invalid memspace!");
                     return 0;
                 }
             }
@@ -856,7 +868,7 @@ uint8_t mon_get_mem_val_ex(MEMSPACE mem, int bank, uint16_t mem_addr)
         return mon_interfaces[mem]->mem_bank_peek(bank, mem_addr, mon_interfaces[mem]->context);
     } else {
         if (sidefx == 0) {
-            log_error(LOG_ERR, "mon_get_mem_val_ex: mem_bank_peek() not implemented for memspace %u.", mem);
+            log_error(LOG_DEFAULT, "mon_get_mem_val_ex: mem_bank_peek() not implemented for memspace %u.", mem);
         }
         return mon_interfaces[mem]->mem_bank_read(bank, mem_addr, mon_interfaces[mem]->context);
     }
@@ -880,7 +892,7 @@ uint8_t mon_get_mem_val_ex_nosfx(MEMSPACE mem, int bank, uint16_t mem_addr)
     if (mon_interfaces[mem]->mem_bank_peek != NULL) {
         return mon_interfaces[mem]->mem_bank_peek(bank, mem_addr, mon_interfaces[mem]->context);
     } else {
-        log_error(LOG_ERR, "mon_get_mem_val_ex_nosfx: mem_bank_peek() not implemented for memspace %u.", mem);
+        log_error(LOG_DEFAULT, "mon_get_mem_val_ex_nosfx: mem_bank_peek() not implemented for memspace %u.", mem);
         return mon_interfaces[mem]->mem_bank_read(bank, mem_addr, mon_interfaces[mem]->context);
     }
 }
@@ -975,18 +987,19 @@ void mon_set_mem_val_ex(MEMSPACE mem, int bank, uint16_t mem_addr, uint8_t val)
     }
 }
 
-/* exit monitor  */
+/* exit monitor, G XXXX  */
 void mon_jump(MON_ADDR addr)
 {
     mon_evaluate_default_addr(&addr);
     (monitor_cpu_for_memspace[addr_memspace(addr)]->mon_register_set_val)(addr_memspace(addr), e_PC, (uint16_t)(addr_location(addr)));
-    exit_mon = 1;
+    exit_mon = exit_mon_change_flow;
 }
 
-/* exit monitor  */
+/* exit monitor, G (not G XXXX)  */
 void mon_go(void)
 {
-    exit_mon = 1;
+    exit_mon = exit_mon_continue;
+    mon_console_suspend_on_leaving = 0;
 
     if (should_pause_on_exit_mon || ui_pause_active()) {
         should_pause_on_exit_mon = false;
@@ -997,7 +1010,7 @@ void mon_go(void)
 /* exit monitor, close monitor window  */
 void mon_exit(void)
 {
-    exit_mon = 1;
+    exit_mon = exit_mon_continue;
     mon_console_close_on_leaving = 1;
 
     if (should_pause_on_exit_mon || ui_pause_active()) {
@@ -1014,7 +1027,7 @@ void mon_exit(void)
 */
 void mon_quit(void)
 {
-    exit_mon = 2;
+    exit_mon = exit_mon_quit_vice;
 }
 
 void mon_keyboard_feed(const char *string)
@@ -1075,6 +1088,11 @@ void mon_clear_buffer(void)
 
 void mon_add_number_to_buffer(int number)
 {
+    int bytes_now = number > 0xff ? 2 : 1;
+    if (data_buf_len + bytes_now >= DATA_BUF_SIZE) {
+        mon_out("Trying to write more bytes than the buffer fits, ignoring\n");
+        return;
+    }
     unsigned int i = data_buf_len;
     data_buf[data_buf_len++] = (number & 0xff);
     if (number > 0xff) {
@@ -1163,6 +1181,16 @@ void mon_backtrace(void)
     extern uint16_t callstack_memory_bank_config[];
     extern uint8_t  callstack_sp[];
     extern unsigned callstack_size;
+    /* FIXME: memspace should be passed as an argument to this function */
+    MEMSPACE mem = default_memspace;
+    if (mem == e_default_space) {
+        mem = default_memspace;
+    }
+    /* FIXME: only computer memspace can work right now */
+    if (mem != e_comp_space) {
+        mon_out("Sorry, backtrace is only implemented for computer memspace.\n");
+        return;
+    }
 
     pc = (monitor_cpu_for_memspace[default_memspace]->mon_register_get_val)(default_memspace, e_PC);
     sp = (monitor_cpu_for_memspace[default_memspace]->mon_register_get_val)(default_memspace, e_SP);
@@ -1267,10 +1295,10 @@ void mon_show_dir(const char *path)
             if (isdir) {
                 mon_out("     <dir> %s\n", name);
             } else {
-                mon_out("%"PRI_SIZE_T" %s\n", len, name);
+                mon_out("%10"PRI_SIZE_T" %s\n", len, name);
             }
         } else {
-            mon_out("%-20s?????\n", name);
+            mon_out("     %-20s ?????\n", name);
         }
     }
     lib_free(mpath);
@@ -1310,7 +1338,7 @@ void mon_reset_machine(int type)
     switch (type) {
         case 1:
             machine_trigger_reset(MACHINE_RESET_MODE_POWER_CYCLE);
-            exit_mon = 1;
+            exit_mon = exit_mon_continue;
             break;
         case 8:
         case 9:
@@ -1320,7 +1348,7 @@ void mon_reset_machine(int type)
             break;
         default:
             machine_trigger_reset(MACHINE_RESET_MODE_RESET_CPU);
-            exit_mon = 1;
+            exit_mon = exit_mon_continue;
             break;
     }
 }
@@ -1331,6 +1359,23 @@ void mon_tape_ctrl(int port, int command)
         mon_out("Unknown command.\n");
     } else {
         datasette_control(port, command);
+    }
+}
+
+void mon_tape_offs(int port, int offset)
+{
+    tape_image_t *tape_image = tape_image_dev[port];
+
+    if (tape_image && tape_image->data) {
+        if (offset < 0) {
+            offset = (int)tape_get_offset(tape_image);
+            mon_out("Current tape offset is: %d\n", offset);
+        } else {
+            mon_out("Setting tape to offset: %d\n", offset);
+            tape_seek_to_offset(tape_image, offset);
+        }
+    } else {
+        mon_out("No tape attached.\n");
     }
 }
 
@@ -1598,7 +1643,7 @@ void monitor_init(monitor_interface_t *maincpu_interface_init,
     } else if (init_break_mode == ON_RESET) {
         mon_breakpoint_add_checkpoint((uint16_t)0, (uint16_t)0xffff,
                 true, e_exec, true, false);
-        exit_mon = 0;
+        exit_mon = exit_mon_no;
 #endif
     }
 }
@@ -1778,7 +1823,7 @@ static const resource_int_t resources_int[] = {
     { "MonitorChisLines", 8192, RES_EVENT_NO, NULL,
       &monitorchislines, set_monitor_chis_lines, NULL },
 #endif
-    { "MonitorScrollbackLines", 4096, RES_EVENT_NO, NULL,
+    { "MonitorScrollbackLines", 8192, RES_EVENT_NO, NULL,
       &monitorscrollbacklines, set_monitor_scrollback_lines, NULL },
     RESOURCE_INT_LIST_END
 };
@@ -1894,6 +1939,12 @@ void mon_display_screen(long addr)
     uint8_t rows, cols;
     unsigned int r, c;
     int bank;
+    /* FIXME: this should really be handled by the UI instead, ie the UI should
+              always just give us valid numbers */
+    static int last_known_xres = 40;
+    if (console_log) {
+        last_known_xres = console_log->console_xres;
+    }
 #if 0
     printf("Address = %ld\n", addr);
 #endif
@@ -1913,10 +1964,9 @@ void mon_display_screen(long addr)
     mon_out("Displaying %dx%d screen at $%04x:\n", cols, rows, base);
 
     for (r = 0; r < rows; r++) {
-        /* Only show addresses of each line in non-SDL */
-#if !defined(USE_SDLUI) && !defined(USE_SDL2UI)
-        mon_out("%04x  ", base);
-#endif
+        if ((cols + 9) < last_known_xres) {
+            mon_out("*C:%04x  ", base);
+        }
         for (c = 0; c < cols; c++) {
             uint8_t data;
 
@@ -1924,9 +1974,7 @@ void mon_display_screen(long addr)
                Do we want monitor sidefx in a function that's *supposed*
                to just read from screen memory? */
             data = mon_get_mem_val_ex_nosfx(e_comp_space, bank, (uint16_t)ADDR_LIMIT(base++));
-            data = charset_p_toascii(charset_screencode_to_petcii(data), CONVERT_WITH_CTRLCODES);
-
-            mon_out("%c", data);
+            mon_scrcode_out(1, "%c", data);
         }
         mon_out("\n");
     }
@@ -2182,7 +2230,7 @@ int mon_playback_commands(const char *filename, bool interrupt_current_playback)
          * Need to grow the playback FP stack. But look out for insane playback include depth.
          */
         if (playback_fp_stack_size_max >= PLAYBACK_MAX_FP_DEPTH) {
-            log_error(LOG_ERR, "Max level of playback file depth %d reached, exiting", playback_fp_stack_size_max);
+            log_error(LOG_DEFAULT, "Max level of playback file depth %d reached, exiting", playback_fp_stack_size_max);
             archdep_vice_exit(1);
         }
 
@@ -2198,7 +2246,7 @@ int mon_playback_commands(const char *filename, bool interrupt_current_playback)
     }
 
     if (fp == NULL) {
-        log_error(LOG_ERR, "Failed to open playback file: '%s'", filename);
+        log_error(LOG_DEFAULT, "Failed to open playback file: '%s'", filename);
         mon_out("Cannot open '%s'.\n", filename);
         return -1;
     }
@@ -2519,7 +2567,7 @@ void mon_instructions_step(int count)
     instruction_count = (count >= 0) ? count : 1;
     wait_for_return_level = 0;
     skip_jsrs = false;
-    exit_mon = 1;
+    exit_mon = exit_mon_continue;
 
     mon_console_suspend_on_leaving = 0;
 
@@ -2538,7 +2586,7 @@ void mon_instructions_next(int count)
     }
     wait_for_return_level = (int)((MONITOR_GET_OPCODE(default_memspace) == OP_JSR) ? 1 : 0);
     skip_jsrs = true;
-    exit_mon = 1;
+    exit_mon = exit_mon_continue;
 
     mon_console_suspend_on_leaving = 0;
 
@@ -2555,7 +2603,7 @@ void mon_instruction_return(void)
              || MONITOR_GET_OPCODE(default_memspace) == OP_RTI) ?
             0 : (MONITOR_GET_OPCODE(default_memspace) == OP_JSR) ? 2 : 1);
     skip_jsrs = true;
-    exit_mon = 1;
+    exit_mon = exit_mon_continue;
 
     monitor_mask[default_memspace] |= MI_STEP;
     interrupt_monitor_trap_on(mon_interfaces[default_memspace]->int_status);
@@ -2584,7 +2632,7 @@ void mon_print_conditional(cond_node_t *cnode)
 
     if (cnode->operation != e_INV) {
         if (!(cnode->child1 && cnode->child2)) {
-            log_error(LOG_ERR, "No conditional!");
+            log_error(LOG_DEFAULT, "No conditional!");
             return;
         }
         mon_print_conditional(cnode->child1);
@@ -2623,7 +2671,7 @@ int mon_evaluate_conditional(cond_node_t *cnode)
         int value_1, value_2;
 
         if (!(cnode->child1 && cnode->child2)) {
-            log_error(LOG_ERR, "No conditional!");
+            log_error(LOG_DEFAULT, "No conditional!");
             return 0;
         }
         value_1 = mon_evaluate_conditional(cnode->child1);
@@ -2665,7 +2713,7 @@ int mon_evaluate_conditional(cond_node_t *cnode)
                 break;
             case e_DIV:
                 if (value_2 == 0) {
-                    log_error(LOG_ERR, "Division by zero in conditional\n");
+                    log_error(LOG_DEFAULT, "Division by zero in conditional\n");
                     return 0;
                 }
                 cnode->value = (value_1 / value_2);
@@ -2677,7 +2725,7 @@ int mon_evaluate_conditional(cond_node_t *cnode)
                 cnode->value = (value_1 | value_2);
                 break;
             default:
-                log_error(LOG_ERR, "Unexpected conditional operator: %d\n",
+                log_error(LOG_DEFAULT, "Unexpected conditional operator: %d\n",
                           cnode->operation);
                 return 0;
         }
@@ -2831,17 +2879,6 @@ static bool watchpoints_check_stores(MEMSPACE mem, unsigned int lastpc, unsigned
 
 
 /* *** CPU INTERFACES *** */
-
-
-int monitor_force_import(MEMSPACE mem)
-{
-    bool result;
-
-    result = force_array[mem];
-    force_array[mem] = false;
-
-    return result;
-}
 
 /* called by cpu core */
 void monitor_check_icount(uint16_t pc)
@@ -3003,6 +3040,9 @@ void monitor_abort(void)
     mon_stop_output = 1;
 }
 
+#define TTY_COLUMNS 80
+#define TTY_ROWS    25
+
 static void monitor_open(void)
 {
     supported_cpu_type_list_t *slist, *slist_next;
@@ -3014,11 +3054,12 @@ static void monitor_open(void)
     mon_console_close_on_leaving = 0;
 
     if (console_mode) {
-        /* Shitty hack. We should support the console size etc. */
-        static console_t console_log_console = { 80, 25, 0, 0, NULL };
+        /* Shitty hack. We should support the console size etc.
+           NOTE: this is (only) for the case when VICE runs in console mode (-console) */
+        static console_t console_log_console = { TTY_COLUMNS, TTY_ROWS, 0, 0, NULL };
         console_log = &console_log_console;
     } else if (monitor_is_remote() || monitor_is_binary()) {
-        static console_t console_log_remote = { 80, 25, 0, 0, NULL };
+        static console_t console_log_remote = { TTY_COLUMNS, TTY_ROWS, 0, 0, NULL };
         console_log = &console_log_remote;
     } else {
         if (console_log) {
@@ -3029,10 +3070,11 @@ static void monitor_open(void)
             uimon_set_interface(mon_interfaces, NUM_MEMSPACES);
         }
     }
+    DBG(("monitor_open console_mode:%d console_log:%p", console_mode, console_log));
 
     if (console_log == NULL) {
         log_error(LOG_DEFAULT, "monitor_open: could not open monitor console.");
-        exit_mon = 1;
+        exit_mon = exit_mon_continue;
         return;
     }
 
@@ -3122,9 +3164,43 @@ static void monitor_open(void)
         mon_interfaces[default_memspace]->current_bank = monbank; /* restore value used in monitor */
         disassemble_on_entry = 0;
     }
+
+#if 0
+    /* FIXME: the first time the console opens the font might not be initialized
+       correctly, so close and repopen the monitor once */
+    {
+        int ch;
+        char str[2] = { 0, 0 };
+        mon_out("petscii:\n");
+        for (ch = 0; ch < 0x100; ch++) {
+            if ((ch && !(ch & 0x0f))) { mon_out("\n"); }
+            str[0] = ch;
+            mon_petscii_out(1, "%s", str);
+        }
+        mon_out("\n\npetscii (upper):\n");
+        for (ch = 0; ch < 0x100; ch++) {
+            if ((ch && !(ch & 0x0f))) { mon_out("\n"); }
+            str[0] = ch;
+            mon_petscii_upper_out(1, "%s", str);
+        }
+        mon_out("\n\nscrcode:\n");
+        for (ch = 0; ch < 0x100; ch++) {
+            if ((ch && !(ch & 0x0f))) { mon_out("\n"); }
+            str[0] = ch;
+            mon_scrcode_out(1, "%s", str);
+        }
+        mon_out("\n\nscrcode (upper):\n");
+        for (ch = 0; ch < 0x100; ch++) {
+            if ((ch && !(ch & 0x0f))) { mon_out("\n"); }
+            str[0] = ch;
+            mon_scrcode_upper_out(1, "%s", str);
+        }
+        mon_out("\n");
+    }
+#endif
 }
 
-static int monitor_process(char *cmd)
+static void monitor_process(char *cmd)
 {
     char *trimmed_command;
 
@@ -3165,16 +3241,14 @@ static int monitor_process(char *cmd)
     lib_free(last_cmd);
 
     /* remember last command, except when leaving the monitor */
-    if (exit_mon && mon_console_suspend_on_leaving) {
+    if (exit_mon != exit_mon_no && mon_console_suspend_on_leaving) {
         lib_free(cmd);
         last_cmd = NULL;
     } else {
         last_cmd = cmd;
     }
 
-    uimon_notify_change(); /* @SRT */
-
-    return exit_mon;
+    uimon_notify_change();
 }
 
 static void monitor_close(bool check_exit)
@@ -3184,18 +3258,14 @@ static void monitor_close(bool check_exit)
 #endif
     inside_monitor = false;
 
-    if (exit_mon) {
-        exit_mon--;
-    }
-
-    if (check_exit && exit_mon) {
+    if (check_exit && exit_mon == exit_mon_quit_vice) {
         if (!monitor_is_remote()) {
             uimon_window_close();
         }
         archdep_vice_exit(0);
     }
 
-    exit_mon = 0;
+    exit_mon = exit_mon_no;
 
     if (!monitor_is_remote() && !monitor_is_binary()) {
         if (mon_console_suspend_on_leaving) {
@@ -3220,13 +3290,29 @@ static void monitor_close(bool check_exit)
         console_log = NULL;
     }
 
+    DBG(("monitor_close console_log:%p", console_log));
     vsync_suspend_speed_eval();
+}
+
+static int check_for_breakpoint(MEMSPACE mem)
+{
+    int reg_pc;
+
+    if (mem == e_default_space) {
+        mem = default_memspace;
+    }
+
+    reg_pc = (monitor_cpu_for_memspace[mem]->mon_register_get_val)(mem, e_PC);
+
+    return monitor_check_breakpoints(mem, (uint16_t)reg_pc);
 }
 
 void monitor_startup(MEMSPACE mem)
 {
     char prompt[40];
     char *p;
+
+    DBG(("monitor_startup console_log:%p", console_log));
 
     if (inside_monitor) {
         /*
@@ -3248,7 +3334,7 @@ void monitor_startup(MEMSPACE mem)
     }
 
     monitor_open();
-    while (!exit_mon) {
+    for (;;) {
 
         if (playback_fp) {
             playback_next_command();
@@ -3265,13 +3351,23 @@ void monitor_startup(MEMSPACE mem)
             make_prompt(prompt);
             p = uimon_in(prompt);
             if (p) {
-                exit_mon = monitor_process(p);
-            } else if (exit_mon < 1) {
+                monitor_process(p);
+            } else if (exit_mon == exit_mon_no) {
                 mon_exit();
             }
         }
 
-        if (exit_mon) {
+        if (exit_mon == exit_mon_change_flow) {
+            /*
+             * If we are about to exit the monitor with a change of program flow,
+             * check if we land on a breakpoint and if so, do not exit.
+             */
+            if (check_for_breakpoint(mem)) {
+                exit_mon = exit_mon_no;
+            }
+        }
+
+        if (exit_mon != exit_mon_no) {
             /* mon_out("exit\n"); */
             break;
         }

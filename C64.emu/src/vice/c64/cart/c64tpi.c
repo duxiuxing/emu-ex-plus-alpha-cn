@@ -455,20 +455,20 @@ static int set_ieee488_enabled(int value, void *param)
         }
         if (param) {
             /* if the param is != NULL, then we should load the default image file */
-            if (ieee488_filename) {
-                if (*ieee488_filename) {
-                    DBG(("IEEE: attach default image\n"));
-                    /* try crt first, then binary */
-                    if ((cartridge_attach_image(CARTRIDGE_CRT, ieee488_filename) < 0) &&
-                        (cartridge_attach_image(CARTRIDGE_IEEE488, ieee488_filename) < 0)) {
-                        DBG(("IEEE: set_enabled did not register\n"));
-                        lib_free(tpi_rom);
-                        tpi_rom = NULL;
-                        return -1;
-                    }
-                    /* ieee488_enabled = 1; */ /* cartridge_attach_image will end up calling set_ieee488_enabled again */
-                    return 0;
+            if ((ieee488_filename != NULL) && (*ieee488_filename != 0)) {
+                DBG(("IEEE: attach default image\n"));
+                /* try crt first, then binary */
+                if ((cartridge_attach_image(CARTRIDGE_CRT, ieee488_filename) < 0) &&
+                    (cartridge_attach_image(CARTRIDGE_IEEE488, ieee488_filename) < 0)) {
+                    DBG(("IEEE: set_enabled did not register\n"));
+                    lib_free(tpi_rom);
+                    tpi_rom = NULL;
+                    return -1; /* loading the default was requested, but file could not be loaded */
                 }
+                /* ieee488_enabled = 1; */ /* cartridge_attach_image will end up calling set_ieee488_enabled again */
+                return 0;
+            } else {
+                return -1; /* loading the default was requested, but no filename was set */
             }
         } else {
             cart_power_off();
@@ -529,6 +529,9 @@ static const resource_int_t resources_int[] = {
 
 int tpi_resources_init(void)
 {
+    if (parallel_resources_init() < 0) {
+        return -1;
+    }
     if (resources_register_string(resources_string) < 0) {
         return -1;
     }
@@ -559,6 +562,9 @@ static const cmdline_option_t cmdline_options[] =
 
 int tpi_cmdline_options_init(void)
 {
+    if (parallel_cmdline_options_init() < 0) {
+        return -1;
+    }
     return cmdline_register_options(cmdline_options);
 }
 

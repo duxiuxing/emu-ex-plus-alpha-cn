@@ -12,7 +12,7 @@
 namespace EmuEx
 {
 class EmuSystemTaskContext;
-class NesSystem;
+class NesSystemHolder;
 class EmuVideo;
 class EmuAudio;
 }
@@ -116,8 +116,8 @@ FCEUGI *FCEUI_LoadGameVirtual(const char *name, int OverwriteVidMode, bool silen
 bool FCEUI_Initialize();
 
 //Emulates a frame.
-void FCEUI_Emulate(EmuEx::EmuSystemTaskContext, EmuEx::NesSystem &, EmuEx::EmuVideo *, int skip, EmuEx::EmuAudio *);
-void FCEUI_Emulate(EmuEx::NesSystem &, EmuEx::EmuVideo *, int skip, EmuEx::EmuAudio *);
+void FCEUI_Emulate(EmuEx::EmuSystemTaskContext, EmuEx::NesSystemHolder&, EmuEx::EmuVideo*, int skip, EmuEx::EmuAudio*);
+void FCEUI_Emulate(EmuEx::NesSystemHolder&, EmuEx::EmuVideo*, int skip, EmuEx::EmuAudio*);
 
 //Closes currently loaded game
 void FCEUI_CloseGame(void);
@@ -205,7 +205,7 @@ void FCEU_DispMessage( __FCEU_PRINTF_FORMAT const char *format, int disppos, ...
 #define FCEUI_DispMessage FCEU_DispMessage
 
 int FCEUI_DecodePAR(const char *code, int *a, int *v, int *c, int *type);
-int FCEUI_DecodeGG(const char *str, int *a, int *v, int *c);
+int FCEUI_DecodeGG(const char *str, uint16 *a, uint8 *v, int *c);
 int FCEUI_AddCheat(const char *name, uint32 addr, uint8 val, int compare, int type, int status = 1, bool rebuild = true);
 int FCEUI_DelCheat(uint32 which);
 int FCEUI_ToggleCheat(uint32 which);

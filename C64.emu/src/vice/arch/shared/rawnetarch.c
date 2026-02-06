@@ -57,7 +57,9 @@
 
 #include <stddef.h>
 #include <string.h>
+#ifdef HAVE_UNISTD_H
 #include <unistd.h>
+#endif
 
 #ifdef HAVE_RAWNET
 
@@ -209,7 +211,7 @@ int rawnet_arch_cmdline_options_init(void)
 
 /* Rawnet functions and driver interface *************************************/
 
-log_t rawnet_arch_log = LOG_ERR;
+log_t rawnet_arch_log = LOG_DEFAULT;
 
 #ifdef RAWNET_DEBUG_PKTDUMP
 void rawnet_arch_debug_output(const char *text, uint8_t *what, int count)

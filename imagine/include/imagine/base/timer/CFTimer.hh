@@ -19,7 +19,10 @@
 #include <imagine/time/Time.hh>
 #include <imagine/util/used.hh>
 #include <CoreFoundation/CoreFoundation.h>
+#ifndef IG_USE_MODULE_STD
 #include <memory>
+#include <string_view>
+#endif
 
 namespace IG
 {
@@ -36,14 +39,15 @@ class CFTimer
 public:
 	using TimePoint = SteadyClockTimePoint;
 
+	constexpr CFTimer() = default;
 	CFTimer(TimerDesc, CallbackDelegate);
 	CFTimer(CFTimer&&) noexcept;
 	CFTimer &operator=(CFTimer&&) noexcept;
 	~CFTimer();
-	const char* debugLabel() const { return debugLabel_; }
+	std::string_view debugLabel() const { return debugLabel_; }
 
 protected:
-	ConditionalMember<Config::DEBUG_BUILD, const char *> debugLabel_{};
+	ConditionalMember<Config::DEBUG_BUILD, std::string_view> debugLabel_{};
 	CFRunLoopTimerRef timer{};
 	std::unique_ptr<CFTimerInfo> info;
 

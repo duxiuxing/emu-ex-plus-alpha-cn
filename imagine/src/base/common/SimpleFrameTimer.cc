@@ -15,13 +15,13 @@
 
 #include <imagine/base/SimpleFrameTimer.hh>
 #include <imagine/base/Screen.hh>
-#include <imagine/time/Time.hh>
-#include <imagine/logger/logger.h>
+#include <imagine/util/utility.hh>
+#include <imagine/logger/SystemLogger.hh>
 
 namespace IG
 {
 
-constexpr SystemLogger log{"SimpleFrameTimer"};
+static SystemLogger log{"SimpleFrameTimer"};
 
 SimpleFrameTimer::SimpleFrameTimer(Screen &screen, EventLoop loop):
 	timer
@@ -29,26 +29,18 @@ SimpleFrameTimer::SimpleFrameTimer(Screen &screen, EventLoop loop):
 		{.debugLabel = "SimpleFrameTimer", .eventLoop = loop},
 		[this, &screen]()
 		{
-			if(!requested)
+			if(!requested || !screen.frameUpdate(SteadyClock::now()))
 			{
-				if(keepTimer)
-				{
-					// wait one more tick due to simulated vsync inaccuracy
-					keepTimer = false;
-					return true;
-				}
-				else
-				{
-					return false;
-				}
+				cancel();
+				return false;
 			}
-			requested = false;
-			if(screen.frameUpdate(SteadyClock::now()))
-				scheduleVSync();
 			return true;
 		}
 	},
-	interval{fromHz<Nanoseconds>(screen.frameRate())} {}
+	rate{screen.frameRate()}
+{
+	log.info("created frame timer");
+}
 
 void SimpleFrameTimer::scheduleVSync()
 {
@@ -57,28 +49,26 @@ void SimpleFrameTimer::scheduleVSync()
 		return;
 	}
 	requested = true;
-	keepTimer = true;
 	if(timer.isArmed())
 	{
 		return;
 	}
-	assert(interval.count());
-	timer.runIn(Nanoseconds{1}, interval);
+	assume(rate.hz());
+	timer.runIn(Nanoseconds{1}, rate.duration());
 }
 
 void SimpleFrameTimer::cancel()
 {
 	requested = false;
-	keepTimer = false;
 }
 
-void SimpleFrameTimer::setFrameRate(FrameRate rate)
+void SimpleFrameTimer::setFrameRate(FrameRate rate_)
 {
-	interval = fromHz<Nanoseconds>(rate);
-	log.info("set frame rate:{:g} (timer interval:{}ns)", rate, interval.count());
+	rate = rate_;
+	log.info("set frame rate:{:g} (timer interval:{})", rate.hz(), rate.duration());
 	if(timer.isArmed())
 	{
-		timer.runIn(Nanoseconds{1}, interval);
+		timer.runIn(timer.timeUntilRun(), rate.duration());
 	}
 }
 
@@ -87,6 +77,10 @@ void SimpleFrameTimer::setEventsOnThisThread(ApplicationContext)
 	timer.setEventLoop({});
 }
 
-void NullFrameTimer::setEventsOnThisThread(ApplicationContext) {}
+void SimpleFrameTimer::removeEvents(ApplicationContext)
+{
+	cancel();
+	timer.unsetEventLoop();
+}
 
 }

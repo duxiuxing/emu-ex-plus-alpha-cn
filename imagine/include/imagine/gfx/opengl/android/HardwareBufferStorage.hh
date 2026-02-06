@@ -19,8 +19,10 @@
 #include <imagine/base/android/HardwareBuffer.hh>
 #include <imagine/base/android/GraphicBuffer.hh>
 #include "egl.hh"
+#ifndef IG_USE_MODULE_STD
 #include <type_traits>
 #include <array>
+#endif
 
 namespace IG::Gfx
 {
@@ -33,6 +35,7 @@ public:
 	bool setFormat(PixmapDesc, ColorSpace, TextureSamplerConfig);
 	LockedTextureBuffer lock(TextureBufferFlags bufferFlags);
 	void unlock(LockedTextureBuffer lockBuff, TextureWriteFlags writeFlags);
+	int buffers() const { return 1; }
 
 protected:
 	Buffer buffer{};
@@ -47,6 +50,7 @@ public:
 	bool setFormat(PixmapDesc, ColorSpace, TextureSamplerConfig);
 	LockedTextureBuffer lock(TextureBufferFlags bufferFlags);
 	void unlock(LockedTextureBuffer lockBuff, TextureWriteFlags writeFlags);
+	int buffers() const { return 2; }
 
 protected:
 	struct EGLImageDeleter

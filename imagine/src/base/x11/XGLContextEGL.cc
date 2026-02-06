@@ -13,39 +13,26 @@
 	You should have received a copy of the GNU General Public License
 	along with Imagine.  If not, see <http://www.gnu.org/licenses/> */
 
-#define LOGTAG "EGL"
 #include <imagine/base/GLContext.hh>
 #include <imagine/base/Application.hh>
-#include <imagine/time/Time.hh>
-#include <imagine/fs/FS.hh>
+#include <imagine/logger/SystemLogger.hh>
 #include <imagine/util/egl.hh>
-#include <imagine/util/ScopeGuard.hh>
-#include <imagine/util/ranges.hh>
-#include <imagine/logger/logger.h>
+#include <xcb/xproto.h>
 #include <EGL/egl.h>
 #include <EGL/eglext.h>
-#include "xlibutils.h"
+#include <ranges>
+import xutils;
 
 namespace IG
 {
 
-constexpr SystemLogger log{"X11GL"};
+static SystemLogger log{"X11GL"};
 
 GLDisplay GLManager::getDefaultDisplay(NativeDisplayConnection nativeDpy) const
 {
 	if constexpr(useEGLPlatformAPI)
 	{
-		auto dpy = [&]()
-		{
-			if(FS::exists("/usr/share/glvnd/egl_vendor.d/10_nvidia.json")) // Nvidia EGL library doesn't recognize EGL_PLATFORM_XCB_EXT
-			{
-				return eglGetPlatformDisplay(EGL_PLATFORM_X11_EXT, EGL_DEFAULT_DISPLAY, nullptr);
-			}
-			else
-			{
-				return eglGetPlatformDisplay(EGL_PLATFORM_XCB_EXT, nativeDpy.conn, nullptr);
-			}
-		}();
+		auto dpy = eglGetPlatformDisplay(EGL_PLATFORM_XCB_EXT, nativeDpy.conn, nullptr);
 		if(Config::DEBUG_BUILD && dpy == EGL_NO_DISPLAY)
 			log.error("error:{} getting platform display", GLManager::errorString(eglGetError()));
 		return dpy;
@@ -87,7 +74,7 @@ std::optional<GLBufferConfig> GLManager::tryBufferConfig(ApplicationContext ctx,
 			if(found)
 			{
 				if(Config::DEBUG_BUILD)
-					printEGLConf(display(), conf);
+					printEGLConf(display(), conf, log);
 				return conf;
 			}
 		}

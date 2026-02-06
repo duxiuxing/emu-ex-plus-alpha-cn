@@ -41,9 +41,9 @@
 
 /* IMPORTANT: Do NOT put #ifdef's in this enum,
               Do NOT change the order of the ID's,
-              Add new devices at the end, before JOYPORT_MAX_DEVICES */
+              Add new devices at the end, before USERPORT_MAX_DEVICES */
 enum {
-    USERPORT_DEVICE_NONE = 0,
+    USERPORT_DEVICE_NONE = 0,    /* CAUTION: some code relies on this being 0 */
     USERPORT_DEVICE_PRINTER,
     USERPORT_DEVICE_RS232_MODEM,
     USERPORT_DEVICE_JOYSTICK_CGA,
@@ -67,8 +67,11 @@ enum {
     USERPORT_DEVICE_DRIVE_PAR_CABLE,
     USERPORT_DEVICE_IO_SIMULATION,
     USERPORT_DEVICE_WIC64,
-    USERPORT_DEVICE_SPACEBALLS,
+    USERPORT_DEVICE_SPACEBALLS, /* CAUTION: also connects to the controller port(s) */
     USERPORT_DEVICE_SPT_JOYSTICK,
+    USERPORT_DEVICE_DIAGNOSTIC_PIN,
+    USERPORT_DEVICE_MOUSE_PS2,
+    USERPORT_DEVICE_FUNMP3,
 
     /* This item always needs to be at the end */
     USERPORT_MAX_DEVICES
@@ -89,7 +92,9 @@ enum {
 #ifdef HAVE_LIBCURL
     USERPORT_DEVICE_TYPE_WIFI,
 #endif
-    USERPORT_DEVICE_TYPE_IO_SIMULATION
+    USERPORT_DEVICE_TYPE_IO_SIMULATION,
+    USERPORT_DEVICE_TYPE_DIAGNOSTIC,
+    USERPORT_DEVICE_TYPE_MOUSE_ADAPTER,
 };
 
 /* 24 pin userport pin defines */
@@ -258,6 +263,15 @@ enum {
 #define USERPORT26_CBM2_PIN_NIRQ    USERPORT26_PIN_25
 #define USERPORT26_CBM2_PIN_SP      USERPORT26_PIN_26
 
+/* this structure is used to init all the userport devices */
+typedef struct userport_init_s {
+    int device_id;                                         /* device ID */
+    int emu_mask;                                          /* which emulator does the device work on */
+    int (*userport_device_resources_init)(void);           /* device resources init function */
+    void (*userport_device_resources_shutdown)(void);      /* device resources shutdown function */
+    int (*userport_device_cmdline_options_init)(void);     /* device cmdline init function */
+} userport_init_t;
+
 /* this structure is used by userport devices */
 typedef struct userport_device_s {
     /* Name of the device */
@@ -337,6 +351,8 @@ typedef struct userport_desc_s {
 void userport_port_register(userport_port_props_t *props);
 int userport_device_register(int id, userport_device_t *device);
 
+int userport_get_device(void);
+
 uint8_t read_userport_pbx(uint8_t orig);
 void store_userport_pbx(uint8_t val, int pulse);
 uint8_t read_userport_pa2(uint8_t orig);
@@ -353,11 +369,15 @@ void userport_reset(void);
 void userport_reset_end(void);
 void userport_powerup(void);
 
-/* use this function from userport device code to set the userport flag */
+/* use this function from userport device code to set the userport flag.
+   CAUTION: make sure to only call this from devices that are actually connected
+            to the userport!
+ */
 void set_userport_flag(uint8_t val);
 
 int userport_resources_init(void);
 int userport_cmdline_options_init(void);
+void userport_resources_shutdown(void);
 
 userport_desc_t *userport_get_valid_devices(int sort);
 const char *userport_get_device_type_desc(int type);

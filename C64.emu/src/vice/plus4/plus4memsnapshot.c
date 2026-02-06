@@ -44,12 +44,12 @@
 /* #define DEBUGSNAPSHOT */
 
 #ifdef DEBUGSNAPSHOT
-#define DBG(x) printf x
+#define DBG(x) log_printf x
 #else
 #define DBG(x)
 #endif
 
-static log_t plus4_snapshot_log = LOG_ERR;
+static log_t plus4_snapshot_log = LOG_DEFAULT;
 
 #define SNAP_MAJOR 1
 #define SNAP_MINOR 0
@@ -86,7 +86,7 @@ static int plus4_snapshot_write_rom_module(snapshot_t *s)
         goto fail2;
     }
 
-    DBG(("rom snapshots written.\n"));
+    DBG(("rom snapshots written."));
     return 0;
 
 fail:
@@ -94,7 +94,7 @@ fail:
         snapshot_module_close(m);
     }
 fail2:
-    DBG(("error writing rom snapshots.\n"));
+    DBG(("error writing rom snapshots."));
     return -1;
 }
 
@@ -106,7 +106,7 @@ static void get_trapflags(void)
 {
     int i;
     for(i = 0; trapdevices[i] != -1; i++) {
-        resources_get_int_sprintf("VirtualDevice%d", &trapfl[i], trapdevices[i]);
+        resources_get_int_sprintf("TrapDevice%d", &trapfl[i], trapdevices[i]);
     }
 }
 
@@ -114,7 +114,7 @@ static void clear_trapflags(void)
 {
     int i;
     for(i = 0; trapdevices[i] != -1; i++) {
-        resources_set_int_sprintf("VirtualDevice%d", 0, trapdevices[i]);
+        resources_set_int_sprintf("TrapDevice%d", 0, trapdevices[i]);
     }
 }
 
@@ -122,7 +122,7 @@ static void restore_trapflags(void)
 {
     int i;
     for(i = 0; trapdevices[i] != -1; i++) {
-        resources_set_int_sprintf("VirtualDevice%d", trapfl[i], trapdevices[i]);
+        resources_set_int_sprintf("TrapDevice%d", trapfl[i], trapdevices[i]);
     }
 }
 
@@ -170,7 +170,7 @@ static int plus4_snapshot_read_rom_module(snapshot_t *s)
 
     /* enable traps again when necessary */
     restore_trapflags();
-    DBG(("rom snapshots loaded.\n"));
+    DBG(("rom snapshots loaded."));
     return 0;
 
 fail:
@@ -178,7 +178,7 @@ fail:
         snapshot_module_close(m);
     }
     restore_trapflags();
-    DBG(("error loading rom snapshots.\n"));
+    DBG(("error loading rom snapshots."));
     return -1;
 }
 

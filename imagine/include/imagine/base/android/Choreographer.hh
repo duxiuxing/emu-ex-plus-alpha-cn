@@ -19,9 +19,10 @@
 #include <imagine/base/baseDefs.hh>
 #include <imagine/base/ApplicationContext.hh>
 #include <imagine/util/jni.hh>
+#include <android/choreographer.h>
+#ifndef IG_USE_MODULE_STD
 #include <variant>
-
-struct AChoreographer;
+#endif
 
 namespace IG
 {
@@ -36,6 +37,7 @@ public:
 	void scheduleVSync();
 	void cancel() { requested = false; }
 	void setEventsOnThisThread(ApplicationContext);
+	void removeEvents(ApplicationContext);
 	explicit constexpr operator bool() const { return choreographer; }
 
 protected:
@@ -57,6 +59,7 @@ public:
 	void scheduleVSync();
 	void cancel() { requested = false; }
 	void setEventsOnThisThread(ApplicationContext);
+	void removeEvents(ApplicationContext);
 	explicit constexpr operator bool() const { return frameHelper; }
 
 protected:
@@ -64,7 +67,7 @@ protected:
 	JNIEnv* jniEnv{};
 	JNI::UniqueGlobalRef frameHelper;
 	JNI::InstMethod<void()> jPostFrame;
-	JNI::InstMethod<void()> jSetInstance;
+	JNI::InstMethod<void(jboolean)> jSetInstance;
 	bool requested{};
 };
 
@@ -77,8 +80,8 @@ public:
 		choreographerPtr{&choreographer} {}
 	void scheduleVSync() { choreographerPtr->scheduleVSync(); }
 	void cancel() { choreographerPtr->cancel(); }
-	void setFrameRate(FrameRate) {}
 	void setEventsOnThisThread(ApplicationContext ctx) { choreographerPtr->setEventsOnThisThread(ctx); }
+	void removeEvents(ApplicationContext ctx) { choreographerPtr->removeEvents(ctx); }
 
 protected:
 	ChoreographerBase *choreographerPtr{};

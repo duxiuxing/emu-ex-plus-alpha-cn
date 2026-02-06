@@ -33,6 +33,7 @@
 #include <string.h>
 
 #include "joyport.h"
+#include "lib.h"
 #include "maincpu.h"
 #include "raster-changes.h"
 #include "types.h"
@@ -285,23 +286,47 @@ static inline unsigned vic_read_rasterline(void)
     return ypos;
 }
 
+/* Add some randomness to the pot value(s). Note that _with paddles_ the error
+   gets gradually worse depending on the sampled value (the larger the value,
+   the bigger error. This does _not_ happen with the 1351 mouse.
+   Additionally the amount of error appears to depend on display DMA.
+*/
+static inline uint8_t makepotval(int value)
+{
+    unsigned int fuzz;
+
+    if (get_joyport_pot_type() == JOYPORT_POT_TYPE_ANALOG) {
+        if (vic.area == VIC_AREA_DISPLAY) {
+            fuzz = lib_unsigned_rand(0, 1 + ((value * 25) / 255));
+        } else {
+            fuzz = lib_unsigned_rand(0, 1 + ((value * 5) / 255));
+        }
+    } else {
+        fuzz = lib_unsigned_rand(0, 1);
+    }
+
+    value += fuzz;
+    if (value > 255) {
+        return 255;
+    }
+    return value;
+}
+
 uint8_t vic_read(uint16_t addr)
 {
     addr &= 0xf;
 
 #ifdef HAVE_MOUSE
     if ((addr == 8) || (addr == 9)) {
-        if (_mouse_enabled) {
-            if ((maincpu_clk ^ pot_cycle) & ~511) {
-                pot_cycle = maincpu_clk & ~511; /* simplistic 512 cycle sampling */
+        if ((maincpu_clk ^ pot_cycle) & ~511) {
+            pot_cycle = maincpu_clk & ~511; /* simplistic 512 cycle sampling */
 
-                if (_mouse_enabled) {
-                    mouse_poll();
-                }
-
-                vic.regs[8] = read_joyport_potx();
-                vic.regs[9] = read_joyport_poty();
+            if (_mouse_enabled) {
+                mouse_poll();
             }
+
+            vic.regs[8] = makepotval(read_joyport_potx());
+            vic.regs[9] = makepotval(read_joyport_poty());
         }
     }
 #endif
