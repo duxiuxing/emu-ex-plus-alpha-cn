@@ -45,6 +45,15 @@
 #define CPU_STR "Main CPU"
 #endif
 
+#ifndef CPU_LOG_ID
+#define CPU_LOG_ID LOG_DEFAULT
+#ifdef _MSC_VER
+#pragma message ("Warning: CPU_LOG_ID not defined, using LOG_DEFAULT by default")
+#else
+#warning "CPU_LOG_ID not defined, using LOG_DEFAULT by default"
+#endif
+#endif
+
 #include "traps.h"
 
 #ifndef DRIVE_CPU
@@ -484,7 +493,7 @@ do {                                                                   \
                 interrupt_ack_reset(CPU_INT_STATUS);                                           \
                 bank_start = bank_limit = 0; /* prevent caching */                             \
                 LOCAL_SET_INTERRUPT(1);                                                        \
-                cpu_is_jammed = 0;                                                             \
+                CPU_IS_JAMMED = 0;                                                             \
                 DMA_ON_RESET;                                                                  \
                 addr = LOAD_ADDR(0xfffc);                                                      \
                 CHECK_PROFILE_INTERRUPT(addr, 0xfffc);                                         \
@@ -493,23 +502,20 @@ do {                                                                   \
         }                                                                                      \
         if (ik & (IK_MONITOR | IK_DMA)) {                                                      \
             if (ik & IK_MONITOR) {                                                             \
-                if (monitor_force_import(CALLER)) {                                            \
-                    IMPORT_REGISTERS();                                                        \
-                }                                                                              \
-                if (monitor_mask[CALLER]) {                                                    \
-                    EXPORT_REGISTERS();                                                        \
-                }                                                                              \
                 if (monitor_mask[CALLER] & (MI_STEP)) {                                        \
+                    EXPORT_REGISTERS();                                                        \
                     monitor_check_icount((uint16_t)reg_pc);                                    \
                     IMPORT_REGISTERS();                                                        \
                 }                                                                              \
                 if (monitor_mask[CALLER] & (MI_BREAK)) {                                       \
+                    EXPORT_REGISTERS();                                                        \
                     if (monitor_check_breakpoints(CALLER, (uint16_t)reg_pc)) {                 \
                         monitor_startup(CALLER);                                               \
-                        IMPORT_REGISTERS();                                                    \
                     }                                                                          \
+                    IMPORT_REGISTERS();                                                        \
                 }                                                                              \
                 if (monitor_mask[CALLER] & (MI_WATCH)) {                                       \
+                    EXPORT_REGISTERS();                                                        \
                     monitor_check_watchpoints(LAST_OPCODE_ADDR, (uint16_t)reg_pc);             \
                     IMPORT_REGISTERS();                                                        \
                 }                                                                              \
@@ -841,10 +847,45 @@ FIXME: perhaps we really have to add some randomness to (some) bits
 #define ANE_MAGIC       0xef
 #define ANE_RDY_MAGIC   0xee
 
+#ifndef ANE_LOG_LEVEL
+#define ANE_LOG_LEVEL 0
+#ifdef _MSC_VER
+#pragma message ("Warning: ANE_LOG_LEVEL not defined, disabling by default")
+#else
+#warning "ANE_LOG_LEVEL not defined, disabling by default"
+#endif
+#endif
+
+#if 1
+#define ANE_LOGGING(rdy)                                                                    \
+    do {                                                                                    \
+        unsigned int result = ((reg_a_read | (rdy ? ANE_RDY_MAGIC : ANE_MAGIC)) & reg_x_read & p1); \
+        unsigned int unstablebits = ((reg_a_read ^ 0xff) & (p1 & reg_x_read));                   \
+        if ((ANE_LOG_LEVEL == 2) || ((ANE_LOG_LEVEL == 1) && (unstablebits != 0))) {        \
+            if (unstablebits == 0) {                                                        \
+                log_warning(CPU_LOG_ID, "$%04x ANE #$%02x ; A=$%02x X=$%02x -> A=$%02x%s",  \
+                    reg_pc, p1, reg_a_read, reg_x_read, result, rdy ? " (RDY cycle)" : ""); \
+            } else {                                                                        \
+                log_warning(CPU_LOG_ID, "$%04x ANE #$%02x ; A=$%02x X=$%02x -> A=$%02x (unstable bits: %c%c%c%c%c%c%c%c)%s", \
+                    reg_pc, p1, reg_a_read, reg_x_read, result,                             \
+                    unstablebits & 0x80 ? '*' : '.', unstablebits & 0x40 ? '*' : '.',       \
+                    unstablebits & 0x20 ? '*' : '.', unstablebits & 0x10 ? '*' : '.',       \
+                    unstablebits & 0x08 ? '*' : '.', unstablebits & 0x04 ? '*' : '.',       \
+                    unstablebits & 0x02 ? '*' : '.', unstablebits & 0x01 ? '*' : '.',       \
+                    rdy ? " (RDY cycle)" : ""                                               \
+                    );                                                                      \
+            }                                                                               \
+        }                                                                                   \
+    } while (0)
+#else
+#define ANE_LOGGING(rdy)
+#endif
+
 #ifndef ANE
 #define ANE(value, pc_inc)                                                          \
     do {                                                                            \
         uint8_t tmp = ((reg_a_read | ANE_MAGIC) & reg_x_read & ((uint8_t)(value))); \
+        ANE_LOGGING(0);                                                             \
         reg_a_write(tmp);                                                           \
         LOCAL_SET_NZ(tmp);                                                          \
         INC_PC(pc_inc);                                                             \
@@ -1203,7 +1244,7 @@ FIXME: perhaps we really have to add some randomness to (some) bits
         uint32_t trap_result;                                                            \
         EXPORT_REGISTERS();                                                              \
         if (!ROM_TRAP_ALLOWED() || (trap_result = ROM_TRAP_HANDLER()) == (uint32_t)-1) { \
-            cpu_is_jammed = 1;                                                           \
+            CPU_IS_JAMMED = 1;                                                           \
             REWIND_FETCH_OPCODE(CLK);                                                    \
             JAM();                                                                       \
         } else {                                                                         \
@@ -1348,10 +1389,45 @@ FIXME: perhaps we really have to add some randomness to (some) bits
 #define LXA_MAGIC       0xee    /* needs to be 0xee for wizball */
 #define LXA_RDY_MAGIC   0xee
 
+#ifndef LXA_LOG_LEVEL
+#define LXA_LOG_LEVEL 0
+#ifdef _MSC_VER
+#pragma message ("Warning: LXA_LOG_LEVEL not defined, disabling by default")
+#else
+#warning "LXA_LOG_LEVEL not defined, disabling by default"
+#endif
+#endif
+
+#if 1
+#define LXA_LOGGING(rdy)                                                                    \
+    do {                                                                                    \
+        unsigned int result = (reg_a_read | (rdy ? LXA_RDY_MAGIC : LXA_MAGIC)) & p1;        \
+        unsigned int unstablebits = (reg_a_read ^ 0xff) & p1;                               \
+        if ((LXA_LOG_LEVEL == 2) || ((LXA_LOG_LEVEL == 1) && (unstablebits != 0))) {        \
+            if (unstablebits == 0) {                                                        \
+                log_warning(CPU_LOG_ID, "$%04x LAX #$%02x ; A=$%02x -> A=X=$%02x%s",        \
+                    reg_pc, p1, reg_a_read, result, rdy ? " (RDY cycle)" : "");             \
+            } else {                                                                        \
+                log_warning(CPU_LOG_ID, "$%04x LAX #$%02x ; A=$%02x -> A=X=$%02x (unstable bits: %c%c%c%c%c%c%c%c)%s", \
+                    reg_pc, p1, reg_a_read, result,                                         \
+                    unstablebits & 0x80 ? '*' : '.', unstablebits & 0x40 ? '*' : '.',       \
+                    unstablebits & 0x20 ? '*' : '.', unstablebits & 0x10 ? '*' : '.',       \
+                    unstablebits & 0x08 ? '*' : '.', unstablebits & 0x04 ? '*' : '.',       \
+                    unstablebits & 0x02 ? '*' : '.', unstablebits & 0x01 ? '*' : '.',       \
+                    rdy ? " (RDY cycle)" : ""                                               \
+                    );                                                                      \
+            }                                                                               \
+        }                                                                                   \
+    } while (0)
+#else
+#define LXA_LOGGING(rdy)
+#endif
+
 #ifndef LXA
 #define LXA(value, pc_inc)                                             \
     do {                                                               \
         uint8_t tmp = ((reg_a_read | LXA_MAGIC) & ((uint8_t)(value))); \
+        LXA_LOGGING(0);                                                \
         reg_x_write(tmp);                                              \
         reg_a_write(tmp);                                              \
         LOCAL_SET_NZ(tmp);                                             \
@@ -2205,7 +2281,15 @@ static const uint8_t rewind_fetch_tab[] = {
 /* Here, the CPU is emulated. */
 
 {
+#ifndef CPU_IS_JAMMED
     static int cpu_is_jammed = 0;
+#define CPU_IS_JAMMED cpu_is_jammed
+#ifdef _MSC_VER
+#pragma message ("Warning: CPU_IS_JAMMED not defined, using default (internal)")
+#else
+#warning "CPU_IS_JAMMED not defined, using default (internal)"
+#endif
+#endif
     unsigned int tmpa; /* needed for some of the opcode macros */
 #if !defined(DRIVE_CPU)
     CLOCK profiling_clock_start;
@@ -2226,11 +2310,11 @@ static const uint8_t rewind_fetch_tab[] = {
     /* HACK: when the CPU is jammed, no interrupts are served, the only way
        to recover is reset. so we clear the interrupt flags and force
        acknowledging them here in this case. */
-    if (cpu_is_jammed) {
+    if (CPU_IS_JAMMED) {
         interrupt_ack_irq(CPU_INT_STATUS);
         CPU_INT_STATUS->global_pending_int &= ~(IK_IRQ | IK_NMI);
         if (CPU_INT_STATUS->global_pending_int & IK_RESET) {
-            cpu_is_jammed = 0;
+            CPU_IS_JAMMED = 0;
         }
     }
 
@@ -2290,7 +2374,25 @@ static const uint8_t rewind_fetch_tab[] = {
 
         SET_LAST_ADDR(reg_pc);
 
-        FETCH_OPCODE(opcode);
+        /* HACK: The real CPU would stop fetching opcodes all together when
+         * "jammed" - however, our code may rely on FETCH_OPCODE being called
+         * here, so we can not simply skip it. What we do instead is remembering
+         * the opcode fetched when not jammed and force it when jammed.
+         * This is needed so the CPU would not continue executing opcodes when
+         * the value at the original jam location changed to a non-jam, for
+         * whatever reason.
+         */
+        {
+            static uint8_t lastop;
+            FETCH_OPCODE(opcode);
+            if (!CPU_IS_JAMMED) {
+                /* remember current opcode */
+                lastop = p0;
+            } else {
+                /* set opcode that made the cpu jam */
+                SET_OPCODE(lastop);
+            }
+        }
 
 #ifdef FEATURE_CPUMEMHISTORY
 #ifndef DRIVE_CPU
@@ -2304,7 +2406,7 @@ static const uint8_t rewind_fetch_tab[] = {
         /* If reg_pc >= bank_limit  then JSR (0x20) hasn't load p2 yet.
            The earlier LOAD(reg_pc+2) hack can break stealing badly.
            The fixing is now handled in JSR(). */
-        monitor_cpuhistory_store(history_clk, reg_pc, p0, p1, p2 >> 8, reg_a_read, reg_x_read, reg_y_read, reg_sp, LOCAL_STATUS(), origin);
+        monitor_cpuhistory_store(history_clk, reg_pc, p0, p1, p2 >> 8, reg_a_read, reg_x_read, reg_y_read, reg_sp, LOCAL_STATUS(), ORIGIN_MEMSPACE);
 #ifndef DRIVE_CPU
         memmap_state &= ~(MEMMAP_STATE_INSTR | MEMMAP_STATE_OPCODE);
 #endif
@@ -2376,7 +2478,7 @@ trap_skipped:
             case 0x32:          /* JAM */
             case 0x42:          /* JAM */
 #endif
-                cpu_is_jammed = 1;
+                CPU_IS_JAMMED = 1;
                 REWIND_FETCH_OPCODE(CLK);
                 JAM();
                 break;

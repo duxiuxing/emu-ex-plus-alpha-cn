@@ -14,11 +14,8 @@
 	along with EmuFramework.  If not, see <http://www.gnu.org/licenses/> */
 
 #include <emuframework/StateSlotView.hh>
-#include <emuframework/EmuSystem.hh>
 #include <emuframework/EmuApp.hh>
-#include <imagine/gui/AlertView.hh>
-#include <imagine/logger/logger.h>
-#include <format>
+import imagine;
 
 namespace EmuEx
 {
@@ -84,7 +81,7 @@ StateSlotView::StateSlotView(ViewAttachParams attach):
 		&stateSlot[5], &stateSlot[6], &stateSlot[7], &stateSlot[8], &stateSlot[9]
 	}
 {
-	assert(system().hasContent());
+	assume(system().hasContent());
 	refreshSlots();
 }
 
@@ -125,7 +122,7 @@ void StateSlotView::refreshSlot(int slot)
 
 void StateSlotView::refreshSlots()
 {
-	for(auto i : iotaCount(stateSlots))
+	for(auto i: iotaCount(stateSlots))
 	{
 		refreshSlot(i);
 	}

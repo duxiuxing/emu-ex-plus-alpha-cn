@@ -15,17 +15,12 @@
 	You should have received a copy of the GNU General Public License
 	along with EmuFramework.  If not, see <http://www.gnu.org/licenses/> */
 
-#include <emuframework/EmuAppHelper.hh>
 #include <emuframework/EmuInput.hh>
+#include <emuframework/InputManager.hh>
+#ifndef IG_USE_MODULE_IMAGINE
 #include <imagine/gui/TableView.hh>
 #include <imagine/gui/MenuItem.hh>
-#include <imagine/gfx/GfxText.hh>
-#include <imagine/gfx/Quads.hh>
-#include <imagine/util/container/ArrayList.hh>
-#include <imagine/util/memory/DynArray.hh>
-#include <vector>
-#include <array>
-#include <string>
+#endif
 
 namespace EmuEx
 {
@@ -74,7 +69,7 @@ private:
 class InputManagerOptionsView : public TableView, public EmuAppHelper
 {
 public:
-	InputManagerOptionsView(ViewAttachParams, EmuInputView&);
+	InputManagerOptionsView(ViewAttachParams);
 
 private:
 	ConditionalMember<MOGA_INPUT, BoolMenuItem> mogaInputSystem;
@@ -86,7 +81,6 @@ private:
 	ConditionalMember<Config::Bluetooth::scanCache, BoolMenuItem> btScanCache;
 	BoolMenuItem altGamepadConfirm;
 	StaticArrayList<MenuItem*, 10> item;
-	EmuInputView& emuInputView;
 };
 
 class InputManagerDeviceView : public TableView, public EmuAppHelper

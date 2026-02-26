@@ -13,14 +13,7 @@
 	You should have received a copy of the GNU General Public License
 	along with C64.emu.  If not, see <http://www.gnu.org/licenses/> */
 
-#include <cstring>
-#include <imagine/logger/logger.h>
-#include <imagine/fs/FS.hh>
-#include <imagine/util/utility.h>
-#include <imagine/util/format.hh>
-#include <emuframework/EmuApp.hh>
-#include "VicePlugin.hh"
-
+module;
 extern "C"
 {
 	#include "c64model.h"
@@ -32,9 +25,17 @@ extern "C"
 	#include "vic20model.h"
 	#include "cartridge.h"
 	#include "resources.h"
+	#include "video.h"
 }
 
-constexpr const char *systemNameStr[]
+module plugin;
+
+namespace EmuEx
+{
+
+using namespace IG;
+
+constexpr const char* systemNameStr[]
 {
 	"C64",
 	"C64 (Cycle Accurate)",
@@ -48,7 +49,7 @@ constexpr const char *systemNameStr[]
 	"VIC-20",
 };
 
-constexpr const char *libName[]
+constexpr const char* libName[]
 {
 	"libc64.so",
 	"libc64sc.so",
@@ -171,31 +172,136 @@ struct PluginConfig
 {
 	std::span<const std::string_view> modelNames;
 	std::string_view configName{};
-	const char *getModelFuncName{};
-	const char *setModelFuncName{};
-	const char *borderModeStr{};
+	std::string_view stateExt{};
+	const char* getModelFuncName{};
+	const char* setModelFuncName{};
+	const char* borderModeStr{};
 	int8_t defaultModelId{};
 	int8_t modelIdBase{};
 };
 
-static IG::PathString makePluginLibPath(const char *libName, const char *libBasePath)
+constexpr PluginConfig pluginConf[]
 {
-	if(libBasePath && strlen(libBasePath))
-		return IG::pathString(libBasePath, libName);
+	// C64
+	{
+		.modelNames = c64ModelStr,
+		.configName = "c64.config",
+		.stateExt = ".vsf",
+		.getModelFuncName = "c64model_get",
+		.setModelFuncName = "c64model_set",
+		.borderModeStr = "VICIIBorderMode",
+		.defaultModelId = C64MODEL_C64_NTSC
+	},
+	// C64 (accurate)
+	{
+		.modelNames = c64ModelStr,
+		.configName = "c64sc.config",
+		.stateExt = ".c64sc.vsf",
+		.getModelFuncName = "c64model_get",
+		.setModelFuncName = "c64model_set",
+		.borderModeStr = "VICIIBorderMode",
+		.defaultModelId = C64MODEL_C64_NTSC
+	},
+	// DTV
+	{
+		.modelNames = dtvModelStr,
+		.configName = "c64dtv.config",
+		.stateExt = ".c64dtv.vsf",
+		.getModelFuncName = "dtvmodel_get",
+		.setModelFuncName = "dtvmodel_set",
+		.borderModeStr = "VICIIBorderMode",
+		.defaultModelId = DTVMODEL_V3_NTSC
+	},
+	// C128
+	{
+		.modelNames = c128ModelStr,
+		.configName = "c128.config",
+		.stateExt = ".c128.vsf",
+		.getModelFuncName = "c128model_get",
+		.setModelFuncName = "c128model_set",
+		.borderModeStr = "VICIIBorderMode",
+		.defaultModelId = C128MODEL_C128_NTSC
+	},
+	// C64 Super CPU
+	{
+		.modelNames = superCPUModelStr,
+		.configName = "scpu64.config",
+		.stateExt = ".scpu64.vsf",
+		.getModelFuncName = "c64model_get",
+		.setModelFuncName = "c64model_set",
+		.borderModeStr = "VICIIBorderMode",
+		.defaultModelId = C64MODEL_C64_NTSC
+	},
+	// CBM-II 6x0
+	{
+		.modelNames = cbm2ModelStr,
+		.configName = "cbm2.config",
+		.stateExt = ".cbm2.vsf",
+		.getModelFuncName = "cbm2model_get",
+		.setModelFuncName = "cbm2model_set",
+		.defaultModelId = CBM2MODEL_610_NTSC,
+		.modelIdBase = CBM2MODEL_610_PAL
+	},
+	// CBM-II 5x0
+	{
+		.modelNames = cbm5x0ModelStr,
+		.configName = "cbm5x0.config",
+		.stateExt = ".cbm5x0.vsf",
+		.getModelFuncName = "cbm2model_get",
+		.setModelFuncName = "cbm2model_set",
+		.borderModeStr = "VICIIBorderMode",
+		.defaultModelId = CBM2MODEL_510_NTSC,
+		.modelIdBase = CBM2MODEL_510_PAL
+	},
+	// PET
+	{
+		.modelNames = petModelStr,
+		.configName = "pet.config",
+		.stateExt = ".pet.vsf",
+		.getModelFuncName = "petmodel_get",
+		.setModelFuncName = "petmodel_set",
+		.defaultModelId = PETMODEL_8032
+	},
+	// PLUS4
+	{
+		.modelNames = plus4ModelStr,
+		.configName = "plus4.config",
+		.stateExt = ".plus4.vsf",
+		.getModelFuncName = "plus4model_get",
+		.setModelFuncName = "plus4model_set",
+		.borderModeStr = "TEDBorderMode",
+		.defaultModelId = PLUS4MODEL_PLUS4_NTSC
+	},
+	// VIC20
+	{
+		.modelNames = vic20ModelStr,
+		.configName = "vic20.config",
+		.stateExt = ".vic20.vsf",
+		.getModelFuncName = "vic20model_get",
+		.setModelFuncName = "vic20model_set",
+		.borderModeStr = "VICBorderMode",
+		.defaultModelId = VIC20MODEL_VIC20_NTSC
+	},
+};
+
+static PathString makePluginLibPath(const char* libName, const char* libBasePath)
+{
+	if(libBasePath && std::strlen(libBasePath))
+		return pathString(libBasePath, libName);
 	else
 		return libName;
 }
 
 template<class T>
-static void loadSymbolCheck(T &symPtr, IG::SharedLibraryRef lib, const char *name)
+static void loadSymbolCheck(T &symPtr, SharedLibraryRef lib, const char* name)
 {
-	if(!IG::loadSymbol(symPtr, lib, name))
-		logErr("symbol:%s missing from plugin", name);
+	if(!loadSymbol(symPtr, lib, name))
+		VicePlugin::log.error("symbol:{} missing from plugin", name);
 }
 
 void VicePlugin::init()
 {
-	assert(libHandle);
+	assume(libHandle);
 	int (*vice_init)();
 	loadSymbolCheck(vice_init, libHandle, "vice_init");
 	vice_init();
@@ -206,23 +312,23 @@ void VicePlugin::deinit()
 	if(libHandle)
 	{
 		// TODO: doesn't fully clean up all VICE heap allocations, don't use for now
-		logMsg("doing machine_shutdown()");
+		log.info("doing machine_shutdown()");
 		void (*machine_shutdown)();
 		loadSymbolCheck(machine_shutdown, libHandle, "machine_shutdown");
 		machine_shutdown();
-		IG::closeSharedLibrary(libHandle);
+		closeSharedLibrary(libHandle);
 		libHandle = {};
 	}
 }
 
-bool VicePlugin::hasSystemLib(ViceSystem system, const char *libBasePath)
+bool VicePlugin::hasSystemLib(ViceSystem system, const char* libBasePath)
 {
 	if(system < ViceSystem::C64 || system > ViceSystem::VIC20)
 		return false;
-	return IG::FS::exists(makePluginLibPath(libName[std::to_underlying(system)], libBasePath));
+	return FS::exists(makePluginLibPath(libName[std::to_underlying(system)], libBasePath));
 }
 
-const char *VicePlugin::systemName(ViceSystem system)
+const char* VicePlugin::systemName(ViceSystem system)
 {
 	if(system < ViceSystem::C64 || system > ViceSystem::VIC20)
 		return "";
@@ -242,49 +348,49 @@ void VicePlugin::model_set(int model)
 		return model_set_(model);
 }
 
-int VicePlugin::resources_get_string(const char *name, const char **value_return) const
+int VicePlugin::resources_get_string(const char* name, const char* *value_return) const
 {
 	if(resources_get_string_)
 		return resources_get_string_(name, value_return);
 	return -1;
 }
 
-int VicePlugin::resources_set_string(const char *name, const char *value)
+int VicePlugin::resources_set_string(const char* name, const char* value)
 {
 	if(resources_set_string_)
 		return resources_set_string_(name, value);
 	return -1;
 }
 
-int VicePlugin::resources_get_int(const char *name, int *value_return) const
+int VicePlugin::resources_get_int(const char* name, int* value_return) const
 {
 	if(resources_get_int_)
 		return resources_get_int_(name, value_return);
 	return -1;
 }
 
-int VicePlugin::resources_set_int(const char *name, int value)
+int VicePlugin::resources_set_int(const char* name, int value)
 {
 	if(resources_set_int_)
 		return resources_set_int_(name, value);
 	return -1;
 }
 
-int VicePlugin::resources_get_default_value(const char *name, void *value_return) const
+int VicePlugin::resources_get_default_value(const char* name, void* value_return) const
 {
 	if(resources_get_default_value_)
 		return resources_get_default_value_(name, value_return);
 	return -1;
 }
 
-int VicePlugin::machine_write_snapshot(const char *name, int save_roms, int save_disks, int even_mode) const
+int VicePlugin::machine_write_snapshot(const char* name, int save_roms, int save_disks, int even_mode) const
 {
 	if(machine_write_snapshot_)
 		return machine_write_snapshot_(name, save_roms, save_disks, even_mode);
 	return -1;
 }
 
-int VicePlugin::machine_read_snapshot(const char *name, int event_mode) const
+int VicePlugin::machine_read_snapshot(const char* name, int event_mode) const
 {
 	if(machine_read_snapshot_)
 		return machine_read_snapshot_(name, event_mode);
@@ -308,7 +414,7 @@ struct drive_type_info_s *VicePlugin::machine_drive_get_type_info_list()
 	return machine_drive_get_type_info_list_();
 }
 
-void VicePlugin::interrupt_maincpu_trigger_trap(void trap_func(uint16_t, void *data), void *data) const
+void VicePlugin::interrupt_maincpu_trigger_trap(void trap_func(uint16_t, void* data), void* data) const
 {
 	if(interrupt_maincpu_trigger_trap_)
 		interrupt_maincpu_trigger_trap_(trap_func, data);
@@ -323,11 +429,10 @@ int VicePlugin::init_main()
 
 void VicePlugin::maincpu_mainloop()
 {
-	assert(maincpu_mainloop_);
 	maincpu_mainloop_();
 }
 
-int VicePlugin::autostart_autodetect(const char *file_name, const char *program_name,
+int VicePlugin::autostart_autodetect(const char* file_name, const char* program_name,
 	unsigned int program_number, unsigned int runmode)
 {
 	if(autostart_autodetect_)
@@ -342,37 +447,44 @@ int VicePlugin::cart_getid_slotmain()
 	return -1;
 }
 
-const char *VicePlugin::cartridge_get_file_name(int type)
+const char* VicePlugin::cartridge_get_file_name(int type)
 {
 	if(cartridge_get_file_name_)
 		return cartridge_get_file_name_(type);
 	if(!libHandle)
 		return "";
-	const char *filename{};
+	const char* filename{};
 	switch(type)
 	{
-		case CARTRIDGE_CBM2_8KB_1000:
+		case CARTRIDGE_CBM2_GENERIC_C1:
 			resources_get_string("Cart1Name", &filename);
 			break;
-		case CARTRIDGE_CBM2_8KB_2000:
+		case CARTRIDGE_CBM2_GENERIC_C2:
 			resources_get_string("Cart2Name", &filename);
 			break;
-		case CARTRIDGE_CBM2_16KB_4000:
+		case CARTRIDGE_CBM2_GENERIC_C4:
 			resources_get_string("Cart4Name", &filename);
 			break;
-		case CARTRIDGE_CBM2_16KB_6000:
+		case CARTRIDGE_CBM2_GENERIC_C6:
 			resources_get_string("Cart6Name", &filename);
 			break;
 		default:
-			logErr("cartridge_get_file_name: unsupported type (%04x)", type);
+			log.error("cartridge_get_file_name: unsupported type ({})", type);
 	}
 	return filename;
 }
 
-int VicePlugin::cartridge_attach_image(int type, const char *filename)
+int VicePlugin::cartridge_attach_image(int type, const char* filename)
 {
 	if(cartridge_attach_image_)
 		return cartridge_attach_image_(type, filename);
+	return -1;
+}
+
+int VicePlugin::cartridge_attach_add_image(int type, const char* filename)
+{
+	if(cartridge_attach_add_image_)
+		return cartridge_attach_add_image_(type, filename);
 	return -1;
 }
 
@@ -382,7 +494,7 @@ void VicePlugin::cartridge_detach_image(int type)
 		cartridge_detach_image_(type);
 }
 
-int VicePlugin::tape_image_attach(unsigned int unit, const char *name)
+int VicePlugin::tape_image_attach(unsigned int unit, const char* name)
 {
 	if(tape_image_attach_)
 		return tape_image_attach_(unit, name);
@@ -396,7 +508,7 @@ int VicePlugin::tape_image_detach(unsigned int unit)
 	return -1;
 }
 
-const char *VicePlugin::tape_get_file_name(int port)
+const char* VicePlugin::tape_get_file_name(int port)
 {
 	if(tape_get_file_name_)
 		return tape_get_file_name_(port);
@@ -409,7 +521,7 @@ void VicePlugin::datasette_control(int port, int command)
 		datasette_control_(port, command);
 }
 
-int VicePlugin::file_system_attach_disk(unsigned int unit, unsigned int drive, const char *filename)
+int VicePlugin::file_system_attach_disk(unsigned int unit, unsigned int drive, const char* filename)
 {
 	if(file_system_attach_disk_)
 		return file_system_attach_disk_(unit, drive, filename);
@@ -422,7 +534,7 @@ void VicePlugin::file_system_detach_disk(unsigned int unit, unsigned int drive)
 		file_system_detach_disk_(unit, drive);
 }
 
-const char *VicePlugin::file_system_get_disk_name(unsigned int unit, unsigned int drive)
+const char* VicePlugin::file_system_get_disk_name(unsigned int unit, unsigned int drive)
 {
 	if(file_system_get_disk_name_)
 		return file_system_get_disk_name_(unit, drive);
@@ -436,14 +548,14 @@ int VicePlugin::drive_check_type(unsigned int drive_type, unsigned int dnr)
 	return 0;
 }
 
-int VicePlugin::sound_register_device(const sound_device_t *pdevice)
+int VicePlugin::sound_register_device(const sound_device_t* pdevice)
 {
 	if(sound_register_device_)
 		return sound_register_device_(pdevice);
 	return -1;
 }
 
-void VicePlugin::video_canvas_render(struct video_canvas_s *canvas, uint8_t *trg,
+void VicePlugin::video_canvas_render(struct video_canvas_s* canvas, uint8_t* trg,
   int width, int height, int xs, int ys,
   int xt, int yt, int pitcht)
 {
@@ -454,7 +566,7 @@ void VicePlugin::video_canvas_render(struct video_canvas_s *canvas, uint8_t *trg
 	}
 }
 
-void VicePlugin::video_render_setphysicalcolor(video_render_config_t *config,
+void VicePlugin::video_render_setphysicalcolor(video_render_config_t* config,
 	int index, uint32_t color, int depth)
 {
 	if(video_render_setphysicalcolor_)
@@ -463,7 +575,7 @@ void VicePlugin::video_render_setphysicalcolor(video_render_config_t *config,
 	}
 }
 
-void VicePlugin::video_render_setrawrgb(video_render_color_tables_t *color_tab, unsigned int index,
+void VicePlugin::video_render_setrawrgb(video_render_color_tables_t* color_tab, unsigned int index,
 	uint32_t r, uint32_t g, uint32_t b)
 {
 	if(video_render_setrawrgb_)
@@ -472,7 +584,7 @@ void VicePlugin::video_render_setrawrgb(video_render_color_tables_t *color_tab, 
 	}
 }
 
-void VicePlugin::video_render_initraw(struct video_render_config_s *videoconfig)
+void VicePlugin::video_render_initraw(struct video_render_config_s* videoconfig)
 {
 	if(video_render_initraw_)
 	{
@@ -480,7 +592,7 @@ void VicePlugin::video_render_initraw(struct video_render_config_s *videoconfig)
 	}
 }
 
-int VicePlugin::vdrive_internal_create_format_disk_image(const char *filename, const char *diskname, unsigned int type)
+int VicePlugin::vdrive_internal_create_format_disk_image(const char* filename, const char* diskname, unsigned int type)
 {
 	if(vdrive_internal_create_format_disk_image_)
 	{
@@ -489,7 +601,7 @@ int VicePlugin::vdrive_internal_create_format_disk_image(const char *filename, c
 	return -1;
 }
 
-int VicePlugin::cbmimage_create_image(const char *name, unsigned int type)
+int VicePlugin::cbmimage_create_image(const char* name, unsigned int type)
 {
 	return cbmimage_create_image_(name, type);
 }
@@ -504,7 +616,7 @@ void VicePlugin::vsync_set_warp_mode(int val)
 	vsync_set_warp_mode_(val);
 }
 
-VicePlugin commonVicePlugin(void *lib, ViceSystem system)
+VicePlugin commonVicePlugin(void* lib, ViceSystem system)
 {
 	VicePlugin plugin{};
 	loadSymbolCheck(plugin.joystick_value, lib, "joystick_value");
@@ -521,7 +633,7 @@ VicePlugin commonVicePlugin(void *lib, ViceSystem system)
 	loadSymbolCheck(plugin.machine_drive_get_type_info_list_, lib, "machine_drive_get_type_info_list");
 	loadSymbolCheck(plugin.interrupt_maincpu_trigger_trap_, lib, "interrupt_maincpu_trigger_trap");
 	loadSymbolCheck(plugin.init_main_, lib, "init_main");
-	assert(plugin.init_main_);
+	assume(plugin.init_main_);
 	loadSymbolCheck(plugin.maincpu_mainloop_, lib, "maincpu_mainloop");
 	if(system == ViceSystem::PET)
 	{
@@ -549,7 +661,7 @@ VicePlugin commonVicePlugin(void *lib, ViceSystem system)
 		plugin.cart_getid_slotmain_ =
 			[]()
 			{
-				return CARTRIDGE_CBM2_8KB_1000;
+				return CARTRIDGE_CBM2_GENERIC_C1;
 			};
 		loadSymbolCheck(plugin.cartridge_attach_image_, lib, "cartridge_attach_image");
 		loadSymbolCheck(plugin.cartridge_detach_image_, lib, "cartridge_detach_image");
@@ -564,6 +676,7 @@ VicePlugin commonVicePlugin(void *lib, ViceSystem system)
 			};
 		loadSymbolCheck(plugin.cartridge_get_file_name_, lib, "cartridge_get_file_name");
 		loadSymbolCheck(plugin.cartridge_attach_image_, lib, "cartridge_attach_image");
+		loadSymbolCheck(plugin.cartridge_attach_add_image_, lib, "cartridge_attach_add_image");
 		loadSymbolCheck(plugin.cartridge_detach_image_, lib, "cartridge_detach_image");
 	}
 	else
@@ -596,106 +709,11 @@ VicePlugin commonVicePlugin(void *lib, ViceSystem system)
 	return plugin;
 }
 
-VicePlugin loadVicePlugin(ViceSystem system, const char *libBasePath)
+VicePlugin loadVicePlugin(ViceSystem system, const char* libBasePath)
 {
-	static constexpr PluginConfig pluginConf[]
-	{
-		// C64
-		{
-			c64ModelStr,
-			"c64.config",
-			"c64model_get",
-			"c64model_set",
-			"VICIIBorderMode",
-			C64MODEL_C64_NTSC
-		},
-		// C64 (accurate)
-		{
-			c64ModelStr,
-			"c64sc.config",
-			"c64model_get",
-			"c64model_set",
-			"VICIIBorderMode",
-			C64MODEL_C64_NTSC
-		},
-		// DTV
-		{
-			dtvModelStr,
-			"c64dtv.config",
-			"dtvmodel_get",
-			"dtvmodel_set",
-			"VICIIBorderMode",
-			DTVMODEL_V3_NTSC
-		},
-		// C128
-		{
-			c128ModelStr,
-			"c128.config",
-			"c128model_get",
-			"c128model_set",
-			"VICIIBorderMode",
-			C128MODEL_C128_NTSC
-		},
-		// C64 Super CPU
-		{
-			superCPUModelStr,
-			"scpu64.config",
-			"c64model_get",
-			"c64model_set",
-			"VICIIBorderMode",
-			C64MODEL_C64_NTSC
-		},
-		// CBM-II 6x0
-		{
-			cbm2ModelStr,
-			"cbm2.config",
-			"cbm2model_get",
-			"cbm2model_set",
-			{},
-			CBM2MODEL_610_NTSC,
-			CBM2MODEL_610_PAL
-		},
-		// CBM-II 5x0
-		{
-			cbm5x0ModelStr,
-			"cbm5x0.config",
-			"cbm2model_get",
-			"cbm2model_set",
-			"VICIIBorderMode",
-			CBM2MODEL_510_NTSC,
-			CBM2MODEL_510_PAL
-		},
-		// PET
-		{
-			petModelStr,
-			"pet.config",
-			"petmodel_get",
-			"petmodel_set",
-			{},
-			PETMODEL_8032
-		},
-		// PLUS4
-		{
-			plus4ModelStr,
-			"plus4.config",
-			"plus4model_get",
-			"plus4model_set",
-			"TEDBorderMode",
-			PLUS4MODEL_PLUS4_NTSC
-		},
-		// VIC20
-		{
-			vic20ModelStr,
-			"vic20.config",
-			"vic20model_get",
-			"vic20model_set",
-			"VICBorderMode",
-			VIC20MODEL_VIC20_NTSC
-		},
-	};
 	auto libPath = makePluginLibPath(libName[std::to_underlying(system)], libBasePath);
-	logMsg("loading VICE plugin:%s", libPath.data());
-	auto lib = IG::openSharedLibrary(libPath.data(), {.resolveAllSymbols = true});
+	VicePlugin::log.info("loading VICE plugin:{}", libPath);
+	auto lib = openSharedLibrary(libPath.data(), {.resolveAllSymbols = true});
 	if(!lib)
 	{
 		return {};
@@ -708,9 +726,12 @@ VicePlugin loadVicePlugin(ViceSystem system, const char *libBasePath)
 	//logMsg("setModel() address:%p", plugin.model_set_);
 	plugin.modelNames = conf.modelNames;
 	plugin.configName = conf.configName;
+	plugin.stateExt = conf.stateExt;
 	plugin.defaultModelId = conf.defaultModelId;
 	plugin.modelIdBase = conf.modelIdBase;
 	plugin.borderModeStr = conf.borderModeStr;
 	plugin.libHandle = lib;
 	return plugin;
+}
+
 }

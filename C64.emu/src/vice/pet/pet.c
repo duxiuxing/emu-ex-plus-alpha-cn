@@ -111,6 +111,7 @@
 #include "userport_spt_joystick.h"
 #include "userport_synergy_joystick.h"
 #include "userport_woj_joystick.h"
+#include "userport_funmp3.h"
 #include "util.h"
 #include "via.h"
 #include "vice-event.h"
@@ -134,7 +135,7 @@ static long     pet_cycles_per_rfsh     = PET_PAL_CYCLES_PER_RFSH;
 static double   pet_rfsh_per_sec        = PET_PAL_RFSH_PER_SEC;
 */
 
-static log_t pet_log = LOG_ERR;
+static log_t pet_log = LOG_DEFAULT;
 static machine_timing_t machine_timing;
 
 int machine_get_keyboard_type(void)
@@ -307,6 +308,10 @@ int machine_resources_init(void)
         init_resource_fail("pet");
         return -1;
     }
+    if (parallel_resources_init() < 0) {
+        init_resource_fail("parallel");
+        return -1;
+    }
     if (cartio_resources_init() < 0) {
         init_resource_fail("cartio");
         return -1;
@@ -355,12 +360,9 @@ int machine_resources_init(void)
         init_resource_fail("userport devices");
         return -1;
     }
+    /* CAUTION: must come after userport and serial */
     if (printer_resources_init() < 0) {
         init_resource_fail("printer");
-        return -1;
-    }
-    if (printer_userport_resources_init() < 0) {
-        init_resource_fail("userport printer");
         return -1;
     }
     if (init_joyport_ports() < 0) {
@@ -426,58 +428,16 @@ int machine_resources_init(void)
         return -1;
     }
 #endif
-    if (userport_joystick_cga_resources_init() < 0) {
-        init_resource_fail("userport cga joystick");
-        return -1;
-    }
-    if (userport_joystick_pet_resources_init() < 0) {
-        init_resource_fail("userport pet joystick");
-        return -1;
-    }
-    if (userport_joystick_hummer_resources_init() < 0) {
-        init_resource_fail("userport hummer joystick");
-        return -1;
-    }
-    if (userport_joystick_oem_resources_init() < 0) {
-        init_resource_fail("userport oem joystick");
-        return -1;
-    }
-    if (userport_joystick_synergy_resources_init() < 0) {
-        init_resource_fail("userport synergy joystick");
-        return -1;
-    }
-    if (userport_joystick_woj_resources_init() < 0) {
-        init_resource_fail("userport woj joystick");
-        return -1;
-    }
-    if (userport_spt_joystick_resources_init() < 0) {
-        init_resource_fail("userport stupid pet tricks joystick");
-        return -1;
-    }
-    if (userport_dac_resources_init() < 0) {
-        init_resource_fail("userport dac");
-        return -1;
-    }
-    if (userport_rtc_58321a_resources_init() < 0) {
-        init_resource_fail("userport rtc (58321a)");
-        return -1;
-    }
-    if (userport_rtc_ds1307_resources_init() < 0) {
-        init_resource_fail("userport rtc (ds1307)");
-        return -1;
-    }
-    if (userport_petscii_snespad_resources_init() < 0) {
-        init_resource_fail("userport petscii snes pad");
-        return -1;
-    }
-    if (userport_io_sim_resources_init() < 0) {
-        init_resource_fail("userport I/O simulation");
-        return -1;
-    }
     if (debugcart_resources_init() < 0) {
         init_resource_fail("debug cart");
         return -1;
     }
+#if defined(USE_MPG123) && defined (HAVE_GLOB_H)
+    if (userport_funmp3_resources_init() < 0) {
+        init_resource_fail("funmp3 cart");
+        return -1;
+    }
+#endif
     return 0;
 }
 
@@ -494,8 +454,7 @@ void machine_resources_shutdown(void)
     disk_image_resources_shutdown();
     sampler_resources_shutdown();
     cartio_shutdown();
-    userport_rtc_58321a_resources_shutdown();
-    userport_rtc_ds1307_resources_shutdown();
+    userport_resources_shutdown();
     tapeport_resources_shutdown();
     debugcart_resources_shutdown();
     joyport_resources_shutdown();
@@ -510,6 +469,10 @@ int machine_cmdline_options_init(void)
     }
     if (pet_cmdline_options_init() < 0) {
         init_cmdline_options_fail("pet");
+        return -1;
+    }
+    if (parallel_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("parallel");
         return -1;
     }
     if (cartio_cmdline_options_init() < 0) {
@@ -558,10 +521,6 @@ int machine_cmdline_options_init(void)
     }
     if (printer_cmdline_options_init() < 0) {
         init_cmdline_options_fail("printer");
-        return -1;
-    }
-    if (printer_userport_cmdline_options_init() < 0) {
-        init_cmdline_options_fail("userport printer");
         return -1;
     }
     if (joyport_cmdline_options_init() < 0) {
@@ -626,18 +585,16 @@ int machine_cmdline_options_init(void)
         return -1;
     }
 #endif
-    if (userport_rtc_58321a_cmdline_options_init() < 0) {
-        init_cmdline_options_fail("userport rtc (58321a)");
-        return -1;
-    }
-    if (userport_rtc_ds1307_cmdline_options_init() < 0) {
-        init_cmdline_options_fail("userport rtc (ds1307)");
-        return -1;
-    }
     if (debugcart_cmdline_options_init() < 0) {
         init_cmdline_options_fail("debug cart");
         return -1;
     }
+#if defined(USE_MPG123) && defined (HAVE_GLOB_H)
+    if (userport_funmp3_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("funmp3 cart");
+        return -1;
+    }
+#endif
     return 0;
 }
 
@@ -761,6 +718,11 @@ int machine_specific_init(void)
 
     /* Initialize userport based sound chips */
     userport_dac_sound_chip_init();
+
+    /* Initialize funmp3 */
+#if defined(USE_MPG123) && defined (HAVE_GLOB_H)
+    userport_funmp3_sound_chip_init();
+#endif
 
     drive_sound_init();
     datasette_sound_init();
@@ -995,35 +957,41 @@ void pet_crtc_set_screen(void)
     /* mem_initialize_memory(); */
 
     if (!cols) {
+        /* FIXME this guesswork should never be needed!
+         * petmem_check_info() already does something like this. */
         cols = petres.rom_video;
         if (!cols) {
             cols = PET_COLS;
         }
-        vmask = (cols == 40) ? 0x3ff : 0x7ff;
+        vmask = (petres.map == PET_MAP_8296) ? 0x0fff : 0x3ff;
     }
 
-    /* when switching 8296 to 40 columns, CRTC ends up at $9000 otherwise...*/
-    if (cols == 40) {
-        vmask = 0x3ff;
-    }
 /*
     log_message(pet_mem_log, "set_screen(vmask=%04x, cols=%d, crtc=%d)",
                 vmask, cols, petres.model.crtc);
 */
     int hwflag = (cols == 80) ? CRTC_HW_DOUBLE_CHARS : 0;
+    int vrevmask;
     /* Note: see bug #1954.
      * The real cause for the timing difference is unknown so far.
      * If found, the condition below will probably change. */
     if (cols == 80 && petres.map != PET_MAP_8296) {
         hwflag |= CRTC_HW_LATE_BEAM;
     }
-    crtc_set_screen_options(cols, 25 * 10);
+    /* On the 8296 we do not (invert the screen by clearing MA12). */
+    vrevmask = petres.map == PET_MAP_8296 ? vmask : 0x1000;
+
+    /*
+     * Vertical nr of pixels: max(25*10, 256), for 25 text lines of 10 px,
+     * or 256 for the HRE.
+     */
+    crtc_set_screen_options(cols, 256);
     crtc_set_screen_addr(mem_ram + 0x8000);
     crtc_set_hw_options(hwflag,
                         vmask,
                         0x2000,         /* vchar: MA13 */
                         512,            /* vcoffset */
-                        0x1000);        /* vrevmask: MA12 */
+                        vrevmask);      /* vrevmask: MA12 */
     crtc_set_retrace_type(petres.model.crtc ? CRTC_RETRACE_TYPE_CRTC
                                             : CRTC_RETRACE_TYPE_DISCRETE);
 

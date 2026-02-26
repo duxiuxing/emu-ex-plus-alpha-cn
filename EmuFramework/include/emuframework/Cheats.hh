@@ -17,11 +17,16 @@
 
 #include <emuframework/EmuApp.hh>
 #include <emuframework/EmuAppHelper.hh>
+#include <emuframework/AppMeta.hh>
 #include <emuframework/viewUtils.hh>
+#ifndef IG_USE_MODULE_IMAGINE
 #include <imagine/gui/TableView.hh>
 #include <imagine/gui/AlertView.hh>
 #include <imagine/gui/MenuItem.hh>
+#endif
+#ifndef IG_USE_MODULE_STD
 #include <vector>
+#endif
 
 namespace EmuEx
 {
@@ -55,9 +60,9 @@ public:
 		{
 			UI_TEXT("Add/Edit"),
 			attach,
-			[this](const Input::Event &e)
+			[this](const Input::Event& e)
 			{
-				auto editCheatsView = app().makeEditCheatsView(attachParams(), *this);
+				auto editCheatsView = AppMeta::makeEditCheatsView(attachParams(), *this);
 				pushAndShow(std::move(editCheatsView), e);
 			}
 		}
@@ -126,7 +131,7 @@ protected:
 		{
 			cheats.emplace_back(name, attachParams(), [this, &c](const Input::Event& e)
 			{
-				pushAndShow(app().makeEditCheatView(attachParams(), c, *this), e);
+				pushAndShow(AppMeta::makeEditCheatView(attachParams(), c, *this), e);
 			});
 			return true;
 		});
@@ -167,12 +172,12 @@ class BaseEditCheatView : public TableView, public EmuAppHelper
 {
 public:
 	BaseEditCheatView(UTF16Convertible auto &&viewName, ViewAttachParams attach, Cheat& cheat,
-		BaseEditCheatsView& editCheatsView_, TableView::ItemSourceDelegate itemSrc):
+		BaseEditCheatsView& editCheatsView_):
 		TableView
 		{
 			IG_forward(viewName),
 			attach,
-			itemSrc
+			items
 		},
 		cheatPtr{&cheat},
 		editCheatsView{editCheatsView_},
@@ -234,7 +239,7 @@ public:
 
 	bool modifyCheatCode(this auto&& self, CheatCode& c, CheatCodeDesc desc)
 	{
-		if(!strlen(desc.str))
+		if(!std::strlen(desc.str))
 		{
 			self.removeCheatCode(c);
 			return true;

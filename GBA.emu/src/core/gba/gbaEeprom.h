@@ -1,5 +1,5 @@
-#ifndef EEPROM_H
-#define EEPROM_H
+#ifndef VBAM_CORE_GBA_GBAEEPROM_H_
+#define VBAM_CORE_GBA_GBAEEPROM_H_
 
 #include <cstdint>
 
@@ -9,20 +9,24 @@
 #include <zlib.h>
 #endif  // defined(__LIBRETRO__)
 
+#if 1
 extern void eepromSaveGame(uint8_t*& data);
 extern void eepromReadGame(const uint8_t*& data);
-
+#else // !defined(__LIBRETRO__)
 extern void eepromSaveGame(gzFile _gzFile);
 extern void eepromReadGame(gzFile _gzFile, int version);
 extern void eepromReadGameSkip(gzFile _gzFile, int version);
+#endif  // defined(__LIBRETRO__)
 
 extern IG::ByteBuffer eepromData;
 extern int eepromRead(uint32_t address);
 extern void eepromWrite(uint32_t address, uint8_t value, int cpuDmaCount);
 extern void eepromInit();
 extern void eepromReset();
+extern void eepromSetSize(int size);
 extern bool eepromInUse;
 extern int eepromSize;
+extern uint32_t eepromMask;
 
 #define EEPROM_IDLE 0
 #define EEPROM_READADDRESS 1
@@ -30,4 +34,4 @@ extern int eepromSize;
 #define EEPROM_READDATA2 3
 #define EEPROM_WRITEDATA 4
 
-#endif // EEPROM_H
+#endif // VBAM_CORE_GBA_GBAEEPROM_H_

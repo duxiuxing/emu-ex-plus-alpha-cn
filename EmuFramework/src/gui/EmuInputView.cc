@@ -14,20 +14,14 @@
 	along with EmuFramework.  If not, see <http://www.gnu.org/licenses/> */
 
 #include <emuframework/EmuInputView.hh>
-#include <emuframework/VController.hh>
 #include <emuframework/EmuApp.hh>
-#include <emuframework/EmuVideo.hh>
-#include <emuframework/EmuVideoLayer.hh>
-#include <emuframework/FilePicker.hh>
-#include <emuframework/EmuOptions.hh>
 #include "../InputDeviceData.hh"
-#include <imagine/gui/AlertView.hh>
-#include <imagine/gfx/RendererCommands.hh>
-#include <imagine/util/variant.hh>
-#include <format>
+import imagine;
 
 namespace EmuEx
 {
+
+[[maybe_unused]] constexpr SystemLogger log{"EmuInputView"};
 
 EmuInputView::EmuInputView() {}
 
@@ -92,7 +86,7 @@ bool EmuInputView::inputEvent(const Input::Event& e, ViewInputEventParams)
 			const auto &actionTable = devData.actionTable;
 			if(!actionTable.size()) [[unlikely]]
 				return false;
-			assumeExpr(keyEv.device());
+			assume(keyEv.device());
 			const auto &actionGroup = actionTable[keyEv.key()];
 			bool isPushed = keyEv.pushed();
 			bool isRepeated = keyEv.repeated();

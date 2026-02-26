@@ -20,8 +20,11 @@
 #include <imagine/io/PosixIO.hh>
 #include <imagine/util/used.hh>
 #include <imagine/util/concepts.hh>
-#include <imagine/util/utility.h>
+#ifndef IG_USE_MODULE_STD
 #include <array>
+#include <string_view>
+#include <utility>
+#endif
 
 namespace IG
 {
@@ -29,8 +32,8 @@ namespace IG
 class Pipe
 {
 public:
-	Pipe(int preferredSize = 0): Pipe(nullptr, preferredSize) {}
-	Pipe(const char *debugLabel, int preferredSize = 0);
+	Pipe(int preferredSize = 0): Pipe({}, preferredSize) {}
+	Pipe(std::string_view debugLabel, int preferredSize = 0);
 	PosixIO &source();
 	PosixIO &sink();
 	void attach(EventLoop loop);
@@ -41,7 +44,7 @@ public:
 	void setReadNonBlocking(bool on);
 	bool isReadNonBlocking() const;
 	explicit operator bool() const;
-	const char* debugLabel() const { return fdSrc.debugLabel(); }
+	auto debugLabel() const { return fdSrc.debugLabel(); }
 
 	void attach(auto &&f)
 	{

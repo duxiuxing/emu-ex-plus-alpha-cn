@@ -61,7 +61,7 @@
 #include "vice-event.h"
 
 #ifdef EVENT_DEBUG
-#define DBG(x)  log_debug x
+#define DBG(x) log_printf  x
 #else
 #define DBG(x)
 #endif
@@ -409,7 +409,7 @@ static void event_alarm_handler(CLOCK offset, void *data)
         return;
     }
 
-    /*log_debug("EVENT PLAYBACK %i CLK %i", event_list_current->type,
+    /*log_debug(LOG_DEFAULT, "EVENT PLAYBACK %i CLK %i", event_list_current->type,
               event_list_current->clk);*/
 
     switch (event_list->current->type) {
@@ -698,7 +698,7 @@ static void event_record_start_trap(uint16_t addr, void *data)
                         1, 1, 0) < 0) {
                 ui_error("Could not create start snapshot file %s.",
                         event_snapshot_path(event_start_snapshot));
-                ui_display_recording(0);
+                ui_display_recording(UI_RECORDING_STATUS_NONE);
                 return;
             }
             destroy_list();
@@ -752,7 +752,7 @@ static void event_record_start_trap(uint16_t addr, void *data)
     alarm_set(event_alarm, next_timestamp_clk);
 
     record_active = 1;
-    ui_display_recording(1);
+    ui_display_recording(UI_RECORDING_STATUS_EVENTS);
 }
 
 int event_record_start(void)
@@ -797,7 +797,7 @@ int event_record_stop(void)
 
     interrupt_maincpu_trigger_trap(event_record_stop_trap, (void *)0);
 
-    ui_display_recording(0);
+    ui_display_recording(UI_RECORDING_STATUS_NONE);
 
     alarm_unset(event_alarm);
 
@@ -868,7 +868,7 @@ static void event_playback_start_trap(uint16_t addr, void *unused)
         uint8_t *data = (uint8_t *)(event_list->current->data);
         switch (data[0]) {
             case EVENT_START_MODE_FILE_SAVE:
-                /*log_debug("READING %s", (char *)(&data[1]));*/
+                /*log_debug(LOG_DEFAULT, "READING %s", (char *)(&data[1]));*/
                 if (machine_read_snapshot(
                         event_snapshot_path((char *)(&data[1])), 0) < 0
                     && machine_read_snapshot(
@@ -888,7 +888,7 @@ static void event_playback_start_trap(uint16_t addr, void *unused)
                 next_alarm_set();
                 break;
             case EVENT_START_MODE_RESET:
-                /*log_debug("RESET MODE!");*/
+                /*log_debug(LOG_DEFAULT, "RESET MODE!");*/
                 machine_trigger_reset(MACHINE_RESET_MODE_POWER_CYCLE);
                 if (event_list->current->size > 1) {
                     strncpy(event_version, (char *)(&data[1]), 15);

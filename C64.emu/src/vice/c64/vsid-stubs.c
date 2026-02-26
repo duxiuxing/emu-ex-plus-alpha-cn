@@ -37,6 +37,9 @@
 #include "c64mem.h"
 #include "c64-cmdline-options.h"
 #include "c64_256k.h"
+#ifdef HAVE_EXPERIMENTAL_DEVICES
+#include "c64_diag_586220_harness.h"
+#endif
 #include "cartridge.h"
 #include "cbmdos.h"
 #include "cia.h"
@@ -155,6 +158,11 @@ int drive_check_expansionA000(int type)
     return 0;
 }
 
+int drive_check_dolphindos3(int type)
+{
+    return 0;
+}
+
 int drive_check_profdos(int type)
 {
     return 0;
@@ -196,6 +204,11 @@ export_t export = { 0, 0, 0, 0 }; /* c64 export */
 static uint8_t mem_phi[0x1000];
 
 int cartridge_attach_image(int type, const char *filename)
+{
+    return -1;
+}
+
+int cartridge_attach_add_image(int type, const char *filename)
 {
     return -1;
 }
@@ -566,7 +579,12 @@ tape_image_t *tape_internal_open_tape_image(const char *name, unsigned int read_
 
 int tape_seek_to_next_file(tape_image_t *tape_image, unsigned int allow_rewind)
 {
-    return 0;
+    return -1;
+}
+
+unsigned long tape_get_offset(tape_image_t *tape_image)
+{
+    return -1;
 }
 
 void tape_get_header(tape_image_t *tape_image, uint8_t *name)
@@ -863,7 +881,7 @@ void machine_bus_status_drivetype_set(unsigned int unit, unsigned int enable)
 {
 }
 
-void machine_bus_status_virtualdevices_set(unsigned int unit, unsigned int enable)
+void machine_bus_status_trapdevices_set(unsigned int unit, unsigned int enable)
 {
 }
 
@@ -1272,7 +1290,31 @@ bool driver_select_has_graphics_output(const char *drv_name)
     return false;
 }
 
+/*******************************************************************************
+    DIAG harness
+*******************************************************************************/
+
+#ifdef HAVE_EXPERIMENTAL_DEVICES
+void c64_diag_586220_store_joyport_dig(uint8_t port, uint8_t val)
+{
+}
+
+uint8_t c64_diag_586220_read_joyport_dig(uint8_t port)
+{
+    return 0;
+}
+
+uint8_t c64_diag_586220_read_joyport_pot(void)
+{
+    return 0;
+}
+#endif
 
 /*******************************************************************************
     UI
 *******************************************************************************/
+
+int userport_get_device(void)
+{
+    return 0;
+}

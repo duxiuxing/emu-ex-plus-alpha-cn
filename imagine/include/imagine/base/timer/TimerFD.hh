@@ -20,7 +20,9 @@
 #include <imagine/time/Time.hh>
 #include <imagine/util/used.hh>
 #include <time.h>
+#ifndef IG_USE_MODULE_STD
 #include <memory>
+#endif
 
 namespace IG
 {
@@ -30,8 +32,9 @@ class TimerFD
 public:
 	using TimePoint = SteadyClockTimePoint;
 
+	constexpr TimerFD() = default;
 	TimerFD(TimerDesc, CallbackDelegate);
-	const char* debugLabel() const { return fdSrc.debugLabel(); }
+	auto debugLabel() const { return fdSrc.debugLabel(); }
 
 protected:
 	std::unique_ptr<CallbackDelegate> callback_;

@@ -44,13 +44,14 @@
 /* #define DEBUG_PRINTER */
 
 #ifdef DEBUG_PRINTER
-#define DBG(x)  log_debug x
+#define DBG(x) log_printf  x
 #else
 #define DBG(x)
 #endif
 
 int printer_resources_init(void)
 {
+    DBG(("printer_resources_init"));
     if (output_graphics_init_resources() < 0
         || output_text_init_resources() < 0
         || output_select_init_resources() < 0
@@ -61,17 +62,22 @@ int printer_resources_init(void)
         || drv_raw_init_resources() < 0
         || driver_select_init_resources() < 0
         || machine_printer_resources_init() < 0) {
+        DBG(("printer_resources_init (failed)"));
         return -1;
     }
+    DBG(("printer_resources_init (OK)"));
     return 0;
 }
 
 int printer_userport_resources_init(void)
 {
-    if (driver_select_userport_init_resources() < 0
-        || output_select_userport_init_resources() < 0) {
+    DBG(("printer_userport_resources_init"));
+    if (output_select_userport_init_resources() < 0
+        || driver_select_userport_init_resources() < 0) {
+        DBG(("printer_userport_resources_init (failed)"));
         return -1;
     }
+    DBG(("printer_userport_resources_init (ok)"));
     return 0;
 }
 
@@ -82,6 +88,7 @@ void printer_resources_shutdown(void)
 
 int printer_cmdline_options_init(void)
 {
+    DBG(("printer_cmdline_options_init"));
     if (output_text_init_cmdline_options() < 0
         || output_select_init_cmdline_options() < 0
         || driver_select_init_cmdline_options() < 0
@@ -93,6 +100,7 @@ int printer_cmdline_options_init(void)
 
 int printer_userport_cmdline_options_init(void)
 {
+    DBG(("printer_userport_cmdline_options_init"));
     if (driver_select_userport_init_cmdline_options() < 0
         || output_select_userport_init_cmdline_options() < 0) {
         return -1;
@@ -102,6 +110,7 @@ int printer_userport_cmdline_options_init(void)
 
 void printer_init(void)
 {
+    DBG(("printer_init"));
     output_graphics_init();
     drv_ascii_init();
     drv_mps803_init();
@@ -110,6 +119,7 @@ void printer_init(void)
     drv_raw_init();
     driver_select_init();
     machine_printer_init();
+    DBG(("printer_init (done)"));
 }
 
 void printer_reset(void)

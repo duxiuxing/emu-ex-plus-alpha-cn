@@ -2,6 +2,11 @@
 
 #include <cstring>
 
+#ifndef UI_TEXT_IMPL
+	#define UI_TEXT_IMPL
+	#define UI_TEXT(x)	x
+#endif
+
 namespace gambatte {
 
 enum { flag_multipak = 1, flag_header_checksum_ok = 2, };
@@ -83,7 +88,7 @@ std::string const PakInfo::mbc() const {
 	std::string h147str = h147ToCstr(h144x_[3]);
 
 	if (flags_ & flag_multipak)
-		h147str += " (Custom MultiPak)";
+		h147str += UI_TEXT(" (Custom MultiPak)");
 
 	return h147str;
 }

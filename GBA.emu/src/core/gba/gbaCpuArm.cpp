@@ -43,7 +43,6 @@
 #define CPUUndefinedException cpu.undefinedException
 #define CPUUpdateCPSR cpu.updateCPSR
 #define CPUReadMemory(address) CPUReadMemory(cpu, address)
-#define CPUReadHalfWord(address) CPUReadHalfWord(cpu, address)
 #define CPUReadHalfWordSigned(address) CPUReadHalfWordSigned(cpu, address)
 #define CPUReadByte(address) CPUReadByte(cpu, address)
 #define CPUWriteMemory(address, value) CPUWriteMemory(cpu, address, value)
@@ -55,6 +54,8 @@
 #define dataTicksAccess32(address) dataTicksAccess32(cpu, address)
 #define codeTicksAccessSeq16(address) codeTicksAccessSeq16(cpu, address)
 #define codeTicksAccess16(address) codeTicksAccess16(cpu, address)
+#undef INSN_REGPARM
+#define INSN_REGPARM
 
 static INSN_REGPARM void armUnknownInsn(ARM7TDMI &cpu, uint32_t opcode, int &clockTicks)
 {
@@ -1552,7 +1553,7 @@ static INSN_REGPARM void arm121(ARM7TDMI &cpu, uint32_t opcode, int &clockTicks)
 #define OP_LDR    reg[dest].I = CPUReadMemory(address)
 #define OP_LDRH   reg[dest].I = CPUReadHalfWord(address)
 #define OP_LDRB   reg[dest].I = CPUReadByte(address)
-#define OP_LDRSH  reg[dest].I = (uint32_t)CPUReadHalfWordSigned(address)
+#define OP_LDRSH  reg[dest].I = CPUReadHalfWordSigned(address)
 #define OP_LDRSB  reg[dest].I = (int8_t)CPUReadByte(address)
 
 #define WRITEBACK_NONE     /*nothing*/
@@ -2626,6 +2627,19 @@ static INSN_REGPARM void armE01(ARM7TDMI &cpu, uint32_t opcode, int &clockTicks)
 #define armE01 armUnknownInsn
 #endif
 
+static INSN_REGPARM void armE80(ARM7TDMI &cpu, uint32_t opcode, int &clockTicks)
+{
+    if ((opcode & 0xFFFC0000) == (0xEE800000)) {
+#ifdef GBA_LOGGING
+        if (systemVerbose & VERBOSE_UNDEFINED)
+            log("Undefined Wii U ARM instruction %08x at %08Xx\n", opcode, armNextPC - 4);
+#endif
+        return;
+    }
+
+    armUnknownInsn(opcode);
+}
+
 // SWI <comment>
 static INSN_REGPARM void armF00(ARM7TDMI &cpu, uint32_t opcode, int &clockTicks)
 {
@@ -2824,7 +2838,11 @@ constexpr insnfunc_t armInsnTable[4096] = {
     REP16(arm_UI), // E20
     REP16(arm_UI), // E30
     REP16(arm_UI), REP16(arm_UI), REP16(arm_UI), REP16(arm_UI), // E40
-    REP16(arm_UI), REP16(arm_UI), REP16(arm_UI), REP16(arm_UI), // E80
+
+		armE80, arm_UI, arm_UI, arm_UI, arm_UI, arm_UI, arm_UI, arm_UI, // E80
+		arm_UI, arm_UI, arm_UI, arm_UI, arm_UI, arm_UI, arm_UI, arm_UI, // E88
+
+		REP16(arm_UI), REP16(arm_UI), REP16(arm_UI), // E90
     REP16(arm_UI), REP16(arm_UI), REP16(arm_UI), REP16(arm_UI), // EC0
 
     REP256(armF00), // F00
@@ -2852,7 +2870,7 @@ int armExecute(ARM7TDMI &cpu)
 	int &cpuTotalTicks = cpu.cpuTotalTicks;
     do {
 		if (coreOptions.cheatsEnabled) {
-			cpuMasterCodeCheck(cpu);
+			cpuMasterCodeCheck();
 		}
 
         if ((armNextPC & 0x0803FFFF) == 0x08020000)
@@ -2935,15 +2953,17 @@ int armExecute(ARM7TDMI &cpu)
               case 0x0D: // LE
                 cond_res = Z_FLAG || (N_FLAG != V_FLAG);
                 break;
-              /*case 0x0E: // AL (impossible, checked above)
+              case 0x0E: // AL (impossible, checked above)
                 cond_res = true;
-                break;*/
+                IG::unreachable();
+                break;
               case 0x0F:
               	cond_res = false;
               	break;
               default:
                 // ???
-              	bug_unreachable("invalid condition:0x%X", cond);
+              	cond_res = false;
+                IG::unreachable();
                 break;
             }
         }

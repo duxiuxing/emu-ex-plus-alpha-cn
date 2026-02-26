@@ -36,6 +36,7 @@
 #include "datasette.h"
 #include "digiblaster.h"
 #include "iecbus.h"
+#include "log.h"
 #include "maincpu.h"
 #include "mem.h"
 #include "monitor.h"
@@ -55,8 +56,18 @@
 #include "resources.h"
 #include "tapeport.h"
 #include "ted.h"
+#include "tedtypes.h"
 #include "ted-mem.h"
 #include "types.h"
+#include "mos6510.h"
+
+/* #define DEBUG_MEM */
+
+#ifdef DEBUG_MEM
+#define DBG(x) log_printf x
+#else
+#define DBG(x)
+#endif
 
 static int hard_reset_flag = 1;
 
@@ -98,7 +109,7 @@ unsigned int mem_config;
 #define RAM8 mem_ram + 0x8000
 #define RAMC mem_ram + 0xc000
 
-static uint8_t *chargen_tab[8][16] = {
+static uint8_t *chargen_base_tab[8][16] = {
     /* 0000-3fff, RAM selected  */
     {       RAM0, RAM0, RAM0, RAM0,
             RAM0, RAM0, RAM0, RAM0,
@@ -121,11 +132,13 @@ static uint8_t *chargen_tab[8][16] = {
             RAMC, RAMC, RAMC, RAMC },
 
     /* 0000-3fff, ROM selected  */
+    /* FIXME: this should be "open", ie read the last value from the bus */
     {       RAM0, RAM0, RAM0, RAM0,
             RAM0, RAM0, RAM0, RAM0,
             RAM0, RAM0, RAM0, RAM0,
             RAM0, RAM0, RAM0, RAM0 },
     /* 4000-7fff, ROM selected  */
+    /* FIXME: this should be "open", ie read the last value from the bus */
     {       RAM4, RAM4, RAM4, RAM4,
             RAM4, RAM4, RAM4, RAM4,
             RAM4, RAM4, RAM4, RAM4,
@@ -139,16 +152,88 @@ static uint8_t *chargen_tab[8][16] = {
        plus4memrom_basic_rom, extromlo1, extromlo2, extromlo3 },
     /* c000-ffff, ROM selected  */
     {  plus4memrom_kernal_rom, plus4memrom_kernal_rom,
-       plus4memrom_kernal_rom, plus4memrom_kernal_rom,
+           plus4memrom_kernal_rom, plus4memrom_kernal_rom,
        extromhi1, extromhi1, extromhi1, extromhi1,
        extromhi2, extromhi2, extromhi2, extromhi2,
        extromhi3, extromhi3, extromhi3, extromhi3 }
 };
 
+typedef uint8_t *read_base_func_t(unsigned int segment);
+typedef read_base_func_t *read_base_func_ptr_t;
 
+/* function(s) to fetch a dynamic base from */
+static read_base_func_ptr_t chargen_read_base_tab[8][16] = {
+    /* 0000-3fff, RAM selected  */
+    {       NULL, NULL, NULL, NULL,
+            NULL, NULL, NULL, NULL,
+            NULL, NULL, NULL, NULL,
+            NULL, NULL, NULL, NULL },
+    /* 4000-7fff, RAM selected  */
+    {       NULL, NULL, NULL, NULL,
+            NULL, NULL, NULL, NULL,
+            NULL, NULL, NULL, NULL,
+            NULL, NULL, NULL, NULL },
+    /* 8000-bfff, RAM selected  */
+    {       NULL, NULL, NULL, NULL,
+            NULL, NULL, NULL, NULL,
+            NULL, NULL, NULL, NULL,
+            NULL, NULL, NULL, NULL },
+    /* c000-ffff, RAM selected  */
+    {       NULL, NULL, NULL, NULL,
+            NULL, NULL, NULL, NULL,
+            NULL, NULL, NULL, NULL,
+            NULL, NULL, NULL, NULL },
+
+    /* 0000-3fff, ROM selected  */
+    /* FIXME: this should be "open", ie read the last value from the bus */
+    {       NULL, NULL, NULL, NULL,
+            NULL, NULL, NULL, NULL,
+            NULL, NULL, NULL, NULL,
+            NULL, NULL, NULL, NULL },
+    /* 4000-7fff, ROM selected  */
+    /* FIXME: this should be "open", ie read the last value from the bus */
+    {       NULL, NULL, NULL, NULL,
+            NULL, NULL, NULL, NULL,
+            NULL, NULL, NULL, NULL,
+            NULL, NULL, NULL, NULL },
+    /* 8000-bfff, ROM selected  */
+    /* FIXME: we cant directly point to cartridge ROM here, we need a better
+              (indirect) way to do this */
+    {  NULL, NULL, plus4cart_get_tedmem_base, NULL,
+       NULL, NULL, plus4cart_get_tedmem_base, NULL,
+       NULL, NULL, plus4cart_get_tedmem_base, NULL,
+       NULL, NULL, plus4cart_get_tedmem_base, NULL },
+
+    /* c000-ffff, ROM selected  */
+    {  NULL, NULL, NULL, NULL,
+       NULL, NULL, NULL, NULL,
+    /* FIXME: we cant directly point to cartridge ROM here, we need a better
+              (indirect) way to do this */
+       NULL, NULL, NULL, NULL,
+       NULL, NULL, NULL, NULL }
+};
+
+/*
+  segment:
+    bit 0-1:    2 upper bits of address
+    bit 2:      ROM select (0: RAM, 1: ROM)
+*/
 uint8_t *mem_get_tedmem_base(unsigned int segment)
 {
-    return chargen_tab[segment][mem_config >> 1];
+    uint8_t *base;
+    read_base_func_ptr_t basefunc;
+
+    if ((basefunc = chargen_read_base_tab[segment][mem_config >> 1]) == NULL) {
+        /* no base read function, use the base tab */
+        return chargen_base_tab[segment][mem_config >> 1];
+    }
+
+    if ((base = basefunc(segment)) != NULL) {
+        return base;
+    }
+
+    /* if the base read function returned NULL, use the base tab */
+    return chargen_base_tab[segment][mem_config >> 1];
 }
 
 /* ------------------------------------------------------------------------- */
@@ -254,18 +339,24 @@ uint8_t zero_read(uint16_t addr)
     switch ((uint8_t)addr) {
         case 0:
         case 1:
-            return mem_proc_port_read(addr);
+            ted.last_cpu_val = mem_proc_port_read(addr);
+        break;
+        default:
+            if (!cs256k_enabled) {
+                ted.last_cpu_val = mem_ram[addr];
+            } else {
+                ted.last_cpu_val = cs256k_read(addr);
+            }
+        break;
     }
-    if (!cs256k_enabled) {
-        return mem_ram[addr];
-    } else {
-        return cs256k_read(addr);
-    }
+    return ted.last_cpu_val;
 }
 
 void zero_store(uint16_t addr, uint8_t value)
 {
     addr &= 0xff;
+
+    ted.last_cpu_val = value;
 
     switch ((uint8_t)addr) {
         case 0:
@@ -348,12 +439,14 @@ static uint8_t zero_read_watch(uint16_t addr)
 {
     addr &= 0xff;
     monitor_watch_push_load_addr(addr, e_comp_space);
-    return mem_read_tab[mem_config][0](addr);
+    ted.last_cpu_val = mem_read_tab[mem_config][0](addr);
+    return ted.last_cpu_val;
 }
 
 static void zero_store_watch(uint16_t addr, uint8_t value)
 {
     addr &= 0xff;
+    ted.last_cpu_val = value;
     monitor_watch_push_store_addr(addr, e_comp_space);
     mem_write_tab[mem_config][0](addr, value);
 }
@@ -361,12 +454,14 @@ static void zero_store_watch(uint16_t addr, uint8_t value)
 static uint8_t read_watch(uint16_t addr)
 {
     monitor_watch_push_load_addr(addr, e_comp_space);
-    return mem_read_tab[mem_config][addr >> 8](addr);
+    ted.last_cpu_val = mem_read_tab[mem_config][addr >> 8](addr);
+    return ted.last_cpu_val;
 }
 
 
 static void store_watch(uint16_t addr, uint8_t value)
 {
+    ted.last_cpu_val = value;
     monitor_watch_push_store_addr(addr, e_comp_space);
     mem_write_tab[mem_config][addr >> 8](addr, value);
 }
@@ -381,31 +476,37 @@ void mem_toggle_watchpoints(int flag, void *context)
 
 static uint8_t ram_read(uint16_t addr)
 {
-    return mem_ram[addr];
+    ted.last_cpu_val = mem_ram[addr];
+    return ted.last_cpu_val;
 }
 
 static uint8_t ram_read_32k(uint16_t addr)
 {
-    return mem_ram[addr & 0x7fff];
+    ted.last_cpu_val = mem_ram[addr & 0x7fff];
+    return ted.last_cpu_val;
 }
 
 static uint8_t ram_read_16k(uint16_t addr)
 {
-    return mem_ram[addr & 0x3fff];
+    ted.last_cpu_val = mem_ram[addr & 0x3fff];
+    return ted.last_cpu_val;
 }
 
 static void ram_store(uint16_t addr, uint8_t value)
 {
+    ted.last_cpu_val = value;
     mem_ram[addr] = value;
 }
 
 static void ram_store_32k(uint16_t addr, uint8_t value)
 {
+    ted.last_cpu_val = value;
     mem_ram[addr & 0x7fff] = value;
 }
 
 static void ram_store_16k(uint16_t addr, uint8_t value)
 {
+    ted.last_cpu_val = value;
     mem_ram[addr & 0x3fff] = value;
 }
 
@@ -423,6 +524,51 @@ uint8_t mem_read(uint16_t addr)
     return _mem_read_tab_ptr[addr >> 8](addr);
 }
 
+/* this should return the data floating on the bus (CPU reads the bus) */
+uint8_t mem_read_open_space(uint16_t addr)
+{
+    /* FIXME: this is less than correct :) */
+
+    /* YAPE uses this if "clockingState == TDS" */
+    unsigned int pc = reg_pc;
+    if ((pc ^ addr) & 0xff00) {
+        return ted.last_cpu_val;
+    }
+    return addr >> 8;
+}
+
+/* HACK: the following is an ugly hack, which is needed because of how the non-sc
+         architecture works. Much of the TED emulation works on pointers that are
+         not reassigned/updated on ever access, which would be required to wrap to
+         the above function as needed. */
+
+/* NOTE: fortunately only the TED fetching is affected, so the difference made by
+         the pattern below is only on the visual result, and can not be detected
+         by the CPU in any way - that probably means that "close" is "good enough". */
+
+static uint8_t open_space[64 * 1024];
+static int open_space_initizialized = 0;
+
+uint8_t *mem_get_open_space(void)
+{
+    /* FIXME: this is even lesser than less correct :) */
+
+    int addr;
+    if (open_space_initizialized) {
+        for (addr = 0; addr < 0x10000; addr++) {
+            /* HACK: we can't really produce a "correct" pattern here. So this
+                     is just randomly tweaked a little to produce somewhat not
+                     completely stupid results in the tests */
+            open_space[addr] = ((addr >> 8) ^ 0xaa) ^ (addr ^ 0x55);
+            if ((addr & 7) == 0) {
+                if ((addr % (40 * 8 * 2)) < (40 * 8)) { open_space[addr] = 0x00; }
+                if ((addr % (40 * 8 * 2)) >= (40 * 8)) { open_space[addr] = 0xff; }
+            }
+        }
+    }
+    return open_space;
+}
+
 /* ------------------------------------------------------------------------- */
 
 /*
@@ -437,51 +583,57 @@ uint8_t mem_read(uint16_t addr)
 static uint8_t h256k_ram_ffxx_read(uint16_t addr)
 {
     if ((addr >= 0xff20) && (addr != 0xff3e) && (addr != 0xff3f)) {
-        return h256k_read(addr);
+        ted.last_cpu_val = h256k_read(addr);
+    } else {
+        ted.last_cpu_val = ted_read(addr);
     }
-
-    return ted_read(addr);
+    return ted.last_cpu_val;
 }
 
 static uint8_t cs256k_ram_ffxx_read(uint16_t addr)
 {
     if ((addr >= 0xff20) && (addr != 0xff3e) && (addr != 0xff3f)) {
-        return cs256k_read(addr);
+        ted.last_cpu_val = cs256k_read(addr);
+    } else {
+        ted.last_cpu_val = ted_read(addr);
     }
-
-    return ted_read(addr);
+    return ted.last_cpu_val;
 }
 
 static uint8_t ram_ffxx_read(uint16_t addr)
 {
     if ((addr >= 0xff20) && (addr != 0xff3e) && (addr != 0xff3f)) {
-        return ram_read(addr);
+        ted.last_cpu_val = ram_read(addr);
+    } else {
+        ted.last_cpu_val = ted_read(addr);
     }
-
-    return ted_read(addr);
+    return ted.last_cpu_val;
 }
 
 static uint8_t ram_ffxx_read_32k(uint16_t addr)
 {
     if ((addr >= 0xff20) && (addr != 0xff3e) && (addr != 0xff3f)) {
-        return ram_read_32k(addr);
+        ted.last_cpu_val = ram_read_32k(addr);
+    } else {
+        ted.last_cpu_val = ted_read(addr);
     }
-
-    return ted_read(addr);
+    return ted.last_cpu_val;
 }
 
 static uint8_t ram_ffxx_read_16k(uint16_t addr)
 {
     if ((addr >= 0xff20) && (addr != 0xff3e) && (addr != 0xff3f)) {
-        return ram_read_16k(addr);
+        ted.last_cpu_val = ram_read_16k(addr);
+    } else {
+        ted.last_cpu_val = ted_read(addr);
     }
-
-    return ted_read(addr);
+    return ted.last_cpu_val;
 }
 
 
 static void h256k_ram_ffxx_store(uint16_t addr, uint8_t value)
 {
+    ted.last_cpu_val = value;
     if (addr < 0xff20 || addr == 0xff3e || addr == 0xff3f) {
         ted_store(addr, value);
     } else {
@@ -491,6 +643,7 @@ static void h256k_ram_ffxx_store(uint16_t addr, uint8_t value)
 
 static void cs256k_ram_ffxx_store(uint16_t addr, uint8_t value)
 {
+    ted.last_cpu_val = value;
     if (addr < 0xff20 || addr == 0xff3e || addr == 0xff3f) {
         ted_store(addr, value);
     } else {
@@ -500,6 +653,7 @@ static void cs256k_ram_ffxx_store(uint16_t addr, uint8_t value)
 
 static void ram_ffxx_store(uint16_t addr, uint8_t value)
 {
+    ted.last_cpu_val = value;
     if (addr < 0xff20 || addr == 0xff3e || addr == 0xff3f) {
         ted_store(addr, value);
     } else {
@@ -509,6 +663,7 @@ static void ram_ffxx_store(uint16_t addr, uint8_t value)
 
 static void ram_ffxx_store_32k(uint16_t addr, uint8_t value)
 {
+    ted.last_cpu_val = value;
     if (addr < 0xff20 || addr == 0xff3e || addr == 0xff3f) {
         ted_store(addr, value);
     } else {
@@ -518,6 +673,7 @@ static void ram_ffxx_store_32k(uint16_t addr, uint8_t value)
 
 static void ram_ffxx_store_16k(uint16_t addr, uint8_t value)
 {
+    ted.last_cpu_val = value;
     if (addr < 0xff20 || addr == 0xff3e || addr == 0xff3f) {
         ted_store(addr, value);
     } else {
@@ -532,14 +688,16 @@ static void ram_ffxx_store_16k(uint16_t addr, uint8_t value)
 static uint8_t rom_ffxx_read(uint16_t addr)
 {
     if (addr >= 0xff20) {
-        return plus4memrom_rom_read(addr);
+        ted.last_cpu_val = plus4memrom_rom_read(addr);
+    } else {
+        ted.last_cpu_val = ted_read(addr);
     }
-
-    return ted_read(addr);
+    return ted.last_cpu_val;
 }
 
 static void rom_ffxx_store(uint16_t addr, uint8_t value)
 {
+    ted.last_cpu_val = value;
     if (addr < 0xff20 || addr == 0xff3e || addr == 0xff3f) {
         ted_store(addr, value);
     } else {
@@ -549,6 +707,7 @@ static void rom_ffxx_store(uint16_t addr, uint8_t value)
 
 static void h256k_rom_ffxx_store(uint16_t addr, uint8_t value)
 {
+    ted.last_cpu_val = value;
     if (addr < 0xff20 || addr == 0xff3e || addr == 0xff3f) {
         ted_store(addr, value);
     } else {
@@ -558,6 +717,7 @@ static void h256k_rom_ffxx_store(uint16_t addr, uint8_t value)
 
 static void cs256k_rom_ffxx_store(uint16_t addr, uint8_t value)
 {
+    ted.last_cpu_val = value;
     if (addr < 0xff20 || addr == 0xff3e || addr == 0xff3f) {
         ted_store(addr, value);
     } else {
@@ -567,6 +727,7 @@ static void cs256k_rom_ffxx_store(uint16_t addr, uint8_t value)
 
 static void rom_ffxx_store_32k(uint16_t addr, uint8_t value)
 {
+    ted.last_cpu_val = value;
     if (addr < 0xff20 || addr == 0xff3e || addr == 0xff3f) {
         ted_store(addr, value);
     } else {
@@ -576,23 +737,12 @@ static void rom_ffxx_store_32k(uint16_t addr, uint8_t value)
 
 static void rom_ffxx_store_16k(uint16_t addr, uint8_t value)
 {
+    ted.last_cpu_val = value;
     if (addr < 0xff20 || addr == 0xff3e || addr == 0xff3f) {
         ted_store(addr, value);
     } else {
         ram_store_16k(addr, value);
     }
-}
-
-/* FIXME: this always returns 0x00, but it should return the
-          last data floating on the bus. (cpu/ted/dma) */
-uint8_t read_unused(uint16_t addr)
-{
-    return 0;
-}
-
-static void mem_config_rom_set_store(uint16_t addr, uint8_t value)
-{
-    mem_config_rom_set((addr & 0xf) << 1);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -616,26 +766,26 @@ void mem_initialize_memory(void)
         case 256:
         case 64:
             for (i = 0; i < 16; i++) {
-                chargen_tab[1][i] = RAM4;
-                chargen_tab[2][i] = RAM8;
-                chargen_tab[3][i] = RAMC;
-                chargen_tab[5][i] = RAM4;
+                chargen_base_tab[1][i] = RAM4;
+                chargen_base_tab[2][i] = RAM8;
+                chargen_base_tab[3][i] = RAMC;
+                chargen_base_tab[5][i] = RAM4;
             }
             break;
         case 32:
             for (i = 0; i < 16; i++) {
-                chargen_tab[1][i] = RAM4;
-                chargen_tab[2][i] = RAM0;
-                chargen_tab[3][i] = RAM4;
-                chargen_tab[5][i] = RAM4;
+                chargen_base_tab[1][i] = RAM4;
+                chargen_base_tab[2][i] = RAM0;
+                chargen_base_tab[3][i] = RAM4;
+                chargen_base_tab[5][i] = RAM4;
             }
             break;
         case 16:
             for (i = 0; i < 16; i++) {
-                chargen_tab[1][i] = RAM0;
-                chargen_tab[2][i] = RAM0;
-                chargen_tab[3][i] = RAM0;
-                chargen_tab[5][i] = RAM0;
+                chargen_base_tab[1][i] = RAM0;
+                chargen_base_tab[2][i] = RAM0;
+                chargen_base_tab[3][i] = RAM0;
+                chargen_base_tab[5][i] = RAM0;
             }
             break;
     }
@@ -727,6 +877,7 @@ void mem_initialize_memory(void)
         mem_read_base_tab[5][i] = NULL;
         mem_read_tab[7][i] = plus4memrom_extromlo3_read;
         mem_read_base_tab[7][i] = extromlo3 + ((i & 0x3f) << 8);
+
         mem_read_tab[9][i] = plus4memrom_basic_read;
         mem_read_base_tab[9][i] = plus4memrom_basic_rom + ((i & 0x3f) << 8);
         mem_read_tab[11][i] = plus4memrom_extromlo1_read;
@@ -736,6 +887,7 @@ void mem_initialize_memory(void)
         mem_read_base_tab[13][i] = NULL;
         mem_read_tab[15][i] = plus4memrom_extromlo3_read;
         mem_read_base_tab[15][i] = extromlo3 + ((i & 0x3f) << 8);
+
         mem_read_tab[17][i] = plus4memrom_basic_read;
         mem_read_base_tab[17][i] = plus4memrom_basic_rom + ((i & 0x3f) << 8);
         mem_read_tab[19][i] = plus4memrom_extromlo1_read;
@@ -745,6 +897,7 @@ void mem_initialize_memory(void)
         mem_read_base_tab[21][i] = NULL;
         mem_read_tab[23][i] = plus4memrom_extromlo3_read;
         mem_read_base_tab[23][i] = extromlo3 + ((i & 0x3f) << 8);
+
         mem_read_tab[25][i] = plus4memrom_basic_read;
         mem_read_base_tab[25][i] = plus4memrom_basic_rom + ((i & 0x3f) << 8);
         mem_read_tab[27][i] = plus4memrom_extromlo1_read;
@@ -758,18 +911,26 @@ void mem_initialize_memory(void)
 
     /* Setup Kernal ROM and extension ROMs at $E000-$FFFF.  */
     for (i = 0xc0; i <= 0xff; i++) {
+#if 0
         mem_read_tab[1][i] = plus4memrom_kernal_read;
-        mem_read_base_tab[1][i] = plus4memrom_kernal_trap_rom
-                                  + ((i & 0x3f) << 8);
+        mem_read_base_tab[1][i] = plus4memrom_kernal_trap_rom + ((i & 0x3f) << 8);
         mem_read_tab[3][i] = plus4memrom_kernal_read;
-        mem_read_base_tab[3][i] = plus4memrom_kernal_trap_rom
-                                  + ((i & 0x3f) << 8);
+        mem_read_base_tab[3][i] = plus4memrom_kernal_trap_rom + ((i & 0x3f) << 8);
         mem_read_tab[5][i] = plus4memrom_kernal_read;
-        mem_read_base_tab[5][i] = plus4memrom_kernal_trap_rom
-                                  + ((i & 0x3f) << 8);
+        mem_read_base_tab[5][i] = plus4memrom_kernal_trap_rom + ((i & 0x3f) << 8);
         mem_read_tab[7][i] = plus4memrom_kernal_read;
-        mem_read_base_tab[7][i] = plus4memrom_kernal_trap_rom
-                                  + ((i & 0x3f) << 8);
+        mem_read_base_tab[7][i] = plus4memrom_kernal_trap_rom + ((i & 0x3f) << 8);
+#else
+        /* redirect kernal to cartridge port */
+        mem_read_tab[1][i] = plus4cart_kernal_read;
+        mem_read_base_tab[1][i] = plus4memrom_kernal_trap_rom + ((i & 0x3f) << 8);
+        mem_read_tab[3][i] = plus4cart_kernal_read;
+        mem_read_base_tab[3][i] = plus4memrom_kernal_trap_rom + ((i & 0x3f) << 8);
+        mem_read_tab[5][i] = plus4cart_kernal_read;
+        mem_read_base_tab[5][i] = plus4memrom_kernal_trap_rom + ((i & 0x3f) << 8);
+        mem_read_tab[7][i] = plus4cart_kernal_read;
+        mem_read_base_tab[7][i] = plus4memrom_kernal_trap_rom + ((i & 0x3f) << 8);
+#endif
         mem_read_tab[9][i] = plus4memrom_extromhi1_read;
         mem_read_base_tab[9][i] = extromhi1 + ((i & 0x3f) << 8);
         mem_read_tab[11][i] = plus4memrom_extromhi1_read;
@@ -778,6 +939,7 @@ void mem_initialize_memory(void)
         mem_read_base_tab[13][i] = extromhi1 + ((i & 0x3f) << 8);
         mem_read_tab[15][i] = plus4memrom_extromhi1_read;
         mem_read_base_tab[15][i] = extromhi1 + ((i & 0x3f) << 8);
+
         mem_read_tab[17][i] = plus4cart_c1hi_read;
         /*mem_read_base_tab[17][i] = extromhi2 + ((i & 0x3f) << 8);*/
         mem_read_base_tab[17][i] = NULL;
@@ -790,6 +952,7 @@ void mem_initialize_memory(void)
         mem_read_tab[23][i] = plus4cart_c1hi_read;
         /*mem_read_base_tab[23][i] = extromhi2 + ((i & 0x3f) << 8);*/
         mem_read_base_tab[23][i] = NULL;
+
         mem_read_tab[25][i] = plus4memrom_extromhi3_read;
         mem_read_base_tab[25][i] = extromhi3 + ((i & 0x3f) << 8);
         mem_read_tab[27][i] = plus4memrom_extromhi3_read;
@@ -1068,7 +1231,7 @@ static uint8_t peek_bank_io(uint16_t addr)
     if (addr >= 0xfe00 && addr <= 0xfeff) {
         return plus4io_fe00_peek(addr);
     }
-    return read_unused(addr);
+    return mem_read_open_space(addr);
 }
 
 /* read i/o with side-effects */
@@ -1086,7 +1249,7 @@ static uint8_t read_bank_io(uint16_t addr)
         return plus4io_fe00_read(addr);
     }
 
-    return read_unused(addr);
+    return mem_read_open_space(addr);
 }
 
 /* read memory without side-effects */
@@ -1129,6 +1292,23 @@ uint8_t mem_bank_peek(int bank, uint16_t addr, void *context)
                     0  1  Function HI (hi internal #2)
                     1  0  Cartridge HI (hi external #1)
                     1  1  reserved
+
+                    fdd0 "BASIC",  "KERNAL"
+                    fdd1 "3+1",    "KERNAL"
+                    fdd2 "CART-1", "KERNAL"
+                    fdd3 "CART-2", "KERNAL"
+                    fdd4 "BASIC",  "3+1"
+                    fdd5 "3+1",    "3+1"
+                    fdd6 "CART-1", "3+1"
+                    fdd7 "CART-2", "3+1"
+                    fdd8 "BASIC",  "CART-1"
+                    fdd9 "3+1",    "CART-1"
+                    fdda "CART-1", "CART-1"
+                    fddb "CART-2", "CART-1"
+                    fddc "BASIC",  "CART-2"
+                    fddd "3+1",    "CART-2"
+                    fdde "CART-1", "CART-2"
+                    fddf "CART-2", "CART-2"
 
                 $FF00-  TED registers
 
@@ -1351,6 +1531,11 @@ static mem_config_t mem_config_table[] = {
     { "CART-2", "CART-2" }  /* 0xfddf */
 };
 
+static void mem_config_rom_set_store(uint16_t addr, uint8_t value)
+{
+    mem_config_rom_set((addr & 0xf) << 1);
+}
+
 static int memconfig_dump(void)
 {
     mon_out("$8000-$BFFF: %s\n", (mem_config & 1) ? mem_config_table[mem_config >> 1].mem_8000 : "RAM");
@@ -1358,8 +1543,6 @@ static int memconfig_dump(void)
 
     return 0;
 }
-
-/* ------------------------------------------------------------------------- */
 
 static io_source_t mem_config_device = {
     "MEMCONFIG",              /* name of the chip */
@@ -1377,6 +1560,8 @@ static io_source_t mem_config_device = {
     0,                        /* insertion order, gets filled in by the registration function */
     IO_MIRROR_NONE            /* NO mirroring */
 };
+
+/* ------------------------------------------------------------------------- */
 
 static io_source_t pio1_with_mirrors_device = {
     "PIO1",                /* name of the chip */

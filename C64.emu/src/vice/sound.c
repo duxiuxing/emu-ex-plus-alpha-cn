@@ -59,8 +59,16 @@
 #include "math.h"
 #include "ui.h"
 
+/* #define DEBUG_SOUND */
 
-static log_t sound_log = LOG_ERR;
+#ifdef DEBUG_SOUND
+#define DBG(x) log_printf x
+#else
+#define DBG(x)
+#endif
+
+
+log_t sound_log = LOG_DEFAULT;
 
 static void sounddev_close(const sound_device_t **dev);
 
@@ -124,8 +132,12 @@ static const sound_register_devices_t sound_register_devices[] = {
     { "dummy", "Dummy sound output (no sound)", sound_init_dummy_device, SOUND_PLAYBACK_DEVICE },
 
 #ifndef EMU_EX_PLATFORM
+    /* FIXME: the dump device (and part of the sound system) needs to be
+       rewritten somehow, so it can be used while actually playing sound, ie as
+       a record device */
+    { "dump", "Sound chip write recording", sound_init_dump_device, SOUND_PLAYBACK_DEVICE },
+
     { "fs", "Raw sound recording", sound_init_fs_device, SOUND_RECORD_DEVICE },
-    { "dump", "Sound chip state recording", sound_init_dump_device, SOUND_RECORD_DEVICE },
     { "wav", "RIFF/WAV sound recording", sound_init_wav_device, SOUND_RECORD_DEVICE },
     { "voc", "Creative Voice VOC sound recording", sound_init_voc_device, SOUND_RECORD_DEVICE },
     { "iff", "AmigaOS IFF/8SVX sound recording", sound_init_iff_device, SOUND_RECORD_DEVICE },
@@ -143,8 +155,8 @@ static const sound_register_devices_t sound_register_devices[] = {
 #ifdef USE_VORBIS
     { "ogg", "OGG sound recording", sound_init_vorbis_device, SOUND_RECORD_DEVICE },
 #endif
-
 #ifndef EMU_EX_PLATFORM
+    /* the driver used for recording sound when actually recording video+sound */
     { "soundmovie", "Movie sound recording", sound_init_movie_device, SOUND_MOVIE_RECORD_DEVICE },
 #endif
     { NULL, NULL, NULL, 0 }
@@ -463,6 +475,7 @@ static int sound_machine_calculate_samples(sound_t **psid, int16_t *pbuf, int nr
 #endif
 }
 
+/* perform the actual write to the sound chip */
 static void sound_machine_store(sound_t *psid, uint16_t addr, uint8_t val)
 {
     if (sound_calls[addr >> 5]->store) {
@@ -535,6 +548,7 @@ static int volume;
 static const int amp = 4096;
 static int fragment_size;
 static int output_option;
+static int sound_emulation_enabled_on_warp;
 
 /* divisors for fragment size calculation */
 static const int fragment_divisor[] = {
@@ -581,6 +595,14 @@ static int set_output_option(int val, void *param)
     return 0;
 }
 
+static int set_sound_emulation_enabled_on_warp(int value, void *param)
+{
+    int val = value ? 1 : 0;
+
+    sound_emulation_enabled_on_warp = val;
+    return 0;
+}
+
 static int set_playback_enabled(int value, void *param)
 {
     int val = value ? 1 : 0;
@@ -613,6 +635,7 @@ static int set_device_name(const char *val, void *param)
     } else {
         util_string_set(&device_name, val);
     }
+    DBG(("set_device_name device_name:'%s'", device_name));
     sound_state_changed = TRUE;
     return 0;
 }
@@ -714,11 +737,14 @@ static const resource_int_t resources_int[] = {
 #endif
     { "SoundOutput", ARCHDEP_SOUND_OUTPUT_MODE, RES_EVENT_NO, NULL,
       (void *)&output_option, set_output_option, NULL },
+    { "SoundEmulateOnWarp", 1, RES_EVENT_NO, NULL,
+      (void *)&sound_emulation_enabled_on_warp, set_sound_emulation_enabled_on_warp, NULL },
     RESOURCE_INT_LIST_END
 };
 
 int sound_resources_init(void)
 {
+    DBG(("sound_resources_init"));
     /* Set the first device in the list as default factory value. We do this
        here so the default value will not end up in the config file. */
     if (archdep_is_haiku() == 0) {
@@ -730,6 +756,7 @@ int sound_resources_init(void)
     if (resources_register_string(resources_string) < 0) {
         return -1;
     }
+    DBG(("sound_resources_init resources_string[0].factory_value:'%s'", resources_string[0].factory_value));
 
     return resources_register_int(resources_int);
 }
@@ -769,6 +796,9 @@ static const cmdline_option_t cmdline_options[] =
     { "-soundvolume", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "SoundVolume", NULL,
       "<Volume>", "Specify the sound volume (0..100)" },
+    { "-soundwarpmode", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
+      NULL, NULL, "SoundEmulateOnWarp", NULL,
+      "<mode>", "Specify how to handle sound emulation in warp mode: (0: do not emulate the sound chips, 1: keep emulating the sound chips)" },
     CMDLINE_LIST_END
 };
 
@@ -857,7 +887,7 @@ sound_desc_t *sound_get_valid_devices(int type, int sort)
 
     for (i = 0; sound_register_devices[i].name; ++i) {
         if (sound_register_devices[i].device_type == type) {
-               ++valid;
+            ++valid;
         }
     }
 
@@ -1302,7 +1332,7 @@ int sound_open(void)
 static void sounddev_close(const sound_device_t **dev)
 {
     if (*dev) {
-        log_message(sound_log, "Closing device `%s'", (*dev)->name);
+        log_verbose(sound_log, "Closing device `%s'", (*dev)->name);
         if ((*dev)->close) {
             (*dev)->close();
         }
@@ -1361,6 +1391,12 @@ static int sound_run_sound(void)
         if (i) {
             return i;
         }
+    }
+
+    /* if "disable sound emulation on warp" is enabled, exit */
+    if ((sound_emulation_enabled_on_warp == 0) && warp_mode_enabled) {
+        snddata.lastclk = maincpu_clk;
+        return 0;
     }
 
     /* Handling of cycle based sound engines. */
@@ -1445,7 +1481,6 @@ void sound_reset(void)
 bool sound_flush(void)
 {
     int c, i, nr, space;
-    char *state;
 
     /*
      * It's possible when changing settings via UI to end up
@@ -1503,8 +1538,24 @@ bool sound_flush(void)
     }
     sound_resume();
 
+#if 0
+    /* FIXME: This code does not make sense - whatever it is trying to do does
+              not work at all:
+       - ONLY the "dump" device even has a "flush" method registered
+       - this is called every frame, which makes the "dump" device flood the log
+         with useless data
+       - even if other drivers had a "flush" method, calling this complex string
+         constructing function every frame seems like a really bad idea.
+    */
     if (snddata.playdev->flush) {
+        char *state;
+        /* dumps the state of the sound emulator - this seems to be ReSID always -
+           into a string(!). This function usually is used for the monitor
+           io command */
         state = sound_machine_dump_state(snddata.psid[0]);
+        /* calls the "flush" method of the sound output driver with said string
+           as argument. the "dump" device would now output this string to the
+           sound log (vicesound.sid) */
         i = snddata.playdev->flush(state);
         lib_free(state);
         if (i) {
@@ -1512,6 +1563,7 @@ bool sound_flush(void)
             goto done;
         }
     }
+#endif
 
     /* Calculate the number of samples to flush - whole fragments. */
     nr = snddata.bufptr - snddata.bufptr % snddata.fragsize;
@@ -1693,8 +1745,13 @@ long sound_sample_position(void)
                         / snddata.clkstep);
 }
 
+/* dump the state of the sound chip to the monitor
+
+   NOTE: for some reason this function is only used for SID?
+ */
 int sound_dump(int chipno)
 {
+    DBG(("sound_dump chipno:%d", chipno));
     if (chipno >= snddata.sound_chip_channels) {
         return -1;
     }
@@ -1727,8 +1784,11 @@ void sound_store(uint16_t addr, uint8_t val, int chipno)
         return;
     }
 
+    /* perform the actual write to the sound chip */
     sound_machine_store(snddata.psid[chipno], addr, val);
 
+    /* now check if we have a "dump" method (which dumps the details of the
+       write access to a file), and if so, call it */
     if (!snddata.playdev->dump) {
         return;
     }

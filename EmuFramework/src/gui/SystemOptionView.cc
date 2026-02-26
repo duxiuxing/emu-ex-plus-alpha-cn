@@ -15,13 +15,9 @@
 
 #include <emuframework/SystemOptionView.hh>
 #include <emuframework/EmuApp.hh>
-#include <emuframework/EmuOptions.hh>
 #include <emuframework/viewUtils.hh>
 #include "CPUAffinityView.hh"
-#include <imagine/base/ApplicationContext.hh>
-#include <imagine/gui/TextTableView.hh>
-#include <imagine/fs/FS.hh>
-#include <format>
+import imagine;
 
 namespace EmuEx
 {
@@ -83,7 +79,7 @@ SystemOptionView::SystemOptionView(ViewAttachParams attach, bool customMenu):
 				t.resetString(std::format("{}", app().autosaveManager.saveTimer.frequency));
 				return true;
 			},
-			.defaultItemOnSelect = [this](TextMenuItem &item) { app().autosaveManager.saveTimer.frequency = IG::Minutes{item.id}; }
+			.defaultItemOnSelect = [this](TextMenuItem &item) { app().autosaveManager.saveTimer.frequency = Minutes{item.id}; }
 		},
 	},
 	autosaveLaunchItem
@@ -297,7 +293,11 @@ SystemOptionView::SystemOptionView(ViewAttachParams attach, bool customMenu):
 				t.resetString(std::format("{}", app().rewindManager.maxStates));
 				return true;
 			},
-			.defaultItemOnSelect = [this](TextMenuItem &item) { app().rewindManager.updateMaxStates(item.id); }
+			.defaultItemOnSelect = [this](TextMenuItem &item)
+			{
+				app().rewindManager.updateMaxStates(item.id);
+				app().defaultVController().updateEnabledUIButtons();
+			}
 		},
 	},
 	rewindTimeInterval

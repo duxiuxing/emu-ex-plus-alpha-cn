@@ -45,7 +45,7 @@
 #include "via.h"
 
 #ifdef C64PAR_DEBUG
-#define DBG(x)  log_debug x
+#define DBG(x) log_printf  x
 #else
 #define DBG(x)
 #endif
@@ -65,6 +65,40 @@ VIA#1   User port plug
 
 18, CB1     8, PC2      <- this one is NOT connected on the "21sec Backup" cable!
 39, CA2     B, FLAG2
+
+
+"Data Becker Floppy Express" cable
+
+VIA#1   User port plug
+ 2, PA0     C, PB0
+ 3, PA1     D, PB1
+ 4, PA2     E, PB2
+ 5, PA3     F, PB3
+ 6, PA4     H, PB4
+ 7, PA5     J, PB5
+ 8, PA6     K, PB6
+ 9, PA7     L, PB7
+
+39, CA2     B, FLAG2
+???         M, PA2      <- connects to extra logic on the floppy board
+
+
+
+Professional DOS 1571 cable
+
+CIA#1   User port plug
+10, PB0     C, PB0
+11, PB1     D, PB1
+12, PB2     E, PB2
+13, PB3     F, PB3
+14, PB4     H, PB4
+15, PB5     J, PB5
+16, PB6     K, PB6
+17, PB7     L, PB7
+
+18, /PC     B, FLAG2
+
+            8, /PC2  - pulled up via 2k7 to VCC (2)
 */
 
 #define PC_PORT_STANDARD        0
@@ -280,7 +314,6 @@ void parallel_cable_cpu_pulse(int type)
                         unit->type == DRIVE_TYPE_1571CR) {
                         ciacore_set_flag(unit->cia1571);
                     } else {
-                        /* FIXME: don't do this for the 21.sec cable */
                         viacore_signal(unit->via1d1541, VIA_SIG_CB1, VIA_SIG_FALL);
                     }
                     break;

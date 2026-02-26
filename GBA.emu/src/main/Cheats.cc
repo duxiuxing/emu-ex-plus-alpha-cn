@@ -13,28 +13,15 @@
 	You should have received a copy of the GNU General Public License
 	along with GBA.emu.  If not, see <http://www.gnu.org/licenses/> */
 
-#include <emuframework/Cheats.hh>
-#include <emuframework/EmuApp.hh>
-#include <emuframework/viewUtils.hh>
-#include "EmuCheatViews.hh"
-#include "MainSystem.hh"
+module;
 #include "GBASys.hh"
-#include <imagine/fs/FS.hh>
-#include <imagine/gui/TextEntry.hh>
-#include <imagine/gui/AlertView.hh>
-#include <imagine/util/string.h>
-#include <imagine/util/format.hh>
-#include <imagine/logger/logger.h>
 #include <core/gba/gbaCheats.h>
 #include <core/gba/gba.h>
 
-void cheatsEnable(CheatsData&);
-void cheatsDisable(ARM7TDMI&, CheatsData&);
+module system;
 
 namespace EmuEx
 {
-
-constexpr SystemLogger log{"GBA.emu"};
 
 static auto matchingCheats(std::string_view name)
 {
@@ -52,13 +39,6 @@ static bool deleteOneCheat(std::string_view name)
 		}
 	}
 	return false;
-}
-
-static auto cheatInputString(bool isGSv3)
-{
-	return isGSv3
-		? UI_TEXT("请输入 xxxxxxxx yyyyyyyy")
-		: UI_TEXT("请输入 GS 码 (xxxxxxxx yyyyyyyy) 或 AR 码 (xxxxxxxx yyyy)");
 }
 
 static CheatsData& sortCheat(auto& cheatsList, const CheatsData& cheat)
@@ -83,10 +63,10 @@ static CheatsData& sortLastCheat()
 
 static CheatsData* addCode(EmuApp& app, const char* code, const char* name, bool isGSv3)
 {
-	auto tempStr{IG::toUpperCase(code)};
+	auto tempStr{toUpperCase(code)};
 	if(tempStr.size() == 17 && tempStr[8] == ' ')
 	{
-		log.info("removing middle space in text");
+		GbaSystem::log.info("removing middle space in text");
 		tempStr.erase(tempStr.begin() + 8);
 	}
 	if(isGSv3 ?
@@ -94,7 +74,7 @@ static CheatsData* addCode(EmuApp& app, const char* code, const char* name, bool
 		((tempStr.size() == 16 && cheatsAddGSACode(gGba.cpu, tempStr.data(), name, false))
 		|| cheatsAddCBACode(gGba.cpu, tempStr.data(), name)))
 	{
-		log.info("added new cheat, {} total", cheatsList.size());
+		GbaSystem::log.info("added new cheat, {} total", cheatsList.size());
 	}
 	else
 	{
@@ -255,93 +235,5 @@ void GbaSystem::writeCheatFile()
 	}
 	cheatsSaveCheatList(ctx, filename.data());
 }
-
-EditCheatView::EditCheatView(ViewAttachParams attach, Cheat& cheat, BaseEditCheatsView& editCheatsView):
-	BaseEditCheatView
-	{
-		UI_TEXT("编辑金手指"),
-		attach,
-		cheat,
-		editCheatsView,
-		items
-	},
-	addGS12CBCode
-	{
-		UI_TEXT("添加另一个 GS v1-2/CB 码"),
-		attach,
-		[this](const Input::Event& e) { addNewCheatCode(cheatInputString(false), e, 0); }
-	},
-	addGS3Code
-	{
-		UI_TEXT("添加另一个 GS v3 码"),
-		attach,
-		[this](const Input::Event& e) { addNewCheatCode(cheatInputString(true), e, 1); }
-	}
-{
-	loadItems();
-}
-
-void EditCheatView::loadItems()
-{
-	codes.clear();
-	system().forEachCheatCode(*cheatPtr, [this](CheatCode& c, std::string_view code)
-	{
-		codes.emplace_back(
-			UI_TEXT("金手指代码"),
-			c.codestring, attachParams(),
-			[this, &c](const Input::Event& e)
-			{
-				pushAndShowModal(makeView<YesNoAlertView>(
-					UI_TEXT("是否要删除这个代码？"),
-					YesNoAlertView::Delegates{.onYes = [this, &c]{ removeCheatCode(c); }}), e);
-			}
-		);
-		return true;
-	});
-	items.clear();
-	items.emplace_back(&name);
-	for(auto& c: codes)
-	{
-		items.emplace_back(&c);
-	}
-	items.emplace_back(&addGS12CBCode);
-	items.emplace_back(&addGS3Code);
-	items.emplace_back(&remove);
-}
-
-EditCheatsView::EditCheatsView(ViewAttachParams attach, CheatsView& cheatsView):
-	BaseEditCheatsView
-	{
-		attach,
-		cheatsView,
-		[this](ItemMessage msg) -> ItemReply
-		{
-			return msg.visit(overloaded
-			{
-				[&](const ItemsMessage &m) -> ItemReply { return 2 + cheats.size(); },
-				[&](const GetItemMessage &m) -> ItemReply
-				{
-					switch(m.idx)
-					{
-						case 0: return &addGS12CBCode;
-						case 1: return &addGS3Code;
-						default: return &cheats[m.idx - 2];
-					}
-				},
-			});
-		}
-	},
-	addGS12CBCode
-	{
-		UI_TEXT("添加 GS v1-2/CB 码"),
-		attach,
-		[this](const Input::Event& e) { addNewCheat(cheatInputString(false), e, 0); }
-	},
-	addGS3Code
-	{
-		UI_TEXT("添加 GS v3 码"),
-		attach,
-		[this](const Input::Event& e) { addNewCheat(cheatInputString(true), e, 1); }
-	} {}
 
 }

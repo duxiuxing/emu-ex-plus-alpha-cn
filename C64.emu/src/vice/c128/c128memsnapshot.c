@@ -51,7 +51,7 @@
 #include "c64acia.h"
 #endif
 
-static log_t c128_snapshot_log = LOG_ERR;
+static log_t c128_snapshot_log = LOG_DEFAULT;
 
 static char snap_rom_module_name[] = "C128ROM";
 #define SNAP_ROM_MAJOR 0
@@ -102,7 +102,7 @@ static void get_trapflags(void)
 {
     int i;
     for(i = 0; trapdevices[i] != -1; i++) {
-        resources_get_int_sprintf("VirtualDevice%d", &trapfl[i], trapdevices[i]);
+        resources_get_int_sprintf("TrapDevice%d", &trapfl[i], trapdevices[i]);
     }
 }
 
@@ -110,7 +110,7 @@ static void clear_trapflags(void)
 {
     int i;
     for(i = 0; trapdevices[i] != -1; i++) {
-        resources_set_int_sprintf("VirtualDevice%d", 0, trapdevices[i]);
+        resources_set_int_sprintf("TrapDevice%d", 0, trapdevices[i]);
     }
 }
 
@@ -118,7 +118,7 @@ static void restore_trapflags(void)
 {
     int i;
     for(i = 0; trapdevices[i] != -1; i++) {
-        resources_set_int_sprintf("VirtualDevice%d", trapfl[i], trapdevices[i]);
+        resources_set_int_sprintf("TrapDevice%d", trapfl[i], trapdevices[i]);
     }
 }
 

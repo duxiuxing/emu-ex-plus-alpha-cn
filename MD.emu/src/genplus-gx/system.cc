@@ -21,22 +21,21 @@
  *
  ****************************************************************************************/
 
-#include <imagine/util/algorithm.h>
-#include <emuframework/EmuApp.hh>
 #include "shared.h"
 #include "vdp_render.h"
 #include "Fir_Resampler.h"
 #include "eq.h"
-#include "assert.h"
 
 #ifndef NO_SCD
 #include <scd/scd.h>
 #include <scd/pcm.h>
 #endif
 
+import emuex;
+
 /* Global variables */
 //t_bitmap bitmap;
-t_snd snd{44100, 1};
+t_snd snd{};
 uint32 mcycles_vdp;
 //uint32 Z80.cycleCount;
 //uint32 mcycles_68k;
@@ -51,6 +50,7 @@ static void system_frame_sms(EmuEx::EmuSystemTaskContext, EmuEx::EmuVideo *);
 static int pause_b;
 static EQSTATE eq;
 static int32 llp,rrp;
+constexpr size_t maxAudioFrames = 48000 / EmuEx::AppMeta::minFrameRate;
 
 /****************************************************************
  * Audio subsystem
@@ -70,7 +70,7 @@ int audio_init (int samplerate, float framerate)
   snd.cddaRatio = 44100./snd.sample_rate;
 
   /* Calculate the sound buffer size (for one frame) */
-  snd.buffer_size = (int)(samplerate / framerate) + 32;
+  snd.buffer_size = (int)(maxAudioFrames) + 32;
 
   /* SN76489 stream buffers */
   snd.psg.buffer = (int16 *) malloc(snd.buffer_size * sizeof(int16));
@@ -79,10 +79,6 @@ int audio_init (int samplerate, float framerate)
   /* YM2612 stream buffers */
   snd.fm.buffer = (FMSampleType*) malloc(snd.buffer_size * sizeof(FMSampleType) * 2);
   if (!snd.fm.buffer) return (-1);
-
-	#ifndef NO_SCD
-		scd_pcm_setRate(samplerate);
-	#endif
 
   /* Resampling buffer */
   if (config_hq_fm && !Fir_Resampler_initialize(4096)) return (-1);
@@ -94,6 +90,13 @@ int audio_init (int samplerate, float framerate)
   audio_reset();
 
   return (0);
+}
+
+void audio_set_rate(int samplerate, float framerate)
+{
+  snd.sample_rate = samplerate;
+  snd.frame_rate  = framerate;
+  snd.cddaRatio = 44100./snd.sample_rate;
 }
 
 void audio_reset(void)
@@ -128,9 +131,14 @@ void audio_shutdown(void)
   /* Sound buffers */
   if (snd.fm.buffer) free(snd.fm.buffer);
   if (snd.psg.buffer) free(snd.psg.buffer);
+  snd.fm.buffer = nullptr;
+  snd.psg.buffer = nullptr;
 
   /* Resampling buffer */
   Fir_Resampler_shutdown();
+
+  snd.sample_rate = 0;
+  snd.frame_rate  = 0;
 }
 
 template <bool hasSegaCD>
@@ -214,7 +222,7 @@ int audioUpdateAll(int16 *sb)
   error("%d PSG samples remaining\n",snd.psg.pos - snd.psg.buffer);
 #endif
 
-  assert(size < snd.buffer_size);
+  IG::assume(size < snd.buffer_size);
   /* mix samples */
   for (i = 0; i < size; i ++)
   {

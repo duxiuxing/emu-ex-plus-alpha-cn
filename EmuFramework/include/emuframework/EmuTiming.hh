@@ -15,35 +15,55 @@
 	You should have received a copy of the GNU General Public License
 	along with EmuFramework.  If not, see <http://www.gnu.org/licenses/> */
 
+#include <emuframework/defs.hh>
+#ifdef IG_USE_MODULES
+import imagine;
+import std;
+#else
 #include <imagine/time/Time.hh>
+#include <imagine/util/used.hh>
+#endif
 
 namespace EmuEx
 {
 
 using namespace IG;
 
-struct EmuFrameTimeInfo
+struct EmuFrameTimingInfo
 {
 	int advanced{};
-	SteadyClockTime frameTimeDiff{};
+	SteadyClockDuration duration{};
+};
+
+enum class FrameTimingStatEvent
+{
+	startOfFrame,
+	startOfEmulation,
+	waitForPresent,
+	endOfFrame,
+};
+
+struct FrameTimingStats
+{
+	SteadyClockTimePoint startOfFrame{};
+	ConditionalMember<enableFullFrameTimingStats, SteadyClockTimePoint> startOfEmulation{};
+	ConditionalMember<enableFullFrameTimingStats, SteadyClockTimePoint> waitForPresent{};
+	SteadyClockTimePoint endOfFrame{};
+	ConditionalMember<enableFullFrameTimingStats, int> missedFrameCallbacks{};
 };
 
 class EmuTiming
 {
 public:
-	EmuFrameTimeInfo advanceFrames(FrameParams);
-	void setFrameTime(SteadyClockTime time);
-	void reset();
-	SteadyClockTimePoint lastFrameTimestamp() const { return lastFrameTimestamp_; }
-
-protected:
-	SteadyClockTime timePerVideoFrame{};
+	SteadyClockDuration videoFrameDuration{};
 	SteadyClockTimePoint startFrameTime{};
-	SteadyClockTimePoint lastFrameTimestamp_{};
-	int64_t lastFrame{};
-	int8_t savedAdvancedFrames{};
-public:
-	int8_t exactFrameDivisor{};
+	std::int64_t lastFrame{};
+	std::int8_t savedAdvancedFrames{};
+	std::int8_t exactFrameDivisor{};
+
+	EmuFrameTimingInfo advanceFrames(FrameParams);
+	void setFrameDuration(SteadyClockDuration);
+	void reset();
 };
 
 }

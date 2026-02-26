@@ -23,7 +23,9 @@
 #include <imagine/util/DelegateFuncSet.hh>
 #include <imagine/util/Point2D.hh>
 #include <imagine/util/used.hh>
+#ifndef IG_USE_MODULE_STD
 #include <memory>
+#endif
 
 namespace IG
 {
@@ -59,6 +61,7 @@ protected:
 
 	OnExit onExit;
 	DelegateFuncSet<OnFrameDelegate> onFrame;
+	SteadyClockTimePoint lastFrameTime{};
 	std::shared_ptr<void> appDataPtr;
 	std::shared_ptr<void> rendererDataPtr;
 	ConditionalMember<Config::BASE_MULTI_SCREEN, Screen*> screen_{};
@@ -71,7 +74,7 @@ protected:
 	ConditionalMember<Config::envIsAndroid, F2Size> smmToPixelScaler{};
 	bool drawNeeded{};
 	DrawPhase drawPhase{DrawPhase::READY};
-	int8_t drawEventPriority_{};
+	bool drawEventEnabled{true};
 	// all windows need an initial onSurfaceChange call
 	WindowSurfaceChangeFlags surfaceChangeFlags{.surfaceResized = true, .contentRectResized = true};
 	ConditionalMemberOr<!Config::SYSTEM_ROTATES_WINDOWS, Rotation, Rotation::UP> softOrientation_{Rotation::UP};

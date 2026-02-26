@@ -13,29 +13,28 @@
 	You should have received a copy of the GNU General Public License
 	along with Saturn.emu.  If not, see <http://www.gnu.org/licenses/> */
 
-#include <emuframework/EmuViewController.hh>
-#include <emuframework/SystemOptionView.hh>
-#include <emuframework/AudioOptionView.hh>
-#include <emuframework/VideoOptionView.hh>
-#include <emuframework/FilePathOptionView.hh>
-#include <emuframework/DataPathSelectView.hh>
-#include <emuframework/SystemActionsView.hh>
-#include <emuframework/EmuInput.hh>
-#include <mednafen-emuex/MDFNUtils.hh>
-#include "MainApp.hh"
-#include <imagine/fs/FS.hh>
-#include <imagine/gui/AlertView.hh>
-#include <imagine/util/format.hh>
+#include <mednafen/types.h>
+#include <mednafen/Stream.h>
+#include <ss/ss.h>
 #include <ss/cart.h>
-#include <imagine/logger/logger.h>
+#include <ss/smpc.h>
+#include "mdfnDefs.hh"
+import system;
+import emuex;
+import imagine;
+import std;
+
+#ifndef UI_TEXT_IMPL
+	#define UI_TEXT_IMPL
+	#define UI_TEXT(x)	x
+#endif
 
 namespace EmuEx
 {
 
-using MainAppHelper = EmuAppHelperBase<MainApp>;
+using namespace IG;
 using namespace MDFN_IEN_SS;
-
-constexpr SystemLogger log{"Saturn.emu"};
+using MainAppHelper = EmuAppHelperBase<MainApp>;
 
 static bool hasBIOSExtension(std::string_view name)
 {
@@ -58,7 +57,7 @@ class CustomFilePathOptionView : public FilePathOptionView, public MainAppHelper
 				[this](CStringView path, FS::file_type type)
 				{
 					system().naBiosPath = path;
-					log.info("set bios:{}", system().naBiosPath);
+					SaturnSystem::log.info("set bios:{}", system().naBiosPath);
 					naBiosPath.compile(naBiosMenuEntryStr(path));
 					return true;
 				}, hasBIOSExtension), e);
@@ -83,7 +82,7 @@ class CustomFilePathOptionView : public FilePathOptionView, public MainAppHelper
 				[this](CStringView path, FS::file_type type)
 				{
 					system().jpBiosPath = path;
-					log.info("set bios:{}", system().jpBiosPath);
+					SaturnSystem::log.info("set bios:{}", system().jpBiosPath);
 					jpBiosPath.compile(jpBiosMenuEntryStr(path));
 					return true;
 				}, hasBIOSExtension), e);
@@ -103,12 +102,12 @@ class CustomFilePathOptionView : public FilePathOptionView, public MainAppHelper
 		[this](Input::Event e)
 		{
 			pushAndShow(makeViewWithName<DataFileSelectView<ArchivePathSelectMode::exclude>>(
-				UI_TEXT("格斗之王 '95 ROM"),
+				UI_TEXT("拳皇95 ROM"),
 				app().validSearchPath(FS::dirnameUri(system().kof95ROMPath)),
 				[this](CStringView path, FS::file_type type)
 				{
 					system().kof95ROMPath = path;
-					log.info("set bios:{}", system().kof95ROMPath);
+					SaturnSystem::log.info("set bios:{}", system().kof95ROMPath);
 					kof95ROMPath.compile(kof95MenuEntryStr(path));
 					return true;
 				}, hasBIOSExtension), e);
@@ -118,7 +117,7 @@ class CustomFilePathOptionView : public FilePathOptionView, public MainAppHelper
 	std::string kof95MenuEntryStr(std::string_view path) const
 	{
 		return std::format(
-			UI_TEXT("格斗之王 '95 ROM 文件：{}"),
+			UI_TEXT("拳皇95 ROM 文件：{}"),
 			appContext().fileUriDisplayName(path));
 	}
 
@@ -133,7 +132,7 @@ class CustomFilePathOptionView : public FilePathOptionView, public MainAppHelper
 				[this](CStringView path, FS::file_type type)
 				{
 					system().ultramanROMPath = path;
-					log.info("set bios:{}", system().ultramanROMPath);
+					SaturnSystem::log.info("set bios:{}", system().ultramanROMPath);
 					ultramanROMPath.compile(ultramanMenuEntryStr(path));
 					return true;
 				}, hasBIOSExtension), e);
@@ -173,7 +172,7 @@ constexpr auto cartTypeToString(int t)
 		case CART_CS1RAM_16M:
 			return UI_TEXT("16M CS1 RAM");
 		case CART_KOF95:
-			return UI_TEXT("格斗之王 '95");
+			return UI_TEXT("拳皇95");
 		case CART_ULTRAMAN:
 			return UI_TEXT("奥特曼");
 	}
@@ -598,7 +597,7 @@ public:
 						attachParams(), setDiscDel(), {.id = -1}
 					};
 				const char *numStrings[] {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14" , "15", "16"};
-				for(auto i : iotaCount(system.CDInterfaces.size()))
+				for(auto i: iotaCount(system.CDInterfaces.size()))
 				{
 					discItems[i + 1] = {numStrings[i], attachParams(), setDiscDel(), {.id = i}};
 				}

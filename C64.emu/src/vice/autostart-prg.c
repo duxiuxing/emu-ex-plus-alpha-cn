@@ -49,7 +49,7 @@
 #include "drive.h"
 
 #ifdef DEBUG_AUTOSTART
-#define DBG(_x_)        log_debug _x_
+#define DBG(_x_) log_printf  _x_
 #else
 #define DBG(_x_)
 #endif
@@ -168,7 +168,6 @@ int autostart_prg_with_virtual_fs(int unit, int drive, const char *file_name,
     DBG(("autostart_prg_with_virtual_fs (directory:%s)", directory));
 
     /* Setup FS-based drive emulation.  */
-    /* resources_set_int("VirtualDevices", 1); FIXME: not restored */
     resources_set_int_sprintf("FSDevice%dConvertP00", 1, unit);
     file_system_detach_disk(unit, drive);              /* FIXME: not restored */
     resources_set_int_sprintf("FileSystemDevice%d", ATTACH_DEVICE_FS, unit);

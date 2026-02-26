@@ -39,12 +39,14 @@
 #include "cx85.h"
 #include "inception.h"
 #include "joyport.h"
+#include "joyport_diag_586220_harness.h"
 #include "joyport_io_sim.h"
 #include "joystick.h"
 #include "lib.h"
 #include "lightpen.h"
 #include "log.h"
 #include "machine.h"
+#include "maincpu.h"
 #include "mouse_1351.h"
 #include "mouse_neos.h"
 #include "mouse_paddle.h"
@@ -55,6 +57,7 @@
 #include "paperclip64.h"
 #include "paperclip64e.h"
 #include "paperclip64sc.h"
+#include "powerpad.h"
 #include "protopad.h"
 #include "resources.h"
 #include "rushware_keypad.h"
@@ -63,13 +66,14 @@
 #include "script64_dongle.h"
 #include "spaceballs.h"
 #include "trapthem_snespad.h"
+#include "types.h"
 #include "uiapi.h"
 #include "util.h"
 #include "vizawrite64_dongle.h"
 #include "waasoft_dongle.h"
 
 #ifdef DEBUG_JOYPORT
-#define DBG(x) printf x
+#define DBG(x) log_printf x
 #else
 #define DBG(x)
 #endif
@@ -80,6 +84,7 @@ static uint16_t joyport_display[JOYPORT_MAX_PORTS + 1];
 static int joy_port[JOYPORT_MAX_PORTS];
 static joyport_port_props_t port_props[JOYPORT_MAX_PORTS];
 static int pot_port_mask = 1;
+static CLOCK pot_port_mask_clk = 0; /* time when the mask changed */
 
 static uint8_t joyport_dig_stored[JOYPORT_MAX_PORTS];
 
@@ -114,11 +119,21 @@ static const char *res2text(int joyport_id)
     return retval;
 }
 
+/* setup which port(s) are selected, ie the upper 2 bits of $dc00 on C64 */
 void set_joyport_pot_mask(int mask)
 {
+    if (pot_port_mask != mask) {
+        pot_port_mask_clk = maincpu_clk;
+    }
     pot_port_mask = mask;
 }
 
+CLOCK get_joyport_pot_mask_clk(void)
+{
+    return pot_port_mask_clk;
+}
+
+/* FIXME: isn't this info in the registered device struct? */
 static int joyport_device_is_single_port(int id)
 {
     switch (id) {
@@ -136,6 +151,7 @@ static int joyport_device_is_single_port(int id)
         case JOYPORT_ID_PROTOPAD:
         case JOYPORT_ID_PADDLES:
         case JOYPORT_ID_IO_SIMULATION:
+        case JOYPORT_ID_DIAG_586220_HARNESS:
             return 0;
     }
     return 1;
@@ -310,6 +326,40 @@ static void find_pot_ports(void)
     }
 }
 
+/* returns JOYPORT_POT_TYPE_DIGITAL if one of the selected POTs is a digital
+   (1351 style) device. we need this to correctly emulate the dither produced
+   when sampling the POTs */
+int get_joyport_pot_type(void)
+{
+    /* first find the pot ports if needed */
+    if (pot_port1 == -1 || pot_port2 == -1) {
+        find_pot_ports();
+    }
+
+    if (pot_port_mask == 1 || pot_port_mask == 3) {
+        if (pot_port1 != -2) {
+            switch (joy_port[pot_port1]) {
+                case JOYPORT_ID_MOUSE_1351:
+                case JOYPORT_ID_MOUSE_SMART:
+                case JOYPORT_ID_MOUSE_MICROMYS:
+                    return JOYPORT_POT_TYPE_DIGITAL;
+            }
+        }
+    }
+
+    if (pot_port_mask == 2 || pot_port_mask == 3) {
+        if (pot_port2 != -2) {
+            switch (joy_port[pot_port2]) {
+                case JOYPORT_ID_MOUSE_1351:
+                case JOYPORT_ID_MOUSE_SMART:
+                case JOYPORT_ID_MOUSE_MICROMYS:
+                    return JOYPORT_POT_TYPE_DIGITAL;
+            }
+        }
+    }
+    return JOYPORT_POT_TYPE_ANALOG;
+}
+
 /* calculate the paddle value that will show in the registers when both
    ports are selected at the same time */
 static uint8_t calc_parallel_paddle_value(uint8_t t1, uint8_t t2)
@@ -382,7 +432,7 @@ uint8_t read_joyport_potx(void)
         }
     }
 
-    DBG(("read_joyport_potx id: %d %d ret: %d %d\n", id1, id2, ret1, ret2));
+    DBG(("read_joyport_potx id: %d %d ret: %d %d", id1, id2, ret1, ret2));
 
     switch (pot_port_mask) {
         case 1:
@@ -790,10 +840,10 @@ void joyport_display_joyport(int port, int id, uint16_t status)
         if (id == joy_port[port]) {
             joyport_display[port + 1] = status;
         } else {
-            log_error(LOG_DEFAULT, "joyport_display_joyport: device with id '%d' not in port '%d'\n", id, port);
+            log_error(LOG_DEFAULT, "joyport_display_joyport: device with id '%d' not in port '%d'", id, port);
         }
     } else {
-        log_error(LOG_DEFAULT, "joyport_display_joyport: invalid port '%d'\n", port);
+        log_error(LOG_DEFAULT, "joyport_display_joyport: invalid port '%d'", port);
     }
 
     ui_display_joyport(joyport_display);
@@ -1180,6 +1230,12 @@ static joyport_init_t joyport_devices_init[] = {
       NULL,                            /* resources shutdown function */
       NULL                             /* cmdline options init function */
     },
+    { JOYPORT_ID_POWERPAD,             /* device id */
+      VICE_MACHINE_NATIVE_5V_JOYPORTS, /* emulators this device works on */
+      powerpad_register,               /* resources init function */
+      NULL,                            /* resources shutdown function */
+      NULL                             /* cmdline options init function */
+    },
 #ifdef HAVE_LIGHTPEN
     { JOYPORT_ID_LIGHTPEN_U,       /* device id */
       VICE_MACHINE_LIGHTPEN,       /* emulators this device works on */
@@ -1365,6 +1421,14 @@ static joyport_init_t joyport_devices_init[] = {
       NULL,                              /* resources shutdown function */
       NULL                               /* cmdline options init function */
     },
+#ifdef JOYPORT_EXPERIMENTAL_DEVICES
+    { JOYPORT_ID_DIAG_586220_HARNESS,             /* device id */
+      VICE_MACHINE_C64_COMPATIBLE,                /* emulators this device works on */
+      joyport_diag_586220_harness_resources_init, /* resources init function */
+      NULL,                                       /* resources shutdown function */
+      NULL                                        /* cmdline options init function */
+    },
+#endif
     { JOYPORT_ID_NONE, VICE_MACHINE_NONE, NULL, NULL, NULL },   /* end of the devices list */
 };
 
@@ -1693,7 +1757,7 @@ static int set_joyport_cmdline_device(const char *param, void *extra_param)
         temp = atoi(param);
     }
 
-    return set_joyport_device(temp, int_to_void_ptr(port));
+    return set_joyport_device(temp, vice_int_to_ptr(port));
 }
 
 /* ------------------------------------------------------------------------- */

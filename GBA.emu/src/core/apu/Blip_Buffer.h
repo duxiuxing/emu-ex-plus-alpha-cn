@@ -122,6 +122,7 @@ class Blip_Buffer
                 return t * factor_ + offset_;
         }
         blip_resampled_time_t clock_rate_factor(long clock_rate) const;
+
         public:
         Blip_Buffer();
         ~Blip_Buffer();
@@ -457,6 +458,8 @@ struct blip_buffer_state_t {
 #include <assert.h>
 #endif
 
+template<bool B, typename F> inline void static_if(F f) { if (B) f(); }
+
 template <int quality, int range>
 inline void Blip_Synth<quality, range>::offset_resampled(blip_resampled_time_t time, int delta,
                                                          Blip_Buffer *blip_buf) const
@@ -508,19 +511,23 @@ inline void Blip_Synth<quality, range>::offset_resampled(blip_resampled_time_t t
         }
 
         BLIP_FWD(0)
-        if constexpr (quality > 8)
+        static_if<(quality > 8)>([&]{
                 BLIP_FWD(2)
-        if constexpr (quality > 12)
+        });
+        static_if<(quality > 12)>([&]{
                 BLIP_FWD(4)
+        });
                 {
                         ADD_IMP(fwd + mid - 1, mid - 1);
                         ADD_IMP(fwd + mid, mid);
                         imp = impulses + phase;
                 }
-        if constexpr (quality > 12)
+        static_if<(quality > 12)>([&]{
                 BLIP_REV(6)
-        if constexpr (quality > 8)
+        });
+        static_if<(quality > 8)>([&]{
                 BLIP_REV(4)
+        });
         BLIP_REV(2)
 
         ADD_IMP(rev, 1);
@@ -551,10 +558,12 @@ inline void Blip_Synth<quality, range>::offset_resampled(blip_resampled_time_t t
 
         blip_long i0 = *imp;
         BLIP_FWD(0)
-        if (quality > 8)
+        static_if<(quality > 8)>([&]{
                 BLIP_FWD(2)
-        if (quality > 12)
+        });
+        static_if<(quality > 12)>([&]{
                 BLIP_FWD(4)
+        });
                 {
                         blip_long t0 = i0 * delta + buf[fwd + mid - 1];
                         blip_long t1 = imp[blip_res * mid] * delta + buf[fwd + mid];
@@ -563,10 +572,12 @@ inline void Blip_Synth<quality, range>::offset_resampled(blip_resampled_time_t t
                         buf[fwd + mid - 1] = t0;
                         buf[fwd + mid] = t1;
                 }
-        if (quality > 12)
+        static_if<(quality > 12)>([&]{
                 BLIP_REV(6)
-        if (quality > 8)
+        });
+        static_if<(quality > 8)>([&]{
                 BLIP_REV(4)
+        });
         BLIP_REV(2)
 
         blip_long t0 = i0 * delta + buf[rev];

@@ -48,6 +48,8 @@ static struct model_s model_match[] = {
     { "v3pal", DTVMODEL_V3_PAL },
     { "v3ntsc", DTVMODEL_V3_NTSC },
     { "hummer", DTVMODEL_HUMMER_NTSC },
+    { "hummerpal", DTVMODEL_HUMMER_PAL },
+    { "hummerntsc", DTVMODEL_HUMMER_NTSC },
     { NULL, DTVMODEL_UNKNOWN }
 };
 
@@ -84,14 +86,6 @@ static const cmdline_option_t cmdline_options[] =
     { "-ntsc", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "MachineVideoStandard", (void *)MACHINE_SYNC_NTSC,
       NULL, "Use NTSC sync factor" },
-#if 0
-    { "-power50", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
-      NULL, NULL, "MachinePowerFrequency", (void *)50,
-      NULL, "Use 50Hz Power-grid frequency" },
-    { "-power60", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
-      NULL, NULL, "MachinePowerFrequency", (void *)60,
-      NULL, "Use 60Hz Power-grid frequency" },
-#endif
     { "-kernal", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "KernalName", NULL,
       "<Name>", "Specify name of Kernal ROM image" },
@@ -103,13 +97,7 @@ static const cmdline_option_t cmdline_options[] =
       "<Name>", "Specify name of character generator ROM image" },
     { "-model", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
       set_dtv_model, NULL, NULL, NULL,
-      "<Model>", "Set DTV model (v2/v2pal/v2ntsc, v3/v3pal/v3ntsc, hummer)" },
-    { "-hummeradc", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
-      NULL, NULL, "HummerADC", (void *)1,
-      NULL, "Enable Hummer ADC" },
-    { "+hummeradc", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
-      NULL, NULL, "HummerADC", (void *)0,
-      NULL, "Disable Hummer ADC" },
+      "<Model>", "Set DTV model (v2/v2pal/v2ntsc, v3/v3pal/v3ntsc, hummer/hummerpal/hummerntsc)" },
     CMDLINE_LIST_END
 };
 

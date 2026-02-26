@@ -45,8 +45,9 @@
    658xx: 65802/65816
    6x09: 6809/6309
 
-   These values are used in the binary monitor API, so it
-   is important that they remain consistent.
+   CAUTION: These values are used in the binary monitor API, so it is important
+   that they remain consistent (and the order is not changed).
+   Also make sure this matches register_string[]
  */
 enum t_reg_id       {
     e_A            = 0x00, /* 65xx/c64dtv/658xx/6x09/z80 */
@@ -139,7 +140,8 @@ enum t_conditional {
 typedef enum t_conditional CONDITIONAL;
 
 enum t_radixtype {
-    e_default_radix,
+    e_text = -1,
+    e_default_radix = 0,
     e_hexadecimal,
     e_decimal,
     e_octal,
@@ -235,7 +237,15 @@ struct monitor_cpu_type_s;
 extern struct console_s *console_log;
 extern int sidefx;
 extern int break_on_dummy_access;
-extern int exit_mon;
+
+enum exit_mon {
+    exit_mon_no = 0,            /* Do not exit the monitor */
+    exit_mon_continue = 1,      /* Exit and continue normal program flow */
+    exit_mon_change_flow = 2,   /* Exit with changed program flow */
+    exit_mon_quit_vice = 3      /* Exit monitor and even the whole VICE */
+};
+
+extern enum exit_mon exit_mon;
 
 extern RADIXTYPE default_radix;
 extern MEMSPACE default_memspace;
@@ -246,7 +256,6 @@ extern MON_ADDR dot_addr[NUM_MEMSPACES];
 extern const char * const mon_memspace_string[];
 extern int mon_stop_output;
 extern monitor_interface_t *mon_interfaces[NUM_MEMSPACES];
-extern bool force_array[NUM_MEMSPACES];
 extern unsigned char data_buf[256];
 extern unsigned char data_mask_buf[256];
 extern unsigned int data_buf_len;
@@ -269,6 +278,7 @@ void mon_show_pwd(void);
 void mon_make_dir(const char *path);
 void mon_remove_dir(const char *path);
 void mon_tape_ctrl(int port, int command);
+void mon_tape_offs(int port, int offset);
 void mon_display_screen(long addr);
 void mon_instructions_step(int count);
 void mon_instructions_next(int count);

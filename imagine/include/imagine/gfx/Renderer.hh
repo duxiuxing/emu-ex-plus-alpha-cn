@@ -24,9 +24,11 @@
 #include <imagine/gfx/opengl/GLRenderer.hh>
 #endif
 
+#ifndef IG_USE_MODULE_STD
 #include <vector>
 #include <span>
 #include <string_view>
+#endif
 
 namespace IG::Data
 {
@@ -113,7 +115,7 @@ public:
 
 	Texture makeTexture(TextureConfig);
 	Texture makeTexture(Data::PixmapSource, TextureSamplerConfig samplerConf = {}, bool makeMipmaps = true);
-	PixmapBufferTexture makePixmapBufferTexture(TextureConfig config, TextureBufferMode mode = {}, bool singleBuffer = false);
+	PixmapBufferTexture makePixmapBufferTexture(TextureConfig, TextureBufferMode = {}, TextureBufferImageMode = {});
 	std::vector<TextureBufferModeDesc> textureBufferModes();
 	TextureBufferMode evalTextureBufferMode(TextureBufferMode mode = {});
 	TextureBufferMode validateTextureBufferMode(TextureBufferMode);

@@ -16,12 +16,14 @@
 	along with Imagine.  If not, see <http://www.gnu.org/licenses/> */
 
 #include <imagine/util/bit.hh>
-#include <imagine/util/utility.h>
+#include <imagine/util/utility.hh>
+#ifndef IG_USE_MODULE_STD
 #include <concepts>
 #include <numbers>
 #include <cmath>
 #include <bit>
 #include <type_traits>
+#endif
 
 namespace IG
 {
@@ -135,13 +137,13 @@ constexpr auto makeEvenRoundedDown(std::integral auto x)
 template<std::integral T>
 constexpr bool isPowerOf2(T x)
 {
-	assumeExpr(x >= 0);
+	assume(x >= 0);
 	return std::has_single_bit(std::make_unsigned_t<T>(x));
 }
 
 constexpr auto alignRoundedUp(std::unsigned_integral auto addr, unsigned int align)
 {
-	assumeExpr(isPowerOf2(align));
+	assume(isPowerOf2(align));
 	return (addr+(align-1)) & ~(align-1);
 }
 
@@ -210,10 +212,9 @@ constexpr void setSizesWithRatioX(T &xSize, T &ySize, T2 aspectRatio, T x)
 	}
 }
 
-template <class T>
-constexpr bool valIsWithinStretch(T val, T val2, T stretch)
+constexpr bool isWithinThreshold(auto&& v1, auto&& v2, auto&& threshold)
 {
-	return val + stretch >= val2 && val - stretch <= val2;
+	return std::abs(v1 - v2) <= threshold;
 }
 
 template <class T>

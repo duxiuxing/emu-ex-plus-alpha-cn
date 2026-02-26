@@ -15,17 +15,16 @@
 
 #include <emuframework/EmuVideo.hh>
 #include <emuframework/EmuApp.hh>
-#include <imagine/gfx/Renderer.hh>
-#include <imagine/gfx/RendererTask.hh>
-#include <imagine/gfx/RendererCommands.hh>
-#include <imagine/logger/logger.h>
+import imagine;
 
 namespace EmuEx
 {
 
+using namespace IG;
+
 constexpr SystemLogger log{"EmuVideo"};
 
-void EmuVideo::resetImage(IG::PixelFormat newFmt)
+void EmuVideo::resetImage(PixelFormat newFmt)
 {
 	if(!vidImg)
 		return;
@@ -37,7 +36,7 @@ void EmuVideo::resetImage(IG::PixelFormat newFmt)
 	app().renderSystemFramebuffer(*this);
 }
 
-IG::PixmapDesc EmuVideo::deleteImage()
+PixmapDesc EmuVideo::deleteImage()
 {
 	auto desc = vidImg.pixmapDesc();
 	vidImg = {};
@@ -54,14 +53,14 @@ bool EmuVideo::hasRendererTask() const
 	return rTask;
 }
 
-static bool isValidRenderFormat(IG::PixelFormat fmt)
+static bool isValidRenderFormat(PixelFormat fmt)
 {
-	return fmt == IG::PixelFmtRGBA8888 ||
-		fmt == IG::PixelFmtBGRA8888 ||
-		fmt == IG::PixelFmtRGB565;
+	return fmt == PixelFmtRGBA8888 ||
+		fmt == PixelFmtBGRA8888 ||
+		fmt == PixelFmtRGB565;
 }
 
-bool EmuVideo::setFormat(IG::PixmapDesc desc, EmuSystemTaskContext taskCtx)
+bool EmuVideo::setFormat(PixmapDesc desc, EmuSystemTaskContext taskCtx)
 {
 	if(formatIsEqual(desc))
 	{
@@ -71,8 +70,7 @@ bool EmuVideo::setFormat(IG::PixmapDesc desc, EmuSystemTaskContext taskCtx)
 	{
 		Gfx::TextureConfig conf{desc, samplerConfig()};
 		conf.colorSpace = colSpace;
-		bool singleBuffer = renderer().maxSwapChainImages() < 3 || app().effectiveFrameTimeSource() != FrameTimeSource::Renderer;
-		vidImg = renderer().makePixmapBufferTexture(conf, bufferMode, singleBuffer);
+		vidImg = renderer().makePixmapBufferTexture(conf, bufferMode);
 	}
 	else
 	{
@@ -83,10 +81,6 @@ bool EmuVideo::setFormat(IG::PixmapDesc desc, EmuSystemTaskContext taskCtx)
 	{
 		taskCtx.task().sendVideoFormatChangedReply(*this);
 	}
-	else
-	{
-		dispatchFormatChanged();
-	}
 	return true;
 }
 
@@ -96,37 +90,37 @@ EmuVideoImage EmuVideo::startFrame(EmuSystemTaskContext taskCtx)
 	return {taskCtx, *this, lockedTex};
 }
 
-void EmuVideo::startFrame(EmuSystemTaskContext taskCtx, IG::PixmapView pix)
+void EmuVideo::startFrame(EmuSystemTaskContext taskCtx, PixmapView pix)
 {
 	finishFrame(taskCtx, pix);
 }
 
-EmuVideoImage EmuVideo::startFrameWithFormat(EmuSystemTaskContext taskCtx, IG::PixmapDesc desc)
+EmuVideoImage EmuVideo::startFrameWithFormat(EmuSystemTaskContext taskCtx, PixmapDesc desc)
 {
 	setFormat(desc, taskCtx);
 	return startFrame(taskCtx);
 }
 
-void EmuVideo::startFrameWithFormat(EmuSystemTaskContext taskCtx, IG::PixmapView pix)
+void EmuVideo::startFrameWithFormat(EmuSystemTaskContext taskCtx, PixmapView pix)
 {
 	setFormat(pix.desc(), taskCtx);
 	startFrame(taskCtx, pix);
 }
 
-void EmuVideo::startFrameWithAltFormat(EmuSystemTaskContext taskCtx, IG::PixmapView pix)
+void EmuVideo::startFrameWithAltFormat(EmuSystemTaskContext taskCtx, PixmapView pix)
 {
 	auto destFmt = renderPixelFormat();
 	auto srcFmt = pix.format();
-	assumeExpr(isValidRenderFormat(srcFmt));
+	assume(isValidRenderFormat(srcFmt));
 	if(srcFmt == destFmt)
 	{
 		startFrameWithFormat(taskCtx, pix);
 	}
 	else // down-convert to RGB565
 	{
-		auto img = startFrameWithFormat(taskCtx, {pix.size(), IG::PixelFmtRGB565});
-		assumeExpr(img.pixmap().format() == IG::PixelFmtRGB565);
-		assumeExpr(img.pixmap().size() == pix.size());
+		auto img = startFrameWithFormat(taskCtx, {pix.size(), PixelFmtRGB565});
+		assume(img.pixmap().format() == PixelFmtRGB565);
+		assume(img.pixmap().size() == pix.size());
 		img.pixmap().writeConverted(pix);
 		img.endFrame();
 	}
@@ -155,7 +149,7 @@ void EmuVideo::finishFrame(EmuSystemTaskContext taskCtx, Gfx::LockedTextureBuffe
 	postFrameFinished(taskCtx);
 }
 
-void EmuVideo::finishFrame(EmuSystemTaskContext taskCtx, IG::PixmapView pix)
+void EmuVideo::finishFrame(EmuSystemTaskContext taskCtx, PixmapView pix)
 {
 	if(screenshotNextFrame) [[unlikely]]
 	{
@@ -177,7 +171,7 @@ void EmuVideo::takeGameScreenshot()
 	screenshotNextFrame = true;
 }
 
-void EmuVideo::doScreenshot(EmuSystemTaskContext taskCtx, IG::PixmapView pix)
+void EmuVideo::doScreenshot(EmuSystemTaskContext taskCtx, PixmapView pix)
 {
 	screenshotNextFrame = false;
 	auto success = app().writeScreenshot(pix, app().makeNextScreenshotFilename());
@@ -209,7 +203,7 @@ Gfx::Renderer &EmuVideo::renderer() const
 	return rTask->renderer();
 }
 
-IG::ApplicationContext EmuVideo::appContext() const
+ApplicationContext EmuVideo::appContext() const
 {
 	return rTask->appContext();
 }
@@ -217,7 +211,7 @@ IG::ApplicationContext EmuVideo::appContext() const
 EmuVideoImage::EmuVideoImage(EmuSystemTaskContext taskCtx, EmuVideo &vid, Gfx::LockedTextureBuffer texBuff):
 	taskCtx{taskCtx}, emuVideo{&vid}, texBuff{texBuff} {}
 
-IG::MutablePixmapView EmuVideoImage::pixmap() const
+MutablePixmapView EmuVideoImage::pixmap() const
 {
 	return texBuff.pixmap();
 }
@@ -229,7 +223,7 @@ EmuVideoImage::operator bool() const
 
 void EmuVideoImage::endFrame()
 {
-	assumeExpr(texBuff);
+	assume(texBuff);
 	emuVideo->finishFrame(taskCtx, texBuff);
 }
 
@@ -241,7 +235,7 @@ WSize EmuVideo::size() const
 		return vidImg.pixmapDesc().size;
 }
 
-bool EmuVideo::formatIsEqual(IG::PixmapDesc desc) const
+bool EmuVideo::formatIsEqual(PixmapDesc desc) const
 {
 	return vidImg && desc == vidImg.pixmapDesc();
 }
@@ -252,9 +246,9 @@ void EmuVideo::setTextureBufferMode(EmuSystem &sys, Gfx::TextureBufferMode mode)
 	if(bufferMode == mode)
 		return;
 	bufferMode = mode;
-	if(renderFmt == IG::PixelFmtRGBA8888 || renderFmt == IG::PixelFmtBGRA8888)
+	if(renderFmt == PixelFmtRGBA8888 || renderFmt == PixelFmtBGRA8888)
 	{
-		if(setRenderPixelFormat(sys, IG::PixelFmtRGBA8888, colSpace)) // re-apply format for possible RGB/BGR change
+		if(setRenderPixelFormat(sys, PixelFmtRGBA8888, colSpace)) // re-apply format for possible RGB/BGR change
 			return;
 	}
 	resetImage(renderFmt);
@@ -266,7 +260,7 @@ void EmuVideo::setSampler(Gfx::TextureSamplerConfig samplerConf)
 	vidImg.setSampler(samplerConf);
 }
 
-bool EmuVideo::setRenderPixelFormat(EmuSystem &sys, IG::PixelFormat fmt, Gfx::ColorSpace colorSpace)
+bool EmuVideo::setRenderPixelFormat(EmuSystem &sys, PixelFormat fmt, Gfx::ColorSpace colorSpace)
 {
 	if(colorSpace != colSpace)
 	{
@@ -275,13 +269,13 @@ bool EmuVideo::setRenderPixelFormat(EmuSystem &sys, IG::PixelFormat fmt, Gfx::Co
 		renderFmt = {}; // reset image
 		if(colorSpace == Gfx::ColorSpace::SRGB)
 		{
-			assert(renderer().supportedColorSpace(fmt, colorSpace) == colorSpace);
+			assume(renderer().supportedColorSpace(fmt, colorSpace) == colorSpace);
 		}
 	}
-	assert(fmt);
-	assert(bufferMode != Gfx::TextureBufferMode::DEFAULT);
-	if(fmt == IG::PixelFmtRGBA8888 && renderer().hasBgraFormat(bufferMode))
-		fmt = IG::PixelFmtBGRA8888;
+	assume(fmt);
+	assume(bufferMode != Gfx::TextureBufferMode::DEFAULT);
+	if(fmt == PixelFmtRGBA8888 && renderer().hasBgraFormat(bufferMode))
+		fmt = PixelFmtBGRA8888;
 	if(renderFmt == fmt)
 		return false;
 	log.info("setting render pixel format:{}", fmt.name());
@@ -295,15 +289,15 @@ bool EmuVideo::setRenderPixelFormat(EmuSystem &sys, IG::PixelFormat fmt, Gfx::Co
 	return true;
 }
 
-IG::PixelFormat EmuVideo::renderPixelFormat() const
+PixelFormat EmuVideo::renderPixelFormat() const
 {
-	assumeExpr(isValidRenderFormat(renderFmt));
+	assume(isValidRenderFormat(renderFmt));
 	return renderFmt;
 }
 
-IG::PixelFormat EmuVideo::internalRenderPixelFormat() const
+PixelFormat EmuVideo::internalRenderPixelFormat() const
 {
-	return renderPixelFormat() == IG::PixelFmtBGRA8888 ? IG::PixelFmtRGBA8888 : renderPixelFormat();
+	return renderPixelFormat() == PixelFmtBGRA8888 ? PixelFmtRGBA8888 : renderPixelFormat();
 }
 
 Gfx::TextureSamplerConfig EmuVideo::samplerConfigForLinearFilter(bool useLinearFilter)

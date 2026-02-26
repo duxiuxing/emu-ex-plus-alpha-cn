@@ -15,16 +15,17 @@
 	You should have received a copy of the GNU General Public License
 	along with EmuFramework.  If not, see <http://www.gnu.org/licenses/> */
 
+#ifdef IG_USE_MODULES
+import imagine;
+import std;
+#else
+#include <imagine/base/ApplicationContext.hh>
+#include <imagine/io/FileIO.hh>
+#include <imagine/io/MapIO.hh>
 #include <imagine/fs/FSDefs.hh>
 #include <vector>
 #include <string_view>
-
-namespace IG
-{
-class ApplicationContext;
-class FileIO;
-class MapIO;
-}
+#endif
 
 namespace EmuEx
 {
@@ -53,8 +54,10 @@ public:
 	auto begin() const { return recentContentList.begin(); }
 	auto end() const { return recentContentList.end(); }
 	void clear() { recentContentList.clear(); }
-	void writeConfig(FileIO &) const;
-	bool readConfig(MapIO &, unsigned key, const EmuSystem &);
+	void writeConfig(FileIO&) const;
+	void writeContent(FileIO&) const;
+	bool readConfig(MapIO&, unsigned key);
+	bool readContent(MapIO&, const EmuSystem&);
 
 private:
 	std::vector<RecentContentInfo> recentContentList;

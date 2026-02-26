@@ -19,11 +19,17 @@
 #include <imagine/gfx/defs.hh>
 #include <imagine/gfx/TextureSamplerConfig.hh>
 #include <imagine/util/memory/UniqueResource.hh>
+#ifndef IG_USE_MODULE_STD
+#include <string_view>
+#endif
 
 namespace IG::Gfx
 {
-
 class RendererTask;
+}
+
+namespace IG::Gfx
+{
 
 struct SamplerParams
 {
@@ -59,7 +65,7 @@ public:
 
 protected:
 	UniqueGLSamplerRef sampler{};
-	ConditionalMember<Config::DEBUG_BUILD, const char *> debugLabel{};
+	ConditionalMember<Config::DEBUG_BUILD, std::string_view> debugLabel{};
 };
 
 using TextureSamplerImpl = GLTextureSampler;

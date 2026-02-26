@@ -66,7 +66,6 @@
 /* #define LTKDEBUGMEM */
 
 #define LOG LOG_DEFAULT
-#define ERR LOG_ERR
 
 #ifdef LTKDEBUGMEM
 #define MDBG(_x_) log_message _x_
@@ -92,7 +91,7 @@
 #define LOG2(_x_)
 #endif
 
-#define CRIT(_x_) log_message _x_
+#define CRIT(_x_) log_error _x_
 
 #if C64CART_ROM_LIMIT <= 16384
 #error C64CART_ROM_LIMIT is too small; it should be at least 16384.
@@ -449,7 +448,7 @@ static int set_serial(const char *name, void *param)
     int l, i, j;
 
     if (!name) {
-        CRIT((ERR, "LTK serial number - nothing provided."));
+        CRIT((LOG, "LTK serial number - nothing provided."));
         return 1;
     }
 
@@ -459,14 +458,14 @@ static int set_serial(const char *name, void *param)
     }
 
     if (l != 8) {
-        CRIT((ERR, "LTK serial number '%s' is not 8 digits.", name));
+        CRIT((LOG, "LTK serial number '%s' is not 8 digits.", name));
         return 1;
     }
 
     for (i = 0; i < 8; i++) {
         j = name[i];
         if ( j < '0' || j > '9') {
-            CRIT((ERR, "LTK serial number '%s' has invalid character '%c'.",
+            CRIT((LOG, "LTK serial number '%s' has invalid character '%c'.",
                 name, j));
             return 1;
         }
@@ -710,7 +709,7 @@ static void ltk_set_pa(mc6821_state *ctx)
 
     if (scsi_set_bus(scsi, ctx->dataA)) {
         if (ctx->ctrlA & MC6821_CTRL_REG) {
-            CRIT((ERR, "Cannot set bus to %02x at %04x", ctx->dataA, reg_pc));
+            CRIT((LOG, "Cannot set bus to %02x at %04x", ctx->dataA, reg_pc));
         }
     }
 }
@@ -989,7 +988,12 @@ int ltkernal_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *l
         if ((ltk_ramh && (p & 2)) || (ltk_ramh && ltk_freeze )) {
             *base = export_ram0 + 0x2000 - 0xe000;
         } else if (p & 2) {
+#if 0
             *base = c64memrom_kernal64_trap_rom - 0xe000;
+#else
+            *base = (uint8_t*)(0 - 0xe000);
+            *base += (uintptr_t)c64memrom_kernal64_trap_rom;
+#endif
         } else {
             /* include RAM to speed things up */
             *base = mem_ram;

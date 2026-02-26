@@ -18,40 +18,29 @@
 #include <stella/common/AudioQueue.hxx>
 #include <stella/common/audio/SimpleResampler.hxx>
 #include <stella/common/audio/LanczosResampler.hxx>
-#include <OSystem.hxx>
 #include <SoundEmuEx.hh>
-// TODO: Some Stella types collide with MacTypes.h
-#define Debugger DebuggerMac
-#include <emuframework/EmuSystem.hh>
-#include <emuframework/EmuAudio.hh>
-#include <imagine/logger/logger.h>
-#undef Debugger
+import emuex;
+import imagine;
 
 using namespace EmuEx;
+using namespace IG;
 
 SoundEmuEx::SoundEmuEx(OSystem& osystem): Sound(osystem) {}
 
-void SoundEmuEx::open(shared_ptr<AudioQueue> audioQueue, EmulationTiming* emulationTiming)
+void SoundEmuEx::open(shared_ptr<AudioQueue> audioQueue, shared_ptr<const EmulationTiming> emulationTiming)
 {
 	audioQueue->ignoreOverflows(true);
 	this->audioQueue = audioQueue;
 	this->emulationTiming = emulationTiming;
 	currentFragment = nullptr;
-}
-
-void SoundEmuEx::close()
-{
-	if(!audioQueue)
-		return;
-	audioQueue->closeSink(currentFragment);
-  audioQueue.reset();
-  myResampler.reset();
-  mixRate = {};
+	if(mixRate)
+	{
+		updateResampler();
+	}
 }
 
 void SoundEmuEx::updateResampler()
 {
-	emulationTiming->updatePlaybackRate(mixRate);
 	Resampler::Format formatFrom =
 		Resampler::Format(emulationTiming->audioSampleRate(), audioQueue->fragmentSize(), audioQueue->isStereo());
 	Resampler::Format formatTo =
@@ -66,7 +55,7 @@ void SoundEmuEx::updateResampler()
 		};
 	switch(resampleQuality)
 	{
-		case AudioSettings::ResamplingQuality::nearestNeightbour:
+		case AudioSettings::ResamplingQuality::nearestNeighbour:
 			myResampler = make_unique<SimpleResampler>(formatFrom, formatTo, fragCallback);
 		break;
 		case AudioSettings::ResamplingQuality::lanczos_2:
@@ -76,36 +65,33 @@ void SoundEmuEx::updateResampler()
 			myResampler = make_unique<LanczosResampler>(formatFrom, formatTo, fragCallback, 3);
 		break;
 	}
-	logMsg("set sound mix rate:%d resampler type:%d", mixRate, (int)resampleQuality);
+	log.info("set sound mix rate:{} resampler type:{}", mixRate, (int)resampleQuality);
 }
 
-void SoundEmuEx::setMixRate(int mixRate_, AudioSettings::ResamplingQuality resampleQ)
+void SoundEmuEx::setMixRate(int mixRate_)
 {
-	resampleQuality = resampleQ;
-	if(!audioQueue)
-	{
-		logWarn("called setRate() without audio queue");
-		return;
-	}
 	if(mixRate_ == mixRate)
 		return;
 	mixRate = mixRate_;
+	if(!audioQueue)
+	{
+		log.warn("called setRate() without audio queue");
+		return;
+	}
 	updateResampler();
 }
 
 void SoundEmuEx::setResampleQuality(AudioSettings::ResamplingQuality quality)
 {
-	if(!audioQueue)
+	resampleQuality = quality;
+	if(!audioQueue || !mixRate)
 	{
 		return;
 	}
-	resampleQuality = quality;
-	if(!mixRate)
-		return;
 	updateResampler();
 }
 
-void SoundEmuEx::setEmuAudio(EmuEx::EmuAudio *audio)
+void SoundEmuEx::setEmuAudio(EmuEx::EmuAudio* audio)
 {
 	audioQueue->onFragmentEnqueued =
 	[this, audio](AudioQueue &queue, uInt32 fragFrames)
@@ -117,7 +103,7 @@ void SoundEmuEx::setEmuAudio(EmuEx::EmuAudio *audio)
 		while(queue.size())
 		{
 			float buffF[512];
-			assert(fragSamples <= std::ssize(buffF));
+			assume(fragSamples <= std::ssize(buffF));
 			myResampler->fillFragment(buffF, fragFrames);
 			if(audio)
 			{
@@ -131,9 +117,11 @@ void SoundEmuEx::setEmuAudio(EmuEx::EmuAudio *audio)
 
 void SoundEmuEx::setEnabled(bool enable) {}
 
-bool SoundEmuEx::mute(bool state) { return false; }
+bool SoundEmuEx::pause(bool state) { return true; }
 
-bool SoundEmuEx::toggleMute() { return false; }
+void SoundEmuEx::mute(bool state) {}
+
+void SoundEmuEx::toggleMute() {}
 
 void SoundEmuEx::setVolume(uInt32 percent) {}
 

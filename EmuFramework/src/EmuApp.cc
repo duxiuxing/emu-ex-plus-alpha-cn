@@ -14,81 +14,32 @@
 	along with EmuFramework.  If not, see <http://www.gnu.org/licenses/> */
 
 #include <emuframework/EmuApp.hh>
-#include <emuframework/EmuSystem.hh>
-#include <emuframework/EmuView.hh>
-#include <emuframework/LoadProgressView.hh>
-#include <emuframework/EmuVideoLayer.hh>
-#include <emuframework/EmuVideo.hh>
-#include <emuframework/EmuAudio.hh>
-#include <emuframework/FilePicker.hh>
 #include <emuframework/MainMenuView.hh>
+#include <emuframework/LoadProgressView.hh>
 #include <emuframework/SystemActionsView.hh>
 #include <emuframework/SystemOptionView.hh>
-#include <emuframework/GUIOptionView.hh>
-#include <emuframework/AudioOptionView.hh>
 #include <emuframework/VideoOptionView.hh>
+#include <emuframework/AudioOptionView.hh>
+#include <emuframework/GUIOptionView.hh>
 #include <emuframework/FilePathOptionView.hh>
-#include <emuframework/AppKeyCode.hh>
+#include <emuframework/FilePicker.hh>
 #include "gui/AutosaveSlotView.hh"
-#include "InputDeviceData.hh"
 #include "WindowData.hh"
-#include "configFile.hh"
-#include "pathUtils.hh"
-#include <imagine/base/ApplicationContext.hh>
-#include <imagine/base/Application.hh>
-#include <imagine/fs/FS.hh>
-#include <imagine/fs/ArchiveFS.hh>
-#include <imagine/io/IO.hh>
-#include <imagine/gfx/Renderer.hh>
-#include <imagine/gfx/RendererTask.hh>
-#include <imagine/gui/ToastView.hh>
-#include <imagine/gui/AlertView.hh>
-#include <imagine/data-type/image/PixmapSource.hh>
-#include <imagine/util/utility.h>
-#include <imagine/util/ScopeGuard.hh>
-#include <imagine/util/format.hh>
-#include <imagine/util/string.h>
-#include <imagine/thread/Thread.hh>
-#include <imagine/bluetooth/BluetoothInputDevice.hh>
-#include <imagine/input/android/MogaManager.hh>
-#include <cmath>
+#include "InputDeviceData.hh"
+import imagine;
+import configFile;
+import pathUtils;
 
 namespace EmuEx
 {
 
+using namespace IG;
+
 constexpr SystemLogger log{"App"};
 static EmuApp *gAppPtr{};
-[[gnu::weak]] bool EmuApp::hasIcon = true;
-[[gnu::weak]] bool EmuApp::needsGlobalInstance = false;
 const char *EmuApp::ViewName::SYSTEM_ACTIONS =
 	UI_TEXT("游戏菜单");
 constexpr float pausedVideoBrightnessScale = .75f;
-
-constexpr AssetDesc assetDesc[wise_enum::size<AssetID>]
-{
-	// arrow, accept, close, more
-	{AssetFileID::ui, {{},       {.25, .25}}},
-	{AssetFileID::ui, {{.25, 0}, {.5,  .25}}},
-	{AssetFileID::ui, {{.5,  0}, {.75, .25}}},
-	{AssetFileID::ui, {{.75, 0}, {1.,  .25}}},
-	// fast, slow, speed, menu
-	{AssetFileID::ui, {{0,   .25}, {.25, .5}}},
-	{AssetFileID::ui, {{.25, .25}, {.5,  .5}}},
-	{AssetFileID::ui, {{.5,  .25}, {.75, .5}}},
-	{AssetFileID::ui, {{.75, .25}, {1.,  .5}}},
-	// leftSwitch, rightSwitch, load, save
-	{AssetFileID::ui, {{0,   .5}, {.25, .75}}},
-	{AssetFileID::ui, {{.25, .5}, {.5,  .75}}},
-	{AssetFileID::ui, {{.5,  .5}, {.75, .75}}},
-	{AssetFileID::ui, {{.75, .5}, {1.,  .75}}},
-	// display, screenshot, openFile, rewind
-	{AssetFileID::ui, {{0,   .75}, {.25, 1.}}},
-	{AssetFileID::ui, {{.25, .75}, {.5,  1.}}},
-	{AssetFileID::ui, {{.5,  .75}, {.75, 1.}}},
-	{AssetFileID::ui, {{.75, .75}, {1.,  1.}}},
-	{AssetFileID::gamepadOverlay, {{}, {1.f, 1.f}}},
-	{AssetFileID::keyboardOverlay, {{}, {1.f, 1.f}}},
-};
 
 EmuApp::EmuApp(ApplicationInitParams initParams, ApplicationContext &ctx):
 	Application{initParams},
@@ -97,20 +48,21 @@ EmuApp::EmuApp(ApplicationInitParams initParams, ApplicationContext &ctx):
 	audio{ctx},
 	videoLayer{video, defaultVideoAspectRatio()},
 	inputManager{ctx},
+	assetManager{ctx},
 	vibrationManager{ctx},
-	pixmapReader{ctx},
+	bluetoothAdapter{ctx},
 	pixmapWriter{ctx},
 	perfHintManager{ctx.performanceHintManager()},
-	layoutBehindSystemUI{ctx.hasTranslucentSysUI()},
-	bluetoothAdapter{ctx}
+	layoutBehindSystemUI{ctx.hasTranslucentSysUI()}
 {
 	if(ctx.registerInstance(initParams))
 	{
 		ctx.exit();
 		return;
 	}
-	if(needsGlobalInstance)
+	if(AppMeta::needsGlobalInstance)
 		gAppPtr = this;
+	log.info("SET PTR:{}", (void*)gAppPtr);
 	ctx.setAcceptIPC(true);
 	onEvent = [this](ApplicationContext, const ApplicationEvent& appEvent)
 	{
@@ -166,42 +118,14 @@ public:
 	}
 };
 
-Gfx::TextureSpan EmuApp::asset(AssetID assetID) const
-{
-	assumeExpr(to_underlying(assetID) < wise_enum::size<AssetID>);
-	return asset(assetDesc[to_underlying(assetID)]);
-}
-
-Gfx::TextureSpan EmuApp::asset(AssetDesc desc) const
-{
-	auto &res = assetBuffImg[desc.fileIdx()];
-	if(!res)
-	{
-		try
-		{
-			res = renderer.makeTexture(pixmapReader.loadAsset(desc.filename()), View::imageSamplerConfig);
-		}
-		catch(...)
-		{
-			log.error("error loading asset:{}", desc.filename());
-		}
-	}
-	return {&res, desc.texBounds};
-}
-
-Gfx::TextureSpan EmuApp::collectTextCloseAsset() const
-{
-	return Config::envIsAndroid ? Gfx::TextureSpan{} : asset(AssetID::close);
-}
-
 EmuViewController &EmuApp::viewController() { return mainWindowData().viewController; }
 const EmuViewController &EmuApp::viewController() const { return mainWindowData().viewController; }
-IG::ToastView &EmuApp::toastView() { return viewController().popup; }
+ToastView &EmuApp::toastView() { return viewController().popup; }
 const Screen &EmuApp::emuScreen() const { return *viewController().emuWindowScreen(); }
 Window &EmuApp::emuWindow() { return viewController().emuWindow(); }
 const Window &EmuApp::emuWindow() const { return viewController().emuWindow(); }
 
-void EmuApp::setCPUNeedsLowLatency(IG::ApplicationContext ctx, bool needed)
+void EmuApp::setCPUNeedsLowLatency(ApplicationContext ctx, bool needed)
 {
 	#ifdef __ANDROID__
 	if(useNoopThread)
@@ -222,7 +146,7 @@ static void suspendEmulation(EmuApp &app)
 
 void EmuApp::closeSystem()
 {
-	emuSystemTask.stop();
+	systemTask.stop();
 	showUI();
 	system().closeRuntimeSystem(*this);
 	autosaveManager.resetSlot();
@@ -236,7 +160,7 @@ void EmuApp::closeSystemWithoutSave()
 	closeSystem();
 }
 
-void EmuApp::applyOSNavStyle(IG::ApplicationContext ctx, bool inEmu)
+void EmuApp::applyOSNavStyle(ApplicationContext ctx, bool inEmu)
 {
 	SystemUIStyleFlags flags;
 	if(lowProfileOSNav > (inEmu ? InEmuTristate::Off : InEmuTristate::InEmu))
@@ -271,7 +195,7 @@ void EmuApp::showExitAlert(ViewAttachParams attach, const Input::Event &e)
 		attach, system().hasContent()), e, false);
 }
 
-static const char *parseCommandArgs(IG::CommandArgs arg)
+static const char *parseCommandArgs(CommandArgs arg)
 {
 	if(arg.c < 2)
 	{
@@ -295,7 +219,7 @@ bool EmuApp::setWindowDrawableConfig(Gfx::DrawableConfig conf)
 	return true;
 }
 
-IG::PixelFormat EmuApp::windowPixelFormat() const
+PixelFormat EmuApp::windowPixelFormat() const
 {
 	auto fmt = windowDrawableConfig.pixelFormat.value();
 	if(fmt)
@@ -303,7 +227,7 @@ IG::PixelFormat EmuApp::windowPixelFormat() const
 	return appContext().defaultWindowPixelFormat();
 }
 
-void EmuApp::setRenderPixelFormat(IG::PixelFormat fmt)
+void EmuApp::setRenderPixelFormat(PixelFormat fmt)
 {
 	renderPixelFormat = fmt;
 	applyRenderPixelFormat();
@@ -316,10 +240,10 @@ void EmuApp::applyRenderPixelFormat()
 	auto fmt = renderPixelFormat.value();
 	if(!fmt)
 		fmt = windowPixelFormat();
-	if(!EmuSystem::canRenderRGBA8888 && fmt != IG::PixelFmtRGB565)
+	if(!AppMeta::canRenderRGBA8888 && fmt != PixelFmtRGB565)
 	{
 		log.info("Using RGB565 render format since emulated system can't render RGBA8888");
-		fmt = IG::PixelFmtRGB565;
+		fmt = PixelFmtRGB565;
 	}
 	videoLayer.setFormat(system(), fmt, videoEffectPixelFormat(), windowDrawableConfig.colorSpace);
 }
@@ -337,10 +261,10 @@ void EmuApp::renderSystemFramebuffer(EmuVideo &video)
 
 void EmuApp::startAudio()
 {
-	audio.start(system().frameTime());
+	audio.start(system().frameRate().duration());
 }
 
-void EmuApp::updateLegacySavePath(IG::ApplicationContext ctx, CStringView path)
+void EmuApp::updateLegacySavePath(ApplicationContext ctx, CStringView path)
 {
 	auto oldSaveSubDirs = subDirectoryStrings(ctx, path);
 	if(oldSaveSubDirs.empty())
@@ -351,42 +275,33 @@ void EmuApp::updateLegacySavePath(IG::ApplicationContext ctx, CStringView path)
 	flattenSubDirectories(ctx, oldSaveSubDirs, path);
 }
 
-static bool hasExtraWindow(IG::ApplicationContext ctx)
+static bool hasExtraWindow(ApplicationContext ctx)
 {
 	return ctx.windows().size() == 2;
 }
 
-static void dismissExtraWindow(IG::ApplicationContext ctx)
+static void dismissExtraWindow(ApplicationContext ctx)
 {
 	if(!hasExtraWindow(ctx))
 		return;
 	ctx.windows()[1]->dismiss();
 }
 
-static bool extraWindowIsFocused(IG::ApplicationContext ctx)
+static bool extraWindowIsFocused(ApplicationContext ctx)
 {
 	if(!hasExtraWindow(ctx))
 		return false;
 	return windowData(*ctx.windows()[1]).focused;
 }
 
-static IG::Screen *extraWindowScreen(IG::ApplicationContext ctx)
+static Screen *extraWindowScreen(ApplicationContext ctx)
 {
 	if(!hasExtraWindow(ctx))
 		return nullptr;
 	return ctx.windows()[1]->screen();
 }
 
-static SteadyClockTime targetFrameTime(const Screen &s)
-{
-	auto total = s.frameTime() - s.presentationDeadline();
-	auto lowerBound = Milliseconds{1};
-	if(total < lowerBound)
-		total = lowerBound;
-	return total;
-}
-
-void EmuApp::mainInitCommon(IG::ApplicationInitParams initParams, IG::ApplicationContext ctx)
+void EmuApp::mainInitCommon(ApplicationInitParams initParams, ApplicationContext ctx)
 {
 	loadConfigFile(ctx);
 	system().onOptionsLoaded();
@@ -399,7 +314,7 @@ void EmuApp::mainInitCommon(IG::ApplicationInitParams initParams, IG::Applicatio
 	applyOSNavStyle(ctx, false);
 
 	ctx.addOnResume(
-		[this](IG::ApplicationContext, [[maybe_unused]] bool focused)
+		[this](ApplicationContext, [[maybe_unused]] bool focused)
 		{
 			audio.manager.startSession();
 			audio.open();
@@ -407,7 +322,7 @@ void EmuApp::mainInitCommon(IG::ApplicationInitParams initParams, IG::Applicatio
 		});
 
 	ctx.addOnExit(
-		[this](IG::ApplicationContext ctx, bool backgrounded)
+		[this](ApplicationContext ctx, bool backgrounded)
 		{
 			if(backgrounded)
 			{
@@ -416,7 +331,7 @@ void EmuApp::mainInitCommon(IG::ApplicationInitParams initParams, IG::Applicatio
 				{
 					auto title = std::format(
 						UI_TEXT("{} 已暂停"),
-						ctx.applicationName);
+						ApplicationMeta::name);
 					ctx.addNotification(title, title, system().contentDisplayName());
 				}
 			}
@@ -430,10 +345,10 @@ void EmuApp::mainInitCommon(IG::ApplicationInitParams initParams, IG::Applicatio
 			return true;
 		});
 
-	IG::WindowConfig winConf{ .title = ctx.applicationName };
+	WindowConfig winConf{ .title = ApplicationMeta::name };
 	winConf.setFormat(windowDrawableConfig.pixelFormat);
 	ctx.makeWindow(winConf,
-		[this](IG::ApplicationContext ctx, IG::Window &win)
+		[this](ApplicationContext ctx, Window &win)
 		{
 			renderer.initMainTask(&win, windowDrawableConfig);
 			textureBufferMode = renderer.validateTextureBufferMode(textureBufferMode);
@@ -447,40 +362,28 @@ void EmuApp::mainInitCommon(IG::ApplicationInitParams initParams, IG::Applicatio
 			renderer.setWindowValidOrientations(win, menuOrientation);
 			inputManager.updateInputDevices(ctx);
 			vController.configure(win, renderer, viewManager.defaultFace);
-			if(EmuSystem::inputHasKeyboard)
+			if(AppMeta::inputHasKeyboard)
 			{
 				vController.setKeyboardImage(asset(AssetID::keyboardOverlay));
 			}
 			winData.viewController.placeElements();
 			winData.viewController.pushAndShow(makeView(viewAttach, ViewID::MAIN_MENU));
 			configureSecondaryScreens();
-			video.onFormatChanged =  [this, &viewController = winData.viewController](EmuVideo&)
-			{
-				videoLayer.onVideoFormatChanged(videoEffectPixelFormat());
-				viewController.placeEmuViews();
-			};
 			video.setRendererTask(renderer.task());
 			video.setTextureBufferMode(system(), textureBufferMode);
 			videoLayer.setRendererTask(renderer.task());
 			applyRenderPixelFormat();
 			videoLayer.updateEffect(system(), videoEffectPixelFormat());
-			system().onFrameUpdate = [this](FrameParams params)
+			videoLayer.updateOverlay();
+			if((frameClockSource == FrameClockSource::Screen   && !emuWindow().supportsFrameClockSource(FrameClockSource::Screen)) ||
+				 (frameClockSource == FrameClockSource::Renderer && !emuWindow().supportsFrameClockSource(FrameClockSource::Renderer)))
 			{
-				bool renderingFrame = advanceFrames(params, &emuSystemTask);
-				if(params.isFromRenderer() && !renderingFrame)
-				{
-					renderingFrame = true;
-					emuSystemTask.window().drawNow();
-				}
-				if(renderingFrame)
-				{
-					record(FrameTimeStatEvent::waitForPresent);
-					framePresentedSem.acquire();
-					reportFrameWorkTime();
-					record(FrameTimeStatEvent::endOfFrame);
-				}
-				return true;
-			};
+				frameClockSource = {};
+			}
+			if(emuScreen().supportedFrameRates().size() == 1)
+			{
+				overrideScreenFrameRate = {};
+			}
 
 			win.onEvent = [this](Window& win, const WindowEvent& winEvent)
 			{
@@ -549,12 +452,12 @@ void EmuApp::mainInitCommon(IG::ApplicationInitParams initParams, IG::Applicatio
 							{
 								if(perfHintSession)
 								{
-									auto targetTime = targetFrameTime(e.screen);
-									perfHintSession.updateTargetWorkTime(targetTime);
-									log.info("updated performance hint session with target time:{}", targetTime);
+									auto targetDuration = e.screen.targetFrameDuration();
+									perfHintSession.updateTargetWorkDuration(targetDuration);
+									log.info("updated performance hint session with target duration:{}", targetDuration);
 								}
-								auto suspendCtx = suspendEmulationThread();
-								configFrameTime();
+								auto _ = suspendEmulationThread();
+								systemTask.updateScreenFrameRate(e.screen.frameRate());
 							}
 						}
 					},
@@ -598,7 +501,7 @@ void EmuApp::mainInitCommon(IG::ApplicationInitParams initParams, IG::Applicatio
 			};
 
 			ctx.addOnExit(
-				[this](IG::ApplicationContext ctx, bool backgrounded)
+				[this](ApplicationContext ctx, bool backgrounded)
 				{
 					if(backgrounded)
 					{
@@ -609,7 +512,7 @@ void EmuApp::mainInitCommon(IG::ApplicationInitParams initParams, IG::Applicatio
 						}
 						viewController().onHide();
 						ctx.addOnResume(
-							[this](IG::ApplicationContext, bool focused)
+							[this](ApplicationContext, bool focused)
 							{
 								configureSecondaryScreens();
 								viewController().prepareDraw();
@@ -640,92 +543,16 @@ void EmuApp::mainInitCommon(IG::ApplicationInitParams initParams, IG::Applicatio
 		});
 }
 
-bool EmuApp::advanceFrames(FrameParams frameParams, EmuSystemTask *taskPtr)
-{
-	assert(hasTime(frameParams.timestamp));
-	auto &sys = system();
-	auto &viewCtrl = viewController();
-	auto &win = viewCtrl.emuWindow();
-	auto *audioPtr = audio ? &audio : nullptr;
-	auto frameInfo = sys.timing.advanceFrames(frameParams);
-	int interval = frameInterval;
-	if(presentationTimeMode == PresentationTimeMode::full ||
-		(presentationTimeMode == PresentationTimeMode::basic && interval > 1))
-	{
-		viewCtrl.presentTime = frameParams.presentTime(interval);
-	}
-	else
-	{
-		viewCtrl.presentTime = {};
-	}
-	if(sys.shouldFastForward()) [[unlikely]]
-	{
-		// for skipping loading on disk-based computers
-		if(skipForwardFrames({taskPtr}, 20))
-		{
-			// don't write any audio while skip is in progress
-			audioPtr = nullptr;
-		}
-		frameInfo.advanced = 1;
-	}
-	if(!frameInfo.advanced)
-	{
-		if(enableBlankFrameInsertion)
-		{
-			viewCtrl.drawBlankFrame = true;
-			win.drawNow();
-			return true;
-		}
-		return false;
-	}
-	bool allowFrameSkip = interval || sys.frameTimeMultiplier != 1.;
-	if(frameInfo.advanced + savedAdvancedFrames < interval)
-	{
-		// running at a lower target fps
-		savedAdvancedFrames += frameInfo.advanced;
-	}
-	else
-	{
-		savedAdvancedFrames = 0;
-		if(!allowFrameSkip)
-		{
-			frameInfo.advanced = 1;
-		}
-		if(frameInfo.advanced > 1)
-		{
-			doIfUsed(frameTimeStats, [&](auto &stats) { stats.missedFrameCallbacks+= frameInfo.advanced - 1; });
-		}
-	}
-	assumeExpr(frameInfo.advanced > 0);
-	// cap advanced frames if we're falling behind
-	if(frameInfo.frameTimeDiff > Milliseconds{70})
-		frameInfo.advanced = std::min(frameInfo.advanced, 4);
-	EmuVideo *videoPtr = savedAdvancedFrames ? nullptr : &video;
-	if(videoPtr)
-	{
-		if(showFrameTimeStats)
-		{
-			viewCtrl.emuView.updateFrameTimeStats(frameTimeStats, frameParams.timestamp);
-		}
-		record(FrameTimeStatEvent::startOfFrame, frameParams.timestamp);
-		record(FrameTimeStatEvent::startOfEmulation);
-	}
-	//log.debug("running {} frame(s), skip:{}", frameInfo.advanced, !videoPtr);
-	runFrames({taskPtr}, videoPtr, audioPtr, frameInfo.advanced);
-	inputManager.turboActions.update(*this);
-	return videoPtr;
-}
-
-IG::Viewport EmuApp::makeViewport(const IG::Window &win) const
+Viewport EmuApp::makeViewport(const Window &win) const
 {
 	return win.viewport(layoutBehindSystemUI ? win.bounds() : win.contentBounds());
 }
 
-void WindowData::updateWindowViewport(const IG::Window &win, IG::Viewport viewport, const IG::Gfx::Renderer &r)
+void WindowData::updateWindowViewport(const Window &win, Viewport viewport, const Gfx::Renderer &r)
 {
 	windowRect = viewport.bounds();
 	contentRect = viewport.bounds().intersection(win.contentBounds());
-	projM = Gfx::Mat4::makePerspectiveFovRH(M_PI/4.0, viewport.realAspectRatio(), .1f, 100.f)
+	projM = Gfx::Mat4::makePerspectiveFovRH(std::numbers::pi / 4.0, viewport.realAspectRatio(), .1f, 100.f)
 		.projectionPlane(viewport, .5f, r.projectionRollAngle(win));
 }
 
@@ -834,7 +661,8 @@ void EmuApp::showEmulation()
 	configureAppForEmulation(true);
 	resetInput();
 	inputManager.vController.applySavedButtonAlpha();
-	viewController().showEmulationView(configFrameTime());
+	viewController().emuView.setShowFrameTimingStats(showFrameTimingStats);
+	viewController().showEmulationView();
 	startEmulation();
 }
 
@@ -843,14 +671,9 @@ void EmuApp::startEmulation()
 	if(!viewController().isShowingEmulation())
 		return;
 	videoLayer.setBrightnessScale(1.f);
-	video.onFrameFinished = [&, &viewController = viewController()](EmuVideo&)
-	{
-		auto &win = viewController.emuWindow();
-		win.drawNow();
-	};
-	frameTimeStats = {};
+	frameTimingStats = {};
 	system().start(*this);
-	emuSystemTask.start(emuWindow());
+	systemTask.start(emuWindow());
 	setCPUNeedsLowLatency(appContext(), true);
 }
 
@@ -866,9 +689,8 @@ void EmuApp::showUI(bool updateTopView)
 
 void EmuApp::pauseEmulation()
 {
-	emuSystemTask.stop();
+	systemTask.stop();
 	setCPUNeedsLowLatency(appContext(), false);
-	video.onFrameFinished = [](EmuVideo&){};
 	system().pause(*this);
 	setRunSpeed(1.);
 	videoLayer.setBrightnessScale(pausedVideoBrightnessScale);
@@ -966,12 +788,14 @@ void EmuApp::printScreenshotResult(bool success)
 		appContext().formatDateAndTime(WallClock::now())));
 }
 
+[[gnu::weak]] bool EmuApp::willCreateSystem(ViewAttachParams, const Input::Event&) { return true; }
+
 void EmuApp::createSystemWithMedia(IO io, CStringView path, std::string_view displayName,
 	const Input::Event &e, EmuSystemCreateParams params, ViewAttachParams attachParams,
 	CreateSystemCompleteDelegate onComplete)
 {
-	assert(strlen(path));
-	if(!EmuApp::hasArchiveExtension(displayName) && !EmuSystem::defaultFsFilter(displayName))
+	assume(std::strlen(path));
+	if(!EmuApp::hasArchiveExtension(displayName) && !AppMeta::defaultFsFilter(displayName))
 	{
 		postErrorMessage(
 			UI_TEXT("无效的文件扩展名")
@@ -986,7 +810,7 @@ void EmuApp::createSystemWithMedia(IO io, CStringView path, std::string_view dis
 	auto loadProgressView = std::make_unique<LoadProgressView>(attachParams, e, onComplete);
 	auto &msgPort = loadProgressView->messagePort();
 	pushAndShowModalView(std::move(loadProgressView), e);
-	IG::makeDetachedThread(
+	makeDetachedThread(
 		[this, io{std::move(io)}, pathStr = FS::PathString{path}, nameStr = FS::FileString{displayName}, &msgPort, params]() mutable
 		{
 			log.info("starting loader thread");
@@ -1053,7 +877,7 @@ void EmuApp::readState(std::span<uint8_t> buff)
 {
 	auto suspendCtx = suspendEmulationThread();
 	system().readState(*this, buff);
-	system().clearInputBuffers(viewController().inputView);
+	system().clearInputBuffers();
 	autosaveManager.resetTimer();
 }
 
@@ -1136,7 +960,7 @@ bool EmuApp::loadState(CStringView path)
 
 bool EmuApp::loadStateWithSlot(int slot)
 {
-	assert(slot != -1);
+	assume(slot != -1);
 	return loadState(system().statePath(slot));
 }
 
@@ -1153,8 +977,6 @@ FS::PathString EmuApp::validSearchPath(const FS::PathString &path) const
 }
 
 [[gnu::weak]] void EmuApp::onMainWindowCreated(ViewAttachParams, const Input::Event &) {}
-
-[[gnu::weak]] void EmuApp::onCustomizeNavView(EmuApp::NavView &) {}
 
 [[gnu::weak]] std::unique_ptr<View> EmuApp::makeCustomView(ViewAttachParams, EmuApp::ViewID)
 {
@@ -1185,11 +1007,11 @@ void EmuApp::resetInput()
 
 void EmuApp::setRunSpeed(double speed)
 {
-	assumeExpr(speed > 0.);
-	auto suspendCtx = suspendEmulationThread();
-	system().frameTimeMultiplier = 1. / speed;
+	assume(speed > 0.);
+	auto _ = suspendEmulationThread();
+	system().frameRateMultiplier = speed;
 	audio.setSpeedMultiplier(speed);
-	configFrameTime();
+	systemTask.updateSystemFrameRate();
 }
 
 FS::PathString EmuApp::sessionConfigPath()
@@ -1314,60 +1136,11 @@ void EmuApp::saveSystemOptions(FileIO &configFile)
 	system().writeConfig(ConfigType::CORE, configFile);
 }
 
-EmuSystemTask::SuspendContext EmuApp::suspendEmulationThread() { return emuSystemTask.suspend(); }
+EmuSystemTask::SuspendContext EmuApp::suspendEmulationThread() { return systemTask.suspend(); }
 
-FrameTimeConfig EmuApp::configFrameTime()
-{
-	std::array<FrameRate, 1> overrideRate{overrideScreenFrameRate};
-	auto supportedRates = overrideScreenFrameRate ? std::span<const FrameRate>{overrideRate.data(), 1} : emuScreen().supportedFrameRates();
-	auto frameTimeConfig = outputTimingManager.frameTimeConfig(system(), supportedRates);
-	system().configFrameTime(audio.format().rate, frameTimeConfig.time);
-	system().timing.exactFrameDivisor = 0;
-	if(frameTimeConfig.refreshMultiplier > 0 &&
-		(allowBlankFrameInsertion || effectiveFrameTimeSource() == FrameTimeSource::Renderer))
-	{
-		system().timing.exactFrameDivisor = std::round(emuScreen().frameRate() / frameTimeConfig.rate);
-		log.info("using exact frame divisor:{}", system().timing.exactFrameDivisor);
-	}
-	return frameTimeConfig;
-}
+void EmuApp::updateFrameRate() { systemTask.updateSystemFrameRate(); }
 
-void EmuApp::runFrames(EmuSystemTaskContext taskCtx, EmuVideo *video, EmuAudio *audio, int frames)
-{
-	skipFrames(taskCtx, frames - 1, audio);
-	system().runFrame(taskCtx, video, audio);
-	system().updateBackupMemoryCounter();
-}
-
-void EmuApp::skipFrames(EmuSystemTaskContext taskCtx, int frames, EmuAudio *audio)
-{
-	assert(system().hasContent());
-	for([[maybe_unused]] auto i : iotaCount(frames))
-	{
-		system().runFrame(taskCtx, nullptr, audio);
-	}
-}
-
-bool EmuApp::skipForwardFrames(EmuSystemTaskContext taskCtx, int frames)
-{
-	for(auto i : iotaCount(frames))
-	{
-		skipFrames(taskCtx, 1, nullptr);
-		if(!system().shouldFastForward())
-		{
-			log.info("skip-forward ended early after {} frame(s)", i);
-			return false;
-		}
-	}
-	return true;
-}
-
-void EmuApp::notifyWindowPresented()
-{
-	framePresentedSem.release();
-}
-
-bool EmuApp::writeScreenshot(IG::PixmapView pix, CStringView path)
+bool EmuApp::writeScreenshot(PixmapView pix, CStringView path)
 {
 	return pixmapWriter.writeToFile(pix, path);
 }
@@ -1384,7 +1157,7 @@ FS::PathString EmuApp::makeNextScreenshotFilename()
 
 void EmuApp::setMogaManagerActive(bool on, bool notify)
 {
-	IG::doIfUsed(mogaManagerPtr,
+	doIfUsed(mogaManagerPtr,
 		[&](auto &mogaManagerPtr)
 		{
 			if(on)
@@ -1415,21 +1188,6 @@ void EmuApp::configureAppForEmulation(bool running)
 	appContext().setHintKeyRepeat(!running);
 }
 
-void EmuApp::setIntendedFrameRate(Window &win, FrameTimeConfig config)
-{
-	enableBlankFrameInsertion = false;
-	if(allowBlankFrameInsertion && config.refreshMultiplier > 1 && frameInterval <= 1)
-	{
-		enableBlankFrameInsertion = true;
-		if(!overrideScreenFrameRate)
-		{
-			config.rate *= config.refreshMultiplier;
-			log.info("Multiplied intended frame rate to:{:g}", config.rate);
-		}
-	}
-	return win.setIntendedFrameRate(overrideScreenFrameRate ? FrameRate(overrideScreenFrameRate) : config.rate);
-}
-
 void EmuApp::onFocusChange(bool in)
 {
 	if(viewController().isShowingEmulation())
@@ -1454,27 +1212,25 @@ bool EmuApp::allWindowsAreFocused() const
 	return windowData(appContext().mainWindow()).focused && (!hasExtraWindow(appContext()) || extraWindowIsFocused(appContext()));
 }
 
-void EmuApp::setEmuViewOnExtraWindow(bool on, IG::Screen &screen)
+void EmuApp::setEmuViewOnExtraWindow(bool on, Screen &screen)
 {
 	auto ctx = appContext();
 	if(on && !hasExtraWindow(ctx))
 	{
 		log.info("setting emu view on extra window");
-		IG::WindowConfig winConf{ .title = ctx.applicationName };
+		WindowConfig winConf{ .title = ApplicationMeta::name };
 		winConf.setScreen(screen);
 		winConf.setFormat(windowDrawableConfig.pixelFormat);
 		auto extraWin = ctx.makeWindow(winConf,
-			[this](IG::ApplicationContext, IG::Window &win)
+			[this](ApplicationContext, Window &win)
 			{
 				renderer.attachWindow(win, windowDrawableConfig);
 				auto &extraWinData = win.makeAppData<WindowData>();
 				extraWinData.hasPopup = false;
 				extraWinData.focused = true;
-				auto suspendCtx = emuSystemTask.setWindow(win);
-				if(system().isActive())
-				{
-					setIntendedFrameRate(win, configFrameTime());
-				}
+				auto suspendCtx = systemTask.setWindow(win);
+				mainWindow().setFrameEventsOnThisThread();
+				mainWindow().setDrawEventEnabled(true);
 				extraWinData.updateWindowViewport(win, makeViewport(win), renderer);
 				viewController().moveEmuViewToWindow(win);
 
@@ -1515,16 +1271,12 @@ void EmuApp::setEmuViewOnExtraWindow(bool on, IG::Screen &screen)
 						},
 						[&](const DismissEvent&)
 						{
-							auto suspendCtx = emuSystemTask.setWindow(mainWindow());
-							system().resetFrameTime();
+							auto suspendCtx = systemTask.setWindow(mainWindow());
+							system().resetFrameTiming();
 							log.info("setting emu view on main window");
 							viewController().moveEmuViewToWindow(appContext().mainWindow());
 							viewController().movePopupToWindow(appContext().mainWindow());
 							viewController().placeEmuViews();
-							if(system().isActive())
-							{
-								setIntendedFrameRate(mainWindow(), configFrameTime());
-							}
 							suspendCtx.resume();
 							mainWindow().postDraw();
 							return true;
@@ -1558,61 +1310,24 @@ void EmuApp::configureSecondaryScreens()
 	}
 }
 
-void EmuApp::record(FrameTimeStatEvent event, SteadyClockTimePoint t)
+void EmuApp::record(FrameTimingStatEvent event, SteadyClockTimePoint t)
 {
-	doIfUsed(frameTimeStats, [&](auto &frameTimeStats)
-	{
-		if(!showFrameTimeStats || !viewController().isShowingEmulation())
+	if(!viewController().emuView.showingFrameTimingStats())
 			return;
-		(&frameTimeStats.startOfFrame)[to_underlying(event)] = hasTime(t) ? t : SteadyClock::now();
-	});
-}
-
-IG::OnFrameDelegate EmuApp::onFrameDelayed(int8_t delay)
-{
-	return [this, delay](IG::FrameParams params)
+	auto setTime = [](auto& var, SteadyClockTimePoint t)
 	{
-		if(params.isFromRenderer() || video.image())
-		{
-			emuSystemTask.window().drawNow();
-		}
-		if(delay)
-		{
-			addOnFrameDelegate(onFrameDelayed(delay - 1));
-		}
-		else
-		{
-			if(system().isActive())
-			{
-				addOnFrame();
-			}
-		}
-		return false;
+		if(!used(var))
+			return;
+		var = hasTime(t) ? t : SteadyClock::now();
 	};
-}
-
-void EmuApp::addOnFrameDelegate(IG::OnFrameDelegate onFrame)
-{
-	viewController().emuWindow().addOnFrame(onFrame, frameTimeSource);
-}
-
-void EmuApp::addOnFrameDelayed()
-{
-	// delay before adding onFrame handler to let timestamps stabilize
-	auto delay = viewController().emuWindowScreen()->frameRate() / 4;
-	//log.info("delaying onFrame handler by {} frames", onFrameHandlerDelay);
-	addOnFrameDelegate(onFrameDelayed(delay));
-}
-
-void EmuApp::addOnFrame()
-{
-	addOnFrameDelegate(system().onFrameUpdate);
-	savedAdvancedFrames = 0;
-}
-
-void EmuApp::removeOnFrame()
-{
-	viewController().emuWindow().removeOnFrame(system().onFrameUpdate, frameTimeSource);
+	switch(event)
+	{
+		case FrameTimingStatEvent::startOfFrame: return setTime(frameTimingStats.startOfFrame, t);
+		case FrameTimingStatEvent::startOfEmulation: return setTime(frameTimingStats.startOfEmulation, t);
+		case FrameTimingStatEvent::waitForPresent: return setTime(frameTimingStats.waitForPresent, t);
+		case FrameTimingStatEvent::endOfFrame: return setTime(frameTimingStats.endOfFrame, t);
+	}
+	std::unreachable();
 }
 
 bool EmuApp::setAltSpeed(AltSpeedMode mode, int16_t speed)
@@ -1627,19 +1342,18 @@ void EmuApp::applyCPUAffinity(bool active)
 {
 	if(cpuAffinityMode.value() == CPUAffinityMode::Any)
 		return;
-	auto frameThreadGroup = std::vector{emuSystemTask.threadId(), renderer.task().threadId()};
+	auto frameThreadGroup = std::vector{systemTask.threadId(), renderer.task().threadId()};
 	system().addThreadGroupIds(frameThreadGroup);
 	if(cpuAffinityMode.value() == CPUAffinityMode::Auto && perfHintManager)
 	{
 		if(active)
 		{
-			auto targetTime = targetFrameTime(emuScreen());
-			perfHintSession = perfHintManager.session(frameThreadGroup, targetTime);
+			auto targetDuration = emuScreen().targetFrameDuration();
+			perfHintSession = perfHintManager.session(frameThreadGroup, targetDuration);
 			if(perfHintSession)
-				log.info("made performance hint session with target time:{} ({} - {})",
-					targetTime, emuScreen().frameTime(), emuScreen().presentationDeadline());
+				log.info("made performance hint session with target duration:{}", targetDuration);
 			else
-				log.error("error making performance hint session");
+				log.error("error making performance hint session with target duration:{}", targetDuration);
 		}
 		else
 		{
@@ -1667,6 +1381,12 @@ bool EmuApp::cpuAffinity(int cpuNumber) const
 	return doIfUsed(cpuAffinityMask, [&](auto &cpuAffinityMask) { return cpuAffinityMask & bit(cpuNumber); }, false);
 }
 
+void EmuApp::setLowLatencyVideo(bool on)
+{
+	lowLatencyVideo = on;
+	video.resetImage();
+}
+
 std::unique_ptr<View> EmuApp::makeView(ViewAttachParams attach, ViewID id)
 {
 	auto view = makeCustomView(attach, id);
@@ -1681,7 +1401,7 @@ std::unique_ptr<View> EmuApp::makeView(ViewAttachParams attach, ViewID id)
 		case ViewID::SYSTEM_OPTIONS: return std::make_unique<SystemOptionView>(attach);
 		case ViewID::FILE_PATH_OPTIONS: return std::make_unique<FilePathOptionView>(attach);
 		case ViewID::GUI_OPTIONS: return std::make_unique<GUIOptionView>(attach);
-		default: bug_unreachable("Tried to make non-existing view ID:%d", (int)id);
+		default: unreachable();
 	}
 }
 
@@ -1690,11 +1410,9 @@ void EmuApp::closeBluetoothConnections()
 	Bluetooth::closeBT(bluetoothAdapter);
 }
 
-void EmuApp::reportFrameWorkTime()
+void EmuApp::reportFrameWorkDuration(Nanoseconds nSecs)
 {
-	auto lastFrameTimestamp = system().timing.lastFrameTimestamp();
-	if(perfHintSession && hasTime(lastFrameTimestamp))
-		perfHintSession.reportActualWorkTime(SteadyClock::now() - lastFrameTimestamp);
+	perfHintSession.reportActualWorkDuration(nSecs);
 }
 
 MainWindowData &EmuApp::mainWindowData() const
@@ -1702,14 +1420,14 @@ MainWindowData &EmuApp::mainWindowData() const
 	return EmuEx::mainWindowData(appContext().mainWindow());
 }
 
-EmuApp &EmuApp::get(IG::ApplicationContext ctx)
+EmuApp &EmuApp::get(ApplicationContext ctx)
 {
 	return ctx.applicationAs<EmuApp>();
 }
 
 EmuApp &gApp() { return *gAppPtr; }
 
-IG::ApplicationContext gAppContext() { return gApp().appContext(); }
+ApplicationContext gAppContext() { return gApp().appContext(); }
 
 void pushAndShowModalView(std::unique_ptr<View> v, const Input::Event &e)
 {

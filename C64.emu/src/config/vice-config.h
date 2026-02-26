@@ -20,9 +20,6 @@
 /* Are we compiling for DragonFly BSD? */
 /* #undef DRAGONFLYBSD_COMPILE */
 
-/* External FFMPEG libraries are used */
-/* #undef EXTERNAL_FFMPEG */
-
 /* Use the 65xx cpu history feature. */
 //#define FEATURE_CPUMEMHISTORY /**/
 
@@ -145,21 +142,6 @@
 /* Define to 1 if you have the <fcntl.h> header file. */
 #define HAVE_FCNTL_H 1
 
-/* Have FFMPEG av* libs available */
-/* #undef HAVE_FFMPEG */
-
-/* Have libav avresample lib available */
-/* #undef HAVE_FFMPEG_AVRESAMPLE */
-
-/* FFMPEG uses subdirs for headers */
-/* #undef HAVE_FFMPEG_HEADER_SUBDIRS */
-
-/* Have FFMPEG swresample lib available */
-/* #undef HAVE_FFMPEG_SWRESAMPLE */
-
-/* Have FFMPEG swscale lib available */
-/* #undef HAVE_FFMPEG_SWSCALE */
-
 /* Define to 1 if you have the <FLAC/stream_decoder.h> header file. */
 //#define HAVE_FLAC_STREAM_DECODER_H 1
 
@@ -209,6 +191,9 @@
 
 /* Can we use the GIF or UNGIF library? */
 /* #undef HAVE_GIF */
+
+/* Define to 1 if you have the <glob.h> header file. */
+/* #undef HAVE_GLOB_H */
 
 /* Support for HardSID. */
 /* #undef HAVE_HARDSID */
@@ -276,6 +261,9 @@
 /* Define to 1 if you have the `m' library (-lm). */
 #define HAVE_LIBM 1
 
+/* Support for libnet library */
+/* #undef HAVE_LIBNET */
+
 /* Define to 1 if you have the `ogg' library (-logg). */
 //#define HAVE_LIBOGG 1
 
@@ -290,6 +278,9 @@
 
 /* Define to 1 if you have the <libusbhid.h> header file. */
 /* #undef HAVE_LIBUSBHID_H */
+
+/* Define to 1 if you have the <libusb-1.0/libusb.h> header file. */
+#define HAVE_LIBUSB_1_0_LIBUSB_H 1
 
 /* Define to 1 if you have the <libusb.h> header file. */
 /* #undef HAVE_LIBUSB_H */
@@ -308,6 +299,9 @@
 
 /* Define to 1 if you have the <limits.h> header file. */
 #define HAVE_LIMITS_H 1
+
+/* Enable support for Linux evdev joysticks. */
+//#define HAVE_LINUX_EVDEV /**/
 
 /* Define to 1 if you have the <linux/hardsid.h> header file. */
 /* #undef HAVE_LINUX_HARDSID_H */
@@ -511,10 +505,10 @@
 #define HAVE_STDINT_H 1
 
 /* Define to 1 if you have the <stdio.h> header file. */
-/* #undef HAVE_STDIO_H */
+#define HAVE_STDIO_H 1
 
 /* Define to 1 if you have the <stdlib.h> header file. */
-/* #undef HAVE_STDLIB_H */
+#define HAVE_STDLIB_H 1
 
 /* Define to 1 if you have the `stpcpy' function. */
 #define HAVE_STPCPY 1
@@ -532,7 +526,7 @@
 #define HAVE_STRINGS_H 1
 
 /* Define to 1 if you have the <string.h> header file. */
-/* #undef HAVE_STRING_H */
+#define HAVE_STRING_H 1
 
 /* Define to 1 if you have the `strlcpy' function. */
 #define HAVE_STRLCPY 1
@@ -617,6 +611,9 @@
 /* Define to 1 if you have the <usbhid.h> header file. */
 /* #undef HAVE_USBHID_H */
 
+/* Support for USBSID */
+//#define HAVE_USBSID /**/
+
 /* Define to 1 if you have the <usb.h> header file. */
 /* #undef HAVE_USB_H */
 
@@ -662,17 +659,14 @@
 /* Define to 1 if you have the `_ftelli64' function. */
 /* #undef HAVE__FTELLI64 */
 
+/* Install XDG desktop files and icons */
+/* #undef INSTALL_DESKTOP_FILES */
+
 /* Are we compiling for Linux? */
 #define LINUX_COMPILE /**/
 
-/* Enable support for Linux style joysticks. */
-//#define LINUX_JOYSTICK /**/
-
 /* Enable MacOS-specific code. */
 /* #undef MACOS_COMPILE */
-
-/* Enable Mac Joystick support. */
-/* #undef MAC_JOYSTICK */
 
 /* Whether struct sockaddr::__ss_family exists */
 /* #undef NEED_PREFIXED_SS_FAMILY */
@@ -693,7 +687,7 @@
 #define PACKAGE_NAME "vice"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "vice 3.8"
+#define PACKAGE_STRING "vice 3.10"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "vice"
@@ -702,7 +696,7 @@
 #define PACKAGE_URL ""
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "3.8"
+#define PACKAGE_VERSION "3.10"
 
 /* Where do we want to install the executable? */
 #define PREFIX "/usr/local"
@@ -798,10 +792,7 @@
 //#define USE_VORBIS /**/
 
 /* Version number of package */
-#define VERSION "3.8"
-
-/* Support for The Final Ethernet */
-/* #undef VICE_USE_LIBNET_1_1 */
+#define VERSION "3.10"
 
 /* Are we compiling for win32? */
 /* #undef WINDOWS_COMPILE */

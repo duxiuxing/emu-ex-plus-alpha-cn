@@ -13,19 +13,19 @@
 	You should have received a copy of the GNU General Public License
 	along with EmuFramework.  If not, see <http://www.gnu.org/licenses/> */
 
-#include <emuframework/EmuSystem.hh>
+#include <emuframework/EmuInput.hh>
 #include <emuframework/EmuApp.hh>
-#include <emuframework/EmuViewController.hh>
 #include <emuframework/AppKeyCode.hh>
 #include <emuframework/FilePicker.hh>
 #include <emuframework/Option.hh>
 #include "InputDeviceData.hh"
 #include "gui/ResetAlertView.hh"
-#include <emuframework/EmuOptions.hh>
-#include <imagine/logger/logger.h>
+import imagine;
 
 namespace EmuEx
 {
+
+using namespace IG;
 
 constexpr SystemLogger log{"InputManager"};
 
@@ -51,7 +51,7 @@ bool InputManager::handleAppActionKeyInput(EmuApp& app, InputAction action, cons
 	bool isPushed = action.state == Input::Action::PUSHED;
 	auto& viewController = app.viewController();
 	auto& system = app.system();
-	assert(action.flags.appCode);
+	assume(action.flags.appCode);
 	using enum AppKeyCode;
 	switch(AppKeyCode(action.code))
 	{
@@ -192,17 +192,7 @@ bool InputManager::handleAppActionKeyInput(EmuApp& app, InputAction action, cons
 		{
 			if(!isPushed)
 				break;
-			if(app.rewindManager.maxStates)
-			{
-				app.rewindManager.rewindState(app);
-			}
-			else
-			{
-				auto suspendCtx = app.suspendEmulationThread();
-				app.postMessage(3, false,
-					UI_TEXT("请在“选项➔系统”中开启倒带操作")
-				);
-			}
+			app.rewindManager.rewindState(app);
 		}
 		break;
 		case softReset:
@@ -234,7 +224,7 @@ bool InputManager::handleAppActionKeyInput(EmuApp& app, InputAction action, cons
 
 void InputManager::handleSystemKeyInput(EmuApp& app, KeyInfo keyInfo, Input::Action act, uint32_t metaState, SystemKeyInputFlags flags)
 {
-	if(flags.allowTurboModifier && turboModifierActive && std::ranges::all_of(keyInfo.codes, app.allowsTurboModifier))
+	if(flags.allowTurboModifier && turboModifierActive && std::ranges::all_of(keyInfo.codes, AppMeta::allowsTurboModifier))
 		keyInfo.flags.turbo = 1;
 	if(keyInfo.flags.toggle)
 	{
@@ -275,7 +265,7 @@ KeyConfigDesc InputManager::keyConfig(std::string_view name, const Input::Device
 	auto conf = customKeyConfig(name, dev);
 	if(conf)
 		return conf->desc();
-	for(auto &conf : EmuApp::defaultKeyConfigs())
+	for(auto &conf: AppMeta::defaultKeyConfigs())
 	{
 		if(conf.name == name && conf.map == dev.map())
 			return conf;
@@ -366,7 +356,8 @@ void InputManager::writeSavedInputDevices(ApplicationContext ctx, FileIO &io) co
 	}
 	if(bytes > 0xFFFF)
 	{
-		bug_unreachable("excessive input device config size, should not happen");
+		log.error("excessive input device config size, should not happen");
+		unreachable();
 	}
 	// write to config file
 	log.info("saving {} input device configs, {} bytes", savedDevConfigs.size(), bytes);
@@ -411,7 +402,7 @@ bool InputManager::readCustomKeyConfig(MapIO &io)
 bool InputManager::readSavedInputDevices(MapIO &io)
 {
 	auto confs = io.get<uint8_t>();
-	for([[maybe_unused]] auto confIdx : iotaCount(confs))
+	for(auto _: iotaCount(confs))
 	{
 		InputDeviceSavedConfig devConf;
 		auto enumIdWithFlags = io.get<uint8_t>();
@@ -419,7 +410,7 @@ bool InputManager::readSavedInputDevices(MapIO &io)
 		devConf.enumId = enumIdWithFlags & devConf.ENUM_ID_MASK;
 		devConf.enabled = io.get<uint8_t>();
 		devConf.player = io.get<uint8_t>();
-		if(devConf.player != playerIndexMulti && devConf.player > EmuSystem::maxPlayers)
+		if(devConf.player != playerIndexMulti && devConf.player > AppMeta::maxPlayers)
 		{
 			log.warn("player {} out of range", devConf.player);
 			devConf.player = 0;
@@ -435,11 +426,16 @@ bool InputManager::readSavedInputDevices(MapIO &io)
 			log.error("unexpected 0 length device name");
 			return false;
 		}
-		[[maybe_unused]] auto keyConfMap = Input::validateMap(io.get<uint8_t>());
+		auto _ = Input::validateMap(io.get<uint8_t>());
 		readSizedData<uint8_t>(io, devConf.keyConfName);
 		if(!find(savedDevConfigs, [&](const auto &confPtr){ return *confPtr == devConf;}))
 		{
-			log.info("read input device config:{}, id:{}", devConf.name, devConf.enumId);
+			log.info("read input device config:{}, id:{} key conf:{}", devConf.name, devConf.enumId, devConf.keyConfName);
+			if(!std::ranges::contains(customKeyConfigs, devConf.keyConfName, [](const auto& p) -> std::string_view { return p->name; }))
+			{
+				log.warn("key conf:{} doesn't exist, resetting to default", devConf.keyConfName);
+				devConf.keyConfName.clear();
+			}
 			savedDevConfigs.emplace_back(std::make_unique<InputDeviceSavedConfig>(std::move(devConf)));
 		}
 		else
@@ -491,7 +487,8 @@ void InputManager::writeInputDeviceSessionConfigs(FileIO &io) const
 	}
 	if(bytes > 0xFFFF)
 	{
-		bug_unreachable("excessive input device config size, should not happen");
+		log.error("excessive input device config size, should not happen");
+		unreachable();
 	}
 	// write to config file
 	log.info("saving {} input device content configs, {} bytes", savedSessionDevConfigs.size(), bytes);
@@ -513,12 +510,12 @@ bool InputManager::readInputDeviceSessionConfigs(ApplicationContext ctx, MapIO &
 {
 	savedSessionDevConfigs.clear();
 	auto confs = io.get<uint8_t>();
-	for([[maybe_unused]] auto confIdx : iotaCount(confs))
+	for(auto _: iotaCount(confs))
 	{
 		InputDeviceSavedSessionConfig devConf;
 		devConf.enumId = io.get<uint8_t>();
 		devConf.player = io.get<int8_t>();
-		if(devConf.player != playerIndexMulti && devConf.player != playerIndexUnset && devConf.player > EmuSystem::maxPlayers)
+		if(devConf.player != playerIndexMulti && devConf.player != playerIndexUnset && devConf.player > AppMeta::maxPlayers)
 		{
 			log.warn("player {} out of range", devConf.player);
 			devConf.player = playerIndexUnset;
@@ -555,7 +552,7 @@ bool InputManager::readInputDeviceSessionConfigs(ApplicationContext ctx, MapIO &
 KeyConfigDesc InputManager::defaultConfig(const Input::Device &dev) const
 {
 	KeyConfigDesc firstConfig{}, firstSubtypeConfig{};
-	for(const auto &conf : EmuApp::defaultKeyConfigs())
+	for(const auto &conf: AppMeta::defaultKeyConfigs())
 	{
 		if(dev.map() == conf.map && !firstConfig)
 			firstConfig = conf;
@@ -593,7 +590,7 @@ std::string InputManager::toString(KeyCode c, KeyFlags flags) const
 {
 	if(flags.appCode)
 		return std::string{EmuEx::toString(AppKeyCode(c))};
-	return std::string{EmuApp::systemKeyCodeToString(c)};
+	return std::string{AppMeta::systemKeyCodeToString(c)};
 }
 
 void InputManager::updateKeyboardMapping()
@@ -614,7 +611,7 @@ void EmuApp::setDisabledInputKeys(std::span<const KeyCode> keys)
 	if(!vController.hasWindow())
 		return;
 	vController.place();
-	system().clearInputBuffers(viewController().inputView);
+	system().clearInputBuffers();
 }
 
 void EmuApp::unsetDisabledInputKeys()
@@ -636,7 +633,7 @@ const KeyCategory *InputManager::categoryOfKeyCode(KeyInfo key) const
 {
 	if(key.isAppKey())
 		return &appKeyCategory;
-	for(const auto &cat : EmuApp::keyCategories())
+	for(const auto &cat : AppMeta::keyCategories())
 	{
 		if(find(cat.keys, [&](auto &k) { return k.codes == key.codes; }))
 			return &cat;
@@ -652,7 +649,7 @@ KeyInfo InputManager::validateSystemKey(KeyInfo key, bool isUIKey) const
 		if(isUIKey)
 			return appKeyCategory.keys[0];
 		else
-			return EmuApp::keyCategories()[0].keys[0];
+			return AppMeta::keyCategories()[0].keys[0];
 	}
 	return key;
 }
@@ -682,17 +679,17 @@ std::string_view toString(AppKeyCode code)
 		case AppKeyCode::openMenu:
 			return UI_TEXT("打开菜单");
 		case AppKeyCode::toggleFastForward:
-			return UI_TEXT("快进切换");
+			return UI_TEXT("切换快进");
 		case AppKeyCode::turboModifier:
-			return UI_TEXT("连发调节");
+			return UI_TEXT("调节连发");
 		case AppKeyCode::exitApp:
 			return UI_TEXT("退出应用程序");
 		case AppKeyCode::slowMotion:
 			return UI_TEXT("慢动作");
 		case AppKeyCode::toggleSlowMotion:
-			return UI_TEXT("慢动作切换");
+			return UI_TEXT("切换慢动作");
 		case AppKeyCode::rewind:
-			return UI_TEXT("倒退一个进度点");
+			return UI_TEXT("倒带");
 		case AppKeyCode::softReset:
 			return UI_TEXT("软重启");
 		case AppKeyCode::hardReset:

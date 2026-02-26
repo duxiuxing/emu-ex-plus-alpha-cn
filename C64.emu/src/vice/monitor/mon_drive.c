@@ -144,13 +144,13 @@ void mon_drive_execute_disk_cmd(char *cmd)
 /* check if a drive is associated with a filesystem/directory */
 int mon_drive_is_fsdevice(int drive_unit)
 {
-    int virtualdev = 0, truedrive = 0, iecdevice = 0 /* , fsdevice = 0 */;
+    int trapdevice = 0, truedrive = 0, busdevice = 0 /* , fsdevice = 0 */;
     /* FIXME: unsure if this check really works as advertised */
-    resources_get_int_sprintf("VirtualDevice%d", &virtualdev, drive_unit);
+    resources_get_int_sprintf("TrapDevice%d", &trapdevice, drive_unit);
     resources_get_int_sprintf("Drive%dTrueEmulation", &truedrive, drive_unit);
-    resources_get_int_sprintf("IECDevice%i", &iecdevice, drive_unit);
+    resources_get_int_sprintf("BusDevice%i", &busdevice, drive_unit);
     /* resources_get_int_sprintf("FileSystemDevice%i", &fsdevice, drive_unit); */
-    if ((virtualdev && !truedrive) || (!virtualdev && iecdevice)) {
+    if ((trapdevice && !truedrive) || (!trapdevice && busdevice)) {
         if (machine_bus_device_type_get(drive_unit) == SERIAL_DEVICE_FS) {
             return 1;
         }
@@ -195,19 +195,23 @@ void mon_drive_list(int drive_unit)
     listing = diskcontents_block_read(vdrive, 0);
 
     if (listing != NULL) {
-        char *string = image_contents_to_string(listing, IMAGE_CONTENTS_STRING_ASCII);
+        char *string = image_contents_to_string(listing, IMAGE_CONTENTS_STRING_PETSCII);
         image_contents_file_list_t *element = listing->file_list;
 
-        mon_out("%s\n", string);
+        /* disk header */
+        /* FIXME: the string should ideally be shown in reverse */
+        mon_petscii_upper_out((int)strlen(string), "%s", string);    /* FIXME: do not use strlen */
         lib_free(string);
+        mon_out("\n");
 
         if (element == NULL) {
             mon_out("Empty image\n");
         } else {
             do {
-                string = image_contents_file_to_string(element, IMAGE_CONTENTS_STRING_ASCII);
-                mon_out("%s\n", string);
+                string = image_contents_file_to_string(element, IMAGE_CONTENTS_STRING_PETSCII);
+                mon_petscii_upper_out((int)strlen(string), "%s", string);    /* FIXME: do not use strlen */
                 lib_free(string);
+                mon_out("\n");
             }
             while ((element = element->next) != NULL);
         }

@@ -14,13 +14,14 @@
 	along with Imagine.  If not, see <http://www.gnu.org/licenses/> */
 
 #include <imagine/base/Application.hh>
-#include <imagine/logger/logger.h>
+#include <imagine/util/utility.hh>
+#include <imagine/logger/SystemLogger.hh>
 
 namespace IG
 {
 
-const char *copyright = "Imagine is Copyright 2010-2023 Robert Broglia";
-constexpr SystemLogger log{"App"};
+const char *copyright = "Imagine is Copyright 2010-2026 Robert Broglia";
+static SystemLogger log{"App"};
 
 BaseApplication::BaseApplication(ApplicationContext ctx)
 {
@@ -60,7 +61,7 @@ const WindowContainer &BaseApplication::windows() const
 
 Window &BaseApplication::mainWindow() const
 {
-	assert(windows().size());
+	assume(windows().size());
 	return *windows()[0];
 }
 
@@ -140,7 +141,7 @@ void BaseApplication::setPausedActivityState()
 
 void BaseApplication::setRunningActivityState()
 {
-	assert(appState != ActivityState::EXITING); // should never set running state after exit state
+	assume(appState != ActivityState::EXITING); // should never set running state after exit state
 	appState = ActivityState::RUNNING;
 }
 
@@ -166,12 +167,12 @@ bool BaseApplication::isExiting() const
 
 bool BaseApplication::addOnResume(ResumeDelegate del, int priority)
 {
-	return onResume_.add(del, priority);
+	return onResume_.insert(del, priority, InsertMode::unique);
 }
 
 bool BaseApplication::removeOnResume(ResumeDelegate del)
 {
-	return onResume_.remove(del);
+	return onResume_.removeFirst(del);
 }
 
 bool BaseApplication::containsOnResume(ResumeDelegate del) const
@@ -181,12 +182,12 @@ bool BaseApplication::containsOnResume(ResumeDelegate del) const
 
 bool BaseApplication::addOnExit(ExitDelegate del, int priority)
 {
-	return onExit_.add(del, priority);
+	return onExit_.insert(del, priority, InsertMode::unique);
 }
 
 bool BaseApplication::removeOnExit(ExitDelegate del)
 {
-	return onExit_.remove(del);
+	return onExit_.removeFirst(del);
 }
 
 bool BaseApplication::containsOnExit(ExitDelegate del) const
@@ -244,6 +245,15 @@ void Application::runOnMainThread(MainThreadMessageDelegate del)
 void Application::flushMainThreadMessages()
 {
 	commandPort.dispatchMessages();
+}
+
+void onBug(std::source_location location)
+{
+	abort(std::format("bug in {} @ {}:{} {}",
+		location.function_name(),
+		location.line(),
+		location.column(),
+		location.file_name()).c_str());
 }
 
 }

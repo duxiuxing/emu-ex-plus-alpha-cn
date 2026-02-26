@@ -16,11 +16,11 @@
 	along with EmuFramework.  If not, see <http://www.gnu.org/licenses/> */
 
 #include <emuframework/EmuAppHelper.hh>
-#include <emuframework/EmuInput.hh>
+#include "../InputDeviceConfig.hh"
+#ifndef IG_USE_MODULE_IMAGINE
 #include <imagine/gui/TableView.hh>
 #include <imagine/gui/MenuItem.hh>
-#include <imagine/util/memory/DynArray.hh>
-#include <vector>
+#endif
 
 namespace EmuEx
 {
@@ -47,13 +47,11 @@ private:
 class InputOverridesDeviceView : public TableView, public EmuAppHelper
 {
 public:
-	InputOverridesDeviceView(UTF16String name, ViewAttachParams,
-		InputOverridesView& rootIMView, const Input::Device&, InputManager&);
+	InputOverridesDeviceView(UTF16String name, ViewAttachParams, const Input::Device&, InputManager&);
 	void onShow() final;
 
 private:
 	InputManager& inputManager;
-	InputOverridesView& rootIMView;
 	DynArray<TextMenuItem> playerItems;
 	MultiChoiceMenuItem player;
 	TextMenuItem loadProfile;

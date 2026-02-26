@@ -14,16 +14,10 @@
 	along with EmuFramework.  If not, see <http://www.gnu.org/licenses/> */
 
 #include <emuframework/ButtonConfigView.hh>
-#include <emuframework/AppKeyCode.hh>
 #include <emuframework/EmuApp.hh>
 #include "InputManagerView.hh"
-#include "../InputDeviceConfig.hh"
 #include "../InputDeviceData.hh"
-#include <imagine/gfx/RendererCommands.hh>
-#include <imagine/gui/AlertView.hh>
-#include <imagine/util/variant.hh>
-#include <imagine/logger/logger.h>
-#include <format>
+import imagine;
 
 namespace EmuEx
 {
@@ -153,7 +147,7 @@ bool ButtonConfigView::inputEvent(const Input::Event& e, ViewInputEventParams)
 	if(e.keyEvent() && e.keyEvent()->pushed(Input::DefaultKey::LEFT) && selected >= resetItemsSize)
 	{
 		auto &keyEv = *e.keyEvent();
-		auto durationSinceLastKeySet = hasTime(leftKeyPushTime) ? keyEv.time() - leftKeyPushTime : SteadyClockTime{};
+		auto durationSinceLastKeySet = hasTime(leftKeyPushTime) ? keyEv.time() - leftKeyPushTime : SteadyClockDuration{};
 		leftKeyPushTime = keyEv.time();
 		if(durationSinceLastKeySet.count() && durationSinceLastKeySet <= Milliseconds(500))
 		{
@@ -220,19 +214,15 @@ void ButtonConfigSetView::place()
 	text.compile({.alignment = Gfx::TextAlignment::center});
 	using Quad = decltype(quads)::Type;
 	auto map = quads.map();
-	Quad{{.bounds = viewRect().as<int16_t>()}}.write(map, 0);
+	Quad{{.bounds = displayRect().as<int16_t>()}}.write(map, 0);
 	if(pointerUIIsInit())
 	{
 		unbind.compile();
 		cancel.compile();
-		WRect btnFrame;
-		btnFrame.setPosRel(viewRect().pos(LB2DO), unbind.nominalHeight() * 2, LB2DO);
-		unbindB = btnFrame;
-		unbindB.x = (viewRect().xSize()/2)*0;
-		unbindB.x2 = (viewRect().xSize()/2)*1;
-		cancelB = btnFrame;
-		cancelB.x = (viewRect().xSize()/2)*1;
-		cancelB.x2 = (viewRect().xSize()/2)*2;
+		WRect btnFrame{{0, 0}, {viewRect().xSize() / 2 - unbind.nominalHeight() / 2, unbind.nominalHeight() * 2}};
+		unbindB = cancelB = btnFrame;
+		unbindB.setPos(viewRect().pos(CB2DO) + Point2D{-viewRect().xSize() / 4, -unbind.nominalHeight() / 2}, CB2DO);
+		cancelB.setPos(viewRect().pos(CB2DO) + Point2D{ viewRect().xSize() / 4, -unbind.nominalHeight() / 2}, CB2DO);
 		Quad{{.bounds = unbindB.as<int16_t>()}}.write(map, 1);
 		Quad{{.bounds = cancelB.as<int16_t>()}}.write(map, 2);
 	}
@@ -327,7 +317,7 @@ void ButtonConfigSetView::finalize()
 
 void ButtonConfigSetView::draw(Gfx::RendererCommands&__restrict__ cmds, ViewDrawParams) const
 {
-	using namespace IG::Gfx;
+	using namespace Gfx;
 	auto &basicEffect = cmds.basicEffect();
 	cmds.set(BlendMode::OFF);
 	basicEffect.disableTexture(cmds);

@@ -13,28 +13,23 @@
 	You should have received a copy of the GNU General Public License
 	along with GBC.emu.  If not, see <http://www.gnu.org/licenses/> */
 
-#include <imagine/gui/TextEntry.hh>
-#include <imagine/fs/FS.hh>
-#include <imagine/util/string.h>
-#include <imagine/util/format.hh>
-#include <imagine/logger/logger.h>
-#include <emuframework/Cheats.hh>
-#include <emuframework/EmuApp.hh>
-#include <emuframework/viewUtils.hh>
-#include <emuframework/Option.hh>
-#include "EmuCheatViews.hh"
-#include "MainSystem.hh"
+module;
 #include <gambatte.h>
+
+module system;
+
+#ifndef UI_TEXT_IMPL
+	#define UI_TEXT_IMPL
+	#define UI_TEXT(x)	x
+#endif
 
 namespace EmuEx
 {
 
-constexpr SystemLogger log{"GBC.emu"};
-
 static bool strIsGGCode(const char *str)
 {
 	int hex;
-	return strlen(str) == 11 &&
+	return std::strlen(str) == 11 &&
 		sscanf(str, "%1x%1x%1x-%1x%1x%1x-%1x%1x%1x",
 			&hex, &hex, &hex, &hex, &hex, &hex, &hex, &hex, &hex) == 9;
 }
@@ -42,7 +37,7 @@ static bool strIsGGCode(const char *str)
 static bool strIsGSCode(const char *str)
 {
 	int hex;
-	return strlen(str) == 8 &&
+	return std::strlen(str) == 8 &&
 		sscanf(str, "%1x%1x%1x%1x%1x%1x%1x%1x",
 			&hex, &hex, &hex, &hex, &hex, &hex, &hex, &hex) == 8;
 }
@@ -120,12 +115,12 @@ void GbcSystem::readCheatFile()
 	{
 		return;
 	}
-	logMsg("reading cheats file:%s", path.data());
+	log.info("reading cheats file:{}", path);
 
 	const auto version = file.get<int8_t>();
 	if(version > 1)
 	{
-		logMsg("skipping due to version code %d", version);
+		log.info("skipping due to version code:{}", version);
 		return;
 	}
 	auto size = file.get<uint16_t>();
@@ -161,7 +156,7 @@ Cheat* GbcSystem::newCheat(EmuApp& app, const char* name, CheatCodeDesc desc)
 	if(!strIsCode(desc.str))
 	{
 		app.postMessage(true,
-			UI_TEXT("Œﬁ–ßµƒ∏Ò Ω")
+			UI_TEXT("Êó†ÊïàÁöÑÊ†ºÂºè")
 		);
 		return {};
 	}
@@ -196,7 +191,7 @@ bool GbcSystem::addCheatCode(EmuApp& app, Cheat*& cheatPtr, CheatCodeDesc desc)
 	if(!strIsCode(desc.str))
 	{
 		app.postMessage(true,
-			UI_TEXT("Œﬁ–ßµƒ∏Ò Ω")
+			UI_TEXT("Êó†ÊïàÁöÑÊ†ºÂºè")
 		);
 		return false;
 	}
@@ -211,7 +206,7 @@ bool GbcSystem::modifyCheatCode(EmuApp& app, Cheat&, CheatCode& code, CheatCodeD
 	if(!strIsCode(desc.str))
 	{
 		app.postMessage(true,
-			UI_TEXT("Œﬁ–ßµƒ∏Ò Ω")
+			UI_TEXT("Êó†ÊïàÁöÑÊ†ºÂºè")
 		);
 		return false;
 	}
@@ -257,88 +252,5 @@ void GbcSystem::forEachCheatCode(Cheat& cheat, DelegateFunc<bool(CheatCode&, std
 			break;
 	}
 }
-
-EditCheatView::EditCheatView(ViewAttachParams attach, Cheat& cheat, BaseEditCheatsView& editCheatsView):
-	BaseEditCheatView
-	{
-		UI_TEXT("±‡º≠Ω ÷÷∏"),
-		attach,
-		cheat,
-		editCheatsView,
-		items
-	},
-	addGGGS
-	{
-		UI_TEXT("ÃÌº”¡Ì“ª∏ˆ GG/GS ¬Î"),
-		attach,
-		[this](const Input::Event& e)
-		{
-			addNewCheatCode(
-				UI_TEXT("«Î ‰»Î GG ¬Î (xxx-xxx-xxx) ªÚ GS ¬Î (xxxxxxxx)"),
-				e);
-		}
-	}
-{
-	loadItems();
-}
-
-void EditCheatView::loadItems()
-{
-	codes.clear();
-	for(auto& c: cheatPtr->codes)
-	{
-		codes.emplace_back(
-			UI_TEXT("Ω ÷÷∏¥˙¬Î"),
-			c, attachParams(),
-			[this, &c](const Input::Event& e)
-			{
-				pushAndShowNewCollectValueInputView<const char*, ScanValueMode::AllowBlank>(attachParams(), e,
-					UI_TEXT("«Î ‰»Î GG ¬Î (xxx-xxx-xxx) ªÚ GS ¬Î (xxxxxxxx)£¨¡Ùø’±Ì æ…æ≥˝"),
-					c, [this, &c](CollectTextInputView&, auto str) { return modifyCheatCode(c, {str}); });
-			}
-		);
-	};
-	items.clear();
-	items.emplace_back(&name);
-	for(auto& c: codes)
-	{
-		items.emplace_back(&c);
-	}
-	items.emplace_back(&addGGGS);
-	items.emplace_back(&remove);
-}
-
-EditCheatsView::EditCheatsView(ViewAttachParams attach, CheatsView& cheatsView):
-	BaseEditCheatsView
-	{
-		attach,
-		cheatsView,
-		[this](ItemMessage msg) -> ItemReply
-		{
-			return msg.visit(overloaded
-			{
-				[&](const ItemsMessage&) -> ItemReply { return 1 + cheats.size(); },
-				[&](const GetItemMessage& m) -> ItemReply
-				{
-					switch(m.idx)
-					{
-						case 0: return &addGGGS;
-						default: return &cheats[m.idx - 1];
-					}
-				},
-			});
-		}
-	},
-	addGGGS
-	{
-		UI_TEXT("ÃÌº” GG/GS ¬Î"),
-		attach,
-		[this](const Input::Event& e)
-		{
-			addNewCheat(
-				UI_TEXT("«Î ‰»Î GG ¬Î (xxx-xxx-xxx) ªÚ GS ¬Î (xxxxxxxx)"),
-				e);
-		}
-	} {}
 
 }

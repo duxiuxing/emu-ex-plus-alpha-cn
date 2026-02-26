@@ -67,7 +67,7 @@ static const char snap_rom_module_name[] = "C64ROM";
 #define SNAP_ROM_MAJOR 0
 #define SNAP_ROM_MINOR 0
 
-/* static log_t c64_snapshot_log = LOG_ERR; */
+/* static log_t c64_snapshot_log = LOG_DEFAULT; */
 
 static int c64_snapshot_write_rom_module(snapshot_t *s)
 {
@@ -100,7 +100,7 @@ static void get_trapflags(void)
 {
     int i;
     for(i = 0; trapdevices[i] != -1; i++) {
-        resources_get_int_sprintf("VirtualDevice%d", &trapfl[i], trapdevices[i]);
+        resources_get_int_sprintf("TrapDevice%d", &trapfl[i], trapdevices[i]);
     }
 }
 
@@ -108,7 +108,7 @@ static void clear_trapflags(void)
 {
     int i;
     for(i = 0; trapdevices[i] != -1; i++) {
-        resources_set_int_sprintf("VirtualDevice%d", 0, trapdevices[i]);
+        resources_set_int_sprintf("TrapDevice%d", 0, trapdevices[i]);
     }
 }
 
@@ -116,7 +116,7 @@ static void restore_trapflags(void)
 {
     int i;
     for(i = 0; trapdevices[i] != -1; i++) {
-        resources_set_int_sprintf("VirtualDevice%d", trapfl[i], trapdevices[i]);
+        resources_set_int_sprintf("TrapDevice%d", trapfl[i], trapdevices[i]);
     }
 }
 

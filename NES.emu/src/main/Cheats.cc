@@ -13,43 +13,47 @@
 	You should have received a copy of the GNU General Public License
 	along with NES.emu.  If not, see <http://www.gnu.org/licenses/> */
 
-#include <imagine/gui/TextEntry.hh>
-#include <imagine/util/string.h>
-#include <imagine/util/format.hh>
-#include <imagine/logger/logger.h>
-#include <emuframework/Cheats.hh>
-#include <emuframework/EmuApp.hh>
-#include <emuframework/viewUtils.hh>
-#include "EmuCheatViews.hh"
-#include "MainSystem.hh"
+module;
 #include <fceu/driver.h>
 #include <fceu/cheat.h>
 
-void EncodeGG(char *str, int a, int v, int c);
+module system;
+
+extern "C++"
+{
+void EncodeGG(char* str, int a, int v, int c);
 void RebuildSubCheats();
+}
 
 namespace EmuEx
 {
 
-constexpr SystemLogger log{"NES.emu"};
+unsigned parseHex(const char* str) { return strtoul(str, nullptr, 16); }
 
-static unsigned parseHex(const char* str) { return strtoul(str, nullptr, 16); }
-
-constexpr bool isValidGGCodeLen(const char* str)
+std::string toGGString(const CheatCode& c)
 {
-	return std::string_view{str}.size() == 6 || std::string_view{str}.size() == 8;
+	std::string code;
+	code.resize(9);
+	EncodeGG(code.data(), c.addr, c.val, c.compare);
+	code.resize(8);
+	return code;
 }
 
-static void saveCheats()
+void saveCheats()
 {
 	savecheats = 1;
 	FCEU_FlushGameCheats(nullptr, 0, false);
 }
 
-static void syncCheats()
+void syncCheats()
 {
 	saveCheats();
 	RebuildSubCheats();
+}
+
+constexpr bool isValidGGCodeLen(const char* str)
+{
+	return std::string_view{str}.size() == 6 || std::string_view{str}.size() == 8;
 }
 
 Cheat* NesSystem::newCheat(EmuApp& app, const char* name, CheatCodeDesc desc)
@@ -114,7 +118,7 @@ bool NesSystem::addCheatCode(EmuApp& app, Cheat*& cheatPtr, CheatCodeDesc desc)
 
 bool NesSystem::modifyCheatCode(EmuApp& app, Cheat&, CheatCode& c, CheatCodeDesc desc)
 {
-	assert(desc.flags);
+	assume(desc.flags);
 	if(!isValidGGCodeLen(desc.str))
 	{
 		app.postMessage(true, "Invalid, must be 6 or 8 digits");
@@ -155,15 +159,6 @@ void NesSystem::forEachCheat(DelegateFunc<bool(Cheat&, std::string_view)> del)
 	}
 }
 
-static std::string toGGString(const CheatCode& c)
-{
-	std::string code;
-	code.resize(9);
-	EncodeGG(code.data(), c.addr, c.val, c.compare);
-	code.resize(8);
-	return code;
-}
-
 void NesSystem::forEachCheatCode(Cheat& cheat, DelegateFunc<bool(CheatCode&, std::string_view)> del)
 {
 	for(auto& c_: cheat.codes)
@@ -183,257 +178,5 @@ void NesSystem::forEachCheatCode(Cheat& cheat, DelegateFunc<bool(CheatCode&, std
 		del(c, std::string_view{code});
 	}
 }
-
-static std::string codeCompareToString(int compare) { return compare != -1 ? std::format("{:x}", compare) : std::string{}; }
-
-EditRamCheatView::EditRamCheatView(ViewAttachParams attach, Cheat& cheat_, CheatCode& code_, EditCheatView& editCheatView_):
-	TableView
-	{
-		"Edit RAM Patch",
-		attach,
-		[this](ItemMessage msg) -> ItemReply
-		{
-			return msg.visit(overloaded
-			{
-				[&](const ItemsMessage &m) -> ItemReply { return 4u; },
-				[&](const GetItemMessage &m) -> ItemReply
-				{
-					switch(m.idx)
-					{
-						case 0: return &addr;
-						case 1: return &value;
-						case 2: return &comp;
-						case 3: return &remove;
-						default: std::unreachable();
-					}
-				},
-			});
-		}
-	},
-	cheat{cheat_},
-	code{code_},
-	editCheatView{editCheatView_},
-	addr
-	{
-		UI_TEXT("地址"),
-		std::format("{:x}", code_.addr),
-		attach,
-		[this](const Input::Event& e)
-		{
-			pushAndShowNewCollectValueInputView<const char*>(attachParams(), e,
-				UI_TEXT("请输入四位十六进制数字"),
-				std::format("{:x}", code.addr),
-				[this](CollectTextInputView&, auto str)
-				{
-					unsigned a = parseHex(str);
-					if(a > 0xFFFF)
-					{
-						app().postMessage(true,
-							UI_TEXT("无效的输入")
-						);
-						return false;
-					}
-					code.addr = a;
-					syncCheats();
-					addr.set2ndName(str);
-					addr.place();
-					editCheatView.loadItems();
-					return true;
-				});
-		}
-	},
-	value
-	{
-		UI_TEXT("数值"),
-		std::format("{:x}", code_.val),
-		attach,
-		[this](const Input::Event& e)
-		{
-			pushAndShowNewCollectValueInputView<const char*>(attachParams(), e,
-				UI_TEXT("请输入两位十六进制数字"),
-				std::format("{:x}", code.val),
-				[this](CollectTextInputView&, auto str)
-				{
-					unsigned a = parseHex(str);
-					if(a > 0xFF)
-					{
-						app().postMessage(true,
-							UI_TEXT("无效的输入")
-						);
-						return false;
-					}
-					code.val = a;
-					syncCheats();
-					value.set2ndName(str);
-					value.place();
-					editCheatView.loadItems();
-					return true;
-				});
-		}
-	},
-	comp
-	{
-		UI_TEXT("比较"),
-		codeCompareToString(code_.compare),
-		attach,
-		[this](const Input::Event& e)
-		{
-			pushAndShowNewCollectValueInputView<const char*, ScanValueMode::AllowBlank>(attachParams(), e,
-				UI_TEXT("请输入两位十六进制数字或留空"),
-				codeCompareToString(code.compare),
-				[this](CollectTextInputView &, const char *str)
-				{
-					if(strlen(str))
-					{
-						unsigned a = parseHex(str);
-						if(a > 0xFF)
-						{
-							app().postMessage(true,
-								UI_TEXT("无效的输入")
-							);
-							return true;
-						}
-						code.compare = a;
-						comp.set2ndName(str);
-					}
-					else
-					{
-						code.compare = -1;
-						comp.set2ndName();
-					}
-					syncCheats();
-					comp.place();
-					editCheatView.loadItems();
-					return true;
-				});
-		}
-	},
-	remove
-	{
-		UI_TEXT("删除"),
-		attach,
-		[this](const Input::Event& e)
-		{
-			pushAndShowModal(makeView<YesNoAlertView>(
-				UI_TEXT("是否要删除这个补丁？"),
-				YesNoAlertView::Delegates{.onYes = [this]{ editCheatView.removeCheatCode(code); dismiss(); }}), e);
-		}
-	} {}
-
-EditCheatView::EditCheatView(ViewAttachParams attach, Cheat& cheat, BaseEditCheatsView& editCheatsView):
-	BaseEditCheatView
-	{
-		UI_TEXT("编辑金手指"),
-		attach,
-		cheat,
-		editCheatsView,
-		items
-	},
-	addGG
-	{
-		UI_TEXT("添加另一个 GG 码"),
-		attach,
-		[this](const Input::Event& e)
-		{
-			addNewCheatCode(
-				UI_TEXT("请输入 GG 码"),
-				e, 1);
-		}
-	},
-	addRAM
-	{
-		UI_TEXT("添加另一个内存补丁"),
-		attach,
-		[this](const Input::Event& e)
-		{
-			addNewCheatCode(
-				UI_TEXT("请输入十六进制的内存地址"),
-				e, 0);
-		}
-	}
-{
-	loadItems();
-}
-
-void EditCheatView::loadItems()
-{
-	codes.clear();
-	system().forEachCheatCode(*cheatPtr, [this](CheatCode& c, std::string_view code)
-	{
-		codes.emplace_back(
-			UI_TEXT("金手指代码"),
-			code, attachParams(),
-			[this, &c](const Input::Event& e)
-			{
-				if(c.type)
-				{
-					pushAndShowNewCollectValueInputView<const char*, ScanValueMode::AllowBlank>(attachParams(), e,
-						UI_TEXT("请输入 GG 码"),
-						toGGString(c),
-						[this, &c](CollectTextInputView&, auto str) { return modifyCheatCode(c, {str, 1}); });
-				}
-				else
-				{
-					pushAndShow(makeView<EditRamCheatView>(*cheatPtr, c, *this), e);
-				}
-			}
-		);
-		return true;
-	});
-	items.clear();
-	items.emplace_back(&name);
-	for(auto& c: codes)
-	{
-		items.emplace_back(&c);
-	}
-	items.emplace_back(&addGG);
-	items.emplace_back(&addRAM);
-	items.emplace_back(&remove);
-}
-
-EditCheatsView::EditCheatsView(ViewAttachParams attach, CheatsView& cheatsView):
-	BaseEditCheatsView
-	{
-		attach,
-		cheatsView,
-		[this](ItemMessage msg) -> ItemReply
-		{
-			return msg.visit(overloaded
-			{
-				[&](const ItemsMessage &m) -> ItemReply { return 2 + ::cheats.size(); },
-				[&](const GetItemMessage &m) -> ItemReply
-				{
-					switch(m.idx)
-					{
-						case 0: return &addGG;
-						case 1: return &addRAM;
-						default: return &cheats[m.idx - 2];
-					}
-				},
-			});
-		}
-	},
-	addGG
-	{
-		UI_TEXT("添加 GG 码"),
-		attachParams(),
-		[this](const Input::Event& e)
-		{
-			addNewCheat(
-				UI_TEXT("请输入 GG 码"),
-				e, 1);
-		}
-	},
-	addRAM
-	{
-		UI_TEXT("添加内存补丁"),
-		attachParams(),
-		[this](const Input::Event& e)
-		{
-			addNewCheat(
-				UI_TEXT("请输入十六进制的内存地址"),
-				e, 0);
-		}
-	} {}
 
 }

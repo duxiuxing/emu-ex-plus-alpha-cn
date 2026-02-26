@@ -83,6 +83,7 @@ static const struct model_s dtvmodels[] = {
     { MACHINE_SYNC_NTSC, DTVREV_2, IS_DTV,    DTVMODEL_V2_NTSC }, /* DTV v2 (ntsc) */
     { MACHINE_SYNC_PAL,  DTVREV_3, IS_DTV,    DTVMODEL_V3_PAL }, /* DTV v3 (pal) */
     { MACHINE_SYNC_NTSC, DTVREV_3, IS_DTV,    DTVMODEL_V3_NTSC }, /* DTV v3 (ntsc) */
+    { MACHINE_SYNC_PAL,  DTVREV_3, IS_HUMMER, DTVMODEL_HUMMER_PAL }, /* Hummer (pal) */
     { MACHINE_SYNC_NTSC, DTVREV_3, IS_HUMMER, DTVMODEL_HUMMER_NTSC }, /* Hummer (ntsc) */
 };
 
@@ -151,19 +152,7 @@ void dtvmodel_set(int model)
     }
 
     resources_set_int("MachineVideoStandard", dtvmodels[model].video);
-#if 0
-    /* Determine the power net frequency for this model. */
-    switch(dtvmodels[model].video) {
-        case MACHINE_SYNC_PAL:
-        case MACHINE_SYNC_PALN:
-            pf = 50;
-            break;
-        default:
-            pf = 60;
-            break;
-    }
-    resources_set_int("MachinePowerFrequency", pf);
-#endif
+
     resources_set_int("DtvRevision", dtvmodels[model].asic);
     resources_set_int("HummerADC", dtvmodels[model].hummeradc);
     resources_set_int("DTVFlashRevision", dtvmodels[model].rom_revision);
