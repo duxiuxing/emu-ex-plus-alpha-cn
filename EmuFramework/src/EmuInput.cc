@@ -122,9 +122,9 @@ bool InputManager::handleAppActionKeyInput(EmuApp& app, InputAction action, cons
 				break;
 			auto suspendCtx = app.suspendEmulationThread();
 			app.decStateSlot();
-			app.postMessage(1, false, std::format("State Slot: {}", system.stateSlotName()));
+			app.postMessage(1, false, std::format(
 				UI_TEXT("State Slot: {}"),
-				system.stateSlotName()));
+				app.stateSlotName()));
 			return true;
 		}
 		case incStateSlot:
