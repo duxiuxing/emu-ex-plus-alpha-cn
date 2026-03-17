@@ -88,7 +88,7 @@ bool InputManager::handleAppActionKeyInput(EmuApp& app, InputAction action, cons
 		{
 			if(!isPushed)
 				break;
-			static auto doSaveState = [](EmuApp &app, bool notify){	app.saveStateWithSlot(app.system().stateSlot(), notify); };
+			static auto doSaveState = [](EmuApp &app, bool notify){	app.saveStateWithSlot(app.stateSlot(), notify); };
 			if(app.shouldOverwriteExistingState())
 			{
 				doSaveState(app, app.confirmOverwriteState);
@@ -113,7 +113,7 @@ bool InputManager::handleAppActionKeyInput(EmuApp& app, InputAction action, cons
 		{
 			if(!isPushed)
 				break;
-			app.loadStateWithSlot(system.stateSlot());
+			app.loadStateWithSlot(app.stateSlot());
 			return true;
 		}
 		case decStateSlot:
@@ -121,8 +121,8 @@ bool InputManager::handleAppActionKeyInput(EmuApp& app, InputAction action, cons
 			if(!isPushed)
 				break;
 			auto suspendCtx = app.suspendEmulationThread();
-			system.decStateSlot();
-			app.postMessage(1, false, std::format(
+			app.decStateSlot();
+			app.postMessage(1, false, std::format("State Slot: {}", system.stateSlotName()));
 				UI_TEXT("State Slot: {}"),
 				system.stateSlotName()));
 			return true;
@@ -132,10 +132,10 @@ bool InputManager::handleAppActionKeyInput(EmuApp& app, InputAction action, cons
 			if(!isPushed)
 				break;
 			auto suspendCtx = app.suspendEmulationThread();
-			system.incStateSlot();
+			app.incStateSlot();
 			app.postMessage(1, false, std::format(
 				UI_TEXT("State Slot: {}"),
-				system.stateSlotName()));
+				app.stateSlotName()));
 			return true;
 		}
 		case takeScreenshot:

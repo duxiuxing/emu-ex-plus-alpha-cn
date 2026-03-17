@@ -23,6 +23,7 @@
 #include <emuframework/GUIOptionView.hh>
 #include <emuframework/FilePathOptionView.hh>
 #include <emuframework/FilePicker.hh>
+#include <emuframework/Option.hh>
 #include "gui/AutosaveSlotView.hh"
 #include "WindowData.hh"
 #include "InputDeviceData.hh"
@@ -1027,6 +1028,7 @@ bool EmuApp::hasSavedSessionOptions()
 void EmuApp::resetSessionOptions()
 {
 	inputManager.resetSessionOptions(appContext());
+	saveStateSlot.reset();
 	system().resetSessionOptions(*this);
 }
 
@@ -1052,6 +1054,7 @@ void EmuApp::saveSessionOptions()
 		auto configFile = ctx.openFileUri(configFilePath, OpenFlags::newFile());
 		writeConfigHeader(configFile);
 		system().writeConfig(ConfigType::SESSION, configFile);
+		writeOptionValueIfNotDefault(configFile, saveStateSlot);
 		inputManager.writeSessionConfig(configFile);
 		system().resetSessionOptionsSet();
 		if(configFile.size() == 1)
@@ -1077,8 +1080,13 @@ void EmuApp::loadSessionOptions()
 	resetSessionOptions();
 	auto ctx = appContext();
 	if(readConfigKeys(FileUtils::bufferFromUri(ctx, sessionConfigPath(), {.test = true}),
-		[this, ctx](auto key, auto &io) -> bool
+		[this, ctx](auto key, auto& io) -> bool
 		{
+			if(key == CFGKEY_SAVE_STATE_SLOT)
+			{
+				readOptionValue(io, saveStateSlot);
+				return true;
+			}
 			if(inputManager.readSessionConfig(ctx, io, key))
 				return true;
 			if(system().readConfig(ConfigType::SESSION, io, key))

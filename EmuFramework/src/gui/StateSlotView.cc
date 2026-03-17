@@ -22,11 +22,11 @@ namespace EmuEx
 
 constexpr SystemLogger log{"StateSlotView"};
 
-static auto slotHeadingName(EmuSystem &sys)
+static auto slotHeadingName(EmuApp& app)
 {
 	return std::format(
 		UI_TEXT("Set State Slot ({})"),
-		sys.stateSlot());
+		app.stateSlot());
 }
 
 StateSlotView::StateSlotView(ViewAttachParams attach):
@@ -49,8 +49,9 @@ StateSlotView::StateSlotView(ViewAttachParams attach):
 				{
 					.onYes = [this]
 					{
-						if(app().loadStateWithSlot(system().stateSlot()))
-							app().showEmulation();
+						auto& app = this->app();
+						if(app.loadStateWithSlot(app.stateSlot()))
+							app.showEmulation();
 					}
 				}), e);
 		}
@@ -73,7 +74,7 @@ StateSlotView::StateSlotView(ViewAttachParams attach):
 			}
 		}
 	},
-	slotHeading{slotHeadingName(system()), attach},
+	slotHeading{slotHeadingName(app()), attach},
 	menuItems
 	{
 		&load, &save, &slotHeading,
@@ -93,7 +94,8 @@ void StateSlotView::onShow()
 
 void StateSlotView::refreshSlot(int slot)
 {
-	auto &sys = system();
+	auto &app = this->app();
+	auto &sys = app.system();
 	auto saveStr = sys.statePath(slot);
 	auto modTimeStr = appContext().fileUriFormatLastWriteTimeLocal(saveStr);
 	bool fileExists = modTimeStr.size();
@@ -107,16 +109,17 @@ void StateSlotView::refreshSlot(int slot)
 	auto &s = stateSlot[slot];
 	s = {str(), attachParams(), [this, slot](View&)
 	{
-		auto &sys = system();
-		stateSlot[sys.stateSlot()].setHighlighted(false);
+		auto &app = this->app();
+		auto &sys = app.system();
+		stateSlot[app.stateSlot()].setHighlighted(false);
 		stateSlot[slot].setHighlighted(true);
-		sys.setStateSlot(slot);
-		log.info("set state slot:{}", sys.stateSlot());
-		slotHeading.compile(slotHeadingName(sys));
-		load.setActive(sys.stateExists(sys.stateSlot()));
+		app.setStateSlot(slot);
+		log.info("set state slot:{}", app.stateSlot());
+		slotHeading.compile(slotHeadingName(app));
+		load.setActive(sys.stateExists(app.stateSlot()));
 		postDraw();
 	}};
-	if(slot == sys.stateSlot())
+	if(slot == app.stateSlot())
 		load.setActive(fileExists);
 }
 
@@ -126,14 +129,15 @@ void StateSlotView::refreshSlots()
 	{
 		refreshSlot(i);
 	}
-	stateSlot[system().stateSlot()].setHighlighted(true);
+	stateSlot[app().stateSlot()].setHighlighted(true);
 }
 
 void StateSlotView::doSaveState()
 {
-	auto slot = system().stateSlot();
-	if(app().saveStateWithSlot(slot, false))
-		app().showEmulation();
+	auto& app = this->app();
+	auto slot = app.stateSlot();
+	if(app.saveStateWithSlot(slot, false))
+		app.showEmulation();
 	refreshSlot(slot);
 	place();
 }
