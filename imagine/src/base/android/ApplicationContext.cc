@@ -88,7 +88,7 @@ FS::PathLocation AndroidApplicationContext::externalMediaPathLocation() const
 	return
 		{
 			path,
-			UI_TEXT("应用程序媒体文件夹"),
+			UI_TEXT("App 媒体文件夹"),
 			UI_TEXT("媒体文件夹")
 		};
 }

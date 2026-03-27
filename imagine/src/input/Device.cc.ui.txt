@@ -1,939 +1,939 @@
 Ln=30
-English="None""
+English="None"
 Chinese="无"
 
 Ln=32
-English="Space""
+English="Space"
 Chinese="空格键"
 
 Ln=34
-English="a""
+English="a"
 Chinese="a 键"
 
 Ln=36
-English="b""
+English="b"
 Chinese="b 键"
 
 Ln=38
-English="c""
+English="c"
 Chinese="c 键"
 
 Ln=40
-English="d""
+English="d"
 Chinese="d 键"
 
 Ln=42
-English="e""
+English="e"
 Chinese="e 键"
 
 Ln=44
-English="f""
+English="f"
 Chinese="f 键"
 
 Ln=46
-English="g""
+English="g"
 Chinese="g 键"
 
 Ln=48
-English="h""
+English="h"
 Chinese="h 键"
 
 Ln=50
-English="i""
+English="i"
 Chinese="i 键"
 
 Ln=52
-English="j""
+English="j"
 Chinese="j 键"
 
 Ln=54
-English="k""
+English="k"
 Chinese="k 键"
 
 Ln=56
-English="l""
+English="l"
 Chinese="l 键"
 
 Ln=58
-English="m""
+English="m"
 Chinese="m 键"
 
 Ln=60
-English="n""
+English="n"
 Chinese="n 键"
 
 Ln=62
-English="o""
+English="o"
 Chinese="o 键"
 
 Ln=64
-English="p""
+English="p"
 Chinese="p 键"
 
 Ln=66
-English="q""
+English="q"
 Chinese="q 键"
 
 Ln=68
-English="r""
+English="r"
 Chinese="r 键"
 
 Ln=70
-English="s""
+English="s"
 Chinese="s 键"
 
 Ln=72
-English="t""
+English="t"
 Chinese="t 键"
 
 Ln=74
-English="u""
+English="u"
 Chinese="u 键"
 
 Ln=76
-English="v""
+English="v"
 Chinese="v 键"
 
 Ln=78
-English="w""
+English="w"
 Chinese="w 键"
 
 Ln=80
-English="x""
+English="x"
 Chinese="x 键"
 
 Ln=82
-English="y""
+English="y"
 Chinese="y 键"
 
 Ln=84
-English="z""
+English="z"
 Chinese="z 键"
 
 Ln=86
-English="'""
+English="'"
 Chinese="' 键 (单引号)"
 
 Ln=88
-English=",""
+English=","
 Chinese=", 键"
 
 Ln=90
-English="-""
+English="-"
 Chinese="- 键"
 
 Ln=92
-English=".""
+English="."
 Chinese=". 键"
 
 Ln=94
-English="/""
+English="/"
 Chinese="/ 键"
 
 Ln=96
-English="0""
+English="0"
 Chinese="0 键"
 
 Ln=98
-English="1""
+English="1"
 Chinese="1 键"
 
 Ln=100
-English="2""
+English="2"
 Chinese="2 键"
 
 Ln=102
-English="3""
+English="3"
 Chinese="3 键"
 
 Ln=104
-English="4""
+English="4"
 Chinese="4 键"
 
 Ln=106
-English="5""
+English="5"
 Chinese="5 键"
 
 Ln=108
-English="6""
+English="6"
 Chinese="6 键"
 
 Ln=110
-English="7""
+English="7"
 Chinese="7 键"
 
 Ln=112
-English="8""
+English="8"
 Chinese="8 键"
 
 Ln=114
-English="9""
+English="9"
 Chinese="9 键"
 
 Ln=116
-English=";""
+English=";"
 Chinese="; 键"
 
 Ln=118
-English="=""
+English="="
 Chinese="= 键"
 
 Ln=120
-English="[""
+English="["
 Chinese="[ 键"
 
 Ln=122
-English="\\""
+English="\\"
 Chinese="\\ 键"
 
 Ln=124
-English="]""
+English="]"
 Chinese="] 键"
 
 Ln=126
-English="`""
+English="`"
 Chinese="` 键 (反引号)"
 
 Ln=128
-English="Back""
+English="Back"
 Chinese="返回键"
 
 Ln=130
-English="Escape""
+English="Escape"
 Chinese="Esc 键"
 
 Ln=132
-English="Enter""
+English="Enter"
 Chinese="回车键"
 
 Ln=134
-English="Left Alt""
+English="Left Alt"
 Chinese="左 Alt 键"
 
 Ln=136
-English="Right Alt""
+English="Right Alt"
 Chinese="右 Alt 键"
 
 Ln=138
-English="Left Shift""
+English="Left Shift"
 Chinese="左 Shift 键"
 
 Ln=140
-English="Right Shift""
+English="Right Shift"
 Chinese="右 Shift 键"
 
 Ln=142
-English="Left Ctrl""
+English="Left Ctrl"
 Chinese="左 Ctrl 键"
 
 Ln=144
-English="Right Ctrl""
+English="Right Ctrl"
 Chinese="右 Ctrl 键"
 
 Ln=146
-English="Up""
+English="Up"
 Chinese="方向键的上"
 
 Ln=148
-English="Right""
+English="Right"
 Chinese="方向键的右"
 
 Ln=150
-English="Down""
+English="Down"
 Chinese="方向键的下"
 
 Ln=152
-English="Left""
+English="Left"
 Chinese="方向键的左"
 
 Ln=154
-English="Back Space""
+English="Back Space"
 Chinese="退格键"
 
 Ln=156
-English="Menu""
+English="Menu"
 Chinese="菜单键"
 
 Ln=158
-English="Home""
+English="Home"
 Chinese="Home 键"
 
 Ln=160
-English="End""
+English="End"
 Chinese="End 键"
 
 Ln=162
-English="Insert""
+English="Insert"
 Chinese="插入键"
 
 Ln=164
-English="Delete""
+English="Delete"
 Chinese="删除键"
 
 Ln=166
-English="Tab""
+English="Tab"
 Chinese="Tab 键"
 
 Ln=168
-English="Scroll Lock""
+English="Scroll Lock"
 Chinese="滑动锁定键"
 
 Ln=170
-English="Caps Lock""
+English="Caps Lock"
 Chinese="大写切换键"
 
 Ln=172
-English="Pause""
+English="Pause"
 Chinese="暂停键"
 
 Ln=174
-English="Left Start/Option""
+English="Left Start/Option"
 Chinese="左边的开始/选项键"
 
 Ln=176
-English="Right Start/Option""
+English="Right Start/Option"
 Chinese="右边的开始/选项键"
 
 Ln=178
-English="Page Up""
+English="Page Up"
 Chinese="向上翻页键"
 
 Ln=180
-English="Page Down""
+English="Page Down"
 Chinese="向下翻页键"
 
 Ln=182
-English="Print Screen""
+English="Print Screen"
 Chinese="截屏键"
 
 Ln=184
-English="Num Lock""
+English="Num Lock"
 Chinese="数字锁定键"
 
 Ln=186
-English="Numpad 0""
+English="Numpad 0"
 Chinese="0 键 (数字键盘)"
 
 Ln=188
-English="Numpad 1""
+English="Numpad 1"
 Chinese="1 键 (数字键盘)"
 
 Ln=190
-English="Numpad 2""
+English="Numpad 2"
 Chinese="2 键 (数字键盘)"
 
 Ln=192
-English="Numpad 3""
+English="Numpad 3"
 Chinese="3 键 (数字键盘)"
 
 Ln=194
-English="Numpad 4""
+English="Numpad 4"
 Chinese="4 键 (数字键盘)"
 
 Ln=196
-English="Numpad 5""
+English="Numpad 5"
 Chinese="5 键 (数字键盘)"
 
 Ln=198
-English="Numpad 6""
+English="Numpad 6"
 Chinese="6 键 (数字键盘)"
 
 Ln=200
-English="Numpad 7""
+English="Numpad 7"
 Chinese="7 键 (数字键盘)"
 
 Ln=202
-English="Numpad 8""
+English="Numpad 8"
 Chinese="8 键 (数字键盘)"
 
 Ln=204
-English="Numpad 9""
+English="Numpad 9"
 Chinese="9 键 (数字键盘)"
 
 Ln=206
-English="Numpad /""
+English="Numpad /"
 Chinese="/ 键 (数字键盘)"
 
 Ln=208
-English="Numpad *""
+English="Numpad *"
 Chinese="* 键 (数字键盘)"
 
 Ln=210
-English="Numpad -""
+English="Numpad -"
 Chinese="- 键 (数字键盘)"
 
 Ln=212
-English="Numpad +""
+English="Numpad +"
 Chinese="+ 键 (数字键盘)"
 
 Ln=214
-English="Numpad .""
+English="Numpad ."
 Chinese=". 键 (数字键盘)"
 
 Ln=216
-English="Numpad ,""
+English="Numpad ,"
 Chinese=", 键 (数字键盘)"
 
 Ln=218
-English="Numpad Enter""
+English="Numpad Enter"
 Chinese="回车键 (数字键盘)"
 
 Ln=220
-English="Numpad =""
+English="Numpad ="
 Chinese="= 键 (数字键盘)"
 
 Ln=223
-English="@""
+English="@"
 Chinese="@ 键"
 
 Ln=225
-English="*""
+English="*"
 Chinese="* 键"
 
 Ln=227
-English="+""
+English="+"
 Chinese="+ 键"
 
 Ln=229
-English="#""
+English="#"
 Chinese="# 键"
 
 Ln=231
-English="(""
+English="("
 Chinese="( 键"
 
 Ln=233
-English=")""
+English=")"
 Chinese=") 键"
 
 Ln=235
-English="Search""
+English="Search"
 Chinese="搜索键"
 
 Ln=237
-English="Clear""
+English="Clear"
 Chinese="清除键"
 
 Ln=239
-English="Explorer""
+English="Explorer"
 Chinese="Explorer 键"
 
 Ln=241
-English="Mail""
+English="Mail"
 Chinese="Mail 键"
 
 Ln=243
-English="Vol Up""
+English="Vol Up"
 Chinese="提高音量键"
 
 Ln=245
-English="Vol Down""
+English="Vol Down"
 Chinese="降低音量键"
 
 Ln=249
-English="Numpad Insert""
+English="Numpad Insert"
 Chinese="插入键 (数字键盘)"
 
 Ln=251
-English="Numpad Delete""
+English="Numpad Delete"
 Chinese="删除键 (数字键盘)"
 
 Ln=253
-English="Numpad Begin""
+English="Numpad Begin"
 Chinese="Begin 键 (数字键盘)"
 
 Ln=255
-English="Numpad Home""
+English="Numpad Home"
 Chinese="Home 键 (数字键盘)"
 
 Ln=257
-English="Numpad End""
+English="Numpad End"
 Chinese="End 键 (数字键盘)"
 
 Ln=259
-English="Numpad Page Up""
+English="Numpad Page Up"
 Chinese="向上翻页键 (数字键盘)"
 
 Ln=261
-English="Numpad Page Down""
+English="Numpad Page Down"
 Chinese="向下翻页键 (数字键盘)"
 
 Ln=263
-English="Numpad Up""
+English="Numpad Up"
 Chinese="方向键的上 (数字键盘)"
 
 Ln=265
-English="Numpad Right""
+English="Numpad Right"
 Chinese="方向键的右 (数字键盘)"
 
 Ln=267
-English="Numpad Down""
+English="Numpad Down"
 Chinese="方向键的下 (数字键盘)"
 
 Ln=269
-English="Numpad Left""
+English="Numpad Left"
 Chinese="方向键的左 (数字键盘)"
 
 Ln=271
-English="Left Meta""
+English="Left Meta"
 Chinese="左 Meta 键"
 
 Ln=273
-English="Right Meta""
+English="Right Meta"
 Chinese="右 Meta 键"
 
 Ln=276
-English="F1""
+English="F1"
 Chinese="F1 键"
 
 Ln=278
-English="F2""
+English="F2"
 Chinese="F2 键"
 
 Ln=280
-English="F3""
+English="F3"
 Chinese="F3 键"
 
 Ln=282
-English="F4""
+English="F4"
 Chinese="F4 键"
 
 Ln=284
-English="F5""
+English="F5"
 Chinese="F5 键"
 
 Ln=286
-English="F6""
+English="F6"
 Chinese="F6 键"
 
 Ln=288
-English="F7""
+English="F7"
 Chinese="F7 键"
 
 Ln=290
-English="F8""
+English="F8"
 Chinese="F8 键"
 
 Ln=292
-English="F9""
+English="F9"
 Chinese="F9 键"
 
 Ln=294
-English="F10""
+English="F10"
 Chinese="F10 键"
 
 Ln=296
-English="F11""
+English="F11"
 Chinese="F11 键"
 
 Ln=298
-English="F12""
+English="F12"
 Chinese="F12 键"
 
 Ln=300
-English="A""
+English="A"
 Chinese="A 键"
 
 Ln=302
-English="B""
+English="B"
 Chinese="B 键"
 
 Ln=304
-English="C""
+English="C"
 Chinese="C 键"
 
 Ln=306
-English="X""
+English="X"
 Chinese="X 键"
 
 Ln=308
-English="Y""
+English="Y"
 Chinese="Y 键"
 
 Ln=310
-English="Z""
+English="Z"
 Chinese="Z 键"
 
 Ln=312
-English="L1""
+English="L1"
 Chinese="L1 键"
 
 Ln=314
-English="R1""
+English="R1"
 Chinese="R1 键"
 
 Ln=316
-English="L2""
+English="L2"
 Chinese="L2 键"
 
 Ln=318
-English="R2""
+English="R2"
 Chinese="R2 键"
 
 Ln=320
-English="L-Thumb""
+English="L-Thumb"
 Chinese="L-Thumb 键"
 
 Ln=322
-English="R-Thumb""
+English="R-Thumb"
 Chinese="R-Thumb 键"
 
 Ln=324
-English="Start""
+English="Start"
 Chinese="开始键"
 
 Ln=326
-English="Select""
+English="Select"
 Chinese="选择键"
 
 Ln=328
-English="Mode""
+English="Mode"
 Chinese="模式键"
 
 Ln=330
-English="G1""
+English="G1"
 Chinese="G1 键"
 
 Ln=332
-English="G2""
+English="G2"
 Chinese="G2 键"
 
 Ln=334
-English="G3""
+English="G3"
 Chinese="G3 键"
 
 Ln=336
-English="G4""
+English="G4"
 Chinese="G4 键"
 
 Ln=338
-English="G5""
+English="G5"
 Chinese="G5 键"
 
 Ln=340
-English="G6""
+English="G6"
 Chinese="G6 键"
 
 Ln=342
-English="G7""
+English="G7"
 Chinese="G7 键"
 
 Ln=344
-English="G8""
+English="G8"
 Chinese="G8 键"
 
 Ln=346
-English="G9""
+English="G9"
 Chinese="G9 键"
 
 Ln=348
-English="G10""
+English="G10"
 Chinese="G10 键"
 
 Ln=350
-English="G11""
+English="G11"
 Chinese="G11 键"
 
 Ln=352
-English="G12""
+English="G12"
 Chinese="G12 键"
 
 Ln=354
-English="G13""
+English="G13"
 Chinese="G13 键"
 
 Ln=356
-English="G14""
+English="G14"
 Chinese="G14 键"
 
 Ln=358
-English="G15""
+English="G15"
 Chinese="G15 键"
 
 Ln=360
-English="G16""
+English="G16"
 Chinese="G16 键"
 
 Ln=362
-English="X Axis+""
+English="X Axis+"
 Chinese="左摇杆的右"
 
 Ln=364
-English="X Axis-""
+English="X Axis-"
 Chinese="左摇杆的左"
 
 Ln=366
-English="Y Axis+""
+English="Y Axis+"
 Chinese="左摇杆的下"
 
 Ln=368
-English="Y Axis-""
+English="Y Axis-"
 Chinese="左摇杆的上"
 
 Ln=370
-English="X Axis+ 2""
+English="X Axis+ 2"
 Chinese="右摇杆的右"
 
 Ln=372
-English="X Axis- 2""
+English="X Axis- 2"
 Chinese="右摇杆的左"
 
 Ln=374
-English="Y Axis+ 2""
+English="Y Axis+ 2"
 Chinese="右摇杆的下"
 
 Ln=376
-English="Y Axis- 2""
+English="Y Axis- 2"
 Chinese="右摇杆的上"
 
 Ln=378
-English="X Axis+ 3""
-Chinese="X Axis+ 3"
+English="X Axis+ 3"
+Chinese="3号摇杆的右"
 
 Ln=380
-English="X Axis- 3""
-Chinese="X Axis- 3"
+English="X Axis- 3"
+Chinese="3号摇杆的左"
 
 Ln=382
-English="Y Axis+ 3""
-Chinese="Y Axis+ 3"
+English="Y Axis+ 3"
+Chinese="3号摇杆的下"
 
 Ln=384
-English="Y Axis- 3""
-Chinese="Y Axis- 3"
+English="Y Axis- 3"
+Chinese="3号摇杆的上"
 
 Ln=386
-English="POV Right""
+English="POV Right"
 Chinese="苦力帽的右"
 
 Ln=388
-English="POV Left""
+English="POV Left"
 Chinese="苦力帽的左"
 
 Ln=390
-English="POV Down""
+English="POV Down"
 Chinese="苦力帽的下"
 
 Ln=392
-English="POV Up""
+English="POV Up"
 Chinese="苦力帽的上"
 
 Ln=394
-English="Rudder Right""
+English="Rudder Right"
 Chinese="方向舵的右"
 
 Ln=396
-English="Rudder Left""
+English="Rudder Left"
 Chinese="方向舵的左"
 
 Ln=398
-English="Wheel Right""
+English="Wheel Right"
 Chinese="滚轮右拨"
 
 Ln=400
-English="Wheel Left""
+English="Wheel Left"
 Chinese="滚轮左拨"
 
 Ln=402
-English="L Trigger""
+English="L Trigger"
 Chinese="左扳机"
 
 Ln=404
-English="R Trigger""
+English="R Trigger"
 Chinese="右扳机"
 
 Ln=406
-English="Gas""
+English="Gas"
 Chinese="油门"
 
 Ln=408
-English="Brake""
+English="Brake"
 Chinese="刹车"
 
 Ln=412
-English="Sym""
+English="Sym"
 Chinese="系统键"
 
 Ln=414
-English="Num""
+English="Num"
 Chinese="数字锁定键"
 
 Ln=416
-English="Function""
+English="Function"
 Chinese="功能键"
 
 Ln=418
-English="Center""
+English="Center"
 Chinese="中央键"
 
 Ln=420
-English="Camera""
+English="Camera"
 Chinese="相机键"
 
 Ln=422
-English="Call""
+English="Call"
 Chinese="呼叫键"
 
 Ln=424
-English="End Call""
+English="End Call"
 Chinese="结束呼叫键"
 
 Ln=426
-English="Focus""
+English="Focus"
 Chinese="对焦键"
 
 Ln=428
-English="Headset Hook""
+English="Headset Hook"
 Chinese="插入耳机"
 
 Ln=430
-English="Play""
+English="Play"
 Chinese="播放键"
 
 Ln=432
-English="Stop""
+English="Stop"
 Chinese="停止键"
 
 Ln=434
-English="Next""
+English="Next"
 Chinese="下一个文件"
 
 Ln=436
-English="Previous""
+English="Previous"
 Chinese="上一个文件"
 
 Ln=438
-English="Rewind""
+English="Rewind"
 Chinese="倒带键"
 
 Ln=440
-English="Fast Forward""
+English="Fast Forward"
 Chinese="快进键"
 
 Ln=452
-English="Cross""
+English="Cross"
 Chinese="交叉键"
 
 Ln=454
-English="Circle""
+English="Circle"
 Chinese="圆圈键"
 
 Ln=456
-English="Square""
-Chinese="正方键"
+English="Square"
+Chinese="方框键"
 
 Ln=458
-English="Triangle""
+English="Triangle"
 Chinese="三角键"
 
 Ln=460
-English="PS""
+English="PS"
 Chinese="PS 键"
 
 Ln=462
-English="L3""
+English="L3"
 Chinese="L3 键"
 
 Ln=464
-English="R3""
+English="R3"
 Chinese="R3 键"
 
 Ln=478
-English="Cross""
+English="Cross"
 Chinese="交叉键"
 
 Ln=480
-English="Circle""
+English="Circle"
 Chinese="圆圈键"
 
 Ln=482
-English="Square""
-Chinese="正方键"
+English="Square"
+Chinese="方框键"
 
 Ln=484
-English="Triangle""
+English="Triangle"
 Chinese="三角键"
 
 Ln=494
-English="O""
+English="O"
 Chinese="O 键"
 
 Ln=496
-English="U""
+English="U"
 Chinese="U 键"
 
 Ln=498
-English="Y""
+English="Y"
 Chinese="Y 键"
 
 Ln=500
-English="A""
+English="A"
 Chinese="A 键"
 
 Ln=502
-English="L3""
+English="L3"
 Chinese="L3 键"
 
 Ln=504
-English="R3""
+English="R3"
 Chinese="R3 键"
 
 Ln=506
-English="System""
+English="System"
 Chinese="系统键"
 
 Ln=518
-English="L""
+English="L"
 Chinese="L 键"
 
 Ln=520
-English="R""
+English="R"
 Chinese="R 键"
 
 Ln=522
-English="A""
+English="A"
 Chinese="A 键"
 
 Ln=524
-English="B""
+English="B"
 Chinese="B 键"
 
 Ln=526
-English="Y""
+English="Y"
 Chinese="Y 键"
 
 Ln=528
-English="X""
+English="X"
 Chinese="X 键"
 
 Ln=530
-English="Select""
+English="Select"
 Chinese="选择键"
 
 Ln=532
-English="Start""
+English="Start"
 Chinese="开始键"
 
 Ln=534
-English="Logo""
+English="Logo"
 Chinese="Logo 键"
 
 Ln=637
-English="Alt""
+English="Alt"
 Chinese="Alt 键"
 
 Ln=640
-English="Shift""
+English="Shift"
 Chinese="Shift 键"
 
 Ln=643
-English="Ctrl""
+English="Ctrl"
 Chinese="Ctrl 键"
 
 Ln=651
-English="Key Code {:#X}""
+English="Key Code {:#X}"
 Chinese="按键码 {:#X}"
 
 Ln=666
-English="{} #{}""
+English="{} #{}"
 Chinese="{} #{}"
