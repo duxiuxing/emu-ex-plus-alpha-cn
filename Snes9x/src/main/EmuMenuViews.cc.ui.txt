@@ -1,0 +1,182 @@
+Ln=43
+English="None"
+
+Ln=47
+English="Linear"
+
+Ln=51
+English="Gaussian"
+
+Ln=55
+English="Cubic"
+
+Ln=59
+English="Sinc"
+
+Ln=66
+English="DSP Interpolation"
+
+Ln=85
+English="5-Player Adapter"
+
+Ln=100
+English="Auto (NSRT)"
+
+Ln=105
+English="Gamepads"
+
+Ln=109
+English="Superscope"
+
+Ln=113
+English="Justifier"
+
+Ln=117
+English="Mouse"
+
+Ln=124
+English="Input Ports"
+
+Ln=144
+English="Auto"
+
+Ln=148
+English="NTSC"
+
+Ln=152
+English="PAL"
+
+Ln=156
+English="NTSC + PAL Spoof"
+
+Ln=163
+English="System"
+
+Ln=178
+English="Video"
+
+Ln=184
+English="Allow Overscan Mode"
+
+Ln=197
+English="Bob"
+
+Ln=201
+English="Weave"
+
+Ln=208
+English="Deinterlace Mode"
+
+Ln=224
+English="Emulation Hacks"
+
+Ln=230
+English="Allow Invalid VRAM Access"
+
+Ln=243
+English="Separate Echo Buffer From Ram"
+
+Ln=264
+English="100%"
+
+Ln=268
+English="Custom Value"
+
+Ln=273
+English="Input 5 to 250"
+
+Ln=287
+English="Value not in range"
+
+Ln=299
+English="SuperFX Clock Multiplier"
+
+Ln=313
+English="{}%"
+
+Ln=341
+English="Console Options"
+
+Ln=353
+English="Console Options"
+
+Ln=383
+English="Cheats"
+
+Ln=400
+English="Patches"
+
+Ln=414
+English="Satellaview Files: {}"
+
+Ln=424
+English="Satellaview Files"
+
+Ln=441
+English="BS-X BIOS"
+
+Ln=456
+English="BS-X BIOS: {}"
+
+Ln=466
+English="Sufami Turbo BIOS"
+
+Ln=481
+English="Sufami Turbo BIOS: {}"
+
+Ln=517
+English="Edit Cheat"
+
+Ln=525
+English="Add Another Code"
+
+Ln=530
+English="Input xxxx-xxxx (GG), xxxxxxxx (AR), GF code, or blank"
+
+Ln=545
+English="Code"
+
+Ln=597
+English="Add Game Genie/Action Replay/Gold Finger Code"
+
+Ln=602
+English="Input xxxx-xxxx (GG), xxxxxxxx (AR), or GF code"
+
+Ln=614
+English="Edit Memory Patch"
+
+Ln=639
+English="Address"
+
+Ln=645
+English="Input 6-digit hex"
+
+Ln=653
+English="value must be <= FFFFFF"
+
+Ln=666
+English="Value"
+
+Ln=672
+English="Input 2-digit hex"
+
+Ln=680
+English="value must be <= FF"
+
+Ln=694
+English="Conditional Value"
+
+Ln=696
+English="Saved Value"
+
+Ln=703
+English="Input 2-digit hex or blank"
+
+Ln=714
+English="value must be <= FF"
+
+Ln=728
+English="Delete"
+
+Ln=733
+English="Really delete this patch?"
