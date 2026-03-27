@@ -37,14 +37,14 @@ StateSlotView::StateSlotView(ViewAttachParams attach):
 	},
 	load
 	{
-		UI_TEXT("读取进度"),
+		UI_TEXT("加载进度"),
 		attach,
 		[this](TextMenuItem &item, View &, const Input::Event &e)
 		{
 			if(!item.active())
 				return;
 			pushAndShowModal(makeView<YesNoAlertView>(
-				UI_TEXT("是否要读取进度？"),
+				UI_TEXT("是否要加载进度？"),
 				YesNoAlertView::Delegates
 				{
 					.onYes = [this]

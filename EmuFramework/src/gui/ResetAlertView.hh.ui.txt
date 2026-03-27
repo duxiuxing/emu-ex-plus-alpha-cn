@@ -1,19 +1,19 @@
 Ln=33
-English="Soft Reset""
+English="Soft Reset"
 Chinese="软重启"
 
 Ln=43
-English="Hard Reset""
+English="Hard Reset"
 Chinese="硬重启"
 
 Ln=53
-English="Cancel""
+English="Cancel"
 Chinese="取消"
 
 Ln=67
-English="Really reset?""
+English="Really reset?"
 Chinese="是否要重启游戏？"
 
 Ln=73
-English="Really reset?""
+English="Really reset?"
 Chinese="是否要重启游戏？"

@@ -1,27 +1,27 @@
 Ln=70
-English="Invalid state size from header""
+English="Invalid state size from header"
 Chinese="文件头部的数据长度信息无效"
 
 Ln=76
-English="Error uncompressing state""
+English="Error uncompressing state"
 Chinese="解压数据时出错"
 
 Ln=80
-English="Invalid state size""
+English="Invalid state size"
 Chinese="无效的数据长度信息"
 
 Ln=422
-English="No recognized file extensions in archive""
+English="No recognized file extensions in archive"
 Chinese="档案中没有可识别的文件扩展名"
 
 Ln=439
-English="Error reading file""
+English="Error reading file"
 Chinese="读取文件时出错"
 
 Ln=446
-English="Error writing file""
+English="Error writing file"
 Chinese="保存文件时出错"
 
 Ln=453
-English="This content must be opened with a folder, \"Browse For File\" isn't supported""
+English="This content must be opened with a folder, \"Browse For File\" isn't supported"
 Chinese="此游戏必须用文件夹打开，无法用“浏览文件”菜单项打开"

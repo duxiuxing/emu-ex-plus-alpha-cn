@@ -1,11 +1,11 @@
 Ln=31
-English="Exit""
+English="Exit"
 Chinese="退出"
 
 Ln=37
-English="Snap: 0px""
+English="Snap: 0px"
 Chinese="网格：0 像素"
 
 Ln=175
-English="Snap: {}px""
+English="Snap: {}px"
 Chinese="网格：{} 像素"

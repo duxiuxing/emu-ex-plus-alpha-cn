@@ -1,31 +1,31 @@
 Ln=41
-English="Select Folder""
+English="Select Folder"
 Chinese="选择文件夹"
 
 Ln=61
-English="Same As Content""
+English="Same As Content"
 Chinese="使用游戏文件夹"
 
 Ln=71
-English="Same As Saves""
+English="Same As Saves"
 Chinese="使用存档文件夹"
 
 Ln=103
-English="Content Folder""
+English="Content Folder"
 Chinese="游戏文件夹"
 
 Ln=109
-English="Saves Folder""
+English="Saves Folder"
 Chinese="存档文件夹"
 
 Ln=116
-English="Cheats: {}""
-Chinese="金手指文件夹：{}"
+English="Cheats: {}"
+Chinese="作弊项文件夹：{}"
 
 Ln=123
-English="Patches: {}""
+English="Patches: {}"
 Chinese="补丁文件夹：{}"
 
 Ln=130
-English="Palettes: {}""
+English="Palettes: {}"
 Chinese="调色板文件夹：{}"

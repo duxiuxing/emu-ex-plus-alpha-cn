@@ -1,47 +1,47 @@
 Ln=168
-English="PC Keyboard""
+English="PC Keyboard"
 Chinese="电脑键盘"
 
 Ln=175
-English="Generic Gamepad""
+English="Generic Gamepad"
 Chinese="常规手柄"
 
 Ln=181
-English="PS3 Controller""
+English="PS3 Controller"
 Chinese="PS3 手柄"
 
 Ln=187
-English="OUYA Controller""
+English="OUYA Controller"
 Chinese="OUYA 手柄"
 
 Ln=195
-English="Xperia Play""
-Chinese="Xperia Play"
+English="Xperia Play"
+Chinese="Xperia Play 游戏手机"
 
 Ln=203
-English="Pandora Keys""
-Chinese="Pandora Keys"
+English="Pandora Keys"
+Chinese="月光宝盒"
 
 Ln=211
-English="Default""
+English="Default"
 Chinese="默认"
 
 Ln=219
-English="Default""
+English="Default"
 Chinese="默认"
 
 Ln=225
-English="Default""
+English="Default"
 Chinese="默认"
 
 Ln=231
-English="Default""
+English="Default"
 Chinese="默认"
 
 Ln=237
-English="Default""
+English="Default"
 Chinese="默认"
 
 Ln=245
-English="Default""
+English="Default"
 Chinese="默认"

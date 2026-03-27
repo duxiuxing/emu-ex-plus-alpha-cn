@@ -30,7 +30,7 @@ constexpr SystemLogger log{"SystemActionsView"};
 static auto autoSaveName(EmuApp &app)
 {
 	return std::format(
-		UI_TEXT("当前的自动存档槽位：{}"),
+		UI_TEXT("当前自动存档槽位：{}"),
 		app.autosaveManager.slotFullName());
 }
 
@@ -38,9 +38,9 @@ static std::string saveAutosaveName(EmuApp &app)
 {
 	auto &autosaveManager = app.autosaveManager;
 	if(!autosaveManager.timerFrequency().count())
-		return UI_TEXT("保存进度到自动存档");
+		return UI_TEXT("保存进度 (到自动存档槽位)");
 	return std::format(
-		UI_TEXT("保存进度到自动存档 (倒计时 {:%M:%S})"),
+		UI_TEXT("自动保存进度 (倒计时 {:%M:%S})"),
 		duration_cast<Seconds>(autosaveManager.saveTimer.nextFireDuration()));
 }
 
@@ -52,7 +52,7 @@ SystemActionsView::SystemActionsView(ViewAttachParams attach, bool customMenu):
 	},
 	cheats
 	{
-		UI_TEXT("金手指"),
+		UI_TEXT("作弊项"),
 		attach,
 		[this](const Input::Event &e)
 		{
@@ -99,7 +99,7 @@ SystemActionsView::SystemActionsView(ViewAttachParams attach, bool customMenu):
 	},
 	revertAutosave
 	{
-		UI_TEXT("读取自动存档的进度"),
+		UI_TEXT("加载进度 (从自动存档槽位)"),
 		attach,
 		[this](TextMenuItem &item, const Input::Event &e)
 		{
@@ -109,12 +109,12 @@ SystemActionsView::SystemActionsView(ViewAttachParams attach, bool customMenu):
 			if(saveTime.empty())
 			{
 				app().postMessage(
-					UI_TEXT("无效的存档进度")
+					UI_TEXT("未保存进度")
 				);
 				return;
 			}
 			pushAndShowModal(makeView<YesNoAlertView>(std::format(
-				UI_TEXT("是否要从 {} 读取进度？"),
+				UI_TEXT("是否要从 {} 加载进度？"),
 				saveTime),
 				YesNoAlertView::Delegates
 				{
@@ -208,7 +208,7 @@ SystemActionsView::SystemActionsView(ViewAttachParams attach, bool customMenu):
 			if(!app().hasSavedSessionOptions())
 				return;
 			pushAndShowModal(makeView<YesNoAlertView>(
-				UI_TEXT("是否要恢复选项的默认值？某些选项需要重启模拟器才能生效。"),
+				UI_TEXT("是否要恢复各个选项的默认值？某些选项需要重启模拟器才能生效。"),
 				YesNoAlertView::Delegates
 				{
 					.onYes = [this]

@@ -1,7 +1,7 @@
 Ln=119
-English="Open Menu""
+English="Open Menu"
 Chinese="打开菜单"
 
 Ln=124
-English="Fast-forward/Rewind""
+English="Fast-forward/Rewind"
 Chinese="快进/倒带"

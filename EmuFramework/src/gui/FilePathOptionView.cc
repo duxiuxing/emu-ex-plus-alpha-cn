@@ -29,7 +29,7 @@ static FS::FileString savePathStrToDisplayName(ApplicationContext ctx, std::stri
 	if(savePathStr.size())
 	{
 		if(savePathStr == optionSavePathDefaultToken)
-			return UI_TEXT("应用程序文件夹");
+			return UI_TEXT("App 文件夹");
 		else
 			return ctx.fileUriDisplayName(savePathStr);
 	}
@@ -103,7 +103,7 @@ FilePathOptionView::FilePathOptionView(ViewAttachParams attach, bool customMenu)
 					view.dismiss();
 				});
 			multiChoiceView->appendItem(
-				UI_TEXT("应用程序文件夹"),
+				UI_TEXT("App 文件夹"),
 				[this](View &view)
 				{
 					system().setUserSaveDirectory(optionSavePathDefaultToken);
@@ -116,8 +116,8 @@ FilePathOptionView::FilePathOptionView(ViewAttachParams attach, bool customMenu)
 				{
 					pushAndShowModal(makeView<YesNoAlertView>(
 						std::format(
-							UI_TEXT("请选择 \"Game Data/{}\" 文件夹，此文件夹为老版本应用程序的游戏数据文件夹，")
-							UI_TEXT("新版本应用程序将对其进行数据迁移 (本操作只需要执行一次)"),
+							UI_TEXT("请选择 \"Game Data/{}\" 文件夹，此文件夹为老版本 App 的游戏数据文件夹，")
+							UI_TEXT("新版本 App 将对其进行数据迁移 (本操作只需要执行一次)"),
 							system().shortSystemName()),
 						YesNoAlertView::Delegates
 						{
@@ -132,7 +132,7 @@ FilePathOptionView::FilePathOptionView(ViewAttachParams attach, bool customMenu)
 										if(!hasWriteAccessToDir(path))
 										{
 											app().postErrorMessage(
-												UI_TEXT("此文件夹缺少写入权限")
+												UI_TEXT("没有此文件夹的写入权限")
 											);
 											return;
 										}
@@ -192,7 +192,7 @@ void FilePathOptionView::onSavePathChange(std::string_view path)
 	if(path == optionSavePathDefaultToken)
 	{
 		app().postMessage(4, false, std::format(
-			UI_TEXT("应用程序文件夹：\n{}"),
+			UI_TEXT("App 文件夹：\n{}"),
 			system().fallbackSaveDirectory()));
 	}
 	savePath.compile(savesMenuName(appContext(), path));

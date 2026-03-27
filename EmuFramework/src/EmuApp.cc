@@ -589,7 +589,7 @@ void EmuApp::launchSystem(const Input::Event &e)
 			!autosaveManager.saveOnlyBackupMemory && stateIsOlderThanBackupMemory())
 		{
 			viewController().pushAndShowModal(std::make_unique<YesNoAlertView>(attachParams(),
-				UI_TEXT("自动存档的进度和内存快照的时间戳不一致，读取进度可能导致当前进度丢失，是否要继续？"),
+				UI_TEXT("自动存档的进度和内存快照的时间戳不一致，加载进度可能导致当前进度丢失，是否要继续？"),
 				YesNoAlertView::Delegates
 				{
 					.onYes = [this]{ finishLaunch(*this, LoadAutosaveMode::Normal); },
@@ -953,7 +953,7 @@ bool EmuApp::loadState(CStringView path)
 			);
 		else
 			postErrorMessage(4,	std::format(
-				UI_TEXT("无法读取进度：\n{}"),
+				UI_TEXT("无法加载进度：\n{}"),
 				err.what()));
 		return false;
 	}

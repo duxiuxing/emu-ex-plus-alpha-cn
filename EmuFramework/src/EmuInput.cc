@@ -96,7 +96,7 @@ bool InputManager::handleAppActionKeyInput(EmuApp& app, InputAction action, cons
 			else
 			{
 				viewController.pushAndShowModal(std::make_unique<YesNoAlertView>(app.attachParams(),
-					UI_TEXT("是否要覆盖已有存档？"),
+					UI_TEXT("是否要覆盖已有进度？"),
 					YesNoAlertView::Delegates
 					{
 						.onYes = [&app]
@@ -172,7 +172,7 @@ bool InputManager::handleAppActionKeyInput(EmuApp& app, InputAction action, cons
 			if(!isPushed)
 				break;
 			viewController.pushAndShowModal(std::make_unique<YesNoAlertView>(app.attachParams(),
-				UI_TEXT("是否要退出应用程序？"),
+				UI_TEXT("是否要退出 App？"),
 				YesNoAlertView::Delegates{.onYes = [&app]{ app.appContext().exit(); }}), srcEvent, false);
 		}
 		break;
@@ -667,7 +667,7 @@ std::string_view toString(AppKeyCode code)
 		case AppKeyCode::saveState:
 			return UI_TEXT("保存进度");
 		case AppKeyCode::loadState:
-			return UI_TEXT("读取进度");
+			return UI_TEXT("加载进度");
 		case AppKeyCode::decStateSlot:
 			return UI_TEXT("上一个存档槽位");
 		case AppKeyCode::incStateSlot:
@@ -683,7 +683,7 @@ std::string_view toString(AppKeyCode code)
 		case AppKeyCode::turboModifier:
 			return UI_TEXT("调节连发");
 		case AppKeyCode::exitApp:
-			return UI_TEXT("退出应用程序");
+			return UI_TEXT("退出 App");
 		case AppKeyCode::slowMotion:
 			return UI_TEXT("慢动作");
 		case AppKeyCode::toggleSlowMotion:

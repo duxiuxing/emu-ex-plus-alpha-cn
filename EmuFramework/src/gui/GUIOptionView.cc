@@ -42,7 +42,7 @@ GUIOptionView::GUIOptionView(ViewAttachParams attach, bool customMenu):
 	},
 	pauseUnfocused
 	{
-		UI_TEXT("失去焦点时暂停"),
+		UI_TEXT("失去焦点时暂停游戏"),
 		attach,
 		app().pauseUnfocused,
 		[this](BoolMenuItem &item)
@@ -98,7 +98,7 @@ GUIOptionView::GUIOptionView(ViewAttachParams attach, bool customMenu):
 	},
 	notificationIcon
 	{
-		UI_TEXT("Suspended App Icon"),
+		UI_TEXT("悬浮 App 图标"),
 		attach,
 		app().showsNotificationIcon,
 		[this](BoolMenuItem &item)
@@ -324,7 +324,7 @@ GUIOptionView::GUIOptionView(ViewAttachParams attach, bool customMenu):
 	},
 	layoutBehindSystemUI
 	{
-		UI_TEXT("全屏显示应用程序界面"),
+		UI_TEXT("全屏显示 App 界面"),
 		attach,
 		app().doesLayoutBehindSystemUI(),
 		[this](BoolMenuItem &item)

@@ -1,195 +1,195 @@
 Ln=28
-English="System Options""
+English="System Options"
 Chinese="系统选项"
 
 Ln=34
-English="Off""
+English="Off"
 Chinese="关"
 
 Ln=38
-English="5min""
+English="5min"
 Chinese="5 分钟"
 
 Ln=42
-English="10min""
+English="10min"
 Chinese="10 分钟"
 
 Ln=46
-English="15min""
+English="15min"
 Chinese="15 分钟"
 
 Ln=50
-English="Custom Value""
+English="Custom Value"
 Chinese="自定义"
 
 Ln=55
-English="Input 0 to 720""
+English="Input 0 to 720"
 Chinese="请输入 0 到 720 之间的值"
 
 Ln=70
-English="Timer""
+English="Timer"
 Chinese="计时器"
 
 Ln=88
-English="Main Slot""
+English="Main Slot"
 Chinese="开启自动存档并读取进度"
 
 Ln=92
-English="Main Slot (No State)""
+English="Main Slot (No State)"
 Chinese="开启自动存档但不读取进度"
 
 Ln=96
-English="No Save Slot""
+English="No Save Slot"
 Chinese="关闭自动存档"
 
 Ln=100
-English="Select Slot""
-Chinese="选择自动存档点"
+English="Select Slot"
+Chinese="选择自动存档槽位"
 
 Ln=106
-English="Launch Mode""
+English="Launch Mode"
 Chinese="启动模式"
 
 Ln=116
-English="Content""
+English="Content"
 Chinese="内容"
 
 Ln=119
-English="State & Backup RAM""
+English="State & Backup RAM"
 Chinese="保存进度和内存快照"
 
 Ln=120
-English="Only Backup RAM""
+English="Only Backup RAM"
 Chinese="仅保存内存快照"
 
 Ln=128
-English="Confirm Overwrite State""
+English="Confirm Overwrite State"
 Chinese="确认后再覆盖已有进度"
 
 Ln=139
-English="1.5x""
+English="1.5x"
 Chinese="1.5x"
 
 Ln=143
-English="2x""
+English="2x"
 Chinese="2x"
 
 Ln=147
-English="4x""
+English="4x"
 Chinese="4x"
 
 Ln=151
-English="8x""
+English="8x"
 Chinese="8x"
 
 Ln=155
-English="16x""
+English="16x"
 Chinese="16x"
 
 Ln=159
-English="Custom Value""
+English="Custom Value"
 Chinese="自定义"
 
 Ln=164
-English="Input above 1.0 to 20.0""
+English="Input above 1.0 to 20.0"
 Chinese="请输入 1.0 到 20.0 之间的值"
 
 Ln=180
-English="Fast-forward Speed""
+English="Fast-forward Speed"
 Chinese="快进倍速"
 
 Ln=188
-English="{:g}x""
+English="{:g}x"
 Chinese="{:g}x"
 
 Ln=198
-English="0.25x""
+English="0.25x"
 Chinese="0.25x"
 
 Ln=202
-English="0.50x""
+English="0.50x"
 Chinese="0.50x"
 
 Ln=206
-English="Custom Value""
+English="Custom Value"
 Chinese="自定义"
 
 Ln=211
-English="Input 0.05 up to 1.0""
+English="Input 0.05 up to 1.0"
 Chinese="请输入 0.05 到 1.0 之间的值"
 
 Ln=225
-English="Value not in range""
+English="Value not in range"
 Chinese="输入值不在有效的取值范围"
 
 Ln=236
-English="Slow-motion Speed""
+English="Slow-motion Speed"
 Chinese="慢动作倍速"
 
 Ln=244
-English="{:g}x""
+English="{:g}x"
 Chinese="{:g}x"
 
 Ln=254
-English="0""
+English="0"
 Chinese="0"
 
 Ln=258
-English="30""
+English="30"
 Chinese="30"
 
 Ln=262
-English="60""
+English="60"
 Chinese="60"
 
 Ln=266
-English="Custom Value""
+English="Custom Value"
 Chinese="自定义"
 
 Ln=271
-English="Input 0 to 50000""
+English="Input 0 to 50000"
 Chinese="请输入 0 到 50000 之间的值"
 
 Ln=286
-English="States""
+English="States"
 Chinese="进度点的个数上限"
 
 Ln=305
-English="State Interval (Seconds)""
+English="State Interval (Seconds)"
 Chinese="进度点的时间间隔 (秒)"
 
 Ln=311
-English="Input 1 to 60""
+English="Input 1 to 60"
 Chinese="请输入 1 到 60 之间的值"
 
 Ln=323
-English="Performance Mode""
+English="Performance Mode"
 Chinese="性能模式"
 
 Ln=326
-English="Normal""
+English="Normal"
 Chinese="正常"
 
 Ln=327
-English="Sustained""
+English="Sustained"
 Chinese="持续"
 
 Ln=335
-English="No-op Thread (Experimental)""
+English="No-op Thread (Experimental)"
 Chinese="无操作线程"
 
 Ln=345
-English="Configure CPU Affinity""
+English="Configure CPU Affinity"
 Chinese="CPU 亲和性配置"
 
 Ln=354
-English="Autosave Options""
+English="Autosave Options"
 Chinese="自动存档："
 
 Ln=359
-English="Rewind Options""
+English="Rewind Options"
 Chinese="倒带操作："
 
 Ln=364
-English="Other Options""
+English="Other Options"
 Chinese="其他选项："

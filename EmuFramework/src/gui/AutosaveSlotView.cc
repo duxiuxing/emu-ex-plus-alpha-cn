@@ -50,7 +50,7 @@ public:
 			[this](const Input::Event &e)
 			{
 				pushAndShowNewCollectValueInputView<const char*>(attachParams(), e,
-					UI_TEXT("请输入存档槽位名称"),
+					UI_TEXT("请输入存档槽位的名称"),
 					slotName,
 					[this](CollectTextInputView &, auto str)
 					{
@@ -134,7 +134,7 @@ static std::string slotDescription(EmuApp &app, std::string_view saveName)
 {
 	auto desc = app.appContext().fileUriFormatLastWriteTimeLocal(app.autosaveManager.statePath(saveName));
 	if(desc.empty())
-		desc = UI_TEXT("无效的存档进度");
+		desc = UI_TEXT("未保存进度");
 	return desc;
 }
 

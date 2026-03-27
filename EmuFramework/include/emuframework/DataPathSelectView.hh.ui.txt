@@ -1,19 +1,19 @@
 Ln=59
-English="Select Folder""
+English="Select Folder"
 Chinese="选择文件夹"
 
 Ln=81
-English="Select File""
+English="Select File"
 Chinese="选择文件"
 
 Ln=82
-English="Select Archive File""
+English="Select Archive File"
 Chinese="选择档案文件"
 
 Ln=96
-English="File doesn't have a valid extension""
+English="File doesn't have a valid extension"
 Chinese="无效的文件扩展名"
 
 Ln=111
-English="Unset""
+English="Unset"
 Chinese="不设置"
