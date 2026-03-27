@@ -221,7 +221,9 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, EmuVideoLayer &videoLa
 			{
 				if(videoLayer.scale <= 200)
 				{
-					t.resetString(std::format("{}%", videoLayer.scale.value()));
+					t.resetString(std::format(
+						UI_TEXT("{}%"),
+						videoLayer.scale.value()));
 					return true;
 				}
 				return false;
@@ -272,7 +274,9 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, EmuVideoLayer &videoLa
 		{
 			.onSetDisplayString = [this](auto, Gfx::Text& t)
 			{
-				t.resetString(std::format("{}%", app().menuScale.value()));
+				t.resetString(std::format(
+					UI_TEXT("{}%"),
+					app().menuScale.value()));
 				return true;
 			},
 			.defaultItemOnSelect = [this](TextMenuItem &item) { app().setMenuScale(item.id); }

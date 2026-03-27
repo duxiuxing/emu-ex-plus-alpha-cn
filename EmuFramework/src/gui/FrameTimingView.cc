@@ -32,7 +32,35 @@ static std::string makeFrameRateStr(VideoSystem vidSys, const OutputTimingManage
 			UI_TEXT("{:g}Hz"),
 			toHz(opt));
 }
+/*
+static std::string makeFrameClockStr(FrameClockSource opt)
+{
+	switch(opt)
+	{
+	default:
+		return UI_TEXT("Unset");	
+	case FrameClockSource::Renderer:
+		return UI_TEXT("Renderer");
+	case FrameClockSource::Screen:
+		return UI_TEXT("Screen");
+	case FrameClockSource::Timer:
+		return UI_TEXT("Timer");
+	}
+}
 
+static std::string makeOutputRateModeStr(OutputFrameRateMode opt)
+{
+	switch (opt)
+	{
+	default:
+		return UI_TEXT("Auto");
+	case OutputFrameRateMode::Detect:
+		return UI_TEXT("Detect");
+	case OutputFrameRateMode::Screen:
+		return UI_TEXT("Screen");
+	}
+}
+*/
 FrameTimingView::FrameTimingView(ViewAttachParams attach):
 	TableView
 	{

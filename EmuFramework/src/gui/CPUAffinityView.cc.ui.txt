@@ -1,23 +1,32 @@
-Ln=26
-English="Configure CPU Affinity"
+Ln=28
+English="Auto"
+
+Ln=30
+English="Any"
 
 Ln=32
+English="Manual"
+
+Ln=39
+English="Configure CPU Affinity"
+
+Ln=45
 English="Auto (Use only performance cores or hints for low latency)"
 
-Ln=36
+Ln=49
 English="Any (Use any core even if it increases latency)"
 
-Ln=40
+Ln=53
 English="Manual (Use cores set in previous menu)"
 
-Ln=46
+Ln=59
 English="CPU Affinity Mode"
 
-Ln=61
+Ln=74
 English="Manual CPU Affinity"
 
-Ln=75
+Ln=88
 English="{} (Offline)"
 
-Ln=77
+Ln=91
 English="{} ({}MHz)"

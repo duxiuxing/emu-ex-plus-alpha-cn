@@ -58,227 +58,233 @@ English="Input 10 to 200"
 Ln=215
 English="Content Scale"
 
-Ln=235
+Ln=225
+English="{}%"
+
+Ln=237
 English="100%"
 
-Ln=239
+Ln=241
 English="95%"
 
-Ln=243
+Ln=245
 English="90%"
 
-Ln=247
+Ln=249
 English="Custom Value"
 
-Ln=252
+Ln=254
 English="Input 50 to 100"
 
-Ln=268
+Ln=270
 English="Menu Scale"
 
-Ln=284
-English="Auto"
+Ln=278
+English="{}%"
 
 Ln=288
-English="Standard"
-
-Ln=292
-English="90° Right"
-
-Ln=296
-English="Upside Down"
-
-Ln=300
-English="90° Left"
-
-Ln=306
-English="Content Rotation"
-
-Ln=316
-English="Set Video Position"
-
-Ln=327
-English="Image Interpolation"
-
-Ln=330
-English="None"
-
-Ln=331
-English="Linear"
-
-Ln=341
-English="Off"
-
-Ln=345
-English="hq2x"
-
-Ln=349
-English="Scale2x"
-
-Ln=353
-English="Prescale 2x"
-
-Ln=357
-English="Prescale 3x"
-
-Ln=361
-English="Prescale 4x"
-
-Ln=367
-English="Image Effect"
-
-Ln=382
-English="Off"
-
-Ln=386
-English="Scanlines"
-
-Ln=390
-English="Scanlines 2x"
-
-Ln=394
-English="LCD Grid"
-
-Ln=398
-English="CRT Mask"
-
-Ln=402
-English="CRT Mask .5x"
-
-Ln=406
-English="CRT Grille"
-
-Ln=410
-English="CRT Grille .5x"
-
-Ln=416
-English="Overlay Effect"
-
-Ln=431
-English="100%"
-
-Ln=435
-English="75%"
-
-Ln=439
-English="50%"
-
-Ln=443
-English="25%"
-
-Ln=447
-English="Custom Value"
-
-Ln=452
-English="Input 0 to 100"
-
-Ln=468
-English="Overlay Effect Level"
-
-Ln=476
-English="{}%"
-
-Ln=490
-English="Auto (Match display format)"
-
-Ln=494
-English="RGBA8888"
-
-Ln=498
-English="RGB565"
-
-Ln=504
-English="Effect Color Format"
-
-Ln=538
-English="Restart app for option to take effect"
-
-Ln=546
 English="Auto"
 
-Ln=559
-English="Display Color Format"
+Ln=292
+English="Standard"
 
-Ln=578
-English="2nd Window (for testing only)"
+Ln=296
+English="90° Right"
 
-Ln=588
-English="External Screen"
+Ln=300
+English="Upside Down"
 
-Ln=591
-English="OS Managed"
+Ln=304
+English="90° Left"
 
-Ln=592
-English="Emu Content"
+Ln=310
+English="Content Rotation"
 
-Ln=603
+Ln=320
+English="Set Video Position"
+
+Ln=331
+English="Image Interpolation"
+
+Ln=334
+English="None"
+
+Ln=335
+English="Linear"
+
+Ln=345
+English="Off"
+
+Ln=349
+English="hq2x"
+
+Ln=353
+English="Scale2x"
+
+Ln=357
+English="Prescale 2x"
+
+Ln=361
+English="Prescale 3x"
+
+Ln=365
+English="Prescale 4x"
+
+Ln=371
+English="Image Effect"
+
+Ln=386
+English="Off"
+
+Ln=390
+English="Scanlines"
+
+Ln=394
+English="Scanlines 2x"
+
+Ln=398
+English="LCD Grid"
+
+Ln=402
+English="CRT Mask"
+
+Ln=406
+English="CRT Mask .5x"
+
+Ln=410
+English="CRT Grille"
+
+Ln=414
+English="CRT Grille .5x"
+
+Ln=420
+English="Overlay Effect"
+
+Ln=435
+English="100%"
+
+Ln=439
+English="75%"
+
+Ln=443
+English="50%"
+
+Ln=447
+English="25%"
+
+Ln=451
+English="Custom Value"
+
+Ln=456
+English="Input 0 to 100"
+
+Ln=472
+English="Overlay Effect Level"
+
+Ln=480
+English="{}%"
+
+Ln=494
 English="Auto (Match display format)"
 
-Ln=607
+Ln=498
 English="RGBA8888"
 
-Ln=611
+Ln=502
 English="RGB565"
 
-Ln=617
+Ln=508
+English="Effect Color Format"
+
+Ln=542
+English="Restart app for option to take effect"
+
+Ln=550
+English="Auto"
+
+Ln=563
+English="Display Color Format"
+
+Ln=582
+English="2nd Window (for testing only)"
+
+Ln=592
+English="External Screen"
+
+Ln=595
+English="OS Managed"
+
+Ln=596
+English="Emu Content"
+
+Ln=607
+English="Auto (Match display format)"
+
+Ln=611
+English="RGBA8888"
+
+Ln=615
+English="RGB565"
+
+Ln=621
 English="Render Color Format"
 
-Ln=637
+Ln=641
 English="Default"
 
-Ln=647
+Ln=651
 English="Custom Value"
 
-Ln=655
+Ln=659
 English="Default"
 
-Ln=661
+Ln=665
 English="Custom Value"
 
-Ln=670
+Ln=674
 English="Default"
 
-Ln=676
+Ln=680
 English="Custom Value"
 
-Ln=685
+Ln=689
 English="Default"
 
-Ln=691
+Ln=695
 English="Custom Value"
 
-Ln=699
+Ln=703
 English="Set All Levels"
 
-Ln=704
+Ln=708
 English="All Levels"
 
-Ln=710
+Ln=714
 English="Red"
 
-Ln=718
+Ln=722
 English="{}%"
 
-Ln=726
+Ln=730
 English="Green"
 
-Ln=734
+Ln=738
 English="{}%"
 
-Ln=742
+Ln=746
 English="Blue"
 
-Ln=750
+Ln=754
 English="{}%"
 
-Ln=758
+Ln=762
 English="Color Levels"
 
-Ln=763
+Ln=767
 English="Advanced"
 
-Ln=768
+Ln=772
 English="System-specific"
 
-Ln=821
+Ln=825
 English="Input 0 to 200"

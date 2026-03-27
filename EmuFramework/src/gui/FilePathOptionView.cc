@@ -81,7 +81,9 @@ FilePathOptionView::FilePathOptionView(ViewAttachParams attach, bool customMenu)
 						{
 							if(!hasWriteAccessToDir(path))
 							{
-								app().postErrorMessage(UI_TEXT("This folder lacks write access"));
+								app().postErrorMessage(
+									UI_TEXT("This folder lacks write access")
+								);
 								return;
 							}
 							system().setUserSaveDirectory(path);

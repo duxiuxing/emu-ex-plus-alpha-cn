@@ -19,7 +19,20 @@ import imagine;
 
 namespace EmuEx
 {
-
+/*
+static std::string makeAffinityModeStr(CPUAffinityMode opt)
+{
+	switch (opt)
+	{
+	default:
+		return UI_TEXT("Auto");
+	case CPUAffinityMode::Any:
+		return UI_TEXT("Any");
+	case CPUAffinityMode::Manual:
+		return UI_TEXT("Manual");
+	}
+}
+*/
 CPUAffinityView::CPUAffinityView(ViewAttachParams attach, int cpuCount):
 	TableView
 	{
@@ -74,7 +87,9 @@ CPUAffinityView::CPUAffinityView(ViewAttachParams attach, int cpuCount):
 					return std::format(
 						UI_TEXT("{} (Offline)"),
 						i);
-				return std::format(UI_TEXT("{} ({}MHz)"), i, freq / 1000);
+				return std::format(
+					UI_TEXT("{} ({}MHz)"),
+					i, freq / 1000);
 			}(),
 			attach, app().cpuAffinity(i),
 			[this, i](BoolMenuItem &item) { app().setCPUAffinity(i, item.flipBoolValue(*this)); });
