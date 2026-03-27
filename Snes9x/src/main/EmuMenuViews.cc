@@ -541,7 +541,10 @@ public:
 		codes.clear();
 		system().forEachCheatCode(*cheatPtr, [this](CheatCode& c, std::string_view code)
 		{
-			codes.emplace_back(UI_TEXT("Code"), code, attachParams(), [this, &c](const Input::Event& e)
+			codes.emplace_back(
+				UI_TEXT("Code"),
+				code, attachParams(),
+				[this, &c](const Input::Event& e)
 			{
 				pushAndShow(makeView<EditRamCheatView>(c, *this), e);
 			});
@@ -638,13 +641,16 @@ EditRamCheatView::EditRamCheatView(ViewAttachParams attach, CheatCode& code_, Ed
 		attach,
 		[this](const Input::Event& e)
 		{
-			pushAndShowNewCollectValueInputView<const char*>(attachParams(), e, UI_TEXT("Input 6-digit hex"), std::format("{:x}", code.address),
+			pushAndShowNewCollectValueInputView<const char*>(attachParams(),
+				e, UI_TEXT("Input 6-digit hex"),
+				std::format("{:x}", code.address),
 				[this](CollectTextInputView&, auto str)
 				{
 					unsigned a = parseHex(str);
 					if(a > 0xFFFFFF)
 					{
-						app().postMessage(true, "value must be <= FFFFFF");
+						app().postMessage(true,
+							UI_TEXT("value must be <= FFFFFF"));
 						return false;
 					}
 					setCheatAddress(code, a);
@@ -662,13 +668,16 @@ EditRamCheatView::EditRamCheatView(ViewAttachParams attach, CheatCode& code_, Ed
 		attach,
 		[this](const Input::Event& e)
 		{
-			pushAndShowNewCollectValueInputView<const char*>(attachParams(), e, UI_TEXT("Input 2-digit hex"), std::format("{:x}", code.byte),
+			pushAndShowNewCollectValueInputView<const char*>(attachParams(), e,
+				UI_TEXT("Input 2-digit hex"),
+				std::format("{:x}", code.byte),
 				[this](CollectTextInputView&, auto str)
 				{
 					unsigned a = parseHex(str);
 					if(a > 0xFF)
 					{
-						app().postMessage(true, UI_TEXT("value must be <= FF"));
+						app().postMessage(true,
+							UI_TEXT("value must be <= FF"));
 						return false;
 					}
 					setCheatValue(code, a);
@@ -690,7 +699,9 @@ EditRamCheatView::EditRamCheatView(ViewAttachParams attach, CheatCode& code_, Ed
 		attach,
 		[this](const Input::Event& e)
 		{
-			pushAndShowNewCollectValueInputView<const char*, ScanValueMode::AllowBlank>(attachParams(), e, UI_TEXT("Input 2-digit hex or blank"), codeConditionalToString(code),
+			pushAndShowNewCollectValueInputView<const char*, ScanValueMode::AllowBlank>(attachParams(), e,
+				UI_TEXT("Input 2-digit hex or blank"),
+				codeConditionalToString(code),
 				[this](CollectTextInputView &, const char *str)
 				{
 					int a = -1;
@@ -699,7 +710,8 @@ EditRamCheatView::EditRamCheatView(ViewAttachParams attach, CheatCode& code_, Ed
 						a = parseHex(str);
 						if(a > 0xFF)
 						{
-							app().postMessage(true, UI_TEXT("value must be <= FF"));
+							app().postMessage(true,
+								UI_TEXT("value must be <= FF"));
 							return true;
 						}
 					}
@@ -717,7 +729,8 @@ EditRamCheatView::EditRamCheatView(ViewAttachParams attach, CheatCode& code_, Ed
 		attach,
 		[this](const Input::Event& e)
 		{
-			pushAndShowModal(makeView<YesNoAlertView>(UI_TEXT("Really delete this patch?"),
+			pushAndShowModal(makeView<YesNoAlertView>(
+				UI_TEXT("Really delete this patch?"),
 				YesNoAlertView::Delegates{.onYes = [this]{ editCheatView.removeCheatCode(code); dismiss(); }}), e);
 		}
 	} {}

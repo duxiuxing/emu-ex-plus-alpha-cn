@@ -1,0 +1,86 @@
+Ln=25
+English="Bio Worm"
+
+Ln=27
+English="BioWorm.7z"
+
+Ln=28
+English="Bio Worm.7z"
+
+Ln=93
+English="Gamepad"
+
+Ln=98
+English="Gamepad 2"
+
+Ln=103
+English="Gamepad 3"
+
+Ln=108
+English="Gamepad 4"
+
+Ln=113
+English="Gamepad 5"
+
+Ln=125
+English="Up"
+
+Ln=127
+English="Right"
+
+Ln=129
+English="Down"
+
+Ln=131
+English="Left"
+
+Ln=133
+English="Select"
+
+Ln=135
+English="Start"
+
+Ln=137
+English="A"
+
+Ln=139
+English="B"
+
+Ln=141
+English="X"
+
+Ln=143
+English="Y"
+
+Ln=145
+English="L"
+
+Ln=147
+English="R"
+
+Ln=263
+English="D-Pad"
+
+Ln=268
+English="Face Buttons"
+
+Ln=273
+English="Face Buttons + Inline L/R"
+
+Ln=278
+English="L"
+
+Ln=283
+English="R"
+
+Ln=288
+English="Select"
+
+Ln=293
+English="Start"
+
+Ln=298
+English="Select/Start"
+
+Ln=302
+English="Gamepad"
