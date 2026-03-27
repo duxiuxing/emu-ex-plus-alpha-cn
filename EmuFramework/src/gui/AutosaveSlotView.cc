@@ -134,8 +134,7 @@ static std::string slotDescription(EmuApp &app, std::string_view saveName)
 {
 	auto desc = app.appContext().fileUriFormatLastWriteTimeLocal(app.autosaveManager.statePath(saveName));
 	if(desc.empty())
-		desc =
-			UI_TEXT("无效的存档进度");
+		desc = UI_TEXT("无效的存档进度");
 	return desc;
 }
 
