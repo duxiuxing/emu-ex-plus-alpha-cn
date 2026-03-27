@@ -299,7 +299,11 @@ SystemInputDeviceDesc AppMeta::inputDeviceDesc(int)
 			centerKeyInfo, InputComponent::button, CB2DO, {.altConfig = true}
 		},
 	};
-	static constexpr SystemInputDeviceDesc gamepadDesc{ UI_TEXT("Gamepad"), gamepadComponents};
+	static constexpr SystemInputDeviceDesc gamepadDesc
+	{
+		UI_TEXT("Gamepad"),
+		gamepadComponents
+	};
 	return gamepadDesc;
 }
 

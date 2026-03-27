@@ -82,5 +82,5 @@ English="Start"
 Ln=298
 English="Select/Start"
 
-Ln=302
+Ln=304
 English="Gamepad"
