@@ -286,7 +286,7 @@ SystemInputDeviceDesc AppMeta::inputDeviceDesc(int)
 		InputComponentDesc
 		{
 			UI_TEXT("Select"),
-		{&centerKeyInfo[0], 1}, InputComponent::button, LB2DO
+			{&centerKeyInfo[0], 1}, InputComponent::button, LB2DO
 		},
 		InputComponentDesc
 		{
