@@ -1,116 +1,183 @@
 Ln=27
-English="Auto"
+English="Auto""
+Chinese="自动"
 
 Ln=29
-English="Original"
+English="Original""
+Chinese="原始"
 
 Ln=32
-English="{:g}Hz"
+English="{:g}Hz""
+Chinese="{:g}Hz"
 
-Ln=39
-English="Frame Timing Options"
+Ln=41
+English="None"
+Chinese="自动"
+
+Ln=43
+English="None"
+Chinese="渲染器"
 
 Ln=45
-English="Full (No Skip)"
+English="Full (No Skip)""
+Chinese="屏幕"
 
-Ln=49
-English="Full"
+Ln=47
+English="None"
+Chinese="计时器"
 
-Ln=53
-English="1/2"
+Ln=56
+English="None"
+Chinese="自动"
 
-Ln=57
-English="1/3"
+Ln=58
+English="None"
+Chinese="检测"
 
-Ln=61
-English="1/4"
+Ln=60
+English="None"
+Chinese="屏幕"
 
 Ln=67
-English="Frame Rate Target"
+English="Frame Rate Target""
+Chinese="渲染耗时选项"
 
-Ln=79
-English="Auto (Match screen when rates are similar)"
+Ln=73
+English="None"
+Chinese="全速 (不跳帧)"
 
-Ln=87
-English="Original (Use emulated system's rate)"
+Ln=77
+English="None"
+Chinese="全速"
+
+Ln=81
+English="None"
+Chinese="1/2"
+
+Ln=85
+English="None"
+Chinese="1/3"
+
+Ln=89
+English="None"
+Chinese="1/4"
 
 Ln=95
-English="Custom Rate"
+English="Custom Rate""
+Chinese="目标渲染速度"
 
-Ln=100
-English="Input decimal or fraction"
+Ln=107
+English="None"
+Chinese="自动 (匹配屏幕刷新率)"
 
-Ln=122
-English="Input Rate"
+Ln=115
+English="None"
+Chinese="原始 (使用模拟器的帧率)"
 
-Ln=141
-English="Input Rate (PAL)"
+Ln=123
+English="None"
+Chinese="自定义"
 
-Ln=160
-English="Show Frame Timing Stats"
+Ln=128
+English="None"
+Chinese="请输入小数或分数"
 
-Ln=167
-English="Low Latency Mode"
+Ln=150
+English="None"
+Chinese="输入帧率"
 
-Ln=178
-English="Auto"
+Ln=169
+English="None"
+Chinese="输入帧率 (PAL)"
 
-Ln=182
-English="Screen (For standard displays)"
+Ln=188
+English="None"
+Chinese="显示渲染耗时信息"
 
-Ln=186
-English="Renderer (For drivers with double buffering)"
+Ln=195
+English="None"
+Chinese="低延迟模式"
 
-Ln=189
-English="Timer (For VRR displays)"
+Ln=206
+English="None"
+Chinese="自动"
 
-Ln=196
-English="Frame Clock"
+Ln=210
+English="None"
+Chinese="屏幕（适用于标准显示设备）"
+
+Ln=214
+English="None"
+Chinese="渲染器（适用于支持双缓冲驱动的显示设备）"
 
 Ln=217
-English="Auto"
+English="Auto""
+Chinese="计时器 (适用于支持可变刷新率的显示设备)"
 
-Ln=221
-English="Detect (Calculate rate during emulation)"
+Ln=224
+English="None"
+Chinese="帧时钟"
 
-Ln=225
-English="Screen (Use reported rate directly)"
+Ln=245
+English="None"
+Chinese="自动"
 
-Ln=231
-English="Output Rate"
+Ln=249
+English="None"
+Chinese="检测 (模拟期间计算帧率)"
 
-Ln=251
-English="Auto"
-
-Ln=255
-English="Immediate (For VRR/VSync off use)"
+Ln=253
+English="None"
+Chinese="屏幕 (直接采用报告帧率)"
 
 Ln=259
-English="Queued (For standard use)"
+English="Queued (For standard use)""
+Chinese="输出帧率"
 
-Ln=265
-English="Present Mode"
+Ln=279
+English="None"
+Chinese="自动"
 
-Ln=274
-English="Queued"
+Ln=283
+English="None"
+Chinese="即时 (降低合成器延迟，可能会掉帧)"
 
-Ln=275
-English="Immediate"
+Ln=287
+English="None"
+Chinese="队列 (更好的帧率稳定性)"
 
-Ln=291
-English="Off"
+Ln=293
+English="None"
+Chinese="渲染模式"
 
-Ln=299
-English="{:g}Hz"
+Ln=302
+English="None"
+Chinese="队列"
 
-Ln=314
-English="Override Screen Frame Rate"
+Ln=303
+English="None"
+Chinese="即时"
 
-Ln=321
-English="Allow Blank Frame Insertion"
+Ln=319
+English="None"
+Chinese="关"
 
-Ln=328
-English="Advanced"
+Ln=327
+English="None"
+Chinese="{:g}Hz"
 
-Ln=361
-English="{:g}Hz not in valid range"
+Ln=342
+English="None"
+Chinese="优先于屏幕帧率"
+
+Ln=349
+English="None"
+Chinese="允许插入空白帧"
+
+Ln=356
+English="None"
+Chinese="高级："
+
+Ln=389
+English="None"
+Chinese="{:g}Hz 不在有效的取值范围"

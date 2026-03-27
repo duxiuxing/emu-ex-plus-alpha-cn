@@ -1,50 +1,67 @@
 Ln=32
-English="App Folder"
+English="App Folder""
+Chinese="应用程序文件夹"
 
 Ln=38
-English="Content Folder"
+English="Content Folder""
+Chinese="游戏文件夹"
 
 Ln=45
-English="Saves: {}"
+English="Saves: {}""
+Chinese="存档文件夹：{}"
 
 Ln=52
-English="Screenshots: {}"
+English="Screenshots: {}""
+Chinese="截图文件夹：{}"
 
 Ln=59
-English="File Path Options"
+English="File Path Options""
+Chinese="文件路径选项"
 
 Ln=69
-English="Saves"
+English="Saves""
+Chinese="存档文件夹"
 
 Ln=72
-English="Select Folder"
+English="Select Folder""
+Chinese="选择文件夹"
 
-Ln=84
-English="This folder lacks write access"
+Ln=85
+English="None"
+Chinese="没有此文件夹的写入权限"
 
-Ln=96
-English="Same As Content"
+Ln=98
+English="None"
+Chinese="使用游戏文件夹"
 
-Ln=104
-English="App Folder"
+Ln=106
+English="None"
+Chinese="应用程序文件夹"
 
-Ln=112
-English="Legacy Game Data Folder"
+Ln=114
+English="None"
+Chinese="老版本的游戏数据文件夹"
 
-Ln=117
-English="Please select the \"Game Data/{}\" folder from an old version of the app to use its existing saves "
+Ln=119
+English="None"
+Chinese="请选择 \"Game Data/{}\" 文件夹，此文件夹为老版本应用程序的游戏数据文件夹，"
 
-Ln=118
-English="and convert it to a regular save path (this is only needed once)"
+Ln=120
+English="None"
+Chinese="新版本应用程序将对其进行数据迁移 (本操作只需要执行一次)"
 
-Ln=133
-English="This folder lacks write access"
+Ln=135
+English="None"
+Chinese="此文件夹缺少写入权限"
 
-Ln=140
-English="Please select the {} folder"
+Ln=142
+English="None"
+Chinese="请选择 {} 文件夹"
 
-Ln=165
-English="Screenshots"
+Ln=167
+English="None"
+Chinese="截图文件夹"
 
-Ln=193
-English="App Folder:\n{}"
+Ln=195
+English="None"
+Chinese="应用程序文件夹：\n{}"

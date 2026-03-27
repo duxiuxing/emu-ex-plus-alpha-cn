@@ -1,245 +1,327 @@
 Ln=41
-English="4-Player Adapter"
+English="4-Player Adapter""
+Chinese="四人玩家适配器"
 
 Ln=65
-English="Auto"
+English="Auto""
+Chinese="自动"
 
 Ln=69
-English="Gamepads"
+English="Gamepads""
+Chinese="手柄"
 
 Ln=73
-English="Gun (2P, NES)"
+English="Gun (2P, NES)""
+Chinese="光枪 (2号玩家)"
 
 Ln=77
-English="Gun (1P, VS)"
+English="Gun (1P, VS)""
+Chinese="光枪 (1号玩家对战)"
 
 Ln=84
-English="Input Ports"
+English="Input Ports""
+Chinese="输入端口"
 
 Ln=102
-English="P2 Start As Microphone"
+English="P2 Start As Microphone""
+Chinese="2号玩家为麦克风"
 
 Ln=115
-English="Auto"
+English="Auto""
+Chinese="自动"
 
 Ln=119
-English="NTSC"
+English="NTSC""
+Chinese="NTSC"
 
 Ln=123
-English="PAL"
+English="PAL""
+Chinese="PAL"
 
 Ln=127
-English="Dendy"
+English="Dendy""
+Chinese="Dendy"
 
 Ln=134
-English="System"
+English="System""
+Chinese="视频制式"
 
 Ln=144
-English="Dendy"
+English="Dendy""
+Chinese="Dendy"
 
 Ln=146
-English="PAL"
+English="PAL""
+Chinese="PAL"
 
 Ln=147
-English="NTSC"
+English="NTSC""
+Chinese="NTSC"
 
 Ln=165
-English="Frameskip Mode"
+English="Frameskip Mode""
+Chinese="跳帧模式"
 
 Ln=168
-English="Fast"
+English="Fast""
+Chinese="快速"
 
 Ln=169
-English="Compatible"
+English="Compatible""
+Chinese="兼容"
 
 Ln=175
-English="Use compatible mode if the current game has glitches when "
+English="Use compatible mode if the current game has glitches when ""
+Chinese="如果当前游戏在快进/跳帧时出现故障，"
 
 Ln=176
-English="fast-forwarding/frame-skipping, at the cost of increased CPU usage."
+English="fast-forwarding/frame-skipping, at the cost of increased CPU usage.""
+Chinese="请使用兼容模式。"
 
 Ln=196
-English="Video"
+English="Video""
+Chinese="视频："
 
 Ln=213
-English="8+224"
+English="8+224""
+Chinese="8+224"
 
 Ln=217
-English="8+232"
+English="8+232""
+Chinese="8+232"
 
 Ln=221
-English="0+232"
+English="0+232""
+Chinese="0+232"
 
 Ln=225
-English="0+240"
+English="0+240""
+Chinese="0+240"
 
 Ln=232
-English="Visible Lines"
+English="Visible Lines""
+Chinese="可见行数"
 
 Ln=252
-English="Crop 8 Pixels On Sides"
+English="Crop 8 Pixels On Sides""
+Chinese="左右两边各裁剪8个像素"
 
 Ln=267
-English="Overclocking"
+English="Overclocking""
+Chinese="超频："
 
 Ln=273
-English="Enabled"
+English="Enabled""
+Chinese="超频开关"
 
 Ln=285
-English="Extra Lines Per Frame"
+English="Extra Lines Per Frame""
+Chinese="每帧的额外行数"
 
 Ln=290
-English="Input 0 to 30000"
+English="Input 0 to 30000""
+Chinese="请输入 0 到 30000 之间的值"
 
 Ln=304
-English="Vertical Blank Line Multiplier"
+English="Vertical Blank Line Multiplier""
+Chinese="垂直消隐行倍数"
 
 Ln=309
-English="Input 0 to 16"
+English="Input 0 to 16""
+Chinese="请输入 0 到 16 之间的值"
 
 Ln=341
-English="Console Options"
+English="Console Options""
+Chinese="主机选项"
 
 Ln=354
-English="Sprite Limit"
+English="Sprite Limit""
+Chinese="精灵限制"
 
 Ln=367
-English="Auto"
+English="Auto""
+Chinese="自动"
 
 Ln=371
-English="NTSC"
+English="NTSC""
+Chinese="NTSC"
 
 Ln=375
-English="PAL"
+English="PAL""
+Chinese="PAL"
 
 Ln=379
-English="Dendy"
+English="Dendy""
+Chinese="Dendy"
 
 Ln=386
-English="Default Video System"
+English="Default Video System""
+Chinese="默认视频制式"
 
 Ln=420
-English="FCEUX"
+English="FCEUX""
+Chinese="FCEUX"
 
 Ln=424
-English="Digital Prime (FBX)"
+English="Digital Prime (FBX)""
+Chinese="Digital Prime (FBX)"
 
 Ln=428
-English="Smooth V2 (FBX)"
+English="Smooth V2 (FBX)""
+Chinese="Smooth V2 (FBX)"
 
 Ln=432
-English="Magnum (FBX)"
+English="Magnum (FBX)""
+Chinese="Magnum (FBX)"
 
 Ln=436
-English="Classic (FBX)"
+English="Classic (FBX)""
+Chinese="Classic (FBX)"
 
 Ln=440
-English="Wavebeam"
+English="Wavebeam""
+Chinese="Wavebeam"
 
 Ln=444
-English="Five Reality"
+English="Five Reality""
+Chinese="Five Reality"
 
 Ln=448
-English="Custom File"
+English="Custom File""
+Chinese="自定义"
 
 Ln=470
-English="Default Palette"
+English="Default Palette""
+Chinese="默认调色板"
 
 Ln=500
-English="8+224"
+English="8+224""
+Chinese="8+224"
 
 Ln=504
-English="8+232"
+English="8+232""
+Chinese="8+232"
 
 Ln=508
-English="0+232"
+English="0+232""
+Chinese="0+232"
 
 Ln=512
-English="0+240"
+English="0+240""
+Chinese="0+240"
 
 Ln=519
-English="Default Visible Lines"
+English="Default Visible Lines""
+Chinese="默认可见行数"
 
 Ln=544
-English="Correct Line Aspect Ratio"
+English="Correct Line Aspect Ratio""
+Chinese="修正行每行宽高比例"
 
 Ln=580
-English="Normal"
+English="Normal""
+Chinese="正常"
 
 Ln=584
-English="High"
+English="High""
+Chinese="高"
 
 Ln=588
-English="Highest"
+English="Highest""
+Chinese="最高"
 
 Ln=595
-English="Emulation Quality"
+English="Emulation Quality""
+Chinese="模拟质量"
 
 Ln=603
-English="Low Pass Filter"
+English="Low Pass Filter""
+Chinese="低通滤波器"
 
 Ln=614
-English="Swap Duty Cycles"
+English="Swap Duty Cycles""
+Chinese="交换占空比"
 
 Ln=625
-English="Mixer"
+English="Mixer""
+Chinese="音频混合器："
 
 Ln=631
-English="Square Wave #1"
+English="Square Wave #1""
+Chinese="方波 #1"
 
 Ln=642
-English="Square Wave #2"
+English="Square Wave #2""
+Chinese="方波 #2"
 
 Ln=653
-English="Triangle Wave"
+English="Triangle Wave""
+Chinese="三角波"
 
 Ln=664
-English="Noise"
+English="Noise""
+Chinese="噪音"
 
 Ln=675
-English="DPCM"
+English="DPCM""
+Chinese="DPCM"
 
 Ln=711
-English="Cheats"
+English="Cheats""
+Chinese="金手指文件夹"
 
 Ln=728
-English="Patches"
+English="Patches""
+Chinese="补丁文件夹"
 
 Ln=745
-English="Palettes"
+English="Palettes""
+Chinese="调色板文件夹"
 
 Ln=762
-English="Disk System BIOS"
+English="Disk System BIOS""
+Chinese="磁碟机的 BIOS 文件"
 
 Ln=777
-English="Disk System BIOS: {}"
+English="Disk System BIOS: {}""
+Chinese="磁碟机的 BIOS 文件：{}"
 
 Ln=799
-English="Set Disk 1 Side A"
+English="Set Disk 1 Side A""
+Chinese="指定1号磁碟 A面"
 
 Ln=808
-English="Set Disk 1 Side B"
+English="Set Disk 1 Side B""
+Chinese="指定1号磁碟 B面"
 
 Ln=817
-English="Set Disk 2 Side A"
+English="Set Disk 2 Side A""
+Chinese="指定2号磁碟 A面"
 
 Ln=826
-English="Set Disk 2 Side B"
+English="Set Disk 2 Side B""
+Chinese="指定2号磁碟 B面"
 
 Ln=838
-English="Eject"
+English="Eject""
+Chinese="弹出"
 
 Ln=856
-English="FDS Control"
+English="FDS Control""
+Chinese="磁碟机控制"
 
 Ln=884
-English="FDS Control (No Disk)"
+English="FDS Control (No Disk)""
+Chinese="磁碟机控制 (没有磁碟)"
 
 Ln=888
-English="FDS Control (Disk {}:{})"
+English="FDS Control (Disk {}:{})""
+Chinese="磁碟机控制 ({}号磁碟 {}面)"
 
 Ln=894
-English="Console Options"
+English="Console Options""
+Chinese="主机选项"
 
 Ln=921
-English="Fast-forward Disk IO"
+English="Fast-forward Disk IO""
+Chinese="优化磁碟读写性能"

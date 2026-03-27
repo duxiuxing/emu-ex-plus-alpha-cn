@@ -1,83 +1,111 @@
 Ln=80
-English="Unknown"
+English="Unknown""
+Chinese="Unknown"
 
 Ln=82
-English="Key Input"
+English="Key Input""
+Chinese="Key Input"
 
 Ln=84
-English="Pointer"
+English="Pointer""
+Chinese="Pointer"
 
 Ln=86
-English="Relative Pointer"
+English="Relative Pointer""
+Chinese="Relative Pointer"
 
 Ln=89
-English="Wiimote"
+English="Wiimote""
+Chinese="Wiimote"
 
 Ln=92
-English="Classic / Wii U Pro Controller"
+English="Classic / Wii U Pro Controller""
+Chinese="Classic / Wii U Pro Controller"
 
 Ln=95
-English="iControlPad"
+English="iControlPad""
+Chinese="iControlPad"
 
 Ln=98
-English="Zeemote JS1"
+English="Zeemote JS1""
+Chinese="Zeemote JS1"
 
 Ln=101
-English="PS3 Gamepad"
+English="PS3 Gamepad""
+Chinese="PS3 Gamepad"
 
 Ln=104
-English="Apple Game Controller"
+English="Apple Game Controller""
+Chinese="Apple Game Controller"
 
 Ln=120
-English="Keyboard"
+English="Keyboard""
+Chinese="Keyboard"
 
 Ln=122
-English="Gamepad"
+English="Gamepad""
+Chinese="Gamepad"
 
 Ln=124
-English="Mouse"
+English="Mouse""
+Chinese="Mouse"
 
 Ln=126
-English="Touchscreen"
+English="Touchscreen""
+Chinese="Touchscreen"
 
 Ln=128
-English="Navigation"
+English="Navigation""
+Chinese="Navigation"
 
 Ln=130
-English="Joystick"
+English="Joystick""
+Chinese="Joystick"
 
 Ln=132
-English="Unknown"
+English="Unknown""
+Chinese="Unknown"
 
 Ln=140
-English="Unused"
+English="Unused""
+Chinese="Unused"
 
 Ln=142
-English="Released"
+English="Released""
+Chinese="Released"
 
 Ln=144
-English="Pushed"
+English="Pushed""
+Chinese="Pushed"
 
 Ln=146
-English="Moved"
+English="Moved""
+Chinese="Moved"
 
 Ln=148
-English="Moved Relative"
+English="Moved Relative""
+Chinese="Moved Relative"
 
 Ln=150
-English="Exit View"
+English="Exit View""
+Chinese="Exit View"
 
 Ln=152
-English="Enter View"
+English="Enter View""
+Chinese="Enter View"
 
 Ln=154
-English="Scroll Up"
+English="Scroll Up""
+Chinese="Scroll Up"
 
 Ln=156
-English="Scroll Down"
+English="Scroll Down""
+Chinese="Scroll Down"
 
 Ln=158
-English="Canceled"
+English="Canceled""
+Chinese="Canceled"
 
 Ln=160
-English="Unknown"
+English="Unknown""
+Chinese="Unknown"

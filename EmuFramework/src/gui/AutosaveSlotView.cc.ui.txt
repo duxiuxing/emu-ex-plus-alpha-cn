@@ -1,65 +1,87 @@
 Ln=48
-English="Rename"
+English="Rename""
+Chinese="重命名"
 
 Ln=53
-English="Input name"
+English="Input name""
+Chinese="请输入存档点名称"
 
 Ln=60
-English="A save slot with that name already exists"
+English="A save slot with that name already exists""
+Chinese="已经存在同名的存档点"
 
 Ln=67
-English="Error renaming save slot"
+English="Error renaming save slot""
+Chinese="重命名存档点时出错"
 
 Ln=79
-English="Delete"
+English="Delete""
+Chinese="删除"
 
 Ln=86
-English="Can't delete the currently active save slot"
+English="Can't delete the currently active save slot""
+Chinese="无法删除当前正在使用的存档点"
 
 Ln=91
-English="Really delete this save slot?"
+English="Really delete this save slot?""
+Chinese="是否要删除这个存档点？"
 
 Ln=118
-English="Manage Save Slots"
+English="Manage Save Slots""
+Chinese="管理存档点"
 
-Ln=137
-English="No saved state"
+Ln=138
+English="None"
+Chinese="无效的存档进度"
 
-Ln=153
-English="{}: {}"
+Ln=154
+English="None"
+Chinese="{}：{}"
 
-Ln=164
-English="Autosave Slot"
+Ln=165
+English="None"
+Chinese="自动存档点"
 
-Ln=169
-English="Create New Save Slot"
+Ln=170
+English="None"
+Chinese="新建存档点"
 
-Ln=174
-English="Save Slot Name"
+Ln=175
+English="None"
+Chinese="存档点的名称"
 
-Ln=182
-English="A save slot with that name already exists"
+Ln=183
+English="None"
+Chinese="已经存在同名的存档点"
 
-Ln=189
-English="Error creating save slot"
+Ln=190
+English="None"
+Chinese="新建存档点时出错"
 
-Ln=201
-English="Manage Save Slots"
+Ln=202
+English="None"
+Chinese="管理存档点"
 
-Ln=208
-English="No extra save slots exist"
+Ln=209
+English="None"
+Chinese="没有额外的存档点"
 
-Ln=217
-English="Actions"
+Ln=218
+English="None"
+Chinese="操作："
 
-Ln=230
-English="Main: {}"
+Ln=231
+English="None"
+Chinese="默认：{}"
 
-Ln=252
-English="{}: {}"
+Ln=253
+English="None"
+Chinese="{}：{}"
 
-Ln=268
-English="No Save"
+Ln=269
+English="None"
+Chinese="不保存"
 
-Ln=317
-English="{}: {}"
+Ln=318
+English="None"
+Chinese="{}：{}"

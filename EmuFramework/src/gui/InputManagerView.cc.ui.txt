@@ -1,149 +1,199 @@
 Ln=30
-English="Delete device settings from the configuration file? Any key profiles in use are kept"
+English="Delete device settings from the configuration file? Any key profiles in use are kept""
+Chinese="是否要删除当前的设备设置？使用中的按键配置会被保留"
 
 Ln=32
-English="Delete profile from the configuration file? Devices using it will revert to their default profile"
+English="Delete profile from the configuration file? Devices using it will revert to their default profile""
+Chinese="是否要删除当前的按键配置？使用它的设备将恢复默认的按键配置"
 
 Ln=39
-English="Push a key on any input device enter its configuration menu"
+English="Push a key on any input device enter its configuration menu""
+Chinese="在输入设备上按任意键即可进入其设置菜单"
 
 Ln=93
-English="Key/Gamepad Input Setup"
+English="Key/Gamepad Input Setup""
+Chinese="实体控制器设置"
 
 Ln=99
-English="Delete Saved Device Settings"
+English="Delete Saved Device Settings""
+Chinese="删除设备设置"
 
 Ln=107
-English="No saved device settings"
+English="No saved device settings""
+Chinese="无效的设备设置"
 
 Ln=133
-English="Delete Saved Key Profile"
+English="Delete Saved Key Profile""
+Chinese="删除按键配置"
 
 Ln=141
-English="No saved profiles"
+English="No saved profiles""
+Chinese="无效的按键配置"
 
 Ln=168
-English="Re-scan OS Input Devices"
+English="Re-scan OS Input Devices""
+Chinese="重新检测系统输入设备"
 
 Ln=181
-English="{} OS devices present"
+English="{} OS devices present""
+Chinese="检测到 {} 个系统设备"
 
 Ln=187
-English="Auto-detect Device To Setup"
+English="Auto-detect Device To Setup""
+Chinese="自动检测设备并设置"
 
 Ln=206
-English="General Options"
+English="General Options""
+Chinese="常规选项"
 
 Ln=215
-English="Individual Device Settings"
+English="Individual Device Settings""
+Chinese="设备设置列表："
 
 Ln=288
-English="General Input Options"
+English="General Input Options""
+Chinese="常规选项"
 
 Ln=293
-English="MOGA Controller Support"
+English="MOGA Controller Support""
+Chinese="MOGA 手柄支持"
 
 Ln=301
-English="Install the MOGA Pivot app from Google Play to use your MOGA Pocket. "
+English="Install the MOGA Pivot app from Google Play to use your MOGA Pocket. ""
+Chinese="在使用 MOGA Pocket 之前，请先从谷歌 Play 商店下载并安装 MOGA Pivot 应用程序。 "
 
 Ln=302
-English="For MOGA Pro or newer, set switch to mode B and pair in the Android Bluetooth settings app instead."
+English="For MOGA Pro or newer, set switch to mode B and pair in the Android Bluetooth settings app instead.""
+Chinese="MOGA Pro 或更新型号的手柄, 需要先切换到模式 B，然后在安卓设备的设置中进行蓝牙配对连接。"
 
 Ln=311
-English="Notify If Devices Change"
+English="Notify If Devices Change""
+Chinese="设备变更通知"
 
 Ln=321
-English="In-app Bluetooth Options"
+English="In-app Bluetooth Options""
+Chinese="应用程序运行时的蓝牙选项："
 
 Ln=326
-English="Keep Connections In Background"
+English="Keep Connections In Background""
+Chinese="后台运行时仍保持连接"
 
 Ln=344
-English="Scan Time"
+English="Scan Time""
+Chinese="检测时间"
 
 Ln=355
-English="Cache Scan Results"
+English="Cache Scan Results""
+Chinese="缓存检测结果"
 
 Ln=365
-English="Swap Confirm/Cancel Keys"
+English="Swap Confirm/Cancel Keys""
+Chinese="【确认键】和【取消键】交换位置"
 
 Ln=424
-English="Multiple"
+English="Multiple""
+Chinese="多人合作"
 
 Ln=436
-English="Player"
+English="Player""
+Chinese="玩家索引"
 
 Ln=477
-English="Rename Profile"
+English="Rename Profile""
+Chinese="重命名配置"
 
 Ln=484
-English="Can't rename a built-in profile"
+English="Can't rename a built-in profile""
+Chinese="无法重命名应用程序自带的配置"
 
 Ln=489
-English="Input name"
+English="Input name""
+Chinese="请输入按键配置的名称"
 
 Ln=496
-English="Another profile is already using this name"
+English="Another profile is already using this name""
+Chinese="与已有的配置命名冲突"
 
 Ln=510
-English="New Profile"
+English="New Profile""
+Chinese="新建配置"
 
 Ln=515
-English="Create a new profile? All keys from the current profile will be copied over."
+English="Create a new profile? All keys from the current profile will be copied over.""
+Chinese="是否要新建一个按键配置？新的配置内容会以当前配置为初始值。"
 
 Ln=521
-English="Input name"
+English="Input name""
+Chinese="请输入按键配置的名称"
 
 Ln=528
-English="Another profile is already using this name"
+English="Another profile is already using this name""
+Chinese="与已有的配置命名冲突"
 
 Ln=544
-English="Delete Profile"
+English="Delete Profile""
+Chinese="删除配置"
 
 Ln=551
-English="Can't delete a built-in profile"
+English="Can't delete a built-in profile""
+Chinese="无法删除应用程序自带的配置"
 
 Ln=574
-English="iCade Mode"
+English="iCade Mode""
+Chinese="iCade 模式"
 
 Ln=588
-English="This mode allows input from an iCade-compatible Bluetooth device, don't enable if this isn't an iCade"
+English="This mode allows input from an iCade-compatible Bluetooth device, don't enable if this isn't an iCade""
+Chinese="开启此模式后可以用兼容 iCade 的蓝牙设备进行输入，非 iCade 设备请不要开启"
 
 Ln=589
-English="Enable"
+English="Enable""
+Chinese="开启"
 
 Ln=590
-English="Cancel"
+English="Cancel""
+Chinese="取消"
 
 Ln=600
-English="Handle Unbound Keys"
+English="Handle Unbound Keys""
+Chinese="响应未映射的按键"
 
 Ln=611
-English="Stick 1 as D-Pad"
+English="Stick 1 as D-Pad""
+Chinese="使用1号摇杆作为方向键"
 
 Ln=622
-English="Stick 2 as D-Pad"
+English="Stick 2 as D-Pad""
+Chinese="使用2号摇杆作为方向键"
 
 Ln=633
-English="POV Hat as D-Pad"
+English="POV Hat as D-Pad""
+Chinese="使用飞行摇杆作为方向键"
 
 Ln=644
-English="L/R Triggers as L2/R2"
+English="L/R Triggers as L2/R2""
+Chinese="使用左右扳机作为 L2/R2 键"
 
 Ln=655
-English="Brake/Gas as L2/R2"
+English="Brake/Gas as L2/R2""
+Chinese="使用刹车/油门作为 L2/R2 键"
 
 Ln=666
-English="Action Categories"
+English="Action Categories""
+Chinese="按键映射："
 
 Ln=671
-English="Options"
+English="Options""
+Chinese="选项："
 
 Ln=676
-English="Joystick Axis Setup"
+English="Joystick Axis Setup""
+Chinese="摇杆设置："
 
 Ln=682
-English="Profile: {}"
+English="Profile: {}""
+Chinese="按键配置：{}"
 
 Ln=754
-English="Profile: {}"
+English="Profile: {}""
+Chinese="按键配置：{}"

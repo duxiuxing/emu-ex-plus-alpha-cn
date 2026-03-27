@@ -1,5 +1,7 @@
 Ln=31
-English="Custom {}"
+English="Custom {}""
+Chinese="自定义 {}"
 
 Ln=157
-English="Automatically created profile: {}"
+English="Automatically created profile: {}""
+Chinese="已自动创建按键配置：{}"

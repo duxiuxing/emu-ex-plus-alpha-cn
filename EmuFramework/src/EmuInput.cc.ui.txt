@@ -1,80 +1,107 @@
 Ln=99
-English="Really Overwrite State?"
+English="Really Overwrite State?""
+Chinese="是否要覆盖已有进度？"
 
 Ln=126
-English="State Slot: {}"
+English="State Slot: {}""
+Chinese="当前的存档点序号：{}"
 
 Ln=137
-English="State Slot: {}"
+English="State Slot: {}""
+Chinese="当前的存档点序号：{}"
 
 Ln=175
-English="Really Exit?"
+English="Really Exit?""
+Chinese="是否要退出应用程序？"
 
 Ln=577
-English=" + "
+English=" + ""
+Chinese=" + "
 
 Ln=581
-English=" (Turbo Toggle)"
+English=" (Turbo Toggle)""
+Chinese=" (连发 切换)"
 
 Ln=583
-English=" (Turbo)"
+English=" (Turbo)""
+Chinese=" (连发)"
 
 Ln=585
-English=" (Toggle)"
+English=" (Toggle)""
+Chinese=" (切换)"
 
 Ln=662
-English="Open Content"
+English="Open Content""
+Chinese="打开游戏"
 
 Ln=664
-English="Close Content"
+English="Close Content""
+Chinese="关闭游戏"
 
 Ln=666
-English="Open System Actions"
+English="Open System Actions""
+Chinese="打开模拟器菜单"
 
 Ln=668
-English="Save State"
+English="Save State""
+Chinese="保存进度"
 
 Ln=670
-English="Load State"
+English="Load State""
+Chinese="读取进度"
 
 Ln=672
-English="Decrement State Slot"
+English="Decrement State Slot""
+Chinese="上一个存档点"
 
 Ln=674
-English="Increment State Slot"
+English="Increment State Slot""
+Chinese="下一个存档点"
 
 Ln=676
-English="Fast-forward"
+English="Fast-forward""
+Chinese="快进"
 
 Ln=678
-English="Take Screenshot"
+English="Take Screenshot""
+Chinese="截图"
 
 Ln=680
-English="Open Menu"
+English="Open Menu""
+Chinese="打开菜单"
 
 Ln=682
-English="Toggle Fast-forward"
+English="Toggle Fast-forward""
+Chinese="切换快进"
 
 Ln=684
-English="Turbo Modifier"
+English="Turbo Modifier""
+Chinese="调节连发"
 
 Ln=686
-English="Exit App"
+English="Exit App""
+Chinese="退出应用程序"
 
 Ln=688
-English="Slow-motion"
+English="Slow-motion""
+Chinese="慢动作"
 
 Ln=690
-English="Toggle Slow-motion"
+English="Toggle Slow-motion""
+Chinese="切换慢动作"
 
 Ln=692
-English="Rewind One State"
+English="Rewind One State""
+Chinese="倒带"
 
 Ln=694
-English="Soft Reset"
+English="Soft Reset""
+Chinese="软重启"
 
 Ln=696
-English="Hard Reset"
+English="Hard Reset""
+Chinese="硬重启"
 
 Ln=698
-English="Open Reset Menu"
+English="Open Reset Menu""
+Chinese="打开重启菜单"

@@ -1,26 +1,35 @@
 Ln=42
-English="Cheats"
+English="Cheats""
+Chinese="金手指"
 
 Ln=61
-English="Add/Edit"
+English="Add/Edit""
+Chinese="Add/Edit"
 
 Ln=105
-English="Edit Cheats"
+English="Edit Cheats""
+Chinese="编辑金手指"
 
 Ln=151
-English="Input description"
+English="Input description""
+Chinese="请输入描述说明"
 
 Ln=158
-English="A cheat with name already exists"
+English="A cheat with name already exists""
+Chinese="已经存在同名的金手指"
 
 Ln=190
-English="Input description"
+English="Input description""
+Chinese="请输入描述说明"
 
 Ln=197
-English="A cheat with name already exists"
+English="A cheat with name already exists""
+Chinese="A cheat with name already exists"
 
 Ln=211
-English="Delete"
+English="Delete""
+Chinese="删除"
 
 Ln=216
-English="Really delete this cheat?"
+English="Really delete this cheat?""
+Chinese="是否要删除这个金手指？"

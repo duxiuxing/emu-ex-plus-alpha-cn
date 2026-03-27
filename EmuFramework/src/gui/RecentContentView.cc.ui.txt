@@ -1,8 +1,11 @@
 Ln=26
-English="Recent Content"
+English="Recent Content""
+Chinese="最近打开过的游戏"
 
 Ln=39
-English="Clear List"
+English="Clear List""
+Chinese="清空以上列表"
 
 Ln=44
-English="Really clear the list?"
+English="Really clear the list?""
+Chinese="是否要清空最近打开过的游戏列表？"

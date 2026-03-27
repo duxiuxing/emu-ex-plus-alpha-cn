@@ -1,5 +1,7 @@
 Ln=30
-English="Loading..."
+English="Loading...""
+Chinese="读取中..."
 
 Ln=77
-English="Loading..."
+English="Loading...""
+Chinese="读取中..."

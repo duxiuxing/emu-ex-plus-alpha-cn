@@ -1,8 +1,11 @@
 Ln=122
-English="Enter a value"
+English="Enter a value""
+Chinese="请输入一个值"
 
 Ln=152
-English="Value not in range"
+English="Value not in range""
+Chinese="输入值不在有效的取值范围"
 
 Ln=173
-English="Values not in range"
+English="Values not in range""
+Chinese="输入值不在有效的取值范围"

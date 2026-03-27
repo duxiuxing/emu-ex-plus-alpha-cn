@@ -1,17 +1,23 @@
 Ln=77
-English="Disk ejected, push again to switch side"
+English="Disk ejected, push again to switch side""
+Chinese="磁碟已弹出，再按一次把磁碟翻面"
 
 Ln=89
-English="Disk 1 Side A"
+English="Disk 1 Side A""
+Chinese="1号磁碟 A面"
 
 Ln=91
-English="Disk 1 Side B"
+English="Disk 1 Side B""
+Chinese="1号磁碟 B面"
 
 Ln=93
-English="Disk 2 Side A"
+English="Disk 2 Side A""
+Chinese="2号磁碟 A面"
 
 Ln=95
-English="Disk 2 Side B"
+English="Disk 2 Side B""
+Chinese="2号磁碟 B面"
 
 Ln=101
-English="Set {}"
+English="Set {}""
+Chinese="指定 {}"

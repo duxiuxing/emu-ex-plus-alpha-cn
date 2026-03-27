@@ -1,2 +1,3 @@
 Ln=57
-English="Error opening asset: {}"
+English="Error opening asset: {}""
+Chinese="打开资源时出错：{}"

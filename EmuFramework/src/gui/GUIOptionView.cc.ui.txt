@@ -1,134 +1,179 @@
 Ln=25
-English="Landscape"
+English="Landscape""
+Chinese="左横屏"
 
 Ln=26
-English="90° Left"
+English="90° Left""
+Chinese="向左旋转 90°"
 
 Ln=28
-English="Landscape 2"
+English="Landscape 2""
+Chinese="右横屏"
 
 Ln=29
-English="90° Right"
+English="90° Right""
+Chinese="向右旋转 90°"
 
 Ln=31
-English="Portrait"
+English="Portrait""
+Chinese="竖屏"
 
 Ln=32
-English="Standard"
+English="Standard""
+Chinese="原始方向"
 
 Ln=34
-English="Portrait 2"
+English="Portrait 2""
+Chinese="反向竖屏"
 
 Ln=35
-English="Upside Down"
+English="Upside Down""
+Chinese="旋转 180°"
 
 Ln=40
-English="GUI Options"
+English="GUI Options""
+Chinese="界面选项"
 
 Ln=45
-English="Pause if unfocused"
+English="Pause if unfocused""
+Chinese="失去焦点时暂停"
 
 Ln=65
-English="Custom Value"
+English="Custom Value""
+Chinese="自定义"
 
 Ln=70
-English="Input 2.0 to 10.0"
+English="Input 2.0 to 10.0""
+Chinese="请输入 2.0 到 10.0 之间的值"
 
 Ln=86
-English="Font Size"
+English="Font Size""
+Chinese="字体大小"
 
 Ln=101
-English="Suspended App Icon"
+English="Suspended App Icon""
+Chinese="Suspended App Icon"
 
 Ln=112
-English="Off"
+English="Off""
+Chinese="关"
 
 Ln=116
-English="In Emu"
+English="In Emu""
+Chinese="运行游戏时"
 
 Ln=120
-English="On"
+English="On""
+Chinese="开"
 
 Ln=126
-English="Hide Status Bar"
+English="Hide Status Bar""
+Chinese="隐藏状态栏"
 
 Ln=138
-English="Off"
+English="Off""
+Chinese="关"
 
 Ln=142
-English="In Emu"
+English="In Emu""
+Chinese="运行游戏时"
 
 Ln=146
-English="On"
+English="On""
+Chinese="开"
 
 Ln=152
-English="Dim OS UI"
+English="Dim OS UI""
+Chinese="沉浸式系统界面"
 
 Ln=164
-English="Off"
+English="Off""
+Chinese="关"
 
 Ln=168
-English="In Emu"
+English="In Emu""
+Chinese="运行游戏时"
 
 Ln=172
-English="On"
+English="On""
+Chinese="开"
 
 Ln=178
-English="Hide OS Navigation"
+English="Hide OS Navigation""
+Chinese="隐藏系统导航组件"
 
 Ln=189
-English="Allow Screen Timeout In Emulation"
+English="Allow Screen Timeout In Emulation""
+Chinese="允许屏幕超时休眠"
 
 Ln=199
-English="Title Bar"
+English="Title Bar""
+Chinese="标题栏"
 
 Ln=209
-English="Title Back Navigation"
+English="Title Back Navigation""
+Chinese="在标题栏显示返回按钮"
 
 Ln=221
-English="Default Menu"
+English="Default Menu""
+Chinese="默认菜单"
 
 Ln=224
-English="Last Used"
+English="Last Used""
+Chinese="最后使用"
 
 Ln=233
-English="Show Bundled Content"
+English="Show Bundled Content""
+Chinese="显示自带游戏"
 
 Ln=243
-English="Show Bluetooth Menu Items"
+English="Show Bluetooth Menu Items""
+Chinese="显示蓝牙菜单项"
 
 Ln=253
-English="Show Hidden Files"
+English="Show Hidden Files""
+Chinese="显示隐藏文件"
 
 Ln=263
-English="Max Recent Content Items"
+English="Max Recent Content Items""
+Chinese="最近打开过的游戏个数上限"
 
 Ln=268
-English="Input 1 to 100"
+English="Input 1 to 100""
+Chinese="请输入 1 到 100 之间的值"
 
 Ln=280
-English="Orientation"
+English="Orientation""
+Chinese="屏幕方向："
 
 Ln=286
-English="Auto"
+English="Auto""
+Chinese="自动"
 
 Ln=296
-English="In Menu"
+English="In Menu""
+Chinese="操作菜单时"
 
 Ln=307
-English="Auto"
+English="Auto""
+Chinese="自动"
 
 Ln=317
-English="In Emu"
+English="In Emu""
+Chinese="运行游戏时"
 
 Ln=327
-English="Display Behind OS UI"
+English="Display Behind OS UI""
+Chinese="全屏显示应用程序界面"
 
 Ln=337
-English="Set Window Size"
+English="Set Window Size""
+Chinese="设置窗口大小"
 
 Ln=343
-English="Input Width & Height"
+English="Input Width & Height""
+Chinese="请输入宽度和高度"
 
 Ln=354
-English="Toggle Full Screen"
+English="Toggle Full Screen""
+Chinese="全屏切换"

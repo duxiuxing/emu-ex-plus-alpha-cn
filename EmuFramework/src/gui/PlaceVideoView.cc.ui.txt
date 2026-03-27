@@ -1,5 +1,7 @@
 Ln=29
-English="Exit"
+English="Exit""
+Chinese="退出"
 
 Ln=35
-English="Reset"
+English="Reset""
+Chinese="重置"

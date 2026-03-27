@@ -1,77 +1,103 @@
 Ln=42
-English="System Actions"
+English="System Actions""
+Chinese="游戏菜单"
 
 Ln=90
-English="Really Exit? (Push Back/Escape again to confirm)"
+English="Really Exit? (Push Back/Escape again to confirm)""
+Chinese="是否要退出？(确认请再按一下【返回键】或【Esc 键】)"
 
 Ln=95
-English="Yes"
+English="Yes""
+Chinese="是"
 
 Ln=98
-English="No"
+English="No""
+Chinese="否"
 
 Ln=103
-English="Close Menu"
+English="Close Menu""
+Chinese="关闭菜单"
 
 Ln=334
-English="{} was suspended"
+English="{} was suspended""
+Chinese="{} 已暂停"
 
 Ln=478
-English="{} {}"
+English="{} {}""
+Chinese="{} {}"
 
 Ln=481
-English="connected"
+English="connected""
+Chinese="已连接"
 
 Ln=482
-English="disconnected"
+English="disconnected""
+Chinese="已断开"
 
 Ln=488
-English="{} had a connection error"
+English="{} had a connection error""
+Chinese="{} 发生连接错误"
 
 Ln=592
-English="Autosave state timestamp is older than the contents of backup memory, really load it even though progress may be lost?"
+English="Autosave state timestamp is older than the contents of backup memory, really load it even though progress may be lost?""
+Chinese="自动存档的进度和内存快照的时间戳不一致，读取进度可能导致当前进度丢失，是否要继续？"
 
 Ln=623
-English="Can't access path name for:\n{}"
+English="Can't access path name for:\n{}""
+Chinese="无法访问路径名称：\n{}"
 
 Ln=755
-English="Not enough memory for rewind states"
+English="Not enough memory for rewind states""
+Chinese="没有足够的内存来执行倒带操作"
 
 Ln=766
-English="This option takes effect next time the system starts. Restart it now?"
+English="This option takes effect next time the system starts. Restart it now?""
+Chinese="此选项需要重启模拟器才能生效。是否要马上重启？"
 
 Ln=785
-English="{}{}"
+English="{}{}""
+Chinese="{}{}"
 
 Ln=787
-English="Wrote screenshot at "
+English="Wrote screenshot at ""
+Chinese="保存截图成功："
 
 Ln=788
-English="Error writing screenshot at "
+English="Error writing screenshot at ""
+Chinese="保存截图时出错："
 
 Ln=802
-English="File doesn't have a valid extension"
+English="File doesn't have a valid extension""
+Chinese="无效的文件扩展名"
 
 Ln=873
-English="Error opening {}, please verify save path has write access"
+English="Error opening {}, please verify save path has write access""
+Chinese="打开 {} 时出错，请检查保存路径的写入权限设置"
 
 Ln=902
-English="System not running"
+English="System not running""
+Chinese="模拟器未运行"
 
 Ln=913
-English="State Saved"
+English="State Saved""
+Chinese="进度已保存"
 
 Ln=920
-English="Can't save state:\n{}"
+English="Can't save state:\n{}""
+Chinese="无法保存进度：\n{}"
 
 Ln=936
-English="System not running"
+English="System not running""
+Chinese="模拟器未运行"
 
 Ln=952
-English="Save folder inaccessible, please set it in Options➔File Paths➔Saves"
+English="Save folder inaccessible, please set it in Options➔File Paths➔Saves""
+Chinese="无法访问存档文件夹，请在“选项➔文件路径➔存档文件夹”中重新设置"
 
 Ln=956
-English="Can't load state:\n{}"
+English="Can't load state:\n{}""
+Chinese="无法读取进度：\n{}"
 
 Ln=990
-English="Really close current content?"
+English="Really close current content?""
+Chinese="是否要关闭当前游戏？"

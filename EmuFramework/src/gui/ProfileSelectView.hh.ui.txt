@@ -1,5 +1,7 @@
 Ln=44
-English="Key Profile"
+English="Key Profile""
+Chinese="按键配置"
 
 Ln=53
-English="Default"
+English="Default""
+Chinese="默认"

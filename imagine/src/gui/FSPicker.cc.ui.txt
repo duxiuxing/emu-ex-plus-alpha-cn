@@ -1,35 +1,47 @@
 Ln=216
-English="Select File Location"
+English="Select File Location""
+Chinese="点击选择游戏文件位置"
 
 Ln=226
-English="No folder is set"
+English="No folder is set""
+Chinese="未设置文件夹"
 
 Ln=342
-English="File Locations"
+English="File Locations""
+Chinese="游戏文件位置"
 
 Ln=355
-English="This device doesn't have a document browser, please select a media folder instead"
+English="This device doesn't have a document browser, please select a media folder instead""
+Chinese="此设备没有文件管理器，请从“存储空间”选择一个文件夹"
 
 Ln=359
-English="Browse For Folder"
+English="Browse For Folder""
+Chinese="浏览文件夹"
 
 Ln=372
-English="Browse For File"
+English="Browse For File""
+Chinese="浏览文件"
 
 Ln=400
-English="Root Filesystem"
+English="Root Filesystem""
+Chinese="根目录"
 
 Ln=408
-English="Custom Path"
+English="Custom Path""
+Chinese="自定义路径"
 
 Ln=412
-English="Input a directory path"
+English="Input a directory path""
+Chinese="请输入一个有效的目录路径"
 
 Ln=574
-English="Empty Directory"
+English="Empty Directory""
+Chinese="空目录"
 
 Ln=585
-English="\nPick a path from the top bar"
+English="\nPick a path from the top bar""
+Chinese="\n点击顶部标题栏重新选择路径"
 
 Ln=587
-English="Can't open directory:\n{}{}"
+English="Can't open directory:\n{}{}""
+Chinese="无法打开目录：\n系统错误 - {}{}"

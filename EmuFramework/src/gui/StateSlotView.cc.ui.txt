@@ -1,17 +1,23 @@
 Ln=28
-English="Set State Slot ({})"
+English="Set State Slot ({})""
+Chinese="当前的存档点序号：{}"
 
 Ln=35
-English="Save States"
+English="Save States""
+Chinese="手动存档点"
 
 Ln=40
-English="Load State"
+English="Load State""
+Chinese="读取进度"
 
 Ln=47
-English="Really load state?"
+English="Really load state?""
+Chinese="是否要读取进度？"
 
 Ln=61
-English="Save State"
+English="Save State""
+Chinese="保存进度"
 
 Ln=72
-English="Really overwrite state?"
+English="Really overwrite state?""
+Chinese="是否要覆盖已有进度？"

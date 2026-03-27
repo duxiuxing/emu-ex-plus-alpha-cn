@@ -1,11 +1,15 @@
 Ln=235
-English="No FDS BIOS set"
+English="No FDS BIOS set""
+Chinese="没有设置 FDS BIOS"
 
 Ln=253
-English="Incompatible FDS BIOS"
+English="Incompatible FDS BIOS""
+Chinese="不兼容的 FDS BIOS"
 
 Ln=260
-English="Error opening FDS BIOS"
+English="Error opening FDS BIOS""
+Chinese="打开 FDS BIOS 时出错"
 
 Ln=269
-English="Incompatible FDS BIOS"
+English="Incompatible FDS BIOS""
+Chinese="不兼容的 FDS BIOS"
