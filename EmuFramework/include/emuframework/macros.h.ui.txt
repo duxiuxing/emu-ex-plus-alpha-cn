@@ -1,0 +1,2 @@
+Ln=25
+English="Built : " __DATE__ "\n" PLATFORM_INFO_STR "\n\n"

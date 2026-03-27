@@ -1,0 +1,35 @@
+Ln=216
+English="Select File Location"
+
+Ln=226
+English="No folder is set"
+
+Ln=342
+English="File Locations"
+
+Ln=355
+English="This device doesn't have a document browser, please select a media folder instead"
+
+Ln=359
+English="Browse For Folder"
+
+Ln=372
+English="Browse For File"
+
+Ln=400
+English="Root Filesystem"
+
+Ln=408
+English="Custom Path"
+
+Ln=412
+English="Input a directory path"
+
+Ln=574
+English="Empty Directory"
+
+Ln=585
+English="\nPick a path from the top bar"
+
+Ln=587
+English="Can't open directory:\n{}{}"

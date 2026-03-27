@@ -1,0 +1,704 @@
+Ln=30
+English="None"
+
+Ln=32
+English="Space"
+
+Ln=34
+English="a"
+
+Ln=36
+English="b"
+
+Ln=38
+English="c"
+
+Ln=40
+English="d"
+
+Ln=42
+English="e"
+
+Ln=44
+English="f"
+
+Ln=46
+English="g"
+
+Ln=48
+English="h"
+
+Ln=50
+English="i"
+
+Ln=52
+English="j"
+
+Ln=54
+English="k"
+
+Ln=56
+English="l"
+
+Ln=58
+English="m"
+
+Ln=60
+English="n"
+
+Ln=62
+English="o"
+
+Ln=64
+English="p"
+
+Ln=66
+English="q"
+
+Ln=68
+English="r"
+
+Ln=70
+English="s"
+
+Ln=72
+English="t"
+
+Ln=74
+English="u"
+
+Ln=76
+English="v"
+
+Ln=78
+English="w"
+
+Ln=80
+English="x"
+
+Ln=82
+English="y"
+
+Ln=84
+English="z"
+
+Ln=86
+English="'"
+
+Ln=88
+English=","
+
+Ln=90
+English="-"
+
+Ln=92
+English="."
+
+Ln=94
+English="/"
+
+Ln=96
+English="0"
+
+Ln=98
+English="1"
+
+Ln=100
+English="2"
+
+Ln=102
+English="3"
+
+Ln=104
+English="4"
+
+Ln=106
+English="5"
+
+Ln=108
+English="6"
+
+Ln=110
+English="7"
+
+Ln=112
+English="8"
+
+Ln=114
+English="9"
+
+Ln=116
+English=";"
+
+Ln=118
+English="="
+
+Ln=120
+English="["
+
+Ln=122
+English="\\"
+
+Ln=124
+English="]"
+
+Ln=126
+English="`"
+
+Ln=128
+English="Back"
+
+Ln=130
+English="Escape"
+
+Ln=132
+English="Enter"
+
+Ln=134
+English="Left Alt"
+
+Ln=136
+English="Right Alt"
+
+Ln=138
+English="Left Shift"
+
+Ln=140
+English="Right Shift"
+
+Ln=142
+English="Left Ctrl"
+
+Ln=144
+English="Right Ctrl"
+
+Ln=146
+English="Up"
+
+Ln=148
+English="Right"
+
+Ln=150
+English="Down"
+
+Ln=152
+English="Left"
+
+Ln=154
+English="Back Space"
+
+Ln=156
+English="Menu"
+
+Ln=158
+English="Home"
+
+Ln=160
+English="End"
+
+Ln=162
+English="Insert"
+
+Ln=164
+English="Delete"
+
+Ln=166
+English="Tab"
+
+Ln=168
+English="Scroll Lock"
+
+Ln=170
+English="Caps Lock"
+
+Ln=172
+English="Pause"
+
+Ln=174
+English="Left Start/Option"
+
+Ln=176
+English="Right Start/Option"
+
+Ln=178
+English="Page Up"
+
+Ln=180
+English="Page Down"
+
+Ln=182
+English="Print Screen"
+
+Ln=184
+English="Num Lock"
+
+Ln=186
+English="Numpad 0"
+
+Ln=188
+English="Numpad 1"
+
+Ln=190
+English="Numpad 2"
+
+Ln=192
+English="Numpad 3"
+
+Ln=194
+English="Numpad 4"
+
+Ln=196
+English="Numpad 5"
+
+Ln=198
+English="Numpad 6"
+
+Ln=200
+English="Numpad 7"
+
+Ln=202
+English="Numpad 8"
+
+Ln=204
+English="Numpad 9"
+
+Ln=206
+English="Numpad /"
+
+Ln=208
+English="Numpad *"
+
+Ln=210
+English="Numpad -"
+
+Ln=212
+English="Numpad +"
+
+Ln=214
+English="Numpad ."
+
+Ln=216
+English="Numpad ,"
+
+Ln=218
+English="Numpad Enter"
+
+Ln=220
+English="Numpad ="
+
+Ln=223
+English="@"
+
+Ln=225
+English="*"
+
+Ln=227
+English="+"
+
+Ln=229
+English="#"
+
+Ln=231
+English="("
+
+Ln=233
+English=")"
+
+Ln=235
+English="Search"
+
+Ln=237
+English="Clear"
+
+Ln=239
+English="Explorer"
+
+Ln=241
+English="Mail"
+
+Ln=243
+English="Vol Up"
+
+Ln=245
+English="Vol Down"
+
+Ln=249
+English="Numpad Insert"
+
+Ln=251
+English="Numpad Delete"
+
+Ln=253
+English="Numpad Begin"
+
+Ln=255
+English="Numpad Home"
+
+Ln=257
+English="Numpad End"
+
+Ln=259
+English="Numpad Page Up"
+
+Ln=261
+English="Numpad Page Down"
+
+Ln=263
+English="Numpad Up"
+
+Ln=265
+English="Numpad Right"
+
+Ln=267
+English="Numpad Down"
+
+Ln=269
+English="Numpad Left"
+
+Ln=271
+English="Left Meta"
+
+Ln=273
+English="Right Meta"
+
+Ln=276
+English="F1"
+
+Ln=278
+English="F2"
+
+Ln=280
+English="F3"
+
+Ln=282
+English="F4"
+
+Ln=284
+English="F5"
+
+Ln=286
+English="F6"
+
+Ln=288
+English="F7"
+
+Ln=290
+English="F8"
+
+Ln=292
+English="F9"
+
+Ln=294
+English="F10"
+
+Ln=296
+English="F11"
+
+Ln=298
+English="F12"
+
+Ln=300
+English="A"
+
+Ln=302
+English="B"
+
+Ln=304
+English="C"
+
+Ln=306
+English="X"
+
+Ln=308
+English="Y"
+
+Ln=310
+English="Z"
+
+Ln=312
+English="L1"
+
+Ln=314
+English="R1"
+
+Ln=316
+English="L2"
+
+Ln=318
+English="R2"
+
+Ln=320
+English="L-Thumb"
+
+Ln=322
+English="R-Thumb"
+
+Ln=324
+English="Start"
+
+Ln=326
+English="Select"
+
+Ln=328
+English="Mode"
+
+Ln=330
+English="G1"
+
+Ln=332
+English="G2"
+
+Ln=334
+English="G3"
+
+Ln=336
+English="G4"
+
+Ln=338
+English="G5"
+
+Ln=340
+English="G6"
+
+Ln=342
+English="G7"
+
+Ln=344
+English="G8"
+
+Ln=346
+English="G9"
+
+Ln=348
+English="G10"
+
+Ln=350
+English="G11"
+
+Ln=352
+English="G12"
+
+Ln=354
+English="G13"
+
+Ln=356
+English="G14"
+
+Ln=358
+English="G15"
+
+Ln=360
+English="G16"
+
+Ln=362
+English="X Axis+"
+
+Ln=364
+English="X Axis-"
+
+Ln=366
+English="Y Axis+"
+
+Ln=368
+English="Y Axis-"
+
+Ln=370
+English="X Axis+ 2"
+
+Ln=372
+English="X Axis- 2"
+
+Ln=374
+English="Y Axis+ 2"
+
+Ln=376
+English="Y Axis- 2"
+
+Ln=378
+English="X Axis+ 3"
+
+Ln=380
+English="X Axis- 3"
+
+Ln=382
+English="Y Axis+ 3"
+
+Ln=384
+English="Y Axis- 3"
+
+Ln=386
+English="POV Right"
+
+Ln=388
+English="POV Left"
+
+Ln=390
+English="POV Down"
+
+Ln=392
+English="POV Up"
+
+Ln=394
+English="Rudder Right"
+
+Ln=396
+English="Rudder Left"
+
+Ln=398
+English="Wheel Right"
+
+Ln=400
+English="Wheel Left"
+
+Ln=402
+English="L Trigger"
+
+Ln=404
+English="R Trigger"
+
+Ln=406
+English="Gas"
+
+Ln=408
+English="Brake"
+
+Ln=412
+English="Sym"
+
+Ln=414
+English="Num"
+
+Ln=416
+English="Function"
+
+Ln=418
+English="Center"
+
+Ln=420
+English="Camera"
+
+Ln=422
+English="Call"
+
+Ln=424
+English="End Call"
+
+Ln=426
+English="Focus"
+
+Ln=428
+English="Headset Hook"
+
+Ln=430
+English="Play"
+
+Ln=432
+English="Stop"
+
+Ln=434
+English="Next"
+
+Ln=436
+English="Previous"
+
+Ln=438
+English="Rewind"
+
+Ln=440
+English="Fast Forward"
+
+Ln=452
+English="Cross"
+
+Ln=454
+English="Circle"
+
+Ln=456
+English="Square"
+
+Ln=458
+English="Triangle"
+
+Ln=460
+English="PS"
+
+Ln=462
+English="L3"
+
+Ln=464
+English="R3"
+
+Ln=478
+English="Cross"
+
+Ln=480
+English="Circle"
+
+Ln=482
+English="Square"
+
+Ln=484
+English="Triangle"
+
+Ln=494
+English="O"
+
+Ln=496
+English="U"
+
+Ln=498
+English="Y"
+
+Ln=500
+English="A"
+
+Ln=502
+English="L3"
+
+Ln=504
+English="R3"
+
+Ln=506
+English="System"
+
+Ln=518
+English="L"
+
+Ln=520
+English="R"
+
+Ln=522
+English="A"
+
+Ln=524
+English="B"
+
+Ln=526
+English="Y"
+
+Ln=528
+English="X"
+
+Ln=530
+English="Select"
+
+Ln=532
+English="Start"
+
+Ln=534
+English="Logo"
+
+Ln=637
+English="Alt"
+
+Ln=640
+English="Shift"
+
+Ln=643
+English="Ctrl"
+
+Ln=651
+English="Key Code {:#X}"
+
+Ln=666
+English="{} #{}"

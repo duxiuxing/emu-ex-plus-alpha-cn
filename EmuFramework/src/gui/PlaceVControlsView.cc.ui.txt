@@ -1,0 +1,8 @@
+Ln=31
+English="Exit"
+
+Ln=37
+English="Snap: 0px"
+
+Ln=175
+English="Snap: {}px"

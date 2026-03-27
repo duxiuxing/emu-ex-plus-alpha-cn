@@ -1,0 +1,8 @@
+Ln=26
+English="Recent Content"
+
+Ln=39
+English="Clear List"
+
+Ln=44
+English="Really clear the list?"

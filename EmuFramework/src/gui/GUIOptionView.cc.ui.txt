@@ -1,0 +1,134 @@
+Ln=25
+English="Landscape"
+
+Ln=26
+English="90° Left"
+
+Ln=28
+English="Landscape 2"
+
+Ln=29
+English="90° Right"
+
+Ln=31
+English="Portrait"
+
+Ln=32
+English="Standard"
+
+Ln=34
+English="Portrait 2"
+
+Ln=35
+English="Upside Down"
+
+Ln=40
+English="GUI Options"
+
+Ln=45
+English="Pause if unfocused"
+
+Ln=65
+English="Custom Value"
+
+Ln=70
+English="Input 2.0 to 10.0"
+
+Ln=86
+English="Font Size"
+
+Ln=101
+English="Suspended App Icon"
+
+Ln=112
+English="Off"
+
+Ln=116
+English="In Emu"
+
+Ln=120
+English="On"
+
+Ln=126
+English="Hide Status Bar"
+
+Ln=138
+English="Off"
+
+Ln=142
+English="In Emu"
+
+Ln=146
+English="On"
+
+Ln=152
+English="Dim OS UI"
+
+Ln=164
+English="Off"
+
+Ln=168
+English="In Emu"
+
+Ln=172
+English="On"
+
+Ln=178
+English="Hide OS Navigation"
+
+Ln=189
+English="Allow Screen Timeout In Emulation"
+
+Ln=199
+English="Title Bar"
+
+Ln=209
+English="Title Back Navigation"
+
+Ln=221
+English="Default Menu"
+
+Ln=224
+English="Last Used"
+
+Ln=233
+English="Show Bundled Content"
+
+Ln=243
+English="Show Bluetooth Menu Items"
+
+Ln=253
+English="Show Hidden Files"
+
+Ln=263
+English="Max Recent Content Items"
+
+Ln=268
+English="Input 1 to 100"
+
+Ln=280
+English="Orientation"
+
+Ln=286
+English="Auto"
+
+Ln=296
+English="In Menu"
+
+Ln=307
+English="Auto"
+
+Ln=317
+English="In Emu"
+
+Ln=327
+English="Display Behind OS UI"
+
+Ln=337
+English="Set Window Size"
+
+Ln=343
+English="Input Width & Height"
+
+Ln=354
+English="Toggle Full Screen"

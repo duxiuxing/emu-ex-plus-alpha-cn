@@ -1,0 +1,17 @@
+Ln=80
+English="Storage Media"
+
+Ln=81
+English="Media"
+
+Ln=91
+English="App Media Folder"
+
+Ln=92
+English="Media"
+
+Ln=116
+English="Storage Devices"
+
+Ln=117
+English="Storage"

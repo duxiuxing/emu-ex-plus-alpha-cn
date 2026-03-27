@@ -1,0 +1,14 @@
+Ln=59
+English="Select Folder"
+
+Ln=81
+English="Select File"
+
+Ln=82
+English="Select Archive File"
+
+Ln=96
+English="File doesn't have a valid extension"
+
+Ln=111
+English="Unset"

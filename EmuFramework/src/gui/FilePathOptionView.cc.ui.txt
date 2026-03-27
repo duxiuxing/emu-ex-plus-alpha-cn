@@ -1,0 +1,50 @@
+Ln=32
+English="App Folder"
+
+Ln=38
+English="Content Folder"
+
+Ln=45
+English="Saves: {}"
+
+Ln=52
+English="Screenshots: {}"
+
+Ln=59
+English="File Path Options"
+
+Ln=69
+English="Saves"
+
+Ln=72
+English="Select Folder"
+
+Ln=84
+English="This folder lacks write access"
+
+Ln=96
+English="Same As Content"
+
+Ln=104
+English="App Folder"
+
+Ln=112
+English="Legacy Game Data Folder"
+
+Ln=117
+English="Please select the \"Game Data/{}\" folder from an old version of the app to use its existing saves "
+
+Ln=118
+English="and convert it to a regular save path (this is only needed once)"
+
+Ln=133
+English="This folder lacks write access"
+
+Ln=140
+English="Please select the {} folder"
+
+Ln=165
+English="Screenshots"
+
+Ln=193
+English="App Folder:\n{}"

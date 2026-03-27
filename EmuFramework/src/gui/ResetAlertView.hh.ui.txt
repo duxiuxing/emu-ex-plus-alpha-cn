@@ -1,0 +1,14 @@
+Ln=33
+English="Soft Reset"
+
+Ln=43
+English="Hard Reset"
+
+Ln=53
+English="Cancel"
+
+Ln=67
+English="Really reset?"
+
+Ln=73
+English="Really reset?"

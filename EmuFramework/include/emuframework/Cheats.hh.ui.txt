@@ -1,0 +1,26 @@
+Ln=42
+English="Cheats"
+
+Ln=61
+English="Add/Edit"
+
+Ln=105
+English="Edit Cheats"
+
+Ln=151
+English="Input description"
+
+Ln=158
+English="A cheat with name already exists"
+
+Ln=190
+English="Input description"
+
+Ln=197
+English="A cheat with name already exists"
+
+Ln=211
+English="Delete"
+
+Ln=216
+English="Really delete this cheat?"

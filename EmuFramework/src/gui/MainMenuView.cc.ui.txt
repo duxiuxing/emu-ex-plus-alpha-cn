@@ -1,0 +1,113 @@
+Ln=47
+English="Unable to initialize Bluetooth adapter"
+
+Ln=54
+English="BTstack not found, open Cydia and install?"
+
+Ln=67
+English="Open Content"
+
+Ln=87
+English="Recent Content"
+
+Ln=99
+English="Bundled Content"
+
+Ln=108
+English="Options"
+
+Ln=117
+English="On-screen Input Setup"
+
+Ln=126
+English="Key/Gamepad Input Setup"
+
+Ln=135
+English="Benchmark Content"
+
+Ln=144
+English="Scan for Wiimotes/iCP/JS1"
+
+Ln=158
+English="Starting Scan...\n(see website for device-specific help)"
+
+Ln=164
+English="Still scanning"
+
+Ln=177
+English="Disconnect Bluetooth"
+
+Ln=185
+English="Really disconnect {} Bluetooth device(s)?"
+
+Ln=193
+English="Scan for PS3 Controller"
+
+Ln=201
+English="Prepare to push the PS button"
+
+Ln=212
+English="Unable to register server, make sure this executable has cap_net_bind_service enabled and bluetoothd isn't running"
+
+Ln=213
+English="Bluetooth setup failed"
+
+Ln=219
+English="Push the PS button on your controller\n(see website for pairing help)"
+
+Ln=229
+English="Still scanning"
+
+Ln=242
+English="About"
+
+Ln=251
+English="Exit"
+
+Ln=274
+English="BTstack power on failed, make sure the iOS Bluetooth stack is not active"
+
+Ln=282
+English="Scan failed"
+
+Ln=289
+English="No devices found"
+
+Ln=296
+English="Checking {} device(s)..."
+
+Ln=303
+English="Failed reading a device name"
+
+Ln=313
+English="Connecting to {} device(s)..."
+
+Ln=320
+English="Scan complete, no recognized devices"
+
+Ln=380
+English="Options"
+
+Ln=394
+English="Frame Timing"
+
+Ln=402
+English="Video"
+
+Ln=410
+English="Audio"
+
+Ln=418
+English="System"
+
+Ln=426
+English="File Paths"
+
+Ln=434
+English="GUI"
+
+Ln=442
+English="Online Documentation"
+
+Ln=455
+English="Beta Testing Opt-in/out"

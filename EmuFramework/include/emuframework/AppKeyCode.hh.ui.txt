@@ -1,0 +1,5 @@
+Ln=119
+English="Open Menu"
+
+Ln=124
+English="Fast-forward/Rewind"

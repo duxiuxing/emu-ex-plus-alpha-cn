@@ -1,0 +1,62 @@
+Ln=84
+English="Gamepad"
+
+Ln=89
+English="Gamepad 2"
+
+Ln=94
+English="Gamepad 3"
+
+Ln=99
+English="Gamepad 4"
+
+Ln=104
+English="Extra Functions"
+
+Ln=116
+English="Up"
+
+Ln=118
+English="Right"
+
+Ln=120
+English="Down"
+
+Ln=122
+English="Left"
+
+Ln=124
+English="Select"
+
+Ln=126
+English="Start"
+
+Ln=128
+English="A"
+
+Ln=130
+English="B"
+
+Ln=132
+English="Eject Disk/Switch Side"
+
+Ln=230
+English="D-Pad"
+
+Ln=235
+English="Face Buttons"
+
+Ln=240
+English="Select"
+
+Ln=245
+English="Start"
+
+Ln=250
+English="Select/Start"
+
+Ln=255
+English="P2 Start (Famicom Microphone)"
+
+Ln=261
+English="Gamepad"

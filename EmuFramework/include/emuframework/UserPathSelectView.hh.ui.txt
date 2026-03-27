@@ -1,0 +1,23 @@
+Ln=41
+English="Select Folder"
+
+Ln=61
+English="Same As Content"
+
+Ln=71
+English="Same As Saves"
+
+Ln=103
+English="Content Folder"
+
+Ln=109
+English="Saves Folder"
+
+Ln=116
+English="Cheats: {}"
+
+Ln=123
+English="Patches: {}"
+
+Ln=130
+English="Palettes: {}"

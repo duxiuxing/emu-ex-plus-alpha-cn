@@ -1,0 +1,17 @@
+Ln=128
+English="Save Filename Type"
+
+Ln=131
+English="Default"
+
+Ln=132
+English="No MD5"
+
+Ln=199
+English="Error uncompressing state"
+
+Ln=203
+English="Invalid state size"
+
+Ln=208
+English="Bad state header size, got {} but expected {}"

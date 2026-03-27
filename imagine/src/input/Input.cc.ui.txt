@@ -1,0 +1,83 @@
+Ln=80
+English="Unknown"
+
+Ln=82
+English="Key Input"
+
+Ln=84
+English="Pointer"
+
+Ln=86
+English="Relative Pointer"
+
+Ln=89
+English="Wiimote"
+
+Ln=92
+English="Classic / Wii U Pro Controller"
+
+Ln=95
+English="iControlPad"
+
+Ln=98
+English="Zeemote JS1"
+
+Ln=101
+English="PS3 Gamepad"
+
+Ln=104
+English="Apple Game Controller"
+
+Ln=120
+English="Keyboard"
+
+Ln=122
+English="Gamepad"
+
+Ln=124
+English="Mouse"
+
+Ln=126
+English="Touchscreen"
+
+Ln=128
+English="Navigation"
+
+Ln=130
+English="Joystick"
+
+Ln=132
+English="Unknown"
+
+Ln=140
+English="Unused"
+
+Ln=142
+English="Released"
+
+Ln=144
+English="Pushed"
+
+Ln=146
+English="Moved"
+
+Ln=148
+English="Moved Relative"
+
+Ln=150
+English="Exit View"
+
+Ln=152
+English="Enter View"
+
+Ln=154
+English="Scroll Up"
+
+Ln=156
+English="Scroll Down"
+
+Ln=158
+English="Canceled"
+
+Ln=160
+English="Unknown"

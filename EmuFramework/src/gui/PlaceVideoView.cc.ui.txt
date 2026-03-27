@@ -1,0 +1,5 @@
+Ln=29
+English="Exit"
+
+Ln=35
+English="Reset"
