@@ -419,14 +419,16 @@ class CustomFilePathOptionView : public FilePathOptionView, public MainAppHelper
 
 static auto codePromptString()
 {
-	return emuSystemIs16Bit() ? "Input xxxx-xxxx (GG) or xxxxxx:xxxx (AR) code"
-		: "Input xxx-xxx-xxx (GG) or xxxxxx:xx (AR) code";
+	return emuSystemIs16Bit()
+		? UI_TEXT("Input xxxx-xxxx (GG) or xxxxxx:xxxx (AR) code")
+		: UI_TEXT("Input xxx-xxx-xxx (GG) or xxxxxx:xx (AR) code");
 }
 
 static auto editCodePromptString()
 {
-	return emuSystemIs16Bit() ? "Input xxxx-xxxx (GG) or xxxxxx:xxxx (AR) code, or blank to delete"
-		: "Input xxx-xxx-xxx (GG) or xxxxxx:xx (AR) code, or blank to delete";
+	return emuSystemIs16Bit()
+		? UI_TEXT("Input xxxx-xxxx (GG) or xxxxxx:xxxx (AR) code, or blank to delete")
+		: UI_TEXT("Input xxx-xxx-xxx (GG) or xxxxxx:xx (AR) code, or blank to delete");
 }
 
 class EditCheatView : public BaseEditCheatView
@@ -435,14 +437,15 @@ public:
 	EditCheatView(ViewAttachParams attach, Cheat& cheat, BaseEditCheatsView& editCheatsView):
 		BaseEditCheatView
 		{
-			"Edit Cheat",
+			UI_TEXT("Edit Cheat"),
 			attach,
 			cheat,
 			editCheatsView
 		},
 		addCode
 		{
-			"Add Another Code", attach,
+			UI_TEXT("Add Another Code"),
+			attach,
 			[this](const Input::Event& e) { addNewCheatCode(codePromptString(), e); }
 		}
 	{
@@ -454,7 +457,9 @@ public:
 		codes.clear();
 		for(auto& c: cheatPtr->codes)
 		{
-			codes.emplace_back("Code", c.text, attachParams(), [this, &c](const Input::Event& e)
+			codes.emplace_back(
+				UI_TEXT("Code"),
+				c.text, attachParams(), [this, &c](const Input::Event& e)
 			{
 				pushAndShowNewCollectValueInputView<const char*, ScanValueMode::AllowBlank>(attachParams(), e, editCodePromptString(), c.text,
 					[this, &c](CollectTextInputView&, auto str) { return modifyCheatCode(c, {str}); });
@@ -500,7 +505,8 @@ public:
 		},
 		addCode
 		{
-			"Add Game Genie / Action Replay Code", attach,
+			UI_TEXT("Add Game Genie / Action Replay Code"),
+			attach,
 			[this](const Input::Event& e) { addNewCheat(codePromptString(), e); }
 		} {}
 

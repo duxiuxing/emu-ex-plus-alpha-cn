@@ -325,3 +325,95 @@ Chinese="主机选项"
 Ln=921
 English="Fast-forward Disk IO"
 Chinese="优化磁碟读写性能"
+
+Ln=960
+English="Edit Cheat"
+Chinese="编辑作弊项"
+
+Ln=967
+English="Add Another Code"
+Chinese="添加另一个金手指密码"
+
+Ln=972
+English="Input Game Genie code"
+Chinese="请输入金手指密码"
+
+Ln=978
+English="Add Another Patch"
+Chinese="添加另一个内存补丁"
+
+Ln=983
+English="Input RAM address hex"
+Chinese="请输入十六进制的内存地址"
+
+Ln=997
+English="Code"
+Chinese="金手指密码"
+
+Ln=1002
+English="None"
+Chinese="请输入金手指密码"
+
+Ln=1054
+English="Add Game Genie Code"
+Chinese="添加金手指密码"
+
+Ln=1059
+English="Input Game Genie code"
+Chinese="请输入金手指密码"
+
+Ln=1065
+English="Add Memory Patch"
+Chinese="添加内存补丁"
+
+Ln=1070
+English="Input RAM Address Hex"
+Chinese="请输入十六进制的内存地址"
+
+Ln=1082
+English="Edit Memory Patch"
+Chinese="编辑内存补丁"
+
+Ln=1107
+English="Address"
+Chinese="地址"
+
+Ln=1112
+English="Input 4-digit hex"
+Chinese="请输入四位的十六进制数字"
+
+Ln=1118
+English="Invalid input"
+Chinese="Invalid input"
+
+Ln=1132
+English="Value"
+Chinese="数值"
+
+Ln=1137
+English="Input 2-digit hex"
+Chinese="请输入两位的十六进制数字"
+
+Ln=1143
+English="Invalid value"
+Chinese="无效的数值"
+
+Ln=1157
+English="Compare"
+Chinese="比较"
+
+Ln=1162
+English="Input 2-digit hex or blank"
+Chinese="请输入两位的十六进制数字或留空"
+
+Ln=1170
+English="Invalid value"
+Chinese="无效的数值"
+
+Ln=1190
+English="Delete"
+Chinese="删除"
+
+Ln=1194
+English="Really delete this patch?"
+Chinese="是否要删除此补丁？"

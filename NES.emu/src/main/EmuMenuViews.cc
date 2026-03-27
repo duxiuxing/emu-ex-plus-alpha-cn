@@ -957,20 +957,32 @@ public:
 	EditCheatView(ViewAttachParams attach, Cheat& cheat, BaseEditCheatsView& editCheatsView):
 		BaseEditCheatView
 		{
-			"Edit Cheat",
+			UI_TEXT("编辑作弊项"),
 			attach,
 			cheat,
 			editCheatsView
 		},
 		addGG
 		{
-			"Add Another Code", attach,
-			[this](const Input::Event& e) { addNewCheatCode("Input Game Genie code", e, 1); }
+			UI_TEXT("添加另一个金手指密码"),
+			attach,
+			[this](const Input::Event& e)
+			{
+				addNewCheatCode(
+					UI_TEXT("请输入金手指密码"),
+					e, 1);
+			}
 		},
 		addRAM
 		{
-			"Add Another Patch", attach,
-			[this](const Input::Event& e) { addNewCheatCode("Input RAM address hex", e, 0); }
+			UI_TEXT("添加另一个内存补丁"),
+			attach,
+			[this](const Input::Event& e)
+			{
+				addNewCheatCode(
+					UI_TEXT("请输入十六进制的内存地址"),
+					e, 0);
+			}
 		}
 	{
 		loadItems();
@@ -981,11 +993,13 @@ public:
 		codes.clear();
 		system().forEachCheatCode(*cheatPtr, [this](CheatCode& c, std::string_view code)
 		{
-			codes.emplace_back("Code", code, attachParams(), [this, &c](const Input::Event& e)
+			codes.emplace_back(
+				UI_TEXT("金手指密码"),
+				code, attachParams(), [this, &c](const Input::Event& e)
 			{
 				if(c.type)
 				{
-					pushAndShowNewCollectValueInputView<const char*, ScanValueMode::AllowBlank>(attachParams(), e, "Input Game Genie code", toGGString(c),
+					pushAndShowNewCollectValueInputView<const char*, ScanValueMode::AllowBlank>(attachParams(), e, UI_TEXT("请输入金手指密码"), toGGString(c),
 						[this, &c](CollectTextInputView&, auto str) { return modifyCheatCode(c, {str, 1}); });
 				}
 				else
@@ -1037,13 +1051,25 @@ public:
 		},
 		addGG
 		{
-			"Add Game Genie Code", attachParams(),
-			[this](const Input::Event& e) { addNewCheat("Input Game Genie code", e, 1); }
+			UI_TEXT("添加金手指密码"),
+			attachParams(),
+			[this](const Input::Event& e)
+			{
+				addNewCheat(
+					UI_TEXT("请输入金手指密码"),
+					e, 1);
+			}
 		},
 		addRAM
 		{
-			"Add Memory Patch", attachParams(),
-			[this](const Input::Event& e) { addNewCheat("Input RAM Address Hex", e, 0); }
+			UI_TEXT("添加内存补丁"),
+			attachParams(),
+			[this](const Input::Event& e)
+			{
+				addNewCheat(
+					UI_TEXT("请输入十六进制的内存地址"),
+					e, 0);
+			}
 		} {}
 
 private:
@@ -1053,7 +1079,7 @@ private:
 EditRamCheatView::EditRamCheatView(ViewAttachParams attach, Cheat& cheat_, CheatCode& code_, EditCheatView& editCheatView_):
 	TableView
 	{
-		"Edit Memory Patch",
+		UI_TEXT("编辑内存补丁"),
 		attach,
 		[this](ItemMessage msg) -> ItemReply
 		{
@@ -1078,18 +1104,18 @@ EditRamCheatView::EditRamCheatView(ViewAttachParams attach, Cheat& cheat_, Cheat
 	editCheatView{editCheatView_},
 	addr
 	{
-		"Address",
+		UI_TEXT("地址"),
 		std::format("{:x}", code_.addr),
 		attach,
 		[this](const Input::Event& e)
 		{
-			pushAndShowNewCollectValueInputView<const char*>(attachParams(), e, "Input 4-digit hex", std::format("{:x}", code.addr),
+			pushAndShowNewCollectValueInputView<const char*>(attachParams(), e, UI_TEXT("请输入四位的十六进制数字"), std::format("{:x}", code.addr),
 				[this](CollectTextInputView&, auto str)
 				{
 					unsigned a = parseHex(str);
 					if(a > 0xFFFF)
 					{
-						app().postMessage(true, "Invalid input");
+						app().postMessage(true, UI_TEXT("Invalid input"));
 						return false;
 					}
 					code.addr = a;
@@ -1103,18 +1129,18 @@ EditRamCheatView::EditRamCheatView(ViewAttachParams attach, Cheat& cheat_, Cheat
 	},
 	value
 	{
-		"Value",
+		UI_TEXT("数值"),
 		std::format("{:x}", code_.val),
 		attach,
 		[this](const Input::Event& e)
 		{
-			pushAndShowNewCollectValueInputView<const char*>(attachParams(), e, "Input 2-digit hex", std::format("{:x}", code.val),
+			pushAndShowNewCollectValueInputView<const char*>(attachParams(), e, UI_TEXT("请输入两位的十六进制数字"), std::format("{:x}", code.val),
 				[this](CollectTextInputView&, auto str)
 				{
 					unsigned a = parseHex(str);
 					if(a > 0xFF)
 					{
-						app().postMessage(true, "Invalid value");
+						app().postMessage(true, UI_TEXT("无效的数值"));
 						return false;
 					}
 					code.val = a;
@@ -1128,12 +1154,12 @@ EditRamCheatView::EditRamCheatView(ViewAttachParams attach, Cheat& cheat_, Cheat
 	},
 	comp
 	{
-		"Compare",
+		UI_TEXT("比较"),
 		codeCompareToString(code_.compare),
 		attach,
 		[this](const Input::Event& e)
 		{
-			pushAndShowNewCollectValueInputView<const char*, ScanValueMode::AllowBlank>(attachParams(), e, "Input 2-digit hex or blank", codeCompareToString(code.compare),
+			pushAndShowNewCollectValueInputView<const char*, ScanValueMode::AllowBlank>(attachParams(), e, UI_TEXT("请输入两位的十六进制数字或留空"), codeCompareToString(code.compare),
 				[this](CollectTextInputView &, const char *str)
 				{
 					if(strlen(str))
@@ -1141,7 +1167,7 @@ EditRamCheatView::EditRamCheatView(ViewAttachParams attach, Cheat& cheat_, Cheat
 						unsigned a = parseHex(str);
 						if(a > 0xFF)
 						{
-							app().postMessage(true, "Invalid value");
+							app().postMessage(true, UI_TEXT("无效的数值"));
 							return true;
 						}
 						code.compare = a;
@@ -1161,10 +1187,11 @@ EditRamCheatView::EditRamCheatView(ViewAttachParams attach, Cheat& cheat_, Cheat
 	},
 	remove
 	{
-		"Delete", attach,
+		UI_TEXT("删除"),
+		attach,
 		[this](const Input::Event& e)
 		{
-			pushAndShowModal(makeView<YesNoAlertView>("Really delete this patch?",
+			pushAndShowModal(makeView<YesNoAlertView>(UI_TEXT("是否要删除此补丁？"),
 				YesNoAlertView::Delegates{.onYes = [this]{ editCheatView.removeCheatCode(code); dismiss(); }}), e);
 		}
 	} {}

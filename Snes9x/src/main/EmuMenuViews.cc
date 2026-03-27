@@ -514,7 +514,7 @@ public:
 	EditCheatView(ViewAttachParams attach, Cheat& cheat, BaseEditCheatsView& editCheatsView):
 		BaseEditCheatView
 		{
-			"Edit Cheat",
+			UI_TEXT("Edit Cheat"),
 			attach,
 			cheat,
 			editCheatsView
@@ -522,8 +522,14 @@ public:
 		#ifndef SNES9X_VERSION_1_4
 		,addCode
 		{
-			"Add Another Code", attach,
-			[this](const Input::Event& e) { addNewCheatCode("Input xxxx-xxxx (GG), xxxxxxxx (AR), GF code, or blank", e); }
+			UI_TEXT("Add Another Code"),
+			attach,
+			[this](const Input::Event& e)
+			{
+				addNewCheatCode(
+					UI_TEXT("Input xxxx-xxxx (GG), xxxxxxxx (AR), GF code, or blank"),
+					e);
+			}
 		}
 		#endif
 	{
@@ -535,7 +541,7 @@ public:
 		codes.clear();
 		system().forEachCheatCode(*cheatPtr, [this](CheatCode& c, std::string_view code)
 		{
-			codes.emplace_back("Code", code, attachParams(), [this, &c](const Input::Event& e)
+			codes.emplace_back(UI_TEXT("Code"), code, attachParams(), [this, &c](const Input::Event& e)
 			{
 				pushAndShow(makeView<EditRamCheatView>(c, *this), e);
 			});
@@ -585,8 +591,14 @@ public:
 		},
 		addCode
 		{
-			"Add Game Genie/Action Replay/Gold Finger Code", attach,
-			[this](const Input::Event& e) { addNewCheat("Input xxxx-xxxx (GG), xxxxxxxx (AR), or GF code", e); }
+			UI_TEXT("Add Game Genie/Action Replay/Gold Finger Code"),
+			attach,
+			[this](const Input::Event& e)
+			{
+				addNewCheat(
+					UI_TEXT("Input xxxx-xxxx (GG), xxxxxxxx (AR), or GF code"),
+					e);
+			}
 		} {}
 
 private:
@@ -596,7 +608,7 @@ private:
 EditRamCheatView::EditRamCheatView(ViewAttachParams attach, CheatCode& code_, EditCheatView& editCheatView_):
 	TableView
 	{
-		"Edit Memory Patch",
+		UI_TEXT("Edit Memory Patch"),
 		attach,
 		[this](ItemMessage msg) -> ItemReply
 		{
@@ -621,12 +633,12 @@ EditRamCheatView::EditRamCheatView(ViewAttachParams attach, CheatCode& code_, Ed
 	editCheatView{editCheatView_},
 	addr
 	{
-		"Address",
+		UI_TEXT("Address"),
 		std::format("{:x}", code_.address),
 		attach,
 		[this](const Input::Event& e)
 		{
-			pushAndShowNewCollectValueInputView<const char*>(attachParams(), e, "Input 6-digit hex", std::format("{:x}", code.address),
+			pushAndShowNewCollectValueInputView<const char*>(attachParams(), e, UI_TEXT("Input 6-digit hex"), std::format("{:x}", code.address),
 				[this](CollectTextInputView&, auto str)
 				{
 					unsigned a = parseHex(str);
@@ -645,18 +657,18 @@ EditRamCheatView::EditRamCheatView(ViewAttachParams attach, CheatCode& code_, Ed
 	},
 	value
 	{
-		"Value",
+		UI_TEXT("Value"),
 		std::format("{:x}", code_.byte),
 		attach,
 		[this](const Input::Event& e)
 		{
-			pushAndShowNewCollectValueInputView<const char*>(attachParams(), e, "Input 2-digit hex", std::format("{:x}", code.byte),
+			pushAndShowNewCollectValueInputView<const char*>(attachParams(), e, UI_TEXT("Input 2-digit hex"), std::format("{:x}", code.byte),
 				[this](CollectTextInputView&, auto str)
 				{
 					unsigned a = parseHex(str);
 					if(a > 0xFF)
 					{
-						app().postMessage(true, "value must be <= FF");
+						app().postMessage(true, UI_TEXT("value must be <= FF"));
 						return false;
 					}
 					setCheatValue(code, a);
@@ -670,15 +682,15 @@ EditRamCheatView::EditRamCheatView(ViewAttachParams attach, CheatCode& code_, Ed
 	conditional
 	{
 		#ifndef SNES9X_VERSION_1_4
-		"Conditional Value",
+		UI_TEXT("Conditional Value"),
 		#else
-		"Saved Value",
+		UI_TEXT("Saved Value"),
 		#endif
 		codeConditionalToString(code_),
 		attach,
 		[this](const Input::Event& e)
 		{
-			pushAndShowNewCollectValueInputView<const char*, ScanValueMode::AllowBlank>(attachParams(), e, "Input 2-digit hex or blank", codeConditionalToString(code),
+			pushAndShowNewCollectValueInputView<const char*, ScanValueMode::AllowBlank>(attachParams(), e, UI_TEXT("Input 2-digit hex or blank"), codeConditionalToString(code),
 				[this](CollectTextInputView &, const char *str)
 				{
 					int a = -1;
@@ -687,7 +699,7 @@ EditRamCheatView::EditRamCheatView(ViewAttachParams attach, CheatCode& code_, Ed
 						a = parseHex(str);
 						if(a > 0xFF)
 						{
-							app().postMessage(true, "value must be <= FF");
+							app().postMessage(true, UI_TEXT("value must be <= FF"));
 							return true;
 						}
 					}
@@ -701,10 +713,11 @@ EditRamCheatView::EditRamCheatView(ViewAttachParams attach, CheatCode& code_, Ed
 	},
 	remove
 	{
-		"Delete", attach,
+		UI_TEXT("Delete"),
+		attach,
 		[this](const Input::Event& e)
 		{
-			pushAndShowModal(makeView<YesNoAlertView>("Really delete this patch?",
+			pushAndShowModal(makeView<YesNoAlertView>(UI_TEXT("Really delete this patch?"),
 				YesNoAlertView::Delegates{.onYes = [this]{ editCheatView.removeCheatCode(code); dismiss(); }}), e);
 		}
 	} {}
