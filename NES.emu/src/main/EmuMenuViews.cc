@@ -999,7 +999,9 @@ public:
 			{
 				if(c.type)
 				{
-					pushAndShowNewCollectValueInputView<const char*, ScanValueMode::AllowBlank>(attachParams(), e, UI_TEXT("请输入金手指密码"), toGGString(c),
+					pushAndShowNewCollectValueInputView<const char*, ScanValueMode::AllowBlank>(attachParams(), e,
+						UI_TEXT("请输入金手指密码"),
+						toGGString(c),
 						[this, &c](CollectTextInputView&, auto str) { return modifyCheatCode(c, {str, 1}); });
 				}
 				else
@@ -1109,13 +1111,16 @@ EditRamCheatView::EditRamCheatView(ViewAttachParams attach, Cheat& cheat_, Cheat
 		attach,
 		[this](const Input::Event& e)
 		{
-			pushAndShowNewCollectValueInputView<const char*>(attachParams(), e, UI_TEXT("请输入四位的十六进制数字"), std::format("{:x}", code.addr),
+			pushAndShowNewCollectValueInputView<const char*>(attachParams(), e,
+				UI_TEXT("请输入四位的十六进制数"),
+				std::format("{:x}", code.addr),
 				[this](CollectTextInputView&, auto str)
 				{
 					unsigned a = parseHex(str);
 					if(a > 0xFFFF)
 					{
-						app().postMessage(true, UI_TEXT("Invalid input"));
+						app().postMessage(true,
+							UI_TEXT("无效的数值"));
 						return false;
 					}
 					code.addr = a;
@@ -1134,13 +1139,16 @@ EditRamCheatView::EditRamCheatView(ViewAttachParams attach, Cheat& cheat_, Cheat
 		attach,
 		[this](const Input::Event& e)
 		{
-			pushAndShowNewCollectValueInputView<const char*>(attachParams(), e, UI_TEXT("请输入两位的十六进制数字"), std::format("{:x}", code.val),
+			pushAndShowNewCollectValueInputView<const char*>(attachParams(), e,
+				UI_TEXT("请输入两位的十六进制数"),
+				std::format("{:x}", code.val),
 				[this](CollectTextInputView&, auto str)
 				{
 					unsigned a = parseHex(str);
 					if(a > 0xFF)
 					{
-						app().postMessage(true, UI_TEXT("无效的数值"));
+						app().postMessage(true,
+							UI_TEXT("无效的数值"));
 						return false;
 					}
 					code.val = a;
@@ -1159,7 +1167,9 @@ EditRamCheatView::EditRamCheatView(ViewAttachParams attach, Cheat& cheat_, Cheat
 		attach,
 		[this](const Input::Event& e)
 		{
-			pushAndShowNewCollectValueInputView<const char*, ScanValueMode::AllowBlank>(attachParams(), e, UI_TEXT("请输入两位的十六进制数字或留空"), codeCompareToString(code.compare),
+			pushAndShowNewCollectValueInputView<const char*, ScanValueMode::AllowBlank>(attachParams(), e,
+				UI_TEXT("请输入两位的十六进制数或留空"),
+				codeCompareToString(code.compare),
 				[this](CollectTextInputView &, const char *str)
 				{
 					if(strlen(str))
@@ -1167,7 +1177,8 @@ EditRamCheatView::EditRamCheatView(ViewAttachParams attach, Cheat& cheat_, Cheat
 						unsigned a = parseHex(str);
 						if(a > 0xFF)
 						{
-							app().postMessage(true, UI_TEXT("无效的数值"));
+							app().postMessage(true,
+								UI_TEXT("无效的数值"));
 							return true;
 						}
 						code.compare = a;
@@ -1191,7 +1202,8 @@ EditRamCheatView::EditRamCheatView(ViewAttachParams attach, Cheat& cheat_, Cheat
 		attach,
 		[this](const Input::Event& e)
 		{
-			pushAndShowModal(makeView<YesNoAlertView>(UI_TEXT("是否要删除此补丁？"),
+			pushAndShowModal(makeView<YesNoAlertView>(
+				UI_TEXT("是否要删除此补丁？"),
 				YesNoAlertView::Delegates{.onYes = [this]{ editCheatView.removeCheatCode(code); dismiss(); }}), e);
 		}
 	} {}
