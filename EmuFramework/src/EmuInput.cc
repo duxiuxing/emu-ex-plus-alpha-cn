@@ -96,7 +96,7 @@ bool InputManager::handleAppActionKeyInput(EmuApp& app, InputAction action, cons
 			else
 			{
 				viewController.pushAndShowModal(std::make_unique<YesNoAlertView>(app.attachParams(),
-					UI_TEXT("是否要覆盖已有进度？"),
+					UI_TEXT("是否要覆盖已有存档？"),
 					YesNoAlertView::Delegates
 					{
 						.onYes = [&app]
@@ -123,7 +123,7 @@ bool InputManager::handleAppActionKeyInput(EmuApp& app, InputAction action, cons
 			auto suspendCtx = app.suspendEmulationThread();
 			app.decStateSlot();
 			app.postMessage(1, false, std::format(
-				UI_TEXT("当前的存档点序号：{}"),
+				UI_TEXT("当前存档槽位的序号：{}"),
 				app.stateSlotName()));
 			return true;
 		}
@@ -134,7 +134,7 @@ bool InputManager::handleAppActionKeyInput(EmuApp& app, InputAction action, cons
 			auto suspendCtx = app.suspendEmulationThread();
 			app.incStateSlot();
 			app.postMessage(1, false, std::format(
-				UI_TEXT("当前的存档点序号：{}"),
+				UI_TEXT("当前存档槽位的序号：{}"),
 				app.stateSlotName()));
 			return true;
 		}
@@ -669,9 +669,9 @@ std::string_view toString(AppKeyCode code)
 		case AppKeyCode::loadState:
 			return UI_TEXT("读取进度");
 		case AppKeyCode::decStateSlot:
-			return UI_TEXT("上一个存档点");
+			return UI_TEXT("上一个存档槽位");
 		case AppKeyCode::incStateSlot:
-			return UI_TEXT("下一个存档点");
+			return UI_TEXT("下一个存档槽位");
 		case AppKeyCode::fastForward:
 			return UI_TEXT("快进");
 		case AppKeyCode::takeScreenshot:

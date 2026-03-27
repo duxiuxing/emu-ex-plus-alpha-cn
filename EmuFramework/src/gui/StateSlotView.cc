@@ -25,14 +25,14 @@ constexpr SystemLogger log{"StateSlotView"};
 static auto slotHeadingName(EmuApp& app)
 {
 	return std::format(
-		UI_TEXT("当前的存档点序号：{}"),
+		UI_TEXT("当前的存档槽位序号：{}"),
 		app.stateSlot());
 }
 
 StateSlotView::StateSlotView(ViewAttachParams attach):
 	TableView
 	{
-		UI_TEXT("手动存档点"),
+		UI_TEXT("手动存档槽位"),
 		attach, menuItems
 	},
 	load

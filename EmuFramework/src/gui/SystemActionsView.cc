@@ -30,7 +30,7 @@ constexpr SystemLogger log{"SystemActionsView"};
 static auto autoSaveName(EmuApp &app)
 {
 	return std::format(
-		UI_TEXT("当前的自动存档点：{}"),
+		UI_TEXT("当前的自动存档槽位：{}"),
 		app.autosaveManager.slotFullName());
 }
 
@@ -128,7 +128,7 @@ SystemActionsView::SystemActionsView(ViewAttachParams attach, bool customMenu):
 	},
 	stateSlot
 	{
-		UI_TEXT("手动存档点"),
+		UI_TEXT("手动存档槽位"),
 		attach,
 		[this](const Input::Event &e)
 		{

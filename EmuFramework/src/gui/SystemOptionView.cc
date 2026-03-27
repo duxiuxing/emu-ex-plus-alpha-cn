@@ -97,7 +97,7 @@ SystemOptionView::SystemOptionView(ViewAttachParams attach, bool customMenu):
 			attach, {.id = AutosaveLaunchMode::NoSave}
 		},
 		{
-			UI_TEXT("选择自动存档点"),
+			UI_TEXT("选择自动存档槽位"),
 			attach, {.id = AutosaveLaunchMode::Ask}
 		},
 	},
