@@ -262,50 +262,53 @@ English="Input RAM address hex"
 Ln=997
 English="Code"
 
-Ln=1054
-English="Add Game Genie Code"
-
-Ln=1059
+Ln=1003
 English="Input Game Genie code"
 
-Ln=1065
+Ln=1056
+English="Add Game Genie Code"
+
+Ln=1061
+English="Input Game Genie code"
+
+Ln=1067
 English="Add Memory Patch"
 
-Ln=1070
+Ln=1072
 English="Input RAM Address Hex"
 
-Ln=1082
+Ln=1084
 English="Edit Memory Patch"
 
-Ln=1107
+Ln=1109
 English="Address"
 
-Ln=1112
+Ln=1115
 English="Input 4-digit hex"
 
-Ln=1118
+Ln=1123
 English="Invalid input"
 
-Ln=1132
+Ln=1137
 English="Value"
 
-Ln=1137
+Ln=1143
 English="Input 2-digit hex"
 
-Ln=1143
+Ln=1151
 English="Invalid value"
 
-Ln=1157
+Ln=1165
 English="Compare"
 
-Ln=1162
+Ln=1171
 English="Input 2-digit hex or blank"
 
-Ln=1170
+Ln=1181
 English="Invalid value"
 
-Ln=1190
+Ln=1201
 English="Delete"
 
-Ln=1194
+Ln=1206
 English="Really delete this patch?"
