@@ -1,0 +1,26 @@
+Ln=65
+English="Unbind All"
+
+Ln=70
+English="Really unbind all keys in this category?"
+
+Ln=87
+English="Reset Defaults"
+
+Ln=92
+English="Really reset all keys in this category to defaults?"
+
+Ln=200
+English="Unbind"
+
+Ln=206
+English="Cancel"
+
+Ln=282
+English="You pushed a key from device:\n{}\nPush another from it to open its config menu"
+
+Ln=345
+English="Push up to 3 keys, release any to set:\n{}"
+
+Ln=349
+English="Push up to 3 keys, release any to set:\n{}\n\nTo unbind:\nQuickly push [Left] key twice in previous menu"

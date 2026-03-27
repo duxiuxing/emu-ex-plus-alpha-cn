@@ -1,0 +1,59 @@
+Ln=33
+English="Autosave Slot ({})"
+
+Ln=41
+English="Save Autosave State"
+
+Ln=43
+English="Save Autosave State (Timer In {:%M:%S})"
+
+Ln=55
+English="Cheats"
+
+Ln=67
+English="Reset"
+
+Ln=89
+English="Really save state?"
+
+Ln=102
+English="Load Autosave State"
+
+Ln=112
+English="No saved state"
+
+Ln=117
+English="Really load state from: {}?"
+
+Ln=131
+English="Manual Save States"
+
+Ln=140
+English="Input Overrides"
+
+Ln=149
+English="Add Content Shortcut To Launcher"
+
+Ln=161
+English="Shortcut Name"
+
+Ln=167
+English="Added shortcut:\n{}"
+
+Ln=175
+English="Screenshot Next Frame"
+
+Ln=185
+English="Save path isn't valid"
+
+Ln=190
+English="Save screenshot to folder {}?"
+
+Ln=204
+English="Reset Saved Options"
+
+Ln=211
+English="Reset saved options for the currently running system to defaults? Some options only take effect next time the system loads."
+
+Ln=224
+English="Close Content"

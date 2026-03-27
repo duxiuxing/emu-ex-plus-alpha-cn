@@ -1,0 +1,11 @@
+Ln=389
+English="System Memory"
+
+Ln=394
+English="OpenGL PBO"
+
+Ln=401
+English="Hardware Buffer"
+
+Ln=407
+English="Surface Texture"

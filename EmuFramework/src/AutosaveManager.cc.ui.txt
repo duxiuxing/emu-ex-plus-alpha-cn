@@ -1,0 +1,14 @@
+Ln=86
+English="Save folder inaccessible, please set it in Options➔File Paths➔Saves"
+
+Ln=102
+English="Error writing autosave state"
+
+Ln=120
+English="Error loading autosave state:\n{}"
+
+Ln=177
+English="No Save"
+
+Ln=179
+English="Main"

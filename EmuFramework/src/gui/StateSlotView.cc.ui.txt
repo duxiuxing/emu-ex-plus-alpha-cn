@@ -1,0 +1,17 @@
+Ln=28
+English="Set State Slot ({})"
+
+Ln=35
+English="Save States"
+
+Ln=40
+English="Load State"
+
+Ln=47
+English="Really load state?"
+
+Ln=61
+English="Save State"
+
+Ln=72
+English="Really overwrite state?"

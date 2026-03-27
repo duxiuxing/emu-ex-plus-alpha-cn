@@ -1,0 +1,65 @@
+Ln=48
+English="Rename"
+
+Ln=53
+English="Input name"
+
+Ln=60
+English="A save slot with that name already exists"
+
+Ln=67
+English="Error renaming save slot"
+
+Ln=79
+English="Delete"
+
+Ln=86
+English="Can't delete the currently active save slot"
+
+Ln=91
+English="Really delete this save slot?"
+
+Ln=118
+English="Manage Save Slots"
+
+Ln=137
+English="No saved state"
+
+Ln=153
+English="{}: {}"
+
+Ln=164
+English="Autosave Slot"
+
+Ln=169
+English="Create New Save Slot"
+
+Ln=174
+English="Save Slot Name"
+
+Ln=182
+English="A save slot with that name already exists"
+
+Ln=189
+English="Error creating save slot"
+
+Ln=201
+English="Manage Save Slots"
+
+Ln=208
+English="No extra save slots exist"
+
+Ln=217
+English="Actions"
+
+Ln=230
+English="Main: {}"
+
+Ln=252
+English="{}: {}"
+
+Ln=268
+English="No Save"
+
+Ln=317
+English="{}: {}"

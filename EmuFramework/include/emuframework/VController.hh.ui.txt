@@ -1,0 +1,2 @@
+Ln=115
+English="D-Pad"

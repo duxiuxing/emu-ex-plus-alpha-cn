@@ -1,0 +1,8 @@
+Ln=122
+English="Enter a value"
+
+Ln=152
+English="Value not in range"
+
+Ln=173
+English="Values not in range"

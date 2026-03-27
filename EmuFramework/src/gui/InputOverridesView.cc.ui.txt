@@ -1,0 +1,29 @@
+Ln=33
+English="Input Overrides (Per Content)"
+
+Ln=39
+English="Delete Saved Device Settings"
+
+Ln=47
+English="No saved device settings"
+
+Ln=74
+English="Individual Device Settings"
+
+Ln=131
+English="Multiple"
+
+Ln=146
+English="Default"
+
+Ln=151
+English="Multiple"
+
+Ln=163
+English="Player"
+
+Ln=206
+English="Profile: {}"
+
+Ln=225
+English="Profile: {}"

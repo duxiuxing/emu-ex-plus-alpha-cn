@@ -1,0 +1,146 @@
+Ln=28
+English="System Options"
+
+Ln=34
+English="Off"
+
+Ln=38
+English="5min"
+
+Ln=42
+English="10min"
+
+Ln=46
+English="15min"
+
+Ln=50
+English="Custom Value"
+
+Ln=55
+English="Input 0 to 720"
+
+Ln=70
+English="Timer"
+
+Ln=88
+English="Main Slot"
+
+Ln=92
+English="Main Slot (No State)"
+
+Ln=96
+English="No Save Slot"
+
+Ln=100
+English="Select Slot"
+
+Ln=106
+English="Launch Mode"
+
+Ln=116
+English="Content"
+
+Ln=119
+English="State & Backup RAM"
+
+Ln=120
+English="Only Backup RAM"
+
+Ln=128
+English="Confirm Overwrite State"
+
+Ln=139
+English="1.5x"
+
+Ln=143
+English="2x"
+
+Ln=147
+English="4x"
+
+Ln=151
+English="8x"
+
+Ln=155
+English="16x"
+
+Ln=159
+English="Custom Value"
+
+Ln=164
+English="Input above 1.0 to 20.0"
+
+Ln=180
+English="Fast-forward Speed"
+
+Ln=188
+English="{:g}x"
+
+Ln=198
+English="0.25x"
+
+Ln=202
+English="0.50x"
+
+Ln=206
+English="Custom Value"
+
+Ln=211
+English="Input 0.05 up to 1.0"
+
+Ln=225
+English="Value not in range"
+
+Ln=236
+English="Slow-motion Speed"
+
+Ln=244
+English="{:g}x"
+
+Ln=254
+English="0"
+
+Ln=258
+English="30"
+
+Ln=262
+English="60"
+
+Ln=266
+English="Custom Value"
+
+Ln=271
+English="Input 0 to 50000"
+
+Ln=286
+English="States"
+
+Ln=305
+English="State Interval (Seconds)"
+
+Ln=311
+English="Input 1 to 60"
+
+Ln=323
+English="Performance Mode"
+
+Ln=326
+English="Normal"
+
+Ln=327
+English="Sustained"
+
+Ln=335
+English="No-op Thread (Experimental)"
+
+Ln=345
+English="Configure CPU Affinity"
+
+Ln=354
+English="Autosave Options"
+
+Ln=359
+English="Rewind Options"
+
+Ln=364
+English="Other Options"

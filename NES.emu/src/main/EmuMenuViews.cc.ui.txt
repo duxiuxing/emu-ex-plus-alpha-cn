@@ -1,0 +1,245 @@
+Ln=41
+English="4-Player Adapter"
+
+Ln=65
+English="Auto"
+
+Ln=69
+English="Gamepads"
+
+Ln=73
+English="Gun (2P, NES)"
+
+Ln=77
+English="Gun (1P, VS)"
+
+Ln=84
+English="Input Ports"
+
+Ln=102
+English="P2 Start As Microphone"
+
+Ln=115
+English="Auto"
+
+Ln=119
+English="NTSC"
+
+Ln=123
+English="PAL"
+
+Ln=127
+English="Dendy"
+
+Ln=134
+English="System"
+
+Ln=144
+English="Dendy"
+
+Ln=146
+English="PAL"
+
+Ln=147
+English="NTSC"
+
+Ln=165
+English="Frameskip Mode"
+
+Ln=168
+English="Fast"
+
+Ln=169
+English="Compatible"
+
+Ln=175
+English="Use compatible mode if the current game has glitches when "
+
+Ln=176
+English="fast-forwarding/frame-skipping, at the cost of increased CPU usage."
+
+Ln=196
+English="Video"
+
+Ln=213
+English="8+224"
+
+Ln=217
+English="8+232"
+
+Ln=221
+English="0+232"
+
+Ln=225
+English="0+240"
+
+Ln=232
+English="Visible Lines"
+
+Ln=252
+English="Crop 8 Pixels On Sides"
+
+Ln=267
+English="Overclocking"
+
+Ln=273
+English="Enabled"
+
+Ln=285
+English="Extra Lines Per Frame"
+
+Ln=290
+English="Input 0 to 30000"
+
+Ln=304
+English="Vertical Blank Line Multiplier"
+
+Ln=309
+English="Input 0 to 16"
+
+Ln=341
+English="Console Options"
+
+Ln=354
+English="Sprite Limit"
+
+Ln=367
+English="Auto"
+
+Ln=371
+English="NTSC"
+
+Ln=375
+English="PAL"
+
+Ln=379
+English="Dendy"
+
+Ln=386
+English="Default Video System"
+
+Ln=420
+English="FCEUX"
+
+Ln=424
+English="Digital Prime (FBX)"
+
+Ln=428
+English="Smooth V2 (FBX)"
+
+Ln=432
+English="Magnum (FBX)"
+
+Ln=436
+English="Classic (FBX)"
+
+Ln=440
+English="Wavebeam"
+
+Ln=444
+English="Five Reality"
+
+Ln=448
+English="Custom File"
+
+Ln=470
+English="Default Palette"
+
+Ln=500
+English="8+224"
+
+Ln=504
+English="8+232"
+
+Ln=508
+English="0+232"
+
+Ln=512
+English="0+240"
+
+Ln=519
+English="Default Visible Lines"
+
+Ln=544
+English="Correct Line Aspect Ratio"
+
+Ln=580
+English="Normal"
+
+Ln=584
+English="High"
+
+Ln=588
+English="Highest"
+
+Ln=595
+English="Emulation Quality"
+
+Ln=603
+English="Low Pass Filter"
+
+Ln=614
+English="Swap Duty Cycles"
+
+Ln=625
+English="Mixer"
+
+Ln=631
+English="Square Wave #1"
+
+Ln=642
+English="Square Wave #2"
+
+Ln=653
+English="Triangle Wave"
+
+Ln=664
+English="Noise"
+
+Ln=675
+English="DPCM"
+
+Ln=711
+English="Cheats"
+
+Ln=728
+English="Patches"
+
+Ln=745
+English="Palettes"
+
+Ln=762
+English="Disk System BIOS"
+
+Ln=777
+English="Disk System BIOS: {}"
+
+Ln=799
+English="Set Disk 1 Side A"
+
+Ln=808
+English="Set Disk 1 Side B"
+
+Ln=817
+English="Set Disk 2 Side A"
+
+Ln=826
+English="Set Disk 2 Side B"
+
+Ln=838
+English="Eject"
+
+Ln=856
+English="FDS Control"
+
+Ln=884
+English="FDS Control (No Disk)"
+
+Ln=888
+English="FDS Control (Disk {}:{})"
+
+Ln=894
+English="Console Options"
+
+Ln=921
+English="Fast-forward Disk IO"

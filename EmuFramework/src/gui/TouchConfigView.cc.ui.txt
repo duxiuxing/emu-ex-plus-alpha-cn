@@ -1,0 +1,368 @@
+Ln=30
+English="Off"
+
+Ln=31
+English="On"
+
+Ln=32
+English="Hidden"
+
+Ln=37
+English="None"
+
+Ln=38
+English="10%"
+
+Ln=39
+English="20%"
+
+Ln=40
+English="30%"
+
+Ln=69
+English="Edit D-Pad"
+
+Ln=78
+English="1mm"
+
+Ln=82
+English="1.35mm"
+
+Ln=86
+English="1.6mm"
+
+Ln=90
+English="Custom Value"
+
+Ln=95
+English="Input 1.0 to 3.0"
+
+Ln=111
+English="Deadzone"
+
+Ln=119
+English="{:g}mm"
+
+Ln=129
+English="None"
+
+Ln=133
+English="33% (Low)"
+
+Ln=137
+English="43% (Medium-Low)"
+
+Ln=141
+English="50% (Medium)"
+
+Ln=145
+English="60% (High)"
+
+Ln=149
+English="Custom Value"
+
+Ln=154
+English="Input 0 to 99.0"
+
+Ln=172
+English="Diagonal Sensitivity"
+
+Ln=180
+English="{:g}%"
+
+Ln=195
+English="State"
+
+Ln=209
+English="Show Bounding Area"
+
+Ln=221
+English="Remove This D-Pad"
+
+Ln=226
+English="Really remove this d-pad?"
+
+Ln=241
+English="D-Pad Actions"
+
+Ln=247
+English="Up"
+
+Ln=252
+English="Right"
+
+Ln=257
+English="Down"
+
+Ln=262
+English="Left"
+
+Ln=299
+English="Assign Action"
+
+Ln=327
+English="Edit Button"
+
+Ln=336
+English="Action"
+
+Ln=341
+English="Assign Action"
+
+Ln=368
+English="Turbo"
+
+Ln=381
+English="Toggle"
+
+Ln=394
+English="Remove This Button"
+
+Ln=399
+English="Really remove this button?"
+
+Ln=446
+English="Edit Buttons"
+
+Ln=460
+English="State"
+
+Ln=475
+English="1"
+
+Ln=479
+English="2"
+
+Ln=483
+English="3"
+
+Ln=487
+English="4"
+
+Ln=491
+English="5"
+
+Ln=497
+English="Buttons Per Row"
+
+Ln=512
+English="1mm"
+
+Ln=516
+English="2mm"
+
+Ln=520
+English="3mm"
+
+Ln=524
+English="4mm"
+
+Ln=528
+English="Custom Value"
+
+Ln=533
+English="Input 0 to 8"
+
+Ln=549
+English="Spacing"
+
+Ln=569
+English="-0.75x V"
+
+Ln=573
+English="-0.5x V"
+
+Ln=577
+English="0"
+
+Ln=581
+English="0.5x V"
+
+Ln=585
+English="0.75x V"
+
+Ln=589
+English="1x H&V"
+
+Ln=595
+English="Stagger"
+
+Ln=614
+English="Custom Value"
+
+Ln=619
+English="Input 0 to 30"
+
+Ln=635
+English="Extended H Bounds"
+
+Ln=645
+English="{}%"
+
+Ln=663
+English="Custom Value"
+
+Ln=668
+English="Input 0 to 30"
+
+Ln=684
+English="Extended V Bounds"
+
+Ln=694
+English="{}%"
+
+Ln=707
+English="Show Bounding Area"
+
+Ln=719
+English="Add Button To This Group"
+
+Ln=724
+English="Add Button"
+
+Ln=748
+English="Remove This Button Group"
+
+Ln=753
+English="Really remove this button group?"
+
+Ln=768
+English="Buttons In Group"
+
+Ln=851
+English="Add New Button Group"
+
+Ln=914
+English="On-screen Input Setup"
+
+Ln=921
+English="Off"
+
+Ln=925
+English="On"
+
+Ln=929
+English="Auto"
+
+Ln=935
+English="Use Virtual Gamepad"
+
+Ln=959
+English="Virtual Gamepad Player"
+
+Ln=970
+English="6.5mm"
+
+Ln=974
+English="7mm"
+
+Ln=978
+English="7.5mm"
+
+Ln=982
+English="8mm"
+
+Ln=986
+English="8.5mm"
+
+Ln=990
+English="9mm"
+
+Ln=994
+English="10mm"
+
+Ln=998
+English="12mm"
+
+Ln=1002
+English="14mm"
+
+Ln=1006
+English="15mm"
+
+Ln=1010
+English="Custom Value"
+
+Ln=1015
+English="Input 3.0 to 30.0"
+
+Ln=1031
+English="Button Size"
+
+Ln=1039
+English="{:g}mm"
+
+Ln=1048
+English="Vibration"
+
+Ln=1058
+English="Show Gamepad If Screen Touched"
+
+Ln=1068
+English="Highlight Pushed Buttons"
+
+Ln=1079
+English="0%"
+
+Ln=1083
+English="10%"
+
+Ln=1087
+English="25%"
+
+Ln=1091
+English="50%"
+
+Ln=1095
+English="65%"
+
+Ln=1099
+English="75%"
+
+Ln=1105
+English="Blend Amount"
+
+Ln=1115
+English="Set Button Positions"
+
+Ln=1124
+English="Set Video Position"
+
+Ln=1135
+English="Add New Button Group"
+
+Ln=1144
+English="Allow Buttons In Display Cutout Area"
+
+Ln=1155
+English="Reset Emulator Button Positions"
+
+Ln=1160
+English="Reset buttons to default positions?"
+
+Ln=1173
+English="Reset Emulator Button Groups"
+
+Ln=1178
+English="Reset buttons groups to default?"
+
+Ln=1192
+English="Reset UI Positions"
+
+Ln=1197
+English="Reset buttons to default positions?"
+
+Ln=1210
+English="Reset UI Groups"
+
+Ln=1215
+English="Reset buttons groups to default?"
+
+Ln=1229
+English="Emulator Button Groups"
+
+Ln=1234
+English="UI Button Groups"
+
+Ln=1239
+English="Other Options"

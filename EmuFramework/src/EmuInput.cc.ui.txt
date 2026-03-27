@@ -1,0 +1,80 @@
+Ln=99
+English="Really Overwrite State?"
+
+Ln=126
+English="State Slot: {}"
+
+Ln=137
+English="State Slot: {}"
+
+Ln=175
+English="Really Exit?"
+
+Ln=577
+English=" + "
+
+Ln=581
+English=" (Turbo Toggle)"
+
+Ln=583
+English=" (Turbo)"
+
+Ln=585
+English=" (Toggle)"
+
+Ln=662
+English="Open Content"
+
+Ln=664
+English="Close Content"
+
+Ln=666
+English="Open System Actions"
+
+Ln=668
+English="Save State"
+
+Ln=670
+English="Load State"
+
+Ln=672
+English="Decrement State Slot"
+
+Ln=674
+English="Increment State Slot"
+
+Ln=676
+English="Fast-forward"
+
+Ln=678
+English="Take Screenshot"
+
+Ln=680
+English="Open Menu"
+
+Ln=682
+English="Toggle Fast-forward"
+
+Ln=684
+English="Turbo Modifier"
+
+Ln=686
+English="Exit App"
+
+Ln=688
+English="Slow-motion"
+
+Ln=690
+English="Toggle Slow-motion"
+
+Ln=692
+English="Rewind One State"
+
+Ln=694
+English="Soft Reset"
+
+Ln=696
+English="Hard Reset"
+
+Ln=698
+English="Open Reset Menu"

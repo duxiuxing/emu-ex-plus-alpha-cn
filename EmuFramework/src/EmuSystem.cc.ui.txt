@@ -1,0 +1,20 @@
+Ln=70
+English="Invalid state size from header"
+
+Ln=76
+English="Error uncompressing state"
+
+Ln=80
+English="Invalid state size"
+
+Ln=422
+English="No recognized file extensions in archive"
+
+Ln=439
+English="Error reading file"
+
+Ln=446
+English="Error writing file"
+
+Ln=453
+English="This content must be opened with a folder, \"Browse For File\" isn't supported"

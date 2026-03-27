@@ -1,0 +1,17 @@
+Ln=77
+English="Disk ejected, push again to switch side"
+
+Ln=89
+English="Disk 1 Side A"
+
+Ln=91
+English="Disk 1 Side B"
+
+Ln=93
+English="Disk 2 Side A"
+
+Ln=95
+English="Disk 2 Side B"
+
+Ln=101
+English="Set {}"

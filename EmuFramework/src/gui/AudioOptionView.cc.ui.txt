@@ -1,0 +1,80 @@
+Ln=28
+English="Audio Options"
+
+Ln=34
+English="Sound"
+
+Ln=44
+English="Sound During Fast/Slow Mode"
+
+Ln=55
+English="100%"
+
+Ln=59
+English="50%"
+
+Ln=63
+English="25%"
+
+Ln=67
+English="Custom Value"
+
+Ln=72
+English="Input 0 to 125"
+
+Ln=87
+English="Volume"
+
+Ln=103
+English="1"
+
+Ln=107
+English="2"
+
+Ln=111
+English="3"
+
+Ln=115
+English="4"
+
+Ln=119
+English="5"
+
+Ln=123
+English="6"
+
+Ln=127
+English="7"
+
+Ln=133
+English="Buffer Size In Frames"
+
+Ln=143
+English="Auto-increase Buffer Size"
+
+Ln=157
+English="Device Native"
+
+Ln=168
+English="22KHz"
+
+Ln=171
+English="32KHz"
+
+Ln=174
+English="44KHz"
+
+Ln=178
+English="48KHz"
+
+Ln=185
+English="Sound Rate"
+
+Ln=192
+English="Mix With Other Apps"
+
+Ln=206
+English="Auto"
+
+Ln=227
+English="Audio Driver"

@@ -1,0 +1,32 @@
+Ln=59
+English="Error in FCEUI_Initialize"
+
+Ln=97
+English="Invalid state data"
+
+Ln=207
+English="Unset"
+
+Ln=209
+English="Gamepad"
+
+Ln=211
+English="Zapper"
+
+Ln=213
+English="None"
+
+Ln=280
+English="NTSC"
+
+Ln=282
+English="PAL"
+
+Ln=284
+English="Dendy"
+
+Ln=286
+English="Unknown"
+
+Ln=342
+English="Error loading game"

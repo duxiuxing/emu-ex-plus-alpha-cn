@@ -1,0 +1,149 @@
+Ln=30
+English="Delete device settings from the configuration file? Any key profiles in use are kept"
+
+Ln=32
+English="Delete profile from the configuration file? Devices using it will revert to their default profile"
+
+Ln=39
+English="Push a key on any input device enter its configuration menu"
+
+Ln=93
+English="Key/Gamepad Input Setup"
+
+Ln=99
+English="Delete Saved Device Settings"
+
+Ln=107
+English="No saved device settings"
+
+Ln=133
+English="Delete Saved Key Profile"
+
+Ln=141
+English="No saved profiles"
+
+Ln=168
+English="Re-scan OS Input Devices"
+
+Ln=181
+English="{} OS devices present"
+
+Ln=187
+English="Auto-detect Device To Setup"
+
+Ln=206
+English="General Options"
+
+Ln=215
+English="Individual Device Settings"
+
+Ln=288
+English="General Input Options"
+
+Ln=293
+English="MOGA Controller Support"
+
+Ln=301
+English="Install the MOGA Pivot app from Google Play to use your MOGA Pocket. "
+
+Ln=302
+English="For MOGA Pro or newer, set switch to mode B and pair in the Android Bluetooth settings app instead."
+
+Ln=311
+English="Notify If Devices Change"
+
+Ln=321
+English="In-app Bluetooth Options"
+
+Ln=326
+English="Keep Connections In Background"
+
+Ln=344
+English="Scan Time"
+
+Ln=355
+English="Cache Scan Results"
+
+Ln=365
+English="Swap Confirm/Cancel Keys"
+
+Ln=424
+English="Multiple"
+
+Ln=436
+English="Player"
+
+Ln=477
+English="Rename Profile"
+
+Ln=484
+English="Can't rename a built-in profile"
+
+Ln=489
+English="Input name"
+
+Ln=496
+English="Another profile is already using this name"
+
+Ln=510
+English="New Profile"
+
+Ln=515
+English="Create a new profile? All keys from the current profile will be copied over."
+
+Ln=521
+English="Input name"
+
+Ln=528
+English="Another profile is already using this name"
+
+Ln=544
+English="Delete Profile"
+
+Ln=551
+English="Can't delete a built-in profile"
+
+Ln=574
+English="iCade Mode"
+
+Ln=588
+English="This mode allows input from an iCade-compatible Bluetooth device, don't enable if this isn't an iCade"
+
+Ln=589
+English="Enable"
+
+Ln=590
+English="Cancel"
+
+Ln=600
+English="Handle Unbound Keys"
+
+Ln=611
+English="Stick 1 as D-Pad"
+
+Ln=622
+English="Stick 2 as D-Pad"
+
+Ln=633
+English="POV Hat as D-Pad"
+
+Ln=644
+English="L/R Triggers as L2/R2"
+
+Ln=655
+English="Brake/Gas as L2/R2"
+
+Ln=666
+English="Action Categories"
+
+Ln=671
+English="Options"
+
+Ln=676
+English="Joystick Axis Setup"
+
+Ln=682
+English="Profile: {}"
+
+Ln=754
+English="Profile: {}"

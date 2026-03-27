@@ -1,0 +1,2 @@
+Ln=57
+English="Error opening asset: {}"

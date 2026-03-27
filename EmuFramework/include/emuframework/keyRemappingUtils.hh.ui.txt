@@ -1,0 +1,35 @@
+Ln=168
+English="PC Keyboard"
+
+Ln=175
+English="Generic Gamepad"
+
+Ln=181
+English="PS3 Controller"
+
+Ln=187
+English="OUYA Controller"
+
+Ln=195
+English="Xperia Play"
+
+Ln=203
+English="Pandora Keys"
+
+Ln=211
+English="Default"
+
+Ln=219
+English="Default"
+
+Ln=225
+English="Default"
+
+Ln=231
+English="Default"
+
+Ln=237
+English="Default"
+
+Ln=245
+English="Default"
