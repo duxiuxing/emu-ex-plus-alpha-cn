@@ -205,7 +205,7 @@ inline void readStateMDFN(std::span<uint8_t> buff)
 		auto sizeFromHeader = MDFN_de32lsb(s.map() + 16 + 4) & 0x7FFFFFFF;
 		if(sizeFromHeader != outputSize)
 			throw std::runtime_error(std::format(
-				UI_TEXT("文件头部的数据长度信息错误，实际值 {} 而预期值 {}"),
+				UI_TEXT("文件头部的数据长度信息错误，实际值为 {} 而预期值为 {}"),
 				sizeFromHeader, outputSize));
 		s.setSize(outputSize);
 		MDFNSS_LoadSM(&s);

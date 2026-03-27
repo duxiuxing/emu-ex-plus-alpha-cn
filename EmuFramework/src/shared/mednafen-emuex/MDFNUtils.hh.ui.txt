@@ -1,23 +1,23 @@
 Ln=128
-English="Save Filename Type""
+English="Save Filename Type"
 Chinese="存档文件名类型"
 
 Ln=131
-English="Default""
+English="Default"
 Chinese="默认"
 
 Ln=132
-English="No MD5""
+English="No MD5"
 Chinese="不含 MD5"
 
 Ln=199
-English="Error uncompressing state""
+English="Error uncompressing state"
 Chinese="解压时出错"
 
 Ln=203
-English="Invalid state size""
+English="Invalid state size"
 Chinese="无效的数据长度信息"
 
 Ln=208
-English="Bad state header size, got {} but expected {}""
-Chinese="文件头部的数据长度信息错误，实际值 {} 而预期值 {}"
+English="Bad state header size, got {} but expected {}"
+Chinese="文件头部的数据长度信息错误，实际值为 {} 而预期值为 {}"
