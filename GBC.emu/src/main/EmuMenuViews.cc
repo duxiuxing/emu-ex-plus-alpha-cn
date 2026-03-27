@@ -269,15 +269,21 @@ public:
 	EditCheatView(ViewAttachParams attach, Cheat& cheat, BaseEditCheatsView& editCheatsView):
 		BaseEditCheatView
 		{
-			"Edit Cheat",
+			UI_TEXT("Edit Cheat"),
 			attach,
 			cheat,
 			editCheatsView
 		},
 		addGGGS
 		{
-			"Add Another Code", attach,
-			[this](const Input::Event& e) { addNewCheatCode("Input xxxxxxxx (GS) or xxx-xxx-xxx (GG) code", e); }
+			UI_TEXT("Add Another Code"),
+			attach,
+			[this](const Input::Event& e)
+			{
+				addNewCheatCode(
+					UI_TEXT("Input xxxxxxxx (GS) or xxx-xxx-xxx (GG) code"),
+					e);
+			}
 		}
 	{
 		loadItems();
@@ -288,10 +294,13 @@ public:
 		codes.clear();
 		for(auto& c: cheatPtr->codes)
 		{
-			codes.emplace_back("Code", c, attachParams(), [this, &c](const Input::Event& e)
+			codes.emplace_back(
+				UI_TEXT("Code"),
+				c, attachParams(), [this, &c](const Input::Event& e)
 			{
 				pushAndShowNewCollectValueInputView<const char*, ScanValueMode::AllowBlank>(attachParams(), e,
-					"Input xxxxxxxx (GS) or xxx-xxx-xxx (GG) code, or blank to delete", c,
+					UI_TEXT("Input xxxxxxxx (GS) or xxx-xxx-xxx (GG) code, or blank to delete"),
+					c,
 					[this, &c](CollectTextInputView&, auto str) { return modifyCheatCode(c, {str}); });
 			});
 		};
@@ -335,8 +344,14 @@ public:
 		},
 		addGGGS
 		{
-			"Add Game Genie / GameShark Code", attach,
-			[this](const Input::Event& e) { addNewCheat("Input xxxxxxxx (GS) or xxx-xxx-xxx (GG) code", e); }
+			UI_TEXT("Add Game Genie / GameShark Code"),
+			attach,
+			[this](const Input::Event& e)
+			{
+				addNewCheat(
+					UI_TEXT("Input xxxxxxxx (GS) or xxx-xxx-xxx (GG) code"),
+					e);
+			}
 		} {}
 
 private:

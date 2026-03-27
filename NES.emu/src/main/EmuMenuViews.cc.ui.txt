@@ -243,3 +243,69 @@ English="Console Options"
 
 Ln=921
 English="Fast-forward Disk IO"
+
+Ln=960
+English="Edit Cheat"
+
+Ln=967
+English="Add Another Code"
+
+Ln=972
+English="Input Game Genie code"
+
+Ln=978
+English="Add Another Patch"
+
+Ln=983
+English="Input RAM address hex"
+
+Ln=997
+English="Code"
+
+Ln=1054
+English="Add Game Genie Code"
+
+Ln=1059
+English="Input Game Genie code"
+
+Ln=1065
+English="Add Memory Patch"
+
+Ln=1070
+English="Input RAM Address Hex"
+
+Ln=1082
+English="Edit Memory Patch"
+
+Ln=1107
+English="Address"
+
+Ln=1112
+English="Input 4-digit hex"
+
+Ln=1118
+English="Invalid input"
+
+Ln=1132
+English="Value"
+
+Ln=1137
+English="Input 2-digit hex"
+
+Ln=1143
+English="Invalid value"
+
+Ln=1157
+English="Compare"
+
+Ln=1162
+English="Input 2-digit hex or blank"
+
+Ln=1170
+English="Invalid value"
+
+Ln=1190
+English="Delete"
+
+Ln=1194
+English="Really delete this patch?"
