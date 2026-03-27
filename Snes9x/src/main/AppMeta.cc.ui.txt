@@ -111,5 +111,5 @@ English="Select/Start"
 Chinese="选择/开始键"
 
 Ln=304
-English="None"
+English="Gamepad"
 Chinese="游戏按键"
