@@ -1,83 +1,83 @@
 Ln=84
-English="Gamepad""
+English="Gamepad"
 Chinese="游戏按键"
 
 Ln=89
-English="Gamepad 2""
+English="Gamepad 2"
 Chinese="游戏按键 (2号手柄)"
 
 Ln=94
-English="Gamepad 3""
+English="Gamepad 3"
 Chinese="游戏按键 (3号手柄)"
 
 Ln=99
-English="Gamepad 4""
+English="Gamepad 4"
 Chinese="游戏按键 (4号手柄)"
 
 Ln=104
-English="Extra Functions""
+English="Extra Functions"
 Chinese="其他操作"
 
 Ln=116
-English="Up""
+English="Up"
 Chinese="方向键的上"
 
 Ln=118
-English="Right""
+English="Right"
 Chinese="方向键的右"
 
 Ln=120
-English="Down""
+English="Down"
 Chinese="方向键的下"
 
 Ln=122
-English="Left""
+English="Left"
 Chinese="方向键的左"
 
 Ln=124
-English="Select""
+English="Select"
 Chinese="选择键"
 
 Ln=126
-English="Start""
+English="Start"
 Chinese="开始键"
 
 Ln=128
-English="A""
+English="A"
 Chinese="A 键"
 
 Ln=130
-English="B""
+English="B"
 Chinese="B 键"
 
 Ln=132
-English="Eject Disk/Switch Side""
+English="Eject Disk/Switch Side"
 Chinese="弹出磁碟/磁碟翻面"
 
 Ln=230
-English="D-Pad""
+English="D-Pad"
 Chinese="方向键"
 
 Ln=235
-English="Face Buttons""
+English="Face Buttons"
 Chinese="动作键"
 
 Ln=240
-English="Select""
+English="Select"
 Chinese="选择键"
 
 Ln=245
-English="Start""
+English="Start"
 Chinese="开始键"
 
 Ln=250
-English="Select/Start""
+English="Select/Start"
 Chinese="选择/开始键"
 
 Ln=255
-English="P2 Start (Famicom Microphone)""
+English="P2 Start (Famicom Microphone)"
 Chinese="开始键 (2号玩家)"
 
 Ln=261
-English="Gamepad""
+English="Gamepad"
 Chinese="游戏按键"
