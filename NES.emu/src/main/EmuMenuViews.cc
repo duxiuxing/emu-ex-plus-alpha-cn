@@ -964,12 +964,12 @@ public:
 		},
 		addGG
 		{
-			UI_TEXT("添加另一个金手指密码"),
+			UI_TEXT("添加另一个作弊码"),
 			attach,
 			[this](const Input::Event& e)
 			{
 				addNewCheatCode(
-					UI_TEXT("请输入金手指密码"),
+					UI_TEXT("请输入 Game Genie 作弊码"),
 					e, 1);
 			}
 		},
@@ -994,13 +994,13 @@ public:
 		system().forEachCheatCode(*cheatPtr, [this](CheatCode& c, std::string_view code)
 		{
 			codes.emplace_back(
-				UI_TEXT("金手指密码"),
+				UI_TEXT("作弊码"),
 				code, attachParams(), [this, &c](const Input::Event& e)
 			{
 				if(c.type)
 				{
 					pushAndShowNewCollectValueInputView<const char*, ScanValueMode::AllowBlank>(attachParams(), e,
-						UI_TEXT("请输入金手指密码"),
+						UI_TEXT("请输入 Game Genie 作弊码"),
 						toGGString(c),
 						[this, &c](CollectTextInputView&, auto str) { return modifyCheatCode(c, {str, 1}); });
 				}
@@ -1053,12 +1053,12 @@ public:
 		},
 		addGG
 		{
-			UI_TEXT("添加金手指密码"),
+			UI_TEXT("添加 Game Genie 作弊码"),
 			attachParams(),
 			[this](const Input::Event& e)
 			{
 				addNewCheat(
-					UI_TEXT("请输入金手指密码"),
+					UI_TEXT("请输入 Game Genie 作弊码"),
 					e, 1);
 			}
 		},

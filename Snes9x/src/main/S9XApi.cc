@@ -235,7 +235,7 @@ void S9xReadBSXBios(uint8 *data)
 	if(bsxBiosPath.empty())
 		throw std::runtime_error
 			{
-				UI_TEXT("没有设置 BS-X BIOS")
+				UI_TEXT("没有设置 BS-X 的 BIOS")
 			};
 	logMsg("loading BS-X BIOS:%s", bsxBiosPath.data());
 	if(EmuApp::hasArchiveExtension(appCtx.fileUriDisplayName(bsxBiosPath)))
@@ -248,13 +248,13 @@ void S9xReadBSXBios(uint8 *data)
 			if(!isBsxBios(data, size))
 				throw std::runtime_error
 					{
-						UI_TEXT("不兼容的 BS-X BIOS")
+						UI_TEXT("BS-X 的 BIOS 不兼容")
 					};
 			return;
 		}
 		throw std::runtime_error
 			{
-				UI_TEXT("档案中没有 BS-X BIOS，档案文件必须以 .bin 或 .bios 结尾")
+				UI_TEXT("档案中没有 BS-X 的 BIOS，BIOS 文件必须是 .bin 或 .bios 格式")
 			};
 	}
 	else
@@ -264,7 +264,7 @@ void S9xReadBSXBios(uint8 *data)
 		if(!isBsxBios(data, size))
 			throw std::runtime_error
 				{
-					UI_TEXT("不兼容的 BS-X BIOS")
+					UI_TEXT("BS-X 的 BIOS 不兼容")
 				};
 	}
 }

@@ -44,26 +44,26 @@ class CustomAudioOptionView : public AudioOptionView, public MainAppHelper
 			attachParams(), [this](){ setDSPInterpolation(0); }
 		},
 		{
-			UI_TEXT("线性"),
+			UI_TEXT("线性分布"),
 			attachParams(), [this](){ setDSPInterpolation(1); }
 		},
 		{
-			UI_TEXT("高斯"),
+			UI_TEXT("高斯分布"),
 			attachParams(), [this](){ setDSPInterpolation(2); }
 		},
 		{
-			UI_TEXT("立方"),
+			UI_TEXT("三次插值"),
 			attachParams(), [this](){ setDSPInterpolation(3); }
 		},
 		{
-			UI_TEXT("正弦"),
+			UI_TEXT("辛克插值"),
 			attachParams(), [this](){ setDSPInterpolation(4); }
 		},
 	};
 
 	MultiChoiceMenuItem dspInterpolation
 	{
-		UI_TEXT("DSP 插值"),
+		UI_TEXT("DSP 插值算法"),
 		attachParams(),
 		system().optionAudioDSPInterpolation.value(),
 		dspInterpolationItem
@@ -380,7 +380,7 @@ class CustomFilePathOptionView : public FilePathOptionView, public MainAppHelper
 		[this](const Input::Event &e)
 		{
 			pushAndShow(makeViewWithName<UserPathSelectView>(
-				UI_TEXT("金手指文件夹"),
+				UI_TEXT("作弊项文件夹"),
 				system().userPath(system().cheatsDir),
 				[this](CStringView path)
 				{
@@ -438,7 +438,7 @@ class CustomFilePathOptionView : public FilePathOptionView, public MainAppHelper
 		[this](const Input::Event &e)
 		{
 			pushAndShow(makeViewWithName<DataFileSelectView<>>(
-				UI_TEXT("BS-X BIOS"),
+				UI_TEXT("BS-X 的 BIOS"),
 				app().validSearchPath(FS::dirnameUri(system().bsxBiosPath)),
 				[this](CStringView path, FS::file_type)
 				{
@@ -453,7 +453,7 @@ class CustomFilePathOptionView : public FilePathOptionView, public MainAppHelper
 	std::string bsxMenuName(CStringView path) const
 	{
 		return std::format(
-			UI_TEXT("BS-X BIOS 文件：{}"),
+			UI_TEXT("BS-X 的 BIOS 文件：{}"),
 			appContext().fileUriDisplayName(path));
 	}
 
@@ -463,7 +463,7 @@ class CustomFilePathOptionView : public FilePathOptionView, public MainAppHelper
 		[this](const Input::Event &e)
 		{
 			pushAndShow(makeViewWithName<DataFileSelectView<>>(
-				UI_TEXT("Sufami Turbo BIOS"),
+				UI_TEXT("Sufami Turbo 的 BIOS"),
 				app().validSearchPath(FS::dirnameUri(system().sufamiBiosPath)),
 				[this](CStringView path, FS::file_type)
 				{
@@ -478,7 +478,7 @@ class CustomFilePathOptionView : public FilePathOptionView, public MainAppHelper
 	std::string sufamiMenuName(CStringView path) const
 	{
 		return std::format(
-			UI_TEXT("Sufami Turbo BIOS 文件：{}"),
+			UI_TEXT("Sufami Turbo 的 BIOS 文件：{}"),
 			appContext().fileUriDisplayName(path));
 	}
 
@@ -514,7 +514,7 @@ public:
 	EditCheatView(ViewAttachParams attach, Cheat& cheat, BaseEditCheatsView& editCheatsView):
 		BaseEditCheatView
 		{
-			UI_TEXT("Edit Cheat"),
+			UI_TEXT("编辑作弊项"),
 			attach,
 			cheat,
 			editCheatsView
@@ -522,12 +522,12 @@ public:
 		#ifndef SNES9X_VERSION_1_4
 		,addCode
 		{
-			UI_TEXT("Add Another Code"),
+			UI_TEXT("添加另一个作弊码"),
 			attach,
 			[this](const Input::Event& e)
 			{
 				addNewCheatCode(
-					UI_TEXT("Input xxxx-xxxx (GG), xxxxxxxx (AR), GF code, or blank"),
+					UI_TEXT("请输入 GG (xxxx-xxxx)，AR (xxxxxxxx)，GF 作弊码, 或留空"),
 					e);
 			}
 		}
@@ -542,7 +542,7 @@ public:
 		system().forEachCheatCode(*cheatPtr, [this](CheatCode& c, std::string_view code)
 		{
 			codes.emplace_back(
-				UI_TEXT("Code"),
+				UI_TEXT("作弊码"),
 				code, attachParams(),
 				[this, &c](const Input::Event& e)
 			{
@@ -594,12 +594,12 @@ public:
 		},
 		addCode
 		{
-			UI_TEXT("Add Game Genie/Action Replay/Gold Finger Code"),
+			UI_TEXT("添加 GG/AR/GF 作弊码"),
 			attach,
 			[this](const Input::Event& e)
 			{
 				addNewCheat(
-					UI_TEXT("Input xxxx-xxxx (GG), xxxxxxxx (AR), or GF code"),
+					UI_TEXT("请输入 GG (xxxx-xxxx)，AR (xxxxxxxx) 或 GF 作弊码"),
 					e);
 			}
 		} {}
@@ -611,7 +611,7 @@ private:
 EditRamCheatView::EditRamCheatView(ViewAttachParams attach, CheatCode& code_, EditCheatView& editCheatView_):
 	TableView
 	{
-		UI_TEXT("Edit Memory Patch"),
+		UI_TEXT("编辑内存补丁"),
 		attach,
 		[this](ItemMessage msg) -> ItemReply
 		{
@@ -636,13 +636,13 @@ EditRamCheatView::EditRamCheatView(ViewAttachParams attach, CheatCode& code_, Ed
 	editCheatView{editCheatView_},
 	addr
 	{
-		UI_TEXT("Address"),
+		UI_TEXT("地址"),
 		std::format("{:x}", code_.address),
 		attach,
 		[this](const Input::Event& e)
 		{
 			pushAndShowNewCollectValueInputView<const char*>(attachParams(),
-				e, UI_TEXT("Input 6-digit hex"),
+				e, UI_TEXT("请输入六位的十六进制数"),
 				std::format("{:x}", code.address),
 				[this](CollectTextInputView&, auto str)
 				{
@@ -650,7 +650,7 @@ EditRamCheatView::EditRamCheatView(ViewAttachParams attach, CheatCode& code_, Ed
 					if(a > 0xFFFFFF)
 					{
 						app().postMessage(true,
-							UI_TEXT("value must be <= FFFFFF"));
+							UI_TEXT("数值必须 <= FFFFFF"));
 						return false;
 					}
 					setCheatAddress(code, a);
@@ -663,13 +663,13 @@ EditRamCheatView::EditRamCheatView(ViewAttachParams attach, CheatCode& code_, Ed
 	},
 	value
 	{
-		UI_TEXT("Value"),
+		UI_TEXT("数值"),
 		std::format("{:x}", code_.byte),
 		attach,
 		[this](const Input::Event& e)
 		{
 			pushAndShowNewCollectValueInputView<const char*>(attachParams(), e,
-				UI_TEXT("Input 2-digit hex"),
+				UI_TEXT("请输入两位的十六进制数"),
 				std::format("{:x}", code.byte),
 				[this](CollectTextInputView&, auto str)
 				{
@@ -677,7 +677,7 @@ EditRamCheatView::EditRamCheatView(ViewAttachParams attach, CheatCode& code_, Ed
 					if(a > 0xFF)
 					{
 						app().postMessage(true,
-							UI_TEXT("value must be <= FF"));
+							UI_TEXT("数值必须 <= FF"));
 						return false;
 					}
 					setCheatValue(code, a);
@@ -691,16 +691,16 @@ EditRamCheatView::EditRamCheatView(ViewAttachParams attach, CheatCode& code_, Ed
 	conditional
 	{
 		#ifndef SNES9X_VERSION_1_4
-		UI_TEXT("Conditional Value"),
+		UI_TEXT("条件值"),
 		#else
-		UI_TEXT("Saved Value"),
+		UI_TEXT("保存值"),
 		#endif
 		codeConditionalToString(code_),
 		attach,
 		[this](const Input::Event& e)
 		{
 			pushAndShowNewCollectValueInputView<const char*, ScanValueMode::AllowBlank>(attachParams(), e,
-				UI_TEXT("Input 2-digit hex or blank"),
+				UI_TEXT("请输入两位的十六进制数或留空"),
 				codeConditionalToString(code),
 				[this](CollectTextInputView &, const char *str)
 				{
@@ -711,7 +711,7 @@ EditRamCheatView::EditRamCheatView(ViewAttachParams attach, CheatCode& code_, Ed
 						if(a > 0xFF)
 						{
 							app().postMessage(true,
-								UI_TEXT("value must be <= FF"));
+								UI_TEXT("数值必须 <= FF"));
 							return true;
 						}
 					}
@@ -725,12 +725,12 @@ EditRamCheatView::EditRamCheatView(ViewAttachParams attach, CheatCode& code_, Ed
 	},
 	remove
 	{
-		UI_TEXT("Delete"),
+		UI_TEXT("删除"),
 		attach,
 		[this](const Input::Event& e)
 		{
 			pushAndShowModal(makeView<YesNoAlertView>(
-				UI_TEXT("Really delete this patch?"),
+				UI_TEXT("是否要删除此补丁？"),
 				YesNoAlertView::Delegates{.onYes = [this]{ editCheatView.removeCheatCode(code); dismiss(); }}), e);
 		}
 	} {}

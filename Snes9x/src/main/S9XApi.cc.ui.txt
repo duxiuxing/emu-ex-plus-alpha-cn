@@ -1,11 +1,15 @@
 Ln=238
 English="No BS-X BIOS set"
+Chinese="没有设置 BS-X 的 BIOS"
 
 Ln=251
 English="Incompatible BS-X BIOS"
+Chinese="BS-X 的 BIOS 不兼容"
 
 Ln=257
 English="BS-X BIOS not in archive, must end in .bin or .bios"
+Chinese="档案中没有 BS-X 的 BIOS，BIOS 文件必须是 .bin 或 .bios 格式"
 
 Ln=267
 English="Incompatible BS-X BIOS"
+Chinese="BS-X 的 BIOS 不兼容"

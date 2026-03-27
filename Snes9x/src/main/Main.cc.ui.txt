@@ -1,23 +1,31 @@
 Ln=132
 English="Invalid state data"
+Chinese="无效的进度数据"
 
 Ln=207
 English="No Sufami Turbo BIOS set"
+Chinese="没有设置 Sufami Turbo 的 BIOS"
 
 Ln=220
 English="Incompatible Sufami Turbo BIOS"
+Chinese="Sufami Turbo 的 BIOS 不兼容"
 
 Ln=226
 English="Sufami Turbo BIOS not in archive, must end in .bin or .bios"
+Chinese="档案中没有 Sufami Turbo 的 BIOS，BIOS 文件必须是 .bin 或 .bios 格式"
 
 Ln=235
 English="Incompatible Sufami Turbo BIOS"
+Chinese="Sufami Turbo 的 BIOS 不兼容"
 
 Ln=248
 English="ROM is too large"
+Chinese="ROM 文件过大"
 
 Ln=284
 English="Error loading ROM"
+Chinese="加载 ROM 文件时出错"
 
 Ln=295
 English="Error loading ROM"
+Chinese="加载 ROM 文件时出错"

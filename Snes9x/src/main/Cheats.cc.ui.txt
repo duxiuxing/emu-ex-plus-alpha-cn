@@ -1,5 +1,7 @@
 Ln=130
 English="Invalid code"
+Chinese="无效的作弊码"
 
 Ln=200
 English="Invalid code"
+Chinese="无效的作弊码"

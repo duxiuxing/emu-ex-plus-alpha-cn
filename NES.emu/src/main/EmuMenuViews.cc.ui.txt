@@ -332,11 +332,11 @@ Chinese="编辑作弊项"
 
 Ln=967
 English="Add Another Code"
-Chinese="添加另一个金手指密码"
+Chinese="添加另一个作弊码"
 
 Ln=972
 English="Input Game Genie code"
-Chinese="请输入金手指密码"
+Chinese="请输入 Game Genie 作弊码"
 
 Ln=978
 English="Add Another Patch"
@@ -348,19 +348,19 @@ Chinese="请输入十六进制的内存地址"
 
 Ln=997
 English="Code"
-Chinese="金手指密码"
+Chinese="作弊码"
 
 Ln=1003
 English="Input Game Genie code"
-Chinese="请输入金手指密码"
+Chinese="请输入 Game Genie 作弊码"
 
 Ln=1056
 English="Add Game Genie Code"
-Chinese="添加金手指密码"
+Chinese="添加 Game Genie 作弊码"
 
 Ln=1061
 English="Input Game Genie code"
-Chinese="请输入金手指密码"
+Chinese="请输入 Game Genie 作弊码"
 
 Ln=1067
 English="Add Memory Patch"
