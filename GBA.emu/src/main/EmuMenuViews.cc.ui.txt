@@ -1,0 +1,206 @@
+Ln=36
+English="Auto"
+
+Ln=40
+English="Off"
+
+Ln=44
+English="On"
+
+Ln=51
+English="Use BIOS"
+
+Ln=68
+English="Auto"
+
+Ln=72
+English="Off"
+
+Ln=76
+English="On"
+
+Ln=83
+English="RTC Emulation"
+
+Ln=93
+English="On"
+
+Ln=94
+English="Off"
+
+Ln=111
+English="Auto"
+
+Ln=115
+English="EEPROM"
+
+Ln=119
+English="SRAM"
+
+Ln=123
+English="Flash (64K)"
+
+Ln=127
+English="Flash (128K)"
+
+Ln=131
+English="EEPROM + Sensor"
+
+Ln=135
+English="None"
+
+Ln=142
+English="Save Type"
+
+Ln=169
+English="Really change save type? Existing data in .sav file may be lost so please make a backup before proceeding."
+
+Ln=192
+English="Auto"
+
+Ln=196
+English="None"
+
+Ln=200
+English="Accelerometer"
+
+Ln=204
+English="Gyroscope"
+
+Ln=208
+English="Light"
+
+Ln=215
+English="Hardware Sensor"
+
+Ln=251
+English="Console Options"
+
+Ln=261
+English="Console Options"
+
+Ln=287
+English="Mixer"
+
+Ln=299
+English="Default"
+
+Ln=306
+English="Off"
+
+Ln=313
+English="Custom Value"
+
+Ln=318
+English="Input 0 to 100"
+
+Ln=345
+English="GB APU Volume"
+
+Ln=346
+English="PCM Volume"
+
+Ln=354
+English="{}%"
+
+Ln=384
+English="PCM #1"
+
+Ln=387
+English="PCM #2"
+
+Ln=390
+English="Pulse #1"
+
+Ln=393
+English="Pulse #2"
+
+Ln=396
+English="Wave"
+
+Ln=399
+English="Noise"
+
+Ln=407
+English="Default"
+
+Ln=414
+English="Custom Value"
+
+Ln=419
+English="Input 0 to 100"
+
+Ln=435
+English="Filtering Level"
+
+Ln=443
+English="{}%"
+
+Ln=452
+English="Filtering"
+
+Ln=486
+English="Default Use BIOS"
+
+Ln=499
+English="Darkness"
+
+Ln=503
+English="Indoor Light"
+
+Ln=506
+English="Overcast Day"
+
+Ln=510
+English="Sunny Day"
+
+Ln=514
+English="Custom Value"
+
+Ln=519
+English="Input 0 to 50000"
+
+Ln=535
+English="Light Sensor Scale"
+
+Ln=543
+English="{} lux"
+
+Ln=577
+English="Cheats"
+
+Ln=594
+English="Patches"
+
+Ln=611
+English="BIOS"
+
+Ln=626
+English="BIOS: {}"
+
+Ln=648
+English="Input xxxxxxxx yyyyyyyy"
+
+Ln=649
+English="Input xxxxxxxx yyyyyyyy (GS) or xxxxxxxx yyyy (AR)"
+
+Ln=658
+English="Edit Cheat"
+
+Ln=665
+English="Add Another GS v1-2/CB Code"
+
+Ln=671
+English="Add Another GS v3 Code"
+
+Ln=685
+English="Code"
+
+Ln=689
+English="Really delete this code?"
+
+Ln=736
+English="Add Game Shark v1-2/Code Breaker Code"
+
+Ln=742
+English="Add Game Shark v3 Code"

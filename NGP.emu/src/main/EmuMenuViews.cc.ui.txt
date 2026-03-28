@@ -1,0 +1,8 @@
+Ln=38
+English="NGP Language"
+
+Ln=41
+English="Japanese"
+
+Ln=42
+English="English"

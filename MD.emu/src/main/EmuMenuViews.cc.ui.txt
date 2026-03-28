@@ -1,0 +1,131 @@
+Ln=41
+English="6-button Gamepad"
+
+Ln=54
+English="4-Player Adapter"
+
+Ln=69
+English="Menacer"
+
+Ln=71
+English="Justifier"
+
+Ln=73
+English="Gamepad"
+
+Ln=79
+English="Auto"
+
+Ln=83
+English="Gamepads"
+
+Ln=87
+English="Menacer"
+
+Ln=91
+English="Justifier"
+
+Ln=98
+English="Input Ports"
+
+Ln=125
+English="Auto"
+
+Ln=129
+English="NTSC"
+
+Ln=133
+English="PAL"
+
+Ln=140
+English="Video System"
+
+Ln=150
+English="PAL"
+
+Ln=151
+English="NTSC"
+
+Ln=170
+English="Auto"
+
+Ln=174
+English="USA"
+
+Ln=178
+English="Europe"
+
+Ln=182
+English="Japan"
+
+Ln=189
+English="Game Region"
+
+Ln=203
+English="USA"
+
+Ln=205
+English="Europe"
+
+Ln=207
+English="Japan"
+
+Ln=231
+English="Console Options"
+
+Ln=252
+English="Console Options"
+
+Ln=277
+English="MarkIII FM Sound Unit"
+
+Ln=302
+English="Use Big-Endian SRAM"
+
+Ln=308
+English="Warning, this changes the format of SRAM saves files. "
+
+Ln=309
+English="Turn on to make them compatible with other emulators like Gens. "
+
+Ln=310
+English="Any SRAM loaded with the incorrect setting will be corrupted."
+
+Ln=334
+English="Cheats"
+
+Ln=348
+English="USA CD BIOS"
+
+Ln=349
+English="Japan CD BIOS"
+
+Ln=350
+English="Europe CD BIOS"
+
+Ln=384
+English="{}: {}"
+
+Ln=423
+English="Input xxxx-xxxx (GG) or xxxxxx:xxxx (AR) code"
+
+Ln=424
+English="Input xxx-xxx-xxx (GG) or xxxxxx:xx (AR) code"
+
+Ln=430
+English="Input xxxx-xxxx (GG) or xxxxxx:xxxx (AR) code, or blank to delete"
+
+Ln=431
+English="Input xxx-xxx-xxx (GG) or xxxxxx:xx (AR) code, or blank to delete"
+
+Ln=440
+English="Edit Cheat"
+
+Ln=447
+English="Add Another Code"
+
+Ln=461
+English="Code"
+
+Ln=508
+English="Add Game Genie / Action Replay Code"
