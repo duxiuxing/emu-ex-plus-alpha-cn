@@ -395,7 +395,7 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, EmuVideoLayer &videoLa
 			attach, {.id = ImageOverlayId::SCANLINES_2}
 		},
 		{
-			UI_TEXT("LCD 格子特效"),
+			UI_TEXT("LCD 像素特效"),
 			attach, {.id = ImageOverlayId::LCD}
 		},
 		{
@@ -407,11 +407,11 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, EmuVideoLayer &videoLa
 			attach, {.id = ImageOverlayId::CRT_MASK_2}
 		},
 		{
-			UI_TEXT("CRT 格子特效"),
+			UI_TEXT("CRT 像素特效"),
 			attach, {.id = ImageOverlayId::CRT_GRILLE}
 		},
 		{
-			UI_TEXT("CRT 格子特效 .5x"),
+			UI_TEXT("CRT 像素特效 .5x"),
 			attach, {.id = ImageOverlayId::CRT_GRILLE_2}
 		}
 	},

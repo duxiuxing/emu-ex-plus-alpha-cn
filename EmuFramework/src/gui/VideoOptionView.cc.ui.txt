@@ -192,7 +192,7 @@ Chinese="扫描线特效 2x"
 
 Ln=398
 English="LCD Grid"
-Chinese="LCD 格子特效"
+Chinese="LCD 像素特效"
 
 Ln=402
 English="CRT Mask"
@@ -204,11 +204,11 @@ Chinese="CRT 遮罩特效 .5x"
 
 Ln=410
 English="CRT Grille"
-Chinese="CRT 格子特效"
+Chinese="CRT 像素特效"
 
 Ln=414
 English="CRT Grille .5x"
-Chinese="CRT 格子特效 .5x"
+Chinese="CRT 像素特效 .5x"
 
 Ln=420
 English="Overlay Effect"
