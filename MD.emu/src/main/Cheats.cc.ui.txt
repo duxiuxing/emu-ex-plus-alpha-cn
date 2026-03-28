@@ -1,0 +1,11 @@
+Ln=536
+English="Code is too long"
+
+Ln=544
+English="Invalid code"
+
+Ln=580
+English="Invalid code"
+
+Ln=596
+English="Invalid code"

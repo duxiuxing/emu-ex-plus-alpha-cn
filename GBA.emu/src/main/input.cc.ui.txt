@@ -1,0 +1,2 @@
+Ln=40
+English="Light sensor level: {}%"

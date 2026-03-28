@@ -1,0 +1,77 @@
+Ln=35
+English="3:2 (Original)"
+
+Ln=41
+English="Motocross Challenge"
+
+Ln=43
+English="MotocrossChallenge.7z"
+
+Ln=44
+English="Motocross Challenge.7z"
+
+Ln=95
+English="Gamepad"
+
+Ln=107
+English="Up"
+
+Ln=109
+English="Right"
+
+Ln=111
+English="Down"
+
+Ln=113
+English="Left"
+
+Ln=115
+English="Select"
+
+Ln=117
+English="Start"
+
+Ln=119
+English="A"
+
+Ln=121
+English="B"
+
+Ln=123
+English="L"
+
+Ln=125
+English="R"
+
+Ln=127
+English="Light Sensor Level +"
+
+Ln=129
+English="Light Sensor Level -"
+
+Ln=243
+English="D-Pad"
+
+Ln=248
+English="Face Buttons"
+
+Ln=253
+English="Face Buttons + Inline L/R"
+
+Ln=258
+English="L"
+
+Ln=263
+English="R"
+
+Ln=268
+English="Select"
+
+Ln=273
+English="Start"
+
+Ln=278
+English="Select/Start"
+
+Ln=284
+English="Gamepad"

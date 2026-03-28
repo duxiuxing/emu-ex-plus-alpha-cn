@@ -1,0 +1,20 @@
+Ln=67
+English="{}{}.sgm"
+
+Ln=81
+English="Invalid state size"
+
+Ln=85
+English="Invalid state data"
+
+Ln=164
+English="Error applying IPS patch in:\n{}"
+
+Ln=175
+English="Error applying UPS patch in:\n{}"
+
+Ln=186
+English="Error applying PPF patch in:\n{}"
+
+Ln=208
+English="BIOS size should be 16KB"

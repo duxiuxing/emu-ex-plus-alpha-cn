@@ -672,19 +672,21 @@ public:
 	EditCheatView(ViewAttachParams attach, Cheat& cheat, BaseEditCheatsView& editCheatsView):
 		BaseEditCheatView
 		{
-			"Edit Cheat",
+			UI_TEXT("Edit Cheat"),
 			attach,
 			cheat,
 			editCheatsView
 		},
 		addGS12CBCode
 		{
-			"Add Another GS v1-2/CB Code", attach,
+			UI_TEXT("Add Another GS v1-2/CB Code"),
+			attach,
 			[this](const Input::Event& e) { addNewCheatCode(cheatInputString(false), e, 0); }
 		},
 		addGS3Code
 		{
-			"Add Another GS v3 Code", attach,
+			UI_TEXT("Add Another GS v3 Code"),
+			attach,
 			[this](const Input::Event& e) { addNewCheatCode(cheatInputString(true), e, 1); }
 		}
 	{
@@ -696,9 +698,12 @@ public:
 		codes.clear();
 		system().forEachCheatCode(*cheatPtr, [this](CheatCode& c, std::string_view code)
 		{
-			codes.emplace_back("Code", c.codestring, attachParams(), [this, &c](const Input::Event& e)
+			codes.emplace_back(
+				UI_TEXT("Code"),
+				c.codestring, attachParams(), [this, &c](const Input::Event& e)
 			{
-				pushAndShowModal(makeView<YesNoAlertView>("Really delete this code?",
+				pushAndShowModal(makeView<YesNoAlertView>(
+					UI_TEXT("Really delete this code?"),
 					YesNoAlertView::Delegates{.onYes = [this, &c]{ removeCheatCode(c); }}), e);
 			});
 			return true;
@@ -745,12 +750,14 @@ public:
 		},
 		addGS12CBCode
 		{
-			"Add Game Shark v1-2/Code Breaker Code", attach,
+			UI_TEXT("Add Game Shark v1-2/Code Breaker Code"),
+			attach,
 			[this](const Input::Event& e) { addNewCheat(cheatInputString(false), e, 0); }
 		},
 		addGS3Code
 		{
-			"Add Game Shark v3 Code", attach,
+			UI_TEXT("Add Game Shark v3 Code"),
+			attach,
 			[this](const Input::Event& e) { addNewCheat(cheatInputString(true), e, 1); }
 		} {}
 

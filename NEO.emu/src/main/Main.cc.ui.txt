@@ -1,0 +1,11 @@
+Ln=113
+English="Invalid state data"
+
+Ln=228
+English="This game isn't recognized"
+
+Ln=424
+English="Decrypting..."
+
+Ln=428
+English="Building Cache...\n(may take a while)"
