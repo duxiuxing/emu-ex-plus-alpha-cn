@@ -99,7 +99,7 @@ bool AutosaveManager::saveState()
 	if(stateIO.write(state.span(), 0).bytes != ssize_t(state.size()))
 	{
 		app.postErrorMessage(4,
-			UI_TEXT("保存进度到自动存档时出错")
+			UI_TEXT("保存自动存档时出错")
 		);
 		return false;
 	}
@@ -117,7 +117,7 @@ bool AutosaveManager::loadState()
 	catch(std::exception &err)
 	{
 		app.postErrorMessage(4, std::format(
-			UI_TEXT("读取自动存档的进度时出错：\n{}"),
+			UI_TEXT("加载自动存档时出错：\n{}"),
 			err.what()));
 		return false;
 	}

@@ -1,0 +1,295 @@
+Ln=36
+English="Auto"
+Chinese="自动"
+
+Ln=38
+English="None"
+Chinese="无"
+
+Ln=40
+English="Accelerometer"
+Chinese="加速度传感器"
+
+Ln=42
+English="Gyroscope"
+Chinese="陀螺仪"
+
+Ln=44
+English="Light"
+Chinese="光线传感器"
+
+Ln=53
+English="Auto"
+Chinese="自动"
+
+Ln=57
+English="Off"
+Chinese="关"
+
+Ln=61
+English="On"
+Chinese="开"
+
+Ln=68
+English="Use BIOS"
+Chinese="使用 BIOS"
+
+Ln=85
+English="Auto"
+Chinese="自动"
+
+Ln=89
+English="Off"
+Chinese="关"
+
+Ln=93
+English="On"
+Chinese="开"
+
+Ln=100
+English="RTC Emulation"
+Chinese="RTC 模拟"
+
+Ln=110
+English="On"
+Chinese="开"
+
+Ln=111
+English="Off"
+Chinese="关"
+
+Ln=128
+English="Auto"
+Chinese="自动"
+
+Ln=132
+English="EEPROM"
+Chinese="EEPROM"
+
+Ln=136
+English="SRAM"
+Chinese="SRAM"
+
+Ln=140
+English="Flash (64K)"
+Chinese="Flash (64K)"
+
+Ln=144
+English="Flash (128K)"
+Chinese="Flash (128K)"
+
+Ln=148
+English="EEPROM + Sensor"
+Chinese="EEPROM + Sensor"
+
+Ln=152
+English="None"
+Chinese="无"
+
+Ln=159
+English="Save Type"
+Chinese="存档类型"
+
+Ln=186
+English="Really change save type? Existing data in .sav file may be lost so please make a backup before proceeding."
+Chinese="是否要改变存档类型？.sav 文件中的现有数据可能会丢失，在继续操作之前请做好备份。"
+
+Ln=209
+English="Auto"
+Chinese="自动"
+
+Ln=213
+English="None"
+Chinese="无"
+
+Ln=217
+English="Accelerometer"
+Chinese="加速度传感器"
+
+Ln=221
+English="Gyroscope"
+Chinese="陀螺仪"
+
+Ln=225
+English="Light"
+Chinese="光线传感器"
+
+Ln=232
+English="Hardware Sensor"
+Chinese="硬件传感器"
+
+Ln=268
+English="Console Options"
+Chinese="主机选项"
+
+Ln=278
+English="Console Options"
+Chinese="主机选项"
+
+Ln=304
+English="Mixer"
+Chinese="音频混合器："
+
+Ln=316
+English="Default"
+Chinese="默认"
+
+Ln=323
+English="Off"
+Chinese="关"
+
+Ln=330
+English="Custom Value"
+Chinese="自定义"
+
+Ln=335
+English="Input 0 to 100"
+Chinese="请输入 0 到 100 之间的值"
+
+Ln=362
+English="GB APU Volume"
+Chinese="GB APU 音量"
+
+Ln=363
+English="PCM Volume"
+Chinese="PCM 音量"
+
+Ln=371
+English="{}%"
+Chinese="{}%"
+
+Ln=401
+English="PCM #1"
+Chinese="PCM #1"
+
+Ln=404
+English="PCM #2"
+Chinese="PCM #2"
+
+Ln=407
+English="Pulse #1"
+Chinese="脉冲 #1"
+
+Ln=410
+English="Pulse #2"
+Chinese="脉冲 #2"
+
+Ln=413
+English="Wave"
+Chinese="波形"
+
+Ln=416
+English="Noise"
+Chinese="噪音"
+
+Ln=424
+English="Default"
+Chinese="默认"
+
+Ln=431
+English="Custom Value"
+Chinese="自定义"
+
+Ln=436
+English="Input 0 to 100"
+Chinese="请输入 0 到 100 之间的值"
+
+Ln=452
+English="Filtering Level"
+Chinese="过滤级别"
+
+Ln=460
+English="{}%"
+Chinese="{}%"
+
+Ln=469
+English="Filtering"
+Chinese="滤波器"
+
+Ln=503
+English="Default Use BIOS"
+Chinese="默认使用 BIOS"
+
+Ln=516
+English="Darkness"
+Chinese="夜晚"
+
+Ln=520
+English="Indoor Light"
+Chinese="室内"
+
+Ln=523
+English="Overcast Day"
+Chinese="阴天"
+
+Ln=527
+English="Sunny Day"
+Chinese="晴天"
+
+Ln=531
+English="Custom Value"
+Chinese="自定义"
+
+Ln=536
+English="Input 0 to 50000"
+Chinese="请输入 0 到 50000 之间的值"
+
+Ln=552
+English="Light Sensor Scale"
+Chinese="光照强度"
+
+Ln=560
+English="{} lux"
+Chinese="{} lux"
+
+Ln=594
+English="Cheats"
+Chinese="作弊文件夹"
+
+Ln=611
+English="Patches"
+Chinese="补丁文件夹"
+
+Ln=628
+English="BIOS"
+Chinese="BIOS"
+
+Ln=643
+English="BIOS: {}"
+Chinese="BIOS 文件：{}"
+
+Ln=665
+English="Input xxxxxxxx yyyyyyyy"
+Chinese="请输入作弊码，格式：xxxxxxxx yyyyyyyy"
+
+Ln=666
+English="Input xxxxxxxx yyyyyyyy (GS) or xxxxxxxx yyyy (AR)"
+Chinese="请输入 GS (xxxxxxxx yyyyyyyy) 或 CB (xxxxxxxx yyyy) 作弊码"
+
+Ln=675
+English="Edit Cheat"
+Chinese="编辑作弊项"
+
+Ln=682
+English="Add Another GS v1-2/CB Code"
+Chinese="添加另一个 GS v1-2/CB 作弊码"
+
+Ln=688
+English="Add Another GS v3 Code"
+Chinese="添加另一个 GS v3 作弊码"
+
+Ln=702
+English="Code"
+Chinese="作弊码"
+
+Ln=706
+English="Really delete this code?"
+Chinese="是否要删除这个作弊码？"
+
+Ln=753
+English="Add Game Shark v1-2/Code Breaker Code"
+Chinese="添加 GS v1-2/CB 作弊码"
+
+Ln=759
+English="Add Game Shark v3 Code"
+Chinese="添加 GS v3 作弊码"

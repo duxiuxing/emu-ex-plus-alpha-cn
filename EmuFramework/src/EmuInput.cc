@@ -88,7 +88,7 @@ bool InputManager::handleAppActionKeyInput(EmuApp& app, InputAction action, cons
 		{
 			if(!isPushed)
 				break;
-			static auto doSaveState = [](EmuApp &app, bool notify){	app.saveStateWithSlot(app.system().stateSlot(), notify); };
+			static auto doSaveState = [](EmuApp &app, bool notify){	app.saveStateWithSlot(app.stateSlot(), notify); };
 			if(app.shouldOverwriteExistingState())
 			{
 				doSaveState(app, app.confirmOverwriteState);
@@ -113,7 +113,7 @@ bool InputManager::handleAppActionKeyInput(EmuApp& app, InputAction action, cons
 		{
 			if(!isPushed)
 				break;
-			app.loadStateWithSlot(system.stateSlot());
+			app.loadStateWithSlot(app.stateSlot());
 			return true;
 		}
 		case decStateSlot:
@@ -121,10 +121,10 @@ bool InputManager::handleAppActionKeyInput(EmuApp& app, InputAction action, cons
 			if(!isPushed)
 				break;
 			auto suspendCtx = app.suspendEmulationThread();
-			system.decStateSlot();
+			app.decStateSlot();
 			app.postMessage(1, false, std::format(
-				UI_TEXT("当前的存档点序号：{}"),
-				system.stateSlotName()));
+				UI_TEXT("当前存档槽位的序号：{}"),
+				app.stateSlotName()));
 			return true;
 		}
 		case incStateSlot:
@@ -132,10 +132,10 @@ bool InputManager::handleAppActionKeyInput(EmuApp& app, InputAction action, cons
 			if(!isPushed)
 				break;
 			auto suspendCtx = app.suspendEmulationThread();
-			system.incStateSlot();
+			app.incStateSlot();
 			app.postMessage(1, false, std::format(
-				UI_TEXT("当前的存档点序号：{}"),
-				system.stateSlotName()));
+				UI_TEXT("当前存档槽位的序号：{}"),
+				app.stateSlotName()));
 			return true;
 		}
 		case takeScreenshot:
@@ -172,7 +172,7 @@ bool InputManager::handleAppActionKeyInput(EmuApp& app, InputAction action, cons
 			if(!isPushed)
 				break;
 			viewController.pushAndShowModal(std::make_unique<YesNoAlertView>(app.attachParams(),
-				UI_TEXT("是否要退出应用程序？"),
+				UI_TEXT("是否要退出 App？"),
 				YesNoAlertView::Delegates{.onYes = [&app]{ app.appContext().exit(); }}), srcEvent, false);
 		}
 		break;
@@ -667,11 +667,11 @@ std::string_view toString(AppKeyCode code)
 		case AppKeyCode::saveState:
 			return UI_TEXT("保存进度");
 		case AppKeyCode::loadState:
-			return UI_TEXT("读取进度");
+			return UI_TEXT("加载进度");
 		case AppKeyCode::decStateSlot:
-			return UI_TEXT("上一个存档点");
+			return UI_TEXT("上一个存档槽位");
 		case AppKeyCode::incStateSlot:
-			return UI_TEXT("下一个存档点");
+			return UI_TEXT("下一个存档槽位");
 		case AppKeyCode::fastForward:
 			return UI_TEXT("快进");
 		case AppKeyCode::takeScreenshot:
@@ -683,7 +683,7 @@ std::string_view toString(AppKeyCode code)
 		case AppKeyCode::turboModifier:
 			return UI_TEXT("调节连发");
 		case AppKeyCode::exitApp:
-			return UI_TEXT("退出应用程序");
+			return UI_TEXT("退出 App");
 		case AppKeyCode::slowMotion:
 			return UI_TEXT("慢动作");
 		case AppKeyCode::toggleSlowMotion:

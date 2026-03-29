@@ -78,11 +78,11 @@ void GbaSystem::readState(EmuApp &app, std::span<uint8_t> buff)
 	}
 	if(!std::ranges::contains(validStateSizes, buff.size()))
 		throw std::runtime_error(
-			UI_TEXT("无效的进度长度信息")
+			UI_TEXT("无效的存档长度信息")
 		);
 	if(!CPUReadState(gGba, buff.data()))
 		throw std::runtime_error(
-			UI_TEXT("无效的进度数据")
+			UI_TEXT("无效的存档数据")
 		);
 }
 

@@ -51,7 +51,7 @@ static void handledFailedBTAdapterInit(ViewT& view, [[maybe_unused]] ViewAttachP
 		if(!FS::exists("/var/lib/dpkg/info/ch.ringwald.btstack.list"))
 		{
 			view.pushAndShowModal(std::make_unique<YesNoAlertView>(attach,
-				UI_TEXT("BTstack not found, open Cydia and install?"),
+				UI_TEXT("没有找到 BTstack，请打开 Cydia 进行安装？"),
 				YesNoAlertView::Delegates
 				{
 					.onYes = [](View &v){ v.appContext().openURL("cydia://package/ch.ringwald.btstack"); }
@@ -161,7 +161,7 @@ MainMenuView::MainMenuView(ViewAttachParams attach, bool customMenu):
 				else
 				{
 					app().postMessage(1, false,
-						UI_TEXT("检测中")
+						UI_TEXT("正在检测")
 					);
 				}
 			}
@@ -226,7 +226,7 @@ MainMenuView::MainMenuView(ViewAttachParams attach, bool customMenu):
 				if(!startedScan)
 				{
 					app().postMessage(1,
-						UI_TEXT("检测中")
+						UI_TEXT("正在检测")
 					);
 				}
 			}
@@ -286,7 +286,7 @@ static void onScanStatus(EmuApp &app, BluetoothScanState status, int arg)
 		case BluetoothScanState::NoDevs:
 		{
 			app.postMessage(
-				UI_TEXT("没有发现蓝牙设备")
+				UI_TEXT("没有找到蓝牙设备")
 			);
 			break;
 		}
@@ -452,7 +452,7 @@ OptionCategoryView::OptionCategoryView(ViewAttachParams attach):
 	{
 		subConfig[lastIndex(subConfig)] =
 		{
-			UI_TEXT("Beta Testing Opt-in/out"),
+			UI_TEXT("Beta 版本测试的参与/退出说明"),
 			attach,
 			[this]()
 			{

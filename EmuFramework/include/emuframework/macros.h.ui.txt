@@ -1,0 +1,3 @@
+Ln=25
+English="Built : " __DATE__ "\n" PLATFORM_INFO_STR "\n\n"
+Chinese="生成日期：" __DATE__ "\n" PLATFORM_INFO_STR "\n\n"

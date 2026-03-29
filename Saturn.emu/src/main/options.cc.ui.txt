@@ -1,0 +1,11 @@
+Ln=262
+English="Please set KoF '95 ROM in Options➔File Paths"
+
+Ln=270
+English="Please set Ultraman ROM in Options➔File Paths"
+
+Ln=278
+English="Please set NA/EU BIOS in Options➔File Paths"
+
+Ln=286
+English="Please set JP BIOS in Options➔File Paths"

@@ -1,0 +1,3 @@
+Ln=115
+English="D-Pad"
+Chinese="方向键"

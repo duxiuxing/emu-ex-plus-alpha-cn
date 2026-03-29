@@ -192,7 +192,7 @@ constexpr std::span<const KeyConfigDesc> genericKeyConfigs()
 		KeyConfigDesc
 		{
 			Map::SYSTEM, DeviceSubtype::XPERIA_PLAY,
-			UI_TEXT("Xperia Play"),
+			UI_TEXT("Xperia Play 游戏手机"),
 			xperiaPlayGamepadMap
 		},
 		#endif
@@ -200,7 +200,7 @@ constexpr std::span<const KeyConfigDesc> genericKeyConfigs()
 		KeyConfigDesc
 		{
 			Map::SYSTEM, DeviceSubtype::PANDORA_HANDHELD,
-			UI_TEXT("Pandora Keys"),
+			UI_TEXT("月光宝盒"),
 			pandoraKeysMap
 		},
 		#endif

@@ -1,0 +1,11 @@
+Ln=65
+English="Error opening {}, please verify save path has write access"
+
+Ln=76
+English="Error uncompressing cart memory"
+
+Ln=235
+English="No recognized file extensions in archive"
+
+Ln=280
+English="No disc images found"

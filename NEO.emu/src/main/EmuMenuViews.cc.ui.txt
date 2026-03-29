@@ -1,0 +1,155 @@
+Ln=46
+English="Off"
+Chinese="关"
+
+Ln=50
+English="On"
+Chinese="开"
+
+Ln=54
+English="Auto"
+Chinese="自动"
+
+Ln=71
+English="Emulate Timer"
+Chinese="模拟计时器"
+
+Ln=81
+English="On"
+Chinese="开"
+
+Ln=82
+English="Off"
+Chinese="关"
+
+Ln=101
+English="Console Options"
+Chinese="主机选项"
+
+Ln=124
+English="Japan"
+Chinese="日本"
+
+Ln=128
+English="Europe"
+Chinese="欧洲"
+
+Ln=132
+English="USA"
+Chinese="美国"
+
+Ln=136
+English="Asia"
+Chinese="亚洲"
+
+Ln=143
+English="MVS Region"
+Chinese="MVS 地区"
+
+Ln=161
+English="Unibios 2.3"
+Chinese="Unibios 2.3"
+
+Ln=165
+English="Unibios 3.0"
+Chinese="Unibios 3.0"
+
+Ln=169
+English="Unibios 3.1"
+Chinese="Unibios 3.1"
+
+Ln=173
+English="Unibios 3.2"
+Chinese="Unibios 3.2"
+
+Ln=177
+English="Unibios 3.3"
+Chinese="Unibios 3.3"
+
+Ln=181
+English="Unibios 4.0"
+Chinese="Unibios 4.0"
+
+Ln=185
+English="MVS"
+Chinese="MVS"
+
+Ln=192
+English="BIOS Type"
+Chinese="BIOS 类型"
+
+Ln=200
+English="Make/Use Cache Files"
+Chinese="使用缓存文件"
+
+Ln=211
+English="Strict ROM Checking"
+Chinese="严格检查 ROM"
+
+Ln=237
+English="List All Games"
+Chinese="列出所有游戏"
+
+Ln=547
+English="Game List"
+Chinese="游戏列表"
+
+Ln=591
+English="This game doesn't yet work properly, load anyway?"
+Chinese="这个游戏目前还不能完美运行，是否要继续读取？"
+
+Ln=602
+English="{} not present"
+Chinese="{} 不存在"
+
+Ln=622
+English="Japan"
+Chinese="日本"
+
+Ln=626
+English="USA"
+Chinese="美国"
+
+Ln=630
+English="Europe"
+Chinese="欧洲"
+
+Ln=637
+English="Region"
+Chinese="地区"
+
+Ln=645
+English="Mode"
+Chinese="模式"
+
+Ln=648
+English="Console (AES)"
+Chinese="主机模式 (AES)"
+
+Ln=649
+English="Arcade (MVS)"
+Chinese="街机模式 (MVS)"
+
+Ln=668
+English="Unibios Switches"
+Chinese="Unibios 设置"
+
+Ln=687
+English="Unibios Switches"
+Chinese="Unibios 设置"
+
+Ln=700
+English="Only used with Unibios"
+Chinese="游戏必须和 Unibios 一起使用"
+
+Ln=709
+English="Console Options"
+Chinese="主机选项"
+
+Ln=741
+English="Open Content From List"
+Chinese="从列表打开游戏"
+
+Ln=749
+English="No content found, use \"Open Content\" command to browse to a folder with ROM archives."
+Chinese="没有找到游戏，请选择“打开游戏”，浏览到带有 ROM 档案的文件夹。"

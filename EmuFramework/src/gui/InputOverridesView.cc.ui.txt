@@ -1,0 +1,39 @@
+Ln=33
+English="Input Overrides (Per Content)"
+Chinese="输入设置 (这个游戏)"
+
+Ln=39
+English="Delete Saved Device Settings"
+Chinese="删除设备设置"
+
+Ln=47
+English="No saved device settings"
+Chinese="未保存设备设置"
+
+Ln=74
+English="Individual Device Settings"
+Chinese="设备设置列表："
+
+Ln=131
+English="Multiple"
+Chinese="多人合作"
+
+Ln=146
+English="Default"
+Chinese="默认"
+
+Ln=151
+English="Multiple"
+Chinese="多人合作"
+
+Ln=163
+English="Player"
+Chinese="玩家索引"
+
+Ln=206
+English="Profile: {}"
+Chinese="按键配置：{}"
+
+Ln=225
+English="Profile: {}"
+Chinese="按键配置：{}"

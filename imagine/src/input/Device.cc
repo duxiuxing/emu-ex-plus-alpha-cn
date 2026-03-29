@@ -375,13 +375,13 @@ constexpr auto keyButtonName(Key b)
 		case Keycode::JS2_YAXIS_NEG:
 			return UI_TEXT("右摇杆的上");
 		case Keycode::JS3_XAXIS_POS:
-			return UI_TEXT("X Axis+ 3");
+			return UI_TEXT("3号摇杆的右");
 		case Keycode::JS3_XAXIS_NEG:
-			return UI_TEXT("X Axis- 3");
+			return UI_TEXT("3号摇杆的左");
 		case Keycode::JS3_YAXIS_POS:
-			return UI_TEXT("Y Axis+ 3");
+			return UI_TEXT("3号摇杆的下");
 		case Keycode::JS3_YAXIS_NEG:
-			return UI_TEXT("Y Axis- 3");
+			return UI_TEXT("3号摇杆的上");
 		case Keycode::JS_POV_XAXIS_POS:
 			return UI_TEXT("苦力帽的右");
 		case Keycode::JS_POV_XAXIS_NEG:
@@ -453,7 +453,7 @@ constexpr const char* ps3SysButtonName([[maybe_unused]] Key b)
 		case PS3Key::CIRCLE:
 			return UI_TEXT("圆圈键");
 		case PS3Key::SQUARE:
-			return UI_TEXT("正方键");
+			return UI_TEXT("方框键");
 		case PS3Key::TRIANGLE:
 			 return UI_TEXT("三角键");
 		case PS3Key::PS:
@@ -479,7 +479,7 @@ constexpr const char* xperiaPlayButtonName(Key b)
 		case XperiaPlayKey::CIRCLE:
 			return UI_TEXT("圆圈键");
 		case XperiaPlayKey::SQUARE:
-			return UI_TEXT("正方键");
+			return UI_TEXT("方框键");
 		case XperiaPlayKey::TRIANGLE:
 			return UI_TEXT("三角键");
 	}

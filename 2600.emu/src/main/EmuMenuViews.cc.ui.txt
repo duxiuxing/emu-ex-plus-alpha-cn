@@ -1,0 +1,152 @@
+Ln=46
+English="Low"
+
+Ln=47
+English="High"
+
+Ln=48
+English="Ultra"
+
+Ln=53
+English="Resampling Quality"
+
+Ln=73
+English="70%"
+
+Ln=74
+English="80%"
+
+Ln=75
+English="90%"
+
+Ln=76
+English="100%"
+
+Ln=81
+English="TV Phosphor Blending"
+
+Ln=109
+English="Off"
+
+Ln=110
+English="On"
+
+Ln=111
+English="Auto"
+
+Ln=116
+English="Simulate TV Phosphor"
+
+Ln=128
+English="On"
+
+Ln=129
+English="Off"
+
+Ln=140
+English="Auto"
+
+Ln=141
+English="NTSC"
+
+Ln=142
+English="PAL"
+
+Ln=143
+English="SECAM"
+
+Ln=144
+English="NTSC 50"
+
+Ln=145
+English="PAL 60"
+
+Ln=146
+English="SECAM 60"
+
+Ln=151
+English="Video System"
+
+Ln=191
+English="Auto"
+
+Ln=192
+English="Joystick"
+
+Ln=193
+English="Paddles"
+
+Ln=194
+English="Genesis Gamepad"
+
+Ln=195
+English="Booster Grip"
+
+Ln=200
+English="Input Ports"
+
+Ln=233
+English="Off"
+
+Ln=234
+English="Left Half"
+
+Ln=235
+English="Right Half"
+
+Ln=236
+English="Full"
+
+Ln=241
+English="Analog Paddle Region"
+
+Ln=258
+English="Default"
+
+Ln=259
+English="Custom Value"
+
+Ln=263
+English="Input 1 to 20"
+
+Ln=275
+English="Value not in range"
+
+Ln=286
+English="Digital Paddle Sensitivity"
+
+Ln=293
+English="{}"
+
+Ln=319
+English="Console Options"
+
+Ln=330
+English="Left (P1) Difficulty"
+
+Ln=333
+English="A"
+
+Ln=334
+English="B"
+
+Ln=343
+English="Right (P2) Difficulty"
+
+Ln=346
+English="A"
+
+Ln=347
+English="B"
+
+Ln=356
+English="Color"
+
+Ln=376
+English="Switches"
+
+Ln=396
+English="Console Switches"
+
+Ln=409
+English="Console Options"

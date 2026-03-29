@@ -127,7 +127,7 @@ Cheat* Snes9xSystem::newCheat(EmuApp& app, const char* name, CheatCodeDesc desc)
 	if(S9xAddCheatGroup(name, desc.str) == -1)
 	{
 		app.postMessage(true,
-			UI_TEXT("无效的金手指代码")
+			UI_TEXT("无效的作弊码")
 		);
 		return {};
 	}
@@ -197,7 +197,7 @@ bool Snes9xSystem::addCheatCode(EmuApp& app, Cheat*& cheatPtr, CheatCodeDesc des
 	if(!newCheat.address)
 	{
 		app.postMessage(true,
-			UI_TEXT("无效的金手指代码")
+			UI_TEXT("无效的作弊码")
 		);
 		return {};
 	}

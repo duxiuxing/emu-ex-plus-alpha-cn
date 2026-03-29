@@ -1,0 +1,183 @@
+Ln=27
+English="Auto"
+Chinese="自动"
+
+Ln=29
+English="Original"
+Chinese="原始"
+
+Ln=32
+English="{:g}Hz"
+Chinese="{:g}Hz"
+
+Ln=41
+English="Unset"
+Chinese="自动"
+
+Ln=43
+English="Renderer"
+Chinese="渲染器"
+
+Ln=45
+English="Screen"
+Chinese="屏幕"
+
+Ln=47
+English="Timer"
+Chinese="计时器"
+
+Ln=56
+English="Auto"
+Chinese="自动"
+
+Ln=58
+English="Detect"
+Chinese="检测"
+
+Ln=60
+English="Screen"
+Chinese="屏幕"
+
+Ln=67
+English="Frame Timing Options"
+Chinese="渲染耗时选项"
+
+Ln=73
+English="Full (No Skip)"
+Chinese="全速 (不跳帧)"
+
+Ln=77
+English="Full"
+Chinese="全速"
+
+Ln=81
+English="1/2"
+Chinese="1/2"
+
+Ln=85
+English="1/3"
+Chinese="1/3"
+
+Ln=89
+English="1/4"
+Chinese="1/4"
+
+Ln=95
+English="Frame Rate Target"
+Chinese="目标渲染速度"
+
+Ln=107
+English="Auto (Match screen when rates are similar)"
+Chinese="自动 (匹配屏幕刷新率)"
+
+Ln=115
+English="Original (Use emulated system's rate)"
+Chinese="原始 (使用模拟器的帧率)"
+
+Ln=123
+English="Custom Rate"
+Chinese="自定义"
+
+Ln=128
+English="Input decimal or fraction"
+Chinese="请输入小数或分数"
+
+Ln=150
+English="Input Rate"
+Chinese="输入帧率"
+
+Ln=169
+English="Input Rate (PAL)"
+Chinese="输入帧率 (PAL)"
+
+Ln=188
+English="Show Frame Timing Stats"
+Chinese="显示渲染耗时信息"
+
+Ln=195
+English="Low Latency Mode"
+Chinese="低延迟模式"
+
+Ln=206
+English="Auto"
+Chinese="自动"
+
+Ln=210
+English="Screen (For standard displays)"
+Chinese="屏幕（适用于标准显示设备）"
+
+Ln=214
+English="Renderer (For drivers with double buffering)"
+Chinese="渲染器（适用于支持双缓冲驱动的显示设备）"
+
+Ln=217
+English="Timer (For VRR displays)"
+Chinese="计时器 (适用于支持可变刷新率的显示设备)"
+
+Ln=224
+English="Frame Clock"
+Chinese="帧时钟"
+
+Ln=245
+English="Auto"
+Chinese="自动"
+
+Ln=249
+English="Detect (Calculate rate during emulation)"
+Chinese="检测 (模拟期间计算帧率)"
+
+Ln=253
+English="Screen (Use reported rate directly)"
+Chinese="屏幕 (直接采用报告帧率)"
+
+Ln=259
+English="Output Rate"
+Chinese="输出帧率"
+
+Ln=279
+English="Auto"
+Chinese="自动"
+
+Ln=283
+English="Immediate (For VRR/VSync off use)"
+Chinese="即时 (降低合成器延迟，可能会掉帧)"
+
+Ln=287
+English="Queued (For standard use)"
+Chinese="队列 (更好的帧率稳定性)"
+
+Ln=293
+English="Present Mode"
+Chinese="渲染模式"
+
+Ln=302
+English="Queued"
+Chinese="队列"
+
+Ln=303
+English="Immediate"
+Chinese="即时"
+
+Ln=319
+English="Off"
+Chinese="关"
+
+Ln=327
+English="{:g}Hz"
+Chinese="{:g}Hz"
+
+Ln=342
+English="Override Screen Frame Rate"
+Chinese="优先于屏幕帧率"
+
+Ln=349
+English="Allow Blank Frame Insertion"
+Chinese="允许插入空白帧"
+
+Ln=356
+English="Advanced"
+Chinese="高级："
+
+Ln=389
+English="{:g}Hz not in valid range"
+Chinese="{:g}Hz 不在有效的取值范围"

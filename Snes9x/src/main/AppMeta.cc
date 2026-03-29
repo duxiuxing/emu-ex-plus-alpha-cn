@@ -14,7 +14,7 @@ namespace EmuEx
 
 const std::string_view AppMeta::creditsViewStr
 {
-	UI_TEXT(CREDITS_INFO_STRING "(c) 2011-2026\nRobert Broglia 保留所有权利\nwww.explusalpha.com\n\n部分代码版权属于\nSnes9x Team\nwww.snes9x.com\n\n中文翻译：R-Sam@github\nduxiuxing/emu-ex-plus-alpha-cn")
+	CREDITS_INFO_STRING UI_TEXT("(c) 2011-2026\nRobert Broglia 保留所有权利\nwww.explusalpha.com\n\n中文翻译：R-Sam@github\nduxiuxing/emu-ex-plus-alpha-cn\n\n部分代码版权属于\nSnes9x 团队\nwww.snes9x.com")
 };
 #ifdef SNES9X_VERSION_1_4
 const std::string_view AppMeta::configFilename{"Snes9x.config"};
@@ -22,10 +22,10 @@ const std::string_view AppMeta::configFilename{"Snes9x.config"};
 const std::string_view AppMeta::configFilename{"Snes9xP.config"};
 constexpr BundledGameInfo gameInfo
 {
-	UI_TEXT("Bio Worm"),
+	UI_TEXT("生化怪虫"),
 	Config::envIsLinux
-		? UI_TEXT("BioWorm.7z")
-		: UI_TEXT("Bio Worm.7z")
+		? UI_TEXT("生化怪虫.7z")
+		: UI_TEXT("生化怪虫.7z")
 };
 const std::span<const BundledGameInfo> AppMeta::bundledGameInfo{&gameInfo, 1};
 #endif
@@ -90,27 +90,27 @@ std::span<const KeyCategory> AppMeta::keyCategories()
 	{
 		KeyCategory
 		{
-			UI_TEXT("Gamepad"),
+			UI_TEXT("游戏按键"),
 			gpKeyInfo
 		},
 		KeyCategory
 		{
-			UI_TEXT("Gamepad 2"),
+			UI_TEXT("游戏按键 (2号手柄)"),
 			gp2KeyInfo, 1
 		},
 		KeyCategory
 		{
-			UI_TEXT("Gamepad 3"),
+			UI_TEXT("游戏按键 (3号手柄)"),
 			gp3KeyInfo, 2
 		},
 		KeyCategory
 		{
-			UI_TEXT("Gamepad 4"),
+			UI_TEXT("游戏按键 (4号手柄)"),
 			gp4KeyInfo, 3
 		},
 		KeyCategory
 		{
-			UI_TEXT("Gamepad 5"),
+			UI_TEXT("游戏按键 (5号手柄)"),
 			gp5KeyInfo, 4
 		},
 	};
@@ -122,29 +122,29 @@ std::string_view AppMeta::systemKeyCodeToString(KeyCode c)
 	switch(SnesKey(c))
 	{
 		case SnesKey::Up:
-			return UI_TEXT("Up");
+			return UI_TEXT("方向键的上");
 		case SnesKey::Right:
-			return UI_TEXT("Right");
+			return UI_TEXT("方向键的右");
 		case SnesKey::Down:
-			return UI_TEXT("Down");
+			return UI_TEXT("方向键的下");
 		case SnesKey::Left:
-			return UI_TEXT("Left");
+			return UI_TEXT("方向键的左");
 		case SnesKey::Select:
-			return UI_TEXT("Select");
+			return UI_TEXT("选择键");
 		case SnesKey::Start:
-			return UI_TEXT("Start");
+			return UI_TEXT("开始键");
 		case SnesKey::A:
-			return UI_TEXT("A");
+			return UI_TEXT("A 键");
 		case SnesKey::B:
-			return UI_TEXT("B");
+			return UI_TEXT("B 键");
 		case SnesKey::X:
-			return UI_TEXT("X");
+			return UI_TEXT("X 键");
 		case SnesKey::Y:
-			return UI_TEXT("Y");
+			return UI_TEXT("Y 键");
 		case SnesKey::L:
-			return UI_TEXT("L");
+			return UI_TEXT("L 键");
 		case SnesKey::R:
-			return UI_TEXT("R");
+			return UI_TEXT("R 键");
 		default: return "";
 	}
 }
@@ -260,46 +260,50 @@ SystemInputDeviceDesc AppMeta::inputDeviceDesc(int)
 	{
 		InputComponentDesc
 		{
-			UI_TEXT("D-Pad"),
+			UI_TEXT("方向键"),
 			dpadKeyInfo, InputComponent::dPad, LB2DO
 		},
 		InputComponentDesc
 		{
-			UI_TEXT("Face Buttons"),
+			UI_TEXT("动作键"),
 			faceKeyInfo, InputComponent::button, RB2DO, {.staggeredLayout = true}
 		},
 		InputComponentDesc
 		{
-			UI_TEXT("Face Buttons + Inline L/R"),
+			UI_TEXT("动作键 + L/R 键"),
 			faceLRKeyInfo, InputComponent::button, RB2DO, {.altConfig = true, .staggeredLayout = true}
 		},
 		InputComponentDesc
 		{
-			UI_TEXT("L"),
+			UI_TEXT("L 键"),
 			lKeyInfo, InputComponent::trigger, LB2DO
 		},
 		InputComponentDesc
 		{
-			UI_TEXT("R"),
+			UI_TEXT("R 键"),
 			rKeyInfo, InputComponent::trigger, RB2DO
 		},
 		InputComponentDesc
 		{
-			UI_TEXT("Select"),
-		{&centerKeyInfo[0], 1}, InputComponent::button, LB2DO
+			UI_TEXT("选择键"),
+			{&centerKeyInfo[0], 1}, InputComponent::button, LB2DO
 		},
 		InputComponentDesc
 		{
-			UI_TEXT("Start"),
+			UI_TEXT("开始键"),
 			{&centerKeyInfo[1], 1}, InputComponent::button, RB2DO
 		},
 		InputComponentDesc
 		{
-			UI_TEXT("Select/Start"),
+			UI_TEXT("选择/开始键"),
 			centerKeyInfo, InputComponent::button, CB2DO, {.altConfig = true}
 		},
 	};
-	static constexpr SystemInputDeviceDesc gamepadDesc{ UI_TEXT("Gamepad"), gamepadComponents};
+	static constexpr SystemInputDeviceDesc gamepadDesc
+	{
+		UI_TEXT("游戏按键"),
+		gamepadComponents
+	};
 	return gamepadDesc;
 }
 

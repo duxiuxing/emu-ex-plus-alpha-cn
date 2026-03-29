@@ -1,0 +1,491 @@
+Ln=30
+English="Off"
+Chinese="关"
+
+Ln=31
+English="On"
+Chinese="开"
+
+Ln=32
+English="Hidden"
+Chinese="隐藏"
+
+Ln=37
+English="None"
+Chinese="无"
+
+Ln=38
+English="10%"
+Chinese="10%"
+
+Ln=39
+English="20%"
+Chinese="20%"
+
+Ln=40
+English="30%"
+Chinese="30%"
+
+Ln=69
+English="Edit D-Pad"
+Chinese="编辑方向键"
+
+Ln=78
+English="1mm"
+Chinese="1mm"
+
+Ln=82
+English="1.35mm"
+Chinese="1.35mm"
+
+Ln=86
+English="1.6mm"
+Chinese="1.6mm"
+
+Ln=90
+English="Custom Value"
+Chinese="自定义"
+
+Ln=95
+English="Input 1.0 to 3.0"
+Chinese="请输入 1.0 到 3.0 之间的值"
+
+Ln=111
+English="Deadzone"
+Chinese="死区"
+
+Ln=119
+English="{:g}mm"
+Chinese="{:g}mm"
+
+Ln=129
+English="None"
+Chinese="无"
+
+Ln=133
+English="33% (Low)"
+Chinese="33% (低)"
+
+Ln=137
+English="43% (Medium-Low)"
+Chinese="43% (中低)"
+
+Ln=141
+English="50% (Medium)"
+Chinese="50% (中)"
+
+Ln=145
+English="60% (High)"
+Chinese="60% (高)"
+
+Ln=149
+English="Custom Value"
+Chinese="自定义"
+
+Ln=154
+English="Input 0 to 99.0"
+Chinese="请输入 0 到 99.0 之间的值"
+
+Ln=172
+English="Diagonal Sensitivity"
+Chinese="对角线灵敏度"
+
+Ln=180
+English="{:g}%"
+Chinese="{:g}%"
+
+Ln=195
+English="State"
+Chinese="状态"
+
+Ln=209
+English="Show Bounding Area"
+Chinese="显示边界区域"
+
+Ln=221
+English="Remove This D-Pad"
+Chinese="移除此方向键"
+
+Ln=226
+English="Really remove this d-pad?"
+Chinese="是否要移除此方向键？"
+
+Ln=241
+English="D-Pad Actions"
+Chinese="当前方向键的按键映射："
+
+Ln=247
+English="Up"
+Chinese="上"
+
+Ln=252
+English="Right"
+Chinese="右"
+
+Ln=257
+English="Down"
+Chinese="下"
+
+Ln=262
+English="Left"
+Chinese="左"
+
+Ln=299
+English="Assign Action"
+Chinese="按键映射"
+
+Ln=327
+English="Edit Button"
+Chinese="编辑按键"
+
+Ln=336
+English="Action"
+Chinese="按键映射"
+
+Ln=341
+English="Assign Action"
+Chinese="按键映射"
+
+Ln=368
+English="Turbo"
+Chinese="连发"
+
+Ln=381
+English="Toggle"
+Chinese="切换"
+
+Ln=394
+English="Remove This Button"
+Chinese="移除此按键"
+
+Ln=399
+English="Really remove this button?"
+Chinese="是否要移除此按键？"
+
+Ln=446
+English="Edit Buttons"
+Chinese="编辑按键"
+
+Ln=460
+English="State"
+Chinese="状态"
+
+Ln=475
+English="1"
+Chinese="1"
+
+Ln=479
+English="2"
+Chinese="2"
+
+Ln=483
+English="3"
+Chinese="3"
+
+Ln=487
+English="4"
+Chinese="4"
+
+Ln=491
+English="5"
+Chinese="5"
+
+Ln=497
+English="Buttons Per Row"
+Chinese="每行的按键数量"
+
+Ln=512
+English="1mm"
+Chinese="1mm"
+
+Ln=516
+English="2mm"
+Chinese="2mm"
+
+Ln=520
+English="3mm"
+Chinese="3mm"
+
+Ln=524
+English="4mm"
+Chinese="4mm"
+
+Ln=528
+English="Custom Value"
+Chinese="自定义"
+
+Ln=533
+English="Input 0 to 8"
+Chinese="请输入 0 到 8 之间的值"
+
+Ln=549
+English="Spacing"
+Chinese="间距"
+
+Ln=569
+English="-0.75x V"
+Chinese="-0.75x V"
+
+Ln=573
+English="-0.5x V"
+Chinese="-0.5x V"
+
+Ln=577
+English="0"
+Chinese="0"
+
+Ln=581
+English="0.5x V"
+Chinese="0.5x V"
+
+Ln=585
+English="0.75x V"
+Chinese="0.75x V"
+
+Ln=589
+English="1x H&V"
+Chinese="1x H&V"
+
+Ln=595
+English="Stagger"
+Chinese="对齐"
+
+Ln=614
+English="Custom Value"
+Chinese="自定义"
+
+Ln=619
+English="Input 0 to 30"
+Chinese="请输入 0 到 30 之间的值"
+
+Ln=635
+English="Extended H Bounds"
+Chinese="扩展水平边界"
+
+Ln=645
+English="{}%"
+Chinese="{}%"
+
+Ln=663
+English="Custom Value"
+Chinese="自定义"
+
+Ln=668
+English="Input 0 to 30"
+Chinese="请输入 0 到 30 之间的值"
+
+Ln=684
+English="Extended V Bounds"
+Chinese="扩展垂直边界"
+
+Ln=694
+English="{}%"
+Chinese="{}%"
+
+Ln=707
+English="Show Bounding Area"
+Chinese="显示边界区域"
+
+Ln=719
+English="Add Button To This Group"
+Chinese="添加按键到此组"
+
+Ln=724
+English="Add Button"
+Chinese="添加按键"
+
+Ln=748
+English="Remove This Button Group"
+Chinese="移除此按键组"
+
+Ln=753
+English="Really remove this button group?"
+Chinese="是否要移除此按键组？"
+
+Ln=768
+English="Buttons In Group"
+Chinese="当前按键组包含："
+
+Ln=851
+English="Add New Button Group"
+Chinese="新建按键组"
+
+Ln=914
+English="On-screen Input Setup"
+Chinese="屏幕按键设置"
+
+Ln=921
+English="Off"
+Chinese="关"
+
+Ln=925
+English="On"
+Chinese="开"
+
+Ln=929
+English="Auto"
+Chinese="自动"
+
+Ln=935
+English="Use Virtual Gamepad"
+Chinese="使用屏幕按键"
+
+Ln=959
+English="Virtual Gamepad Player"
+Chinese="屏幕按键玩家索引"
+
+Ln=970
+English="6.5mm"
+Chinese="6.5mm"
+
+Ln=974
+English="7mm"
+Chinese="7mm"
+
+Ln=978
+English="7.5mm"
+Chinese="7.5mm"
+
+Ln=982
+English="8mm"
+Chinese="8mm"
+
+Ln=986
+English="8.5mm"
+Chinese="8.5mm"
+
+Ln=990
+English="9mm"
+Chinese="9mm"
+
+Ln=994
+English="10mm"
+Chinese="10mm"
+
+Ln=998
+English="12mm"
+Chinese="12mm"
+
+Ln=1002
+English="14mm"
+Chinese="14mm"
+
+Ln=1006
+English="15mm"
+Chinese="15mm"
+
+Ln=1010
+English="Custom Value"
+Chinese="自定义"
+
+Ln=1015
+English="Input 3.0 to 30.0"
+Chinese="请输入 3.0 到 30.0 之间的值"
+
+Ln=1031
+English="Button Size"
+Chinese="按键大小"
+
+Ln=1039
+English="{:g}mm"
+Chinese="{:g}mm"
+
+Ln=1048
+English="Vibration"
+Chinese="振动"
+
+Ln=1058
+English="Show Gamepad If Screen Touched"
+Chinese="触摸屏幕时显示屏幕按键"
+
+Ln=1068
+English="Highlight Pushed Buttons"
+Chinese="高亮显示按下的按键"
+
+Ln=1079
+English="0%"
+Chinese="0%"
+
+Ln=1083
+English="10%"
+Chinese="10%"
+
+Ln=1087
+English="25%"
+Chinese="25%"
+
+Ln=1091
+English="50%"
+Chinese="50%"
+
+Ln=1095
+English="65%"
+Chinese="65%"
+
+Ln=1099
+English="75%"
+Chinese="75%"
+
+Ln=1105
+English="Blend Amount"
+Chinese="透明度"
+
+Ln=1115
+English="Set Button Positions"
+Chinese="设置按键位置"
+
+Ln=1124
+English="Set Video Position"
+Chinese="设置画面位置"
+
+Ln=1135
+English="Add New Button Group"
+Chinese="新建按键组"
+
+Ln=1144
+English="Allow Buttons In Display Cutout Area"
+Chinese="允许按键位置在屏幕切口区域"
+
+Ln=1155
+English="Reset Emulator Button Positions"
+Chinese="重置游戏按键位置"
+
+Ln=1160
+English="Reset buttons to default positions?"
+Chinese="是否要恢复所有按键的默认位置？"
+
+Ln=1173
+English="Reset Emulator Button Groups"
+Chinese="重置游戏按键组"
+
+Ln=1178
+English="Reset buttons groups to default?"
+Chinese="是否要恢复默认的按键组？"
+
+Ln=1192
+English="Reset UI Positions"
+Chinese="重置快捷按键位置"
+
+Ln=1197
+English="Reset buttons to default positions?"
+Chinese="是否要恢复所有按键的默认位置？"
+
+Ln=1210
+English="Reset UI Groups"
+Chinese="重置快捷按键组"
+
+Ln=1215
+English="Reset buttons groups to default?"
+Chinese="是否要恢复默认的按键组？"
+
+Ln=1229
+English="Emulator Button Groups"
+Chinese="游戏按键组："
+
+Ln=1234
+English="UI Button Groups"
+Chinese="快捷按键组："
+
+Ln=1239
+English="Other Options"
+Chinese="其他选项："

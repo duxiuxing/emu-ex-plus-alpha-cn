@@ -104,7 +104,7 @@ InputManagerView::InputManagerView(ViewAttachParams attach,
 			if(!savedDevConfigs.size())
 			{
 				app().postMessage(
-					UI_TEXT("无效的设备设置")
+					UI_TEXT("未保存设备设置")
 				);
 				return;
 			}
@@ -138,7 +138,7 @@ InputManagerView::InputManagerView(ViewAttachParams attach,
 			if(!customKeyConfigs.size())
 			{
 				app().postMessage(
-					UI_TEXT("无效的按键配置")
+					UI_TEXT("未保存按键配置")
 				);
 				return;
 			}
@@ -298,8 +298,8 @@ InputManagerOptionsView::InputManagerOptionsView(ViewAttachParams attach):
 			if(!app().mogaManagerIsActive() && !appContext().packageIsInstalled("com.bda.pivot.mogapgp"))
 			{
 				app().postMessage(8,
-					UI_TEXT("在使用 MOGA Pocket 之前，请先从谷歌 Play 商店下载并安装 MOGA Pivot 应用程序。 ")
-					UI_TEXT("MOGA Pro 或更新型号的手柄, 需要先切换到模式 B，然后在安卓设备的设置中进行蓝牙配对连接。")
+					UI_TEXT("在使用 MOGA Pocket 之前，请先从谷歌 Play 商店下载并安装 MOGA Pivot App。 ")
+					UI_TEXT("MOGA Pro 或更新型号的手柄, 需要先切换到模式 B，然后在安卓系统的蓝牙设置中进行配对。")
 				);
 				return;
 			}
@@ -318,7 +318,7 @@ InputManagerOptionsView::InputManagerOptionsView(ViewAttachParams attach):
 	},
 	bluetoothHeading
 	{
-		UI_TEXT("应用程序运行时的蓝牙选项："),
+		UI_TEXT("App 运行时的蓝牙选项："),
 		attach,
 	},
 	keepBtActive
@@ -362,7 +362,7 @@ InputManagerOptionsView::InputManagerOptionsView(ViewAttachParams attach):
 	},
 	altGamepadConfirm
 	{
-		UI_TEXT("【确认键】和【取消键】交换位置"),
+		UI_TEXT("对调【确认键】和【取消键】"),
 		attach,
 		app().swappedConfirmKeys(),
 		[this](BoolMenuItem &item)
@@ -481,7 +481,7 @@ InputManagerDeviceView::InputManagerDeviceView(UTF16String name, ViewAttachParam
 			if(!devConf.mutableKeyConf(inputManager))
 			{
 				app().postMessage(2,
-					UI_TEXT("无法重命名应用程序自带的配置")
+					UI_TEXT("无法重命名 App 自带的配置")
 				);
 				return;
 			}
@@ -548,7 +548,7 @@ InputManagerDeviceView::InputManagerDeviceView(UTF16String name, ViewAttachParam
 			if(!devConf.mutableKeyConf(inputManager))
 			{
 				app().postMessage(2,
-					UI_TEXT("无法删除应用程序自带的配置")
+					UI_TEXT("无法删除 App 自带的配置")
 				);
 				return;
 			}

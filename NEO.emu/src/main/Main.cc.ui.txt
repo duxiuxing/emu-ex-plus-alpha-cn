@@ -1,0 +1,15 @@
+Ln=113
+English="Invalid state data"
+Chinese="无效的进度数据"
+
+Ln=228
+English="This game isn't recognized"
+Chinese="无法识别这个游戏"
+
+Ln=424
+English="Decrypting..."
+Chinese="正在解密..."
+
+Ln=428
+English="Building Cache...\n(may take a while)"
+Chinese="正在构建缓存...\n(可能需要一段时间)"

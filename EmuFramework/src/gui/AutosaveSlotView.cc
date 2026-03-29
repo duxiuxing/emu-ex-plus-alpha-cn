@@ -50,21 +50,21 @@ public:
 			[this](const Input::Event &e)
 			{
 				pushAndShowNewCollectValueInputView<const char*>(attachParams(), e,
-					UI_TEXT("请输入存档点名称"),
+					UI_TEXT("请输入存档槽位的名称"),
 					slotName,
 					[this](CollectTextInputView &, auto str)
 					{
 						if(appContext().fileUriExists(system().contentLocalSaveDirectory(str)))
 						{
 							app().postErrorMessage(
-								UI_TEXT("已经存在同名的存档点")
+								UI_TEXT("已经存在同名的存档槽位")
 							);
 							return false;
 						}
 						if(!app().autosaveManager.renameSlot(slotName, str))
 						{
 							app().postErrorMessage(
-								UI_TEXT("重命名存档点时出错")
+								UI_TEXT("重命名存档槽位时出错")
 							);
 							return false;
 						}
@@ -83,12 +83,12 @@ public:
 				if(slotName == app().autosaveManager.slotName())
 				{
 					app().postErrorMessage(
-						UI_TEXT("无法删除当前正在使用的存档点")
+						UI_TEXT("无法删除当前正在使用的存档槽位")
 					);
 					return;
 				}
 				pushAndShowModal(makeView<YesNoAlertView>(
-					UI_TEXT("是否要删除这个存档点？"),
+					UI_TEXT("是否要删除这个存档槽位？"),
 					YesNoAlertView::Delegates
 					{
 						.onYes = [this]
@@ -115,7 +115,7 @@ ManageAutosavesView::ManageAutosavesView(ViewAttachParams attach, AutosaveSlotVi
 	const std::vector<SlotTextMenuItem> &items):
 	TableView
 	{
-		UI_TEXT("管理存档点"),
+		UI_TEXT("管理存档槽位"),
 		attach, extraSlotItems
 	},
 	srcView{srcView}
@@ -134,8 +134,7 @@ static std::string slotDescription(EmuApp &app, std::string_view saveName)
 {
 	auto desc = app.appContext().fileUriFormatLastWriteTimeLocal(app.autosaveManager.statePath(saveName));
 	if(desc.empty())
-		desc =
-			UI_TEXT("无效的存档进度");
+		desc = UI_TEXT("未保存进度");
 	return desc;
 }
 
@@ -162,17 +161,17 @@ void ManageAutosavesView::updateItem(std::string_view name, std::string_view new
 AutosaveSlotView::AutosaveSlotView(ViewAttachParams attach):
 	TableView
 	{
-		UI_TEXT("自动存档点"),
+		UI_TEXT("自动存档槽位"),
 		attach, menuItems
 	},
 	newSlot
 	{
-		UI_TEXT("新建存档点"),
+		UI_TEXT("新建存档槽位"),
 		attach,
 		[this](const Input::Event &e)
 		{
 			pushAndShowNewCollectValueInputView<const char*>(attachParams(), e,
-				UI_TEXT("存档点的名称"),
+				UI_TEXT("存档槽位的名称"),
 				"",
 				[this](CollectTextInputView &, auto str_)
 				{
@@ -180,14 +179,14 @@ AutosaveSlotView::AutosaveSlotView(ViewAttachParams attach):
 					if(appContext().fileUriExists(app().system().contentLocalSaveDirectory(name)))
 					{
 						app().postErrorMessage(
-							UI_TEXT("已经存在同名的存档点")
+							UI_TEXT("已经存在同名的存档槽位")
 						);
 						return false;
 					}
 					if(!app().autosaveManager.setSlot(name))
 					{
 						app().postErrorMessage(
-							UI_TEXT("新建存档点时出错")
+							UI_TEXT("新建存档槽位时出错")
 						);
 						return false;
 					}
@@ -199,14 +198,14 @@ AutosaveSlotView::AutosaveSlotView(ViewAttachParams attach):
 	},
 	manageSlots
 	{
-		UI_TEXT("管理存档点"),
+		UI_TEXT("管理存档槽位"),
 		attach,
 		[this](const Input::Event &e)
 		{
 			if(extraSlotItems.empty())
 			{
 				app().postMessage(
-					UI_TEXT("没有额外的存档点")
+					UI_TEXT("没有额外的存档槽位")
 				);
 				return;
 			}

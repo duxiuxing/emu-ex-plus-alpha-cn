@@ -1,0 +1,27 @@
+Ln=67
+English="{}{}.sgm"
+Chinese="{}{}.sgm"
+
+Ln=81
+English="Invalid state size"
+Chinese="无效的存档长度信息"
+
+Ln=85
+English="Invalid state data"
+Chinese="无效的存档数据"
+
+Ln=164
+English="Error applying IPS patch in:\n{}"
+Chinese="应用 IPS 补丁时出错：\n{}"
+
+Ln=175
+English="Error applying UPS patch in:\n{}"
+Chinese="应用 UPS 补丁时出错：\n{}"
+
+Ln=186
+English="Error applying PPF patch in:\n{}"
+Chinese="应用 PPF 补丁时出错：\n{}"
+
+Ln=208
+English="BIOS size should be 16KB"
+Chinese="BIOS 的大小应该为 16KB"

@@ -1,0 +1,35 @@
+Ln=106
+English="unconnected"
+Chinese="未连接"
+
+Ln=108
+English="gamepad"
+Chinese="手柄"
+
+Ln=110
+English="sms gamepad"
+Chinese="SMS 手柄"
+
+Ln=112
+English="mouse"
+Chinese="鼠标"
+
+Ln=114
+English="menacer"
+Chinese="Menacer 光枪"
+
+Ln=116
+English="justifier"
+Chinese="Justifier 光枪"
+
+Ln=118
+English="team-player"
+Chinese="Team Player 控制器"
+
+Ln=120
+English="light-phaser"
+Chinese="Light Phaser 光枪"
+
+Ln=122
+English="unknown"
+Chinese="未知"

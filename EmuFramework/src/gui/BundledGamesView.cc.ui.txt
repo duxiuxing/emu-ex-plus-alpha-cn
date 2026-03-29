@@ -1,0 +1,3 @@
+Ln=30
+English="Bundled Content"
+Chinese="自带游戏"

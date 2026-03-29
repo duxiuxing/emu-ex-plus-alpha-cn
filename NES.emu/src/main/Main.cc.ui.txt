@@ -1,0 +1,43 @@
+Ln=59
+English="Error in FCEUI_Initialize"
+Chinese="调用 FCEUI_Initialize() 时出错"
+
+Ln=97
+English="Invalid state data"
+Chinese="无效的进度数据"
+
+Ln=207
+English="Unset"
+Chinese="未设置"
+
+Ln=209
+English="Gamepad"
+Chinese="手柄"
+
+Ln=211
+English="Zapper"
+Chinese="光枪"
+
+Ln=213
+English="None"
+Chinese="无"
+
+Ln=280
+English="NTSC"
+Chinese="NTSC"
+
+Ln=282
+English="PAL"
+Chinese="PAL"
+
+Ln=284
+English="Dendy"
+Chinese="Dendy"
+
+Ln=286
+English="Unknown"
+Chinese="未知"
+
+Ln=342
+English="Error loading game"
+Chinese="加载游戏时出错"

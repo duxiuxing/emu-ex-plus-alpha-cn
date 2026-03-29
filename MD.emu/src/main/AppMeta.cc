@@ -32,7 +32,7 @@ namespace EmuEx
 
 const std::string_view AppMeta::creditsViewStr
 {
-	UI_TEXT(CREDITS_INFO_STRING "(c) 2011-2026\nRobert Broglia 保留所有权利\nwww.explusalpha.com\n\n部分代码版权属于\nGenesis Plus Team\nsegaretro.org/Genesis_Plus\n\n中文翻译：R-Sam@github\nduxiuxing/emu-ex-plus-alpha-cn")
+	CREDITS_INFO_STRING UI_TEXT("(c) 2011-2026\nRobert Broglia 保留所有权利\nwww.explusalpha.com\n\n中文翻译：R-Sam@github\nduxiuxing/emu-ex-plus-alpha-cn\n\n部分代码版权属于\nGenesis Plus 团队\nsegaretro.org/Genesis_Plus")
 };
 const std::string_view AppMeta::configFilename{"MdEmu.config"};
 const bool AppMeta::hasCheats{true};
@@ -90,22 +90,22 @@ std::span<const KeyCategory> AppMeta::keyCategories()
 	{
 		KeyCategory
 		{
-			UI_TEXT("Gamepad"),
+			UI_TEXT("游戏按键"),
 			gpKeyInfo
 		},
 		KeyCategory
 		{
-			UI_TEXT("Gamepad 2"),
+			UI_TEXT("游戏按键 (2号手柄)"),
 			gp2KeyInfo, 1
 		},
 		KeyCategory
 		{
-			UI_TEXT("Gamepad 3"),
+			UI_TEXT("游戏按键 (3号手柄)"),
 			gp3KeyInfo, 2
 		},
 		KeyCategory
 		{
-			UI_TEXT("Gamepad 4"),
+			UI_TEXT("游戏按键 (4号手柄)"),
 			gp4KeyInfo, 3
 		},
 	};
@@ -117,29 +117,29 @@ std::string_view AppMeta::systemKeyCodeToString(KeyCode c)
 	switch(MdKey(c))
 	{
 		case MdKey::Up:
-			return UI_TEXT("Up");
+			return UI_TEXT("方向键的上");
 		case MdKey::Right:
-			return UI_TEXT("Right");
+			return UI_TEXT("方向键的右");
 		case MdKey::Down:
-			return UI_TEXT("Down");
+			return UI_TEXT("方向键的下");
 		case MdKey::Left:
-			return UI_TEXT("Left");
+			return UI_TEXT("方向键的左");
 		case MdKey::Mode:
-			return UI_TEXT("Mode");
+			return UI_TEXT("模式键");
 		case MdKey::Start:
-			return UI_TEXT("Start");
+			return UI_TEXT("开始键");
 		case MdKey::A:
-			return UI_TEXT("A");
+			return UI_TEXT("A 键");
 		case MdKey::B:
-			return UI_TEXT("B");
+			return UI_TEXT("B 键");
 		case MdKey::C:
-			return UI_TEXT("C");
+			return UI_TEXT("C 键");
 		case MdKey::X:
-			return UI_TEXT("X");
+			return UI_TEXT("X 键");
 		case MdKey::Y:
-			return UI_TEXT("Y");
+			return UI_TEXT("Y 键");
 		case MdKey::Z:
-			return UI_TEXT("Z");
+			return UI_TEXT("Z 键");
 		default: return "";
 	}
 }
@@ -254,34 +254,34 @@ SystemInputDeviceDesc AppMeta::inputDeviceDesc(int idx)
 	{
 		InputComponentDesc
 		{
-			UI_TEXT("D-Pad"),
+			UI_TEXT("方向键"),
 			dpadKeyInfo, InputComponent::dPad, LB2DO
 	},
 		InputComponentDesc
 		{
-			UI_TEXT("Face Buttons"),
+			UI_TEXT("动作键"),
 			faceKeyInfo,
 			InputComponent::button, RB2DO
 		},
 		InputComponentDesc
 		{
-			UI_TEXT("Mode"),
+			UI_TEXT("模式键"),
 			{&centerKeyInfo[0], 1}, InputComponent::button, LB2DO
 		},
 		InputComponentDesc
 		{
-			UI_TEXT("Start"),
+			UI_TEXT("开始键"),
 			{&centerKeyInfo[1], 1}, InputComponent::button, RB2DO
 		},
 		InputComponentDesc
 		{
-			UI_TEXT("Mode/Start"),
+			UI_TEXT("模式/开始键"),
 			centerKeyInfo, InputComponent::button, CB2DO, {.altConfig = true}
 		},
 	};
 	static constexpr SystemInputDeviceDesc gamepadDesc
 	{
-		UI_TEXT("Gamepad"),
+		UI_TEXT("游戏按键"),
 		gamepadComponents
 	};
 	return gamepadDesc;

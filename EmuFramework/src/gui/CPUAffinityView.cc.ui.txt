@@ -1,0 +1,43 @@
+Ln=28
+English="Auto"
+Chinese="自动"
+
+Ln=30
+English="Any"
+Chinese="任意"
+
+Ln=32
+English="Manual"
+Chinese="手动"
+
+Ln=39
+English="Configure CPU Affinity"
+Chinese="CPU 亲和性配置"
+
+Ln=45
+English="Auto (Use only performance cores or hints for low latency)"
+Chinese="自动 (仅使用性能核心或提示实现低延迟)"
+
+Ln=49
+English="Any (Use any core even if it increases latency)"
+Chinese="任意 (使用任何核心，即使它增加了延迟)"
+
+Ln=53
+English="Manual (Use cores set in previous menu)"
+Chinese="手动 (使用上一界面中开启的核心)"
+
+Ln=59
+English="CPU Affinity Mode"
+Chinese="CPU 亲和性模式"
+
+Ln=74
+English="Manual CPU Affinity"
+Chinese="CPU 的各个核心："
+
+Ln=88
+English="{} (Offline)"
+Chinese="{} (离线)"
+
+Ln=91
+English="{} ({}MHz)"
+Chinese="{} ({}MHz)"

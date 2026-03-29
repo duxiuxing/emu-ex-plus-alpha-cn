@@ -39,7 +39,7 @@ std::string_view EmuSystem::stateSlotName(int slot)
 
 bool EmuApp::shouldOverwriteExistingState() const
 {
-	return !confirmOverwriteState || !system().stateExists(system().stateSlot());
+	return !confirmOverwriteState || !system().stateExists(stateSlot());
 }
 
 void EmuSystem::loadState(EmuApp &app, CStringView uri)
@@ -67,17 +67,17 @@ DynArray<uint8_t> EmuSystem::uncompressGzipState(std::span<uint8_t> buff, size_t
 	auto uncompSize = gzipUncompressedSize(buff);
 	if(expectedSize && expectedSize != uncompSize)
 		throw std::runtime_error(
-			UI_TEXT("文件头部的数据长度信息无效")
+			UI_TEXT("文件头部的存档长度信息无效")
 		);
 	auto uncompArr = dynArrayForOverwrite<uint8_t>(uncompSize);
 	auto size = uncompressGzip(uncompArr, buff);
 	if(!size)
 		throw std::runtime_error(
-			UI_TEXT("解压数据时出错")
+			UI_TEXT("解压存档时出错")
 		);
 	if(expectedSize && size != expectedSize)
 		throw std::runtime_error(
-			UI_TEXT("无效的数据长度信息")
+			UI_TEXT("无效的存档长度信息")
 		);
 	return uncompArr;
 }

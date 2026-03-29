@@ -1,0 +1,91 @@
+Ln=35
+English="(c) 2011-2026\nRobert Broglia\nwww.explusalpha.com\n\nPortions (c) the\nGenesis Plus Team\nsegaretro.org/Genesis_Plus"
+Chinese="(c) 2011-2026\nRobert Broglia 保留所有权利\nwww.explusalpha.com\n\n中文翻译：R-Sam@github\nduxiuxing/emu-ex-plus-alpha-cn\n\n部分代码版权属于\nGenesis Plus 团队\nsegaretro.org/Genesis_Plus"
+
+Ln=93
+English="Gamepad"
+Chinese="游戏按键"
+
+Ln=98
+English="Gamepad 2"
+Chinese="游戏按键 (2号手柄)"
+
+Ln=103
+English="Gamepad 3"
+Chinese="游戏按键 (3号手柄)"
+
+Ln=108
+English="Gamepad 4"
+Chinese="游戏按键 (4号手柄)"
+
+Ln=120
+English="Up"
+Chinese="方向键的上"
+
+Ln=122
+English="Right"
+Chinese="方向键的右"
+
+Ln=124
+English="Down"
+Chinese="方向键的下"
+
+Ln=126
+English="Left"
+Chinese="方向键的左"
+
+Ln=128
+English="Mode"
+Chinese="模式键"
+
+Ln=130
+English="Start"
+Chinese="开始键"
+
+Ln=132
+English="A"
+Chinese="A 键"
+
+Ln=134
+English="B"
+Chinese="B 键"
+
+Ln=136
+English="C"
+Chinese="C 键"
+
+Ln=138
+English="X"
+Chinese="X 键"
+
+Ln=140
+English="Y"
+Chinese="Y 键"
+
+Ln=142
+English="Z"
+Chinese="Z 键"
+
+Ln=257
+English="D-Pad"
+Chinese="方向键"
+
+Ln=262
+English="Face Buttons"
+Chinese="动作键"
+
+Ln=268
+English="Mode"
+Chinese="模式键"
+
+Ln=273
+English="Start"
+Chinese="开始键"
+
+Ln=278
+English="Mode/Start"
+Chinese="模式/开始键"
+
+Ln=284
+English="Gamepad"
+Chinese="游戏按键"

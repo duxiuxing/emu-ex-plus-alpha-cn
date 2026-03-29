@@ -1,0 +1,15 @@
+Ln=389
+English="System Memory"
+Chinese="系统内存"
+
+Ln=394
+English="OpenGL PBO"
+Chinese="OpenGL 像素缓冲区对象"
+
+Ln=401
+English="Hardware Buffer"
+Chinese="硬件缓冲区"
+
+Ln=407
+English="Surface Texture"
+Chinese="表面纹理"

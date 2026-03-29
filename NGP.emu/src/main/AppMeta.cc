@@ -26,7 +26,7 @@ namespace EmuEx
 
 const std::string_view AppMeta::creditsViewStr
 {
-	UI_TEXT(CREDITS_INFO_STRING "(c) 2011-2026\nRobert Broglia 保留所有权利\nwww.explusalpha.com\n\n部分代码版权属于\nMednafen Team\nmednafen.github.io\n\n中文翻译：R-Sam@github\nduxiuxing/emu-ex-plus-alpha-cn")
+	CREDITS_INFO_STRING UI_TEXT("(c) 2011-2026\nRobert Broglia 保留所有权利\nwww.explusalpha.com\n\n中文翻译：R-Sam@github\nduxiuxing/emu-ex-plus-alpha-cn\n\n部分代码版权属于\nMednafen 团队\nmednafen.github.io")
 };
 const std::string_view AppMeta::configFilename{"NgpEmu.config"};
 const bool AppMeta::needsGlobalInstance{true};
@@ -78,19 +78,19 @@ std::string_view AppMeta::systemKeyCodeToString(KeyCode c)
 	switch(NgpKey(c))
 	{
 		case NgpKey::Up:
-			return UI_TEXT("上");
+			return UI_TEXT("方向键的上");
 		case NgpKey::Right:
-			return UI_TEXT("右");
+			return UI_TEXT("方向键的右");
 		case NgpKey::Down:
-			return UI_TEXT("下");
+			return UI_TEXT("方向键的下");
 		case NgpKey::Left:
-			return UI_TEXT("左");
+			return UI_TEXT("方向键的左");
 		case NgpKey::Option:
-			return UI_TEXT("选项");
+			return UI_TEXT("选项键");
 		case NgpKey::A:
-			return UI_TEXT("A");
+			return UI_TEXT("A 键");
 		case NgpKey::B:
-			return UI_TEXT("B");
+			return UI_TEXT("B 键");
 		default: return "";
 	}
 }
@@ -198,7 +198,7 @@ SystemInputDeviceDesc AppMeta::inputDeviceDesc(int idx)
 	};
 	static constexpr SystemInputDeviceDesc gamepadDesc
 	{
-		UI_TEXT("手柄"),
+		UI_TEXT("游戏按键"),
 		gamepadComponents
 	};
 	return gamepadDesc;

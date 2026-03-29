@@ -1,0 +1,151 @@
+Ln=47
+English="Unable to initialize Bluetooth adapter"
+Chinese="无法初始化蓝牙适配器"
+
+Ln=54
+English="BTstack not found, open Cydia and install?"
+Chinese="没有找到 BTstack，请打开 Cydia 进行安装？"
+
+Ln=67
+English="Open Content"
+Chinese="打开游戏"
+
+Ln=87
+English="Recent Content"
+Chinese="最近打开过的游戏"
+
+Ln=99
+English="Bundled Content"
+Chinese="自带游戏"
+
+Ln=108
+English="Options"
+Chinese="选项"
+
+Ln=117
+English="On-screen Input Setup"
+Chinese="屏幕按键设置"
+
+Ln=126
+English="Key/Gamepad Input Setup"
+Chinese="实体控制器设置"
+
+Ln=135
+English="Benchmark Content"
+Chinese="检查游戏"
+
+Ln=144
+English="Scan for Wiimotes/iCP/JS1"
+Chinese="检测 Wiimotes/iCP/JS1"
+
+Ln=158
+English="Starting Scan...\n(see website for device-specific help)"
+Chinese="正在启动检测...\n(请访问设备官网以获取详细的产品使用说明)"
+
+Ln=164
+English="Still scanning"
+Chinese="正在检测"
+
+Ln=177
+English="Disconnect Bluetooth"
+Chinese="断开蓝牙连接"
+
+Ln=185
+English="Really disconnect {} Bluetooth device(s)?"
+Chinese="是否要断开 {} 蓝牙设备？"
+
+Ln=193
+English="Scan for PS3 Controller"
+Chinese="检测 PS3 手柄"
+
+Ln=201
+English="Prepare to push the PS button"
+Chinese="准备按下【PS 键】"
+
+Ln=212
+English="Unable to register server, make sure this executable has cap_net_bind_service enabled and bluetoothd isn't running"
+Chinese="无法注册服务器，请确保此可执行文件已启用 cap_net_bind_service，并且 bluetoothd 进程没有在运行"
+
+Ln=213
+English="Bluetooth setup failed"
+Chinese="蓝牙设置失败"
+
+Ln=219
+English="Push the PS button on your controller\n(see website for pairing help)"
+Chinese="请按下手柄上的【PS 键】\n(请访问设备官网以获取详细的配对说明)"
+
+Ln=229
+English="Still scanning"
+Chinese="正在检测"
+
+Ln=242
+English="About"
+Chinese="关于"
+
+Ln=251
+English="Exit"
+Chinese="退出"
+
+Ln=274
+English="BTstack power on failed, make sure the iOS Bluetooth stack is not active"
+Chinese="BTstack 电源打开失败，请确保 iOS 的蓝牙协议栈没有被激活"
+
+Ln=282
+English="Scan failed"
+Chinese="检测失败"
+
+Ln=289
+English="No devices found"
+Chinese="没有找到蓝牙设备"
+
+Ln=296
+English="Checking {} device(s)..."
+Chinese="正在检测 {} 设备..."
+
+Ln=303
+English="Failed reading a device name"
+Chinese="读取设备名称失败"
+
+Ln=313
+English="Connecting to {} device(s)..."
+Chinese="正在连接 {} 设备..."
+
+Ln=320
+English="Scan complete, no recognized devices"
+Chinese="检测完成，没有可识别的设备"
+
+Ln=380
+English="Options"
+Chinese="选项"
+
+Ln=394
+English="Frame Timing"
+Chinese="渲染耗时"
+
+Ln=402
+English="Video"
+Chinese="视频"
+
+Ln=410
+English="Audio"
+Chinese="音频"
+
+Ln=418
+English="System"
+Chinese="系统"
+
+Ln=426
+English="File Paths"
+Chinese="文件路径"
+
+Ln=434
+English="GUI"
+Chinese="界面"
+
+Ln=442
+English="Online Documentation"
+Chinese="在线文档"
+
+Ln=455
+English="Beta Testing Opt-in/out"
+Chinese="Beta 版本测试的参与/退出说明"

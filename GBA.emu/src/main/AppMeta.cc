@@ -25,7 +25,7 @@ namespace EmuEx
 
 const std::string_view AppMeta::creditsViewStr
 {
-	UI_TEXT(CREDITS_INFO_STRING "(c) 2012-2026\nRobert Broglia 保留所有权利\nwww.explusalpha.com\n\n部分代码版权属于\nVBA-m Team\nvba-m.com\n\n中文翻译：R-Sam@github\nduxiuxing/emu-ex-plus-alpha-cn")
+	CREDITS_INFO_STRING UI_TEXT("(c) 2012-2026\nRobert Broglia 保留所有权利\nwww.explusalpha.com\n\n中文翻译：R-Sam@github\nduxiuxing/emu-ex-plus-alpha-cn\n\n部分代码版权属于\nVBA-m 团队\nvba-m.com")
 };
 const std::string_view AppMeta::configFilename{"GbaEmu.config"};
 const bool AppMeta::hasCheats{true};
@@ -38,10 +38,10 @@ const AspectRatioInfo AppMeta::aspectRatioInfo
 const NameFilterFunc AppMeta::defaultFsFilter = [](std::string_view name) { return endsWithAnyCaseless(name, ".gba", ".mb"); };
 constexpr BundledGameInfo gameInfo
 {
-	UI_TEXT("Motocross Challenge"),
+	UI_TEXT("摩托车越野赛挑战"),
 	Config::envIsLinux
-		? UI_TEXT("MotocrossChallenge.7z")
-		: UI_TEXT("Motocross Challenge.7z")
+		? UI_TEXT("摩托车越野赛挑战.7z")
+		: UI_TEXT("摩托车越野赛挑战.7z")
 };
 const std::span<const BundledGameInfo> AppMeta::bundledGameInfo{&gameInfo, 1};
 
@@ -92,7 +92,7 @@ std::span<const KeyCategory> AppMeta::keyCategories()
 	{
 		KeyCategory
 		{
-			UI_TEXT("Gamepad"),
+			UI_TEXT("游戏按键"),
 			gpKeyInfo
 		},
 	};
@@ -104,29 +104,29 @@ std::string_view AppMeta::systemKeyCodeToString(KeyCode c)
 	switch(GbaKey(c))
 	{
 		case GbaKey::Up:
-			return UI_TEXT("Up");
+			return UI_TEXT("方向键的上");
 		case GbaKey::Right:
-			return UI_TEXT("Right");
+			return UI_TEXT("方向键的右");
 		case GbaKey::Down:
-			return UI_TEXT("Down");
+			return UI_TEXT("方向键的下");
 		case GbaKey::Left:
-			return UI_TEXT("Left");
+			return UI_TEXT("方向键的左");
 		case GbaKey::Select:
-			return UI_TEXT("Select");
+			return UI_TEXT("选择键");
 		case GbaKey::Start:
-			return UI_TEXT("Start");
+			return UI_TEXT("开始键");
 		case GbaKey::A:
-			return UI_TEXT("A");
+			return UI_TEXT("A 键");
 		case GbaKey::B:
-			return UI_TEXT("B");
+			return UI_TEXT("B 键");
 		case GbaKey::L:
-			return UI_TEXT("L");
+			return UI_TEXT("L 键");
 		case GbaKey::R:
-			return UI_TEXT("R");
+			return UI_TEXT("R 键");
 		case GbaKey::LightInc:
-			return UI_TEXT("Light Sensor Level +");
+			return UI_TEXT("亮度 +");
 		case GbaKey::LightDec:
-			return UI_TEXT("Light Sensor Level -");
+			return UI_TEXT("亮度 -");
 		default: return "";
 	}
 }
@@ -240,48 +240,48 @@ SystemInputDeviceDesc AppMeta::inputDeviceDesc(int idx)
 	{
 		InputComponentDesc
 		{
-			UI_TEXT("D-Pad"),
+			UI_TEXT("方向键"),
 			dpadKeyInfo, InputComponent::dPad, LB2DO
 		},
 		InputComponentDesc
 		{
-			UI_TEXT("Face Buttons"),
+			UI_TEXT("动作键"),
 			faceKeyInfo, InputComponent::button, RB2DO
 		},
 		InputComponentDesc
 		{
-			UI_TEXT("Face Buttons + Inline L/R"),
+			UI_TEXT("动作键 + L/R键"),
 			faceLRKeyInfo, InputComponent::button, RB2DO, {.altConfig = true}
 		},
 		InputComponentDesc
 		{
-			UI_TEXT("L"),
+			UI_TEXT("L 键"),
 			lKeyInfo, InputComponent::trigger, LB2DO
 		},
 		InputComponentDesc
 		{
-			UI_TEXT("R"),
+			UI_TEXT("R 键"),
 			rKeyInfo, InputComponent::trigger, RB2DO
 		},
 		InputComponentDesc
 		{
-			UI_TEXT("Select"),
+			UI_TEXT("选择键"),
 			{&centerKeyInfo[0], 1}, InputComponent::button, LB2DO
 		},
 		InputComponentDesc
 		{
-			UI_TEXT("Start"),
+			UI_TEXT("开始键"),
 			{&centerKeyInfo[1], 1}, InputComponent::button, RB2DO
 		},
 		InputComponentDesc
 		{
-			UI_TEXT("Select/Start"),
+			UI_TEXT("选择/开始键"),
 			centerKeyInfo, InputComponent::button, CB2DO, {.altConfig = true}
 		},
 	};
 	static constexpr SystemInputDeviceDesc gamepadDesc
 	{
-		UI_TEXT("Gamepad"),
+		UI_TEXT("游戏按键"),
 		gamepadComponents
 	};
 	return gamepadDesc;

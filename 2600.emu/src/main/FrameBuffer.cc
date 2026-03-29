@@ -38,7 +38,7 @@ void FrameBuffer::enablePhosphor(bool enable, int blend)
 	if(blend >= 0)
 	{
 		myPhosphorPercent = std::max(blend, 1) / 100.0;
-  	log.info("phosphor blend:{} ({}%)", blend, myPhosphorPercent);
+  		log.info("phosphor blend:{} ({}%)", blend, myPhosphorPercent);
 	}
 	if(enable)
   {

@@ -157,7 +157,8 @@ void C64System::handleInputAction(EmuApp* app, InputAction a)
 				effectiveJoystickMode = joystickMode;
 				fill(*plugin.joystick_value);
 				if(app)
-					app->postMessage(1, false, "Swapped Joystick Ports");
+					app->postMessage(1, false,
+						UI_TEXT("Swapped Joystick Ports"));
 			}
 			break;
 		}

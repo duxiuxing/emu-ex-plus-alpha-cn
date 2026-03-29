@@ -1,0 +1,387 @@
+Ln=30
+English="RGB565"
+Chinese="RGB565"
+
+Ln=31
+English="RGBA8888"
+Chinese="RGBA8888"
+
+Ln=47
+English="Video Options"
+Chinese="视频选项"
+
+Ln=58
+English="Auto (Set optimal mode)"
+Chinese="自动 (设置最佳模式)"
+
+Ln=83
+English="GPU Copy Mode"
+Chinese="GPU 复制模式"
+
+Ln=104
+English="Square Pixels"
+Chinese="方形像素"
+
+Ln=113
+English="Fill Display"
+Chinese="充满屏幕"
+
+Ln=121
+English="Custom Value"
+Chinese="自定义"
+
+Ln=126
+English="Input decimal or fraction"
+Chinese="请输入小数或分数"
+
+Ln=140
+English="Value not in range"
+Chinese="输入值不在有效的取值范围"
+
+Ln=153
+English="Aspect Ratio"
+Chinese="宽高比例"
+
+Ln=163
+English="{:g}"
+Chinese="{:g}"
+
+Ln=174
+English="100%"
+Chinese="100%"
+
+Ln=178
+English="90%"
+Chinese="90%"
+
+Ln=182
+English="80%"
+Chinese="80%"
+
+Ln=186
+English="Integer-only"
+Chinese="自动"
+
+Ln=190
+English="Integer-only (Height)"
+Chinese="自动 (高度优先)"
+
+Ln=194
+English="Custom Value"
+Chinese="自定义"
+
+Ln=199
+English="Input 10 to 200"
+Chinese="请输入 10 到 200 之间的值"
+
+Ln=215
+English="Content Scale"
+Chinese="游戏画面缩放"
+
+Ln=225
+English="{}%"
+Chinese="{}%"
+
+Ln=237
+English="100%"
+Chinese="100%"
+
+Ln=241
+English="95%"
+Chinese="95%"
+
+Ln=245
+English="90%"
+Chinese="90%"
+
+Ln=249
+English="Custom Value"
+Chinese="自定义"
+
+Ln=254
+English="Input 50 to 100"
+Chinese="请输入 50 到 100 之间的值"
+
+Ln=270
+English="Menu Scale"
+Chinese="菜单界面缩放"
+
+Ln=278
+English="{}%"
+Chinese="{}%"
+
+Ln=288
+English="Auto"
+Chinese="自动"
+
+Ln=292
+English="Standard"
+Chinese="标准"
+
+Ln=296
+English="90° Right"
+Chinese="右转 90 度"
+
+Ln=300
+English="Upside Down"
+Chinese="旋转 180 度"
+
+Ln=304
+English="90° Left"
+Chinese="左转 90 度"
+
+Ln=310
+English="Content Rotation"
+Chinese="画面旋转"
+
+Ln=320
+English="Set Video Position"
+Chinese="设置画面位置"
+
+Ln=331
+English="Image Interpolation"
+Chinese="图像插值"
+
+Ln=334
+English="None"
+Chinese="无"
+
+Ln=335
+English="Linear"
+Chinese="线性"
+
+Ln=345
+English="Off"
+Chinese="关"
+
+Ln=349
+English="hq2x"
+Chinese="hq2x"
+
+Ln=353
+English="Scale2x"
+Chinese="Scale2x"
+
+Ln=357
+English="Prescale 2x"
+Chinese="Prescale 2x"
+
+Ln=361
+English="Prescale 3x"
+Chinese="Prescale 3x"
+
+Ln=365
+English="Prescale 4x"
+Chinese="Prescale 4x"
+
+Ln=371
+English="Image Effect"
+Chinese="图像算法"
+
+Ln=386
+English="Off"
+Chinese="关"
+
+Ln=390
+English="Scanlines"
+Chinese="扫描线特效"
+
+Ln=394
+English="Scanlines 2x"
+Chinese="扫描线特效 2x"
+
+Ln=398
+English="LCD Grid"
+Chinese="LCD 像素特效"
+
+Ln=402
+English="CRT Mask"
+Chinese="CRT 遮罩特效"
+
+Ln=406
+English="CRT Mask .5x"
+Chinese="CRT 遮罩特效 .5x"
+
+Ln=410
+English="CRT Grille"
+Chinese="CRT 像素特效"
+
+Ln=414
+English="CRT Grille .5x"
+Chinese="CRT 像素特效 .5x"
+
+Ln=420
+English="Overlay Effect"
+Chinese="屏幕特效"
+
+Ln=435
+English="100%"
+Chinese="100%"
+
+Ln=439
+English="75%"
+Chinese="75%"
+
+Ln=443
+English="50%"
+Chinese="50%"
+
+Ln=447
+English="25%"
+Chinese="25%"
+
+Ln=451
+English="Custom Value"
+Chinese="自定义"
+
+Ln=456
+English="Input 0 to 100"
+Chinese="请输入 0 到 100 之间的值"
+
+Ln=472
+English="Overlay Effect Level"
+Chinese="屏幕特效等级"
+
+Ln=480
+English="{}%"
+Chinese="{}%"
+
+Ln=494
+English="Auto (Match display format)"
+Chinese="自动 (匹配显示格式)"
+
+Ln=498
+English="RGBA8888"
+Chinese="RGBA8888"
+
+Ln=502
+English="RGB565"
+Chinese="RGB565"
+
+Ln=508
+English="Effect Color Format"
+Chinese="效果颜色格式"
+
+Ln=542
+English="Restart app for option to take effect"
+Chinese="请重启 App 使选项生效"
+
+Ln=550
+English="Auto"
+Chinese="自动"
+
+Ln=563
+English="Display Color Format"
+Chinese="显示颜色格式"
+
+Ln=582
+English="2nd Window (for testing only)"
+Chinese="第二屏幕 (仅供测试)"
+
+Ln=592
+English="External Screen"
+Chinese="扩展屏幕"
+
+Ln=595
+English="OS Managed"
+Chinese="系统管理"
+
+Ln=596
+English="Emu Content"
+Chinese="游戏画面"
+
+Ln=607
+English="Auto (Match display format)"
+Chinese="自动 (匹配显示格式)"
+
+Ln=611
+English="RGBA8888"
+Chinese="RGBA8888"
+
+Ln=615
+English="RGB565"
+Chinese="RGB565"
+
+Ln=621
+English="Render Color Format"
+Chinese="渲染颜色格式"
+
+Ln=641
+English="Default"
+Chinese="默认"
+
+Ln=651
+English="Custom Value"
+Chinese="自定义"
+
+Ln=659
+English="Default"
+Chinese="默认"
+
+Ln=665
+English="Custom Value"
+Chinese="自定义"
+
+Ln=674
+English="Default"
+Chinese="默认"
+
+Ln=680
+English="Custom Value"
+Chinese="自定义"
+
+Ln=689
+English="Default"
+Chinese="默认"
+
+Ln=695
+English="Custom Value"
+Chinese="自定义"
+
+Ln=703
+English="Set All Levels"
+Chinese="设置所有色阶"
+
+Ln=708
+English="All Levels"
+Chinese="所有色阶"
+
+Ln=714
+English="Red"
+Chinese="红色"
+
+Ln=722
+English="{}%"
+Chinese="{}%"
+
+Ln=730
+English="Green"
+Chinese="绿色"
+
+Ln=738
+English="{}%"
+Chinese="{}%"
+
+Ln=746
+English="Blue"
+Chinese="蓝色"
+
+Ln=754
+English="{}%"
+Chinese="{}%"
+
+Ln=762
+English="Color Levels"
+Chinese="色阶："
+
+Ln=767
+English="Advanced"
+Chinese="高级："
+
+Ln=772
+English="System-specific"
+Chinese="专业："
+
+Ln=825
+English="Input 0 to 200"
+Chinese="请输入 0 到 200 之间的值"

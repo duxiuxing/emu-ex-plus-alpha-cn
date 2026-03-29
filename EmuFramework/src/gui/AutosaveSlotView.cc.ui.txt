@@ -1,0 +1,87 @@
+Ln=48
+English="Rename"
+Chinese="重命名"
+
+Ln=53
+English="Input name"
+Chinese="请输入存档槽位的名称"
+
+Ln=60
+English="A save slot with that name already exists"
+Chinese="已经存在同名的存档槽位"
+
+Ln=67
+English="Error renaming save slot"
+Chinese="重命名存档槽位时出错"
+
+Ln=79
+English="Delete"
+Chinese="删除"
+
+Ln=86
+English="Can't delete the currently active save slot"
+Chinese="无法删除当前正在使用的存档槽位"
+
+Ln=91
+English="Really delete this save slot?"
+Chinese="是否要删除这个存档槽位？"
+
+Ln=118
+English="Manage Save Slots"
+Chinese="管理存档槽位"
+
+Ln=137
+English="No saved state"
+Chinese="未保存进度"
+
+Ln=153
+English="{}: {}"
+Chinese="{}：{}"
+
+Ln=164
+English="Autosave Slot"
+Chinese="自动存档槽位"
+
+Ln=169
+English="Create New Save Slot"
+Chinese="新建存档槽位"
+
+Ln=174
+English="Save Slot Name"
+Chinese="存档槽位的名称"
+
+Ln=182
+English="A save slot with that name already exists"
+Chinese="已经存在同名的存档槽位"
+
+Ln=189
+English="Error creating save slot"
+Chinese="新建存档槽位时出错"
+
+Ln=201
+English="Manage Save Slots"
+Chinese="管理存档槽位"
+
+Ln=208
+English="No extra save slots exist"
+Chinese="没有额外的存档槽位"
+
+Ln=217
+English="Actions"
+Chinese="操作："
+
+Ln=230
+English="Main: {}"
+Chinese="默认：{}"
+
+Ln=252
+English="{}: {}"
+Chinese="{}：{}"
+
+Ln=268
+English="No Save"
+Chinese="不保存"
+
+Ln=317
+English="{}: {}"
+Chinese="{}：{}"

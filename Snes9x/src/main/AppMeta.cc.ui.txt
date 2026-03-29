@@ -1,0 +1,119 @@
+Ln=17
+English="(c) 2011-2026\nRobert Broglia\nwww.explusalpha.com\n\nPortions (c) the\nSnes9x Team\nwww.snes9x.com"
+Chinese="(c) 2011-2026\nRobert Broglia 保留所有权利\nwww.explusalpha.com\n\n中文翻译：R-Sam@github\nduxiuxing/emu-ex-plus-alpha-cn\n\n部分代码版权属于\nSnes9x 团队\nwww.snes9x.com"
+
+Ln=25
+English="Bio Worm"
+Chinese="生化怪虫"
+
+Ln=27
+English="BioWorm.7z"
+Chinese="生化怪虫.7z"
+
+Ln=28
+English="Bio Worm.7z"
+Chinese="生化怪虫.7z"
+
+Ln=93
+English="Gamepad"
+Chinese="游戏按键"
+
+Ln=98
+English="Gamepad 2"
+Chinese="游戏按键 (2号手柄)"
+
+Ln=103
+English="Gamepad 3"
+Chinese="游戏按键 (3号手柄)"
+
+Ln=108
+English="Gamepad 4"
+Chinese="游戏按键 (4号手柄)"
+
+Ln=113
+English="Gamepad 5"
+Chinese="游戏按键 (5号手柄)"
+
+Ln=125
+English="Up"
+Chinese="方向键的上"
+
+Ln=127
+English="Right"
+Chinese="方向键的右"
+
+Ln=129
+English="Down"
+Chinese="方向键的下"
+
+Ln=131
+English="Left"
+Chinese="方向键的左"
+
+Ln=133
+English="Select"
+Chinese="选择键"
+
+Ln=135
+English="Start"
+Chinese="开始键"
+
+Ln=137
+English="A"
+Chinese="A 键"
+
+Ln=139
+English="B"
+Chinese="B 键"
+
+Ln=141
+English="X"
+Chinese="X 键"
+
+Ln=143
+English="Y"
+Chinese="Y 键"
+
+Ln=145
+English="L"
+Chinese="L 键"
+
+Ln=147
+English="R"
+Chinese="R 键"
+
+Ln=263
+English="D-Pad"
+Chinese="方向键"
+
+Ln=268
+English="Face Buttons"
+Chinese="动作键"
+
+Ln=273
+English="Face Buttons + Inline L/R"
+Chinese="动作键 + L/R 键"
+
+Ln=278
+English="L"
+Chinese="L 键"
+
+Ln=283
+English="R"
+Chinese="R 键"
+
+Ln=288
+English="Select"
+Chinese="选择键"
+
+Ln=293
+English="Start"
+Chinese="开始键"
+
+Ln=298
+English="Select/Start"
+Chinese="选择/开始键"
+
+Ln=304
+English="Gamepad"
+Chinese="游戏按键"

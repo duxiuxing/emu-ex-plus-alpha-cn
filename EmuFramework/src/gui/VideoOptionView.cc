@@ -212,7 +212,7 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, EmuVideoLayer &videoLa
 	},
 	contentScale
 	{
-		UI_TEXT("画面缩放"),
+		UI_TEXT("游戏画面缩放"),
 		attach,
 		MenuId{videoLayer_.scale},
 		contentScaleItems,
@@ -267,7 +267,7 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, EmuVideoLayer &videoLa
 	},
 	menuScale
 	{
-		UI_TEXT("应用程序缩放"),
+		UI_TEXT("菜单界面缩放"),
 		attach,
 		MenuId{app().menuScale},
 		menuScaleItems,
@@ -368,7 +368,7 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, EmuVideoLayer &videoLa
 	},
 	imgEffect
 	{
-		UI_TEXT("图像特效"),
+		UI_TEXT("图像算法"),
 		attach,
 		MenuId{videoLayer_.effectId()},
 		imgEffectItem,
@@ -395,23 +395,23 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, EmuVideoLayer &videoLa
 			attach, {.id = ImageOverlayId::SCANLINES_2}
 		},
 		{
-			UI_TEXT("LCD 屏幕特效"),
+			UI_TEXT("LCD 像素特效"),
 			attach, {.id = ImageOverlayId::LCD}
 		},
 		{
-			UI_TEXT("CRT 屏幕遮罩"),
+			UI_TEXT("CRT 遮罩特效"),
 			attach, {.id = ImageOverlayId::CRT_MASK}
 		},
 		{
-			UI_TEXT("CRT 屏幕遮罩 .5x"),
+			UI_TEXT("CRT 遮罩特效 .5x"),
 			attach, {.id = ImageOverlayId::CRT_MASK_2}
 		},
 		{
-			UI_TEXT("CRT 屏幕格栅"),
+			UI_TEXT("CRT 像素特效"),
 			attach, {.id = ImageOverlayId::CRT_GRILLE}
 		},
 		{
-			UI_TEXT("CRT 屏幕格栅 .5x"),
+			UI_TEXT("CRT 像素特效 .5x"),
 			attach, {.id = ImageOverlayId::CRT_GRILLE_2}
 		}
 	},
@@ -539,7 +539,7 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, EmuVideoLayer &videoLa
 				if(!app().setWindowDrawableConfig(conf))
 				{
 					app().postMessage(
-						UI_TEXT("请重启应用程序使选项生效")
+						UI_TEXT("请重启 App 使选项生效")
 					);
 					return;
 				}

@@ -25,7 +25,7 @@ namespace EmuEx
 
 const std::string_view AppMeta::creditsViewStr
 {
-	UI_TEXT(CREDITS_INFO_STRING "(c) 2012-2026\nRobert Broglia 保留所有权利\nwww.explusalpha.com\n\n部分代码版权属于\nGngeo Team\ncode.google.com/p/gngeo\n\n中文翻译：R-Sam@github\nduxiuxing/emu-ex-plus-alpha-cn")
+	CREDITS_INFO_STRING UI_TEXT("(c) 2012-2026\nRobert Broglia 保留所有权利\nwww.explusalpha.com\n\n中文翻译：R-Sam@github\nduxiuxing/emu-ex-plus-alpha-cn\n\n部分代码版权属于\nGngeo 团队\ncode.google.com/p/gngeo")
 };
 const std::string_view AppMeta::configFilename{"NeoEmu.config"};
 const bool AppMeta::handlesGenericIO{}; // TODO: need to re-factor GnGeo file loading code
@@ -70,12 +70,12 @@ std::span<const KeyCategory> AppMeta::keyCategories()
 	{
 		KeyCategory
 		{
-			UI_TEXT("Gamepad"),
+			UI_TEXT("游戏按键"),
 			gpKeyInfo
 		},
 		KeyCategory
 		{
-			UI_TEXT("Gamepad 2"),
+			UI_TEXT("游戏按键 (2号手柄)"),
 			gp2KeyInfo, 1
 		},
 	};
@@ -87,27 +87,27 @@ std::string_view AppMeta::systemKeyCodeToString(KeyCode c)
 	switch(NeoKey(c))
 	{
 		case NeoKey::Up:
-			return UI_TEXT("Up");
+			return UI_TEXT("方向键的上");
 		case NeoKey::Right:
-			return UI_TEXT("Right");
+			return UI_TEXT("方向键的右");
 		case NeoKey::Down:
-			return UI_TEXT("Down");
+			return UI_TEXT("方向键的下");
 		case NeoKey::Left:
-			return UI_TEXT("Left");
+			return UI_TEXT("方向键的左");
 		case NeoKey::Select:
-			return UI_TEXT("Select");
+			return UI_TEXT("选择键");
 		case NeoKey::Start:
-			return UI_TEXT("Start");
+			return UI_TEXT("开始键");
 		case NeoKey::TestSwitch:
-			return UI_TEXT("Test Switch");
+			return UI_TEXT("测试开关");
 		case NeoKey::A:
-			return UI_TEXT("A");
+			return UI_TEXT("A 键");
 		case NeoKey::B:
-			return UI_TEXT("B");
+			return UI_TEXT("B 键");
 		case NeoKey::C:
-			return UI_TEXT("C");
+			return UI_TEXT("C 键");
 		case NeoKey::D:
-			return UI_TEXT("D");
+			return UI_TEXT("D 键");
 		default: return "";
 	}
 }
@@ -217,33 +217,33 @@ SystemInputDeviceDesc AppMeta::inputDeviceDesc(int idx)
 	{
 		InputComponentDesc
 		{
-			UI_TEXT("D-Pad"),
+			UI_TEXT("方向键"),
 			dpadKeyInfo, InputComponent::dPad, LB2DO
 		},
 		InputComponentDesc
 		{
-			UI_TEXT("Face Buttons"),
+			UI_TEXT("动作键"),
 			faceKeyInfo, InputComponent::button, RB2DO, {.staggeredLayout = true}
 		},
 		InputComponentDesc
 		{
-			UI_TEXT("Select"),
+			UI_TEXT("选择键"),
 			{&centerKeyInfo[0], 1}, InputComponent::button, LB2DO
 		},
 		InputComponentDesc
 		{
-			UI_TEXT("Start"),
+			UI_TEXT("开始键"),
 			{&centerKeyInfo[1], 1}, InputComponent::button, RB2DO
 		},
 		InputComponentDesc
 		{
-			UI_TEXT("Select/Start"),
+			UI_TEXT("选择/开始键"),
 			centerKeyInfo, InputComponent::button, CB2DO, {.altConfig = true}
 		},
 	};
 	static constexpr SystemInputDeviceDesc gamepadDesc
 	{
-		UI_TEXT("Gamepad"),
+		UI_TEXT("游戏按键"),
 		gamepadComponents
 	};
 	return gamepadDesc;

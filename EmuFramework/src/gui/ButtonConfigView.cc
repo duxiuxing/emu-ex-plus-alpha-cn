@@ -279,7 +279,7 @@ bool ButtonConfigSetView::inputEvent(const Input::Event& e, ViewInputEventParams
 					{
 						savedDev = d;
 						app().postMessage(7, false,	std::format(
-							UI_TEXT("你在设备：\n{}\n按下了一个键，再按下另一个键可以打开其设置菜单"),
+							UI_TEXT("你在设备：\n{}\n按下了一个按键，再按一下可以打开该设备的设置菜单"),
 							inputDevData(*d).displayName));
 						postDraw();
 					}
@@ -346,7 +346,7 @@ void ButtonConfigSetView::onAddedToController(ViewController *, const Input::Eve
 			actionStr));
 	else
 		text.resetString(std::format(
-			UI_TEXT("正在设置：{}\n请按下并松开按键完成设置\n(支持最多 3 个按键的组合)\n\n若想解除映射：\n可在上一界面快速按两下【方向键的左】"),
+			UI_TEXT("正在设置：{}\n请按下再松开按键完成设置\n(支持最多 3 个按键的组合)\n\n若想解除映射：\n可在上一界面快速按两下【方向键的左】"),
 			actionStr));
 	if(e.motionEvent())
 	{

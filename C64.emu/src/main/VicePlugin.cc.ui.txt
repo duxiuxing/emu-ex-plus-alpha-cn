@@ -1,0 +1,236 @@
+Ln=40
+English="C64"
+
+Ln=41
+English="C64 (Cycle Accurate)"
+
+Ln=42
+English="C64DTV"
+
+Ln=43
+English="C128"
+
+Ln=44
+English="C64 SuperCPU"
+
+Ln=45
+English="CBM-II 6x0"
+
+Ln=46
+English="CBM-II 5x0"
+
+Ln=47
+English="PET"
+
+Ln=48
+English="Plus/4"
+
+Ln=49
+English="VIC-20"
+
+Ln=68
+English="C64 PAL"
+
+Ln=69
+English="C64C PAL"
+
+Ln=70
+English="C64 old PAL"
+
+Ln=71
+English="C64 NTSC"
+
+Ln=72
+English="C64C NTSC"
+
+Ln=73
+English="C64 old NTSC"
+
+Ln=74
+English="Drean"
+
+Ln=75
+English="C64 SX PAL"
+
+Ln=76
+English="C64 SX NTSC"
+
+Ln=77
+English="Japanese"
+
+Ln=78
+English="C64 GS"
+
+Ln=79
+English="PET64 PAL"
+
+Ln=80
+English="PET64 NTSC"
+
+Ln=81
+English="MAX Machine"
+
+Ln=86
+English="DTV v2 PAL"
+
+Ln=87
+English="DTV v2 NTSC"
+
+Ln=88
+English="DTV v3 PAL"
+
+Ln=89
+English="DTV v3 NTSC"
+
+Ln=90
+English="Hummer NTSC"
+
+Ln=95
+English="C128 PAL"
+
+Ln=96
+English="C128D PAL"
+
+Ln=97
+English="C128DCR PAL"
+
+Ln=98
+English="C128 NTSC"
+
+Ln=99
+English="C128D NTSC"
+
+Ln=100
+English="C128DCR NTSC"
+
+Ln=105
+English="C64 PAL"
+
+Ln=106
+English="C64C PAL"
+
+Ln=107
+English="C64 old PAL"
+
+Ln=108
+English="C64 NTSC"
+
+Ln=109
+English="C64C NTSC"
+
+Ln=110
+English="C64 old NTSC"
+
+Ln=111
+English="Drean"
+
+Ln=112
+English="C64 SX PAL"
+
+Ln=113
+English="C64 SX NTSC"
+
+Ln=114
+English="Japanese"
+
+Ln=115
+English="C64 GS"
+
+Ln=120
+English="CBM 610 PAL"
+
+Ln=121
+English="CBM 610 NTSC"
+
+Ln=122
+English="CBM 620 PAL"
+
+Ln=123
+English="CBM 620 NTSC"
+
+Ln=124
+English="CBM 620+ (1M) PAL"
+
+Ln=125
+English="CBM 620+ (1M) NTSC"
+
+Ln=126
+English="CBM 710 NTSC"
+
+Ln=127
+English="CBM 720 NTSC"
+
+Ln=128
+English="CBM 720+ (1M) NTSC"
+
+Ln=133
+English="CBM 510 PAL"
+
+Ln=134
+English="CBM 510 NTSC"
+
+Ln=139
+English="PET 2001-8N"
+
+Ln=140
+English="PET 3008"
+
+Ln=141
+English="PET 3016"
+
+Ln=142
+English="PET 3032"
+
+Ln=143
+English="PET 3032B"
+
+Ln=144
+English="PET 4016"
+
+Ln=145
+English="PET 4032"
+
+Ln=146
+English="PET 4032B"
+
+Ln=147
+English="PET 8032"
+
+Ln=148
+English="PET 8096"
+
+Ln=149
+English="PET 8296"
+
+Ln=150
+English="SuperPET"
+
+Ln=155
+English="C16/116 PAL"
+
+Ln=156
+English="C16/116 NTSC"
+
+Ln=157
+English="Plus4 PAL"
+
+Ln=158
+English="Plus4 NTSC"
+
+Ln=159
+English="V364 NTSC"
+
+Ln=160
+English="C232 NTSC"
+
+Ln=165
+English="VIC-20 PAL"
+
+Ln=166
+English="VIC-20 NTSC"
+
+Ln=167
+English="VIC-21"
+
+Ln=168
+English="VIC-1001"

@@ -1,0 +1,3 @@
+Ln=40
+English="Light sensor level: {}%"
+Chinese="亮度：{}%"

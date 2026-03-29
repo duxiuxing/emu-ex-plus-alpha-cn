@@ -44,7 +44,7 @@ InputOverridesView::InputOverridesView(ViewAttachParams attach,
 			if(!savedSessionDevConfigs.size())
 			{
 				app().postMessage(
-					UI_TEXT("无效的设备设置")
+					UI_TEXT("未保存设备设置")
 				);
 				return;
 			}

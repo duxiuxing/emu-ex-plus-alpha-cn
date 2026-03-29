@@ -77,31 +77,31 @@ std::string_view BaseEvent::mapName(Map map)
 	switch(map)
 	{
 		default:
-			return UI_TEXT("Unknown");
+			return UI_TEXT("未知");
 		case Map::SYSTEM:
-			return UI_TEXT("Key Input");
+			return UI_TEXT("按键输入");
 		case Map::POINTER:
-			return UI_TEXT("Pointer");
+			return UI_TEXT("指针");
 		case Map::REL_POINTER:
-			return UI_TEXT("Relative Pointer");
+			return UI_TEXT("相对指针");
 		case Map::WIIMOTE:
 			if constexpr(!Config::Input::BLUETOOTH) { unreachable(); }
-				return UI_TEXT("Wiimote");
+				return UI_TEXT("Wii 右手柄");
 		case Map::WII_CC:
 			if constexpr(!Config::Input::BLUETOOTH) { unreachable(); }
-				return UI_TEXT("Classic / Wii U Pro Controller");
+				return UI_TEXT("经典 / Wii U Pro 手柄");
 		case Map::ICONTROLPAD:
 			if constexpr(!Config::Input::BLUETOOTH) { unreachable(); }
-				return UI_TEXT("iControlPad");
+				return UI_TEXT("iControlPad 手柄");
 		case Map::ZEEMOTE:
 			if constexpr(!Config::Input::BLUETOOTH) { unreachable(); }
-				return UI_TEXT("Zeemote JS1");
+				return UI_TEXT("Zeemote JS1 手柄");
 		case Map::PS3PAD:
 			if constexpr(!Config::Bluetooth::server) { unreachable(); }
-				return UI_TEXT("PS3 Gamepad");
+				return UI_TEXT("PS3 手柄");
 		#ifdef CONFIG_INPUT_APPLE_GAME_CONTROLLER
 		case Map::APPLE_GAME_CONTROLLER:
-			return UI_TEXT("Apple Game Controller");
+			return UI_TEXT("苹果游戏控制器");
 		#endif
 	}
 }
@@ -117,19 +117,19 @@ const char *sourceStr(Source src)
 	{
 		case Source::UNKNOWN: break;
 		case Source::KEYBOARD:
-			return UI_TEXT("Keyboard");
+			return UI_TEXT("键盘");
 		case Source::GAMEPAD:
-			return UI_TEXT("Gamepad");
+			return UI_TEXT("游戏手柄");
 		case Source::MOUSE:
-			return UI_TEXT("Mouse");
+			return UI_TEXT("鼠标");
 		case Source::TOUCHSCREEN:
-			return UI_TEXT("Touchscreen");
+			return UI_TEXT("触摸屏");
 		case Source::NAVIGATION:
-			return UI_TEXT("Navigation");
+			return UI_TEXT("导航仪");
 		case Source::JOYSTICK:
-			return UI_TEXT("Joystick");
+			return UI_TEXT("游戏摇杆");
 	}
-	return UI_TEXT("Unknown");
+	return UI_TEXT("未知");
 }
 
 const char *actionStr(Action act)
@@ -137,27 +137,27 @@ const char *actionStr(Action act)
 	switch(act)
 	{
 		case Action::UNUSED:
-			return UI_TEXT("Unused");
+			return UI_TEXT("未使用");
 		case Action::RELEASED:
-			return UI_TEXT("Released");
+			return UI_TEXT("松开");
 		case Action::PUSHED:
-			return UI_TEXT("Pushed");
+			return UI_TEXT("按下");
 		case Action::MOVED:
-			return UI_TEXT("Moved");
+			return UI_TEXT("移动");
 		case Action::MOVED_RELATIVE:
-			return UI_TEXT("Moved Relative");
+			return UI_TEXT("相对移动");
 		case Action::EXIT_VIEW:
-			return UI_TEXT("Exit View");
+			return UI_TEXT("退出视图");
 		case Action::ENTER_VIEW:
-			return UI_TEXT("Enter View");
+			return UI_TEXT("打开视图");
 		case Action::SCROLL_UP:
-			return UI_TEXT("Scroll Up");
+			return UI_TEXT("上滚动");
 		case Action::SCROLL_DOWN:
-			return UI_TEXT("Scroll Down");
+			return UI_TEXT("下滚动");
 		case Action::CANCELED:
-			return UI_TEXT("Canceled");
+			return UI_TEXT("取消");
 	}
-	return UI_TEXT("Unknown");
+	return UI_TEXT("未知");
 }
 
 Map validateMap(uint8_t mapValue)

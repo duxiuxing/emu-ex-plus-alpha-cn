@@ -39,7 +39,7 @@ public:
 	CheatsView(ViewAttachParams attach):
 		TableView
 		{
-			UI_TEXT("金手指"),
+			UI_TEXT("作弊项"),
 			attach,
 			[this](ItemMessage msg) -> ItemReply
 			{
@@ -58,7 +58,7 @@ public:
 		},
 		edit
 		{
-			UI_TEXT("Add/Edit"),
+			UI_TEXT("添加/编辑"),
 			attach,
 			[this](const Input::Event& e)
 			{
@@ -102,7 +102,7 @@ public:
 	BaseEditCheatsView(ViewAttachParams attach, CheatsView& cheatsView, TableView::ItemSourceDelegate itemSrc):
 		TableView
 		{
-			UI_TEXT("编辑金手指"),
+			UI_TEXT("编辑作弊项"),
 			attach,
 			itemSrc
 		},
@@ -155,7 +155,7 @@ protected:
 						if(!system().setCheatName(cheat, str))
 						{
 							app().postMessage(true,
-								UI_TEXT("已经存在同名的金手指")
+								UI_TEXT("已经存在同名的作弊项")
 							);
 							return true;
 						}
@@ -194,7 +194,7 @@ public:
 						if(!system().setCheatName(*cheatPtr, str))
 						{
 							app().postMessage(true,
-								UI_TEXT("A cheat with name already exists")
+								UI_TEXT("已经存在同名的作弊项")
 							);
 							return false;
 						}
@@ -213,7 +213,7 @@ public:
 			[this](const Input::Event &e)
 			{
 				pushAndShowModal(makeView<YesNoAlertView>(
-					UI_TEXT("是否要删除这个金手指？"),
+					UI_TEXT("是否要删除这个作弊项？"),
 					YesNoAlertView::Delegates{.onYes = [this]{ removeCheat(); }}), e);
 			}
 		} {}

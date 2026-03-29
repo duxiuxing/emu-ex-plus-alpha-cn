@@ -1,0 +1,79 @@
+Ln=28
+English="(c) 2012-2026\nRobert Broglia\nwww.explusalpha.com\n\nPortions (c) the\nGngeo Team\ncode.google.com/p/gngeo"
+Chinese="(c) 2012-2026\nRobert Broglia 保留所有权利\nwww.explusalpha.com\n\n中文翻译：R-Sam@github\nduxiuxing/emu-ex-plus-alpha-cn\n\n部分代码版权属于\nGngeo 团队\ncode.google.com/p/gngeo"
+
+Ln=73
+English="Gamepad"
+Chinese="游戏按键"
+
+Ln=78
+English="Gamepad 2"
+Chinese="游戏按键 (2号手柄)"
+
+Ln=90
+English="Up"
+Chinese="方向键的上"
+
+Ln=92
+English="Right"
+Chinese="方向键的右"
+
+Ln=94
+English="Down"
+Chinese="方向键的下"
+
+Ln=96
+English="Left"
+Chinese="方向键的左"
+
+Ln=98
+English="Select"
+Chinese="选择键"
+
+Ln=100
+English="Start"
+Chinese="开始键"
+
+Ln=102
+English="Test Switch"
+Chinese="测试开关"
+
+Ln=104
+English="A"
+Chinese="A 键"
+
+Ln=106
+English="B"
+Chinese="B 键"
+
+Ln=108
+English="C"
+Chinese="C 键"
+
+Ln=110
+English="D"
+Chinese="D 键"
+
+Ln=220
+English="D-Pad"
+Chinese="方向键"
+
+Ln=225
+English="Face Buttons"
+Chinese="动作键"
+
+Ln=230
+English="Select"
+Chinese="选择键"
+
+Ln=235
+English="Start"
+Chinese="开始键"
+
+Ln=240
+English="Select/Start"
+Chinese="选择/开始键"
+
+Ln=246
+English="Gamepad"
+Chinese="游戏按键"

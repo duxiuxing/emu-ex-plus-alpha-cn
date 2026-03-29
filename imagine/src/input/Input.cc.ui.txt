@@ -1,0 +1,111 @@
+Ln=80
+English="Unknown"
+Chinese="未知"
+
+Ln=82
+English="Key Input"
+Chinese="按键输入"
+
+Ln=84
+English="Pointer"
+Chinese="指针"
+
+Ln=86
+English="Relative Pointer"
+Chinese="相对指针"
+
+Ln=89
+English="Wiimote"
+Chinese="Wii 右手柄"
+
+Ln=92
+English="Classic / Wii U Pro Controller"
+Chinese="经典 / Wii U Pro 手柄"
+
+Ln=95
+English="iControlPad"
+Chinese="iControlPad 手柄"
+
+Ln=98
+English="Zeemote JS1"
+Chinese="Zeemote JS1 手柄"
+
+Ln=101
+English="PS3 Gamepad"
+Chinese="PS3 手柄"
+
+Ln=104
+English="Apple Game Controller"
+Chinese="苹果游戏控制器"
+
+Ln=120
+English="Keyboard"
+Chinese="键盘"
+
+Ln=122
+English="Gamepad"
+Chinese="游戏手柄"
+
+Ln=124
+English="Mouse"
+Chinese="鼠标"
+
+Ln=126
+English="Touchscreen"
+Chinese="触摸屏"
+
+Ln=128
+English="Navigation"
+Chinese="导航仪"
+
+Ln=130
+English="Joystick"
+Chinese="游戏摇杆"
+
+Ln=132
+English="Unknown"
+Chinese="未知"
+
+Ln=140
+English="Unused"
+Chinese="未使用"
+
+Ln=142
+English="Released"
+Chinese="松开"
+
+Ln=144
+English="Pushed"
+Chinese="按下"
+
+Ln=146
+English="Moved"
+Chinese="移动"
+
+Ln=148
+English="Moved Relative"
+Chinese="相对移动"
+
+Ln=150
+English="Exit View"
+Chinese="退出视图"
+
+Ln=152
+English="Enter View"
+Chinese="打开视图"
+
+Ln=154
+English="Scroll Up"
+Chinese="上滚动"
+
+Ln=156
+English="Scroll Down"
+Chinese="下滚动"
+
+Ln=158
+English="Canceled"
+Chinese="取消"
+
+Ln=160
+English="Unknown"
+Chinese="未知"

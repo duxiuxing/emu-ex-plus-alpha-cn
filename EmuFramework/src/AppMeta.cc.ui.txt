@@ -1,0 +1,3 @@
+Ln=29
+English="4:3 (Original)"
+Chinese="4:3 (原画)"

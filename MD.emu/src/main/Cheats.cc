@@ -533,7 +533,7 @@ Cheat* MdSystem::newCheat(EmuApp& app, const char* name, CheatCodeDesc desc)
 	if(std::strlen(desc.str) > 11)
 	{
 		app.postMessage(true,
-			UI_TEXT("输入的代码过长")
+			UI_TEXT("输入的作弊码过长")
 		);
 		return {};
 	}
@@ -541,7 +541,7 @@ Cheat* MdSystem::newCheat(EmuApp& app, const char* name, CheatCodeDesc desc)
 	if(!decodeCheat(code.text.data(), code.address, code.data, code.origData))
 	{
 		app.postMessage(true,
-			UI_TEXT("无效的代码")
+			UI_TEXT("无效的作弊码")
 		);
 		return {};
 	}
@@ -577,7 +577,7 @@ bool MdSystem::addCheatCode(EmuApp& app, Cheat*& cheatPtr, CheatCodeDesc desc)
 	if(!decodeCheat(code.text.data(), code.address, code.data, code.origData))
 	{
 		app.postMessage(true,
-			UI_TEXT("无效的代码")
+			UI_TEXT("无效的作弊码")
 		);
 		return {};
 	}
@@ -593,7 +593,7 @@ bool MdSystem::modifyCheatCode(EmuApp& app, Cheat&, CheatCode& c, CheatCodeDesc 
 	if(!decodeCheat(codeStr.data(), c.address, c.data, c.origData))
 	{
 		app.postMessage(true,
-			UI_TEXT("无效的代码")
+			UI_TEXT("无效的作弊码")
 		);
 		return false;
 	}

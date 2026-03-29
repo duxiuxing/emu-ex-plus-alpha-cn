@@ -1,0 +1,23 @@
+Ln=80
+English="Storage Media"
+Chinese="存储空间"
+
+Ln=81
+English="Media"
+Chinese="媒体文件夹"
+
+Ln=91
+English="App Media Folder"
+Chinese="App 媒体文件夹"
+
+Ln=92
+English="Media"
+Chinese="媒体文件夹"
+
+Ln=116
+English="Storage Devices"
+Chinese="存储设备"
+
+Ln=117
+English="Storage"
+Chinese="存储"
