@@ -41,7 +41,7 @@ static std::string makeHardwareSensorStr(GbaSensorType opt)
 	case GbaSensorType::Gyroscope:
 		return UI_TEXT("陀螺仪");
 	case GbaSensorType::Light:
-		return UI_TEXT("光线感应器");
+		return UI_TEXT("光线传感器");
 	}
 }
 
@@ -222,7 +222,7 @@ class ConsoleOptionView : public TableView, public MainAppHelper
 			attachParams(), {.id = GbaSensorType::Gyroscope}
 		},
 		{
-			UI_TEXT("光线感应器"),
+			UI_TEXT("光线传感器"),
 			attachParams(), {.id = GbaSensorType::Light}
 		},
 	};
@@ -591,7 +591,7 @@ class CustomFilePathOptionView : public FilePathOptionView, public MainAppHelper
 		[this](const Input::Event &e)
 		{
 			pushAndShow(makeViewWithName<UserPathSelectView>(
-				UI_TEXT("金手指文件夹"),
+				UI_TEXT("作弊文件夹"),
 				system().userPath(system().cheatsDir),
 				[this](CStringView path)
 				{
@@ -662,8 +662,8 @@ public:
 static auto cheatInputString(bool isGSv3)
 {
 	return isGSv3
-		? UI_TEXT("Input xxxxxxxx yyyyyyyy")
-		: UI_TEXT("Input xxxxxxxx yyyyyyyy (GS) or xxxxxxxx yyyy (AR)");
+		? UI_TEXT("请输入作弊码，格式：xxxxxxxx yyyyyyyy")
+		: UI_TEXT("请输入 GS (xxxxxxxx yyyyyyyy) 或 CB (xxxxxxxx yyyy) 作弊码");
 }
 
 class EditCheatView : public BaseEditCheatView
@@ -672,20 +672,20 @@ public:
 	EditCheatView(ViewAttachParams attach, Cheat& cheat, BaseEditCheatsView& editCheatsView):
 		BaseEditCheatView
 		{
-			UI_TEXT("Edit Cheat"),
+			UI_TEXT("编辑作弊项"),
 			attach,
 			cheat,
 			editCheatsView
 		},
 		addGS12CBCode
 		{
-			UI_TEXT("Add Another GS v1-2/CB Code"),
+			UI_TEXT("添加另一个 GS v1-2/CB 作弊码"),
 			attach,
 			[this](const Input::Event& e) { addNewCheatCode(cheatInputString(false), e, 0); }
 		},
 		addGS3Code
 		{
-			UI_TEXT("Add Another GS v3 Code"),
+			UI_TEXT("添加另一个 GS v3 作弊码"),
 			attach,
 			[this](const Input::Event& e) { addNewCheatCode(cheatInputString(true), e, 1); }
 		}
@@ -699,11 +699,11 @@ public:
 		system().forEachCheatCode(*cheatPtr, [this](CheatCode& c, std::string_view code)
 		{
 			codes.emplace_back(
-				UI_TEXT("Code"),
+				UI_TEXT("作弊码"),
 				c.codestring, attachParams(), [this, &c](const Input::Event& e)
 			{
 				pushAndShowModal(makeView<YesNoAlertView>(
-					UI_TEXT("Really delete this code?"),
+					UI_TEXT("是否要删除这个作弊码？"),
 					YesNoAlertView::Delegates{.onYes = [this, &c]{ removeCheatCode(c); }}), e);
 			});
 			return true;
@@ -750,13 +750,13 @@ public:
 		},
 		addGS12CBCode
 		{
-			UI_TEXT("Add Game Shark v1-2/Code Breaker Code"),
+			UI_TEXT("添加 GS v1-2/CB 作弊码"),
 			attach,
 			[this](const Input::Event& e) { addNewCheat(cheatInputString(false), e, 0); }
 		},
 		addGS3Code
 		{
-			UI_TEXT("Add Game Shark v3 Code"),
+			UI_TEXT("添加 GS v3 作弊码"),
 			attach,
 			[this](const Input::Event& e) { addNewCheat(cheatInputString(true), e, 1); }
 		} {}
