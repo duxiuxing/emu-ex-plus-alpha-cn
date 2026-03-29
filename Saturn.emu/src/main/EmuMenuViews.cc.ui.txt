@@ -1,0 +1,212 @@
+Ln=55
+English="NA/EU BIOS"
+
+Ln=70
+English="NA/EU BIOS: {}"
+
+Ln=80
+English="JP BIOS"
+
+Ln=95
+English="JP BIOS: {}"
+
+Ln=105
+English="KoF '95 ROM"
+
+Ln=120
+English="KoF '95 ROM: {}"
+
+Ln=130
+English="Ultraman ROM"
+
+Ln=145
+English="Ultraman ROM: {}"
+
+Ln=165
+English="None"
+
+Ln=167
+English="512K Backup RAM"
+
+Ln=169
+English="1M RAM"
+
+Ln=171
+English="4M RAM"
+
+Ln=173
+English="16M CS1 RAM"
+
+Ln=175
+English="KoF '95"
+
+Ln=177
+English="Ultraman"
+
+Ln=187
+English="Japan"
+
+Ln=189
+English="North America"
+
+Ln=191
+English="Europe"
+
+Ln=193
+English="South Korea"
+
+Ln=195
+English="Asia (NTSC)"
+
+Ln=197
+English="Asia (PAL)"
+
+Ln=199
+English="Brazil"
+
+Ln=201
+English="Latin America"
+
+Ln=211
+English="Auto"
+
+Ln=225
+English="Cart Type"
+
+Ln=251
+English="Auto"
+
+Ln=266
+English="Region"
+
+Ln=293
+English="Disc"
+
+Ln=309
+English="Video"
+
+Ln=315
+English="Show Horizontal Overscan"
+
+Ln=328
+English="8+224"
+
+Ln=332
+English="0+240"
+
+Ln=340
+English="16+256"
+
+Ln=344
+English="32+224"
+
+Ln=348
+English="0+288"
+
+Ln=355
+English="Visible Lines"
+
+Ln=377
+English="Bob"
+
+Ln=381
+English="Weave"
+
+Ln=388
+English="Deinterlace Mode"
+
+Ln=404
+English="Auto"
+
+Ln=408
+English="Standard"
+
+Ln=412
+English="90° Right"
+
+Ln=416
+English="Upside Down"
+
+Ln=420
+English="90° Left"
+
+Ln=427
+English="Content Rotation"
+
+Ln=444
+English="Auto"
+
+Ln=448
+English="On"
+
+Ln=452
+English="Off"
+
+Ln=459
+English="Anamorphic Widescreen Content"
+
+Ln=475
+English="Input"
+
+Ln=484
+English="Port {} Multitap"
+
+Ln=505
+English="Gamepad"
+
+Ln=509
+English="Gun"
+
+Ln=513
+English="None"
+
+Ln=523
+English="Port {}"
+
+Ln=585
+English="Console Options"
+
+Ln=596
+English="Eject"
+
+Ln=633
+English="Console Options"
+
+Ln=652
+English="Auto-Set RTC On Start"
+
+Ln=664
+English="English"
+
+Ln=668
+English="German"
+
+Ln=672
+English="French"
+
+Ln=676
+English="Spanish"
+
+Ln=680
+English="Italian"
+
+Ln=684
+English="Japanese"
+
+Ln=691
+English="BIOS Language"
+
+Ln=722
+English="Default Show Horizontal Overscan"
+
+Ln=734
+English="8+224"
+
+Ln=738
+English="0+240"
+
+Ln=745
+English="Default NTSC Visible Lines"
+
+Ln=759
+English="Correct Line Aspect Ratio"

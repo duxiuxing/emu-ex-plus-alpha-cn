@@ -1,0 +1,71 @@
+Ln=29
+English="(c) 2011-2026\nRobert Broglia\nwww.explusalpha.com\n\nPortions (c) the\nMednafen Team\nmednafen.github.io"
+
+Ln=76
+English="Gamepad"
+
+Ln=81
+English="Gamepad 2"
+
+Ln=86
+English="Gamepad 3"
+
+Ln=91
+English="Gamepad 4"
+
+Ln=96
+English="Gamepad 5"
+
+Ln=108
+English="Up"
+
+Ln=110
+English="Right"
+
+Ln=112
+English="Down"
+
+Ln=114
+English="Left"
+
+Ln=116
+English="Select"
+
+Ln=118
+English="Run"
+
+Ln=120
+English="I"
+
+Ln=122
+English="II"
+
+Ln=124
+English="III"
+
+Ln=126
+English="IV"
+
+Ln=128
+English="V"
+
+Ln=130
+English="VI"
+
+Ln=244
+English="D-Pad"
+
+Ln=249
+English="Face Buttons"
+
+Ln=254
+English="Select"
+
+Ln=259
+English="Run"
+
+Ln=264
+English="Select/Run"
+
+Ln=270
+English="Gamepad"

@@ -1,0 +1,110 @@
+Ln=31
+English="(c) 2011-2026\nRobert Broglia\nwww.explusalpha.com\n\nPortions (c) the\nStella Team\nstella-emu.github.io"
+
+Ln=94
+English="Joystick"
+
+Ln=99
+English="Joystick 2"
+
+Ln=104
+English="Console Switches"
+
+Ln=109
+English="Keyboard"
+
+Ln=114
+English="Keyboard 2"
+
+Ln=126
+English="Up"
+
+Ln=128
+English="Right"
+
+Ln=130
+English="Down"
+
+Ln=132
+English="Left"
+
+Ln=134
+English="Button 1"
+
+Ln=136
+English="Button 2"
+
+Ln=138
+English="Button 3"
+
+Ln=140
+English="Select"
+
+Ln=142
+English="Reset"
+
+Ln=144
+English="Left (P1) Difficulty"
+
+Ln=146
+English="Right (P2) Difficulty"
+
+Ln=148
+English="Color/B&W"
+
+Ln=150
+English="1"
+
+Ln=152
+English="2"
+
+Ln=154
+English="3"
+
+Ln=156
+English="4"
+
+Ln=158
+English="5"
+
+Ln=160
+English="6"
+
+Ln=162
+English="7"
+
+Ln=164
+English="8"
+
+Ln=166
+English="9"
+
+Ln=168
+English="*"
+
+Ln=170
+English="0"
+
+Ln=172
+English="#"
+
+Ln=328
+English="D-Pad"
+
+Ln=333
+English="Joystick Buttons"
+
+Ln=338
+English="Keyboard Buttons"
+
+Ln=343
+English="Select"
+
+Ln=348
+English="Reset"
+
+Ln=353
+English="Console Buttons"
+
+Ln=359
+English="Joystick"

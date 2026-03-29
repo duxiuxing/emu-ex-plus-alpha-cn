@@ -45,16 +45,16 @@ using MainAppHelper = EmuAppHelperBase<MainApp>;
 
 constexpr std::string_view driveMenuPrefix[4]
 {
-	"Disk 8",
-	"Disk 9",
-	"Disk 10",
-	"Disk 11",
+	UI_TEXT("Disk 8"),
+	UI_TEXT("Disk 9"),
+	UI_TEXT("Disk 10"),
+	UI_TEXT("Disk 11"),
 };
 
 constexpr std::string_view insertEjectMenuStr[]
 {
-	"Insert File",
-	"Eject"
+	UI_TEXT("Insert File"),
+	UI_TEXT("Eject")
 };
 
 constexpr int defaultNTSCModel[]
@@ -120,15 +120,16 @@ class CustomVideoOptionView : public VideoOptionView, public MainAppHelper
 
 	TextMenuItem borderModeItem[4]
 	{
-		{"Normal", attachParams(), {.id = VICII_NORMAL_BORDERS}},
-		{"Full",   attachParams(), {.id = VICII_FULL_BORDERS}},
-		{"Debug",  attachParams(), {.id = VICII_DEBUG_BORDERS}},
-		{"None",   attachParams(), {.id = VICII_NO_BORDERS}},
+		{UI_TEXT("Normal"), attachParams(), {.id = VICII_NORMAL_BORDERS}},
+		{UI_TEXT("Full"),   attachParams(), {.id = VICII_FULL_BORDERS}},
+		{UI_TEXT("Debug"),  attachParams(), {.id = VICII_DEBUG_BORDERS}},
+		{UI_TEXT("None"),   attachParams(), {.id = VICII_NO_BORDERS}},
 	};
 
 	MultiChoiceMenuItem borderMode
 	{
-		"Borders", attachParams(),
+		UI_TEXT("Borders"),
+		attachParams(),
 		MenuId{system().borderMode()},
 		borderModeItem,
 		{
@@ -141,7 +142,8 @@ class CustomVideoOptionView : public VideoOptionView, public MainAppHelper
 
 	MultiChoiceMenuItem defaultPalette
 	{
-		"Default Palette", attachParams(),
+		UI_TEXT("Default Palette"),
+		attachParams(),
 		[this]() -> int
 		{
 			if(system().defaultPaletteName.empty())
@@ -152,7 +154,7 @@ class CustomVideoOptionView : public VideoOptionView, public MainAppHelper
 		paletteItem
 	};
 
-	TextHeadingMenuItem colorSettingsHeading{"Color Settings", attachParams()};
+	TextHeadingMenuItem colorSettingsHeading{UI_TEXT("Color Settings"), attachParams()};
 
 	template<int max = 200>
 	DualTextMenuItem::SelectDelegate colorSettingDel(ColorSetting setting)
@@ -160,7 +162,10 @@ class CustomVideoOptionView : public VideoOptionView, public MainAppHelper
 		return [=, this](const Input::Event &e)
 		{
 			pushAndShowNewCollectValueRangeInputView<int, 0, max>(attachParams(), e,
-			max == 200 ? "Input 0 to 200" : "Input 0 to 400", "",
+			max == 200
+				? UI_TEXT("Input 0 to 200")
+				: UI_TEXT("Input 0 to 400"),
+			"",
 			[=, this](CollectTextInputView&, auto val)
 			{
 				val *= 10;
@@ -174,11 +179,11 @@ class CustomVideoOptionView : public VideoOptionView, public MainAppHelper
 
 	DualTextMenuItem colorSettings[5]
 	{
-		{"Saturation", system().colorSettingAsString(ColorSetting::Saturation), attachParams(), colorSettingDel(ColorSetting::Saturation)},
-		{"Contrast",   system().colorSettingAsString(ColorSetting::Contrast),   attachParams(), colorSettingDel(ColorSetting::Contrast)},
-		{"Brightness", system().colorSettingAsString(ColorSetting::Brightness), attachParams(), colorSettingDel(ColorSetting::Brightness)},
-		{"Gamma",      system().colorSettingAsString(ColorSetting::Gamma),      attachParams(), colorSettingDel<400>(ColorSetting::Gamma)},
-		{"Tint",       system().colorSettingAsString(ColorSetting::Tint),       attachParams(), colorSettingDel(ColorSetting::Tint)}
+		{UI_TEXT("Saturation"), system().colorSettingAsString(ColorSetting::Saturation), attachParams(), colorSettingDel(ColorSetting::Saturation)},
+		{UI_TEXT("Contrast"),   system().colorSettingAsString(ColorSetting::Contrast),   attachParams(), colorSettingDel(ColorSetting::Contrast)},
+		{UI_TEXT("Brightness"), system().colorSettingAsString(ColorSetting::Brightness), attachParams(), colorSettingDel(ColorSetting::Brightness)},
+		{UI_TEXT("Gamma"),      system().colorSettingAsString(ColorSetting::Gamma),      attachParams(), colorSettingDel<400>(ColorSetting::Gamma)},
+		{UI_TEXT("Tint"),       system().colorSettingAsString(ColorSetting::Tint),       attachParams(), colorSettingDel(ColorSetting::Tint)}
 	};
 
 public:
@@ -217,13 +222,14 @@ class CustomAudioOptionView : public AudioOptionView, public MainAppHelper
 
 	TextMenuItem sidEngineItem[2]
 	{
-		{"FastSID", attachParams(), {.id = SID_ENGINE_FASTSID}},
-		{"ReSID",   attachParams(), {.id = SID_ENGINE_RESID}},
+		{UI_TEXT("FastSID"), attachParams(), {.id = SID_ENGINE_FASTSID}},
+		{UI_TEXT("ReSID"),   attachParams(), {.id = SID_ENGINE_RESID}},
 	};
 
 	MultiChoiceMenuItem sidEngine
 	{
-		"SID Engine", attachParams(),
+		UI_TEXT("SID Engine"),
+		attachParams(),
 		MenuId{system().sidEngine()},
 		sidEngineItem,
 		{
@@ -233,15 +239,16 @@ class CustomAudioOptionView : public AudioOptionView, public MainAppHelper
 
 	TextMenuItem reSidSamplingItem[4]
 	{
-		{"Fast",            attachParams(), {.id = SID_RESID_SAMPLING_FAST}},
-		{"Interpolation",   attachParams(), {.id = SID_RESID_SAMPLING_INTERPOLATION}},
-		{"Resampling",      attachParams(), {.id = SID_RESID_SAMPLING_RESAMPLING}},
-		{"Fast Resampling", attachParams(), {.id = SID_RESID_SAMPLING_FAST_RESAMPLING}},
+		{UI_TEXT("Fast"),            attachParams(), {.id = SID_RESID_SAMPLING_FAST}},
+		{UI_TEXT("Interpolation"),   attachParams(), {.id = SID_RESID_SAMPLING_INTERPOLATION}},
+		{UI_TEXT("Resampling"),      attachParams(), {.id = SID_RESID_SAMPLING_RESAMPLING}},
+		{UI_TEXT("Fast Resampling"), attachParams(), {.id = SID_RESID_SAMPLING_FAST_RESAMPLING}},
 	};
 
 	MultiChoiceMenuItem reSidSampling
 	{
-		"ReSID Sampling", attachParams(),
+		UI_TEXT("ReSID Sampling"),
+		attachParams(),
 		MenuId{system().reSidSampling()},
 		reSidSamplingItem,
 		{
@@ -266,14 +273,16 @@ class CustomSystemOptionView : public SystemOptionView, public MainAppHelper
 
 	MultiChoiceMenuItem defaultModel
 	{
-		"Default Model", attachParams(),
+		UI_TEXT("Default Model"),
+		attachParams(),
 		MenuId{system().defaultModel},
 		defaultModelItem
 	};
 
 	BoolMenuItem defaultTrueDriveEmu
 	{
-		"Default True Drive Emulation", attachParams(),
+		UI_TEXT("Default True Drive Emulation"),
+		attachParams(),
 		system().defaultDriveTrueEmulation,
 		[this](BoolMenuItem &item)
 		{
@@ -290,7 +299,8 @@ class CustomSystemOptionView : public SystemOptionView, public MainAppHelper
 
 	MultiChoiceMenuItem joystickMode
 	{
-		"Default Main Joystick Mode", attachParams(),
+		UI_TEXT("Default Main Joystick Mode"),
+		attachParams(),
 		MenuId{system().defaultJoystickMode},
 		joystickModeItems,
 		{
@@ -339,7 +349,8 @@ class CustomFilePathOptionView : public FilePathOptionView, public MainAppHelper
 		sysPathMenuEntryStr(system().sysFilePath[0]), attachParams(),
 		[this](const Input::Event& e)
 		{
-			auto view = makeViewWithName<DataFolderSelectView>("VICE System Files",
+			auto view = makeViewWithName<DataFolderSelectView>(
+				UI_TEXT("VICE System Files"),
 				app().validSearchPath(system().sysFilePath[0]),
 				[this](CStringView path, FS::file_type type)
 				{
@@ -347,7 +358,7 @@ class CustomFilePathOptionView : public FilePathOptionView, public MainAppHelper
 					if(type == FS::file_type::none && sysFilePath.size() > 1)
 					{
 						system().setSystemFilesPath(path, type);
-						app().postMessage(5, false, std::format("Using fallback paths:\n{}\n{}", sysFilePath[1], sysFilePath[2]));
+						app().postMessage(5, false, std::format(UI_TEXT("Using fallback paths:\n{}\n{}"), sysFilePath[1], sysFilePath[2]));
 					}
 					else
 					{
@@ -371,18 +382,21 @@ class CustomFilePathOptionView : public FilePathOptionView, public MainAppHelper
 
 	TextMenuItem downloadSystemFiles
 	{
-		"Download VICE System Files", attachParams(),
+		UI_TEXT("Download VICE System Files"),
+		attachParams(),
 		[this](const Input::Event& e)
 		{
 			pushAndShowModal(makeView<YesNoAlertView>(
-				"Open the C64.emu setup page? From there, download C64.emu.zip to your device and select it as an archive in the previous menu.",
+				UI_TEXT("Open the C64.emu setup page? From there, download C64.emu.zip to your device and select it as an archive in the previous menu."),
 				YesNoAlertView::Delegates{.onYes = [this]{ appContext().openURL("https://www.explusalpha.com/contents/c64-emu"); }}), e);
 		}
 	};
 
 	std::string sysPathMenuEntryStr(CStringView path)
 	{
-		return std::format("VICE System Files: {}", appContext().fileUriDisplayName(path));
+		return std::format(
+			UI_TEXT("VICE System Files: {}"),
+			appContext().fileUriDisplayName(path));
 	}
 
 public:
@@ -400,7 +414,7 @@ public:
 	DatasetteControlsView(ViewAttachParams attach):
 		TableView
 		{
-			"Datasette Controls",
+			UI_TEXT("Datasette Controls"),
 			attach,
 			menuItem
 		}
@@ -409,7 +423,8 @@ public:
 private:
 	TextMenuItem stop
 	{
-		"Stop", attachParams(),
+		UI_TEXT("Stop"),
+		attachParams(),
 		[this]()
 		{
 			system().enterCPUTrap();
@@ -420,7 +435,8 @@ private:
 
 	TextMenuItem start
 	{
-		"Start", attachParams(),
+		UI_TEXT("Start"),
+		attachParams(),
 		[this]()
 		{
 			system().enterCPUTrap();
@@ -431,7 +447,8 @@ private:
 
 	TextMenuItem forward
 	{
-		"Forward", attachParams(),
+		UI_TEXT("Forward"),
+		attachParams(),
 		[this]()
 		{
 			system().enterCPUTrap();
@@ -442,7 +459,8 @@ private:
 
 	TextMenuItem rewind
 	{
-		"Rewind", attachParams(),
+		UI_TEXT("Rewind"),
+		attachParams(),
 		[this]()
 		{
 			system().enterCPUTrap();
@@ -453,7 +471,8 @@ private:
 
 	TextMenuItem record
 	{
-		"Record", attachParams(),
+		UI_TEXT("Record"),
+		attachParams(),
 		[this]()
 		{
 			system().enterCPUTrap();
@@ -464,7 +483,8 @@ private:
 
 	TextMenuItem reset
 	{
-		"Reset", attachParams(),
+		UI_TEXT("Reset"),
+		attachParams(),
 		[this](View& view)
 		{
 			system().enterCPUTrap();
@@ -477,7 +497,8 @@ private:
 
 	TextMenuItem resetCounter
 	{
-		"Reset Counter", attachParams(),
+		UI_TEXT("Reset Counter"),
+		attachParams(),
 		[this](View& view)
 		{
 			system().enterCPUTrap();
@@ -507,7 +528,7 @@ private:
 
 	void updateTapeCounter()
 	{
-		tapeCounter.setName(std::format("Tape Counter: {}", EmuEx::tapeCounter));
+		tapeCounter.setName(std::format(UI_TEXT("Tape Counter: {}"), EmuEx::tapeCounter));
 	}
 
 	void onShow() final
@@ -523,7 +544,7 @@ private:
 	void updateTapeText()
 	{
 		auto name = system().plugin.tape_get_file_name(0);
-		tapeSlot.setName(std::format("Tape: {}", name ? appContext().fileUriDisplayName(name) : ""));
+		tapeSlot.setName(std::format(UI_TEXT("Tape: {}"), name ? appContext().fileUriDisplayName(name) : ""));
 		datasetteControls.setActive(name);
 	}
 
@@ -562,7 +583,7 @@ private:
 			auto name = system().plugin.tape_get_file_name(0);
 			if(name && strlen(name))
 			{
-				auto multiChoiceView = makeViewWithName<TextTableView>("Tape Drive", std::size(insertEjectMenuStr));
+				auto multiChoiceView = makeViewWithName<TextTableView>(UI_TEXT("Tape Drive"), std::size(insertEjectMenuStr));
 				multiChoiceView->appendItem(insertEjectMenuStr[0],
 					[this](const Input::Event& e)
 					{
@@ -587,7 +608,8 @@ private:
 
 	TextMenuItem datasetteControls
 	{
-		"Datasette Controls", attachParams(),
+		UI_TEXT("Datasette Controls"),
+		attachParams(),
 		[this](TextMenuItem& item, const Input::Event& e)
 		{
 			if(!item.active())
@@ -635,7 +657,7 @@ private:
 			auto cartFilename = system().plugin.cartridge_get_file_name(system().plugin.cart_getid_slotmain());
 			if(cartFilename && strlen(cartFilename))
 			{
-				auto multiChoiceView = makeViewWithName<TextTableView>("Cartridge Slot", std::size(insertEjectMenuStr));
+				auto multiChoiceView = makeViewWithName<TextTableView>(UI_TEXT("Cartridge Slot"), std::size(insertEjectMenuStr));
 				multiChoiceView->appendItem(insertEjectMenuStr[0],
 					[this](const Input::Event& e)
 					{
@@ -661,7 +683,7 @@ private:
 	void updateDiskText(int slot)
 	{
 		auto name = system().plugin.file_system_get_disk_name(slot+8, 0);
-		diskSlot[slot].setName(std::format("{}: {}", driveMenuPrefix[slot], name ? appContext().fileUriDisplayName(name) : ""));
+		diskSlot[slot].setName(std::format(UI_TEXT("{}: {}"), driveMenuPrefix[slot], name ? appContext().fileUriDisplayName(name) : ""));
 	}
 
 	void onDiskMediaChange(int slot)
@@ -694,7 +716,7 @@ public:
 		auto name = system().plugin.file_system_get_disk_name(slot+8, 0);
 		if(name && strlen(name))
 		{
-			auto multiChoiceView = makeViewWithName<TextTableView>("Disk Drive", std::size(insertEjectMenuStr));
+			auto multiChoiceView = makeViewWithName<TextTableView>(UI_TEXT("Disk Drive"), std::size(insertEjectMenuStr));
 			multiChoiceView->appendItem(insertEjectMenuStr[0],
 				[this, slot](const Input::Event& e)
 				{
@@ -731,7 +753,8 @@ private:
 
 	MultiChoiceMenuItem drive8Type
 	{
-		"Drive 8 Type", attachParams(),
+		UI_TEXT("Drive 8 Type"),
+		attachParams(),
 		MenuId{system().driveType(8)},
 		driveTypeItem,
 		{
@@ -745,7 +768,8 @@ private:
 
 	MultiChoiceMenuItem drive9Type
 	{
-		"Drive 9 Type", attachParams(),
+		UI_TEXT("Drive 9 Type"),
+		attachParams(),
 		MenuId{system().driveType(9)},
 		driveTypeItem,
 		{
@@ -759,7 +783,8 @@ private:
 
 	MultiChoiceMenuItem drive10Type
 	{
-		"Drive 10 Type", attachParams(),
+		UI_TEXT("Drive 10 Type"),
+		attachParams(),
 		MenuId{system().driveType(10)},
 		driveTypeItem,
 		{
@@ -773,7 +798,8 @@ private:
 
 	MultiChoiceMenuItem drive11Type
 	{
-		"Drive 11 Type", attachParams(),
+		UI_TEXT("Drive 11 Type"),
+		attachParams(),
 		MenuId{system().driveType(11)},
 		driveTypeItem,
 		{
@@ -785,7 +811,7 @@ private:
 		}
 	};
 
-	TextHeadingMenuItem mediaOptions{"Media Options", attachParams()};
+	TextHeadingMenuItem mediaOptions{UI_TEXT("Media Options"), attachParams()};
 
 	StaticArrayList<MenuItem*, 12> item;
 
@@ -793,7 +819,7 @@ public:
 	C64IOControlView(ViewAttachParams attach):
 		TableView
 		{
-			"System & Media",
+			UI_TEXT("System & Media"),
 			attach,
 			item
 		},
@@ -849,7 +875,8 @@ class Vic20MemoryExpansionsView : public TableView, public MainAppHelper
 
 	BoolMenuItem block0
 	{
-		"Block 0 (3KB @ $0400-$0FFF)", attachParams(),
+		UI_TEXT("Block 0 (3KB @ $0400-$0FFF)"),
+		attachParams(),
 		(bool)system().intResource("RamBlock0"),
 		[this](BoolMenuItem &item)
 		{
@@ -859,7 +886,8 @@ class Vic20MemoryExpansionsView : public TableView, public MainAppHelper
 
 	BoolMenuItem block1
 	{
-		"Block 1 (8KB @ $2000-$3FFF)", attachParams(),
+		UI_TEXT("Block 1 (8KB @ $2000-$3FFF)"),
+		attachParams(),
 		(bool)system().intResource("RamBlock1"),
 		[this](BoolMenuItem &item)
 		{
@@ -869,7 +897,8 @@ class Vic20MemoryExpansionsView : public TableView, public MainAppHelper
 
 	BoolMenuItem block2
 	{
-		"Block 2 (8KB @ $4000-$5FFF)", attachParams(),
+		UI_TEXT("Block 2 (8KB @ $4000-$5FFF)"),
+		attachParams(),
 		(bool)system().intResource("RamBlock2"),
 		[this](BoolMenuItem &item)
 		{
@@ -879,7 +908,8 @@ class Vic20MemoryExpansionsView : public TableView, public MainAppHelper
 
 	BoolMenuItem block3
 	{
-		"Block 3 (8KB @ $6000-$7FFF)", attachParams(),
+		UI_TEXT("Block 3 (8KB @ $6000-$7FFF)"),
+		attachParams(),
 		(bool)system().intResource("RamBlock3"),
 		[this](BoolMenuItem &item)
 		{
@@ -889,7 +919,8 @@ class Vic20MemoryExpansionsView : public TableView, public MainAppHelper
 
 	BoolMenuItem block5
 	{
-		"Block 5 (8KB @ $A000-$BFFF)", attachParams(),
+		UI_TEXT("Block 5 (8KB @ $A000-$BFFF)"),
+		attachParams(),
 		(bool)system().intResource("RamBlock5"),
 		[this](BoolMenuItem &item)
 		{
@@ -910,7 +941,7 @@ public:
 	Vic20MemoryExpansionsView(ViewAttachParams attach):
 		TableView
 		{
-			"Memory Expansions",
+			UI_TEXT("Memory Expansions"),
 			attach,
 			menuItem
 		}
@@ -923,14 +954,16 @@ class MachineOptionView : public TableView, public MainAppHelper
 
 	MultiChoiceMenuItem model
 	{
-		"Model", attachParams(),
+		UI_TEXT("Model"),
+		attachParams(),
 		MenuId{system().model()},
 		modelItem
 	};
 
 	TextMenuItem vic20MemExpansions
 	{
-		"Memory Expansions", attachParams(),
+		UI_TEXT("Memory Expansions"),
+		attachParams(),
 		[this](const Input::Event& e)
 		{
 			pushAndShow(makeView<Vic20MemoryExpansionsView>(), e);
@@ -939,7 +972,8 @@ class MachineOptionView : public TableView, public MainAppHelper
 
 	BoolMenuItem autostartWarp
 	{
-		"Autostart Fast-forward", attachParams(),
+		UI_TEXT("Autostart Fast-forward"),
+		attachParams(),
 		system().autostartWarp(),
 		[this](BoolMenuItem& item)
 		{
@@ -950,7 +984,8 @@ class MachineOptionView : public TableView, public MainAppHelper
 
 	BoolMenuItem autostartTDE
 	{
-		"Autostart Handles TDE", attachParams(),
+		UI_TEXT("Autostart Handles TDE"),
+		attachParams(),
 		system().autostartTDE(),
 		[this](BoolMenuItem& item)
 		{
@@ -961,7 +996,8 @@ class MachineOptionView : public TableView, public MainAppHelper
 
 	BoolMenuItem autostartBasicLoad
 	{
-		"Load To BASIC Start (Disk)", attachParams(),
+		UI_TEXT("Load To BASIC Start (Disk)"),
+		attachParams(),
 		bool(system().intResource("AutostartBasicLoad")),
 		[this](BoolMenuItem& item)
 		{
@@ -972,7 +1008,8 @@ class MachineOptionView : public TableView, public MainAppHelper
 
 	BoolMenuItem trueDriveEmu
 	{
-		"True Drive Emulation (TDE)", attachParams(),
+		UI_TEXT("True Drive Emulation (TDE)"),
+		attachParams(),
 		system().driveTrueEmulation(),
 		[this](BoolMenuItem& item)
 		{
@@ -988,7 +1025,8 @@ class MachineOptionView : public TableView, public MainAppHelper
 
 	MultiChoiceMenuItem palette
 	{
-		"Palette", attachParams(),
+		UI_TEXT("Palette"),
+		attachParams(),
 		[this]() -> int
 		{
 			if(!system().usingExternalPalette())
@@ -999,24 +1037,25 @@ class MachineOptionView : public TableView, public MainAppHelper
 		paletteItem
 	};
 
-	TextHeadingMenuItem cartHeader{"Cartridges", attachParams()};
+	TextHeadingMenuItem cartHeader{UI_TEXT("Cartridges"), attachParams()};
 
 	TextMenuItem reuItem[9]
 	{
-		{"Off",    attachParams(), {.id = 0}},
-		{"128KiB", attachParams(), {.id = 128}},
-		{"256KiB", attachParams(), {.id = 256}},
-		{"512KiB", attachParams(), {.id = 512}},
-		{"1MiB",   attachParams(), {.id = 1024}},
-		{"2MiB",   attachParams(), {.id = 2048}},
-		{"4MiB",   attachParams(), {.id = 4096}},
-		{"8MiB",   attachParams(), {.id = 8192}},
-		{"16MiB",  attachParams(), {.id = 16384}},
+		{UI_TEXT("Off"),    attachParams(), {.id = 0}},
+		{UI_TEXT("128KiB"), attachParams(), {.id = 128}},
+		{UI_TEXT("256KiB"), attachParams(), {.id = 256}},
+		{UI_TEXT("512KiB"), attachParams(), {.id = 512}},
+		{UI_TEXT("1MiB"),   attachParams(), {.id = 1024}},
+		{UI_TEXT("2MiB"),   attachParams(), {.id = 2048}},
+		{UI_TEXT("4MiB"),   attachParams(), {.id = 4096}},
+		{UI_TEXT("8MiB"),   attachParams(), {.id = 8192}},
+		{UI_TEXT("16MiB"),  attachParams(), {.id = 16384}},
 	};
 
 	MultiChoiceMenuItem reu
 	{
-		"Ram Expansion Module", attachParams(),
+		UI_TEXT("Ram Expansion Module"),
+		attachParams(),
 		MenuId{system().intResource("REU") ? system().intResource("REUsize") : 0},
 		reuItem,
 		{
@@ -1034,7 +1073,7 @@ public:
 	MachineOptionView(ViewAttachParams attach):
 		TableView
 		{
-			"Machine Options",
+			UI_TEXT("Machine Options"),
 			attach,
 			menuItem
 		},
@@ -1100,7 +1139,8 @@ class CustomSystemActionsView : public SystemActionsView, public MainAppHelper
 
 	TextMenuItem c64IOControl
 	{
-		"Media Control", attachParams(),
+		UI_TEXT("Media Control"),
+		attachParams(),
 		[this](TextMenuItem& item, const Input::Event& e)
 		{
 			if(!item.active())
@@ -1111,7 +1151,8 @@ class CustomSystemActionsView : public SystemActionsView, public MainAppHelper
 
 	TextMenuItem options
 	{
-		"Machine Options", attachParams(),
+		UI_TEXT("Machine Options"),
+		attachParams(),
 		[this](const Input::Event& e)
 		{
 			if(system().hasContent())
@@ -1123,19 +1164,22 @@ class CustomSystemActionsView : public SystemActionsView, public MainAppHelper
 
 	TextMenuItem relaunchContent
 	{
-		"Relaunch Content", attachParams(),
+		UI_TEXT("Relaunch Content"),
+		attachParams(),
 		[this](TextMenuItem& item, const Input::Event& e)
 		{
 			if(!item.active())
 				return;
 			auto multiChoiceView = makeViewWithName<TextTableView>(item, 5);
-			multiChoiceView->appendItem("Same Settings",
+			multiChoiceView->appendItem(
+				UI_TEXT("Same Settings"),
 				[this]()
 				{
 					app().reloadSystem();
 					app().showEmulation();
 				});
-			multiChoiceView->appendItem("NTSC w/ True Drive Emu",
+			multiChoiceView->appendItem(
+				UI_TEXT("NTSC w/ True Drive Emu"),
 				[this]()
 				{
 					system().sessionOptionSet();
@@ -1144,7 +1188,8 @@ class CustomSystemActionsView : public SystemActionsView, public MainAppHelper
 					system().setModel(defaultNTSCModel[std::to_underlying(system().currSystem)]);
 					app().showEmulation();
 				});
-			multiChoiceView->appendItem("NTSC",
+			multiChoiceView->appendItem(
+				UI_TEXT("NTSC"),
 				[this]()
 				{
 					system().sessionOptionSet();
@@ -1153,7 +1198,8 @@ class CustomSystemActionsView : public SystemActionsView, public MainAppHelper
 					system().setModel(defaultNTSCModel[std::to_underlying(system().currSystem)]);
 					app().showEmulation();
 				});
-			multiChoiceView->appendItem("PAL w/ True Drive Emu",
+			multiChoiceView->appendItem(
+				UI_TEXT("PAL w/ True Drive Emu"),
 				[this]()
 				{
 					system().sessionOptionSet();
@@ -1162,7 +1208,8 @@ class CustomSystemActionsView : public SystemActionsView, public MainAppHelper
 					system().setModel(defaultPALModel[std::to_underlying(system().currSystem)]);
 					app().showEmulation();
 				});
-			multiChoiceView->appendItem("PAL",
+			multiChoiceView->appendItem(
+				UI_TEXT("PAL"),
 				[this]()
 				{
 					system().sessionOptionSet();
@@ -1185,7 +1232,8 @@ class CustomSystemActionsView : public SystemActionsView, public MainAppHelper
 
 	MultiChoiceMenuItem joystickMode
 	{
-		"Main Joystick Mode", attachParams(),
+		UI_TEXT("Main Joystick Mode"),
+		attachParams(),
 		MenuId{system().effectiveJoystickMode},
 		joystickModeItems,
 		{
@@ -1201,7 +1249,8 @@ class CustomSystemActionsView : public SystemActionsView, public MainAppHelper
 
 	BoolMenuItem warpMode
 	{
-		"Warp Mode", attachParams(),
+		UI_TEXT("Warp Mode"),
+		attachParams(),
 		(bool)*system().plugin.warp_mode_enabled,
 		[this](BoolMenuItem& item)
 		{
@@ -1211,7 +1260,8 @@ class CustomSystemActionsView : public SystemActionsView, public MainAppHelper
 
 	BoolMenuItem autostartOnLaunch
 	{
-		"Autostart On Launch", attachParams(),
+		UI_TEXT("Autostart On Launch"),
+		attachParams(),
 		system().optionAutostartOnLaunch,
 		[this](BoolMenuItem& item)
 		{
@@ -1266,7 +1316,8 @@ class CustomMainMenuView : public MainMenuView, public MainAppHelper
 					{
 						system().optionViceSystem = ViceSystem(i);
 						view.dismiss(false);
-						app().pushAndShowModalView(makeView<YesNoAlertView>("Changing systems needs app restart, exit now?",
+						app().pushAndShowModalView(makeView<YesNoAlertView>(
+							UI_TEXT("Changing systems needs app restart, exit now?"),
 							YesNoAlertView::Delegates{.onYes = [this]{ appContext().exit(); }}), e);
 					});
 			}
@@ -1282,14 +1333,16 @@ class CustomMainMenuView : public MainMenuView, public MainAppHelper
 		"Start System With Blank Disk", attachParams(),
 		[this](TextMenuItem& item, const Input::Event& e)
 		{
-			pushAndShowNewCollectTextInputView(attachParams(), e, "Input Disk Name", "",
+			pushAndShowNewCollectTextInputView(attachParams(), e,
+				UI_TEXT("Input Disk Name"),
+				"",
 				[this](CollectTextInputView &view, const char *str)
 				{
 					if(str)
 					{
 						if(!strlen(str))
 						{
-							app().postMessage(true, "Name can't be blank");
+							app().postMessage(true, UI_TEXT("Name can't be blank"));
 							return true;
 						}
 						newMediaName = str;
@@ -1308,7 +1361,8 @@ class CustomMainMenuView : public MainMenuView, public MainAppHelper
 								}
 								if(appContext().fileUriExists(newMediaPath))
 								{
-									app().pushAndShowModalView(makeView<YesNoAlertView>("Disk image already exists, overwrite?",
+									app().pushAndShowModalView(makeView<YesNoAlertView>(
+										UI_TEXT("Disk image already exists, overwrite?"),
 										YesNoAlertView::Delegates
 										{
 											.onYes = [this](const Input::Event& e)
@@ -1322,7 +1376,7 @@ class CustomMainMenuView : public MainMenuView, public MainAppHelper
 							});
 						view.dismiss(false);
 						app().pushAndShowModalView(std::move(fPicker));
-						app().postMessage("Set directory to save disk");
+						app().postMessage(UI_TEXT("Set directory to save disk"));
 					}
 					else
 					{
@@ -1348,7 +1402,7 @@ class CustomMainMenuView : public MainMenuView, public MainAppHelper
 			format<FS::FileString>("{},dsk", diskName).data(),
 			DISK_IMAGE_TYPE_D64) == -1)
 		{
-			app().postMessage(true, "Error creating disk image");
+			app().postMessage(true, UI_TEXT("Error creating disk image"));
 			return;
 		}
 		launchMedia(diskPath, e);
@@ -1359,14 +1413,16 @@ class CustomMainMenuView : public MainMenuView, public MainAppHelper
 		"Start System With Blank Tape", attachParams(),
 		[this](TextMenuItem& item, const Input::Event& e)
 		{
-			pushAndShowNewCollectTextInputView(attachParams(), e, "Input Tape Name", "",
+			pushAndShowNewCollectTextInputView(attachParams(), e,
+				UI_TEXT("Input Tape Name"),
+				"",
 				[this](CollectTextInputView &view, const char *str)
 				{
 					if(str)
 					{
 						if(!strlen(str))
 						{
-							app().postMessage(true, "Name can't be blank");
+							app().postMessage(true, UI_TEXT("Name can't be blank"));
 							return true;
 						}
 						newMediaName = str;
@@ -1385,7 +1441,8 @@ class CustomMainMenuView : public MainMenuView, public MainAppHelper
 								}
 								if(appContext().fileUriExists(newMediaPath))
 								{
-									app().pushAndShowModalView(makeView<YesNoAlertView>("Tape image already exists, overwrite?",
+									app().pushAndShowModalView(makeView<YesNoAlertView>(
+										UI_TEXT("Tape image already exists, overwrite?"),
 										YesNoAlertView::Delegates
 										{
 											.onYes = [this](const Input::Event& e)
@@ -1414,7 +1471,7 @@ class CustomMainMenuView : public MainMenuView, public MainAppHelper
 	{
 		if(system().plugin.cbmimage_create_image(tapePath, DISK_IMAGE_TYPE_TAP) < 0)
 		{
-			app().postMessage(true, "Error creating tape image");
+			app().postMessage(true, UI_TEXT("Error creating tape image"));
 			return;
 		}
 		launchMedia(tapePath, e);
@@ -1422,7 +1479,8 @@ class CustomMainMenuView : public MainMenuView, public MainAppHelper
 
 	TextMenuItem loadNoAutostart
 	{
-		"Open Content (No Autostart)", attachParams(),
+		UI_TEXT("Open Content (No Autostart)"),
+		attachParams(),
 		[this](const Input::Event& e)
 		{
 			pushAndShow(FilePicker::forLoading(attachParams(), e, false, {SYSTEM_FLAG_NO_AUTOSTART}), e, false);
@@ -1436,7 +1494,7 @@ class CustomMainMenuView : public MainMenuView, public MainAppHelper
 		item.emplace_back(&loadNoAutostart);
 		item.emplace_back(&startWithBlankDisk);
 		item.emplace_back(&startWithBlankTape);
-		systemPlugin.setName(std::format("System: {}", VicePlugin::systemName(system().currSystem)));
+		systemPlugin.setName(std::format(UI_TEXT("System: {}"), VicePlugin::systemName(system().currSystem)));
 		item.emplace_back(&systemPlugin);
 		loadStandardItems();
 	}

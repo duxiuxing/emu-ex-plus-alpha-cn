@@ -62,7 +62,10 @@ void A2600System::handleInputAction(EmuApp* app, InputAction act)
 			p1DiffB ^= true;
 			if(app)
 			{
-				app->postMessage(1, false, p1DiffB ? "P1 Difficulty -> B" : "P1 Difficulty -> A");
+				app->postMessage(1, false,
+					p1DiffB
+						? UI_TEXT("P1 Difficulty -> B")
+						: UI_TEXT("P1 Difficulty -> A"));
 			}
 			ev.set(Event::ConsoleLeftDiffB, p1DiffB);
 			ev.set(Event::ConsoleLeftDiffA, !p1DiffB);
@@ -73,7 +76,10 @@ void A2600System::handleInputAction(EmuApp* app, InputAction act)
 			p2DiffB ^= true;
 			if(app)
 			{
-				app->postMessage(1, false, p2DiffB ? "P2 Difficulty -> B" : "P2 Difficulty -> A");
+				app->postMessage(1, false,
+					p2DiffB
+						? UI_TEXT("P2 Difficulty -> B")
+						: UI_TEXT("P2 Difficulty -> A"));
 			}
 			ev.set(Event::ConsoleRightDiffB, p2DiffB);
 			ev.set(Event::ConsoleRightDiffA, !p2DiffB);
@@ -84,7 +90,10 @@ void A2600System::handleInputAction(EmuApp* app, InputAction act)
 			vcsColor ^= true;
 			if(app)
 			{
-				app->postMessage(1, false, vcsColor ? "Color Switch -> Color" : "Color Switch -> B&W");
+				app->postMessage(1, false,
+					vcsColor
+						? UI_TEXT("Color Switch -> Color")
+						: UI_TEXT("Color Switch -> B&W"));
 			}
 			ev.set(Event::ConsoleColor, vcsColor);
 			ev.set(Event::ConsoleBlackWhite, !vcsColor);
