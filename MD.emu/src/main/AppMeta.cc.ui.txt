@@ -1,3 +1,6 @@
+Ln=35
+English="(c) 2011-2026\nRobert Broglia\nwww.explusalpha.com\n\nPortions (c) the\nGenesis Plus Team\nsegaretro.org/Genesis_Plus"
+
 Ln=93
 English="Gamepad"
 

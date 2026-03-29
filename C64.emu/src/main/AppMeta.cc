@@ -25,7 +25,7 @@ namespace EmuEx
 
 const std::string_view AppMeta::creditsViewStr
 {
-	UI_TEXT(CREDITS_INFO_STRING "(c) 2013-2026\nRobert Broglia\nwww.explusalpha.com\n\nPortions (c) the\nVice Team\nvice-emu.sourceforge.io")
+	CREDITS_INFO_STRING UI_TEXT("(c) 2013-2026\nRobert Broglia\nwww.explusalpha.com\n\nPortions (c) the\nVice Team\nvice-emu.sourceforge.io")
 };
 const std::string_view AppMeta::configFilename{"C64Emu.config"};
 const bool AppMeta::hasPALVideoSystem{true};

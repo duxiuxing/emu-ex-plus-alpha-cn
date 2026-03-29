@@ -25,7 +25,7 @@ namespace EmuEx
 
 const std::string_view AppMeta::creditsViewStr
 {
-	UI_TEXT(CREDITS_INFO_STRING "(c) 2012-2026\nRobert Broglia\nwww.explusalpha.com\n\nPortions (c) the\nVBA-m Team\nvba-m.com")
+	CREDITS_INFO_STRING UI_TEXT("(c) 2012-2026\nRobert Broglia\nwww.explusalpha.com\n\nPortions (c) the\nVBA-m Team\nvba-m.com")
 };
 const std::string_view AppMeta::configFilename{"GbaEmu.config"};
 const bool AppMeta::hasCheats{true};

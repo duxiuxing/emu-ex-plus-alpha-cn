@@ -1,3 +1,6 @@
+Ln=29
+English="(c) 2011-2026\nRobert Broglia\nwww.explusalpha.com\n\nPortions (c) the\nMednafen Team\nmednafen.github.io"
+
 Ln=35
 English="20:19 (Original)"
 

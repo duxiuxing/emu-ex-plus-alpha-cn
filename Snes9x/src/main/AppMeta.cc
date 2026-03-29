@@ -14,7 +14,7 @@ namespace EmuEx
 
 const std::string_view AppMeta::creditsViewStr
 {
-	UI_TEXT(CREDITS_INFO_STRING "(c) 2011-2026\nRobert Broglia\nwww.explusalpha.com\n\nPortions (c) the\nSnes9x Team\nwww.snes9x.com")
+	CREDITS_INFO_STRING UI_TEXT("(c) 2011-2026\nRobert Broglia\nwww.explusalpha.com\n\nPortions (c) the\nSnes9x Team\nwww.snes9x.com")
 };
 #ifdef SNES9X_VERSION_1_4
 const std::string_view AppMeta::configFilename{"Snes9x.config"};

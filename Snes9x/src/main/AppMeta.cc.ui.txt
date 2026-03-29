@@ -1,3 +1,6 @@
+Ln=17
+English="(c) 2011-2026\nRobert Broglia\nwww.explusalpha.com\n\nPortions (c) the\nSnes9x Team\nwww.snes9x.com"
+
 Ln=25
 English="Bio Worm"
 

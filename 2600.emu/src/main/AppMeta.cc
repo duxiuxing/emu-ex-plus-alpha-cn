@@ -28,7 +28,7 @@ using namespace IG;
 
 const std::string_view AppMeta::creditsViewStr
 {
-	UI_TEXT(CREDITS_INFO_STRING "(c) 2011-2026\nRobert Broglia\nwww.explusalpha.com\n\nPortions (c) the\nStella Team\nstella-emu.github.io")
+	CREDITS_INFO_STRING UI_TEXT("(c) 2011-2026\nRobert Broglia\nwww.explusalpha.com\n\nPortions (c) the\nStella Team\nstella-emu.github.io")
 };
 const std::string_view AppMeta::configFilename{"2600emu.config"};
 const bool AppMeta::hasPALVideoSystem{true};

@@ -32,7 +32,7 @@ namespace EmuEx
 
 const std::string_view AppMeta::creditsViewStr
 {
-	UI_TEXT(CREDITS_INFO_STRING "(c) 2011-2026\nRobert Broglia\nwww.explusalpha.com\n\nPortions (c) the\nGenesis Plus Team\nsegaretro.org/Genesis_Plus")
+	CREDITS_INFO_STRING UI_TEXT("(c) 2011-2026\nRobert Broglia\nwww.explusalpha.com\n\nPortions (c) the\nGenesis Plus Team\nsegaretro.org/Genesis_Plus")
 };
 const std::string_view AppMeta::configFilename{"MdEmu.config"};
 const bool AppMeta::hasCheats{true};

@@ -25,7 +25,7 @@ namespace EmuEx
 
 const std::string_view AppMeta::creditsViewStr
 {
-	UI_TEXT(CREDITS_INFO_STRING "(c) 2011-2026\nRobert Broglia\nwww.explusalpha.com\n\n\nPortions (c) the\nGambatte Team\ngambatte.sourceforge.net")
+	CREDITS_INFO_STRING UI_TEXT("(c) 2011-2026\nRobert Broglia\nwww.explusalpha.com\n\n\nPortions (c) the\nGambatte Team\ngambatte.sourceforge.net")
 };
 const std::string_view AppMeta::configFilename{"GbcEmu.config"};
 const bool AppMeta::hasCheats{true};
