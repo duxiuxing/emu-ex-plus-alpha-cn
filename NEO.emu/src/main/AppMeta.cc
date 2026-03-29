@@ -25,7 +25,7 @@ namespace EmuEx
 
 const std::string_view AppMeta::creditsViewStr
 {
-	UI_TEXT(CREDITS_INFO_STRING "(c) 2012-2026\nRobert Broglia 保留所有权利\nwww.explusalpha.com\n\n部分代码版权属于\nGngeo Team\ncode.google.com/p/gngeo\n\n中文翻译：R-Sam@github\nduxiuxing/emu-ex-plus-alpha-cn")
+	CREDITS_INFO_STRING UI_TEXT("(c) 2012-2026\nRobert Broglia 保留所有权利\nwww.explusalpha.com\n\n中文翻译：R-Sam@github\nduxiuxing/emu-ex-plus-alpha-cn\n\n部分代码版权属于\nGngeo 团队\ncode.google.com/p/gngeo")
 };
 const std::string_view AppMeta::configFilename{"NeoEmu.config"};
 const bool AppMeta::handlesGenericIO{}; // TODO: need to re-factor GnGeo file loading code

@@ -14,7 +14,7 @@ namespace EmuEx
 
 const std::string_view AppMeta::creditsViewStr
 {
-	UI_TEXT(CREDITS_INFO_STRING "(c) 2011-2026\nRobert Broglia 保留所有权利\nwww.explusalpha.com\n\n部分代码版权属于\nSnes9x Team\nwww.snes9x.com\n\n中文翻译：R-Sam@github\nduxiuxing/emu-ex-plus-alpha-cn")
+	CREDITS_INFO_STRING UI_TEXT("(c) 2011-2026\nRobert Broglia 保留所有权利\nwww.explusalpha.com\n\n中文翻译：R-Sam@github\nduxiuxing/emu-ex-plus-alpha-cn\n\n部分代码版权属于\nSnes9x 团队\nwww.snes9x.com")
 };
 #ifdef SNES9X_VERSION_1_4
 const std::string_view AppMeta::configFilename{"Snes9x.config"};
