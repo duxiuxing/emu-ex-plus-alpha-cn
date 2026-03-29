@@ -1,8 +1,11 @@
 Ln=38
 English="NGP Language"
+Chinese="NGP 语言"
 
 Ln=41
 English="Japanese"
+Chinese="日语"
 
 Ln=42
 English="English"
+Chinese="英语"

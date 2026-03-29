@@ -113,7 +113,7 @@ inline FS::FileString userPathToDisplayName(ApplicationContext ctx, std::string_
 inline auto cheatsMenuName(ApplicationContext ctx, std::string_view userPath)
 {
 	return std::format(
-		UI_TEXT("作弊项文件夹：{}"),
+		UI_TEXT("作弊文件夹：{}"),
 		std::string_view{userPathToDisplayName(ctx, userPath)});
 }
 

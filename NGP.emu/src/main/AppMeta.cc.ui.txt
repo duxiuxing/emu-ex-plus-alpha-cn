@@ -1,38 +1,51 @@
 Ln=35
 English="20:19 (Original)"
+Chinese="20:19 (原画)"
 
 Ln=69
 English="Gamepad"
+Chinese="游戏按键"
 
 Ln=81
 English="Up"
+Chinese="方向键的上"
 
 Ln=83
 English="Right"
+Chinese="方向键的右"
 
 Ln=85
 English="Down"
+Chinese="方向键的下"
 
 Ln=87
 English="Left"
+Chinese="方向键的左"
 
 Ln=89
 English="Option"
+Chinese="选项键"
 
 Ln=91
 English="A"
+Chinese="A 键"
 
 Ln=93
 English="B"
+Chinese="B 键"
 
 Ln=185
 English="D-Pad"
+Chinese="方向键"
 
 Ln=190
 English="Face Buttons"
+Chinese="动作键"
 
 Ln=195
 English="Option"
+Chinese="选项键"
 
 Ln=201
 English="Gamepad"
+Chinese="游戏按键"

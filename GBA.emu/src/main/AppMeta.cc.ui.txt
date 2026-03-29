@@ -1,77 +1,103 @@
 Ln=35
 English="3:2 (Original)"
+Chinese="3:2 (原画)"
 
 Ln=41
 English="Motocross Challenge"
+Chinese="摩托车越野赛挑战"
 
 Ln=43
 English="MotocrossChallenge.7z"
+Chinese="摩托车越野赛挑战.7z"
 
 Ln=44
 English="Motocross Challenge.7z"
+Chinese="摩托车越野赛挑战.7z"
 
 Ln=95
 English="Gamepad"
+Chinese="游戏按键"
 
 Ln=107
 English="Up"
+Chinese="方向键的上"
 
 Ln=109
 English="Right"
+Chinese="方向键的右"
 
 Ln=111
 English="Down"
+Chinese="方向键的下"
 
 Ln=113
 English="Left"
+Chinese="方向键的左"
 
 Ln=115
 English="Select"
+Chinese="选择键"
 
 Ln=117
 English="Start"
+Chinese="开始键"
 
 Ln=119
 English="A"
+Chinese="A 键"
 
 Ln=121
 English="B"
+Chinese="B 键"
 
 Ln=123
 English="L"
+Chinese="L 键"
 
 Ln=125
 English="R"
+Chinese="R 键"
 
 Ln=127
 English="Light Sensor Level +"
+Chinese="亮度 +"
 
 Ln=129
 English="Light Sensor Level -"
+Chinese="亮度 -"
 
 Ln=243
 English="D-Pad"
+Chinese="方向键"
 
 Ln=248
 English="Face Buttons"
+Chinese="动作键"
 
 Ln=253
 English="Face Buttons + Inline L/R"
+Chinese="动作键 + L/R键"
 
 Ln=258
 English="L"
+Chinese="L 键"
 
 Ln=263
 English="R"
+Chinese="R 键"
 
 Ln=268
 English="Select"
+Chinese="选择键"
 
 Ln=273
 English="Start"
+Chinese="开始键"
 
 Ln=278
 English="Select/Start"
+Chinese="选择/开始键"
 
 Ln=284
 English="Gamepad"
+Chinese="游戏按键"

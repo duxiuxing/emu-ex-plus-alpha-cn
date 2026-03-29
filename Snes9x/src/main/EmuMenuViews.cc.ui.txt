@@ -136,7 +136,7 @@ Chinese="主机选项"
 
 Ln=383
 English="Cheats"
-Chinese="作弊项文件夹"
+Chinese="作弊文件夹"
 
 Ln=400
 English="Patches"
@@ -156,7 +156,7 @@ Chinese="BS-X 的 BIOS"
 
 Ln=456
 English="BS-X BIOS: {}"
-Chinese="BS-X 的 BIOS 文件：{}"
+Chinese="BS-X 的 BIOS：{}"
 
 Ln=466
 English="Sufami Turbo BIOS"
@@ -164,7 +164,7 @@ Chinese="Sufami Turbo 的 BIOS"
 
 Ln=481
 English="Sufami Turbo BIOS: {}"
-Chinese="Sufami Turbo 的 BIOS 文件：{}"
+Chinese="Sufami Turbo 的 BIOS：{}"
 
 Ln=517
 English="Edit Cheat"
@@ -200,7 +200,7 @@ Chinese="地址"
 
 Ln=645
 English="Input 6-digit hex"
-Chinese="请输入六位的十六进制数"
+Chinese="请输入六位以内的十六进制数"
 
 Ln=653
 English="value must be <= FFFFFF"
@@ -212,7 +212,7 @@ Chinese="数值"
 
 Ln=672
 English="Input 2-digit hex"
-Chinese="请输入两位的十六进制数"
+Chinese="请输入两位以内的十六进制数"
 
 Ln=680
 English="value must be <= FF"
@@ -228,7 +228,7 @@ Chinese="保存值"
 
 Ln=703
 English="Input 2-digit hex or blank"
-Chinese="请输入两位的十六进制数或留空"
+Chinese="请输入两位以内的十六进制数或留空"
 
 Ln=714
 English="value must be <= FF"

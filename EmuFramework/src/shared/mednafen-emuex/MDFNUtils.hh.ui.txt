@@ -12,12 +12,12 @@ Chinese="不含 MD5"
 
 Ln=199
 English="Error uncompressing state"
-Chinese="解压时出错"
+Chinese="解压存档时出错"
 
 Ln=203
 English="Invalid state size"
-Chinese="无效的数据长度信息"
+Chinese="无效的存档长度信息"
 
 Ln=208
 English="Bad state header size, got {} but expected {}"
-Chinese="文件头部的数据长度信息错误，实际值为 {} 而预期值为 {}"
+Chinese="文件头部的存档长度信息错误，实际值为 {} 而预期值为 {}"

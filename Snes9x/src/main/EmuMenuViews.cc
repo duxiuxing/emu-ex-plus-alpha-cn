@@ -380,7 +380,7 @@ class CustomFilePathOptionView : public FilePathOptionView, public MainAppHelper
 		[this](const Input::Event &e)
 		{
 			pushAndShow(makeViewWithName<UserPathSelectView>(
-				UI_TEXT("作弊项文件夹"),
+				UI_TEXT("作弊文件夹"),
 				system().userPath(system().cheatsDir),
 				[this](CStringView path)
 				{
@@ -453,7 +453,7 @@ class CustomFilePathOptionView : public FilePathOptionView, public MainAppHelper
 	std::string bsxMenuName(CStringView path) const
 	{
 		return std::format(
-			UI_TEXT("BS-X 的 BIOS 文件：{}"),
+			UI_TEXT("BS-X 的 BIOS：{}"),
 			appContext().fileUriDisplayName(path));
 	}
 
@@ -478,7 +478,7 @@ class CustomFilePathOptionView : public FilePathOptionView, public MainAppHelper
 	std::string sufamiMenuName(CStringView path) const
 	{
 		return std::format(
-			UI_TEXT("Sufami Turbo 的 BIOS 文件：{}"),
+			UI_TEXT("Sufami Turbo 的 BIOS：{}"),
 			appContext().fileUriDisplayName(path));
 	}
 
@@ -642,7 +642,7 @@ EditRamCheatView::EditRamCheatView(ViewAttachParams attach, CheatCode& code_, Ed
 		[this](const Input::Event& e)
 		{
 			pushAndShowNewCollectValueInputView<const char*>(attachParams(),
-				e, UI_TEXT("请输入六位的十六进制数"),
+				e, UI_TEXT("请输入六位以内的十六进制数"),
 				std::format("{:x}", code.address),
 				[this](CollectTextInputView&, auto str)
 				{
@@ -669,7 +669,7 @@ EditRamCheatView::EditRamCheatView(ViewAttachParams attach, CheatCode& code_, Ed
 		[this](const Input::Event& e)
 		{
 			pushAndShowNewCollectValueInputView<const char*>(attachParams(), e,
-				UI_TEXT("请输入两位的十六进制数"),
+				UI_TEXT("请输入两位以内的十六进制数"),
 				std::format("{:x}", code.byte),
 				[this](CollectTextInputView&, auto str)
 				{
@@ -700,7 +700,7 @@ EditRamCheatView::EditRamCheatView(ViewAttachParams attach, CheatCode& code_, Ed
 		[this](const Input::Event& e)
 		{
 			pushAndShowNewCollectValueInputView<const char*, ScanValueMode::AllowBlank>(attachParams(), e,
-				UI_TEXT("请输入两位的十六进制数或留空"),
+				UI_TEXT("请输入两位以内的十六进制数或留空"),
 				codeConditionalToString(code),
 				[this](CollectTextInputView &, const char *str)
 				{

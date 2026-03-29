@@ -105,7 +105,7 @@ const char *mdInputSystemToStr(uint8 system)
 		case NO_SYSTEM:
 			return UI_TEXT("未连接");
 		case SYSTEM_MD_GAMEPAD:
-			return UI_TEXT("MD 手柄");
+			return UI_TEXT("手柄");
 		case SYSTEM_MS_GAMEPAD:
 			return UI_TEXT("SMS 手柄");
 		case SYSTEM_MOUSE:
@@ -119,7 +119,7 @@ const char *mdInputSystemToStr(uint8 system)
 		case SYSTEM_LIGHTPHASER:
 			return UI_TEXT("Light Phaser 光枪");
 		default:
-			return UI_TEXT("未知设备");
+			return UI_TEXT("未知");
 	}
 }
 

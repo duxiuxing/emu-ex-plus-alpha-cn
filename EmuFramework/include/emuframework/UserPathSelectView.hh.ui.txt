@@ -20,7 +20,7 @@ Chinese="存档文件夹"
 
 Ln=116
 English="Cheats: {}"
-Chinese="作弊项文件夹：{}"
+Chinese="作弊文件夹：{}"
 
 Ln=123
 English="Patches: {}"

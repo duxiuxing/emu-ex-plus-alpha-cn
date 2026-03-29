@@ -1,20 +1,27 @@
 Ln=331
 English="USA"
+Chinese="美国"
 
 Ln=336
 English="Europe"
+Chinese="欧洲"
 
 Ln=341
 English="Japan"
+Chinese="日本"
 
 Ln=348
 English="Set a {} BIOS in the Options"
+Chinese="在选项中设置 {} BIOS"
 
 Ln=354
 English="Error loading BIOS: {}"
+Chinese="加载 BIOS 时出错：{}"
 
 Ln=360
 English="Invalid BIOS: {}"
+Chinese="无效的 BIOS：{}"
 
 Ln=402
 English="Error loading CD"
+Chinese="加载 CD 时出错"

@@ -759,7 +759,7 @@ class CustomFilePathOptionView : public FilePathOptionView, public MainAppHelper
 		[this](TextMenuItem &, View &, Input::Event e)
 		{
 			pushAndShow(makeViewWithName<DataFileSelectView<>>(
-				UI_TEXT("磁碟机的 BIOS 文件"),
+				UI_TEXT("磁碟机的 BIOS"),
 				app().validSearchPath(FS::dirnameUri(system().fdsBiosPath)),
 				[this](CStringView path, FS::file_type type)
 				{
@@ -774,7 +774,7 @@ class CustomFilePathOptionView : public FilePathOptionView, public MainAppHelper
 	std::string biosMenuEntryStr(CStringView path) const
 	{
 		return std::format(
-			UI_TEXT("磁碟机的 BIOS 文件：{}"),
+			UI_TEXT("磁碟机的 BIOS：{}"),
 			appContext().fileUriDisplayName(path));
 	}
 
@@ -1112,7 +1112,7 @@ EditRamCheatView::EditRamCheatView(ViewAttachParams attach, Cheat& cheat_, Cheat
 		[this](const Input::Event& e)
 		{
 			pushAndShowNewCollectValueInputView<const char*>(attachParams(), e,
-				UI_TEXT("请输入四位的十六进制数"),
+				UI_TEXT("请输入四位以内的十六进制数"),
 				std::format("{:x}", code.addr),
 				[this](CollectTextInputView&, auto str)
 				{
@@ -1140,7 +1140,7 @@ EditRamCheatView::EditRamCheatView(ViewAttachParams attach, Cheat& cheat_, Cheat
 		[this](const Input::Event& e)
 		{
 			pushAndShowNewCollectValueInputView<const char*>(attachParams(), e,
-				UI_TEXT("请输入两位的十六进制数"),
+				UI_TEXT("请输入两位以内的十六进制数"),
 				std::format("{:x}", code.val),
 				[this](CollectTextInputView&, auto str)
 				{
@@ -1168,7 +1168,7 @@ EditRamCheatView::EditRamCheatView(ViewAttachParams attach, Cheat& cheat_, Cheat
 		[this](const Input::Event& e)
 		{
 			pushAndShowNewCollectValueInputView<const char*, ScanValueMode::AllowBlank>(attachParams(), e,
-				UI_TEXT("请输入两位的十六进制数或留空"),
+				UI_TEXT("请输入两位以内的十六进制数或留空"),
 				codeCompareToString(code.compare),
 				[this](CollectTextInputView &, const char *str)
 				{

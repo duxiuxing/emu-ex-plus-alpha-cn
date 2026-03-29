@@ -1,80 +1,107 @@
 Ln=136
 English="Auto"
+Chinese="自动"
 
 Ln=138
 English="EEPROM"
+Chinese="EEPROM"
 
 Ln=140
 English="SRAM"
+Chinese="SRAM"
 
 Ln=143
 English="Flash (128K)"
+Chinese="Flash (128K)"
 
 Ln=144
 English="Flash (64K)"
+Chinese="Flash (64K)"
 
 Ln=146
 English="EEPROM + Sensor"
+Chinese="EEPROM + Sensor"
 
 Ln=148
 English="None"
+Chinese="无"
 
 Ln=150
 English="Unknown"
+Chinese="未知"
 
 Ln=354
 English="0"
+Chinese="0"
 
 Ln=356
 English="0NW"
+Chinese="0NW"
 
 Ln=358
 English="0A"
+Chinese="0A"
 
 Ln=360
 English="1"
+Chinese="1"
 
 Ln=362
 English="1NW"
+Chinese="1NW"
 
 Ln=364
 English="1A"
+Chinese="1A"
 
 Ln=366
 English="2"
+Chinese="2"
 
 Ln=368
 English="2NW"
+Chinese="2NW"
 
 Ln=370
 English="2A"
+Chinese="2A"
 
 Ln=372
 English="3"
+Chinese="3"
 
 Ln=374
 English="3NW"
+Chinese="3NW"
 
 Ln=376
 English="3A"
+Chinese="3A"
 
 Ln=378
 English="4"
+Chinese="4"
 
 Ln=380
 English="4NW"
+Chinese="4NW"
 
 Ln=382
 English="4A"
+Chinese="4A"
 
 Ln=384
 English="5"
+Chinese="5"
 
 Ln=386
 English="5NW"
+Chinese="5NW"
 
 Ln=388
 English="5A"
+Chinese="5A"
 
 Ln=390
 English="Invalid"
+Chinese="无效"

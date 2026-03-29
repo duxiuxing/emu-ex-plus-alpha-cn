@@ -351,13 +351,13 @@ void MdSystem::loadContent(IO& io, EmuSystemCreateParams, OnLoadProgressDelegate
 		auto [biosSize, biosFilename] = FileUtils::readFromUriWithArchiveScan(appContext(), biosPath, {cart.rom, MAXROMSIZE}, hasMDExtension);
 		if(biosSize <= 0)
 			throw std::runtime_error(std::format(
-				UI_TEXT("读取 BIOS 时出错：{}"),
+				UI_TEXT("加载 BIOS 时出错：{}"),
 				biosPath));
 		init_rom(biosSize, "");
 		if(!sCD.isActive)
 		{
 			throw std::runtime_error(std::format(
-				UI_TEXT("无效的 BIOS 文件：{}"),
+				UI_TEXT("无效的 BIOS：{}"),
 				biosPath));
 		}
 	}
@@ -399,7 +399,7 @@ void MdSystem::loadContent(IO& io, EmuSystemCreateParams, OnLoadProgressDelegate
 		if(Insert_CD(cd) != 0)
 		{
 			throw std::runtime_error(
-				UI_TEXT("读取 CD 时出错")
+				UI_TEXT("加载 CD 时出错")
 			);
 		}
 		deleteCDAccess.cancel();

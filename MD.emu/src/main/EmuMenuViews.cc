@@ -307,7 +307,7 @@ class CustomSystemOptionView : public SystemOptionView, public MainAppHelper
 			app().pushAndShowModalView(makeView<YesNoAlertView>(
 				UI_TEXT("警告，此选项会改变 SRAM 存档文件的格式。 ")
 				UI_TEXT("开启后可以使存档文件兼容 Gens 等其它模拟器。 ")
-				UI_TEXT("错误的设置将会导致 SRAM 在读取存档文件时出现数据损坏。"),
+				UI_TEXT("错误的设置将会导致 SRAM 在加载存档文件时出现数据损坏。"),
 				YesNoAlertView::Delegates{.onYes = [this]{ system().optionBigEndianSram = bigEndianSram.flipBoolValue(*this); }}), e);
 		}
 	};
@@ -331,7 +331,7 @@ class CustomFilePathOptionView : public FilePathOptionView, public MainAppHelper
 		[this](const Input::Event &e)
 		{
 			pushAndShow(makeViewWithName<UserPathSelectView>(
-				UI_TEXT("金手指文件夹"),
+				UI_TEXT("作弊文件夹"),
 				system().userPath(system().cheatsDir),
 				[this](CStringView path)
 				{
@@ -420,15 +420,15 @@ class CustomFilePathOptionView : public FilePathOptionView, public MainAppHelper
 static auto codePromptString()
 {
 	return emuSystemIs16Bit()
-		? UI_TEXT("Input xxxx-xxxx (GG) or xxxxxx:xxxx (AR) code")
-		: UI_TEXT("Input xxx-xxx-xxx (GG) or xxxxxx:xx (AR) code");
+		? UI_TEXT("请输入 GG (xxxx-xxxx) 或 AR (xxxxxx:xxxx) 作弊码")
+		: UI_TEXT("请输入 GG (xxx-xxx-xxx) 或 AR (xxxxxx:xx) 作弊码");
 }
 
 static auto editCodePromptString()
 {
 	return emuSystemIs16Bit()
-		? UI_TEXT("Input xxxx-xxxx (GG) or xxxxxx:xxxx (AR) code, or blank to delete")
-		: UI_TEXT("Input xxx-xxx-xxx (GG) or xxxxxx:xx (AR) code, or blank to delete");
+		? UI_TEXT("请输入 GG (xxxx-xxxx) 或 AR (xxxxxx:xxxx) 作弊码，留空表示删除")
+		: UI_TEXT("请输入 GG (xxx-xxx-xxx) 或 AR (xxxxxx:xx) 作弊码，留空表示删除");
 }
 
 class EditCheatView : public BaseEditCheatView
@@ -437,14 +437,14 @@ public:
 	EditCheatView(ViewAttachParams attach, Cheat& cheat, BaseEditCheatsView& editCheatsView):
 		BaseEditCheatView
 		{
-			UI_TEXT("Edit Cheat"),
+			UI_TEXT("编辑作弊项"),
 			attach,
 			cheat,
 			editCheatsView
 		},
 		addCode
 		{
-			UI_TEXT("Add Another Code"),
+			UI_TEXT("添加另一个作弊码"),
 			attach,
 			[this](const Input::Event& e) { addNewCheatCode(codePromptString(), e); }
 		}
@@ -458,7 +458,7 @@ public:
 		for(auto& c: cheatPtr->codes)
 		{
 			codes.emplace_back(
-				UI_TEXT("Code"),
+				UI_TEXT("作弊码"),
 				c.text, attachParams(), [this, &c](const Input::Event& e)
 			{
 				pushAndShowNewCollectValueInputView<const char*, ScanValueMode::AllowBlank>(attachParams(), e, editCodePromptString(), c.text,
@@ -505,7 +505,7 @@ public:
 		},
 		addCode
 		{
-			UI_TEXT("Add Game Genie / Action Replay Code"),
+			UI_TEXT("添加 GG / AR 作弊码"),
 			attach,
 			[this](const Input::Event& e) { addNewCheat(codePromptString(), e); }
 		} {}

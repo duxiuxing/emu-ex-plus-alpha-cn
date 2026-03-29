@@ -223,7 +223,7 @@ IOBuffer Snes9xSystem::readSufamiTurboBios() const
 		}
 		throw std::runtime_error
 			{
-				UI_TEXT("档案中没有 Sufami Turbo 的 BIOS，BIOS 文件必须是 .bin 或 .bios 格式")
+				UI_TEXT("档案中没有 Sufami Turbo 的 BIOS，BIOS 必须是 .bin 或 .bios 格式的文件")
 			};
 	}
 	else

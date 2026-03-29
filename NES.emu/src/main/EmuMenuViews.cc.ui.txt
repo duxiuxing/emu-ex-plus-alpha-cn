@@ -280,11 +280,11 @@ Chinese="调色板文件夹"
 
 Ln=762
 English="Disk System BIOS"
-Chinese="磁碟机的 BIOS 文件"
+Chinese="磁碟机的 BIOS"
 
 Ln=777
 English="Disk System BIOS: {}"
-Chinese="磁碟机的 BIOS 文件：{}"
+Chinese="磁碟机的 BIOS：{}"
 
 Ln=799
 English="Set Disk 1 Side A"
@@ -380,7 +380,7 @@ Chinese="地址"
 
 Ln=1115
 English="Input 4-digit hex"
-Chinese="请输入四位的十六进制数"
+Chinese="请输入四位以内的十六进制数"
 
 Ln=1123
 English="Invalid input"
@@ -392,7 +392,7 @@ Chinese="数值"
 
 Ln=1143
 English="Input 2-digit hex"
-Chinese="请输入两位的十六进制数"
+Chinese="请输入两位以内的十六进制数"
 
 Ln=1151
 English="Invalid value"
@@ -404,7 +404,7 @@ Chinese="比较"
 
 Ln=1171
 English="Input 2-digit hex or blank"
-Chinese="请输入两位的十六进制数或留空"
+Chinese="请输入两位以内的十六进制数或留空"
 
 Ln=1181
 English="Invalid value"

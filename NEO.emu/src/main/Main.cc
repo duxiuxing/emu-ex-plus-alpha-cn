@@ -421,11 +421,11 @@ extern "C" void gn_init_pbar(unsigned action, int size)
 				case PBAR_ACTION_LOADROM: { return ""; } // defaults to "Loading..."
 				case PBAR_ACTION_DECRYPT:
 					{
-						return UI_TEXT("解密中...");
+						return UI_TEXT("正在解密...");
 					}
 				case PBAR_ACTION_SAVEGNO:
 					{
-						return UI_TEXT("缓存构建中...\n(可能需要一段时间)");
+						return UI_TEXT("正在构建缓存...\n(可能需要一段时间)");
 					};
 			}
 		};
