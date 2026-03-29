@@ -1,236 +1,236 @@
-Ln=40
+Ln=45
 English="C64"
 
-Ln=41
+Ln=46
 English="C64 (Cycle Accurate)"
 
-Ln=42
+Ln=47
 English="C64DTV"
 
-Ln=43
+Ln=48
 English="C128"
 
-Ln=44
+Ln=49
 English="C64 SuperCPU"
 
-Ln=45
+Ln=50
 English="CBM-II 6x0"
 
-Ln=46
+Ln=51
 English="CBM-II 5x0"
 
-Ln=47
+Ln=52
 English="PET"
 
-Ln=48
+Ln=53
 English="Plus/4"
 
-Ln=49
+Ln=54
 English="VIC-20"
 
-Ln=68
-English="C64 PAL"
-
-Ln=69
-English="C64C PAL"
-
-Ln=70
-English="C64 old PAL"
-
-Ln=71
-English="C64 NTSC"
-
-Ln=72
-English="C64C NTSC"
-
 Ln=73
-English="C64 old NTSC"
+English="C64 PAL"
 
 Ln=74
-English="Drean"
-
-Ln=75
-English="C64 SX PAL"
-
-Ln=76
-English="C64 SX NTSC"
-
-Ln=77
-English="Japanese"
-
-Ln=78
-English="C64 GS"
-
-Ln=79
-English="PET64 PAL"
-
-Ln=80
-English="PET64 NTSC"
-
-Ln=81
-English="MAX Machine"
-
-Ln=86
-English="DTV v2 PAL"
-
-Ln=87
-English="DTV v2 NTSC"
-
-Ln=88
-English="DTV v3 PAL"
-
-Ln=89
-English="DTV v3 NTSC"
-
-Ln=90
-English="Hummer NTSC"
-
-Ln=95
-English="C128 PAL"
-
-Ln=96
-English="C128D PAL"
-
-Ln=97
-English="C128DCR PAL"
-
-Ln=98
-English="C128 NTSC"
-
-Ln=99
-English="C128D NTSC"
-
-Ln=100
-English="C128DCR NTSC"
-
-Ln=105
-English="C64 PAL"
-
-Ln=106
 English="C64C PAL"
 
-Ln=107
+Ln=75
 English="C64 old PAL"
 
-Ln=108
+Ln=76
 English="C64 NTSC"
 
-Ln=109
+Ln=77
 English="C64C NTSC"
 
-Ln=110
+Ln=78
 English="C64 old NTSC"
 
-Ln=111
+Ln=79
 English="Drean"
 
-Ln=112
+Ln=80
 English="C64 SX PAL"
 
-Ln=113
+Ln=81
 English="C64 SX NTSC"
 
-Ln=114
+Ln=82
 English="Japanese"
 
-Ln=115
+Ln=83
 English="C64 GS"
 
+Ln=84
+English="PET64 PAL"
+
+Ln=85
+English="PET64 NTSC"
+
+Ln=86
+English="MAX Machine"
+
+Ln=91
+English="DTV v2 PAL"
+
+Ln=92
+English="DTV v2 NTSC"
+
+Ln=93
+English="DTV v3 PAL"
+
+Ln=94
+English="DTV v3 NTSC"
+
+Ln=95
+English="Hummer NTSC"
+
+Ln=100
+English="C128 PAL"
+
+Ln=101
+English="C128D PAL"
+
+Ln=102
+English="C128DCR PAL"
+
+Ln=103
+English="C128 NTSC"
+
+Ln=104
+English="C128D NTSC"
+
+Ln=105
+English="C128DCR NTSC"
+
+Ln=110
+English="C64 PAL"
+
+Ln=111
+English="C64C PAL"
+
+Ln=112
+English="C64 old PAL"
+
+Ln=113
+English="C64 NTSC"
+
+Ln=114
+English="C64C NTSC"
+
+Ln=115
+English="C64 old NTSC"
+
+Ln=116
+English="Drean"
+
+Ln=117
+English="C64 SX PAL"
+
+Ln=118
+English="C64 SX NTSC"
+
+Ln=119
+English="Japanese"
+
 Ln=120
-English="CBM 610 PAL"
-
-Ln=121
-English="CBM 610 NTSC"
-
-Ln=122
-English="CBM 620 PAL"
-
-Ln=123
-English="CBM 620 NTSC"
-
-Ln=124
-English="CBM 620+ (1M) PAL"
+English="C64 GS"
 
 Ln=125
-English="CBM 620+ (1M) NTSC"
+English="CBM 610 PAL"
 
 Ln=126
-English="CBM 710 NTSC"
+English="CBM 610 NTSC"
 
 Ln=127
-English="CBM 720 NTSC"
+English="CBM 620 PAL"
 
 Ln=128
-English="CBM 720+ (1M) NTSC"
+English="CBM 620 NTSC"
+
+Ln=129
+English="CBM 620+ (1M) PAL"
+
+Ln=130
+English="CBM 620+ (1M) NTSC"
+
+Ln=131
+English="CBM 710 NTSC"
+
+Ln=132
+English="CBM 720 NTSC"
 
 Ln=133
+English="CBM 720+ (1M) NTSC"
+
+Ln=138
 English="CBM 510 PAL"
 
-Ln=134
+Ln=139
 English="CBM 510 NTSC"
 
-Ln=139
+Ln=144
 English="PET 2001-8N"
 
-Ln=140
+Ln=145
 English="PET 3008"
 
-Ln=141
+Ln=146
 English="PET 3016"
 
-Ln=142
+Ln=147
 English="PET 3032"
 
-Ln=143
+Ln=148
 English="PET 3032B"
 
-Ln=144
+Ln=149
 English="PET 4016"
 
-Ln=145
+Ln=150
 English="PET 4032"
 
-Ln=146
+Ln=151
 English="PET 4032B"
 
-Ln=147
+Ln=152
 English="PET 8032"
 
-Ln=148
+Ln=153
 English="PET 8096"
 
-Ln=149
+Ln=154
 English="PET 8296"
 
-Ln=150
+Ln=155
 English="SuperPET"
 
-Ln=155
+Ln=160
 English="C16/116 PAL"
 
-Ln=156
+Ln=161
 English="C16/116 NTSC"
 
-Ln=157
+Ln=162
 English="Plus4 PAL"
 
-Ln=158
+Ln=163
 English="Plus4 NTSC"
 
-Ln=159
+Ln=164
 English="V364 NTSC"
 
-Ln=160
+Ln=165
 English="C232 NTSC"
 
-Ln=165
+Ln=170
 English="VIC-20 PAL"
 
-Ln=166
+Ln=171
 English="VIC-20 NTSC"
 
-Ln=167
+Ln=172
 English="VIC-21"
 
-Ln=168
+Ln=173
 English="VIC-1001"
