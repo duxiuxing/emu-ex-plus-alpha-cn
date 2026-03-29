@@ -1,3 +1,7 @@
+Ln=28
+English="(c) 2011-2026\nRobert Broglia\nwww.explusalpha.com\n\nPortions (c) the\nFCEUX Team\nfceux.com"
+Chinese="(c) 2011-2026\nRobert Broglia 保留所有权利\nwww.explusalpha.com\n\n中文翻译：R-Sam@github\nduxiuxing/emu-ex-plus-alpha-cn\n\n部分代码版权属于\nFCEUX 团队\nfceux.com"
+
 Ln=84
 English="Gamepad"
 Chinese="游戏按键"
