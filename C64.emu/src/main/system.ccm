@@ -154,10 +154,14 @@ export constexpr auto toString(JoystickMode v)
 	using enum JoystickMode;
 	switch(v)
 	{
-		case Auto: return "Auto";
-		case Port1: return "Port 1";
-		case Port2: return "Port 2";
-		case Keyboard: return "Keyboard Cursor";
+		case Auto:
+			return UI_TEXT("Auto");
+		case Port1:
+			return UI_TEXT("Port 1");
+		case Port2:
+			return UI_TEXT("Port 2");
+		case Keyboard:
+			return UI_TEXT("Keyboard Cursor");
 	}
 }
 

@@ -1,0 +1,17 @@
+Ln=67
+English="P1 Difficulty -> B"
+
+Ln=68
+English="P1 Difficulty -> A"
+
+Ln=81
+English="P2 Difficulty -> B"
+
+Ln=82
+English="P2 Difficulty -> A"
+
+Ln=95
+English="Color Switch -> Color"
+
+Ln=96
+English="Color Switch -> B&W"

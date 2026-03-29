@@ -66,8 +66,10 @@ extern "C++" bool EmuApp::willCreateSystem(ViewAttachParams attach, const Input:
 	if(!self.system().c64FailedInit)
 		return true;
 	pushAndShowModalView(std::make_unique<YesNoAlertView>(attach,
-		std::format("A system file {} failed loading, you must restart the app and try again after verifying the file", self.system().lastMissingSysFile),
-		"Exit Now", "Cancel", YesNoAlertView::Delegates{ .onYes = [](View &v) { v.appContext().exit(); } }), e);
+		std::format(UI_TEXT("A system file {} failed loading, you must restart the app and try again after verifying the file"), self.system().lastMissingSysFile),
+		UI_TEXT("Exit Now"),
+		UI_TEXT("Cancel"),
+		YesNoAlertView::Delegates{ .onYes = [](View &v) { v.appContext().exit(); } }), e);
 	return false;
 }
 
@@ -115,7 +117,7 @@ const char *C64System::videoChipStr() const
 	switch(currSystem)
 	{
 		case ViceSystem::VIC20:
-		return "VIC";
+		return UI_TEXT("VIC");
 
 		case ViceSystem::C64:
 		case ViceSystem::C64SC:
@@ -123,14 +125,14 @@ const char *C64System::videoChipStr() const
 		case ViceSystem::C64DTV:
 		case ViceSystem::C128:
 		case ViceSystem::CBM5X0:
-		return "VICII";
+		return UI_TEXT("VICII");
 
 		case ViceSystem::PLUS4:
-		return "TED";
+		return UI_TEXT("TED");
 
 		case ViceSystem::PET:
 		case ViceSystem::CBM2:
-		return "Crtc";
+		return UI_TEXT("Crtc");
 	}
 	return "";
 }
@@ -245,12 +247,12 @@ void C64System::readState(EmuApp& app, std::span<uint8_t> buff)
 	plugin.vsync_set_warp_mode(0);
 	SnapshotData data{.buffData = buff.data(), .buffSize = buff.size()};
 	if(!loadSnapshot(plugin, data))
-		throw std::runtime_error("Invalid state data");
+		throw std::runtime_error(UI_TEXT("Invalid state data"));
 	// reload snapshot in case last load caused a reboot due to model change
 	signalViceThreadAndWait();
 	enterCPUTrap();
 	if(!loadSnapshot(plugin, data))
-		throw std::runtime_error("Invalid state data");
+		throw std::runtime_error(UI_TEXT("Invalid state data"));
 	updateJoystickDevices();
 }
 
@@ -302,13 +304,13 @@ bool C64System::initC64(EmuApp& app)
 	if(c64IsInit)
 		return false;
 	if(!hasSysFilePath(appContext(), sysFilePath))
-		throw std::runtime_error{"Missing system file path, please check Options➔File Paths➔VICE System Files"};
+		throw std::runtime_error{UI_TEXT("Missing system file path, please check Options➔File Paths➔VICE System Files")};
 	log.info("initializing C64");
   if(plugin.init_main() < 0)
   {
   	log.error("error in init_main()");
   	c64FailedInit = true;
-  	throw std::runtime_error{std::format("Missing system file {}, please check Options➔File Paths➔VICE System Files", lastMissingSysFile)};
+  	throw std::runtime_error{std::format(UI_TEXT("Missing system file {}, please check Options➔File Paths➔VICE System Files"), lastMissingSysFile)};
 	}
 	c64IsInit = true;
 	return true;

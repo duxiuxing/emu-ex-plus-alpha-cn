@@ -1,0 +1,2 @@
+Ln=161
+English="Swapped Joystick Ports"

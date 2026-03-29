@@ -178,10 +178,10 @@ bool C64System::driveTrueEmulation() const
 
 constexpr const char* driveTypeName[4]
 {
-	"Drive8Type",
-	"Drive9Type",
-	"Drive10Type",
-	"Drive11Type",
+	UI_TEXT("Drive8Type"),
+	UI_TEXT("Drive9Type"),
+	UI_TEXT("Drive10Type"),
+	UI_TEXT("Drive11Type"),
 };
 
 void C64System::setDriveType(int idx, int type)
@@ -204,7 +204,7 @@ int C64System::colorSetting(ColorSetting s) const
 std::string C64System::colorSettingAsString(ColorSetting s) const
 {
 	auto v = colorSetting(s);
-	return std::format("{}%", v / 10);
+	return std::format(UI_TEXT("{}%"), v / 10);
 }
 
 void C64System::setColorSetting(ColorSetting s, int v)

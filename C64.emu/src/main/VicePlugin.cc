@@ -37,16 +37,16 @@ using namespace IG;
 
 constexpr const char* systemNameStr[]
 {
-	"C64",
-	"C64 (Cycle Accurate)",
-	"C64DTV",
-	"C128",
-	"C64 SuperCPU",
-	"CBM-II 6x0",
-	"CBM-II 5x0",
-	"PET",
-	"Plus/4",
-	"VIC-20",
+	UI_TEXT("C64"),
+	UI_TEXT("C64 (Cycle Accurate)"),
+	UI_TEXT("C64DTV"),
+	UI_TEXT("C128"),
+	UI_TEXT("C64 SuperCPU"),
+	UI_TEXT("CBM-II 6x0"),
+	UI_TEXT("CBM-II 5x0"),
+	UI_TEXT("PET"),
+	UI_TEXT("Plus/4"),
+	UI_TEXT("VIC-20"),
 };
 
 constexpr const char* libName[]
@@ -65,107 +65,107 @@ constexpr const char* libName[]
 
 constexpr std::string_view c64ModelStr[]
 {
-	"C64 PAL",
-	"C64C PAL",
-	"C64 old PAL",
-	"C64 NTSC",
-	"C64C NTSC",
-	"C64 old NTSC",
-	"Drean",
-	"C64 SX PAL",
-	"C64 SX NTSC",
-	"Japanese",
-	"C64 GS",
-	"PET64 PAL",
-	"PET64 NTSC",
-	"MAX Machine",
+	UI_TEXT("C64 PAL"),
+	UI_TEXT("C64C PAL"),
+	UI_TEXT("C64 old PAL"),
+	UI_TEXT("C64 NTSC"),
+	UI_TEXT("C64C NTSC"),
+	UI_TEXT("C64 old NTSC"),
+	UI_TEXT("Drean"),
+	UI_TEXT("C64 SX PAL"),
+	UI_TEXT("C64 SX NTSC"),
+	UI_TEXT("Japanese"),
+	UI_TEXT("C64 GS"),
+	UI_TEXT("PET64 PAL"),
+	UI_TEXT("PET64 NTSC"),
+	UI_TEXT("MAX Machine"),
 };
 
 constexpr std::string_view dtvModelStr[]
 {
-	"DTV v2 PAL",
-	"DTV v2 NTSC",
-	"DTV v3 PAL",
-	"DTV v3 NTSC",
-	"Hummer NTSC",
+	UI_TEXT("DTV v2 PAL"),
+	UI_TEXT("DTV v2 NTSC"),
+	UI_TEXT("DTV v3 PAL"),
+	UI_TEXT("DTV v3 NTSC"),
+	UI_TEXT("Hummer NTSC"),
 };
 
 constexpr std::string_view c128ModelStr[]
 {
-	"C128 PAL",
-	"C128D PAL",
-	"C128DCR PAL",
-	"C128 NTSC",
-	"C128D NTSC",
-	"C128DCR NTSC",
+	UI_TEXT("C128 PAL"),
+	UI_TEXT("C128D PAL"),
+	UI_TEXT("C128DCR PAL"),
+	UI_TEXT("C128 NTSC"),
+	UI_TEXT("C128D NTSC"),
+	UI_TEXT("C128DCR NTSC"),
 };
 
 constexpr std::string_view superCPUModelStr[]
 {
-	"C64 PAL",
-	"C64C PAL",
-	"C64 old PAL",
-	"C64 NTSC",
-	"C64C NTSC",
-	"C64 old NTSC",
-	"Drean",
-	"C64 SX PAL",
-	"C64 SX NTSC",
-	"Japanese",
-	"C64 GS",
+	UI_TEXT("C64 PAL"),
+	UI_TEXT("C64C PAL"),
+	UI_TEXT("C64 old PAL"),
+	UI_TEXT("C64 NTSC"),
+	UI_TEXT("C64C NTSC"),
+	UI_TEXT("C64 old NTSC"),
+	UI_TEXT("Drean"),
+	UI_TEXT("C64 SX PAL"),
+	UI_TEXT("C64 SX NTSC"),
+	UI_TEXT("Japanese"),
+	UI_TEXT("C64 GS"),
 };
 
 constexpr std::string_view cbm2ModelStr[]
 {
-	"CBM 610 PAL",
-	"CBM 610 NTSC",
-	"CBM 620 PAL",
-	"CBM 620 NTSC",
-	"CBM 620+ (1M) PAL",
-	"CBM 620+ (1M) NTSC",
-	"CBM 710 NTSC",
-	"CBM 720 NTSC",
-	"CBM 720+ (1M) NTSC",
+	UI_TEXT("CBM 610 PAL"),
+	UI_TEXT("CBM 610 NTSC"),
+	UI_TEXT("CBM 620 PAL"),
+	UI_TEXT("CBM 620 NTSC"),
+	UI_TEXT("CBM 620+ (1M) PAL"),
+	UI_TEXT("CBM 620+ (1M) NTSC"),
+	UI_TEXT("CBM 710 NTSC"),
+	UI_TEXT("CBM 720 NTSC"),
+	UI_TEXT("CBM 720+ (1M) NTSC"),
 };
 
 constexpr std::string_view cbm5x0ModelStr[]
 {
-	"CBM 510 PAL",
-	"CBM 510 NTSC",
+	UI_TEXT("CBM 510 PAL"),
+	UI_TEXT("CBM 510 NTSC"),
 };
 
 constexpr std::string_view petModelStr[]
 {
-	"PET 2001-8N",
-	"PET 3008",
-	"PET 3016",
-	"PET 3032",
-	"PET 3032B",
-	"PET 4016",
-	"PET 4032",
-	"PET 4032B",
-	"PET 8032",
-	"PET 8096",
-	"PET 8296",
-	"SuperPET",
+	UI_TEXT("PET 2001-8N"),
+	UI_TEXT("PET 3008"),
+	UI_TEXT("PET 3016"),
+	UI_TEXT("PET 3032"),
+	UI_TEXT("PET 3032B"),
+	UI_TEXT("PET 4016"),
+	UI_TEXT("PET 4032"),
+	UI_TEXT("PET 4032B"),
+	UI_TEXT("PET 8032"),
+	UI_TEXT("PET 8096"),
+	UI_TEXT("PET 8296"),
+	UI_TEXT("SuperPET"),
 };
 
 constexpr std::string_view plus4ModelStr[]
 {
-	"C16/116 PAL",
-	"C16/116 NTSC",
-	"Plus4 PAL",
-	"Plus4 NTSC",
-	"V364 NTSC",
-	"C232 NTSC",
+	UI_TEXT("C16/116 PAL"),
+	UI_TEXT("C16/116 NTSC"),
+	UI_TEXT("Plus4 PAL"),
+	UI_TEXT("Plus4 NTSC"),
+	UI_TEXT("V364 NTSC"),
+	UI_TEXT("C232 NTSC"),
 };
 
 constexpr std::string_view vic20ModelStr[]
 {
-	"VIC-20 PAL",
-	"VIC-20 NTSC",
-	"VIC-21",
-	"VIC-1001",
+	UI_TEXT("VIC-20 PAL"),
+	UI_TEXT("VIC-20 NTSC"),
+	UI_TEXT("VIC-21"),
+	UI_TEXT("VIC-1001"),
 };
 
 struct PluginConfig
