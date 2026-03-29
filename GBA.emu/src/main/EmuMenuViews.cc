@@ -27,7 +27,24 @@ namespace EmuEx
 
 using namespace IG;
 using MainAppHelper = EmuAppHelperBase<MainApp>;
-
+/*
+static std::string makeHardwareSensorStr(GbaSensorType opt)
+{
+	switch (opt)
+	{
+	default:
+		return UI_TEXT("Auto");
+	case GbaSensorType::None:
+		return UI_TEXT("None");
+	case GbaSensorType::Accelerometer:
+		return UI_TEXT("Accelerometer");
+	case GbaSensorType::Gyroscope:
+		return UI_TEXT("Gyroscope");
+	case GbaSensorType::Light:
+		return UI_TEXT("Light");
+	}
+}
+*/
 class ConsoleOptionView : public TableView, public MainAppHelper
 {
 	TextMenuItem biosItems[3]

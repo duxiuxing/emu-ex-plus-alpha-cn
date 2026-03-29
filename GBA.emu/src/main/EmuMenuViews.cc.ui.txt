@@ -1,206 +1,221 @@
 Ln=36
 English="Auto"
 
+Ln=38
+English="None"
+
 Ln=40
-English="Off"
+English="Accelerometer"
+
+Ln=42
+English="Gyroscope"
 
 Ln=44
-English="On"
+English="Light"
 
-Ln=51
-English="Use BIOS"
-
-Ln=68
+Ln=53
 English="Auto"
 
-Ln=72
+Ln=57
 English="Off"
 
-Ln=76
+Ln=61
 English="On"
 
-Ln=83
-English="RTC Emulation"
+Ln=68
+English="Use BIOS"
+
+Ln=85
+English="Auto"
+
+Ln=89
+English="Off"
 
 Ln=93
 English="On"
 
-Ln=94
-English="Off"
+Ln=100
+English="RTC Emulation"
+
+Ln=110
+English="On"
 
 Ln=111
-English="Auto"
-
-Ln=115
-English="EEPROM"
-
-Ln=119
-English="SRAM"
-
-Ln=123
-English="Flash (64K)"
-
-Ln=127
-English="Flash (128K)"
-
-Ln=131
-English="EEPROM + Sensor"
-
-Ln=135
-English="None"
-
-Ln=142
-English="Save Type"
-
-Ln=169
-English="Really change save type? Existing data in .sav file may be lost so please make a backup before proceeding."
-
-Ln=192
-English="Auto"
-
-Ln=196
-English="None"
-
-Ln=200
-English="Accelerometer"
-
-Ln=204
-English="Gyroscope"
-
-Ln=208
-English="Light"
-
-Ln=215
-English="Hardware Sensor"
-
-Ln=251
-English="Console Options"
-
-Ln=261
-English="Console Options"
-
-Ln=287
-English="Mixer"
-
-Ln=299
-English="Default"
-
-Ln=306
 English="Off"
 
-Ln=313
-English="Custom Value"
+Ln=128
+English="Auto"
 
-Ln=318
-English="Input 0 to 100"
+Ln=132
+English="EEPROM"
 
-Ln=345
-English="GB APU Volume"
+Ln=136
+English="SRAM"
 
-Ln=346
-English="PCM Volume"
+Ln=140
+English="Flash (64K)"
 
-Ln=354
-English="{}%"
+Ln=144
+English="Flash (128K)"
 
-Ln=384
-English="PCM #1"
+Ln=148
+English="EEPROM + Sensor"
 
-Ln=387
-English="PCM #2"
+Ln=152
+English="None"
 
-Ln=390
-English="Pulse #1"
+Ln=159
+English="Save Type"
 
-Ln=393
-English="Pulse #2"
+Ln=186
+English="Really change save type? Existing data in .sav file may be lost so please make a backup before proceeding."
 
-Ln=396
-English="Wave"
+Ln=209
+English="Auto"
 
-Ln=399
-English="Noise"
+Ln=213
+English="None"
 
-Ln=407
+Ln=217
+English="Accelerometer"
+
+Ln=221
+English="Gyroscope"
+
+Ln=225
+English="Light"
+
+Ln=232
+English="Hardware Sensor"
+
+Ln=268
+English="Console Options"
+
+Ln=278
+English="Console Options"
+
+Ln=304
+English="Mixer"
+
+Ln=316
 English="Default"
 
-Ln=414
+Ln=323
+English="Off"
+
+Ln=330
 English="Custom Value"
 
-Ln=419
+Ln=335
 English="Input 0 to 100"
 
-Ln=435
-English="Filtering Level"
+Ln=362
+English="GB APU Volume"
 
-Ln=443
+Ln=363
+English="PCM Volume"
+
+Ln=371
 English="{}%"
 
-Ln=452
-English="Filtering"
+Ln=401
+English="PCM #1"
 
-Ln=486
-English="Default Use BIOS"
+Ln=404
+English="PCM #2"
 
-Ln=499
-English="Darkness"
+Ln=407
+English="Pulse #1"
 
-Ln=503
-English="Indoor Light"
+Ln=410
+English="Pulse #2"
 
-Ln=506
-English="Overcast Day"
+Ln=413
+English="Wave"
 
-Ln=510
-English="Sunny Day"
+Ln=416
+English="Noise"
 
-Ln=514
+Ln=424
+English="Default"
+
+Ln=431
 English="Custom Value"
 
-Ln=519
+Ln=436
+English="Input 0 to 100"
+
+Ln=452
+English="Filtering Level"
+
+Ln=460
+English="{}%"
+
+Ln=469
+English="Filtering"
+
+Ln=503
+English="Default Use BIOS"
+
+Ln=516
+English="Darkness"
+
+Ln=520
+English="Indoor Light"
+
+Ln=523
+English="Overcast Day"
+
+Ln=527
+English="Sunny Day"
+
+Ln=531
+English="Custom Value"
+
+Ln=536
 English="Input 0 to 50000"
 
-Ln=535
+Ln=552
 English="Light Sensor Scale"
 
-Ln=543
+Ln=560
 English="{} lux"
 
-Ln=577
+Ln=594
 English="Cheats"
 
-Ln=594
+Ln=611
 English="Patches"
 
-Ln=611
+Ln=628
 English="BIOS"
 
-Ln=626
+Ln=643
 English="BIOS: {}"
 
-Ln=648
+Ln=665
 English="Input xxxxxxxx yyyyyyyy"
 
-Ln=649
+Ln=666
 English="Input xxxxxxxx yyyyyyyy (GS) or xxxxxxxx yyyy (AR)"
 
-Ln=658
+Ln=675
 English="Edit Cheat"
 
-Ln=665
+Ln=682
 English="Add Another GS v1-2/CB Code"
 
-Ln=671
+Ln=688
 English="Add Another GS v3 Code"
 
-Ln=685
+Ln=702
 English="Code"
 
-Ln=689
+Ln=706
 English="Really delete this code?"
 
-Ln=736
+Ln=753
 English="Add Game Shark v1-2/Code Breaker Code"
 
-Ln=742
+Ln=759
 English="Add Game Shark v3 Code"
