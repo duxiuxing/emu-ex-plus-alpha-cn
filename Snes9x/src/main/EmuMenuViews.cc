@@ -7,15 +7,11 @@
 #include <apu/bapu/snes/snes.hpp>
 #include <ppu.h>
 #endif
+#include <imagine/util/macros.h>
 import system;
 import emuex;
 import imagine;
 import std;
-
-#ifndef UI_TEXT_IMPL
-	#define UI_TEXT_IMPL
-	#define UI_TEXT(x) x
-#endif
 
 namespace EmuEx
 {

@@ -27,12 +27,9 @@ extern "C"
 	#include <gngeo/menu.h>
 }
 
-module system;
+#include <imagine/util/macros.h>
 
-#ifndef UI_TEXT_IMPL
-	#define UI_TEXT_IMPL
-	#define UI_TEXT(x) x
-#endif
+module system;
 
 extern "C"
 {

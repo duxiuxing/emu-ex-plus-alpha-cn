@@ -14,14 +14,10 @@ module;
 #else
 #include <soundux.h>
 #endif
+#include <imagine/util/macros.h>
 #include <zlib.h>
 
 module system;
-
-#ifndef UI_TEXT_IMPL
-	#define UI_TEXT_IMPL
-	#define UI_TEXT(x) x
-#endif
 
 #ifdef SNES9X_VERSION_1_4
 extern "C++" bool8 S9xDeinitUpdate(int width, int height);

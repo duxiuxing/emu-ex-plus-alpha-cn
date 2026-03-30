@@ -22,15 +22,12 @@ extern "C"
 	#include <gngeo/timer.h>
 	#include <gngeo/memory.h>
 }
+#include <imagine/util/macros.h>
+
 import system;
 import emuex;
 import imagine;
 import std;
-
-#ifndef UI_TEXT_IMPL
-	#define UI_TEXT_IMPL
-	#define UI_TEXT(x) x
-#endif
 
 namespace EmuEx
 {
