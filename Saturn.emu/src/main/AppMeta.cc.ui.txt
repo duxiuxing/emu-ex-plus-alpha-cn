@@ -1,98 +1,131 @@
 Ln=29
 English="(c) 2011-2026\nRobert Broglia\nwww.explusalpha.com\n\nPortions (c) the\nMednafen Team\nmednafen.github.io"
+Chinese="(c) 2011-2026\nRobert Broglia 保留所有权利\nwww.explusalpha.com\n\n中文翻译：R-Sam@github\nduxiuxing/emu-ex-plus-alpha-cn\n\n部分代码版权属于\nMednafen 团队\nmednafen.github.io"
 
 Ln=101
 English="Gamepad"
+Chinese="游戏按键"
 
 Ln=106
 English="Gamepad 2"
+Chinese="游戏按键 (2号手柄)"
 
 Ln=111
 English="Gamepad 3"
+Chinese="游戏按键 (3号手柄)"
 
 Ln=116
 English="Gamepad 4"
+Chinese="游戏按键 (4号手柄)"
 
 Ln=121
 English="Gamepad 5"
+Chinese="游戏按键 (5号手柄)"
 
 Ln=126
 English="Gamepad 6"
+Chinese="游戏按键 (6号手柄)"
 
 Ln=131
 English="Gamepad 7"
+Chinese="游戏按键 (7号手柄)"
 
 Ln=136
 English="Gamepad 8"
+Chinese="游戏按键 (8号手柄)"
 
 Ln=141
 English="Gamepad 9"
+Chinese="游戏按键 (9号手柄)"
 
 Ln=146
 English="Gamepad 10"
+Chinese="游戏按键 (10号手柄)"
 
 Ln=151
 English="Gamepad 11"
+Chinese="游戏按键 (11号手柄)"
 
 Ln=156
 English="Gamepad 12"
+Chinese="游戏按键 (12号手柄)"
 
 Ln=168
 English="Up"
+Chinese="方向键的上"
 
 Ln=170
 English="Right"
+Chinese="方向键的右"
 
 Ln=172
 English="Down"
+Chinese="方向键的下"
 
 Ln=174
 English="Left"
+Chinese="方向键的左"
 
 Ln=176
 English="Start"
+Chinese="开始键"
 
 Ln=178
 English="A"
+Chinese="A 键"
 
 Ln=180
 English="B"
+Chinese="B 键"
 
 Ln=182
 English="C"
+Chinese="C 键"
 
 Ln=184
 English="X"
+Chinese="X 键"
 
 Ln=186
 English="Y"
+Chinese="Y 键"
 
 Ln=188
 English="Z"
+Chinese="Z 键"
 
 Ln=190
 English="L"
+Chinese="L 键"
 
 Ln=192
 English="R"
+Chinese="R 键"
 
 Ln=312
 English="D-Pad"
+Chinese="方向键"
 
 Ln=317
 English="Face Buttons"
+Chinese="动作键"
 
 Ln=322
 English="Face Buttons + Inline L/R"
+Chinese="动作键 + L/R 键"
 
 Ln=327
 English="L"
+Chinese="L 键"
 
 Ln=332
 English="R"
+Chinese="R 键"
 
 Ln=337
 English="Start"
+Chinese="开始键"
 
 Ln=343
 English="Gamepad"
+Chinese="游戏按键"

@@ -18,15 +18,12 @@
 #include <fceu/sound.h>
 #include <fceu/fceu.h>
 #include <fceu/cheat.h>
+#include <imagine/util/macros.h>
+
 import system;
 import emuex;
 import imagine;
 import std;
-
-#ifndef UI_TEXT_IMPL
-	#define UI_TEXT_IMPL
-	#define UI_TEXT(x)	x
-#endif
 
 namespace EmuEx
 {
@@ -541,7 +538,7 @@ class CustomVideoOptionView : public VideoOptionView, public MainAppHelper
 
 	BoolMenuItem correctLineAspect
 	{
-		UI_TEXT("修正行每行宽高比例"),
+		UI_TEXT("修正每行宽高比例"),
 		attachParams(),
 		(bool)system().optionCorrectLineAspect,
 		[this](BoolMenuItem &item)

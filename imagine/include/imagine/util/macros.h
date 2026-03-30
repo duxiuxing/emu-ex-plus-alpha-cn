@@ -45,3 +45,8 @@
 
 #define PP_STRINGIFY(A) #A
 #define PP_STRINGIFY_EXP(A) PP_STRINGIFY(A)
+
+#ifndef UI_TEXT_IMPL
+	#define UI_TEXT_IMPL
+	#define UI_TEXT(x) x
+#endif

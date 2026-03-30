@@ -1,32 +1,32 @@
-Ln=69
+Ln=70
 English="A system file {} failed loading, you must restart the app and try again after verifying the file"
 
-Ln=70
+Ln=71
 English="Exit Now"
 
-Ln=71
+Ln=72
 English="Cancel"
 
-Ln=120
+Ln=121
 English="VIC"
 
-Ln=128
+Ln=129
 English="VICII"
 
-Ln=131
+Ln=132
 English="TED"
 
-Ln=135
+Ln=136
 English="Crtc"
 
-Ln=250
+Ln=251
 English="Invalid state data"
 
-Ln=255
+Ln=256
 English="Invalid state data"
 
-Ln=307
+Ln=308
 English="Missing system file path, please check Options➔File Paths➔VICE System Files"
 
-Ln=313
+Ln=314
 English="Missing system file {}, please check Options➔File Paths➔VICE System Files"

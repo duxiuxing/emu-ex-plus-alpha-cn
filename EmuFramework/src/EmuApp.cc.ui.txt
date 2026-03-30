@@ -72,7 +72,7 @@ Chinese="无效的文件扩展名"
 
 Ln=873
 English="Error opening {}, please verify save path has write access"
-Chinese="打开 {} 时出错，请检查保存路径的写入权限设置"
+Chinese="打开 {} 时出错，请确认 App 对保存路径具有写入权限"
 
 Ln=902
 English="System not running"

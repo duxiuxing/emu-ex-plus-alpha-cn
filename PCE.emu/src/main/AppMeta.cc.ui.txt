@@ -1,71 +1,95 @@
 Ln=29
 English="(c) 2011-2026\nRobert Broglia\nwww.explusalpha.com\n\nPortions (c) the\nMednafen Team\nmednafen.github.io"
+Chinese="(c) 2011-2026\nRobert Broglia 保留所有权利\nwww.explusalpha.com\n\n中文翻译：R-Sam@github\nduxiuxing/emu-ex-plus-alpha-cn\n\n部分代码版权属于\nMednafen 团队\nmednafen.github.io"
 
 Ln=76
 English="Gamepad"
+Chinese="游戏按键"
 
 Ln=81
 English="Gamepad 2"
+Chinese="游戏按键 (2号手柄)"
 
 Ln=86
 English="Gamepad 3"
+Chinese="游戏按键 (3号手柄)"
 
 Ln=91
 English="Gamepad 4"
+Chinese="游戏按键 (4号手柄)"
 
 Ln=96
 English="Gamepad 5"
+Chinese="游戏按键 (5号手柄)"
 
 Ln=108
 English="Up"
+Chinese="方向键的上"
 
 Ln=110
 English="Right"
+Chinese="方向键的右"
 
 Ln=112
 English="Down"
+Chinese="方向键的下"
 
 Ln=114
 English="Left"
+Chinese="方向键的左"
 
 Ln=116
 English="Select"
+Chinese="选择键"
 
 Ln=118
 English="Run"
+Chinese="运行键"
 
 Ln=120
 English="I"
+Chinese="I 键"
 
 Ln=122
 English="II"
+Chinese="II 键"
 
 Ln=124
 English="III"
+Chinese="III 键"
 
 Ln=126
 English="IV"
+Chinese="IV 键"
 
 Ln=128
 English="V"
+Chinese="V 键"
 
 Ln=130
 English="VI"
+Chinese="VI 键"
 
 Ln=244
 English="D-Pad"
+Chinese="方向键"
 
 Ln=249
 English="Face Buttons"
+Chinese="动作键"
 
 Ln=254
 English="Select"
+Chinese="选择键"
 
 Ln=259
 English="Run"
+Chinese="运行键"
 
 Ln=264
 English="Select/Run"
+Chinese="选择/运行键"
 
 Ln=270
 English="Gamepad"
+Chinese="游戏按键"

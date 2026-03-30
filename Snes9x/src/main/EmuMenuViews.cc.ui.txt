@@ -1,243 +1,243 @@
-Ln=43
+Ln=39
 English="None"
 Chinese="无"
 
-Ln=47
+Ln=43
 English="Linear"
 Chinese="线性分布"
 
-Ln=51
+Ln=47
 English="Gaussian"
 Chinese="高斯分布"
 
-Ln=55
+Ln=51
 English="Cubic"
 Chinese="三次插值"
 
-Ln=59
+Ln=55
 English="Sinc"
 Chinese="辛克插值"
 
-Ln=66
+Ln=62
 English="DSP Interpolation"
 Chinese="DSP 插值算法"
 
-Ln=85
+Ln=81
 English="5-Player Adapter"
 Chinese="五人玩家适配器"
 
-Ln=100
+Ln=96
 English="Auto (NSRT)"
 Chinese="自动 (NSRT)"
 
-Ln=105
+Ln=101
 English="Gamepads"
 Chinese="手柄"
 
-Ln=109
+Ln=105
 English="Superscope"
 Chinese="超任光枪"
 
-Ln=113
+Ln=109
 English="Justifier"
 Chinese="Justifier 光枪"
 
-Ln=117
+Ln=113
 English="Mouse"
 Chinese="鼠标"
 
-Ln=124
+Ln=120
 English="Input Ports"
 Chinese="输入端口"
 
-Ln=144
+Ln=140
 English="Auto"
 Chinese="自动"
 
-Ln=148
+Ln=144
 English="NTSC"
 Chinese="NTSC"
 
-Ln=152
+Ln=148
 English="PAL"
 Chinese="PAL"
 
-Ln=156
+Ln=152
 English="NTSC + PAL Spoof"
 Chinese="NTSC + PAL 欺骗"
 
-Ln=163
+Ln=159
 English="System"
 Chinese="视频制式"
 
-Ln=178
+Ln=174
 English="Video"
 Chinese="视频："
 
-Ln=184
+Ln=180
 English="Allow Overscan Mode"
 Chinese="允许过扫描模式"
 
-Ln=197
+Ln=193
 English="Bob"
 Chinese="Bob 算法"
 
-Ln=201
+Ln=197
 English="Weave"
 Chinese="Weave 算法"
 
-Ln=208
+Ln=204
 English="Deinterlace Mode"
 Chinese="去交错模式"
 
-Ln=224
+Ln=220
 English="Emulation Hacks"
 Chinese="模拟器修改："
 
-Ln=230
+Ln=226
 English="Allow Invalid VRAM Access"
 Chinese="允许无效的 VRAM 访问"
 
-Ln=243
+Ln=239
 English="Separate Echo Buffer From Ram"
 Chinese="分离回波缓冲区"
 
-Ln=264
+Ln=260
 English="100%"
 Chinese="100%"
 
-Ln=268
+Ln=264
 English="Custom Value"
 Chinese="自定义"
 
-Ln=273
+Ln=269
 English="Input 5 to 250"
 Chinese="请输入 5 到 250 之间的值"
 
-Ln=287
+Ln=283
 English="Value not in range"
 Chinese="输入值不在有效的取值范围"
 
-Ln=299
+Ln=295
 English="SuperFX Clock Multiplier"
 Chinese="SuperFX 时钟乘法器"
 
-Ln=313
+Ln=309
 English="{}%"
 Chinese="{}%"
 
-Ln=341
+Ln=337
 English="Console Options"
 Chinese="主机选项"
 
-Ln=353
+Ln=349
 English="Console Options"
 Chinese="主机选项"
 
-Ln=383
+Ln=379
 English="Cheats"
 Chinese="作弊文件夹"
 
-Ln=400
+Ln=396
 English="Patches"
 Chinese="补丁文件夹"
 
-Ln=414
+Ln=410
 English="Satellaview Files: {}"
 Chinese="卫星视图文件夹：{}"
 
-Ln=424
+Ln=420
 English="Satellaview Files"
 Chinese="卫星视图文件夹"
 
-Ln=441
+Ln=437
 English="BS-X BIOS"
 Chinese="BS-X 的 BIOS"
 
-Ln=456
+Ln=452
 English="BS-X BIOS: {}"
 Chinese="BS-X 的 BIOS：{}"
 
-Ln=466
+Ln=462
 English="Sufami Turbo BIOS"
 Chinese="Sufami Turbo 的 BIOS"
 
-Ln=481
+Ln=477
 English="Sufami Turbo BIOS: {}"
 Chinese="Sufami Turbo 的 BIOS：{}"
 
-Ln=517
+Ln=513
 English="Edit Cheat"
 Chinese="编辑作弊项"
 
-Ln=525
+Ln=521
 English="Add Another Code"
 Chinese="添加另一个作弊码"
 
-Ln=530
+Ln=526
 English="Input xxxx-xxxx (GG), xxxxxxxx (AR), GF code, or blank"
 Chinese="请输入 GG (xxxx-xxxx)，AR (xxxxxxxx)，GF 作弊码, 或留空"
 
-Ln=545
+Ln=541
 English="Code"
 Chinese="作弊码"
 
-Ln=597
+Ln=593
 English="Add Game Genie/Action Replay/Gold Finger Code"
 Chinese="添加 GG/AR/GF 作弊码"
 
-Ln=602
+Ln=598
 English="Input xxxx-xxxx (GG), xxxxxxxx (AR), or GF code"
 Chinese="请输入 GG (xxxx-xxxx)，AR (xxxxxxxx) 或 GF 作弊码"
 
-Ln=614
+Ln=610
 English="Edit Memory Patch"
 Chinese="编辑内存补丁"
 
-Ln=639
+Ln=635
 English="Address"
 Chinese="地址"
 
-Ln=645
+Ln=641
 English="Input 6-digit hex"
 Chinese="请输入六位以内的十六进制数"
 
-Ln=653
+Ln=649
 English="value must be <= FFFFFF"
 Chinese="数值必须 <= FFFFFF"
 
-Ln=666
+Ln=662
 English="Value"
 Chinese="数值"
 
-Ln=672
+Ln=668
 English="Input 2-digit hex"
 Chinese="请输入两位以内的十六进制数"
 
-Ln=680
+Ln=676
 English="value must be <= FF"
 Chinese="数值必须 <= FF"
 
-Ln=694
+Ln=690
 English="Conditional Value"
 Chinese="条件值"
 
-Ln=696
+Ln=692
 English="Saved Value"
 Chinese="保存值"
 
-Ln=703
+Ln=699
 English="Input 2-digit hex or blank"
 Chinese="请输入两位以内的十六进制数或留空"
 
-Ln=714
+Ln=710
 English="value must be <= FF"
 Chinese="数值必须 <= FF"
 
-Ln=728
+Ln=724
 English="Delete"
 Chinese="删除"
 
-Ln=733
+Ln=729
 English="Really delete this patch?"
 Chinese="是否要删除此补丁？"

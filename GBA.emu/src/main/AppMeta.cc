@@ -250,7 +250,7 @@ SystemInputDeviceDesc AppMeta::inputDeviceDesc(int idx)
 		},
 		InputComponentDesc
 		{
-			UI_TEXT("动作键 + L/R键"),
+			UI_TEXT("动作键 + L/R 键"),
 			faceLRKeyInfo, InputComponent::button, RB2DO, {.altConfig = true}
 		},
 		InputComponentDesc

@@ -13,15 +13,12 @@
 	You should have received a copy of the GNU General Public License
 	along with PCE.emu.  If not, see <http://www.gnu.org/licenses/> */
 
+#include <imagine/util/macros.h>
+
 import system;
 import emuex;
 import imagine;
 import std;
-
-#ifndef UI_TEXT_IMPL
-	#define UI_TEXT_IMPL
-	#define UI_TEXT(x)	x
-#endif
 
 namespace EmuEx
 {
@@ -59,7 +56,7 @@ class ConsoleOptionView : public TableView, public MainAppHelper
 
 	BoolMenuItem arcadeCard
 	{
-		UI_TEXT("街机卡模式"),
+		UI_TEXT("街机卡带"),
 		attachParams(),
 		(bool)system().optionArcadeCard,
 		[this](BoolMenuItem &item, const Input::Event &e)
@@ -221,7 +218,7 @@ class CustomFilePathOptionView : public FilePathOptionView, public MainAppHelper
 		[this](Input::Event e)
 		{
 			pushAndShow(makeViewWithName<DataFileSelectView<>>(
-				UI_TEXT("系统卡文件"),
+				UI_TEXT("系统卡带"),
 				app().validSearchPath(FS::dirnameUri(system().sysCardPath)),
 				[this](CStringView path, FS::file_type type)
 				{
@@ -236,7 +233,7 @@ class CustomFilePathOptionView : public FilePathOptionView, public MainAppHelper
 	std::string biosMenuEntryStr(std::string_view path) const
 	{
 		return std::format(
-			UI_TEXT("系统卡文件：{}"),
+			UI_TEXT("系统卡带文件：{}"),
 			appContext().fileUriDisplayName(path));
 	}
 

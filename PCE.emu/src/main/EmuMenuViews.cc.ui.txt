@@ -1,125 +1,167 @@
-Ln=34
+Ln=31
 English="pce_fast (Default for general use)"
+Chinese="pce_fast (推荐使用的默认值)"
 
-Ln=38
+Ln=35
 English="pce (Better accuracy, higher power usage)"
+Chinese="pce (精度更好，能耗更高)"
 
-Ln=42
+Ln=39
 English="Really change emulation core? Note that save states from different cores aren't compatible."
+Chinese="是否要更改模拟核心？注意，不同核心的存档互不兼容。"
 
-Ln=49
+Ln=46
 English="6-button Gamepad"
+Chinese="六键手柄"
 
-Ln=62
+Ln=59
 English="Arcade Card"
+Chinese="街机卡带"
 
-Ln=75
+Ln=72
 English="Video"
+Chinese="视频："
 
-Ln=83
+Ln=80
 English="11+224"
+Chinese="11+224"
 
-Ln=87
+Ln=84
 English="18+224"
+Chinese="18+224"
 
-Ln=91
+Ln=88
 English="4+232"
+Chinese="4+232"
 
-Ln=95
+Ln=92
 English="3+239"
+Chinese="3+239"
 
-Ln=99
+Ln=96
 English="0+242"
+Chinese="0+242"
 
-Ln=106
+Ln=103
 English="Visible Lines"
+Chinese="可见行数"
 
-Ln=130
+Ln=127
 English="Auto"
+Chinese="自动"
 
-Ln=139
+Ln=136
 English="Emulation Core"
+Chinese="模拟器核心"
 
-Ln=188
+Ln=185
 English="Console Options"
+Chinese="主机选项"
 
-Ln=200
+Ln=197
 English="Console Options"
+Chinese="主机选项"
 
-Ln=224
+Ln=221
 English="System Card"
+Chinese="系统卡带"
 
-Ln=239
+Ln=236
 English="System Card: {}"
+Chinese="系统卡带文件：{}"
 
-Ln=258
+Ln=255
 English="Sprite Limit"
+Chinese="精灵限制"
 
-Ln=267
+Ln=264
 English="11+224"
+Chinese="11+224"
 
-Ln=271
+Ln=268
 English="18+224"
+Chinese="18+224"
 
-Ln=275
+Ln=272
 English="4+232"
+Chinese="4+232"
 
-Ln=279
+Ln=276
 English="3+239"
+Chinese="3+239"
 
-Ln=283
+Ln=280
 English="0+242"
+Chinese="0+242"
 
-Ln=290
+Ln=287
 English="Default Visible Lines"
+Chinese="默认可见行数"
 
-Ln=313
+Ln=310
 English="Correct Line Aspect Ratio"
+Chinese="修正每行宽高比例"
 
-Ln=341
+Ln=338
 English="1x"
+Chinese="1x"
 
-Ln=345
+Ln=342
 English="2x"
+Chinese="2x"
 
-Ln=349
+Ln=346
 English="4x"
+Chinese="4x"
 
-Ln=353
+Ln=350
 English="8x"
+Chinese="8x"
 
-Ln=360
+Ln=357
 English="CD Access Speed"
+Chinese="光盘读取倍速"
 
-Ln=374
+Ln=371
 English="Auto"
+Chinese="自动"
 
-Ln=383
+Ln=380
 English="Emulation Core"
+Chinese="模拟器核心"
 
-Ln=436
+Ln=433
 English="Mixer"
+Chinese="音频混合器："
 
-Ln=453
+Ln=450
 English="CD-DA Volume"
+Chinese="CD-DA 音量"
 
-Ln=459
+Ln=456
 English="ADPCM Volume"
+Chinese="ADPCM 音量"
 
-Ln=474
+Ln=471
 English="Default"
+Chinese="默认"
 
-Ln=481
+Ln=478
 English="Off"
+Chinese="关"
 
-Ln=488
+Ln=485
 English="Custom Value"
+Chinese="自定义"
 
-Ln=493
+Ln=490
 English="Input 0 to 200"
+Chinese="请输入 0 到 200 之间的值"
 
-Ln=525
+Ln=522
 English="{}%"
+Chinese="{}%"
 
-Ln=541
+Ln=538
 English="ADPCM Low-pass Filter"
+Chinese="ADPCM 低通滤波器"

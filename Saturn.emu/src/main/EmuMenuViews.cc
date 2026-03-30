@@ -13,6 +13,7 @@
 	You should have received a copy of the GNU General Public License
 	along with Saturn.emu.  If not, see <http://www.gnu.org/licenses/> */
 
+#include <imagine/util/macros.h>
 #include <mednafen/types.h>
 #include <mednafen/Stream.h>
 #include <ss/ss.h>
@@ -23,11 +24,6 @@ import system;
 import emuex;
 import imagine;
 import std;
-
-#ifndef UI_TEXT_IMPL
-	#define UI_TEXT_IMPL
-	#define UI_TEXT(x)	x
-#endif
 
 namespace EmuEx
 {
@@ -102,7 +98,7 @@ class CustomFilePathOptionView : public FilePathOptionView, public MainAppHelper
 		[this](Input::Event e)
 		{
 			pushAndShow(makeViewWithName<DataFileSelectView<ArchivePathSelectMode::exclude>>(
-				UI_TEXT("拳皇95 ROM"),
+				UI_TEXT("拳皇 95 的 ROM"),
 				app().validSearchPath(FS::dirnameUri(system().kof95ROMPath)),
 				[this](CStringView path, FS::file_type type)
 				{
@@ -117,7 +113,7 @@ class CustomFilePathOptionView : public FilePathOptionView, public MainAppHelper
 	std::string kof95MenuEntryStr(std::string_view path) const
 	{
 		return std::format(
-			UI_TEXT("拳皇95 ROM 文件：{}"),
+			UI_TEXT("拳皇 95 的 ROM 文件：{}"),
 			appContext().fileUriDisplayName(path));
 	}
 
@@ -127,7 +123,7 @@ class CustomFilePathOptionView : public FilePathOptionView, public MainAppHelper
 		[this](Input::Event e)
 		{
 			pushAndShow(makeViewWithName<DataFileSelectView<ArchivePathSelectMode::exclude>>(
-				UI_TEXT("奥特曼 ROM"),
+				UI_TEXT("奥特曼的 ROM"),
 				app().validSearchPath(FS::dirnameUri(system().ultramanROMPath)),
 				[this](CStringView path, FS::file_type type)
 				{
@@ -142,7 +138,7 @@ class CustomFilePathOptionView : public FilePathOptionView, public MainAppHelper
 	std::string ultramanMenuEntryStr(std::string_view path) const
 	{
 		return std::format(
-			UI_TEXT("奥特曼 ROM 文件：{}"),
+			UI_TEXT("奥特曼的 ROM 文件：{}"),
 			appContext().fileUriDisplayName(path));
 	}
 
@@ -164,15 +160,15 @@ constexpr auto cartTypeToString(int t)
 		case CART_NONE:
 			return UI_TEXT("无");
 		case CART_BACKUP_MEM:
-			return UI_TEXT("512K 备份 RAM");
+			return UI_TEXT("512K 的备份 RAM");
 		case CART_EXTRAM_1M:
-			return UI_TEXT("1M RAM");
+			return UI_TEXT("1M 的 RAM");
 		case CART_EXTRAM_4M:
-			return UI_TEXT("4M RAM");
+			return UI_TEXT("4M 的 RAM");
 		case CART_CS1RAM_16M:
-			return UI_TEXT("16M CS1 RAM");
+			return UI_TEXT("16M 的 CS1 RAM");
 		case CART_KOF95:
-			return UI_TEXT("拳皇95");
+			return UI_TEXT("拳皇 95");
 		case CART_ULTRAMAN:
 			return UI_TEXT("奥特曼");
 	}
@@ -312,7 +308,7 @@ class ConsoleOptionView : public TableView, public MainAppHelper
 
 	BoolMenuItem showHOverscan
 	{
-		UI_TEXT("显示过度扫描裁剪掉的图像"),
+		UI_TEXT("显示水平过扫描区域"),
 		attachParams(),
 		system().showHOverscan,
 		[this](BoolMenuItem &item)
@@ -409,15 +405,15 @@ class ConsoleOptionView : public TableView, public MainAppHelper
 			attachParams(), {.id = Rotation::UP}
 		},
 		{
-			UI_TEXT("右转 90 度"),
+			UI_TEXT("向右旋转 90°"),
 			attachParams(), {.id = Rotation::RIGHT}
 		},
 		{
-			UI_TEXT("旋转 180 度"),
+			UI_TEXT("旋转 180°"),
 			attachParams(), {.id = Rotation::DOWN}
 		},
 		{
-			UI_TEXT("左转 90 度"),
+			UI_TEXT("向左旋转 90°"),
 			attachParams(), {.id = Rotation::LEFT}
 		},
 	};
@@ -719,7 +715,7 @@ class CustomVideoOptionView : public VideoOptionView, public MainAppHelper
 
 	BoolMenuItem showHOverscan
 	{
-		UI_TEXT("默认显示过度扫描裁剪掉的图像"),
+		UI_TEXT("默认显示水平过扫描区域"),
 		attachParams(),
 		system().defaultShowHOverscan,
 		[this](BoolMenuItem &item)

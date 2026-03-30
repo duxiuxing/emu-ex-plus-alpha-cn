@@ -25,15 +25,12 @@ module;
 #include <fceu/x6502.h>
 #include <fceu/palette.h>
 #include <fceu/state.h>
+#include <imagine/util/macros.h>
+
 #undef PS
 
 module system;
 import io;
-
-#ifndef UI_TEXT_IMPL
-	#define UI_TEXT_IMPL
-	#define UI_TEXT(x)	x
-#endif
 
 extern "C++"
 {
