@@ -13,6 +13,7 @@
 	You should have received a copy of the GNU General Public License
 	along with Lynx.emu.  If not, see <http://www.gnu.org/licenses/> */
 
+#include <imagine/util/macros.h>
 import system;
 import emuex;
 import imagine;
@@ -39,7 +40,8 @@ class CustomFilePathOptionView : public FilePathOptionView, public MainAppHelper
 		biosMenuEntryStr(system().biosPath), attachParams(),
 		[this](Input::Event e)
 		{
-			pushAndShow(makeViewWithName<DataFileSelectView<ArchivePathSelectMode::exclude>>("BIOS",
+			pushAndShow(makeViewWithName<DataFileSelectView<ArchivePathSelectMode::exclude>>(
+				UI_TEXT("BIOS"),
 				app().validSearchPath(FS::dirnameUri(system().biosPath)),
 				[this](CStringView path, FS::file_type)
 				{
@@ -53,7 +55,9 @@ class CustomFilePathOptionView : public FilePathOptionView, public MainAppHelper
 
 	std::string biosMenuEntryStr(std::string_view path) const
 	{
-		return std::format("BIOS: {}", appContext().fileUriDisplayName(path));
+		return std::format(
+			UI_TEXT("BIOS: {}"),
+			appContext().fileUriDisplayName(path));
 	}
 
 public:
@@ -72,15 +76,16 @@ class ConsoleOptionView : public TableView, public MainAppHelper
 
 	TextMenuItem rotationItem[4]
 	{
-		{"Auto",           attachParams(), setRotationDel(), {.id = LynxRotation::Auto}},
-		{"Horizontal",     attachParams(), setRotationDel(), {.id = LynxRotation::Horizontal}},
-		{"Vertical Left",  attachParams(), setRotationDel(), {.id = LynxRotation::VerticalLeft}},
-		{"Vertical Right", attachParams(), setRotationDel(), {.id = LynxRotation::VerticalRight}},
+		{UI_TEXT("Auto"),           attachParams(), setRotationDel(), {.id = LynxRotation::Auto}},
+		{UI_TEXT("Horizontal"),     attachParams(), setRotationDel(), {.id = LynxRotation::Horizontal}},
+		{UI_TEXT("Vertical Left"),  attachParams(), setRotationDel(), {.id = LynxRotation::VerticalLeft}},
+		{UI_TEXT("Vertical Right"), attachParams(), setRotationDel(), {.id = LynxRotation::VerticalRight}},
 	};
 
 	MultiChoiceMenuItem rotation
 	{
-		"Handheld Rotation", attachParams(),
+		UI_TEXT("Handheld Rotation"),
+		attachParams(),
 		MenuId{system().rotation},
 		rotationItem
 	};
@@ -94,7 +99,7 @@ public:
 	ConsoleOptionView(ViewAttachParams attach):
 		TableView
 		{
-			"Console Options",
+			UI_TEXT("Console Options"),
 			attach,
 			menuItem
 		} {}
@@ -105,7 +110,8 @@ class CustomSystemActionsView : public SystemActionsView
 private:
 	TextMenuItem options
 	{
-		"Console Options", attachParams(),
+		UI_TEXT("Console Options"),
+		attachParams(),
 		[this](Input::Event e) { pushAndShow(makeView<ConsoleOptionView>(), e); }
 	};
 
@@ -124,7 +130,8 @@ class CustomAudioOptionView : public AudioOptionView, public MainAppHelper
 
 	BoolMenuItem lowpassFilter
 	{
-		"Low-pass Filter", attachParams(),
+		UI_TEXT("Low-pass Filter"),
+		attachParams(),
 		system().lowpassFilter,
 		[this](BoolMenuItem &item) { system().setLowpassFilter(item.flipBoolValue(*this)); }
 	};

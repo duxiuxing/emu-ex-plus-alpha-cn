@@ -1,116 +1,116 @@
-Ln=46
+Ln=43
 English="Off"
 
-Ln=50
+Ln=47
 English="On"
 
-Ln=54
+Ln=51
 English="Auto"
 
-Ln=71
+Ln=68
 English="Emulate Timer"
 
-Ln=81
+Ln=78
 English="On"
 
-Ln=82
+Ln=79
 English="Off"
 
-Ln=101
+Ln=98
 English="Console Options"
 
-Ln=124
+Ln=121
 English="Japan"
 
-Ln=128
+Ln=125
 English="Europe"
 
-Ln=132
+Ln=129
 English="USA"
 
-Ln=136
+Ln=133
 English="Asia"
 
-Ln=143
+Ln=140
 English="MVS Region"
 
-Ln=161
+Ln=158
 English="Unibios 2.3"
 
-Ln=165
+Ln=162
 English="Unibios 3.0"
 
-Ln=169
+Ln=166
 English="Unibios 3.1"
 
-Ln=173
+Ln=170
 English="Unibios 3.2"
 
-Ln=177
+Ln=174
 English="Unibios 3.3"
 
-Ln=181
+Ln=178
 English="Unibios 4.0"
 
-Ln=185
+Ln=182
 English="MVS"
 
-Ln=192
+Ln=189
 English="BIOS Type"
 
-Ln=200
+Ln=197
 English="Make/Use Cache Files"
 
-Ln=211
+Ln=208
 English="Strict ROM Checking"
 
-Ln=237
+Ln=234
 English="List All Games"
 
-Ln=547
+Ln=544
 English="Game List"
 
-Ln=591
+Ln=588
 English="This game doesn't yet work properly, load anyway?"
 
-Ln=602
+Ln=599
 English="{} not present"
 
-Ln=622
+Ln=619
 English="Japan"
 
-Ln=626
+Ln=623
 English="USA"
 
-Ln=630
+Ln=627
 English="Europe"
 
-Ln=637
+Ln=634
 English="Region"
 
-Ln=645
+Ln=642
 English="Mode"
 
-Ln=648
+Ln=645
 English="Console (AES)"
 
-Ln=649
+Ln=646
 English="Arcade (MVS)"
 
-Ln=668
+Ln=665
 English="Unibios Switches"
 
-Ln=687
+Ln=684
 English="Unibios Switches"
 
-Ln=700
+Ln=697
 English="Only used with Unibios"
 
-Ln=709
+Ln=706
 English="Console Options"
 
-Ln=741
+Ln=738
 English="Open Content From List"
 
-Ln=749
+Ln=746
 English="No content found, use \"Open Content\" command to browse to a folder with ROM archives."

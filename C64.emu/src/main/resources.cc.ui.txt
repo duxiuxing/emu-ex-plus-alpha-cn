@@ -1,14 +1,14 @@
-Ln=186
+Ln=182
 English="Drive8Type"
 
-Ln=187
+Ln=183
 English="Drive9Type"
 
-Ln=188
+Ln=184
 English="Drive10Type"
 
-Ln=189
+Ln=185
 English="Drive11Type"
 
-Ln=212
+Ln=208
 English="{}%"

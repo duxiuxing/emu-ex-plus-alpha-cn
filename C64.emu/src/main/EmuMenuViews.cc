@@ -14,6 +14,7 @@
 	along with C64.emu.  If not, see <http://www.gnu.org/licenses/> */
 
 #include <cstdlib>
+#include <imagine/util/macros.h>
 extern "C"
 {
 	#include "cartridge.h"
@@ -36,11 +37,6 @@ import plugin;
 import emuex;
 import imagine;
 import std;
-
-#ifndef UI_TEXT_IMPL
-	#define UI_TEXT_IMPL
-	#define UI_TEXT(x) x
-#endif
 
 namespace EmuEx
 {

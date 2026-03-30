@@ -1,11 +1,11 @@
-Ln=235
+Ln=230
 English="No FDS BIOS set"
 
-Ln=253
+Ln=248
 English="Incompatible FDS BIOS"
 
-Ln=260
+Ln=255
 English="Error opening FDS BIOS"
 
-Ln=269
+Ln=264
 English="Incompatible FDS BIOS"

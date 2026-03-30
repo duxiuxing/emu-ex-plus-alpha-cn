@@ -1,11 +1,11 @@
-Ln=238
+Ln=233
 English="No BS-X BIOS set"
 
-Ln=251
+Ln=246
 English="Incompatible BS-X BIOS"
 
-Ln=257
+Ln=252
 English="BS-X BIOS not in archive, must end in .bin or .bios"
 
-Ln=267
+Ln=262
 English="Incompatible BS-X BIOS"

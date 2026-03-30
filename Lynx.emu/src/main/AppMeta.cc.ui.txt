@@ -1,0 +1,50 @@
+Ln=28
+English="(c) 2011-2026\nRobert Broglia\nwww.explusalpha.com\n\nPortions (c) the\nMednafen Team\nmednafen.github.io"
+
+Ln=34
+English="80:51 (Original)"
+
+Ln=70
+English="Gamepad"
+
+Ln=82
+English="Up"
+
+Ln=84
+English="Right"
+
+Ln=86
+English="Down"
+
+Ln=88
+English="Left"
+
+Ln=90
+English="Option 1"
+
+Ln=92
+English="Option 2"
+
+Ln=94
+English="Pause"
+
+Ln=96
+English="A"
+
+Ln=98
+English="B"
+
+Ln=200
+English="D-Pad"
+
+Ln=205
+English="Face Buttons"
+
+Ln=210
+English="Option Buttons"
+
+Ln=215
+English="Pause"
+
+Ln=221
+English="Gamepad"

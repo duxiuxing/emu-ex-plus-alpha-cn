@@ -1,182 +1,182 @@
-Ln=43
+Ln=39
 English="None"
 
-Ln=47
+Ln=43
 English="Linear"
 
-Ln=51
+Ln=47
 English="Gaussian"
 
-Ln=55
+Ln=51
 English="Cubic"
 
-Ln=59
+Ln=55
 English="Sinc"
 
-Ln=66
+Ln=62
 English="DSP Interpolation"
 
-Ln=85
+Ln=81
 English="5-Player Adapter"
 
-Ln=100
+Ln=96
 English="Auto (NSRT)"
 
-Ln=105
+Ln=101
 English="Gamepads"
 
-Ln=109
+Ln=105
 English="Superscope"
 
-Ln=113
+Ln=109
 English="Justifier"
 
-Ln=117
+Ln=113
 English="Mouse"
 
-Ln=124
+Ln=120
 English="Input Ports"
 
-Ln=144
+Ln=140
 English="Auto"
 
-Ln=148
+Ln=144
 English="NTSC"
 
-Ln=152
+Ln=148
 English="PAL"
 
-Ln=156
+Ln=152
 English="NTSC + PAL Spoof"
 
-Ln=163
+Ln=159
 English="System"
 
-Ln=178
+Ln=174
 English="Video"
 
-Ln=184
+Ln=180
 English="Allow Overscan Mode"
 
-Ln=197
+Ln=193
 English="Bob"
 
-Ln=201
+Ln=197
 English="Weave"
 
-Ln=208
+Ln=204
 English="Deinterlace Mode"
 
-Ln=224
+Ln=220
 English="Emulation Hacks"
 
-Ln=230
+Ln=226
 English="Allow Invalid VRAM Access"
 
-Ln=243
+Ln=239
 English="Separate Echo Buffer From Ram"
 
-Ln=264
+Ln=260
 English="100%"
 
-Ln=268
+Ln=264
 English="Custom Value"
 
-Ln=273
+Ln=269
 English="Input 5 to 250"
 
-Ln=287
+Ln=283
 English="Value not in range"
 
-Ln=299
+Ln=295
 English="SuperFX Clock Multiplier"
 
-Ln=313
+Ln=309
 English="{}%"
 
-Ln=341
+Ln=337
 English="Console Options"
 
-Ln=353
+Ln=349
 English="Console Options"
 
-Ln=383
+Ln=379
 English="Cheats"
 
-Ln=400
+Ln=396
 English="Patches"
 
-Ln=414
+Ln=410
 English="Satellaview Files: {}"
 
-Ln=424
+Ln=420
 English="Satellaview Files"
 
-Ln=441
+Ln=437
 English="BS-X BIOS"
 
-Ln=456
+Ln=452
 English="BS-X BIOS: {}"
 
-Ln=466
+Ln=462
 English="Sufami Turbo BIOS"
 
-Ln=481
+Ln=477
 English="Sufami Turbo BIOS: {}"
 
-Ln=517
+Ln=513
 English="Edit Cheat"
 
-Ln=525
+Ln=521
 English="Add Another Code"
 
-Ln=530
+Ln=526
 English="Input xxxx-xxxx (GG), xxxxxxxx (AR), GF code, or blank"
 
-Ln=545
+Ln=541
 English="Code"
 
-Ln=597
+Ln=593
 English="Add Game Genie/Action Replay/Gold Finger Code"
 
-Ln=602
+Ln=598
 English="Input xxxx-xxxx (GG), xxxxxxxx (AR), or GF code"
 
-Ln=614
+Ln=610
 English="Edit Memory Patch"
 
-Ln=639
+Ln=635
 English="Address"
 
-Ln=645
+Ln=641
 English="Input 6-digit hex"
 
-Ln=653
+Ln=649
 English="value must be <= FFFFFF"
 
-Ln=666
+Ln=662
 English="Value"
 
-Ln=672
+Ln=668
 English="Input 2-digit hex"
 
-Ln=680
+Ln=676
 English="value must be <= FF"
 
-Ln=694
+Ln=690
 English="Conditional Value"
 
-Ln=696
+Ln=692
 English="Saved Value"
 
-Ln=703
+Ln=699
 English="Input 2-digit hex or blank"
 
-Ln=714
+Ln=710
 English="value must be <= FF"
 
-Ln=728
+Ln=724
 English="Delete"
 
-Ln=733
+Ln=729
 English="Really delete this patch?"

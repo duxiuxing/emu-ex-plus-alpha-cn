@@ -14,6 +14,7 @@
 	along with C64.emu.  If not, see <http://www.gnu.org/licenses/> */
 
 module;
+#include <imagine/util/macros.h>
 extern "C"
 {
 	#include "c64model.h"
@@ -29,11 +30,6 @@ extern "C"
 }
 
 module plugin;
-
-#ifndef UI_TEXT_IMPL
-	#define UI_TEXT_IMPL
-	#define UI_TEXT(x) x
-#endif
 
 namespace EmuEx
 {

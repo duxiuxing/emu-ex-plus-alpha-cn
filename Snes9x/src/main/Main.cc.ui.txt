@@ -1,23 +1,23 @@
-Ln=132
+Ln=128
 English="Invalid state data"
 
-Ln=207
+Ln=203
 English="No Sufami Turbo BIOS set"
 
-Ln=220
+Ln=216
 English="Incompatible Sufami Turbo BIOS"
 
-Ln=226
+Ln=222
 English="Sufami Turbo BIOS not in archive, must end in .bin or .bios"
 
-Ln=235
+Ln=231
 English="Incompatible Sufami Turbo BIOS"
 
-Ln=248
+Ln=244
 English="ROM is too large"
 
-Ln=284
+Ln=280
 English="Error loading ROM"
 
-Ln=295
+Ln=291
 English="Error loading ROM"

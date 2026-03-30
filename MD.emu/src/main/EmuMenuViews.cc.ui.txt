@@ -1,131 +1,131 @@
-Ln=41
+Ln=38
 English="6-button Gamepad"
 
-Ln=54
+Ln=51
 English="4-Player Adapter"
 
-Ln=69
+Ln=66
 English="Menacer"
 
-Ln=71
+Ln=68
 English="Justifier"
 
-Ln=73
+Ln=70
 English="Gamepad"
 
-Ln=79
+Ln=76
 English="Auto"
 
-Ln=83
+Ln=80
 English="Gamepads"
 
-Ln=87
+Ln=84
 English="Menacer"
 
-Ln=91
+Ln=88
 English="Justifier"
 
-Ln=98
+Ln=95
 English="Input Ports"
 
-Ln=125
+Ln=122
 English="Auto"
 
-Ln=129
+Ln=126
 English="NTSC"
 
-Ln=133
+Ln=130
 English="PAL"
 
-Ln=140
+Ln=137
 English="Video System"
 
-Ln=150
+Ln=147
 English="PAL"
 
-Ln=151
+Ln=148
 English="NTSC"
 
-Ln=170
+Ln=167
 English="Auto"
 
-Ln=174
+Ln=171
 English="USA"
 
-Ln=178
+Ln=175
 English="Europe"
 
-Ln=182
+Ln=179
 English="Japan"
 
-Ln=189
+Ln=186
 English="Game Region"
 
-Ln=203
+Ln=200
 English="USA"
 
-Ln=205
+Ln=202
 English="Europe"
 
-Ln=207
+Ln=204
 English="Japan"
 
-Ln=231
+Ln=228
 English="Console Options"
 
-Ln=252
+Ln=249
 English="Console Options"
 
-Ln=277
+Ln=274
 English="MarkIII FM Sound Unit"
 
-Ln=302
+Ln=299
 English="Use Big-Endian SRAM"
 
-Ln=308
+Ln=305
 English="Warning, this changes the format of SRAM saves files. "
 
-Ln=309
+Ln=306
 English="Turn on to make them compatible with other emulators like Gens. "
 
-Ln=310
+Ln=307
 English="Any SRAM loaded with the incorrect setting will be corrupted."
 
-Ln=334
+Ln=331
 English="Cheats"
 
-Ln=348
+Ln=345
 English="USA CD BIOS"
 
-Ln=349
+Ln=346
 English="Japan CD BIOS"
 
-Ln=350
+Ln=347
 English="Europe CD BIOS"
 
-Ln=384
+Ln=381
 English="{}: {}"
 
-Ln=423
+Ln=420
 English="Input xxxx-xxxx (GG) or xxxxxx:xxxx (AR) code"
 
-Ln=424
+Ln=421
 English="Input xxx-xxx-xxx (GG) or xxxxxx:xx (AR) code"
 
-Ln=430
+Ln=427
 English="Input xxxx-xxxx (GG) or xxxxxx:xxxx (AR) code, or blank to delete"
 
-Ln=431
+Ln=428
 English="Input xxx-xxx-xxx (GG) or xxxxxx:xx (AR) code, or blank to delete"
 
-Ln=440
+Ln=437
 English="Edit Cheat"
 
-Ln=447
+Ln=444
 English="Add Another Code"
 
-Ln=461
+Ln=458
 English="Code"
 
-Ln=508
+Ln=505
 English="Add Game Genie / Action Replay Code"

@@ -1,314 +1,314 @@
-Ln=41
+Ln=38
 English="4-Player Adapter"
 
-Ln=65
+Ln=62
 English="Auto"
 
-Ln=69
+Ln=66
 English="Gamepads"
 
-Ln=73
+Ln=70
 English="Gun (2P, NES)"
 
-Ln=77
+Ln=74
 English="Gun (1P, VS)"
 
-Ln=84
+Ln=81
 English="Input Ports"
 
-Ln=102
+Ln=99
 English="P2 Start As Microphone"
 
-Ln=115
+Ln=112
 English="Auto"
 
-Ln=119
+Ln=116
 English="NTSC"
 
-Ln=123
+Ln=120
 English="PAL"
 
-Ln=127
+Ln=124
 English="Dendy"
 
-Ln=134
+Ln=131
 English="System"
 
-Ln=144
+Ln=141
 English="Dendy"
 
-Ln=146
+Ln=143
 English="PAL"
 
-Ln=147
+Ln=144
 English="NTSC"
 
-Ln=165
+Ln=162
 English="Frameskip Mode"
 
-Ln=168
+Ln=165
 English="Fast"
 
-Ln=169
+Ln=166
 English="Compatible"
 
-Ln=175
+Ln=172
 English="Use compatible mode if the current game has glitches when "
 
-Ln=176
+Ln=173
 English="fast-forwarding/frame-skipping, at the cost of increased CPU usage."
 
-Ln=196
+Ln=193
 English="Video"
 
-Ln=213
+Ln=210
 English="8+224"
 
-Ln=217
+Ln=214
 English="8+232"
 
-Ln=221
+Ln=218
 English="0+232"
 
-Ln=225
+Ln=222
 English="0+240"
 
-Ln=232
+Ln=229
 English="Visible Lines"
 
-Ln=252
+Ln=249
 English="Crop 8 Pixels On Sides"
 
-Ln=267
+Ln=264
 English="Overclocking"
 
-Ln=273
+Ln=270
 English="Enabled"
 
-Ln=285
+Ln=282
 English="Extra Lines Per Frame"
 
-Ln=290
+Ln=287
 English="Input 0 to 30000"
 
-Ln=304
+Ln=301
 English="Vertical Blank Line Multiplier"
 
-Ln=309
+Ln=306
 English="Input 0 to 16"
 
-Ln=341
+Ln=338
 English="Console Options"
 
-Ln=354
+Ln=351
 English="Sprite Limit"
 
-Ln=367
+Ln=364
 English="Auto"
 
-Ln=371
+Ln=368
 English="NTSC"
 
-Ln=375
+Ln=372
 English="PAL"
 
-Ln=379
+Ln=376
 English="Dendy"
 
-Ln=386
+Ln=383
 English="Default Video System"
 
-Ln=420
+Ln=417
 English="FCEUX"
 
-Ln=424
+Ln=421
 English="Digital Prime (FBX)"
 
-Ln=428
+Ln=425
 English="Smooth V2 (FBX)"
 
-Ln=432
+Ln=429
 English="Magnum (FBX)"
 
-Ln=436
+Ln=433
 English="Classic (FBX)"
 
-Ln=440
+Ln=437
 English="Wavebeam"
 
-Ln=444
+Ln=441
 English="Five Reality"
 
-Ln=448
+Ln=445
 English="Custom File"
 
-Ln=470
+Ln=467
 English="Default Palette"
 
-Ln=500
+Ln=497
 English="8+224"
 
-Ln=504
+Ln=501
 English="8+232"
 
-Ln=508
+Ln=505
 English="0+232"
 
-Ln=512
+Ln=509
 English="0+240"
 
-Ln=519
+Ln=516
 English="Default Visible Lines"
 
-Ln=544
+Ln=541
 English="Correct Line Aspect Ratio"
 
-Ln=580
+Ln=577
 English="Normal"
 
-Ln=584
+Ln=581
 English="High"
 
-Ln=588
+Ln=585
 English="Highest"
 
-Ln=595
+Ln=592
 English="Emulation Quality"
 
-Ln=603
+Ln=600
 English="Low Pass Filter"
 
-Ln=614
+Ln=611
 English="Swap Duty Cycles"
 
-Ln=625
+Ln=622
 English="Mixer"
 
-Ln=631
+Ln=628
 English="Square Wave #1"
 
-Ln=642
+Ln=639
 English="Square Wave #2"
 
-Ln=653
+Ln=650
 English="Triangle Wave"
 
-Ln=664
+Ln=661
 English="Noise"
 
-Ln=675
+Ln=672
 English="DPCM"
 
-Ln=711
+Ln=708
 English="Cheats"
 
-Ln=728
+Ln=725
 English="Patches"
 
-Ln=745
+Ln=742
 English="Palettes"
 
-Ln=762
+Ln=759
 English="Disk System BIOS"
 
-Ln=777
+Ln=774
 English="Disk System BIOS: {}"
 
-Ln=799
+Ln=796
 English="Set Disk 1 Side A"
 
-Ln=808
+Ln=805
 English="Set Disk 1 Side B"
 
-Ln=817
+Ln=814
 English="Set Disk 2 Side A"
 
-Ln=826
+Ln=823
 English="Set Disk 2 Side B"
 
-Ln=838
+Ln=835
 English="Eject"
 
-Ln=856
+Ln=853
 English="FDS Control"
 
-Ln=884
+Ln=881
 English="FDS Control (No Disk)"
 
-Ln=888
+Ln=885
 English="FDS Control (Disk {}:{})"
 
-Ln=894
+Ln=891
 English="Console Options"
 
-Ln=921
+Ln=918
 English="Fast-forward Disk IO"
 
-Ln=960
+Ln=957
 English="Edit Cheat"
 
-Ln=967
+Ln=964
 English="Add Another Code"
 
-Ln=972
+Ln=969
 English="Input Game Genie code"
 
-Ln=978
+Ln=975
 English="Add Another Patch"
 
-Ln=983
+Ln=980
 English="Input RAM address hex"
 
-Ln=997
+Ln=994
 English="Code"
 
-Ln=1003
+Ln=1000
 English="Input Game Genie code"
 
-Ln=1056
+Ln=1053
 English="Add Game Genie Code"
 
-Ln=1061
+Ln=1058
 English="Input Game Genie code"
 
-Ln=1067
+Ln=1064
 English="Add Memory Patch"
 
-Ln=1072
+Ln=1069
 English="Input RAM Address Hex"
 
-Ln=1084
+Ln=1081
 English="Edit Memory Patch"
 
-Ln=1109
+Ln=1106
 English="Address"
 
-Ln=1115
+Ln=1112
 English="Input 4-digit hex"
 
-Ln=1123
+Ln=1120
 English="Invalid input"
 
-Ln=1137
+Ln=1134
 English="Value"
 
-Ln=1143
+Ln=1140
 English="Input 2-digit hex"
 
-Ln=1151
+Ln=1148
 English="Invalid value"
 
-Ln=1165
+Ln=1162
 English="Compare"
 
-Ln=1171
+Ln=1168
 English="Input 2-digit hex or blank"
 
-Ln=1181
+Ln=1178
 English="Invalid value"
 
-Ln=1201
+Ln=1198
 English="Delete"
 
-Ln=1206
+Ln=1203
 English="Really delete this patch?"

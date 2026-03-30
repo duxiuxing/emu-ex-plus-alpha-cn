@@ -15,6 +15,7 @@
 
 module;
 #include <cstdlib>
+#include <imagine/util/macros.h>
 extern "C"
 {
 	#include "vice.h"
@@ -23,11 +24,6 @@ extern "C"
 }
 
 module system;
-
-#ifndef UI_TEXT_IMPL
-	#define UI_TEXT_IMPL
-	#define UI_TEXT(x) x
-#endif
 
 namespace EmuEx
 {

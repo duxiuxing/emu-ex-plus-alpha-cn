@@ -1,26 +1,26 @@
-Ln=106
+Ln=102
 English="unconnected"
 
-Ln=108
+Ln=104
 English="gamepad"
 
-Ln=110
+Ln=106
 English="sms gamepad"
 
-Ln=112
+Ln=108
 English="mouse"
 
-Ln=114
+Ln=110
 English="menacer"
 
-Ln=116
+Ln=112
 English="justifier"
 
-Ln=118
+Ln=114
 English="team-player"
 
-Ln=120
+Ln=116
 English="light-phaser"
 
-Ln=122
+Ln=118
 English="unknown"

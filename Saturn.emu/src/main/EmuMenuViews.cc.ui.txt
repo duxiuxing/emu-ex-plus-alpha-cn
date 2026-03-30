@@ -1,212 +1,212 @@
-Ln=55
+Ln=51
 English="NA/EU BIOS"
 
-Ln=70
+Ln=66
 English="NA/EU BIOS: {}"
 
-Ln=80
+Ln=76
 English="JP BIOS"
 
-Ln=95
+Ln=91
 English="JP BIOS: {}"
 
-Ln=105
+Ln=101
 English="KoF '95 ROM"
 
-Ln=120
+Ln=116
 English="KoF '95 ROM: {}"
 
-Ln=130
+Ln=126
 English="Ultraman ROM"
 
-Ln=145
+Ln=141
 English="Ultraman ROM: {}"
 
-Ln=165
+Ln=161
 English="None"
 
-Ln=167
+Ln=163
 English="512K Backup RAM"
 
-Ln=169
+Ln=165
 English="1M RAM"
 
-Ln=171
+Ln=167
 English="4M RAM"
 
-Ln=173
+Ln=169
 English="16M CS1 RAM"
 
-Ln=175
+Ln=171
 English="KoF '95"
 
-Ln=177
+Ln=173
 English="Ultraman"
 
-Ln=187
+Ln=183
 English="Japan"
 
-Ln=189
+Ln=185
 English="North America"
 
-Ln=191
+Ln=187
 English="Europe"
 
-Ln=193
+Ln=189
 English="South Korea"
 
-Ln=195
+Ln=191
 English="Asia (NTSC)"
 
-Ln=197
+Ln=193
 English="Asia (PAL)"
 
-Ln=199
+Ln=195
 English="Brazil"
 
-Ln=201
+Ln=197
 English="Latin America"
 
-Ln=211
+Ln=207
 English="Auto"
 
-Ln=225
+Ln=221
 English="Cart Type"
 
-Ln=251
+Ln=247
 English="Auto"
 
-Ln=266
+Ln=262
 English="Region"
 
-Ln=293
+Ln=289
 English="Disc"
 
-Ln=309
+Ln=305
 English="Video"
 
-Ln=315
+Ln=311
 English="Show Horizontal Overscan"
 
-Ln=328
+Ln=324
 English="8+224"
 
-Ln=332
+Ln=328
 English="0+240"
 
-Ln=340
+Ln=336
 English="16+256"
 
-Ln=344
+Ln=340
 English="32+224"
 
-Ln=348
+Ln=344
 English="0+288"
 
-Ln=355
+Ln=351
 English="Visible Lines"
 
-Ln=377
+Ln=373
 English="Bob"
 
-Ln=381
+Ln=377
 English="Weave"
 
-Ln=388
+Ln=384
 English="Deinterlace Mode"
 
-Ln=404
+Ln=400
 English="Auto"
 
-Ln=408
+Ln=404
 English="Standard"
 
-Ln=412
+Ln=408
 English="90° Right"
 
-Ln=416
+Ln=412
 English="Upside Down"
 
-Ln=420
+Ln=416
 English="90° Left"
 
-Ln=427
+Ln=423
 English="Content Rotation"
 
-Ln=444
+Ln=440
 English="Auto"
 
-Ln=448
+Ln=444
 English="On"
 
-Ln=452
+Ln=448
 English="Off"
 
-Ln=459
+Ln=455
 English="Anamorphic Widescreen Content"
 
-Ln=475
+Ln=471
 English="Input"
 
-Ln=484
+Ln=480
 English="Port {} Multitap"
 
-Ln=505
+Ln=501
 English="Gamepad"
 
-Ln=509
+Ln=505
 English="Gun"
 
-Ln=513
+Ln=509
 English="None"
 
-Ln=523
+Ln=519
 English="Port {}"
 
-Ln=585
+Ln=581
 English="Console Options"
 
-Ln=596
+Ln=592
 English="Eject"
 
-Ln=633
+Ln=629
 English="Console Options"
 
-Ln=652
+Ln=648
 English="Auto-Set RTC On Start"
 
-Ln=664
+Ln=660
 English="English"
 
-Ln=668
+Ln=664
 English="German"
 
-Ln=672
+Ln=668
 English="French"
 
-Ln=676
+Ln=672
 English="Spanish"
 
-Ln=680
+Ln=676
 English="Italian"
 
-Ln=684
+Ln=680
 English="Japanese"
 
-Ln=691
+Ln=687
 English="BIOS Language"
 
-Ln=722
+Ln=718
 English="Default Show Horizontal Overscan"
 
-Ln=734
+Ln=730
 English="8+224"
 
-Ln=738
+Ln=734
 English="0+240"
 
-Ln=745
+Ln=741
 English="Default NTSC Visible Lines"
 
-Ln=759
+Ln=755
 English="Correct Line Aspect Ratio"
