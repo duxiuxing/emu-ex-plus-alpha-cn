@@ -1,0 +1,11 @@
+Ln=163
+English="Auto"
+
+Ln=165
+English="Port 1"
+
+Ln=167
+English="Port 2"
+
+Ln=169
+English="Keyboard Cursor"
