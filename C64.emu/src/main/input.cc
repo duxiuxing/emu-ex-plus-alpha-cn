@@ -15,6 +15,7 @@
 
 module;
 #include <cstdlib>
+#include <imagine/util/macros.h>
 extern "C"
 {
 	#include "vice.h"
