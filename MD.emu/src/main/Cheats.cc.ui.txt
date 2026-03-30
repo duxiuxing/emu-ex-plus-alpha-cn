@@ -1,15 +1,15 @@
-Ln=536
+Ln=531
 English="Code is too long"
 Chinese="输入的作弊码过长"
 
-Ln=544
+Ln=539
 English="Invalid code"
 Chinese="无效的作弊码"
 
-Ln=580
+Ln=575
 English="Invalid code"
 Chinese="无效的作弊码"
 
-Ln=596
+Ln=591
 English="Invalid code"
 Chinese="无效的作弊码"

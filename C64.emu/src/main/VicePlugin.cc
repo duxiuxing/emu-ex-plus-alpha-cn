@@ -14,6 +14,7 @@
 	along with C64.emu.  If not, see <http://www.gnu.org/licenses/> */
 
 module;
+#include <imagine/util/macros.h>
 extern "C"
 {
 	#include "c64model.h"

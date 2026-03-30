@@ -1,0 +1,29 @@
+Ln=44
+English="BIOS"
+
+Ln=59
+English="BIOS: {}"
+
+Ln=79
+English="Auto"
+
+Ln=80
+English="Horizontal"
+
+Ln=81
+English="Vertical Left"
+
+Ln=82
+English="Vertical Right"
+
+Ln=87
+English="Handheld Rotation"
+
+Ln=102
+English="Console Options"
+
+Ln=113
+English="Console Options"
+
+Ln=133
+English="Low-pass Filter"

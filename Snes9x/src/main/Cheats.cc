@@ -3,15 +3,11 @@
 	Please see COPYING file in root directory for license information. */
 
 module;
+#include <imagine/util/macros.h>
 #include <snes9x.h>
 #include <cheats.h>
 
 module system;
-
-#ifndef UI_TEXT_IMPL
-	#define UI_TEXT_IMPL
-	#define UI_TEXT(x)	x
-#endif
 
 extern "C++"
 {

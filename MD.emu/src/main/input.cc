@@ -20,13 +20,9 @@ module;
 #include "loadrom.h"
 #include "md_cart.h"
 #include "io_ctrl.h"
+#include <imagine/util/macros.h>
 
 module system;
-
-#ifndef UI_TEXT_IMPL
-	#define UI_TEXT_IMPL
-	#define UI_TEXT(x)	x
-#endif
 
 namespace EmuEx
 {

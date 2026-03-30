@@ -16,6 +16,7 @@
 module;
 #include <cstdlib>
 #include <sys/time.h>
+#include <imagine/util/macros.h>
 extern "C"
 {
 	#include "machine.h"

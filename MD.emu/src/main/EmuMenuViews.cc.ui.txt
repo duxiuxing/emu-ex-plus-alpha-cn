@@ -1,175 +1,175 @@
-Ln=41
+Ln=38
 English="6-button Gamepad"
 Chinese="六键手柄"
 
-Ln=54
+Ln=51
 English="4-Player Adapter"
 Chinese="四人玩家适配器"
 
-Ln=69
+Ln=66
 English="Menacer"
 Chinese="Menacer 光枪"
 
-Ln=71
+Ln=68
 English="Justifier"
 Chinese="Justifier 光枪"
 
-Ln=73
+Ln=70
 English="Gamepad"
 Chinese="手柄"
 
-Ln=79
+Ln=76
 English="Auto"
 Chinese="自动"
 
-Ln=83
+Ln=80
 English="Gamepads"
 Chinese="手柄"
 
-Ln=87
+Ln=84
 English="Menacer"
 Chinese="Menacer 光枪"
 
-Ln=91
+Ln=88
 English="Justifier"
 Chinese="Justifier 光枪"
 
-Ln=98
+Ln=95
 English="Input Ports"
 Chinese="输入端口"
 
-Ln=125
+Ln=122
 English="Auto"
 Chinese="自动"
 
-Ln=129
+Ln=126
 English="NTSC"
 Chinese="NTSC"
 
-Ln=133
+Ln=130
 English="PAL"
 Chinese="PAL"
 
-Ln=140
+Ln=137
 English="Video System"
 Chinese="视频制式"
 
-Ln=150
+Ln=147
 English="PAL"
 Chinese="PAL"
 
-Ln=151
+Ln=148
 English="NTSC"
 Chinese="NTSC"
 
-Ln=170
+Ln=167
 English="Auto"
 Chinese="自动"
 
-Ln=174
+Ln=171
 English="USA"
 Chinese="美国"
 
-Ln=178
+Ln=175
 English="Europe"
 Chinese="欧洲"
 
-Ln=182
+Ln=179
 English="Japan"
 Chinese="日本"
 
-Ln=189
+Ln=186
 English="Game Region"
 Chinese="游戏地区"
 
-Ln=203
+Ln=200
 English="USA"
 Chinese="美国"
 
-Ln=205
+Ln=202
 English="Europe"
 Chinese="欧洲"
 
-Ln=207
+Ln=204
 English="Japan"
 Chinese="日本"
 
-Ln=231
+Ln=228
 English="Console Options"
 Chinese="主机选项"
 
-Ln=252
+Ln=249
 English="Console Options"
 Chinese="主机选项"
 
-Ln=277
+Ln=274
 English="MarkIII FM Sound Unit"
 Chinese="MarkIII 调频声音单元"
 
-Ln=302
+Ln=299
 English="Use Big-Endian SRAM"
 Chinese="使用大端字节序 SRAM"
 
-Ln=308
+Ln=305
 English="Warning, this changes the format of SRAM saves files. "
 Chinese="警告，此选项会改变 SRAM 存档文件的格式。 "
 
-Ln=309
+Ln=306
 English="Turn on to make them compatible with other emulators like Gens. "
 Chinese="开启后可以使存档文件兼容 Gens 等其它模拟器。 "
 
-Ln=310
+Ln=307
 English="Any SRAM loaded with the incorrect setting will be corrupted."
 Chinese="错误的设置将会导致 SRAM 在加载存档文件时出现数据损坏。"
 
-Ln=334
+Ln=331
 English="Cheats"
 Chinese="作弊文件夹"
 
-Ln=348
+Ln=345
 English="USA CD BIOS"
 Chinese="美国区的 CD BIOS"
 
-Ln=349
+Ln=346
 English="Japan CD BIOS"
 Chinese="日本区的 CD BIOS"
 
-Ln=350
+Ln=347
 English="Europe CD BIOS"
 Chinese="欧洲区的 CD BIOS"
 
-Ln=384
+Ln=381
 English="{}: {}"
 Chinese="{}：{}"
 
-Ln=423
+Ln=420
 English="Input xxxx-xxxx (GG) or xxxxxx:xxxx (AR) code"
 Chinese="请输入 GG (xxxx-xxxx) 或 AR (xxxxxx:xxxx) 作弊码"
 
-Ln=424
+Ln=421
 English="Input xxx-xxx-xxx (GG) or xxxxxx:xx (AR) code"
 Chinese="请输入 GG (xxx-xxx-xxx) 或 AR (xxxxxx:xx) 作弊码"
 
-Ln=430
+Ln=427
 English="Input xxxx-xxxx (GG) or xxxxxx:xxxx (AR) code, or blank to delete"
 Chinese="请输入 GG (xxxx-xxxx) 或 AR (xxxxxx:xxxx) 作弊码，留空表示删除"
 
-Ln=431
+Ln=428
 English="Input xxx-xxx-xxx (GG) or xxxxxx:xx (AR) code, or blank to delete"
 Chinese="请输入 GG (xxx-xxx-xxx) 或 AR (xxxxxx:xx) 作弊码，留空表示删除"
 
-Ln=440
+Ln=437
 English="Edit Cheat"
 Chinese="编辑作弊项"
 
-Ln=447
+Ln=444
 English="Add Another Code"
 Chinese="添加另一个作弊码"
 
-Ln=461
+Ln=458
 English="Code"
 Chinese="作弊码"
 
-Ln=508
+Ln=505
 English="Add Game Genie / Action Replay Code"
 Chinese="添加 GG / AR 作弊码"

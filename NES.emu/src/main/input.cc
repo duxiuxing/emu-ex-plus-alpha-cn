@@ -17,13 +17,9 @@ module;
 #include <fceu/driver.h>
 #include <fceu/fceu.h>
 #include <fceu/fds.h>
+#include <imagine/util/macros.h>
 
 module system;
-
-#ifndef UI_TEXT_IMPL
-	#define UI_TEXT_IMPL
-	#define UI_TEXT(x)	x
-#endif
 
 namespace EmuEx
 {

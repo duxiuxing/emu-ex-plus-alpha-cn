@@ -1,155 +1,155 @@
-Ln=46
+Ln=43
 English="Off"
 Chinese="关"
 
-Ln=50
+Ln=47
 English="On"
 Chinese="开"
 
-Ln=54
+Ln=51
 English="Auto"
 Chinese="自动"
 
-Ln=71
+Ln=68
 English="Emulate Timer"
 Chinese="模拟计时器"
 
-Ln=81
+Ln=78
 English="On"
 Chinese="开"
 
-Ln=82
+Ln=79
 English="Off"
 Chinese="关"
 
-Ln=101
+Ln=98
 English="Console Options"
 Chinese="主机选项"
 
-Ln=124
+Ln=121
 English="Japan"
 Chinese="日本"
 
-Ln=128
+Ln=125
 English="Europe"
 Chinese="欧洲"
 
-Ln=132
+Ln=129
 English="USA"
 Chinese="美国"
 
-Ln=136
+Ln=133
 English="Asia"
 Chinese="亚洲"
 
-Ln=143
+Ln=140
 English="MVS Region"
 Chinese="MVS 地区"
 
-Ln=161
+Ln=158
 English="Unibios 2.3"
 Chinese="Unibios 2.3"
 
-Ln=165
+Ln=162
 English="Unibios 3.0"
 Chinese="Unibios 3.0"
 
-Ln=169
+Ln=166
 English="Unibios 3.1"
 Chinese="Unibios 3.1"
 
-Ln=173
+Ln=170
 English="Unibios 3.2"
 Chinese="Unibios 3.2"
 
-Ln=177
+Ln=174
 English="Unibios 3.3"
 Chinese="Unibios 3.3"
 
-Ln=181
+Ln=178
 English="Unibios 4.0"
 Chinese="Unibios 4.0"
 
-Ln=185
+Ln=182
 English="MVS"
 Chinese="MVS"
 
-Ln=192
+Ln=189
 English="BIOS Type"
 Chinese="BIOS 类型"
 
-Ln=200
+Ln=197
 English="Make/Use Cache Files"
 Chinese="使用缓存文件"
 
-Ln=211
+Ln=208
 English="Strict ROM Checking"
 Chinese="严格检查 ROM"
 
-Ln=237
+Ln=234
 English="List All Games"
 Chinese="列出所有游戏"
 
-Ln=547
+Ln=544
 English="Game List"
 Chinese="游戏列表"
 
-Ln=591
+Ln=588
 English="This game doesn't yet work properly, load anyway?"
 Chinese="这个游戏目前还不能完美运行，是否要继续读取？"
 
-Ln=602
+Ln=599
 English="{} not present"
 Chinese="{} 不存在"
 
-Ln=622
+Ln=619
 English="Japan"
 Chinese="日本"
 
-Ln=626
+Ln=623
 English="USA"
 Chinese="美国"
 
-Ln=630
+Ln=627
 English="Europe"
 Chinese="欧洲"
 
-Ln=637
+Ln=634
 English="Region"
 Chinese="地区"
 
-Ln=645
+Ln=642
 English="Mode"
 Chinese="模式"
 
-Ln=648
+Ln=645
 English="Console (AES)"
 Chinese="主机模式 (AES)"
 
-Ln=649
+Ln=646
 English="Arcade (MVS)"
 Chinese="街机模式 (MVS)"
 
-Ln=668
+Ln=665
 English="Unibios Switches"
 Chinese="Unibios 设置"
 
-Ln=687
+Ln=684
 English="Unibios Switches"
 Chinese="Unibios 设置"
 
-Ln=700
+Ln=697
 English="Only used with Unibios"
 Chinese="游戏必须和 Unibios 一起使用"
 
-Ln=709
+Ln=706
 English="Console Options"
 Chinese="主机选项"
 
-Ln=741
+Ln=738
 English="Open Content From List"
 Chinese="从列表打开游戏"
 
-Ln=749
+Ln=746
 English="No content found, use \"Open Content\" command to browse to a folder with ROM archives."
 Chinese="没有找到游戏，请选择“打开游戏”，浏览到带有 ROM 档案的文件夹。"

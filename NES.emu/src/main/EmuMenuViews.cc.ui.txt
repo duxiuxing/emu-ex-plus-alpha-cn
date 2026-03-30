@@ -1,419 +1,419 @@
-Ln=41
+Ln=38
 English="4-Player Adapter"
 Chinese="四人玩家适配器"
 
-Ln=65
+Ln=62
 English="Auto"
 Chinese="自动"
 
-Ln=69
+Ln=66
 English="Gamepads"
 Chinese="手柄"
 
-Ln=73
+Ln=70
 English="Gun (2P, NES)"
 Chinese="光枪 (2号玩家)"
 
-Ln=77
+Ln=74
 English="Gun (1P, VS)"
 Chinese="光枪 (1号玩家对战)"
 
-Ln=84
+Ln=81
 English="Input Ports"
 Chinese="输入端口"
 
-Ln=102
+Ln=99
 English="P2 Start As Microphone"
 Chinese="2号玩家为麦克风"
 
-Ln=115
+Ln=112
 English="Auto"
 Chinese="自动"
 
-Ln=119
+Ln=116
 English="NTSC"
 Chinese="NTSC"
 
-Ln=123
+Ln=120
 English="PAL"
 Chinese="PAL"
 
-Ln=127
+Ln=124
 English="Dendy"
 Chinese="Dendy"
 
-Ln=134
+Ln=131
 English="System"
 Chinese="视频制式"
 
-Ln=144
+Ln=141
 English="Dendy"
 Chinese="Dendy"
 
-Ln=146
+Ln=143
 English="PAL"
 Chinese="PAL"
 
-Ln=147
+Ln=144
 English="NTSC"
 Chinese="NTSC"
 
-Ln=165
+Ln=162
 English="Frameskip Mode"
 Chinese="跳帧模式"
 
-Ln=168
+Ln=165
 English="Fast"
 Chinese="快速"
 
-Ln=169
+Ln=166
 English="Compatible"
 Chinese="兼容"
 
-Ln=175
+Ln=172
 English="Use compatible mode if the current game has glitches when "
 Chinese="如果当前游戏在快进/跳帧时出现故障，"
 
-Ln=176
+Ln=173
 English="fast-forwarding/frame-skipping, at the cost of increased CPU usage."
 Chinese="请使用兼容模式。"
 
-Ln=196
+Ln=193
 English="Video"
 Chinese="视频："
 
-Ln=213
+Ln=210
 English="8+224"
 Chinese="8+224"
 
-Ln=217
+Ln=214
 English="8+232"
 Chinese="8+232"
 
-Ln=221
+Ln=218
 English="0+232"
 Chinese="0+232"
 
-Ln=225
+Ln=222
 English="0+240"
 Chinese="0+240"
 
-Ln=232
+Ln=229
 English="Visible Lines"
 Chinese="可见行数"
 
-Ln=252
+Ln=249
 English="Crop 8 Pixels On Sides"
 Chinese="左右两边各裁剪8个像素"
 
-Ln=267
+Ln=264
 English="Overclocking"
 Chinese="超频："
 
-Ln=273
+Ln=270
 English="Enabled"
 Chinese="超频开关"
 
-Ln=285
+Ln=282
 English="Extra Lines Per Frame"
 Chinese="每帧的额外行数"
 
-Ln=290
+Ln=287
 English="Input 0 to 30000"
 Chinese="请输入 0 到 30000 之间的值"
 
-Ln=304
+Ln=301
 English="Vertical Blank Line Multiplier"
 Chinese="垂直消隐行倍数"
 
-Ln=309
+Ln=306
 English="Input 0 to 16"
 Chinese="请输入 0 到 16 之间的值"
 
-Ln=341
+Ln=338
 English="Console Options"
 Chinese="主机选项"
 
-Ln=354
+Ln=351
 English="Sprite Limit"
 Chinese="精灵限制"
 
-Ln=367
+Ln=364
 English="Auto"
 Chinese="自动"
 
-Ln=371
+Ln=368
 English="NTSC"
 Chinese="NTSC"
 
-Ln=375
+Ln=372
 English="PAL"
 Chinese="PAL"
 
-Ln=379
+Ln=376
 English="Dendy"
 Chinese="Dendy"
 
-Ln=386
+Ln=383
 English="Default Video System"
 Chinese="默认视频制式"
 
-Ln=420
+Ln=417
 English="FCEUX"
 Chinese="FCEUX"
 
-Ln=424
+Ln=421
 English="Digital Prime (FBX)"
 Chinese="Digital Prime (FBX)"
 
-Ln=428
+Ln=425
 English="Smooth V2 (FBX)"
 Chinese="Smooth V2 (FBX)"
 
-Ln=432
+Ln=429
 English="Magnum (FBX)"
 Chinese="Magnum (FBX)"
 
-Ln=436
+Ln=433
 English="Classic (FBX)"
 Chinese="Classic (FBX)"
 
-Ln=440
+Ln=437
 English="Wavebeam"
 Chinese="Wavebeam"
 
-Ln=444
+Ln=441
 English="Five Reality"
 Chinese="Five Reality"
 
-Ln=448
+Ln=445
 English="Custom File"
 Chinese="自定义"
 
-Ln=470
+Ln=467
 English="Default Palette"
 Chinese="默认调色板"
 
-Ln=500
+Ln=497
 English="8+224"
 Chinese="8+224"
 
-Ln=504
+Ln=501
 English="8+232"
 Chinese="8+232"
 
-Ln=508
+Ln=505
 English="0+232"
 Chinese="0+232"
 
-Ln=512
+Ln=509
 English="0+240"
 Chinese="0+240"
 
-Ln=519
+Ln=516
 English="Default Visible Lines"
 Chinese="默认可见行数"
 
-Ln=544
+Ln=541
 English="Correct Line Aspect Ratio"
 Chinese="修正行每行宽高比例"
 
-Ln=580
+Ln=577
 English="Normal"
 Chinese="正常"
 
-Ln=584
+Ln=581
 English="High"
 Chinese="高"
 
-Ln=588
+Ln=585
 English="Highest"
 Chinese="最高"
 
-Ln=595
+Ln=592
 English="Emulation Quality"
 Chinese="模拟质量"
 
-Ln=603
+Ln=600
 English="Low Pass Filter"
 Chinese="低通滤波器"
 
-Ln=614
+Ln=611
 English="Swap Duty Cycles"
 Chinese="交换占空比"
 
-Ln=625
+Ln=622
 English="Mixer"
 Chinese="音频混合器："
 
-Ln=631
+Ln=628
 English="Square Wave #1"
 Chinese="方波 #1"
 
-Ln=642
+Ln=639
 English="Square Wave #2"
 Chinese="方波 #2"
 
-Ln=653
+Ln=650
 English="Triangle Wave"
 Chinese="三角波"
 
-Ln=664
+Ln=661
 English="Noise"
 Chinese="噪音"
 
-Ln=675
+Ln=672
 English="DPCM"
 Chinese="DPCM"
 
-Ln=711
+Ln=708
 English="Cheats"
 Chinese="金手指文件夹"
 
-Ln=728
+Ln=725
 English="Patches"
 Chinese="补丁文件夹"
 
-Ln=745
+Ln=742
 English="Palettes"
 Chinese="调色板文件夹"
 
-Ln=762
+Ln=759
 English="Disk System BIOS"
 Chinese="磁碟机的 BIOS"
 
-Ln=777
+Ln=774
 English="Disk System BIOS: {}"
 Chinese="磁碟机的 BIOS：{}"
 
-Ln=799
+Ln=796
 English="Set Disk 1 Side A"
 Chinese="指定1号磁碟 A面"
 
-Ln=808
+Ln=805
 English="Set Disk 1 Side B"
 Chinese="指定1号磁碟 B面"
 
-Ln=817
+Ln=814
 English="Set Disk 2 Side A"
 Chinese="指定2号磁碟 A面"
 
-Ln=826
+Ln=823
 English="Set Disk 2 Side B"
 Chinese="指定2号磁碟 B面"
 
-Ln=838
+Ln=835
 English="Eject"
 Chinese="弹出"
 
-Ln=856
+Ln=853
 English="FDS Control"
 Chinese="磁碟机控制"
 
-Ln=884
+Ln=881
 English="FDS Control (No Disk)"
 Chinese="磁碟机控制 (没有磁碟)"
 
-Ln=888
+Ln=885
 English="FDS Control (Disk {}:{})"
 Chinese="磁碟机控制 ({}号磁碟 {}面)"
 
-Ln=894
+Ln=891
 English="Console Options"
 Chinese="主机选项"
 
-Ln=921
+Ln=918
 English="Fast-forward Disk IO"
 Chinese="优化磁碟读写性能"
 
-Ln=960
+Ln=957
 English="Edit Cheat"
 Chinese="编辑作弊项"
 
-Ln=967
+Ln=964
 English="Add Another Code"
 Chinese="添加另一个作弊码"
 
-Ln=972
+Ln=969
 English="Input Game Genie code"
 Chinese="请输入 Game Genie 作弊码"
 
-Ln=978
+Ln=975
 English="Add Another Patch"
 Chinese="添加另一个内存补丁"
 
-Ln=983
+Ln=980
 English="Input RAM address hex"
 Chinese="请输入十六进制的内存地址"
 
-Ln=997
+Ln=994
 English="Code"
 Chinese="作弊码"
 
-Ln=1003
+Ln=1000
 English="Input Game Genie code"
 Chinese="请输入 Game Genie 作弊码"
 
-Ln=1056
+Ln=1053
 English="Add Game Genie Code"
 Chinese="添加 Game Genie 作弊码"
 
-Ln=1061
+Ln=1058
 English="Input Game Genie code"
 Chinese="请输入 Game Genie 作弊码"
 
-Ln=1067
+Ln=1064
 English="Add Memory Patch"
 Chinese="添加内存补丁"
 
-Ln=1072
+Ln=1069
 English="Input RAM Address Hex"
 Chinese="请输入十六进制的内存地址"
 
-Ln=1084
+Ln=1081
 English="Edit Memory Patch"
 Chinese="编辑内存补丁"
 
-Ln=1109
+Ln=1106
 English="Address"
 Chinese="地址"
 
-Ln=1115
+Ln=1112
 English="Input 4-digit hex"
 Chinese="请输入四位以内的十六进制数"
 
-Ln=1123
+Ln=1120
 English="Invalid input"
 Chinese="无效的数值"
 
-Ln=1137
+Ln=1134
 English="Value"
 Chinese="数值"
 
-Ln=1143
+Ln=1140
 English="Input 2-digit hex"
 Chinese="请输入两位以内的十六进制数"
 
-Ln=1151
+Ln=1148
 English="Invalid value"
 Chinese="无效的数值"
 
-Ln=1165
+Ln=1162
 English="Compare"
 Chinese="比较"
 
-Ln=1171
+Ln=1168
 English="Input 2-digit hex or blank"
 Chinese="请输入两位以内的十六进制数或留空"
 
-Ln=1181
+Ln=1178
 English="Invalid value"
 Chinese="无效的数值"
 
-Ln=1201
+Ln=1198
 English="Delete"
 Chinese="删除"
 
-Ln=1206
+Ln=1203
 English="Really delete this patch?"
 Chinese="是否要删除此补丁？"

@@ -1,125 +1,125 @@
-Ln=34
+Ln=31
 English="pce_fast (Default for general use)"
 
-Ln=38
+Ln=35
 English="pce (Better accuracy, higher power usage)"
 
-Ln=42
+Ln=39
 English="Really change emulation core? Note that save states from different cores aren't compatible."
 
-Ln=49
+Ln=46
 English="6-button Gamepad"
 
-Ln=62
+Ln=59
 English="Arcade Card"
 
-Ln=75
+Ln=72
 English="Video"
 
-Ln=83
+Ln=80
 English="11+224"
 
-Ln=87
+Ln=84
 English="18+224"
 
-Ln=91
+Ln=88
 English="4+232"
 
-Ln=95
+Ln=92
 English="3+239"
 
-Ln=99
+Ln=96
 English="0+242"
 
-Ln=106
+Ln=103
 English="Visible Lines"
 
-Ln=130
+Ln=127
 English="Auto"
 
-Ln=139
+Ln=136
 English="Emulation Core"
 
-Ln=188
+Ln=185
 English="Console Options"
 
-Ln=200
+Ln=197
 English="Console Options"
 
-Ln=224
+Ln=221
 English="System Card"
 
-Ln=239
+Ln=236
 English="System Card: {}"
 
-Ln=258
+Ln=255
 English="Sprite Limit"
 
-Ln=267
+Ln=264
 English="11+224"
 
-Ln=271
+Ln=268
 English="18+224"
 
-Ln=275
+Ln=272
 English="4+232"
 
-Ln=279
+Ln=276
 English="3+239"
 
-Ln=283
+Ln=280
 English="0+242"
 
-Ln=290
+Ln=287
 English="Default Visible Lines"
 
-Ln=313
+Ln=310
 English="Correct Line Aspect Ratio"
 
-Ln=341
+Ln=338
 English="1x"
 
-Ln=345
+Ln=342
 English="2x"
 
-Ln=349
+Ln=346
 English="4x"
 
-Ln=353
+Ln=350
 English="8x"
 
-Ln=360
+Ln=357
 English="CD Access Speed"
 
-Ln=374
+Ln=371
 English="Auto"
 
-Ln=383
+Ln=380
 English="Emulation Core"
 
-Ln=436
+Ln=433
 English="Mixer"
 
-Ln=453
+Ln=450
 English="CD-DA Volume"
 
-Ln=459
+Ln=456
 English="ADPCM Volume"
 
-Ln=474
+Ln=471
 English="Default"
 
-Ln=481
+Ln=478
 English="Off"
 
-Ln=488
+Ln=485
 English="Custom Value"
 
-Ln=493
+Ln=490
 English="Input 0 to 200"
 
-Ln=525
+Ln=522
 English="{}%"
 
-Ln=541
+Ln=538
 English="ADPCM Low-pass Filter"
