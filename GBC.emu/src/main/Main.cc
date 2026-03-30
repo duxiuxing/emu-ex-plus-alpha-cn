@@ -14,17 +14,13 @@
 	along with GBC.emu.  If not, see <http://www.gnu.org/licenses/> */
 
 module;
+#include <imagine/util/macros.h>
 #include <resample/resampler.h>
 #include <resample/resamplerinfo.h>
 #include <libgambatte/src/mem/cartridge.h>
 #include <libgambatte/src/video/lcddef.h>
 
 module system;
-
-#ifndef UI_TEXT_IMPL
-	#define UI_TEXT_IMPL
-	#define UI_TEXT(x) x
-#endif
 
 namespace EmuEx
 {

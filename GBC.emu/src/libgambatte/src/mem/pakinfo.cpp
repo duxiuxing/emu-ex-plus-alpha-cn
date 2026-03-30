@@ -1,11 +1,7 @@
 #include "pakinfo_internal.h"
 
 #include <cstring>
-
-#ifndef UI_TEXT_IMPL
-	#define UI_TEXT_IMPL
-	#define UI_TEXT(x) x
-#endif
+#include <imagine/util/macros.h>
 
 namespace gambatte {
 
@@ -50,38 +46,67 @@ bool PakInfo::headerChecksumOk() const { return flags_ & flag_header_checksum_ok
 
 static char const * h147ToCstr(unsigned char const h147) {
 	switch (h147) {
-	case 0x00: return "NULL";
-	case 0x01: return "MBC1";
-	case 0x02: return "MBC1 [RAM]";
-	case 0x03: return "MBC1 [RAM,battery]";
-	case 0x05: return "MBC2";
-	case 0x06: return "MBC2 [battery]";
-	case 0x08: return "NULL [RAM]";
-	case 0x09: return "NULL [RAM,battery]";
-	case 0x0B: return "MMM01";
-	case 0x0C: return "MMM01 [RAM]";
-	case 0x0D: return "MMM01 [RAM,battery]";
-	case 0x0F: return "MBC3 [RTC,battery]";
-	case 0x10: return "MBC3 [RAM,RTC,battery]";
-	case 0x11: return "MBC3";
-	case 0x12: return "MBC3 [RAM]";
-	case 0x13: return "MBC3 [RAM,battery]";
-	case 0x15: return "MBC4";
-	case 0x16: return "MBC4 [RAM]";
-	case 0x17: return "MBC4 [RAM,battery]";
-	case 0x19: return "MBC5";
-	case 0x1A: return "MBC5 [RAM]";
-	case 0x1B: return "MBC5 [RAM,battery]";
-	case 0x1C: return "MBC5 [rumble]";
-	case 0x1D: return "MBC5 [RAM,rumble]";
-	case 0x1E: return "MBC5 [RAM,rumble,battery]";
-	case 0xFC: return "Pocket Camera";
-	case 0xFD: return "Bandai TAMA5";
-	case 0xFE: return "HuC3";
-	case 0xFF: return "HuC1 [RAM,battery]";
+	case 0x00:
+		return UI_TEXT("NULL");
+	case 0x01:
+		return UI_TEXT("MBC1");
+	case 0x02:
+		return UI_TEXT("MBC1 [RAM]");
+	case 0x03:
+		return UI_TEXT("MBC1 [RAM,battery]");
+	case 0x05:
+		return UI_TEXT("MBC2");
+	case 0x06:
+		return UI_TEXT("MBC2 [battery]");
+	case 0x08:
+		return UI_TEXT("NULL [RAM]");
+	case 0x09:
+		return UI_TEXT("NULL [RAM,battery]");
+	case 0x0B:
+		return UI_TEXT("MMM01");
+	case 0x0C:
+		return UI_TEXT("MMM01 [RAM]");
+	case 0x0D:
+		return UI_TEXT("MMM01 [RAM,battery]");
+	case 0x0F:
+		return UI_TEXT("MBC3 [RTC,battery]");
+	case 0x10:
+		return UI_TEXT("MBC3 [RAM,RTC,battery]");
+	case 0x11:
+		return UI_TEXT("MBC3");
+	case 0x12:
+		return UI_TEXT("MBC3 [RAM]");
+	case 0x13:
+		return UI_TEXT("MBC3 [RAM,battery]");
+	case 0x15:
+		return UI_TEXT("MBC4");
+	case 0x16:
+		return UI_TEXT("MBC4 [RAM]");
+	case 0x17:
+		return UI_TEXT("MBC4 [RAM,battery]");
+	case 0x19:
+		return UI_TEXT("MBC5");
+	case 0x1A:
+		return UI_TEXT("MBC5 [RAM]");
+	case 0x1B:
+		return UI_TEXT("MBC5 [RAM,battery]");
+	case 0x1C:
+		return UI_TEXT("MBC5 [rumble]");
+	case 0x1D:
+		return UI_TEXT("MBC5 [RAM,rumble]");
+	case 0x1E:
+		return UI_TEXT("MBC5 [RAM,rumble,battery]");
+	case 0xFC:
+		return UI_TEXT("Pocket Camera");
+	case 0xFD:
+		return UI_TEXT("Bandai TAMA5");
+	case 0xFE:
+		return UI_TEXT("HuC3");
+	case 0xFF:
+		return UI_TEXT("HuC1 [RAM,battery]");
 	}
 
-	return "Unknown";
+	return UI_TEXT("Unknown");
 }
 
 std::string const PakInfo::mbc() const {

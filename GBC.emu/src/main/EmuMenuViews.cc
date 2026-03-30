@@ -13,16 +13,12 @@
 	You should have received a copy of the GNU General Public License
 	along with GBC.emu.  If not, see <http://www.gnu.org/licenses/> */
 
+#include <imagine/util/macros.h>
 #include <resample/resamplerinfo.h>
 import system;
 import emuex;
 import imagine;
 import std;
-
-#ifndef UI_TEXT_IMPL
-	#define UI_TEXT_IMPL
-	#define UI_TEXT(x) x
-#endif
 
 namespace EmuEx
 {

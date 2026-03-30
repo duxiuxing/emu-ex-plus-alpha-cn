@@ -15,6 +15,7 @@
 
 module;
 #include <gambatte.h>
+#include <imagine/util/macros.h>
 
 module system;
 
