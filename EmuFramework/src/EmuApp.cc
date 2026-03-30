@@ -870,7 +870,7 @@ void EmuApp::setupStaticBackupMemoryFile(FileIO &io, std::string_view ext, size_
 	io = system().openStaticBackupMemoryFile(system().contentSaveFilePath(ext), size, initValue);
 	if(!io) [[unlikely]]
 		throw std::runtime_error(std::format(
-			UI_TEXT("打开 {} 时出错，请检查保存路径的写入权限设置"),
+			UI_TEXT("打开 {} 时出错，请确认 App 对保存路径具有写入权限"),
 			system().contentNameExt(ext)));
 }
 

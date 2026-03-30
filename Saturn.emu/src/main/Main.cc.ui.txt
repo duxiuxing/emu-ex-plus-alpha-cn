@@ -1,11 +1,15 @@
 Ln=65
 English="Error opening {}, please verify save path has write access"
+Chinese="打开 {} 时出错，请确认 App 对保存路径具有写入权限"
 
 Ln=76
 English="Error uncompressing cart memory"
+Chinese="解压记忆卡数据时出错"
 
 Ln=235
 English="No recognized file extensions in archive"
+Chinese="档案中没有可识别的文件扩展名"
 
 Ln=280
 English="No disc images found"
+Chinese="没有找到光盘镜像"

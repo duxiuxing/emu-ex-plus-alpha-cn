@@ -62,7 +62,7 @@ void SaturnSystem::loadCartNV(EmuApp& app, FileIO& io)
 		io = app.appContext().openFileUri(app.contentSaveFilePath(fullExt), OpenFlags::testCreateFile());
 	if(!io)
 		throw std::runtime_error(std::format(
-			UI_TEXT("打开 {} 时出错，请检查保存路径的写入权限设置"),
+			UI_TEXT("打开 {} 时出错，请确认 App 对保存路径具有写入权限"),
 			contentNameExt(fullExt)));
 	auto buff = io.buffer();
 	if(!hasGzipHeader(buff))
@@ -277,7 +277,7 @@ void SaturnSystem::loadContent(IO &io, EmuSystemCreateParams, OnLoadProgressDele
 	}
 	if(!CDInterfaces.size())
 		throw std::runtime_error(
-			UI_TEXT("没有发现光盘镜像")
+			UI_TEXT("没有找到光盘镜像")
 		);
 	writeCDMD5(mdfnGameInfo, CDInterfaces);
 	mdfnGameInfo.LoadCD(&CDInterfaces);

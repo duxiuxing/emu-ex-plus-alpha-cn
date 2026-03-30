@@ -1,212 +1,283 @@
 Ln=51
 English="NA/EU BIOS"
+Chinese="NA/EU BIOS"
 
 Ln=66
 English="NA/EU BIOS: {}"
+Chinese="NA/EU BIOS 文件：{}"
 
 Ln=76
 English="JP BIOS"
+Chinese="JP BIOS"
 
 Ln=91
 English="JP BIOS: {}"
+Chinese="JP BIOS 文件：{}"
 
 Ln=101
 English="KoF '95 ROM"
+Chinese="拳皇 95 的 ROM"
 
 Ln=116
 English="KoF '95 ROM: {}"
+Chinese="拳皇 95 的 ROM 文件：{}"
 
 Ln=126
 English="Ultraman ROM"
+Chinese="奥特曼的 ROM"
 
 Ln=141
 English="Ultraman ROM: {}"
+Chinese="奥特曼的 ROM 文件：{}"
 
 Ln=161
 English="None"
+Chinese="无"
 
 Ln=163
 English="512K Backup RAM"
+Chinese="512K 的备份 RAM"
 
 Ln=165
 English="1M RAM"
+Chinese="1M 的 RAM"
 
 Ln=167
 English="4M RAM"
+Chinese="4M 的 RAM"
 
 Ln=169
 English="16M CS1 RAM"
+Chinese="16M 的 CS1 RAM"
 
 Ln=171
 English="KoF '95"
+Chinese="拳皇 95"
 
 Ln=173
 English="Ultraman"
+Chinese="奥特曼"
 
 Ln=183
 English="Japan"
+Chinese="日本"
 
 Ln=185
 English="North America"
+Chinese="北美"
 
 Ln=187
 English="Europe"
+Chinese="欧洲"
 
 Ln=189
 English="South Korea"
+Chinese="韩国"
 
 Ln=191
 English="Asia (NTSC)"
+Chinese="亚洲 (NTSC)"
 
 Ln=193
 English="Asia (PAL)"
+Chinese="亚洲 (PAL)"
 
 Ln=195
 English="Brazil"
+Chinese="巴西"
 
 Ln=197
 English="Latin America"
+Chinese="拉丁美洲"
 
 Ln=207
 English="Auto"
+Chinese="自动"
 
 Ln=221
 English="Cart Type"
+Chinese="卡带类型"
 
 Ln=247
 English="Auto"
+Chinese="自动"
 
 Ln=262
 English="Region"
+Chinese="地区"
 
 Ln=289
 English="Disc"
+Chinese="光盘"
 
 Ln=305
 English="Video"
+Chinese="视频："
 
 Ln=311
 English="Show Horizontal Overscan"
+Chinese="显示水平过扫描区域"
 
 Ln=324
 English="8+224"
+Chinese="8+224"
 
 Ln=328
 English="0+240"
+Chinese="0+240"
 
 Ln=336
 English="16+256"
+Chinese="16+256"
 
 Ln=340
 English="32+224"
+Chinese="32+224"
 
 Ln=344
 English="0+288"
+Chinese="0+288"
 
 Ln=351
 English="Visible Lines"
+Chinese="可见行数"
 
 Ln=373
 English="Bob"
+Chinese="Bob 算法"
 
 Ln=377
 English="Weave"
+Chinese="Weave 算法"
 
 Ln=384
 English="Deinterlace Mode"
+Chinese="反交错算法"
 
 Ln=400
 English="Auto"
+Chinese="自动"
 
 Ln=404
 English="Standard"
+Chinese="标准"
 
 Ln=408
 English="90° Right"
+Chinese="向右旋转 90°"
 
 Ln=412
 English="Upside Down"
+Chinese="旋转 180°"
 
 Ln=416
 English="90° Left"
+Chinese="向左旋转 90°"
 
 Ln=423
 English="Content Rotation"
+Chinese="画面旋转"
 
 Ln=440
 English="Auto"
+Chinese="自动"
 
 Ln=444
 English="On"
+Chinese="开"
 
 Ln=448
 English="Off"
+Chinese="关"
 
 Ln=455
 English="Anamorphic Widescreen Content"
+Chinese="宽屏模式"
 
 Ln=471
 English="Input"
+Chinese="输入："
 
 Ln=480
 English="Port {} Multitap"
+Chinese="端口 {} 扩展模式"
 
 Ln=501
 English="Gamepad"
+Chinese="手柄"
 
 Ln=505
 English="Gun"
+Chinese="光枪"
 
 Ln=509
 English="None"
+Chinese="无"
 
 Ln=519
 English="Port {}"
+Chinese="端口 {}"
 
 Ln=581
 English="Console Options"
+Chinese="主机选项"
 
 Ln=592
 English="Eject"
+Chinese="弹出"
 
 Ln=629
 English="Console Options"
+Chinese="主机选项"
 
 Ln=648
 English="Auto-Set RTC On Start"
+Chinese="启动时自动设置实时时钟"
 
 Ln=660
 English="English"
+Chinese="英语"
 
 Ln=664
 English="German"
+Chinese="德语"
 
 Ln=668
 English="French"
+Chinese="法语"
 
 Ln=672
 English="Spanish"
+Chinese="西班牙语"
 
 Ln=676
 English="Italian"
+Chinese="意大利语"
 
 Ln=680
 English="Japanese"
+Chinese="日语"
 
 Ln=687
 English="BIOS Language"
+Chinese="BIOS 语言"
 
 Ln=718
 English="Default Show Horizontal Overscan"
+Chinese="默认显示水平过扫描区域"
 
 Ln=730
 English="8+224"
+Chinese="8+224"
 
 Ln=734
 English="0+240"
+Chinese="0+240"
 
 Ln=741
 English="Default NTSC Visible Lines"
+Chinese="NTSC 制式默认可见行数"
 
 Ln=755
 English="Correct Line Aspect Ratio"
+Chinese="修正每行宽高比例"

@@ -216,7 +216,7 @@ Chinese="默认可见行数"
 
 Ln=541
 English="Correct Line Aspect Ratio"
-Chinese="修正行每行宽高比例"
+Chinese="修正每行宽高比例"
 
 Ln=577
 English="Normal"

@@ -80,7 +80,7 @@ Chinese="动作键"
 
 Ln=253
 English="Face Buttons + Inline L/R"
-Chinese="动作键 + L/R键"
+Chinese="动作键 + L/R 键"
 
 Ln=258
 English="L"

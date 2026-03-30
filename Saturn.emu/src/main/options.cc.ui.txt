@@ -1,11 +1,15 @@
 Ln=262
 English="Please set KoF '95 ROM in Options➔File Paths"
+Chinese="请在“选项➔文件路径”中设置拳皇 95 的 ROM"
 
 Ln=270
 English="Please set Ultraman ROM in Options➔File Paths"
+Chinese="请在“选项➔文件路径”中设置奥特曼的 ROM"
 
 Ln=278
 English="Please set NA/EU BIOS in Options➔File Paths"
+Chinese="请在“选项➔文件路径”中设置 NA/EU BIOS"
 
 Ln=286
 English="Please set JP BIOS in Options➔File Paths"
+Chinese="请在“选项➔文件路径”中设置 JP BIOS"

@@ -259,7 +259,7 @@ std::string MDFN_MakeFName(MakeFName_Type type, int id1, const char *cd1)
 			{
 				if(sys.kof95ROMPath.empty())
 					throw MDFN_Error(0,
-						_(UI_TEXT("请在“选项➔文件路径”中设置拳皇95的 ROM"))
+						_(UI_TEXT("请在“选项➔文件路径”中设置拳皇 95 的 ROM"))
 					);
 				return std::string{sys.kof95ROMPath};
 			}
