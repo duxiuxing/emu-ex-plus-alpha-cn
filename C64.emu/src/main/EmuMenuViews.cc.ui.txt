@@ -1,314 +1,314 @@
-Ln=48
+Ln=53
 English="Disk 8"
 
-Ln=49
+Ln=54
 English="Disk 9"
 
-Ln=50
+Ln=55
 English="Disk 10"
 
-Ln=51
+Ln=56
 English="Disk 11"
 
-Ln=56
+Ln=61
 English="Insert File"
 
-Ln=57
+Ln=62
 English="Eject"
 
-Ln=123
+Ln=128
 English="Normal"
 
-Ln=124
+Ln=129
 English="Full"
 
-Ln=125
+Ln=130
 English="Debug"
 
-Ln=126
+Ln=131
 English="None"
 
-Ln=131
+Ln=136
 English="Borders"
 
-Ln=145
+Ln=150
 English="Default Palette"
 
-Ln=157
+Ln=162
 English="Color Settings"
 
-Ln=166
+Ln=171
 English="Input 0 to 200"
 
-Ln=167
+Ln=172
 English="Input 0 to 400"
 
-Ln=182
+Ln=187
 English="Saturation"
 
-Ln=183
+Ln=188
 English="Contrast"
 
-Ln=184
+Ln=189
 English="Brightness"
 
-Ln=185
+Ln=190
 English="Gamma"
 
-Ln=186
+Ln=191
 English="Tint"
 
-Ln=225
+Ln=230
 English="FastSID"
 
-Ln=226
+Ln=231
 English="ReSID"
 
-Ln=231
+Ln=236
 English="SID Engine"
 
-Ln=242
+Ln=247
 English="Fast"
 
-Ln=243
+Ln=248
 English="Interpolation"
 
-Ln=244
+Ln=249
 English="Resampling"
 
-Ln=245
+Ln=250
 English="Fast Resampling"
 
-Ln=250
+Ln=255
 English="ReSID Sampling"
 
-Ln=276
+Ln=281
 English="Default Model"
 
-Ln=284
+Ln=289
 English="Default True Drive Emulation"
 
-Ln=302
+Ln=307
 English="Default Main Joystick Mode"
 
-Ln=353
+Ln=358
 English="VICE System Files"
 
-Ln=361
+Ln=366
 English="Using fallback paths:\n{}\n{}"
 
-Ln=385
+Ln=390
 English="Download VICE System Files"
 
-Ln=390
+Ln=395
 English="Open the C64.emu setup page? From there, download C64.emu.zip to your device and select it as an archive in the previous menu."
 
-Ln=398
+Ln=403
 English="VICE System Files: {}"
 
-Ln=417
+Ln=422
 English="Datasette Controls"
 
-Ln=426
+Ln=431
 English="Stop"
 
-Ln=438
+Ln=443
 English="Start"
 
-Ln=450
+Ln=455
 English="Forward"
 
-Ln=462
+Ln=467
 English="Rewind"
 
-Ln=474
+Ln=479
 English="Record"
 
-Ln=486
+Ln=491
 English="Reset"
 
-Ln=500
+Ln=505
 English="Reset Counter"
 
-Ln=531
+Ln=536
 English="Tape Counter: {}"
 
-Ln=547
+Ln=552
 English="Tape: {}"
 
-Ln=586
+Ln=591
 English="Tape Drive"
 
-Ln=611
+Ln=616
 English="Datasette Controls"
 
-Ln=660
+Ln=665
 English="Cartridge Slot"
 
-Ln=686
+Ln=691
 English="{}: {}"
 
-Ln=719
+Ln=724
 English="Disk Drive"
 
-Ln=756
+Ln=761
 English="Drive 8 Type"
 
-Ln=771
+Ln=776
 English="Drive 9 Type"
 
-Ln=786
+Ln=791
 English="Drive 10 Type"
 
-Ln=801
+Ln=806
 English="Drive 11 Type"
 
-Ln=814
+Ln=819
 English="Media Options"
 
-Ln=822
+Ln=827
 English="System & Media"
 
-Ln=878
+Ln=883
 English="Block 0 (3KB @ $0400-$0FFF)"
 
-Ln=889
+Ln=894
 English="Block 1 (8KB @ $2000-$3FFF)"
 
-Ln=900
+Ln=905
 English="Block 2 (8KB @ $4000-$5FFF)"
 
-Ln=911
+Ln=916
 English="Block 3 (8KB @ $6000-$7FFF)"
 
-Ln=922
+Ln=927
 English="Block 5 (8KB @ $A000-$BFFF)"
 
-Ln=944
+Ln=949
 English="Memory Expansions"
 
-Ln=957
+Ln=962
 English="Model"
 
-Ln=965
+Ln=970
 English="Memory Expansions"
 
-Ln=975
+Ln=980
 English="Autostart Fast-forward"
 
-Ln=987
+Ln=992
 English="Autostart Handles TDE"
 
-Ln=999
+Ln=1004
 English="Load To BASIC Start (Disk)"
 
-Ln=1011
+Ln=1016
 English="True Drive Emulation (TDE)"
 
-Ln=1028
+Ln=1033
 English="Palette"
 
-Ln=1040
+Ln=1045
 English="Cartridges"
 
-Ln=1044
+Ln=1049
 English="Off"
 
-Ln=1045
+Ln=1050
 English="128KiB"
 
-Ln=1046
+Ln=1051
 English="256KiB"
 
-Ln=1047
+Ln=1052
 English="512KiB"
 
-Ln=1048
+Ln=1053
 English="1MiB"
 
-Ln=1049
+Ln=1054
 English="2MiB"
 
-Ln=1050
+Ln=1055
 English="4MiB"
 
-Ln=1051
+Ln=1056
 English="8MiB"
 
-Ln=1052
+Ln=1057
 English="16MiB"
 
-Ln=1057
+Ln=1062
 English="Ram Expansion Module"
 
-Ln=1076
+Ln=1081
 English="Machine Options"
 
-Ln=1142
+Ln=1147
 English="Media Control"
 
-Ln=1154
+Ln=1159
 English="Machine Options"
 
-Ln=1167
+Ln=1172
 English="Relaunch Content"
 
-Ln=1175
+Ln=1180
 English="Same Settings"
 
-Ln=1182
+Ln=1187
 English="NTSC w/ True Drive Emu"
 
-Ln=1192
+Ln=1197
 English="NTSC"
 
-Ln=1202
+Ln=1207
 English="PAL w/ True Drive Emu"
 
-Ln=1212
+Ln=1217
 English="PAL"
 
-Ln=1235
+Ln=1240
 English="Main Joystick Mode"
 
-Ln=1252
+Ln=1257
 English="Warp Mode"
 
-Ln=1263
+Ln=1268
 English="Autostart On Launch"
 
-Ln=1320
+Ln=1325
 English="Changing systems needs app restart, exit now?"
 
-Ln=1337
+Ln=1342
 English="Input Disk Name"
 
-Ln=1345
+Ln=1350
 English="Name can't be blank"
 
-Ln=1365
+Ln=1370
 English="Disk image already exists, overwrite?"
 
-Ln=1379
+Ln=1384
 English="Set directory to save disk"
 
-Ln=1405
+Ln=1410
 English="Error creating disk image"
 
-Ln=1417
+Ln=1422
 English="Input Tape Name"
 
-Ln=1425
+Ln=1430
 English="Name can't be blank"
 
-Ln=1445
+Ln=1450
 English="Tape image already exists, overwrite?"
 
-Ln=1474
+Ln=1479
 English="Error creating tape image"
 
-Ln=1482
+Ln=1487
 English="Open Content (No Autostart)"
 
-Ln=1497
+Ln=1502
 English="System: {}"
