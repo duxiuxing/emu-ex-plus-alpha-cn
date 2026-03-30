@@ -3,6 +3,7 @@
 	Please see COPYING file in root directory for license information. */
 
 module;
+#include <imagine/util/macros.h>
 #include <snes9x.h>
 #include <cheats.h>
 
