@@ -25,7 +25,7 @@ module system;
 
 #ifndef UI_TEXT_IMPL
 	#define UI_TEXT_IMPL
-	#define UI_TEXT(x)	x
+	#define UI_TEXT(x) x
 #endif
 
 namespace EmuEx

@@ -30,7 +30,7 @@ import std;
 
 #ifndef UI_TEXT_IMPL
 	#define UI_TEXT_IMPL
-	#define UI_TEXT(x)	x
+	#define UI_TEXT(x) x
 #endif
 
 // Separate front & back buffers not needed for our video implementation
