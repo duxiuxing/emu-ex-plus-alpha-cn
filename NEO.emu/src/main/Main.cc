@@ -324,46 +324,6 @@ extern "C" int gn_strictROMChecking()
 	return static_cast<NeoSystem&>(gSystem()).optionStrictROMChecking;
 }
 
-void translate_long_name(ROM_DEF *drv)
-{
-	static std::map<std::string_view, std::string_view> s_drvName2DisplayName = {
-		{ "2020bb", UI_TEXT("2020超级棒球") }, { "2020bba", UI_TEXT("2020超级棒球 (第2套)") }, { "2020bbh", UI_TEXT("2020超级棒球 (第3套)") },
-		{ "3countb", UI_TEXT("三回合较量") },
-		{ "alpham2", UI_TEXT("阿尔法任务2") },
-		{ "androdun", UI_TEXT("勇者之击") },
-		{ "aodk", UI_TEXT("痛快进行曲") },
-		{ "aof", UI_TEXT("龙虎之拳1") },
-		{ "aof2", UI_TEXT("龙虎之拳2") }, { "aof2a", UI_TEXT("龙虎之拳2 (第2套)") },
-		{ "aof3", UI_TEXT("龙虎之拳3 斗士之路") }, { "aof3k", UI_TEXT("龙虎之拳3 斗士之路 (韩版)") },
-		{ "bakatono", UI_TEXT("傻瓜殿下麻将漫游记") },
-		{ "bangbead", UI_TEXT("碰碰球") },
-		{ "bbbuster", UI_TEXT("爆炸克星") },
-		{ "bjourney", UI_TEXT("蓝色之旅") },
-		{ "blazstar", UI_TEXT("闪亮之星") },
-		{ "breakers", UI_TEXT("爆裂人") },
-		{ "breakrev", UI_TEXT("爆裂人复仇") },
-		{ "bstars", UI_TEXT("棒球之星Pro") },
-		{ "bstars2", UI_TEXT("棒球之星2") },
-		{ "burningf", UI_TEXT("热血快打") }, { "burningfh", UI_TEXT("热血快打 (第2套)") },
-		{ "flipshot", UI_TEXT("盾牌大战") },
-		{ "crsword", UI_TEXT("圣十字剑") },
-		{ "ct2k3sa", UI_TEXT("拳皇卧虎藏龙2003 风云 超级加强替换版") }, { "ct2k3sp", UI_TEXT("拳皇卧虎藏龙2003 风云 超级加强版") }, { "cthd2003", UI_TEXT("拳皇卧虎藏龙2003") },
-		{ "ctomaday", UI_TEXT("蕃茄超人") },
-		{ "cyberlip", UI_TEXT("战斗边缘") },
-		{ "diggerma", UI_TEXT("挖地先生") },
-		{ "doubledr", UI_TEXT("双截龙") },
-		{ "eightman", UI_TEXT("八超人") },
-	};
-
-	auto it = s_drvName2DisplayName.find(drv->name);
-	if (it != s_drvName2DisplayName.end())
-	{
-		auto length = it->second.length();
-		it->second.copy(drv->longname, length);
-		drv->longname[length] = '\0';
-	}
-}
-
 extern "C" ROM_DEF *res_load_drv(void *contextPtr, const char *name)
 {
 	auto drvFilename = format<FS::PathString>(DATAFILE_PREFIX "rom/{}.drv", name);
@@ -379,7 +339,7 @@ extern "C" ROM_DEF *res_load_drv(void *contextPtr, const char *name)
 	io.read(drv->name, 32);
 	io.read(drv->parent, 32);
 	io.read(drv->longname, 128);
-	translate_long_name(drv);
+	NeoSystem::translate_long_name(drv);
 	drv->year = io.get<uint32_t>(); // TODO: LE byte-swap on uint32_t reads
 	for(auto i: iotaCount(10))
 	{

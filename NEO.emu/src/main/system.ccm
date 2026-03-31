@@ -16,6 +16,7 @@
 module;
 extern "C"
 {
+	#include <gngeo/roms.h>
 	#include <gngeo/emu.h>
 }
 
@@ -121,6 +122,7 @@ public:
 	void onFlushBackupMemory(EmuApp&, BackupMemoryDirtyFlags);
 	WallClockTimePoint backupMemoryLastWriteTime(const EmuApp&) const;
 	FS::FileString contentDisplayNameForPath(CStringView) const;
+	static void translate_long_name(ROM_DEF *drv);
 };
 
 export using MainSystem = NeoSystem;

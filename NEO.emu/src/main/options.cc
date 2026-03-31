@@ -92,4 +92,44 @@ void NeoSystem::writeConfig(ConfigType type, FileIO &io)
 	}
 }
 
+void NeoSystem::translate_long_name(ROM_DEF* drv)
+{
+	static std::map<std::string_view, std::string_view> s_drvName2DisplayName = {
+		{ "2020bb", "2020超级棒球" }, { "2020bba", "2020超级棒球 (第2套)" }, { "2020bbh", "2020超级棒球 (第3套)" },
+		{ "3countb", "三回合较量" },
+		{ "alpham2", "阿尔法任务2" },
+		{ "androdun", "勇者之击" },
+		{ "aodk", "痛快进行曲" },
+		{ "aof", "龙虎之拳1" },
+		{ "aof2", "龙虎之拳2" }, { "aof2a", "龙虎之拳2 (第2套)" },
+		{ "aof3", "龙虎之拳3 斗士之路" }, { "aof3k", "龙虎之拳3 斗士之路 (韩版)" },
+		{ "bakatono", "傻瓜殿下麻将漫游记" },
+		{ "bangbead", "碰碰球" },
+		{ "bbbuster", "爆炸克星 (有bug)" },
+		{ "bjourney", "蓝色之旅" },
+		{ "blazstar", "闪亮之星" },
+		{ "breakers", "爆裂人" },
+		{ "breakrev", "爆裂人复仇" },
+		{ "bstars", "棒球之星Pro" },
+		{ "bstars2", "棒球之星2" },
+		{ "burningf", "热血快打" }, { "burningfh", "热血快打 (第2套)" },
+		{ "flipshot", "盾牌大战" },
+		{ "crsword", "圣十字剑" },
+		{ "ct2k3sa", "拳皇卧虎藏龙2003 风云 超级加强替换版" }, { "ct2k3sp", "拳皇卧虎藏龙2003 风云 超级加强版" }, { "cthd2003", "拳皇卧虎藏龙2003" },
+		{ "ctomaday", "蕃茄超人" },
+		{ "cyberlip", "战斗边缘" },
+		{ "diggerma", "挖地先生" },
+		{ "doubledr", "双截龙" },
+		{ "eightman", "八超人" },
+	};
+
+	auto it = s_drvName2DisplayName.find(drv->name);
+	if (it != s_drvName2DisplayName.end())
+	{
+		auto length = it->second.length();
+		it->second.copy(drv->longname, length);
+		drv->longname[length] = '\0';
+	}
+}
+
 }
