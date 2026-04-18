@@ -2,6 +2,6 @@ Ln=30
 English="Loading..."
 Chinese="正在加载..."
 
-Ln=77
+Ln=78
 English="Loading..."
 Chinese="正在加载..."
