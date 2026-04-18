@@ -1,77 +1,77 @@
 Ln=42
 English="System Actions"
 
-Ln=90
+Ln=91
 English="Really Exit? (Push Back/Escape again to confirm)"
 
-Ln=95
+Ln=96
 English="Yes"
 
-Ln=98
+Ln=99
 English="No"
 
-Ln=103
+Ln=104
 English="Close Menu"
 
-Ln=334
+Ln=335
 English="{} was suspended"
 
-Ln=478
+Ln=479
 English="{} {}"
 
-Ln=481
+Ln=482
 English="connected"
 
-Ln=482
+Ln=483
 English="disconnected"
 
-Ln=488
+Ln=489
 English="{} had a connection error"
 
-Ln=592
+Ln=593
 English="Autosave state timestamp is older than the contents of backup memory, really load it even though progress may be lost?"
 
-Ln=623
+Ln=624
 English="Can't access path name for:\n{}"
 
-Ln=755
+Ln=758
 English="Not enough memory for rewind states"
 
-Ln=766
+Ln=769
 English="This option takes effect next time the system starts. Restart it now?"
 
-Ln=785
+Ln=788
 English="{}{}"
 
-Ln=787
+Ln=790
 English="Wrote screenshot at "
 
-Ln=788
+Ln=791
 English="Error writing screenshot at "
 
-Ln=802
+Ln=805
 English="File doesn't have a valid extension"
 
-Ln=873
+Ln=877
 English="Error opening {}, please verify save path has write access"
 
-Ln=902
+Ln=906
 English="System not running"
 
-Ln=913
+Ln=917
 English="State Saved"
 
-Ln=920
+Ln=924
 English="Can't save state:\n{}"
 
-Ln=936
+Ln=940
 English="System not running"
 
-Ln=952
+Ln=956
 English="Save folder inaccessible, please set it in Options➔File Paths➔Saves"
 
-Ln=956
+Ln=960
 English="Can't load state:\n{}"
 
-Ln=990
+Ln=994
 English="Really close current content?"
