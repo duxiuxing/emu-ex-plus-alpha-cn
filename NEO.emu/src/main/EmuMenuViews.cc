@@ -263,7 +263,7 @@ constexpr RomListEntry romlist[]
 	{ "2020bbh", 0 },
 	{ "alpham2", 0 },	// A - 阿尔法任务2
 	{ "ninjamas", 0 },	// B - 霸王忍法帖
-	{ "bstars", 0 },	// B - 棒球之星专业版
+	{ "bstars", 0 },	// B - 棒球之星1
 	{ "bstars2", 0 },	// B - 棒球之星2
 	{ "breakers", 0 },	// B - 爆裂人
 	{ "breakrev", 0 },	// B - 爆裂人复仇
@@ -289,8 +289,8 @@ constexpr RomListEntry romlist[]
 	{ "flipshot", 0 },	// D - 盾牌大战
 	{ "fatfury1", 0 },	// E - 饿狼传说1 宿命之战
 	{ "fatfury2", 1 },	// E - 饿狼传说2
-	{ "fatfursa", 0 },	// E - 饿狼传说特别版
-	{ "fatfursp", 0 },
+	{ "fatfursa", 0 },
+	{ "fatfursp", 0 },	// E - 饿狼传说2 特别版
 	{ "fatfury3", 0 },	// E - 饿狼传说3 远古征战
 	{ "garou", 0 },		// E - 饿狼传说 狼之印记
 	{ "garoubl", 0 },
@@ -322,6 +322,7 @@ constexpr RomListEntry romlist[]
 	{ "maglord", 0 },	// H - 幻魔大战
 	{ "maglordh", 0 },
 	{ "wakuwak7", 0 },	// H - 火热火热7
+	{ "3countb", 0 },	// H - 火线摔角
 	{ "pulstar", 0 },	// H - 惑星战机
 	{ "roboarmy", 0 },	// J - 机甲神兵
 	{ "socbrawl", 0 },	// J - 机器人足球
@@ -403,7 +404,6 @@ constexpr RomListEntry romlist[]
 	{ "stakwin", 0 },	// S - 赛马大亨1
 	{ "stakwin2", 0 },	// S - 赛马大亨2
 	{ "jockeygp", 1 },	// S - 赛马大奖赛 (有Bug)
-	{ "3countb", 0 },	// S - 三回合较量
 	{ "bakatono", 0 },	// S - 傻瓜殿下麻将漫游记
 	{ "blazstar", 0 },	// S - 闪亮之星
 	{ "goalx3", 0 },	// S - 射门！射门！射门！
@@ -472,7 +472,7 @@ constexpr RomListEntry romlist[]
 	{ "sengoku3", 0 },	// Z - 战国传承3
 	{ "rbff1", 0 },		// Z - 真饿狼传说1
 	{ "rbff1a", 0 },
-	{ "rbffspec", 0 },	// Z - 真饿狼传说特别版
+	{ "rbffspec", 0 },	// Z - 真饿狼传说1 特别版
 	{ "rbff2", 0 },		// Z - 真饿狼传说2 新的来者
 	{ "rbff2h", 0 },
 	{ "rbff2k", 0 },

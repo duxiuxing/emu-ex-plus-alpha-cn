@@ -99,7 +99,7 @@ void NeoSystem::translate_long_name(ROM_DEF* drv)
 		{ "2020bb", "# - 2020超级棒球" },
 		{ "2020bba", "# - 2020超级棒球 (第2套)" },
 		{ "2020bbh", "# - 2020超级棒球 (第3套)" },
-		{ "3countb", "S - 三回合较量" },
+		{ "3countb", "H - 火线摔角" },
 		// A
 		{ "alpham2", "A - 阿尔法任务2 最后的守护神" },
 		{ "androdun", "Y - 勇者之击" },
@@ -119,7 +119,7 @@ void NeoSystem::translate_long_name(ROM_DEF* drv)
 		{ "blazstar", "S - 闪亮之星" },
 		{ "breakers", "B - 爆裂人" },
 		{ "breakrev", "B - 爆裂人复仇" },
-		{ "bstars", "B - 棒球之星专业版" },
+		{ "bstars", "B - 棒球之星1" },
 		{ "bstars2", "B - 棒球之星2" },
 		{ "burningf", "R - 热血快打" },
 		{ "burningfh", "R - 热血快打 (第2套)" },
@@ -136,7 +136,7 @@ void NeoSystem::translate_long_name(ROM_DEF* drv)
 		// E
 		{ "eightman", "# - 8号超人" },
 		// F
-		{ "fatfursp", "E - 饿狼传说特别版" },
+		{ "fatfursp", "E - 饿狼传说2 特别版" },
 		{ "fatfursa", "E - 饿狼传说特别版 (第2套)" },
 		{ "fatfury1", "E - 饿狼传说1 宿命之战" },
 		{ "fatfury2", "E - 饿狼传说2" },
@@ -226,7 +226,7 @@ void NeoSystem::translate_long_name(ROM_DEF* drv)
 		{ "ragnagrd", "S - 神凰拳" },
 		{ "rbff1", "Z - 真饿狼传说1" }, { "rbff1a", "Z - 真饿狼传说1 (修复版)" },
 		{ "rbff2", "Z - 真饿狼传说2 新的来者" }, { "rbff2h", "Z - 真饿狼传说2 新的来者 (第2套)" }, { "rbff2k", "Z - 真饿狼传说2 新的来者 (韩版)" },
-		{ "rbffspec", "Z - 真饿狼传说特别版" },
+		{ "rbffspec", "Z - 真饿狼传说1 特别版" },
 		{ "ridhero", "F - 风速英雄 (有bug)" }, { "ridheroh", "F - 风速英雄 (第2套 有bug)" },
 		{ "roboarmy", "J - 机甲神兵" },
 		{ "rotd", "L - 龙吼 (有bug)" },
