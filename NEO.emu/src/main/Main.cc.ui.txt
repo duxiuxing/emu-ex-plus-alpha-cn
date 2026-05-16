@@ -6,10 +6,10 @@ Ln=225
 English="This game isn't recognized"
 Chinese="无法识别这个游戏"
 
-Ln=421
+Ln=422
 English="Decrypting..."
 Chinese="正在解密..."
 
-Ln=425
+Ln=426
 English="Building Cache...\n(may take a while)"
 Chinese="正在构建缓存...\n(可能需要一段时间)"
