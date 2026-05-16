@@ -339,6 +339,7 @@ extern "C" ROM_DEF *res_load_drv(void *contextPtr, const char *name)
 	io.read(drv->name, 32);
 	io.read(drv->parent, 32);
 	io.read(drv->longname, 128);
+	// NeoSystem::translate_long_name(drv);
 	drv->year = io.get<uint32_t>(); // TODO: LE byte-swap on uint32_t reads
 	for(auto i: iotaCount(10))
 	{
