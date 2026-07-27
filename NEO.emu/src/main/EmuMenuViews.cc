@@ -257,7 +257,6 @@ struct RomListEntry
 constexpr RomListEntry romlist[]
 {	
 	{ "eightman", 0 },	// # - 8号超人
-	{ "neocup98", 0 },	// # - 98机皇杯 胜利之路
 	{ "2020bb", 0 },	// # - 2020超级棒球
 	{ "2020bba", 0 },
 	{ "2020bbh", 0 },
@@ -275,17 +274,17 @@ constexpr RomListEntry romlist[]
 	{ "ironclado", 0 },
 	{ "pnyaa", 0 },		// C - 宠物方块
 	{ "s1945p", 0 },	// D - 打击者1945加强版
-	{ "turfmast", 0 },	// D - 大联盟高尔夫
+	{ "zedblade", 0 },	// D - 刀锋战机
 	{ "ssideki", 0 },	// D - 得点王1
-	{ "ssideki2", 0 },	// D - 得点王2
-	{ "ssideki3", 0 },	// D - 得点王3
-	{ "ssideki4", 0 },	// D - 得点王4
+	{ "ssideki2", 0 },	// D - 得点王2 真实格斗足球
+	{ "ssideki3", 0 },	// D - 得点王3 下一个荣耀
+	{ "ssideki4", 0 },	// D - 得点王4 终极十一人
 	{ "superspy", 0 },	// D - 谍报飞龙
 	{ "tpgolf", 0 },	// D - 顶尖高尔夫
 	{ "tophuntr", 0 },	// D - 顶尖猎人
 	{ "tophuntra", 0 },
 	{ "popbounc", 0 },	// D - 动物方块
-	{ "neomrdo", 0 },	// D - 嘟先生
+	{ "karnovr", 0 },	// D - 斗士的历史2 卡诺夫的复仇
 	{ "flipshot", 0 },	// D - 盾牌大战
 	{ "fatfury1", 0 },	// E - 饿狼传说1 宿命之战
 	{ "fatfury2", 1 },	// E - 饿狼传说2
@@ -301,14 +300,14 @@ constexpr RomListEntry romlist[]
 	{ "ridhero", 1 },	// F - 风速英雄 (有bug)
 	{ "ridheroh", 1 },
 	{ "savagere", 0 },	// F - 风云默示录
-	{ "kizuna", 0 },	// F - 风云默示录 超级组队战
+	{ "kizuna", 0 },	// F - 风云默示录2 超级组队战
 	{ "kotm", 0 },		// G - 怪兽之王1
 	{ "kotmh", 0 },
 	{ "kotm2", 0 },		// G - 怪兽之王2
 	{ "ghostlop", 0 },	// G - 鬼精灵投球手
 	{ "mslug", 0 },		// H - 合金弹头1
 	{ "mslug2", 0 },	// H - 合金弹头2
-	{ "mslugx", 0 },	// H - 合金弹头X
+	{ "mslugx", 0 },	// H - 合金弹头2X
 	{ "mslug3", 0 },	// H - 合金弹头3
 	{ "mslug3b6", 0 },
 	{ "mslug3h", 0 },
@@ -318,28 +317,26 @@ constexpr RomListEntry romlist[]
 	{ "mslug5h", 0 },
 	{ "ms5pcb", 1 },
 	{ "ms5plus", 1 },
-	{ "totcarib", 0 },	// H - 黑珍珠部队
 	{ "maglord", 0 },	// H - 幻魔大战
 	{ "maglordh", 0 },
 	{ "wakuwak7", 0 },	// H - 火热火热7
-	{ "3countb", 0 },	// H - 火线摔角
 	{ "pulstar", 0 },	// H - 惑星战机
 	{ "roboarmy", 0 },	// J - 机甲神兵
 	{ "socbrawl", 0 },	// J - 机器人足球
 	{ "socbrawla", 0 },
 	{ "trally", 0 },	// J - 极速英豪
+	{ "totcarib", 0 },	// J - 加勒比宝藏
 	{ "mosyougi", 0 },	// J - 将棋达人
 	{ "strhoop", 0 },	// J - 街头篮球
 	{ "puzzledp", 0 },	// J - 解谜气泡
 	{ "puzzldpr", 0 },	// J - 解谜气泡R
-	{ "karnovr", 0 },	// K - 卡诺夫的复仇
 	{ "pgoal", 0 },		// K - 开心射门 5对5迷你足球
 	{ "overtop", 0 },	// K - 跨越巅峰
 	{ "fightfev", 0 },	// K - 狂热格斗
 	{ "fightfeva", 0 },
-	{ "neodrift", 0 },	// L - 拉力赛车 新的技术
 	{ "bjourney", 0 },	// L - 蓝色之旅
 	{ "lbowling", 0 },	// L - 联盟保龄球
+	{ "miexchng", 0 },	// L - 零用钱大作战
 	{ "rotd", 1 },		// L - 龙吼 (有bug)
 	{ "aof", 0 },		// L - 龙虎之拳1
 	{ "aof2", 0 },		// L - 龙虎之拳2
@@ -355,11 +352,15 @@ constexpr RomListEntry romlist[]
 	{ "magdrop3", 0 },	// M - 魔法微量球3
 	{ "gpilots", 0 },	// M - 魔鬼飞行员
 	{ "gpilotsh", 0 },
+	{ "neocup98", 0 },	// N - NeoGeo杯98 胜利之路
+	{ "turfmast", 0 },	// N - Neo大联盟高尔夫
+	{ "neomrdo", 0 },	// N - Neo嘟先生
+	{ "neodrift", 0 },	// N - Neo拉力赛车 新的技术
+	{ "neobombe", 0 },	// N - Neo炸弹人
 	{ "pbobblen", 0 },	// P - 泡泡龙1
 	{ "pbobblena", 0 },
 	{ "pbobbl2n", 0 },	// P - 泡泡龙2
 	{ "bangbead", 0 },	// P - 碰碰球
-	{ "miexchng", 0 },	// Q - 钱币对抗赛
 	{ "spinmast", 0 },	// Q - 强尼大冒险
 	{ "kof94", 0 },		// Q - 拳皇94
 	{ "kof95", 0 },		// Q - 拳皇95
@@ -394,16 +395,17 @@ constexpr RomListEntry romlist[]
 	{ "svcplusa", 1 },
 	{ "svcsplus", 1 },
 	{ "quizkof", 0 },	// Q - 拳皇问答
-	{ "janshin", 0 },	// Q - 雀神传说
+	{ "janshin", 0 },	// Q - 雀神传说 寻找麻将大师
 	{ "sdodgeb", 0 },	// R - 热血超级躲避球
 	{ "burningf", 0 },	// R - 热血快打
 	{ "burningfh", 0 },
 	{ "ncombat", 0 },	// R - 忍者大战
 	{ "ncombath", 0 },
 	{ "ncommand", 0 },	// R - 忍者指令
-	{ "stakwin", 0 },	// S - 赛马大亨1
-	{ "stakwin2", 0 },	// S - 赛马大亨2
+	{ "stakwin", 0 },	// S - 赛马冠军1
+	{ "stakwin2", 0 },	// S - 赛马冠军2
 	{ "jockeygp", 1 },	// S - 赛马大奖赛 (有Bug)
+	{ "3countb", 0 },	// S - 三回合较量
 	{ "bakatono", 0 },	// S - 傻瓜殿下麻将漫游记
 	{ "blazstar", 0 },	// S - 闪亮之星
 	{ "goalx3", 0 },	// S - 射门！射门！射门！
@@ -417,7 +419,7 @@ constexpr RomListEntry romlist[]
 	{ "samsho3h", 0 },
 	{ "fswords", 0 },
 	{ "samsho4", 0 },	// S - 侍魂4 天草降临
-	{ "samsho5", 0 },	// S - 侍魂5 零
+	{ "samsho5", 0 },	// S - 侍魂5
 	{ "samsho5b", 1 },
 	{ "samsho5h", 0 },
 	{ "samsh5sp", 0 },	// S - 侍魂5 特别版
@@ -431,7 +433,7 @@ constexpr RomListEntry romlist[]
 	{ "wh2jh", 0 },
 	{ "whp", 0 },		// S - 世界英雄完美版
 	{ "viewpoin", 0 },	// S - 视觉战机
-	{ "doubledr", 0 },	// S - 双截龙
+	{ "doubledr", 0 },	// S - 双截龙格斗
 	{ "vliner", 1 },	// S - 水果机 (有Bug)
 	{ "vlinero", 1 },
 	{ "sonicwi2", 0 },	// S - 四国战机2
@@ -443,19 +445,18 @@ constexpr RomListEntry romlist[]
 	{ "shocktra", 0 },
 	{ "shocktr2", 0 },	// T - 突击骑兵2 第二分队
 	{ "lans2004", 1 },
-	{ "diggerma", 0 },	// W - 挖地先生
 	{ "mutnat", 0 },	// W - 外星游龙
 	{ "quizdais", 0 },	// W - 问答大搜查线1 最后倒计时
 	{ "quizdai2", 0 },	// W - 问答大搜查线2 问答迷侦探
 	{ "nitd", 0 },		// W - 午夜噩梦
 	{ "nitdbl", 0 },
 	{ "ganryu", 0 },	// W - 武藏严流记
-	{ "marukodq", 0 },	// X - 小丸子问答
 	{ "matrim", 0 },	// X - 新豪血寺一族 斗婚
 	{ "matrimbl", 1 },
 	{ "zupapa", 0 },	// X - 星星大战
 	{ "joyjoy", 0 },	// Y - 阳光方块
 	{ "galaxyfg", 0 },	// Y - 银河快打 宇宙战士
+	{ "marukodq", 0 },	// Y - 樱桃小丸子豪华问答
 	{ "androdun", 0 },	// Y - 勇者之击
 	{ "preisle2", 0 },	// Y - 原始岛2
 	{ "lastblad", 0 },	// Y - 月华剑士1
@@ -464,7 +465,6 @@ constexpr RomListEntry romlist[]
 	{ "lastbld2", 0 },	// Y - 月华剑士2
 	{ "nam1975", 0 },	// Y - 越战1975
 	{ "panicbom", 0 },	// Z - 炸弹人方块
-	{ "neobombe", 0 },	// Z - 炸弹人机皇版
 	{ "cyberlip", 0 },	// Z - 战斗边缘
 	{ "sengoku", 0 },	// Z - 战国传承1
 	{ "sengokh", 0 },
@@ -478,7 +478,6 @@ constexpr RomListEntry romlist[]
 	{ "rbff2k", 0 },
 	{ "irrmaze", 1 },	// Z - 终极电流急急棒 (有Bug)
 	{ "lresort", 0 },	// Z - 终极手段
-	{ "zedblade", 0 },	// Z - 作战名末日
 	{ "ct2k3sa", 1 },
 	{ "ct2k3sp", 1 },
 	{ "cthd2003", 1 },
