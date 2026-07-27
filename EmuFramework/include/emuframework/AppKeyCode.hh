@@ -81,9 +81,9 @@ inline constexpr struct AppKeys
 
 inline constexpr std::array genericGamepadAppKeyCodeMap
 {
-	KeyMapping{appKeys.openSystemActions, Input::Keycode::GAME_MODE},
-	KeyMapping{appKeys.fastForward, Input::Keycode::GAME_R2},
-	KeyMapping{appKeys.openMenu, Input::Keycode::BACK},
+	KeyMapping{appKeys.openMenu, Input::Keycode::JS2_YAXIS_POS}, KeyMapping{appKeys.loadState, Input::Keycode::JS2_YAXIS_NEG},
+	KeyMapping{appKeys.decStateSlot, Input::Keycode::JS2_XAXIS_NEG}, KeyMapping{appKeys.incStateSlot, Input::Keycode::JS2_XAXIS_POS},
+	KeyMapping{appKeys.fastForward, Input::Keycode::GAME_L2},
 };
 
 inline constexpr std::array genericGamepadModifierAppKeyCodeMap

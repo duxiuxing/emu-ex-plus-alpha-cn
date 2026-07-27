@@ -158,8 +158,8 @@ std::span<const KeyConfigDesc> AppMeta::defaultKeyConfigs()
 		KeyMapping{NesKey::Left, Keycode::LEFT},
 		KeyMapping{NesKey::Select, Keycode::GAME_SELECT},
 		KeyMapping{NesKey::Start, Keycode::GAME_START},
-		KeyMapping{NesKey::B, Keycode::GAME_X},
-		KeyMapping{NesKey::A, Keycode::GAME_A},
+		KeyMapping{NesKey::B, Keycode::GAME_X}, KeyMapping{KeyInfo::turboKey(NesKey::B), Keycode::GAME_Y},
+		KeyMapping{NesKey::A, Keycode::GAME_A}, KeyMapping{KeyInfo::turboKey(NesKey::A), Keycode::GAME_B},
 	};
 
 	static constexpr std::array wiimoteMap

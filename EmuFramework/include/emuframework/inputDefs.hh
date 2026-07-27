@@ -78,8 +78,14 @@ struct KeyInfo
 		return KeyInfo{std::array{comboKeyCode, idx}, KeyFlags{.appCode = 1}};
 	}
 
+	static constexpr auto turboKey(auto code)
+	{
+		return KeyInfo{code, KeyFlags{.turbo = 1}};
+	}
+
 	constexpr bool isAppKey() const { return flags.appCode; }
 	constexpr bool isComboKey() const { return isAppKey() && codes[0] == comboKeyCode; }
+	constexpr bool isTurboKey() const { return flags.turbo; }
 	constexpr bool operator==(const KeyInfo &) const = default;
 	constexpr explicit operator bool() { return codes[0]; }
 	constexpr auto &operator[](size_t pos) { return codes[pos]; }
