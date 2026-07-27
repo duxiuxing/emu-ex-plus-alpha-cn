@@ -157,8 +157,8 @@ std::span<const KeyConfigDesc> AppMeta::defaultKeyConfigs()
 		KeyMapping{GbaKey::Left, Keycode::LEFT},
 		KeyMapping{GbaKey::Select, Keycode::GAME_SELECT},
 		KeyMapping{GbaKey::Start, Keycode::GAME_START},
-		KeyMapping{GbaKey::A, Keycode::GAME_A},
-		KeyMapping{GbaKey::B, Keycode::GAME_X},
+		KeyMapping{GbaKey::A, Keycode::GAME_A}, KeyMapping{KeyInfo::turboKey(GbaKey::A), Keycode::GAME_B},
+		KeyMapping{GbaKey::B, Keycode::GAME_X}, KeyMapping{KeyInfo::turboKey(GbaKey::B), Keycode::GAME_Y},
 		KeyMapping{GbaKey::L, Keycode::GAME_L1},
 		KeyMapping{GbaKey::R, Keycode::GAME_R1},
 	};

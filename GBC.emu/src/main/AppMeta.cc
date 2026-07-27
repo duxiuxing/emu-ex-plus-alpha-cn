@@ -121,8 +121,8 @@ std::span<const KeyConfigDesc> AppMeta::defaultKeyConfigs()
 		KeyMapping{GbcKey::Left, Keycode::LEFT},
 		KeyMapping{GbcKey::Select, Keycode::GAME_SELECT},
 		KeyMapping{GbcKey::Start, Keycode::GAME_START},
-		KeyMapping{GbcKey::A, Keycode::GAME_A},
-		KeyMapping{GbcKey::B, Keycode::GAME_X},
+		KeyMapping{GbcKey::A, Keycode::GAME_A}, KeyMapping{KeyInfo::turboKey(GbcKey::A), Keycode::GAME_B},
+		KeyMapping{GbcKey::B, Keycode::GAME_X}, KeyMapping{KeyInfo::turboKey(GbcKey::B), Keycode::GAME_Y},
 	};
 
 	static constexpr std::array wiimoteMap

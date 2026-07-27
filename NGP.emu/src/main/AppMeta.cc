@@ -117,8 +117,8 @@ std::span<const KeyConfigDesc> AppMeta::defaultKeyConfigs()
 		KeyMapping{NgpKey::Down, Keycode::DOWN},
 		KeyMapping{NgpKey::Left, Keycode::LEFT},
 		KeyMapping{NgpKey::Option, Keycode::GAME_START},
-		KeyMapping{NgpKey::B, Keycode::GAME_X},
-		KeyMapping{NgpKey::A, Keycode::GAME_A},
+		KeyMapping{NgpKey::B, Keycode::GAME_A}, KeyMapping{KeyInfo::turboKey(NgpKey::B), Keycode::GAME_B},
+		KeyMapping{NgpKey::A, Keycode::GAME_X}, KeyMapping{KeyInfo::turboKey(NgpKey::A), Keycode::GAME_Y},
 	};
 
 	static constexpr std::array wiimoteMap
