@@ -307,7 +307,7 @@ constexpr RomListEntry romlist[]
 	{ "ghostlop", 0 },	// G - 鬼精灵投球手
 	{ "mslug", 0 },		// H - 合金弹头1
 	{ "mslug2", 0 },	// H - 合金弹头2
-	{ "mslugx", 0 },	// H - 合金弹头2X
+	{ "mslugx", 0 },	// H - 合金弹头X
 	{ "mslug3", 0 },	// H - 合金弹头3
 	{ "mslug3b6", 0 },
 	{ "mslug3h", 0 },

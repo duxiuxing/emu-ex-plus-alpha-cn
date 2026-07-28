@@ -199,7 +199,7 @@ void NeoSystem::translate_long_name(ROM_DEF* drv)
 		{ "mslug5h", "H - 合金弹头5 (第2套)" },
 		{ "ms5pcb", "H - 合金弹头5 (JAMMA标准主板 有Bug)" },
 		{ "ms5plus", "H - 合金弹头5加强版 (盗版 有Bug)" },
-		{ "mslugx", "H - 合金弹头2X" },
+		{ "mslugx", "H - 合金弹头X" },
 		{ "mutnat", "W - 外星游龙" },
 		// N
 		{ "nam1975", "Y - 越战1975" },
