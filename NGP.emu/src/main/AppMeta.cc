@@ -106,8 +106,8 @@ std::span<const KeyConfigDesc> AppMeta::defaultKeyConfigs()
 		KeyMapping{NgpKey::Down, Keycode::DOWN},
 		KeyMapping{NgpKey::Left, Keycode::LEFT},
 		KeyMapping{NgpKey::Option, Keycode::ENTER},
-		KeyMapping{NgpKey::B, Keycode::Z},
-		KeyMapping{NgpKey::A, Keycode::X},
+		KeyMapping{NgpKey::B, Keycode::Z}, KeyMapping{KeyInfo::turboKey(NgpKey::B), Keycode::A},
+		KeyMapping{NgpKey::A, Keycode::X}, KeyMapping{KeyInfo::turboKey(NgpKey::A), Keycode::S},
 	};
 
 	static constexpr std::array genericGamepadMap

@@ -146,8 +146,8 @@ std::span<const KeyConfigDesc> AppMeta::defaultKeyConfigs()
 		KeyMapping{NesKey::Left, Keycode::LEFT},
 		KeyMapping{NesKey::Select, Keycode::SPACE},
 		KeyMapping{NesKey::Start, Keycode::ENTER},
-		KeyMapping{NesKey::B, Keycode::Z},
-		KeyMapping{NesKey::A, Keycode::X},
+		KeyMapping{NesKey::B, Keycode::Z}, KeyMapping{KeyInfo::turboKey(NesKey::B), Keycode::A},
+		KeyMapping{NesKey::A, Keycode::X}, KeyMapping{KeyInfo::turboKey(NesKey::A), Keycode::S},
 	};
 
 	static constexpr std::array genericGamepadMap

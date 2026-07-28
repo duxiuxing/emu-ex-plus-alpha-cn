@@ -100,15 +100,15 @@ inline constexpr std::array genericWiimoteAppKeyCodeMap
 
 inline constexpr std::array genericKeyboardAppKeyCodeMap
 {
-	KeyMapping{appKeys.openContent, {Input::Keycode::LCTRL, Input::Keycode::_2}},
-	KeyMapping{appKeys.openSystemActions, Input::Keycode::MENU},
-	KeyMapping{appKeys.saveState, {Input::Keycode::LCTRL, Input::Keycode::_1}},
-	KeyMapping{appKeys.loadState, {Input::Keycode::LCTRL, Input::Keycode::_4}},
-	KeyMapping{appKeys.decStateSlot, {Input::Keycode::LCTRL, Input::Keycode::LEFT_BRACKET}},
-	KeyMapping{appKeys.incStateSlot, {Input::Keycode::LCTRL, Input::Keycode::RIGHT_BRACKET}},
+	// KeyMapping{appKeys.openContent, {Input::Keycode::LCTRL, Input::Keycode::_2}},
+	// KeyMapping{appKeys.openSystemActions, Input::Keycode::MENU},
+	// KeyMapping{appKeys.saveState, {Input::Keycode::LCTRL, Input::Keycode::_1}},
+	KeyMapping{appKeys.loadState, {Input::Keycode::LCTRL, Input::Keycode::UP}},
+	KeyMapping{appKeys.decStateSlot, {Input::Keycode::LCTRL, Input::Keycode::LEFT}},
+	KeyMapping{appKeys.incStateSlot, {Input::Keycode::LCTRL, Input::Keycode::RIGHT}},
 	KeyMapping{appKeys.fastForward, {Input::Keycode::LCTRL, Input::Keycode::GRAVE}},
-	KeyMapping{appKeys.rewind, {Input::Keycode::LCTRL, Input::Keycode::R}},
-	KeyMapping{appKeys.openMenu, Input::Keycode::BACK_KEY},
+	// KeyMapping{appKeys.rewind, {Input::Keycode::LCTRL, Input::Keycode::R}},
+	KeyMapping{appKeys.openMenu, {Input::Keycode::LCTRL, Input::Keycode::DOWN}},
 };
 
 inline constexpr std::array rightUIKeys{appKeys.openMenu};

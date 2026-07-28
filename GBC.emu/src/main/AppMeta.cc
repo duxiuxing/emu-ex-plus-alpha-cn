@@ -109,8 +109,8 @@ std::span<const KeyConfigDesc> AppMeta::defaultKeyConfigs()
 		KeyMapping{GbcKey::Left, Keycode::LEFT},
 		KeyMapping{GbcKey::Select, Keycode::SPACE},
 		KeyMapping{GbcKey::Start, Keycode::ENTER},
-		KeyMapping{GbcKey::A, Keycode::X},
-		KeyMapping{GbcKey::B, Keycode::Z},
+		KeyMapping{GbcKey::A, Keycode::X}, KeyMapping{KeyInfo::turboKey(GbcKey::A), Keycode::S},
+		KeyMapping{GbcKey::B, Keycode::Z}, KeyMapping{KeyInfo::turboKey(GbcKey::B), Keycode::A},
 	};
 
 	static constexpr std::array genericGamepadMap
