@@ -953,7 +953,7 @@ bool EmuApp::loadState(CStringView path)
 	{
 		if(system().hasContent() && !hasWriteAccessToDir(system().contentSaveDirectory()))
 			postErrorMessage(8,
-				UI_TEXT("无法访问存档文件夹，请在“选项➔文件路径➔存档文件夹”中重新设置")
+				UI_TEXT("无法访问存档文件夹，请在“选项 > 文件路径 > 存档文件夹”中重新设置")
 			);
 		else
 			postErrorMessage(4,	std::format(

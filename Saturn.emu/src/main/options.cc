@@ -259,7 +259,7 @@ std::string MDFN_MakeFName(MakeFName_Type type, int id1, const char *cd1)
 			{
 				if(sys.kof95ROMPath.empty())
 					throw MDFN_Error(0,
-						_(UI_TEXT("请在“选项➔文件路径”中设置拳皇 95 的 ROM"))
+						_(UI_TEXT("请在“选项 > 文件路径”中设置拳皇 95 的 ROM"))
 					);
 				return std::string{sys.kof95ROMPath};
 			}
@@ -267,7 +267,7 @@ std::string MDFN_MakeFName(MakeFName_Type type, int id1, const char *cd1)
 			{
 				if(sys.ultramanROMPath.empty())
 					throw MDFN_Error(0,
-						_(UI_TEXT("请在“选项➔文件路径”中设置奥特曼的 ROM"))
+						_(UI_TEXT("请在“选项 > 文件路径”中设置奥特曼的 ROM"))
 					);
 				return std::string{sys.ultramanROMPath};
 			}
@@ -275,7 +275,7 @@ std::string MDFN_MakeFName(MakeFName_Type type, int id1, const char *cd1)
 			{
 				if(sys.naBiosPath.empty())
 					throw MDFN_Error(0,
-						_(UI_TEXT("请在“选项➔文件路径”中设置 NA/EU BIOS"))
+						_(UI_TEXT("请在“选项 > 文件路径”中设置 NA/EU BIOS"))
 					);
 				return std::string{sys.naBiosPath};
 			}
@@ -283,7 +283,7 @@ std::string MDFN_MakeFName(MakeFName_Type type, int id1, const char *cd1)
 			{
 				if(sys.jpBiosPath.empty())
 					throw MDFN_Error(0,
-						_(UI_TEXT("请在“选项➔文件路径”中设置 JP BIOS"))
+						_(UI_TEXT("请在“选项 > 文件路径”中设置 JP BIOS"))
 					);
 				return std::string{sys.jpBiosPath};
 			}
