@@ -34,18 +34,18 @@ Latest builds from continuous integration:
 | EX emulators            | [![Build Status][Build]][Actions] | [![Emulator][Download]][EX emulators]      |
 | 2600 emu                | [![Build Status][Build]][Actions] | [![Emulator][Download]][2600 emu]          |
 | C64 emu                 | [![Build Status][Build]][Actions] | [![Emulator][Download]][C64 emu]           |
-| GBA emu                 | [![Build Status][Build]][Actions] | [![Emulator][Download]][GBA emu]           |
+| GBA emu 中文版          | [![Build Status][Build]][Actions] | [![Emulator][Download]][GBA emu]           |
 | GBC emu                 | [![Build Status][Build]][Actions] | [![Emulator][Download]][GBC emu]           |
 | Lynx emu                | [![Build Status][Build]][Actions] | [![Emulator][Download]][Lynx emu]          |
-| MD emu                  | [![Build Status][Build]][Actions] | [![Emulator][Download]][MD emu]            |
+| MD emu 中文版           | [![Build Status][Build]][Actions] | [![Emulator][Download]][MD emu]            |
 | MSX emu                 | [![Build Status][Build]][Actions] | [![Emulator][Download]][MSX emu]           |
-| NEO emu                 | [![Build Status][Build]][Actions] | [![Emulator][Download]][NEO emu]           |
-| NES emu                 | [![Build Status][Build]][Actions] | [![Emulator][Download]][NES emu]           |
-| NGP emu                 | [![Build Status][Build]][Actions] | [![Emulator][Download]][NGP emu]           |
+| NEO emu 中文版          | [![Build Status][Build]][Actions] | [![Emulator][Download]][NEO emu]           |
+| NES emu 中文版          | [![Build Status][Build]][Actions] | [![Emulator][Download]][NES emu]           |
+| NGP emu 中文版          | [![Build Status][Build]][Actions] | [![Emulator][Download]][NGP emu]           |
 | PCE emu                 | [![Build Status][Build]][Actions] | [![Emulator][Download]][PCE emu]           |
 | Saturn emu              | [![Build Status][Build]][Actions] | [![Emulator][Download]][Saturn emu]        |
 | Snes9x EX 1.43          | [![Build Status][Build]][Actions] | [![Emulator][Download]][Snes9x EX 1.43  ]  |
-| Snes9x EX Plus          | [![Build Status][Build]][Actions] | [![Emulator][Download]][Snes9x EX Plus]    |
+| Snes9x EX Plus 中文版   | [![Build Status][Build]][Actions] | [![Emulator][Download]][Snes9x EX Plus]    |
 | Swan emu                | [![Build Status][Build]][Actions] | [![Emulator][Download]][Swan emu]          |
 
 [Actions]: https://github.com/duxiuxing/emu-ex-plus-alpha-cn/actions/workflows/build.yml
