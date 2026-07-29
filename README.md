@@ -48,22 +48,22 @@ Latest builds from continuous integration:
 | Snes9x EX Plus          | [![Build Status][Build]][Actions] | [![Emulator][Download]][Snes9x EX Plus]    |
 | Swan emu                | [![Build Status][Build]][Actions] | [![Emulator][Download]][Swan emu]          |
 
-[Actions]: https://github.com/Rakashazi/emu-ex-plus-alpha/actions/workflows/build.yml
-[Build]: https://github.com/Rakashazi/emu-ex-plus-alpha/actions/workflows/build.yml/badge.svg
+[Actions]: https://github.com/duxiuxing/emu-ex-plus-alpha-cn/actions/workflows/build.yml
+[Build]: https://github.com/duxiuxing/emu-ex-plus-alpha-cn/actions/workflows/build.yml/badge.svg
 [Download]: https://img.shields.io/badge/Download-blue
-[EX emulators]: https://github.com/Rakashazi/emu-ex-plus-alpha/releases/download/Pre-release/EX-Emulators.zip
-[2600 emu]: https://github.com/Rakashazi/emu-ex-plus-alpha/releases/download/Pre-release/2600Emu.zip
-[C64 emu]: https://github.com/Rakashazi/emu-ex-plus-alpha/releases/download/Pre-release/C64Emu.zip
-[GBA emu]: https://github.com/Rakashazi/emu-ex-plus-alpha/releases/download/Pre-release/GbaEmu.zip
-[GBC emu]: https://github.com/Rakashazi/emu-ex-plus-alpha/releases/download/Pre-release/GbcEmu.zip
-[Lynx emu]: https://github.com/Rakashazi/emu-ex-plus-alpha/releases/download/Pre-release/LynxEmu.zip
-[MD emu]: https://github.com/Rakashazi/emu-ex-plus-alpha/releases/download/Pre-release/MdEmu.zip
-[MSX emu]: https://github.com/Rakashazi/emu-ex-plus-alpha/releases/download/Pre-release/MsxEmu.zip
-[NEO emu]: https://github.com/Rakashazi/emu-ex-plus-alpha/releases/download/Pre-release/NeoEmu.zip
-[NES emu]: https://github.com/Rakashazi/emu-ex-plus-alpha/releases/download/Pre-release/NesEmu.zip
-[NGP emu]: https://github.com/Rakashazi/emu-ex-plus-alpha/releases/download/Pre-release/NgpEmu.zip
-[PCE emu]: https://github.com/Rakashazi/emu-ex-plus-alpha/releases/download/Pre-release/PceEmu.zip
-[Saturn emu]: https://github.com/Rakashazi/emu-ex-plus-alpha/releases/download/Pre-release/SaturnEmu.zip
-[Snes9x EX 1.43]: https://github.com/Rakashazi/emu-ex-plus-alpha/releases/download/Pre-release/Snes9xEX.zip
-[Snes9x EX Plus]: https://github.com/Rakashazi/emu-ex-plus-alpha/releases/download/Pre-release/Snes9xEXPlus.zip
-[Swan emu]: https://github.com/Rakashazi/emu-ex-plus-alpha/releases/download/Pre-release/SwanEmu.zip
+[EX emulators]: https://github.com/duxiuxing/emu-ex-plus-alpha-cn/releases/download/Pre-release/EX-Emulators-v1.5.85.cn.zip
+[2600 emu]: https://github.com/duxiuxing/emu-ex-plus-alpha-cn/releases/download/Pre-release/2600Emu-v1.5.85.cn.zip
+[C64 emu]: https://github.com/duxiuxing/emu-ex-plus-alpha-cn/releases/download/Pre-release/C64Emu-v1.5.85.cn.zip
+[GBA emu]: https://github.com/duxiuxing/emu-ex-plus-alpha-cn/releases/download/Pre-release/GbaEmu-v1.5.85.cn.zip
+[GBC emu]: https://github.com/duxiuxing/emu-ex-plus-alpha-cn/releases/download/Pre-release/GbcEmu-v1.5.85.cn.zip
+[Lynx emu]: https://github.com/duxiuxing/emu-ex-plus-alpha-cn/releases/download/Pre-release/LynxEmu-v1.5.85.cn.zip
+[MD emu]: https://github.com/duxiuxing/emu-ex-plus-alpha-cn/releases/download/Pre-release/MdEmu-v1.5.85.cn.zip
+[MSX emu]: https://github.com/duxiuxing/emu-ex-plus-alpha-cn/releases/download/Pre-release/MsxEmu-v1.5.85.cn.zip
+[NEO emu]: https://github.com/duxiuxing/emu-ex-plus-alpha-cn/releases/download/Pre-release/NeoEmu-v1.5.85.cn.zip
+[NES emu]: https://github.com/duxiuxing/emu-ex-plus-alpha-cn/releases/download/Pre-release/NesEmu-v1.5.85.cn.zip
+[NGP emu]: https://github.com/duxiuxing/emu-ex-plus-alpha-cn/releases/download/Pre-release/NgpEmu-v1.5.85.cn.zip
+[PCE emu]: https://github.com/duxiuxing/emu-ex-plus-alpha-cn/releases/download/Pre-release/PceEmu-v1.5.85.cn.zip
+[Saturn emu]: https://github.com/duxiuxing/emu-ex-plus-alpha-cn/releases/download/Pre-release/SaturnEmu-v1.5.85.cn.zip
+[Snes9x EX 1.43]: https://github.com/duxiuxing/emu-ex-plus-alpha-cn/releases/download/Pre-release/Snes9xEX-v1.5.85.cn.zip
+[Snes9x EX Plus]: https://github.com/duxiuxing/emu-ex-plus-alpha-cn/releases/download/Pre-release/Snes9xEXPlus-v1.5.85.cn.zip
+[Swan emu]: https://github.com/duxiuxing/emu-ex-plus-alpha-cn/releases/download/Pre-release/SwanEmu-v1.5.85.cn.zip

@@ -219,13 +219,14 @@ jobs:
       run: |
         mkdir ../dist
         COMMIT_PREFIX=$(echo ${{ github.sha }} | cut -c1-8)
+        VERSION_SUFFIX=v1.5.85.cn
         for artifact in *.apk
         do
           file_name="${artifact%.apk}"
-          echo "-> Creating ${file_name//-${COMMIT_PREFIX}/}.zip"
-          zip "../dist/${file_name//-${COMMIT_PREFIX}/}.zip" "${file_name}.apk"
+          echo "-> Creating ${file_name//-${COMMIT_PREFIX}/}-${VERSION_SUFFIX}.zip"
+          zip "../dist/${file_name//-${COMMIT_PREFIX}/}-${VERSION_SUFFIX}.zip" "${file_name}.apk"
         done
-        zip -r "../dist/EX-Emulators.zip" *.apk
+        zip -r "../dist/EX-Emulators-${VERSION_SUFFIX}.zip" *.apk
     - name: Update Git Tag
       run: |
         git tag -f Pre-release
