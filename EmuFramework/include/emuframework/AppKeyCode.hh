@@ -108,7 +108,7 @@ inline constexpr std::array genericKeyboardAppKeyCodeMap
 	KeyMapping{appKeys.incStateSlot, {Input::Keycode::LCTRL, Input::Keycode::RIGHT}},
 	KeyMapping{appKeys.fastForward, {Input::Keycode::LCTRL, Input::Keycode::GRAVE}},
 	// KeyMapping{appKeys.rewind, {Input::Keycode::LCTRL, Input::Keycode::R}},
-	KeyMapping{appKeys.openMenu, {Input::Keycode::LCTRL, Input::Keycode::DOWN}},
+	KeyMapping{appKeys.openMenu, Input::Keycode::LCTRL, Input::Keycode::TAB},
 };
 
 inline constexpr std::array rightUIKeys{appKeys.openMenu};

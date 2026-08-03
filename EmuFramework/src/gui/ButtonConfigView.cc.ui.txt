@@ -24,7 +24,7 @@ Chinese="取消"
 
 Ln=282
 English="You pushed a key from device:\n{}\nPush another from it to open its config menu"
-Chinese="你在设备：\n{}\n按下了一个按键，再按一下可以打开该设备的设置菜单"
+Chinese="你在控制器：\n{}\n按下了一个按键，再按一下可以打开该控制器的设置菜单"
 
 Ln=345
 English="Push up to 3 keys, release any to set:\n{}"

@@ -279,7 +279,7 @@ bool ButtonConfigSetView::inputEvent(const Input::Event& e, ViewInputEventParams
 					{
 						savedDev = d;
 						app().postMessage(7, false,	std::format(
-							UI_TEXT("你在设备：\n{}\n按下了一个按键，再按一下可以打开该设备的设置菜单"),
+							UI_TEXT("你在控制器：\n{}\n按下了一个按键，再按一下可以打开该控制器的设置菜单"),
 							inputDevData(*d).displayName));
 						postDraw();
 					}

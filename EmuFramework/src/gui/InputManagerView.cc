@@ -27,16 +27,16 @@ namespace EmuEx
 
 constexpr SystemLogger log{"InputManagerView"};
 constexpr auto confirmDeleteDeviceSettingsStr =
-	UI_TEXT("是否要删除当前的设备设置？使用中的按键配置会被保留");
+	UI_TEXT("是否要删除当前的控制器设置？使用中的按键配置会被保留");
 constexpr auto confirmDeleteProfileStr =
-	UI_TEXT("是否要删除当前的按键配置？使用它的设备将恢复默认的按键配置");
+	UI_TEXT("是否要删除当前的按键配置？使用它的控制器将恢复默认的按键配置");
 
 IdentInputDeviceView::IdentInputDeviceView(ViewAttachParams attach):
 	View(attach),
 	text
 	{
 		attach.rendererTask,
-		UI_TEXT("在输入设备上按任意键即可进入其设置菜单"),
+		UI_TEXT("在控制器上按任意键即可进入其设置菜单"),
 		&defaultFace()
 	},
 	quads{attach.rendererTask, {.size = 1}} {}
@@ -96,7 +96,7 @@ InputManagerView::InputManagerView(ViewAttachParams attach,
 	inputManager{inputManager_},
 	deleteDeviceConfig
 	{
-		UI_TEXT("删除设备设置"),
+		UI_TEXT("删除控制器设置"),
 		attach,
 		[this](TextMenuItem &item, View &, const Input::Event &e)
 		{
@@ -104,7 +104,7 @@ InputManagerView::InputManagerView(ViewAttachParams attach,
 			if(!savedDevConfigs.size())
 			{
 				app().postMessage(
-					UI_TEXT("未保存设备设置")
+					UI_TEXT("未保存控制器设置")
 				);
 				return;
 			}
@@ -184,7 +184,7 @@ InputManagerView::InputManagerView(ViewAttachParams attach,
 	},
 	identDevice
 	{
-		UI_TEXT("自动检测设备并设置"),
+		UI_TEXT("自动检测控制器并设置"),
 		attach,
 		[this](const Input::Event &e)
 		{
@@ -212,7 +212,7 @@ InputManagerView::InputManagerView(ViewAttachParams attach,
 	},
 	deviceListHeading
 	{
-		UI_TEXT("设备设置列表："),
+		UI_TEXT("控制器列表："),
 		attach,
 	}
 {
@@ -474,14 +474,14 @@ InputManagerDeviceView::InputManagerDeviceView(UTF16String name, ViewAttachParam
 	},
 	renameProfile
 	{
-		UI_TEXT("重命名配置"),
+		UI_TEXT("重命名当前按键配置"),
 		attach,
 		[this](const Input::Event &e)
 		{
 			if(!devConf.mutableKeyConf(inputManager))
 			{
 				app().postMessage(2,
-					UI_TEXT("无法重命名 App 自带的配置")
+					UI_TEXT("无法重命名 App 自带的按键配置")
 				);
 				return;
 			}
@@ -493,7 +493,7 @@ InputManagerDeviceView::InputManagerDeviceView(UTF16String name, ViewAttachParam
 					if(customKeyConfigsContainName(inputManager.customKeyConfigs, str))
 					{
 						app().postErrorMessage(
-							UI_TEXT("与已有的配置命名冲突")
+							UI_TEXT("与已有的按键配置命名冲突")
 						);
 						postDraw();
 						return false;
@@ -507,7 +507,7 @@ InputManagerDeviceView::InputManagerDeviceView(UTF16String name, ViewAttachParam
 	},
 	newProfile
 	{
-		UI_TEXT("新建配置"),
+		UI_TEXT("新建按键配置"),
 		attach,
 		[this](const Input::Event &e)
 		{
@@ -525,7 +525,7 @@ InputManagerDeviceView::InputManagerDeviceView(UTF16String name, ViewAttachParam
 								if(customKeyConfigsContainName(inputManager.customKeyConfigs, str))
 								{
 									app().postErrorMessage(
-										UI_TEXT("与已有的配置命名冲突")
+										UI_TEXT("与已有的按键配置命名冲突")
 									);
 									return false;
 								}
@@ -541,14 +541,14 @@ InputManagerDeviceView::InputManagerDeviceView(UTF16String name, ViewAttachParam
 	},
 	deleteProfile
 	{
-		UI_TEXT("删除配置"),
+		UI_TEXT("删除当前按键配置"),
 		attach,
 		[this](const Input::Event &e)
 		{
 			if(!devConf.mutableKeyConf(inputManager))
 			{
 				app().postMessage(2,
-					UI_TEXT("无法删除 App 自带的配置")
+					UI_TEXT("无法删除 App 自带的按键配置")
 				);
 				return;
 			}
@@ -679,7 +679,7 @@ InputManagerDeviceView::InputManagerDeviceView(UTF16String name, ViewAttachParam
 	devConf{inputDevData(dev).devConf}
 {
 	loadProfile.setName(std::format(
-		UI_TEXT("按键配置：{}"),
+		UI_TEXT("当前按键配置：{}"),
 		devConf.keyConf(inputManager).name));
 	renameProfile.setActive(devConf.mutableKeyConf(inputManager));
 	deleteProfile.setActive(devConf.mutableKeyConf(inputManager));
@@ -751,7 +751,7 @@ void InputManagerDeviceView::onShow()
 {
 	TableView::onShow();
 	loadProfile.compile(std::format(
-		UI_TEXT("按键配置：{}"),
+		UI_TEXT("当前按键配置：{}"),
 		devConf.keyConf(inputManager).name));
 	bool keyConfIsMutable = devConf.mutableKeyConf(inputManager);
 	renameProfile.setActive(keyConfIsMutable);

@@ -36,7 +36,7 @@ InputOverridesView::InputOverridesView(ViewAttachParams attach,
 	inputManager{inputManager_},
 	deleteDeviceConfig
 	{
-		UI_TEXT("删除设备设置"),
+		UI_TEXT("删除控制器设置"),
 		attach,
 		[this](TextMenuItem &item, View &, const Input::Event &e)
 		{
@@ -44,7 +44,7 @@ InputOverridesView::InputOverridesView(ViewAttachParams attach,
 			if(!savedSessionDevConfigs.size())
 			{
 				app().postMessage(
-					UI_TEXT("未保存设备设置")
+					UI_TEXT("未保存控制器设置")
 				);
 				return;
 			}
@@ -71,7 +71,7 @@ InputOverridesView::InputOverridesView(ViewAttachParams attach,
 	},
 	deviceListHeading
 	{
-		UI_TEXT("设备设置列表："),
+		UI_TEXT("控制器列表："),
 		attach
 	}
 {

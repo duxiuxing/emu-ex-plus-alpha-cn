@@ -1,14 +1,14 @@
 Ln=30
 English="Delete device settings from the configuration file? Any key profiles in use are kept"
-Chinese="是否要删除当前的设备设置？使用中的按键配置会被保留"
+Chinese="是否要删除当前的控制器设置？使用中的按键配置会被保留"
 
 Ln=32
 English="Delete profile from the configuration file? Devices using it will revert to their default profile"
-Chinese="是否要删除当前的按键配置？使用它的设备将恢复默认的按键配置"
+Chinese="是否要删除当前的按键配置？使用它的控制器将恢复默认的按键配置"
 
 Ln=39
 English="Push a key on any input device enter its configuration menu"
-Chinese="在输入设备上按任意键即可进入其设置菜单"
+Chinese="在控制器上按任意键即可进入其设置菜单"
 
 Ln=93
 English="Key/Gamepad Input Setup"
@@ -16,11 +16,11 @@ Chinese="实体控制器设置"
 
 Ln=99
 English="Delete Saved Device Settings"
-Chinese="删除设备设置"
+Chinese="删除控制器设置"
 
 Ln=107
 English="No saved device settings"
-Chinese="未保存设备设置"
+Chinese="未保存控制器设置"
 
 Ln=133
 English="Delete Saved Key Profile"
@@ -40,7 +40,7 @@ Chinese="检测到 {} 个系统设备"
 
 Ln=187
 English="Auto-detect Device To Setup"
-Chinese="自动检测设备并设置"
+Chinese="自动检测控制器并设置"
 
 Ln=206
 English="General Options"
@@ -48,7 +48,7 @@ Chinese="常规选项"
 
 Ln=215
 English="Individual Device Settings"
-Chinese="设备设置列表："
+Chinese="控制器列表："
 
 Ln=288
 English="General Input Options"
@@ -100,11 +100,11 @@ Chinese="玩家索引"
 
 Ln=477
 English="Rename Profile"
-Chinese="重命名配置"
+Chinese="重命名当前按键配置"
 
 Ln=484
 English="Can't rename a built-in profile"
-Chinese="无法重命名 App 自带的配置"
+Chinese="无法重命名 App 自带的按键配置"
 
 Ln=489
 English="Input name"
@@ -112,11 +112,11 @@ Chinese="请输入按键配置的名称"
 
 Ln=496
 English="Another profile is already using this name"
-Chinese="与已有的配置命名冲突"
+Chinese="与已有的按键配置命名冲突"
 
 Ln=510
 English="New Profile"
-Chinese="新建配置"
+Chinese="新建按键配置"
 
 Ln=515
 English="Create a new profile? All keys from the current profile will be copied over."
@@ -128,15 +128,15 @@ Chinese="请输入按键配置的名称"
 
 Ln=528
 English="Another profile is already using this name"
-Chinese="与已有的配置命名冲突"
+Chinese="与已有的按键配置命名冲突"
 
 Ln=544
 English="Delete Profile"
-Chinese="删除配置"
+Chinese="删除当前按键配置"
 
 Ln=551
 English="Can't delete a built-in profile"
-Chinese="无法删除 App 自带的配置"
+Chinese="无法删除 App 自带的按键配置"
 
 Ln=574
 English="iCade Mode"
@@ -192,8 +192,8 @@ Chinese="摇杆设置："
 
 Ln=682
 English="Profile: {}"
-Chinese="按键配置：{}"
+Chinese="当前按键配置：{}"
 
 Ln=754
 English="Profile: {}"
-Chinese="按键配置：{}"
+Chinese="当前按键配置：{}"

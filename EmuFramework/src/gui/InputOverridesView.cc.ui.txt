@@ -4,15 +4,15 @@ Chinese="输入设置 (这个游戏)"
 
 Ln=39
 English="Delete Saved Device Settings"
-Chinese="删除设备设置"
+Chinese="删除控制器设置"
 
 Ln=47
 English="No saved device settings"
-Chinese="未保存设备设置"
+Chinese="未保存控制器设置"
 
 Ln=74
 English="Individual Device Settings"
-Chinese="设备设置列表："
+Chinese="控制器列表："
 
 Ln=131
 English="Multiple"
