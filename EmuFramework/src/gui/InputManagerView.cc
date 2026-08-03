@@ -36,7 +36,7 @@ IdentInputDeviceView::IdentInputDeviceView(ViewAttachParams attach):
 	text
 	{
 		attach.rendererTask,
-		UI_TEXT("在控制器上按任意键即可进入其设置菜单"),
+		UI_TEXT("在控制器上按任意键即可进入其设置界面"),
 		&defaultFace()
 	},
 	quads{attach.rendererTask, {.size = 1}} {}

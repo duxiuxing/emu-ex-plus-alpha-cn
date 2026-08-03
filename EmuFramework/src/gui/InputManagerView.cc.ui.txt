@@ -8,7 +8,7 @@ Chinese="是否要删除当前的按键配置？使用它的控制器将恢复�
 
 Ln=39
 English="Push a key on any input device enter its configuration menu"
-Chinese="在控制器上按任意键即可进入其设置菜单"
+Chinese="在控制器上按任意键即可进入其设置界面"
 
 Ln=93
 English="Key/Gamepad Input Setup"
