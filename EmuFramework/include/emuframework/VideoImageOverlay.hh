@@ -62,7 +62,7 @@ private:
 	Quads quad;
 	Gfx::Texture texture;
 	float intensity = 0.75f;
-	ImageOverlayId overlayId{};
+	ImageOverlayId overlayId{ ImageOverlayId::LCD };
 	bool multiplyBlend{};
 };
 
