@@ -429,7 +429,7 @@ void EmuVideoLayer::writeConfig(FileIO &io) const
 		writeOptionValue(io, CFGKEY_VIDEO_BRIGHTNESS, brightnessUnscaled);
 	writeOptionValueIfNotDefault(io, CFGKEY_GAME_IMG_FILTER, useLinearFilter, true);
 	writeOptionValueIfNotDefault(io, CFGKEY_IMAGE_EFFECT, userEffectId, ImageEffectId{});
-	writeOptionValueIfNotDefault(io, CFGKEY_OVERLAY_EFFECT, userOverlayEffectId, ImageOverlayId{});
+	writeOptionValueIfNotDefault(io, CFGKEY_OVERLAY_EFFECT, userOverlayEffectId, ImageOverlayId::LCD);
 	writeOptionValueIfNotDefault(io, CFGKEY_OVERLAY_EFFECT_LEVEL, int8_t(overlayIntensity() * 100.f), 75);
 }
 
