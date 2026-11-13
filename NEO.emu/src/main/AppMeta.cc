@@ -59,9 +59,10 @@ constexpr auto faceKeyInfo = makeArray<KeyInfo>
 
 constexpr auto turboFaceKeyInfo = turbo(faceKeyInfo);
 
-constexpr std::array comboKeyInfo{KeyInfo{std::array{NeoKey::A, NeoKey::B, NeoKey::C}}};
+constexpr std::array comboKeyInfo1{KeyInfo{std::array{NeoKey::A, NeoKey::B}}};
+constexpr std::array comboKeyInfo2{KeyInfo{std::array{NeoKey::C, NeoKey::D}}};
 
-constexpr auto gpKeyInfo = concatToArrayNow<dpadKeyInfo, centerKeyInfo, faceKeyInfo, turboFaceKeyInfo, comboKeyInfo>;
+constexpr auto gpKeyInfo = concatToArrayNow<dpadKeyInfo, centerKeyInfo, faceKeyInfo, turboFaceKeyInfo, comboKeyInfo1, comboKeyInfo2>;
 constexpr auto gp2KeyInfo = transpose(gpKeyInfo, 1);
 
 std::span<const KeyCategory> AppMeta::keyCategories()
