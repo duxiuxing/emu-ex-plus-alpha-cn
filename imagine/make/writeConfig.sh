@@ -34,5 +34,11 @@ if [ -f $1 ]; then
 	fi
 fi
 
+if [ -d "/home/runner/work/emu-ex-plus-alpha-cn/emu-ex-plus-alpha-cn/imagine/build/android-arm64/gen" ]; then
+    echo "android-arm64/gen exist"
+else
+    echo "android-arm64/gen not exist"
+fi
+
 echo "Generating Config $1"
 printf "$NEW" > $1
