@@ -60,7 +60,6 @@ function(generateConfigHeader target)
 	message("Config Header: ${configFilePath}")
 	file(MAKE_DIRECTORY ${genDir})
 	execute_process(
-		COMMAND mkdir -p ${genDir}
 		COMMAND bash ${IMAGINE_PATH}/make/writeConfig.sh "${configFilePath}" "${configEnable}" "${configDisable}" "${configInc}" "${configDefs}"
 		COMMAND_ERROR_IS_FATAL ANY
 	)	

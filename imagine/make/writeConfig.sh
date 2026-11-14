@@ -27,17 +27,11 @@ fi
 if [ -f $1 ]; then
 	OLD=`cat $1`"
 "
-	echo -n "NEW = $NEW"
-	echo -n "OLD = $OLD"
+	#echo -n "$NEW"
+	#echo -n "$OLD"
 	if [[ "$NEW" == "$OLD" ]]; then
 		exit 0
 	fi
-fi
-
-if [ -d "/home/runner/work/emu-ex-plus-alpha-cn/emu-ex-plus-alpha-cn/imagine/build/android-arm64/gen" ]; then
-    echo "android-arm64/gen exist"
-else
-    echo "android-arm64/gen not exist"
 fi
 
 echo "Generating Config $1"
