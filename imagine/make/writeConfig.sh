@@ -27,8 +27,8 @@ fi
 if [ -f $1 ]; then
 	OLD=`cat $1`"
 "
-	#echo -n "$NEW"
-	#echo -n "$OLD"
+	echo -n "NEW = $NEW"
+	echo -n "OLD = $OLD"
 	if [[ "$NEW" == "$OLD" ]]; then
 		exit 0
 	fi
