@@ -23,9 +23,7 @@ const std::string_view AppMeta::configFilename{"Snes9xP.config"};
 constexpr BundledGameInfo gameInfo
 {
 	UI_TEXT("Bio Worm"),
-	Config::envIsLinux
-		? UI_TEXT("BioWorm.7z")
-		: UI_TEXT("Bio Worm.7z")
+	Config::envIsLinux ? "BioWorm.7z" : "Bio Worm.7z"
 };
 const std::span<const BundledGameInfo> AppMeta::bundledGameInfo{&gameInfo, 1};
 #endif
