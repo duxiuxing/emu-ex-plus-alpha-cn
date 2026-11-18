@@ -32,11 +32,10 @@ BundledGamesView::BundledGamesView(ViewAttachParams attach):
 		game
 	}
 {
-	for(size_t i = 0; i < AppMeta::bundledGameInfo.size(); ++i)
+	for(const auto &info : AppMeta::bundledGameInfo)
 	{
-		auto &info = AppMeta::bundledGameInfo[i];
 		game.emplace_back(info.displayName, attach,
-			[this](const Input::Event &e)
+			[this, &info](const Input::Event &e)
 			{
 				auto file = appContext().openAsset(info.assetName, OpenFlags{ .test = true, .accessHint = IOAccessHint::All});
 				if(!file)
