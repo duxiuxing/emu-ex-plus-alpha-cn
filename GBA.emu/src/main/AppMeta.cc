@@ -36,14 +36,14 @@ const AspectRatioInfo AppMeta::aspectRatioInfo
 	{3, 2}
 };
 const NameFilterFunc AppMeta::defaultFsFilter = [](std::string_view name) { return endsWithAnyCaseless(name, ".gba", ".mb"); };
-/*
+
 constexpr BundledGameInfo gameInfo
 {
 	UI_TEXT("M - 摩托车越野赛挑战"),
 	Config::envIsLinux ? "MotocrossChallenge.7z" : "Motocross Challenge.7z"
 };
 const std::span<const BundledGameInfo> AppMeta::bundledGameInfo{&gameInfo, 1};
-*/
+
 constexpr auto dpadKeyInfo = makeArray<KeyInfo>
 (
 	GbaKey::Up,
