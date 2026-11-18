@@ -36,6 +36,7 @@ const AspectRatioInfo AppMeta::aspectRatioInfo
 	{3, 2}
 };
 const NameFilterFunc AppMeta::defaultFsFilter = [](std::string_view name) { return endsWithAnyCaseless(name, ".gba", ".mb"); };
+
 constexpr BundledGameInfo gameInfo
 {
 	UI_TEXT("Motocross Challenge"),
