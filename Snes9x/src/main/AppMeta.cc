@@ -32,7 +32,7 @@ constexpr BundledGameInfo gameInfo[] =
 		"Bio Worm.7z"
 	}
 };
-const std::span<const BundledGameInfo> AppMeta::bundledGameInfo{gameInfo, 1};
+const std::span<const BundledGameInfo> AppMeta::bundledGameInfo{gameInfo, 2};
 
 #endif
 const bool AppMeta::hasCheats{true};
