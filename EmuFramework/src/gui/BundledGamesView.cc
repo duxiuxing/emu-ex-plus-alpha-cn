@@ -32,7 +32,7 @@ BundledGamesView::BundledGamesView(ViewAttachParams attach):
 		game
 	}
 {
-	for(const auto &info : AppMeta::bundledGameInfo)
+	for(auto &info : AppMeta::bundledGameInfo)
 	{
 		game.emplace_back(info.displayName, attach,
 			[this](const Input::Event &e)
