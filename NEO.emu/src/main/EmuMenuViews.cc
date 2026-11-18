@@ -734,7 +734,7 @@ class CustomMainMenuView : public MainMenuView
 private:
 	TextMenuItem gameList
 	{
-		UI_TEXT("从列表打开游戏"),
+		UI_TEXT("游戏列表"),
 		attachParams(),
 		[this](TextMenuItem &, View &, Input::Event e)
 		{
