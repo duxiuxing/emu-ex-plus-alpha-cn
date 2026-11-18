@@ -21,12 +21,18 @@ const std::string_view AppMeta::configFilename{"Snes9x.config"};
 #else
 const std::string_view AppMeta::configFilename{"Snes9xP.config"};
 
-constexpr BundledGameInfo gameInfo
+constexpr BundledGameInfo gameInfo[] =
 {
-	UI_TEXT("S - 生化怪虫"),
-	Config::envIsLinux ? "BioWorm.7z" : "Bio Worm.7z"
+	{
+		UI_TEXT("H - 魂斗罗3 异形战争(美)"),
+		"Contra III - The Alien Wars (USA).7z"
+	},
+	{
+		UI_TEXT("S - 生化怪虫"),
+		"Bio Worm.7z"
+	}
 };
-const std::span<const BundledGameInfo> AppMeta::bundledGameInfo{&gameInfo, 1};
+const std::span<const BundledGameInfo> AppMeta::bundledGameInfo{gameInfo, 1};
 
 #endif
 const bool AppMeta::hasCheats{true};
