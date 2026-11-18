@@ -39,7 +39,7 @@ const NameFilterFunc AppMeta::defaultFsFilter = [](std::string_view name) { retu
 /*
 constexpr BundledGameInfo gameInfo
 {
-	UI_TEXT("摩托车越野赛挑战"),
+	UI_TEXT("M - 摩托车越野赛挑战"),
 	Config::envIsLinux ? "MotocrossChallenge.7z" : "Motocross Challenge.7z"
 };
 const std::span<const BundledGameInfo> AppMeta::bundledGameInfo{&gameInfo, 1};
