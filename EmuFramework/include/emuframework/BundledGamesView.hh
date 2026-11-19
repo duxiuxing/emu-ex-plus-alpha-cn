@@ -32,7 +32,7 @@ public:
 	BundledGamesView(ViewAttachParams attach);
 
 private:
-	TextMenuItem game[1];
+	std::vector<TextMenuItem> game{};
 };
 
 }
