@@ -30,15 +30,14 @@ BundledGamesView::BundledGamesView(ViewAttachParams attach):
 		UI_TEXT("自带游戏"),
 		attach,
 		game
-	},
-	game
+	}
+{
+	for(const auto &info : AppMeta::bundledGameInfo)
 	{
-		{
-			AppMeta::bundledGameInfo[0].displayName, attach,
-			[this](const Input::Event &e)
+		game.emplace_back(info.displayName, attach,
+			[this, &info](const Input::Event &e)
 			{
-				auto &info = AppMeta::bundledGameInfo[0];
-				auto file = appContext().openAsset(info.assetName, OpenFlags{.test = true, .accessHint = IOAccessHint::All});
+				auto file = appContext().openAsset(info.assetName, OpenFlags{ .test = true, .accessHint = IOAccessHint::All});
 				if(!file)
 				{
 					log.error("error opening bundled game asset:{}", info.assetName);
@@ -49,8 +48,8 @@ BundledGamesView::BundledGamesView(ViewAttachParams attach):
 					{
 						app().launchSystem(e);
 					});
-			}
-		}
-	} {}
+			});
+	}
+}
 
 }
