@@ -53,6 +53,27 @@ static bool hasMDWithCDExtension(std::string_view name)
 
 const NameFilterFunc AppMeta::defaultFsFilter{hasMDWithCDExtension};
 
+constexpr BundledGameInfo gameInfo[] =
+{
+	{
+		UI_TEXT("C - 超级街头霸王2(美)"),
+		"Super Street Fighter II (USA).7z"
+	},
+	{
+		UI_TEXT("H - 魂斗罗 铁血军团(美)"),
+		"Contra - Hard Corps (USA, Korea).7z"
+	},
+	{
+		UI_TEXT("J - 街头霸王2 特别冠军版(美)"),
+		"Street Fighter II' - Special Champion Edition (USA).7z"
+	},
+	{
+		UI_TEXT("S - 侍魂(美)"),
+		"Samurai Shodown (USA).7z"
+	}
+};
+const std::span<const BundledGameInfo> AppMeta::bundledGameInfo{gameInfo, 4};
+
 constexpr auto dpadKeyInfo = makeArray<KeyInfo>
 (
 	MdKey::Up,
