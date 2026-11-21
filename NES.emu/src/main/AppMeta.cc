@@ -36,6 +36,19 @@ const int AppMeta::maxPlayers{4};
 const bool AppMeta::needsGlobalInstance{true};
 const NameFilterFunc AppMeta::defaultFsFilter{hasNESExtension};
 
+constexpr BundledGameInfo gameInfo[] =
+{
+	{
+		UI_TEXT("H - 魂斗罗1(中)"),
+		"contrac.zip"
+	},
+	{
+		UI_TEXT("H - 魂斗罗力量(中)"),
+		"contraforcec.zip"
+	}
+};
+const std::span<const BundledGameInfo> AppMeta::bundledGameInfo{gameInfo, std::size(gameInfo)};
+
 constexpr auto dpadKeyInfo = makeArray<KeyInfo>
 (
 	NesKey::Up,
