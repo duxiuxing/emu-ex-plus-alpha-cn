@@ -75,12 +75,24 @@ constexpr BundledGameInfo gameInfo[] =
 		"hinothouhen.zip"
 	},
 	{
+		UI_TEXT("J - 机械战警1(美)"), // RoboCop (USA)
+		"robocop.zip"
+	},
+	{
+		UI_TEXT("J - 机械战警2(美)"), // RoboCop 2 (USA)
+		"robocop2.zip"
+	},
+	{
+		UI_TEXT("J - 机械战警3(美)"), // RoboCop 3 (USA)
+		"robocop3.zip"
+	},
+	{
 		UI_TEXT("K - 空中魂斗罗(美)"), // S.C.A.T. - Special Cybernetic Attack Team (USA)
 		"scat.zip"
 	},
 	{
-		UI_TEXT("K - 空中魂斗罗(日)"), // Final Mission (Japan)
-		"finalmissionj.zip"
+		UI_TEXT("K - 空中魂斗罗 最终任务(英)"), // Final Mission (T-Eng)
+		"finalmission.zip"
 	},
 	{
 		UI_TEXT("L - 绿色兵团(美)"), // Rush'n Attack (USA)
@@ -120,7 +132,19 @@ constexpr BundledGameInfo gameInfo[] =
 	},
 	{
 		UI_TEXT("R - 人间兵器(美)"), // Code Name - Viper (USA)
-		".zip"
+		"codenam.zip"
+	},
+	{
+		UI_TEXT("R - 忍者龙剑传1(美)"), // Ninja Gaiden (USA)
+		"ninjagaiden.zip"
+	},
+	{
+		UI_TEXT("R - 忍者龙剑传2 暗黑的邪神剑(美)"), // Ninja Gaiden II - The Dark Sword of Chaos (USA)
+		"ninjagaiii.zip"
+	},
+	{
+		UI_TEXT("R - 忍者龙剑传3 黄泉的方舟(美)"), // Ninja Gaiden III - The Ancient Ship of Doom (USA)
+		"ninjagaiiii.zip"
 	},
 	{
 		UI_TEXT("R - 忍者神龟1 激龟忍者传(中)"), // Teenage Mutant Ninja Turtles (T-Chi, v1.0)
@@ -141,6 +165,10 @@ constexpr BundledGameInfo gameInfo[] =
 	{
 		UI_TEXT("S - SD快打旋风(美)"), // Mighty Final Fight (USA)
 		"mightfinfig.zip"
+	},
+	{
+		UI_TEXT("S - 三眼神童(中)"), // Mitsume ga Tooru (T-Chi)
+		"mitsumegatooruc.zip"
 	},
 	{
 		UI_TEXT("S - 沙罗曼蛇(美)"), // Life Force (USA)
@@ -173,6 +201,10 @@ constexpr BundledGameInfo gameInfo[] =
 	{
 		UI_TEXT("T - 坦克大战(日)"), // BattleCity (Japan)
 		"battlecity.zip"
+	},
+	{
+		UI_TEXT("T - 踢王(美)"), // Kick Master (USA)
+		"kickmaster.zip"
 	},
 	{
 		UI_TEXT("T - 脱狱(美)"), // P.O.W. - Prisoners of War (USA)
