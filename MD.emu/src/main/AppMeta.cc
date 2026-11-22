@@ -56,23 +56,55 @@ const NameFilterFunc AppMeta::defaultFsFilter{hasMDWithCDExtension};
 constexpr BundledGameInfo gameInfo[] =
 {
 	{
-		UI_TEXT("C - 超级街头霸王2(美)"),
-		"Super Street Fighter II (USA).7z"
+		UI_TEXT("C - 超级街头霸王2 新挑战者(美)"), // Super Street Fighter II - The New Challengers (USA)
+		"ssf2u.zip"
 	},
 	{
-		UI_TEXT("H - 魂斗罗 铁血军团(美)"),
-		"Contra - Hard Corps (USA, Korea).7z"
+		UI_TEXT("超级忍1(日)"), // The Super Shinobi (Jpn)
+		"supshin.zip"
 	},
 	{
-		UI_TEXT("J - 街头霸王2 特别冠军版(美)"),
-		"Street Fighter II' - Special Champion Edition (USA).7z"
+		UI_TEXT("超级忍2(中)"), // The Super Shinobi II (T-Chi)
+		"supshin2c.zip"
 	},
 	{
-		UI_TEXT("S - 侍魂(美)"),
-		"Samurai Shodown (USA).7z"
-	}
+		UI_TEXT("H - 魂斗罗 铁血军团(美)"), // Contra - Hard Corps (USA, Kor)
+		"contra.zip"
+	},
+	{
+		UI_TEXT("H - 火枪英雄(中)"), // Gunstar Heroes (T-Chi)
+		"gunstarc.zip"
+	},
+	{
+		UI_TEXT("J - 街头霸王2 特别冠军版(美)"), // Street Fighter II' - Special Champion Edition (USA)
+		"sf2u.zip"
+	},
+	{
+		UI_TEXT("N - 怒之铁拳2 格斗四人组(美)"), // Streets of Rage 2 (USA)
+		"sor2u.zip"
+	},
+	{
+		UI_TEXT("L - 雷神传说 光之继承者(中)"), // The Story of Thor - Hikari o Tsugumono (T-Chi)
+		"thorc.zip"
+	},
+	{
+		UI_TEXT("N - 怒之铁拳3(美)"), // Streets of Rage 3 (USA)
+		"sor3u.zip"
+	},
+	{
+		UI_TEXT("S - 侍魂(美)"), // Samurai Shodown (USA)
+		"samshou.zip"
+	},
+	{
+		UI_TEXT("S - 索尼克2(英)"), // Sonic the Hedgehog 2 (World, Rev. A)
+		"sonic2.zip"
+	},
+	{
+		UI_TEXT("Y - 幽游白书 魔强统一战(日)"), // Yu Yu Hakusho - Makyou Toitsusen (Jpn)
+		"yuyumt.zip"
+	},
 };
-const std::span<const BundledGameInfo> AppMeta::bundledGameInfo{gameInfo, 4};
+const std::span<const BundledGameInfo> AppMeta::bundledGameInfo{gameInfo, std::size(gameInfo)};
 
 constexpr auto dpadKeyInfo = makeArray<KeyInfo>
 (
