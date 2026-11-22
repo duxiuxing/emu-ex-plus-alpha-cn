@@ -37,7 +37,19 @@ const bool AppMeta::needsGlobalInstance{true};
 const NameFilterFunc AppMeta::defaultFsFilter{hasNESExtension};
 
 constexpr BundledGameInfo gameInfo[] =
-{	
+{
+	{
+		UI_TEXT("B - 蝙蝠侠1(中)"), // Batman - The Video Game (T-Chi)
+		"batmavidgamc.zip"
+	},
+	{
+		UI_TEXT("B - 蝙蝠侠2 小丑归来(美)"), // Batman - Return of the Joker (USA)
+		"batmaretjok.zip"
+	},
+	{
+		UI_TEXT("B - 蝙蝠侠3 蝙蝠侠归来"), // Batman Returns (USA)
+		"batmanreturns.zip"
+	},
 	{
 		UI_TEXT("C - 超级马力欧兄弟2(美)"), // Super Mario Bros. 2 (USA) (Rev A)
 		"smb2.zip"
@@ -45,6 +57,10 @@ constexpr BundledGameInfo gameInfo[] =
 	{
 		UI_TEXT("C - 超级马力欧兄弟3(中)"), // Super Mario Bros. 3 (T-Chi)
 		"smb3c.zip"
+	},
+	{
+		UI_TEXT("C - 成龙之龙(美)"), // Jackie Chan (USA)
+		"jackiechan.zip"
 	},
 	{
 		UI_TEXT("C - 赤色要塞(中)"), // Jackal (T-Chi, v1.1)
@@ -55,8 +71,28 @@ constexpr BundledGameInfo gameInfo[] =
 		"kagec.zip"
 	},
 	{
+		UI_TEXT("C - 穿越火线(日)"), // Cross Fire (Japan)
+		"crossfire.zip"
+	},
+	{
 		UI_TEXT("E - 俄罗斯方块(美)"), // Tetris (USA)
 		"tetris.zip"
+	},
+	{
+		UI_TEXT("E - 恶魔城1(中)"), // Akumajou Dracula (T-Chi)
+		"akumajoudraculac.zip"
+	},
+	{
+		UI_TEXT("E - 恶魔城2 西蒙的冒险(美)"), // Castlevania II - Simon's Quest (USA)
+		"castlii.zip"
+	},
+	{
+		UI_TEXT("E - 恶魔城3 德古拉的诅咒(美)"), // Castlevania III - Dracula's Curse (USA)
+		"castliii.zip"
+	},
+	{
+		UI_TEXT("E - 恶魔王子 少年德古拉(英)"), // Kid Dracula (English)
+		"kiddracula.zip"
 	},
 	{
 		UI_TEXT("H - 魂斗罗1(中)"), // Contra (T-Chi)
@@ -95,6 +131,10 @@ constexpr BundledGameInfo gameInfo[] =
 		"finalmission.zip"
 	},
 	{
+		UI_TEXT("K - 魁！！男塾 疾风一号生(英)"), // Sakigake!! Otoko Juku - Shippuu Ichi Gou Sei (T-Eng)
+		"sakigake.zip"
+	},
+	{
 		UI_TEXT("L - 绿色兵团(美)"), // Rush'n Attack (USA)
 		"rushnattack.zip"
 	},
@@ -125,6 +165,30 @@ constexpr BundledGameInfo gameInfo[] =
 	{
 		UI_TEXT("M - 马戏团(日)"), // Circus Charlie (Japan)
 		"circuscharlie.zip"
+	},
+	{
+		UI_TEXT("M - 冒险岛1(美)"), // Adventure Island (USA)
+		"adventureisland.zip"
+	},
+	{
+		UI_TEXT("M - 冒险岛2(美)"), // Adventure Island II (USA)
+		"advenislii.zip"
+	},
+	{
+		UI_TEXT("M - 冒险岛3(美)"), // Adventure Island 3 (USA)
+		"advenisl3.zip"
+	},
+	{
+		UI_TEXT("M - 冒险岛4(英)"), // Adventure Island IV (T-Eng)
+		"advenisliv.zip"
+	},
+	{
+		UI_TEXT("M - 密特罗德初代(美)"), // Metroid (USA)
+		"metroid.zip"
+	},
+	{
+		UI_TEXT("M - 密特罗德 叛逆黎明(美)"), // Metroid - Rogue Dawn (USA)
+		"metrorogdaw.zip"
 	},
 	{
 		UI_TEXT("Q - Q版沙罗曼蛇(英)"), // Parodius Da! (T-Eng)
@@ -203,6 +267,22 @@ constexpr BundledGameInfo gameInfo[] =
 		"battlecity.zip"
 	},
 	{
+		UI_TEXT("T - 淘金者1(美)"), // Lode Runner (USA)
+		"loderunner.zip"
+	},
+	{
+		UI_TEXT("T - 淘金者2(日)"), // Championship Lode Runner (Japan)
+		"champlodrun.zip"
+	},
+	{
+		UI_TEXT("T - 特种部队1(美)"), // G.I. Joe - A Real American Hero (USA)
+		"gijoeareamhe.zip"
+	},
+	{
+		UI_TEXT("T - 特种部队2(美)"), // G.I. Joe - The Atlantis Factor (USA)
+		"gijoeatlfa.zip"
+	},
+	{
 		UI_TEXT("T - 踢王(美)"), // Kick Master (USA)
 		"kickmaster.zip"
 	},
@@ -213,7 +293,7 @@ constexpr BundledGameInfo gameInfo[] =
 	{
 		UI_TEXT("X - 星际魂斗罗(美)"), // Journey to Silius (USA)
 		"journsil.zip"
-	},
+	},	
 	{
 		UI_TEXT("Y - 宇宙巡航机1(美)"), // Gradius (USA)
 		"gradius.zip"
