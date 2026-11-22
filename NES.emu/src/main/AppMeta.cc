@@ -37,14 +37,158 @@ const bool AppMeta::needsGlobalInstance{true};
 const NameFilterFunc AppMeta::defaultFsFilter{hasNESExtension};
 
 constexpr BundledGameInfo gameInfo[] =
-{
+{	
 	{
-		UI_TEXT("H - 魂斗罗1(中)"),
+		UI_TEXT("C - 超级马力欧兄弟2(美)"), // Super Mario Bros. 2 (USA) (Rev A)
+		"smb2.zip"
+	},
+	{
+		UI_TEXT("C - 超级马力欧兄弟3(中)"), // Super Mario Bros. 3 (T-Chi)
+		"smb3c.zip"
+	},
+	{
+		UI_TEXT("C - 赤色要塞(中)"), // Jackal (T-Chi, v1.1)
+		"jackalc.zip"
+	},
+	{
+		UI_TEXT("C - 赤影战士(中)"), // Kage (T-Chi, v2.0)
+		"kagec.zip"
+	},
+	{
+		UI_TEXT("E - 俄罗斯方块(美)"), // Tetris (USA)
+		"tetris.zip"
+	},
+	{
+		UI_TEXT("H - 魂斗罗1(中)"), // Contra (T-Chi)
 		"contrac.zip"
 	},
 	{
-		UI_TEXT("H - 魂斗罗力量(中)"),
+		UI_TEXT("H - 魂斗罗2 超级魂斗罗(中)"), // Super Contra (T-Chi)
+		"supercontrac.zip"
+	},
+	{
+		UI_TEXT("H - 魂斗罗力量(中)"), // Contra Force (2nd option, T-Chi)
 		"contraforcec.zip"
+	},
+	{
+		UI_TEXT("H - 火之鸟凤凰篇 我王的冒险(英)"), // Hinotori Houou Hen - Gaou no Bouken (T-Eng)
+		"hinothouhen.zip"
+	},
+	{
+		UI_TEXT("K - 空中魂斗罗(美)"), // S.C.A.T. - Special Cybernetic Attack Team (USA)
+		"scat.zip"
+	},
+	{
+		UI_TEXT("K - 空中魂斗罗(日)"), // Final Mission (Japan)
+		"finalmissionj.zip"
+	},
+	{
+		UI_TEXT("L - 绿色兵团(美)"), // Rush'n Attack (USA)
+		"rushnattack.zip"
+	},
+	{
+		UI_TEXT("L - 洛克人1(美)"), // Mega Man (USA)
+		"megaman.zip"
+	},
+	{
+		UI_TEXT("L - 洛克人2(美)"), // Mega Man 2 (USA)
+		"megaman2.zip"
+	},
+	{
+		UI_TEXT("L - 洛克人3(美)"), // Mega Man 3 (USA)
+		"megaman3.zip"
+	},
+	{
+		UI_TEXT("L - 洛克人4(美)"), // Mega Man 4 (USA) (Rev A)
+		"megaman4.zip"
+	},
+	{
+		UI_TEXT("L - 洛克人5(美)"), // Mega Man 5 (USA)
+		"megaman5.zip"
+	},
+	{
+		UI_TEXT("L - 洛克人6(美)"), // Mega Man 6 (USA)
+		"megaman6.zip"
+	},
+	{
+		UI_TEXT("M - 马戏团(日)"), // Circus Charlie (Japan)
+		"circuscharlie.zip"
+	},
+	{
+		UI_TEXT("Q - Q版沙罗曼蛇(英)"), // Parodius Da! (T-Eng)
+		"parodiusda.zip"
+	},
+	{
+		UI_TEXT("R - 人间兵器(美)"), // Code Name - Viper (USA)
+		".zip"
+	},
+	{
+		UI_TEXT("R - 忍者神龟1 激龟忍者传(中)"), // Teenage Mutant Ninja Turtles (T-Chi, v1.0)
+		"tmntc.zip"
+	},
+	{
+		UI_TEXT("R - 忍者神龟2 街机移植版(美)"), // Teenage Mutant Ninja Turtles II - The Arcade Game (USA)
+		"tmntiiarcgam.zip"
+	},
+	{
+		UI_TEXT("R - 忍者神龟3 曼哈顿计划(美)"), // Teenage Mutant Ninja Turtles III - The Manhattan Project (USA)
+		"tmntiii.zip"
+	},
+	{
+		UI_TEXT("R - 忍者神龟格斗"), // Teenage Mutant Ninja Turtles Tournament Fighters (USA)
+		"tmnttoufig.zip"
+	},
+	{
+		UI_TEXT("S - SD快打旋风(美)"), // Mighty Final Fight (USA)
+		"mightfinfig.zip"
+	},
+	{
+		UI_TEXT("S - 沙罗曼蛇(美)"), // Life Force (USA)
+		"lifeforce.zip"
+	},
+	{
+		UI_TEXT("S - 沙罗曼蛇(中)"), // Salamander (T-Chi, v1.2)
+		"salamanderc.zip"
+	},
+	{
+		UI_TEXT("S - 双截龙1(美)"), // Double Dragon (USA)
+		"doubledragon.zip"
+	},
+	{
+		UI_TEXT("S - 双截龙2 复仇(美)"), // Double Dragon II - The Revenge (USA)
+		"doubldraii.zip"
+	},
+	{
+		UI_TEXT("S - 双截龙3 罗塞塔之石(美)"), // Double Dragon III - The Sacred Stones (USA)
+		"doubldraiii.zip"
+	},
+	{
+		UI_TEXT("S - 松鼠大作战1(美)"), // Chip 'n Dale - Rescue Rangers (USA)
+		"chipndalresra.zip"
+	},
+	{
+		UI_TEXT("S - 松鼠大作战2(美)"), // Chip 'n Dale - Rescue Rangers 2 (USA)
+		"chipndalresra2.zip"
+	},
+	{
+		UI_TEXT("T - 坦克大战(日)"), // BattleCity (Japan)
+		"battlecity.zip"
+	},
+	{
+		UI_TEXT("T - 脱狱(美)"), // P.O.W. - Prisoners of War (USA)
+		"pow.zip"
+	},
+	{
+		UI_TEXT("X - 星际魂斗罗(美)"), // Journey to Silius (USA)
+		"journsil.zip"
+	},
+	{
+		UI_TEXT("Y - 宇宙巡航机1(美)"), // Gradius (USA)
+		"gradius.zip"
+	},
+	{
+		UI_TEXT("Y - 宇宙巡航机2(日)"), // Gradius II (Japan)
+		"gradiusii.zip"
 	}
 };
 const std::span<const BundledGameInfo> AppMeta::bundledGameInfo{gameInfo, std::size(gameInfo)};
